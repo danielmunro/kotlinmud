@@ -34,5 +34,5 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = "kotlinmud.AppKt"
+    mainClassName = "main.kotlin.kotlinmud.AppKt"
 }
