@@ -1,4 +1,4 @@
-package main.kotlin.kotlinmud
+package kotlinmud
 
 class Calculator {
 

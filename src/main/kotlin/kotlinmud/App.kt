@@ -1,15 +1,23 @@
-package main.kotlin.kotlinmud
+package kotlinmud
 
+import kotlinmud.io.ClientHandler
 import java.net.ServerSocket
 import java.net.Socket
 import kotlin.concurrent.thread
 
 class App(private val server: ServerSocket) {
-    var clients: MutableList<ClientHandler> = arrayListOf()
+    private var clients: MutableList<ClientHandler> = arrayListOf()
+    private val actionService: ActionService = ActionService()
 
     fun processClientBuffers() {
         while (true) {
-            clients.forEach { println(it.buffer) }
+            clients.forEach {
+                if (it.buffer.size > 0) {
+                    val input = it.buffer.removeAt(0)
+                    println("pop off: $input")
+                }
+                println(it.buffer)
+            }
             clients = clients.filter { it.isRunning() }.toMutableList()
             Thread.sleep(1000)
         }

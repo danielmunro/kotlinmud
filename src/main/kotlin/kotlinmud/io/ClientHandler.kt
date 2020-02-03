@@ -1,5 +1,7 @@
-package main.kotlin.kotlinmud
+package kotlinmud.io
 
+import kotlinmud.Calculator
+import kotlinmud.action.Command
 import java.net.Socket
 import java.nio.charset.Charset
 import java.util.Scanner
@@ -14,7 +16,6 @@ class ClientHandler(private val client: Socket) {
 
     fun run() {
         running = true
-        // Welcome message
         write("Welcome to the server!\n" +
                 "To Exit, write: 'EXIT'.\n" +
                 "To use the calculator, input two numbers separated with a space and an operation in the ending\n" +
@@ -23,12 +24,11 @@ class ClientHandler(private val client: Socket) {
 
         while (running) {
             try {
-                val text = reader.nextLine()
-                if (text == "EXIT"){
+                val text = reader.nextLine().toLowerCase()
+                if (text == Command.EXIT.toString()) {
                     shutdown()
                     continue
                 }
-
                 val values = text.split(' ')
                 val result = calculator.calculate(values[0].toInt(), values[1].toInt(), values[2])
                 write(result)
