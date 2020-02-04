@@ -40,6 +40,7 @@ class App(private val server: ServerSocket) {
 }
 
 fun main() {
+//    Fakeit.init()
     val app = App(ServerSocket(9999))
 
     thread { app.processClientBuffers() }

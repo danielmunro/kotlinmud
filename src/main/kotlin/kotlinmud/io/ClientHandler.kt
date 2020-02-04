@@ -2,6 +2,7 @@ package kotlinmud.io
 
 import kotlinmud.Calculator
 import kotlinmud.action.Command
+import kotlinmud.mob.Mob
 import java.net.Socket
 import java.nio.charset.Charset
 import java.util.Scanner
@@ -12,7 +13,12 @@ class ClientHandler(private val client: Socket) {
     private val writer: OutputStream = client.getOutputStream()
     private val calculator: Calculator = Calculator()
     private var running: Boolean = false
-    val buffer: MutableList<String> = arrayListOf()
+    val buffer: MutableList<Buffer> = arrayListOf()
+    private lateinit var mob: Mob
+
+    fun login(m: Mob) {
+        mob = m
+    }
 
     fun run() {
         running = true
@@ -32,7 +38,7 @@ class ClientHandler(private val client: Socket) {
                 val values = text.split(' ')
                 val result = calculator.calculate(values[0].toInt(), values[1].toInt(), values[2])
                 write(result)
-                buffer.add(text)
+                buffer.add(Buffer(mob, text))
             } catch (ex: Exception) {
                 shutdown()
             }

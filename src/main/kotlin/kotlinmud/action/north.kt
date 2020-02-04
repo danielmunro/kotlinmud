@@ -9,5 +9,5 @@ fun createNorthAction(): Action {
         Command.NORTH,
         arrayOf(Disposition.STANDING),
         arrayOf(Syntax.COMMAND),
-        { Response() })
+        { buf -> Response(buf, "you move north.") })
 }

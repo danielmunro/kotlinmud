@@ -16,9 +16,13 @@ repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    maven (url="https://jitpack.io")
+    maven (url="https://maven.google.com")
 }
 
 dependencies {
+    implementation("com.github.moove-it:fakeit:v0.5")
+
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 

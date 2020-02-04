@@ -1,4 +1,4 @@
 package kotlinmud.io
 
-class Response {
+class Response(private val buffer: Buffer, val message: String) {
 }
