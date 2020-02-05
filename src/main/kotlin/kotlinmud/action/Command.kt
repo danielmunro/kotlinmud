@@ -1,13 +1,13 @@
 package kotlinmud.action
 
-enum class Command(val command: String) {
-    NORTH("north"),
-    SOUTH("south"),
-    EAST("east"),
-    WEST("west"),
-    UP("up"),
-    DOWN("down"),
-    LOOK("look"),
-    EXIT("exit"),
-    NOOP("noop"),
+enum class Command {
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST,
+    UP,
+    DOWN,
+    LOOK,
+    EXIT,
+    NOOP,
 }

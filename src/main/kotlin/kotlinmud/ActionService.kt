@@ -15,7 +15,9 @@ class ActionService {
     )
 
     fun run(buffer: Buffer): Response {
-        val action = actions.find { it.command == buffer.getCommand() }
+        val action = actions.find {
+            it.command.toString().toLowerCase().startsWith(buffer.getCommand())
+        }
         return action?.mutator?.invoke(buffer) ?: Response(buffer, "what was that?")
     }
 }

@@ -10,8 +10,8 @@ class Server(private val server: ServerSocket) {
     private var clients: MutableList<ClientHandler> = arrayListOf()
 
     fun start() {
-        GlobalScope.launch { processClientBuffers() }
         GlobalScope.launch { listenForClients() }
+        GlobalScope.launch { pruneClients() }
     }
 
     fun getClientsWithBuffers(): Array<ClientHandler> {
@@ -22,18 +22,8 @@ class Server(private val server: ServerSocket) {
         return clients.size
     }
 
-    private fun processClientBuffers() {
-        while (true) {
-            clients.forEach {
-                if (it.buffer.size > 0) {
-                    val input = it.buffer.removeAt(0)
-                    println("pop off: $input")
-                }
-                println(it.buffer)
-            }
-            clients = clients.filter { it.isRunning() }.toMutableList()
-            Thread.sleep(1000)
-        }
+    private fun pruneClients() {
+        clients = clients.filter { it.isRunning() }.toMutableList()
     }
 
     private fun listenForClients() {

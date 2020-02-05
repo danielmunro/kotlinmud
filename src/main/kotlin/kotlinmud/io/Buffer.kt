@@ -7,7 +7,7 @@ class Buffer(
     private val input: String,
     private val args: List<String> = input.split(' ')) {
 
-    fun getCommand(): Command {
-        return Command.valueOf(args[0])
+    fun getCommand(): String {
+        return args[0]
     }
 }
