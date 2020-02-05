@@ -1,10 +1,9 @@
 package kotlinmud.io
 
 import kotlinmud.action.Command
-import kotlinmud.mob.Mob
 
 class Buffer(
-    private val mob: Mob,
+    private val client: ClientHandler,
     private val input: String,
     private val args: List<String> = input.split(' ')) {
 

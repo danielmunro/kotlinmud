@@ -1,48 +1,47 @@
 package kotlinmud
 
-import kotlinmud.io.ClientHandler
+import kotlinmud.exit.Exits
+import kotlinmud.fixture.FixtureService
+import kotlinmud.io.Server
+import kotlinmud.mob.Mobs
+import kotlinmud.room.Rooms
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.StdOutSqlLogger
+import org.jetbrains.exposed.sql.addLogger
+import org.jetbrains.exposed.sql.transactions.transaction
 import java.net.ServerSocket
-import java.net.Socket
-import kotlin.concurrent.thread
 
-class App(private val server: ServerSocket) {
-    private var clients: MutableList<ClientHandler> = arrayListOf()
+class App(private val server: Server) {
     private val actionService: ActionService = ActionService()
+    private val fixtureService: FixtureService = FixtureService()
 
-    fun processClientBuffers() {
+    fun start() {
+        server.start()
+        processClientBuffers()
+    }
+
+    private fun processClientBuffers() {
+        println("processing app client buffers")
         while (true) {
-            clients.forEach {
-                if (it.buffer.size > 0) {
-                    val input = it.buffer.removeAt(0)
-                    println("pop off: $input")
-                }
+            println("clients: ${server.getClientCount()}")
+            server.getClientsWithBuffers().forEach {
+                println("debug 1")
+                val input = it.buffer.removeAt(0)
+                println("pop off: $input")
                 println(it.buffer)
             }
-            clients = clients.filter { it.isRunning() }.toMutableList()
             Thread.sleep(1000)
         }
-    }
-
-    fun listenForClients() {
-        println("Server is running on port ${server.localPort}")
-        while (true) {
-            val socket = server.accept()
-            println("Client connected: ${socket.inetAddress.hostAddress}")
-            receiveSocket(socket)
-        }
-    }
-
-    private fun receiveSocket(socket: Socket) {
-        val handler = ClientHandler(socket)
-        clients.add(handler)
-        thread { handler.run() }
     }
 }
 
 fun main() {
-//    Fakeit.init()
-    val app = App(ServerSocket(9999))
-
-    thread { app.processClientBuffers() }
-    thread { app.listenForClients() }
+    Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver", user = "root", password = "")
+    transaction {
+        addLogger(StdOutSqlLogger)
+        SchemaUtils.create(Mobs, Rooms, Exits)
+    }
+    val app = App(Server(ServerSocket(9999)))
+    app.start()
 }
