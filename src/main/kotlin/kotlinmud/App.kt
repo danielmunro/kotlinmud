@@ -2,12 +2,14 @@ package kotlinmud
 
 import kotlinmud.db.connect
 import kotlinmud.db.applyDBSchema
+import kotlinmud.event.observer.createObservers
 import kotlinmud.fixture.FixtureService
 import kotlinmud.io.Server
 import java.net.ServerSocket
 
 class App(private val server: Server) {
-    private val actionService: ActionService = ActionService()
+    private val eventService: EventService = EventService(createObservers())
+    private val actionService: ActionService = ActionService(eventService)
     private val mobService: MobService = MobService()
     private val fixtureService: FixtureService = FixtureService()
 
