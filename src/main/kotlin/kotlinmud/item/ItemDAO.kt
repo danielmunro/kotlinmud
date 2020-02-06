@@ -18,6 +18,6 @@ class Item(id: EntityID<Int>): IntEntity(id) {
 
     var name by Items.name
     var description by Items.description
-    val inventory by Inventory referrersOn Inventories.items
+    val inventory by Inventory referencedOn Items.inventory
 
 }

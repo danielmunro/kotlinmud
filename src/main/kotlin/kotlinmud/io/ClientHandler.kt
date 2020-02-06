@@ -1,5 +1,6 @@
 package kotlinmud.io
 
+import kotlinmud.MobService
 import kotlinmud.action.Command
 import kotlinmud.mob.Mob
 import java.net.Socket
@@ -7,11 +8,11 @@ import java.nio.charset.Charset
 import java.util.Scanner
 import java.io.OutputStream
 
-class ClientHandler(private val client: Socket, val mob: Mob) {
+class ClientHandler(private val mobService: MobService, private val client: Socket, val mob: Mob) {
     private val reader: Scanner = Scanner(client.getInputStream())
     private val writer: OutputStream = client.getOutputStream()
     private var running: Boolean = false
-    val buffer: MutableList<Buffer> = arrayListOf()
+    val request: MutableList<Request> = arrayListOf()
 
     fun run() {
         running = true
@@ -22,7 +23,8 @@ class ClientHandler(private val client: Socket, val mob: Mob) {
                     shutdown()
                     continue
                 }
-                buffer.add(Buffer(this, text))
+                val room = mobService.getRoomForMob(mob)
+                request.add(Request(this, text, room))
             } catch (ex: Exception) {
                 shutdown()
             }
@@ -38,8 +40,8 @@ class ClientHandler(private val client: Socket, val mob: Mob) {
         writer.write((message + '\n').toByteArray(Charset.defaultCharset()))
     }
 
-    fun shiftBuffer(): Buffer {
-        return buffer.removeAt(0)
+    fun shiftBuffer(): Request {
+        return request.removeAt(0)
     }
 
     private fun shutdown() {

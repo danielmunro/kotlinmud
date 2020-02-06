@@ -22,5 +22,5 @@ class Mob(id: EntityID<Int>): IntEntity(id) {
     var name by Mobs.name
     var description by Mobs.description
     var disposition by Mobs.disposition
-    val inventory by Inventory referrersOn Mobs.inventory
+    var inventory by Inventory referencedOn Mobs.inventory
 }

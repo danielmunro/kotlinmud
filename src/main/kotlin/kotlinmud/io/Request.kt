@@ -2,13 +2,14 @@ package kotlinmud.io
 
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
+import kotlinmud.room.Room
 
-class Buffer(
+class Request(
     private val client: ClientHandler,
     private val input: String,
-    private val args: List<String> = input.split(' ')) {
-
-    private val mob: Mob = client.mob
+    val room: Room) {
+    val mob: Mob = client.mob
+    private val args: List<String> = input.split(' ')
 
     fun getCommand(): String {
         return args[0]

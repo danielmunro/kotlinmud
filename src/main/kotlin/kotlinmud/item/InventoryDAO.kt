@@ -5,9 +5,7 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.IntIdTable
 
-object Inventories: IntIdTable() {
-    val items = reference("items", Items)
-}
+object Inventories: IntIdTable() {}
 
 class Inventory(id: EntityID<Int>): IntEntity(id) {
     companion object: IntEntityClass<Inventory>(Inventories)
