@@ -12,7 +12,6 @@ import org.jetbrains.exposed.dao.IntIdTable
 object Rooms: IntIdTable() {
     val name = varchar("name", 50)
     val description = text("description")
-    val exits = reference("exits", Exits)
     val inventory = reference("inventory", Inventories)
 }
 
@@ -23,6 +22,6 @@ class Room(id: EntityID<Int>): IntEntity(id) {
 
     var name by Rooms.name
     var description by Rooms.description
-    val exits by Exit referrersOn Rooms.exits
-    val inventory by Inventory referrersOn Rooms.inventory
+    val exits by Exit referrersOn Exits.room
+    var inventory by Inventory referencedOn Rooms.inventory
 }

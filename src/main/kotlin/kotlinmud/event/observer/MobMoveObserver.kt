@@ -1,14 +1,22 @@
 package kotlinmud.event.observer
 
+import kotlinmud.MobService
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
+import kotlinmud.event.MobMoveEvent
+import org.jetbrains.exposed.sql.transactions.transaction
 
-class MobMoveObserver : Observer {
+class MobMoveObserver(private val mobService: MobService) : Observer {
     override fun getEventTypes(): Array<EventType> {
         return arrayOf(EventType.MOB_MOVE)
     }
 
     override fun processEvent(event: Event) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (event is MobMoveEvent) {
+            transaction {
+                event.room.exits.find { it.direction == event.direction }
+                    .also { mobService.moveMob(event.mob, it!!.destination) }
+            }
+        }
     }
 }

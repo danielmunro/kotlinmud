@@ -4,6 +4,6 @@ import kotlinmud.room.Room
 
 class MobRoom(
     val mob: Mob,
-    val room: Room
+    var room: Room
 ) {
 }

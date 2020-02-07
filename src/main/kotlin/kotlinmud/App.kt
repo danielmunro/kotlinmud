@@ -8,7 +8,7 @@ import kotlinmud.io.Server
 import java.net.ServerSocket
 
 class App(private val mobService: MobService, private val server: Server) {
-    private val eventService: EventService = EventService(createObservers())
+    private val eventService: EventService = EventService(createObservers(mobService))
     private val actionService: ActionService = ActionService(eventService)
     private val fixtureService: FixtureService = FixtureService()
 
