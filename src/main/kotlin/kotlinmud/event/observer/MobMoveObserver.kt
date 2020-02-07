@@ -6,9 +6,7 @@ import kotlinmud.event.EventType
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobMoveObserver(private val mobService: MobService) : Observer {
-    override fun getEventTypes(): Array<EventType> {
-        return arrayOf(EventType.MOB_MOVE)
-    }
+    override val eventTypes: Array<EventType> = arrayOf(EventType.MOB_MOVE)
 
     override fun processEvent(event: Event) {
         transaction {

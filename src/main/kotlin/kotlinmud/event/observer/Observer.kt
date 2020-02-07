@@ -4,6 +4,6 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 
 interface Observer {
-    fun getEventTypes(): Array<EventType>
+    val eventTypes: Array<EventType>
     fun processEvent(event: Event)
 }
