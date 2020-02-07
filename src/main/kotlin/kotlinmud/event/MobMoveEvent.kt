@@ -4,6 +4,6 @@ import kotlinmud.mob.Mob
 import kotlinmud.room.Direction
 import kotlinmud.room.Room
 
-class MobMoveEvent(mob: Mob, room: Room, val direction: Direction) : Event(EventType.MOB_MOVE, mob, room) {
-
+class MobMoveEvent(override val mob: Mob, override val room: Room, override val direction: Direction) : Event {
+    override val eventType: EventType = EventType.MOB_MOVE
 }

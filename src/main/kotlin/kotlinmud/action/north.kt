@@ -1,6 +1,7 @@
 package kotlinmud.action
 
 import kotlinmud.EventService
+import kotlinmud.event.Event
 import kotlinmud.event.MobMoveEvent
 import kotlinmud.io.Request
 import kotlinmud.io.Response
