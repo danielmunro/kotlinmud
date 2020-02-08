@@ -19,5 +19,6 @@ fun createSouthAction(): Action {
                 contextCollection.getResultBySyntax(Syntax.DIRECTION_TO_EXIT)!!,
                 Direction.SOUTH))
             return Response(request, "you move south.")
-        })
+        },
+        Command.LOOK)
 }

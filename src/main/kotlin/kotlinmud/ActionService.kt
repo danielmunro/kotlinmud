@@ -4,9 +4,10 @@ import kotlinmud.action.*
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
+import kotlinmud.room.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ActionService(private val eventService: EventService) {
+class ActionService(private val mobService: MobService, private val eventService: EventService) {
     private val actions: List<Action> = arrayListOf(
         createLookAction(),
         createNorthAction(),
@@ -25,7 +26,15 @@ class ActionService(private val eventService: EventService) {
         if (error != null) {
             return Response(request, error.result as String)
         }
-        return action.mutator.invoke(eventService, contextCollection, request)
+        val response = action.mutator.invoke(eventService, contextCollection, request)
+        if (action.chainTo != Command.NOOP) {
+            return run(
+                Request(
+                    request.client,
+                    action.chainTo.toString(),
+                    mobService.getRoomForMob(request.mob)))
+        }
+        return response
     }
 
     private fun buildContext(request: Request, action: Action): ContextCollection {

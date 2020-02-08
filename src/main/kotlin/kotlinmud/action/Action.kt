@@ -11,7 +11,7 @@ class Action(
     private val requiredDispositions: Array<Disposition>,
     val syntax: Array<Syntax>,
     val mutator: (EventService, ContextCollection, Request) -> Response,
-    private val chainTo: Command = Command.NOOP
+    val chainTo: Command = Command.NOOP
 ) {
     fun hasDisposition(disposition: Disposition): Boolean {
         return requiredDispositions.contains(disposition)

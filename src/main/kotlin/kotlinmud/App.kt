@@ -9,7 +9,7 @@ import java.net.ServerSocket
 
 class App(mobService: MobService, private val server: Server) {
     private val eventService: EventService = EventService(createObservers(mobService))
-    private val actionService: ActionService = ActionService(eventService)
+    private val actionService: ActionService = ActionService(mobService, eventService)
 
     fun start() {
         println("starting app")
