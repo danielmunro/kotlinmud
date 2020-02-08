@@ -1,17 +1,21 @@
 package kotlinmud
 
 import kotlinmud.action.*
+import kotlinmud.action.actions.*
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
-import kotlinmud.room.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionService(private val mobService: MobService, private val eventService: EventService) {
     private val actions: List<Action> = arrayListOf(
         createLookAction(),
         createNorthAction(),
-        createSouthAction()
+        createSouthAction(),
+        createEastAction(),
+        createWestAction(),
+        createUpAction(),
+        createDownAction()
     )
 
     fun run(request: Request): Response {

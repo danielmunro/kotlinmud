@@ -1,6 +1,9 @@
-package kotlinmud.action
+package kotlinmud.action.actions
 
 import kotlinmud.EventService
+import kotlinmud.action.Action
+import kotlinmud.action.Command
+import kotlinmud.action.ContextCollection
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
@@ -13,10 +16,15 @@ fun createLookAction(): Action {
         Command.LOOK,
         arrayOf(Disposition.SITTING, Disposition.STANDING, Disposition.FIGHTING),
         arrayOf(Syntax.COMMAND),
-        { _: EventService, _: ContextCollection, request: Request -> Response(request, describeRoom(request.room)) })
+        { _: EventService, _: ContextCollection, request: Request ->
+            Response(
+                request,
+                describeRoom(request.room)
+            )
+        })
 }
 
-fun describeRoom(room: Room): String {
+private fun describeRoom(room: Room): String {
     return transaction { String.format("%s\n%s\nExits [%s]",
         room.name,
         room.description,
