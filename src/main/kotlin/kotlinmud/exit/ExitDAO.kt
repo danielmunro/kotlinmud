@@ -14,7 +14,9 @@ object Exits: IntIdTable() {
     val direction = customEnumeration(
         "direction",
         "ENUM('north', 'south', 'east', 'west', 'up', 'down')",
-        { Direction.values()[it as Int] },
+        { direction -> Direction.values().first {
+            it.toString().toLowerCase() == direction
+        } },
         { it.name })
 }
 

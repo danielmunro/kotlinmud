@@ -11,4 +11,8 @@ class ContextCollection(private val contexts: MutableList<Context<Any>>) {
         }
         return null
     }
+
+    fun getError(): Context<Any>? {
+        return contexts.find { it.status == Status.FAILED }
+    }
 }

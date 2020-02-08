@@ -4,7 +4,6 @@ import kotlinmud.action.*
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
-import kotlinmud.room.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionService(private val eventService: EventService) {
@@ -21,29 +20,32 @@ class ActionService(private val eventService: EventService) {
         if (!action.hasDisposition(request.getDisposition())) {
             return Response(request, "you are ${request.getDisposition()} and cannot do that.")
         }
-        return action.mutator.invoke(eventService, buildContext(request, action), request)
+        val contextCollection = buildContext(request, action)
+        val error = contextCollection.getError()
+        if (error != null) {
+            return Response(request, error.result as String)
+        }
+        return action.mutator.invoke(eventService, contextCollection, request)
     }
 
     private fun buildContext(request: Request, action: Action): ContextCollection {
         var i = 0
-        return ContextCollection(action.syntax.map { createContext(it, findResult(request, it, request.args[i++])) } as MutableList<Context<Any>>)
+        return ContextCollection(action.syntax.map { createContext(request, it, request.args[i++]) } as MutableList<Context<Any>>)
     }
 
-    private fun findResult(request: Request, syntax: Syntax, word: String): Any {
-        when (syntax) {
+    private fun createContext(request: Request, syntax: Syntax, word: String): Context<Any> {
+        return when (syntax) {
             Syntax.DIRECTION_TO_EXIT -> {
-                val room = transaction { request.room.exits.find{ it.direction.toString().startsWith(word) } }?.destination
-                if (room != null) {
-                    return room
+                val room = transaction {
+                    request.room.exits.find{ it.direction.toString().toLowerCase().startsWith(word) }?.destination
                 }
+                if (room != null) {
+                    return Context(syntax, Status.OK, room)
+                }
+                return Context(syntax, Status.FAILED, "Alas, that direction does not exist.")
             }
-            Syntax.COMMAND -> request.getCommand()
-            Syntax.NOOP -> {}
+            Syntax.COMMAND -> Context(syntax, Status.OK, request.getCommand())
+            Syntax.NOOP -> Context(syntax, Status.OK, "What was that?")
         }
-        return "what was that?"
-    }
-
-    private fun <T> createContext(syntax: Syntax, result: T): Context<T> {
-        return Context(syntax, Status.OK, result)
     }
 }
