@@ -11,5 +11,5 @@ fun createLookAction(): Action {
         Command.LOOK,
         arrayOf(Disposition.SITTING, Disposition.STANDING, Disposition.FIGHTING),
         arrayOf(Syntax.COMMAND),
-        { _: EventService, request: Request -> Response(request, "look") })
+        { _: EventService, _: ContextCollection, request: Request -> Response(request, "look") })
 }

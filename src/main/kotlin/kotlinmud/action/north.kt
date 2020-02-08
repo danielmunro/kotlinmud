@@ -1,7 +1,6 @@
 package kotlinmud.action
 
 import kotlinmud.EventService
-import kotlinmud.event.Event
 import kotlinmud.event.MobMoveEvent
 import kotlinmud.io.Request
 import kotlinmud.io.Response
@@ -13,9 +12,12 @@ fun createNorthAction(): Action {
     return Action(
         Command.NORTH,
         arrayOf(Disposition.STANDING),
-        arrayOf(Syntax.COMMAND),
-        fun (eventService: EventService, buf: Request): Response {
-            eventService.publish(MobMoveEvent(buf.mob, buf.room, Direction.NORTH))
-            return Response(buf, "you move north.")
+        arrayOf(Syntax.DIRECTION_TO_EXIT),
+        fun (eventService: EventService, contextCollection: ContextCollection, request: Request): Response {
+            eventService.publish(MobMoveEvent(
+                request.mob,
+                contextCollection.getResultBySyntax(Syntax.DIRECTION_TO_EXIT)!!,
+                Direction.NORTH))
+            return Response(request, "you move north.")
         })
 }

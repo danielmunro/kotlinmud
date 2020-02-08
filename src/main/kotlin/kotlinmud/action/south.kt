@@ -12,9 +12,12 @@ fun createSouthAction(): Action {
     return Action(
         Command.SOUTH,
         arrayOf(Disposition.STANDING),
-        arrayOf(Syntax.COMMAND),
-        fun (eventService: EventService, buf: Request): Response {
-            eventService.publish(MobMoveEvent(buf.mob, buf.room, Direction.SOUTH))
-            return Response(buf, "you move south.")
+        arrayOf(Syntax.DIRECTION_TO_EXIT),
+        fun (eventService: EventService, contextCollection: ContextCollection, request: Request): Response {
+            eventService.publish(MobMoveEvent(
+                request.mob,
+                contextCollection.getResultBySyntax(Syntax.DIRECTION_TO_EXIT)!!,
+                Direction.SOUTH))
+            return Response(request, "you move south.")
         })
 }

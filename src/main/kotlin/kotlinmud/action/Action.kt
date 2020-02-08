@@ -9,8 +9,8 @@ import kotlinmud.mob.Disposition
 class Action(
     val command: Command,
     private val requiredDispositions: Array<Disposition>,
-    private val syntax: Array<Syntax>,
-    val mutator: (EventService, Request) -> Response,
+    val syntax: Array<Syntax>,
+    val mutator: (EventService, ContextCollection, Request) -> Response,
     private val chainTo: Command = Command.NOOP
 ) {
     fun hasDisposition(disposition: Disposition): Boolean {

@@ -9,7 +9,7 @@ class Request(
     private val input: String,
     val room: Room) {
     val mob: Mob = client.mob
-    private val args: List<String> = input.split(' ')
+    val args: List<String> = input.split(' ')
 
     fun getCommand(): String {
         return args[0]
