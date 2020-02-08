@@ -10,6 +10,7 @@ import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.IntIdTable
 
 object Rooms: IntIdTable() {
+    val uuid = uuid("uuid")
     val name = varchar("name", 50)
     val description = text("description")
     val inventory = reference("inventory", Inventories)
@@ -20,6 +21,7 @@ class Room(id: EntityID<Int>): IntEntity(id) {
         Rooms
     )
 
+    var uuid by Rooms.uuid
     var name by Rooms.name
     var description by Rooms.description
     val exits by Exit referrersOn Exits.room

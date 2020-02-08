@@ -7,10 +7,9 @@ import kotlinmud.fixture.FixtureService
 import kotlinmud.io.Server
 import java.net.ServerSocket
 
-class App(private val mobService: MobService, private val server: Server) {
+class App(mobService: MobService, private val server: Server) {
     private val eventService: EventService = EventService(createObservers(mobService))
     private val actionService: ActionService = ActionService(eventService)
-    private val fixtureService: FixtureService = FixtureService()
 
     fun start() {
         println("starting app")
@@ -32,6 +31,6 @@ class App(private val mobService: MobService, private val server: Server) {
 fun main() {
     connect()
     applyDBSchema()
-    val mobService = MobService()
+    val mobService = MobService(FixtureService().generateWorld())
     App(mobService, Server(mobService, ServerSocket(9999))).start()
 }
