@@ -8,6 +8,7 @@ import kotlinmud.db.connect
 import kotlinmud.event.observer.createObservers
 import kotlinmud.fixture.FixtureService
 import kotlinmud.io.Request
+import kotlinmud.test.createTestService
 import kotlinmud.test.globalSetup
 import kotlinmud.test.globalTeardown
 import org.junit.After
@@ -34,12 +35,14 @@ class ActionServiceTest {
 
     @Test
     fun testMobMovesNorth() {
-        val fixtureService = FixtureService()
-        val mobService = MobService(fixtureService.generateWorld())
-        val actionService = ActionService(mobService, EventService(createObservers(mobService)))
-        val mob = fixtureService.createMob()
-        mobService.respawnMobToStartRoom(mob)
-        val response = actionService.run(Request(mob, "n", mobService.getRoomForMob(mob)))
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+
+        // when
+        val response = testService.runAction(mob, "n")
+
+        // then
         assertEquals(response.message, "a test room 2\n" +
                 "a test room is here\n" +
                 "Exits [S]")
@@ -47,14 +50,29 @@ class ActionServiceTest {
 
     @Test
     fun testMobMovesSouth() {
-        val fixtureService = FixtureService()
-        val mobService = MobService(fixtureService.generateWorld())
-        val actionService = ActionService(mobService, EventService(createObservers(mobService)))
-        val mob = fixtureService.createMob()
-        mobService.respawnMobToStartRoom(mob)
-        val response = actionService.run(Request(mob, "s", mobService.getRoomForMob(mob)))
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+
+        // when
+        val response = testService.runAction(mob, "s")
+
+        // then
         assertEquals(response.message, "a test room 3\n" +
                 "a test room is here\n" +
                 "Exits [N]")
+    }
+
+    @Test
+    fun testMobCannotMoveInAnInvalidDirection() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+
+        // when
+        val response = testService.runAction(mob, "w")
+
+        // then
+        assertEquals(response.message, "Alas, that direction does not exist.")
     }
 }
