@@ -24,7 +24,7 @@ class ClientHandler(private val mobService: MobService, private val client: Sock
                     continue
                 }
                 val room = mobService.getRoomForMob(mob)
-                request.add(Request(this, text, room))
+                request.add(Request(this.mob, text, room))
             } catch (ex: Exception) {
                 shutdown()
             }

@@ -1,5 +1,6 @@
 package kotlinmud.exit
 
+import kotlinmud.db.enum.DirectionPGEnum
 import kotlinmud.room.Direction
 import kotlinmud.room.Room
 import kotlinmud.room.Rooms
@@ -13,11 +14,11 @@ object Exits: IntIdTable() {
     val destination = reference("destination", Rooms)
     val direction = customEnumeration(
         "direction",
-        "ENUM('north', 'south', 'east', 'west', 'up', 'down')",
+        "DirectionEnum",
         { direction -> Direction.values().first {
             it.toString().toLowerCase() == direction
         } },
-        { it.name })
+        { DirectionPGEnum("DirectionEnum", it) })
 }
 
 class Exit(id: EntityID<Int>): IntEntity(id) {

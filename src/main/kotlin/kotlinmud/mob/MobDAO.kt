@@ -1,5 +1,6 @@
 package kotlinmud.mob
 
+import kotlinmud.db.enum.DispositionPGEnum
 import kotlinmud.item.Inventories
 import kotlinmud.item.Inventory
 import org.jetbrains.exposed.dao.EntityID
@@ -10,7 +11,11 @@ import org.jetbrains.exposed.dao.IntIdTable
 object Mobs: IntIdTable() {
     val name = varchar("name", 50)
     val description = text("description")
-    val disposition = customEnumeration("disposition", "ENUM('dead', 'sitting', 'standing', 'fighting')", {Disposition.values()[it as Int]}, {it.name})
+    val disposition = customEnumeration(
+        "disposition",
+        "DispositionEnum",
+        { Disposition.values()[it as Int] },
+        { DispositionPGEnum("DispositionEnum", it) })
     val inventory = reference("inventory", Inventories)
 }
 

@@ -34,7 +34,7 @@ class ActionService(private val mobService: MobService, private val eventService
         if (action.chainTo != Command.NOOP) {
             return run(
                 Request(
-                    request.client,
+                    request.mob,
                     action.chainTo.toString(),
                     mobService.getRoomForMob(request.mob)))
         }

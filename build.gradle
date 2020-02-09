@@ -31,6 +31,10 @@ dependencies {
     // coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.27.0-eap13")
 
+    // postgres
+    implementation("org.postgresql:postgresql:42.2.2")
+    testImplementation("org.postgresql:postgresql:42.2.2")
+
     // fake data
     implementation("io.github.serpro69:kotlin-faker:1.1")
 

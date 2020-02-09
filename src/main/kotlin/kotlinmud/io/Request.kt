@@ -5,10 +5,9 @@ import kotlinmud.mob.Mob
 import kotlinmud.room.Room
 
 class Request(
-    val client: ClientHandler,
+    val mob: Mob,
     val input: String,
     val room: Room) {
-    val mob: Mob = client.mob
     val args: List<String> = input.toLowerCase().split(' ')
 
     fun getCommand(): String {

@@ -2,6 +2,13 @@ package kotlinmud.db
 
 import org.jetbrains.exposed.sql.Database
 
+lateinit var db: Database
+
 fun connect() {
-    Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver", user = "root", password = "")
+    db = Database.connect("jdbc:postgresql://localhost:54321/postgres", driver = "org.postgresql.Driver",
+        user = "postgres", password = "mysecretpassword")
+}
+
+fun disconnect() {
+    db.connector().close()
 }
