@@ -45,11 +45,11 @@ class FixtureService {
         }
     }
 
-    private fun createItem(inv: Inventory): Item {
+    fun createItem(inv: Inventory): Item {
         items++
         return transaction {
             Item.new{
-                name = "helmet of ${faker.ancient.hero()}"
+                name = "the helmet of ${faker.ancient.hero()}"
                 description = "A test item is here ($items)."
                 inventory = inv
             }

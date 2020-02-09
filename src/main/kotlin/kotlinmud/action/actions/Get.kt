@@ -21,6 +21,6 @@ fun createGetAction(): Action {
             transaction {
                 item.inventory = request.mob.inventory
             }
-            Response(request, "foo")
+            Response(request, "you pick up ${item.name}.")
         })
 }

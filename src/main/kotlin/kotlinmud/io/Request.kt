@@ -14,6 +14,10 @@ class Request(
         return args[0]
     }
 
+    fun getTarget(): String {
+        return args[1]
+    }
+
     fun getDisposition(): Disposition {
         return mob.disposition
     }

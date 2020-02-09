@@ -17,10 +17,10 @@ fun createDropAction(): Action {
         arrayOf(Disposition.SITTING, Disposition.STANDING, Disposition.FIGHTING),
         arrayOf(Syntax.COMMAND, Syntax.ITEM_IN_INVENTORY),
         { _: ActionContextService, context: ContextCollection, request: Request ->
-            val item = context.getResultBySyntax<Item>(Syntax.ITEM_IN_ROOM)!!
+            val item = context.getResultBySyntax<Item>(Syntax.ITEM_IN_INVENTORY)!!
             transaction {
                 item.inventory = request.room.inventory
             }
-            Response(request, "foo")
+            Response(request, "you drop ${item.name}.")
         })
 }

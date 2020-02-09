@@ -5,6 +5,8 @@ import kotlinmud.MobService
 import kotlinmud.fixture.FixtureService
 import kotlinmud.io.Request
 import kotlinmud.io.Response
+import kotlinmud.item.Inventory
+import kotlinmud.item.Item
 import kotlinmud.mob.Mob
 import kotlinmud.room.Room
 
@@ -17,6 +19,10 @@ class TestService(
         val mob = fixtureService.createMob()
         mobService.respawnMobToStartRoom(mob)
         return mob
+    }
+
+    fun createItem(inventory: Inventory): Item {
+        return fixtureService.createItem(inventory)
     }
 
     fun getRoomForMob(mob: Mob): Room {

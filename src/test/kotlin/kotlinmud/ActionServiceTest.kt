@@ -8,10 +8,12 @@ import kotlinmud.io.Request
 import kotlinmud.test.createTestService
 import kotlinmud.test.globalSetup
 import kotlinmud.test.globalTeardown
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.AfterClass
 import org.junit.BeforeClass
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class ActionServiceTest {
     companion object {
@@ -57,7 +59,7 @@ class ActionServiceTest {
         // then
         assertEquals(response.message, "test room no. 2\n" +
                 "a test room is here\n" +
-                "Exits [S]\n")
+                "Exits [S]")
     }
 
     @Test
@@ -72,7 +74,7 @@ class ActionServiceTest {
         // then
         assertEquals(response.message, "test room no. 3\n" +
                 "a test room is here\n" +
-                "Exits [N]\n")
+                "Exits [N]")
     }
 
     @Test
@@ -86,5 +88,34 @@ class ActionServiceTest {
 
         // then
         assertEquals(response.message, "Alas, that direction does not exist.")
+    }
+
+    @Test
+    fun testMobCanGetItemFromRoom() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+
+        // when
+        val response = testService.runAction(mob, "get helm")
+
+        // then
+        assertTrue(response.message.startsWith("you pick up the helmet"))
+        assertEquals(transaction { mob.inventory.items.count() }, 1)
+    }
+
+    @Test
+    fun testMobCanDropItem() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        testService.createItem(transaction { mob.inventory })
+
+        // when
+        val response = testService.runAction(mob, "drop helm")
+
+        // then
+        assertTrue(response.message.startsWith("you drop the helmet"))
+        assertEquals(transaction { mob.inventory.items.count() }, 0)
     }
 }

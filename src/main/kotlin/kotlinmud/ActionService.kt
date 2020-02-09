@@ -61,12 +61,24 @@ class ActionService(private val mobService: MobService, eventService: EventServi
             }
             Syntax.COMMAND -> Context(syntax, Status.OK, request.getCommand())
             Syntax.ITEM_IN_INVENTORY -> {
-                return Context(syntax, Status.OK, "")
+                return transaction {
+                    request.mob.inventory.items.find{ matches(it.name, request.getTarget()) }
+                        ?.let { Context<Any>(syntax, Status.OK, it) } ?:
+                    Context<Any>(syntax, Status.FAILED, "you don't have that.")
+                }
             }
             Syntax.ITEM_IN_ROOM -> {
-                return Context(syntax, Status.OK, "")
+                return transaction {
+                    request.room.inventory.items.find{ matches(it.name, request.getTarget()) }
+                        ?.let { Context<Any>(syntax, Status.OK, it) } ?:
+                    Context<Any>(syntax, Status.FAILED, "you don't see that anywhere.")
+                }
             }
             Syntax.NOOP -> Context(syntax, Status.OK, "What was that?")
         }
     }
+}
+
+fun matches(name: String, input: String): Boolean {
+    return name.split(" ").any { it.length > 1 && it.startsWith(input) }
 }
