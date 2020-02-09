@@ -4,6 +4,7 @@ import io.github.serpro69.kfaker.Faker
 import kotlinmud.MobService
 import kotlinmud.exit.Exit
 import kotlinmud.item.Inventory
+import kotlinmud.item.Item
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
 import kotlinmud.room.Direction
@@ -15,6 +16,7 @@ import java.util.*
 class FixtureService {
     private var rooms = 0
     private var mobs = 0
+    private var items = 0
     private val faker = Faker()
 
     fun populateWorld(mobService: MobService) {
@@ -27,6 +29,7 @@ class FixtureService {
         val room3 = createRoom()
         createExit(room1, room2, Direction.NORTH)
         createExit(room1, room3, Direction.SOUTH)
+        createItem(transaction { room1.inventory })
         return listOf(room1, room2, room3)
     }
 
@@ -38,6 +41,17 @@ class FixtureService {
                 description = "A test mob is here ($mobs)."
                 disposition = Disposition.STANDING
                 inventory = Inventory.new{}
+            }
+        }
+    }
+
+    private fun createItem(inv: Inventory): Item {
+        items++
+        return transaction {
+            Item.new{
+                name = "helmet of ${faker.ancient.hero()}"
+                description = "A test item is here ($items)."
+                inventory = inv
             }
         }
     }

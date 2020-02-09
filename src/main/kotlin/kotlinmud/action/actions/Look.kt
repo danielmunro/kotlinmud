@@ -1,6 +1,5 @@
 package kotlinmud.action.actions
 
-import kotlinmud.EventService
 import kotlinmud.action.Action
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
@@ -10,7 +9,6 @@ import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createLookAction(): Action {
@@ -27,10 +25,13 @@ fun createLookAction(): Action {
 
 fun describeRoom(request: Request, mobs: List<Mob>): String {
     val observers = mobs.filter { it != request.mob }
-    return transaction { String.format("%s\n%s\nExits [%s]\n%s",
+    return transaction { String.format("%s\n%s\nExits [%s]%s%s%s%s",
         request.room.name,
         request.room.description,
         request.room.exits.joinToString("") { it.direction.name.subSequence(0, 1) },
-        observers.joinToString("\n") { it.name + " is ${it.disposition.toString().toLowerCase()} here." }
+        if (request.room.inventory.items.count() > 0) "\n" else "",
+        request.room.inventory.items.joinToString("\n") { "${it.name} is here." },
+        if (observers.count() > 0) "\n" else "",
+        observers.joinToString("\n") { "${it.name} is ${it.disposition.toLower()} here." }
     ) }
 }

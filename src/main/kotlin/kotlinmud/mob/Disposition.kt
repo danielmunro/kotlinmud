@@ -4,5 +4,9 @@ enum class Disposition(val disposition: String) {
     DEAD("dead"),
     SITTING("sitting"),
     STANDING("standing"),
-    FIGHTING("fighting"),
+    FIGHTING("fighting");
+
+    fun toLower(): String {
+        return disposition.toLowerCase()
+    }
 }

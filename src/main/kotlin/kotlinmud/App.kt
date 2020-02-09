@@ -22,7 +22,7 @@ class App(mobService: MobService, private val server: Server) {
             server.getClientsWithBuffers().forEach {
                 val output = actionService.run(it.shiftBuffer())
                 println("output: ${output.message}")
-                it.write(output.message)
+                it.write("${output.message}\n---> ")
             }
         }
     }

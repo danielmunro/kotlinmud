@@ -29,7 +29,7 @@ class ActionServiceTest {
     }
 
     @Test
-    fun testDescribesARoom() {
+    fun testLookDescribesARoom() {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
