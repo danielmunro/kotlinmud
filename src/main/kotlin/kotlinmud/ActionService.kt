@@ -7,7 +7,8 @@ import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ActionService(private val mobService: MobService, private val eventService: EventService) {
+class ActionService(private val mobService: MobService, eventService: EventService) {
+    private val actionContextService = ActionContextService(mobService, eventService)
     private val actions: List<Action> = arrayListOf(
         createLookAction(),
         createNorthAction(),
@@ -31,7 +32,7 @@ class ActionService(private val mobService: MobService, private val eventService
         if (error != null) {
             return Response(request, error.result as String)
         }
-        val response = action.mutator.invoke(eventService, contextCollection, request)
+        val response = action.mutator.invoke(actionContextService, contextCollection, request)
         if (action.chainTo != Command.NOOP) {
             return run(
                 Request(

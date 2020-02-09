@@ -2,6 +2,7 @@ package kotlinmud.action.actions
 
 import kotlinmud.EventService
 import kotlinmud.action.Action
+import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.ContextCollection
 import kotlinmud.io.Request
@@ -15,7 +16,7 @@ fun createDropAction(): Action {
         Command.DROP,
         arrayOf(Disposition.SITTING, Disposition.STANDING, Disposition.FIGHTING),
         arrayOf(Syntax.COMMAND, Syntax.ITEM_IN_INVENTORY),
-        { _: EventService, context: ContextCollection, request: Request ->
+        { _: ActionContextService, context: ContextCollection, request: Request ->
             val item = context.getResultBySyntax<Item>(Syntax.ITEM_IN_INVENTORY)
 //            item?.inventory = request.mob.inventory
             Response(request, "foo")

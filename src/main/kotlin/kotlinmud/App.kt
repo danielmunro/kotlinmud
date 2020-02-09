@@ -31,6 +31,8 @@ class App(mobService: MobService, private val server: Server) {
 fun main() {
     connect()
     applyDBSchema()
-    val mobService = MobService(FixtureService().generateWorld())
+    val fixtureService = FixtureService()
+    val mobService = MobService(fixtureService.generateWorld())
+    fixtureService.populateWorld(mobService)
     App(mobService, Server(mobService, ServerSocket(9999))).start()
 }

@@ -2,6 +2,7 @@ package kotlinmud.action.actions
 
 import kotlinmud.EventService
 import kotlinmud.action.Action
+import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.ContextCollection
 import kotlinmud.io.Request
@@ -16,7 +17,7 @@ fun createLookAction(): Action {
         Command.LOOK,
         arrayOf(Disposition.SITTING, Disposition.STANDING, Disposition.FIGHTING),
         arrayOf(Syntax.COMMAND),
-        { _: EventService, _: ContextCollection, request: Request ->
+        { _: ActionContextService, _: ContextCollection, request: Request ->
             Response(
                 request,
                 describeRoom(request.room)

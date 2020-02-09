@@ -2,6 +2,7 @@ package kotlinmud.action.actions
 
 import kotlinmud.EventService
 import kotlinmud.action.Action
+import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.ContextCollection
 import kotlinmud.event.MobMoveEvent
@@ -16,8 +17,8 @@ private fun move(command: Command, direction: Direction): Action {
         command,
         arrayOf(Disposition.STANDING),
         arrayOf(Syntax.DIRECTION_TO_EXIT),
-        fun (eventService: EventService, contextCollection: ContextCollection, request: Request): Response {
-            eventService.publish(
+        fun (actionContextService: ActionContextService, contextCollection: ContextCollection, request: Request): Response {
+            actionContextService.publishEvent(
                 MobMoveEvent(
                     request.mob,
                     contextCollection.getResultBySyntax(Syntax.DIRECTION_TO_EXIT)!!,

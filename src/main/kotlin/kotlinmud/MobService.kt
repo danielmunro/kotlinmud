@@ -12,6 +12,10 @@ class MobService(private val rooms: List<Room>) {
         return mobRooms.find { it.mob == mob }!!.room
     }
 
+    fun getMobsForRoom(room: Room): List<Mob> {
+        return mobRooms.filter { it.room == room }.map { it.mob }
+    }
+
     fun respawnMobToStartRoom(mob: Mob) {
         putMobInRoom(mob, rooms[0])
     }

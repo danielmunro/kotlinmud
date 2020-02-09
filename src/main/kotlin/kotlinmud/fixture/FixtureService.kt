@@ -1,6 +1,7 @@
 package kotlinmud.fixture
 
 import io.github.serpro69.kfaker.Faker
+import kotlinmud.MobService
 import kotlinmud.exit.Exit
 import kotlinmud.item.Inventory
 import kotlinmud.mob.Disposition
@@ -8,7 +9,6 @@ import kotlinmud.mob.Mob
 import kotlinmud.room.Direction
 import kotlinmud.room.Room
 import kotlinmud.room.oppositeDirection
-import org.jetbrains.exposed.dao.with
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
@@ -16,6 +16,10 @@ class FixtureService {
     private var rooms = 0
     private var mobs = 0
     private val faker = Faker()
+
+    fun populateWorld(mobService: MobService) {
+        mobService.respawnMobToStartRoom(createMob())
+    }
 
     fun generateWorld(): List<Room> {
         val room1 = createRoom()
@@ -31,7 +35,7 @@ class FixtureService {
         return transaction {
             Mob.new {
                 name = faker.name.name()
-                description = "A test mob is here."
+                description = "A test mob is here ($mobs)."
                 disposition = Disposition.STANDING
                 inventory = Inventory.new{}
             }
