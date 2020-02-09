@@ -3,17 +3,10 @@
  */
 package kotlinmud
 
-import kotlinmud.db.applyDBSchema
-import kotlinmud.db.connect
-import kotlinmud.event.observer.createObservers
-import kotlinmud.fixture.FixtureService
-import kotlinmud.io.Request
 import kotlinmud.test.createTestService
 import kotlinmud.test.globalSetup
 import kotlinmud.test.globalTeardown
-import org.junit.After
 import org.junit.AfterClass
-import org.junit.Before
 import org.junit.BeforeClass
 import kotlin.test.Test
 import kotlin.test.assertEquals
