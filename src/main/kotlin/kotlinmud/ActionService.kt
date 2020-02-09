@@ -15,8 +15,9 @@ class ActionService(private val mobService: MobService, private val eventService
         createEastAction(),
         createWestAction(),
         createUpAction(),
-        createDownAction()
-    )
+        createDownAction(),
+        createGetAction(),
+        createDropAction())
 
     fun run(request: Request): Response {
         val action = actions.find {
@@ -58,6 +59,12 @@ class ActionService(private val mobService: MobService, private val eventService
                 return Context(syntax, Status.FAILED, "Alas, that direction does not exist.")
             }
             Syntax.COMMAND -> Context(syntax, Status.OK, request.getCommand())
+            Syntax.ITEM_IN_INVENTORY -> {
+                return Context(syntax, Status.OK, "")
+            }
+            Syntax.ITEM_IN_ROOM -> {
+                return Context(syntax, Status.OK, "")
+            }
             Syntax.NOOP -> Context(syntax, Status.OK, "What was that?")
         }
     }
