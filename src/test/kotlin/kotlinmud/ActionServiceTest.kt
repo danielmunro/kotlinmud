@@ -36,7 +36,7 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "n")
 
         // then
-        assertEquals(response.message, "a test room 2\n" +
+        assertEquals(response.message, "test room no. 2\n" +
                 "a test room is here\n" +
                 "Exits [S]")
     }
@@ -51,7 +51,7 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "s")
 
         // then
-        assertEquals(response.message, "a test room 3\n" +
+        assertEquals(response.message, "test room no. 3\n" +
                 "a test room is here\n" +
                 "Exits [N]")
     }

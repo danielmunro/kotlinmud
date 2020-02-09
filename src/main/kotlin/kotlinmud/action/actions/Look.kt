@@ -28,6 +28,6 @@ private fun describeRoom(room: Room): String {
     return transaction { String.format("%s\n%s\nExits [%s]",
         room.name,
         room.description,
-        room.exits.joinToString { it.direction.name.subSequence(0, 1) }
+        room.exits.joinToString("") { it.direction.name.subSequence(0, 1) }
     ) }
 }
