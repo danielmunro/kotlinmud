@@ -6,6 +6,7 @@ import kotlinmud.fixture.FixtureService
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.mob.Mob
+import kotlinmud.room.Room
 
 class TestService(
     private val fixtureService: FixtureService,
@@ -16,6 +17,14 @@ class TestService(
         val mob = fixtureService.createMob()
         mobService.respawnMobToStartRoom(mob)
         return mob
+    }
+
+    fun getRoomForMob(mob: Mob): Room {
+        return mobService.getRoomForMob(mob)
+    }
+
+    fun getMobsForRoom(room: Room): List<Mob> {
+        return mobService.getMobsForRoom(room)
     }
 
     fun runAction(mob: Mob, input: String): Response {

@@ -3,6 +3,8 @@
  */
 package kotlinmud
 
+import kotlinmud.action.actions.describeRoom
+import kotlinmud.io.Request
 import kotlinmud.test.createTestService
 import kotlinmud.test.globalSetup
 import kotlinmud.test.globalTeardown
@@ -27,6 +29,23 @@ class ActionServiceTest {
     }
 
     @Test
+    fun testDescribesARoom() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        val room = testService.getRoomForMob(mob)
+        val observers = testService.getMobsForRoom(room).filter { it != mob }
+
+        // when
+        val response = testService.runAction(mob, "look")
+
+        // then
+        assertEquals(
+            response.message,
+            describeRoom(Request(mob, "look", room), observers))
+    }
+
+    @Test
     fun testMobMovesNorth() {
         // setup
         val testService = createTestService()
@@ -38,7 +57,7 @@ class ActionServiceTest {
         // then
         assertEquals(response.message, "test room no. 2\n" +
                 "a test room is here\n" +
-                "Exits [S]")
+                "Exits [S]\n")
     }
 
     @Test
@@ -53,7 +72,7 @@ class ActionServiceTest {
         // then
         assertEquals(response.message, "test room no. 3\n" +
                 "a test room is here\n" +
-                "Exits [N]")
+                "Exits [N]\n")
     }
 
     @Test

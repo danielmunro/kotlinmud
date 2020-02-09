@@ -9,6 +9,7 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
+import kotlinmud.mob.Mob
 import kotlinmud.room.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -17,18 +18,19 @@ fun createLookAction(): Action {
         Command.LOOK,
         arrayOf(Disposition.SITTING, Disposition.STANDING, Disposition.FIGHTING),
         arrayOf(Syntax.COMMAND),
-        { _: ActionContextService, _: ContextCollection, request: Request ->
+        { actionContextService: ActionContextService, _: ContextCollection, request: Request ->
             Response(
                 request,
-                describeRoom(request.room)
-            )
+                describeRoom(request, actionContextService.getMobsInRoom(request.room)))
         })
 }
 
-private fun describeRoom(room: Room): String {
-    return transaction { String.format("%s\n%s\nExits [%s]",
-        room.name,
-        room.description,
-        room.exits.joinToString("") { it.direction.name.subSequence(0, 1) }
+fun describeRoom(request: Request, mobs: List<Mob>): String {
+    val observers = mobs.filter { it != request.mob }
+    return transaction { String.format("%s\n%s\nExits [%s]\n%s",
+        request.room.name,
+        request.room.description,
+        request.room.exits.joinToString("") { it.direction.name.subSequence(0, 1) },
+        observers.joinToString("\n") { it.name + " is ${it.disposition.toString().toLowerCase()} here." }
     ) }
 }
