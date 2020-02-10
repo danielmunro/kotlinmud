@@ -2,9 +2,14 @@ package kotlinmud
 
 import kotlinmud.action.*
 import kotlinmud.action.actions.*
+import kotlinmud.action.contextBuilder.CommandContextBuilder
+import kotlinmud.action.contextBuilder.DirectionToExitContextBuilder
+import kotlinmud.action.contextBuilder.ItemInInventoryContextBuilder
+import kotlinmud.action.contextBuilder.ItemInRoomContextBuilder
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
+import kotlinmud.string.matches
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionService(private val mobService: MobService, eventService: EventService) {
@@ -51,35 +56,11 @@ class ActionService(private val mobService: MobService, eventService: EventServi
 
     private fun createContext(request: Request, syntax: Syntax, word: String): Context<Any> {
         return when (syntax) {
-            Syntax.DIRECTION_TO_EXIT -> {
-                val room = transaction {
-                    request.room.exits.find{ it.direction.toString().toLowerCase().startsWith(word) }?.destination
-                }
-                if (room != null) {
-                    return Context(syntax, Status.OK, room)
-                }
-                return Context(syntax, Status.FAILED, "Alas, that direction does not exist.")
-            }
-            Syntax.COMMAND -> Context(syntax, Status.OK, request.getCommand())
-            Syntax.ITEM_IN_INVENTORY -> {
-                return transaction {
-                    request.mob.inventory.items.find{ matches(it.name, request.getTarget()) }
-                        ?.let { Context<Any>(syntax, Status.OK, it) } ?:
-                    Context<Any>(syntax, Status.FAILED, "you don't have that.")
-                }
-            }
-            Syntax.ITEM_IN_ROOM -> {
-                return transaction {
-                    request.room.inventory.items.find{ matches(it.name, request.getTarget()) }
-                        ?.let { Context<Any>(syntax, Status.OK, it) } ?:
-                    Context<Any>(syntax, Status.FAILED, "you don't see that anywhere.")
-                }
-            }
+            Syntax.DIRECTION_TO_EXIT -> DirectionToExitContextBuilder(request.room).build(syntax, word)
+            Syntax.COMMAND -> CommandContextBuilder().build(syntax, word)
+            Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(request.mob).build(syntax, word)
+            Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.room).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.OK, "What was that?")
         }
     }
-}
-
-fun matches(name: String, input: String): Boolean {
-    return name.split(" ").any { it.length > 1 && it.startsWith(input) }
 }
