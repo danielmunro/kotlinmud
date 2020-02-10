@@ -9,6 +9,7 @@ import kotlinmud.action.contextBuilder.ItemInRoomContextBuilder
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
+import kotlinmud.mob.MobEntity
 import kotlinmud.string.matches
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -27,9 +28,8 @@ class ActionService(private val mobService: MobService, eventService: EventServi
         createInventoryAction())
 
     fun run(request: Request): Response {
-        val action = actions.find {
-            it.command.toString().toLowerCase().startsWith(request.getCommand())
-        } ?: return Response(request, "what was that?")
+        val action = actions.find { it.command.startsWith(request.getCommand()) } ?:
+            return Response(request, "what was that?")
         if (!action.hasDisposition(request.getDisposition())) {
             return Response(request, "you are ${request.getDisposition()} and cannot do that.")
         }
@@ -38,15 +38,16 @@ class ActionService(private val mobService: MobService, eventService: EventServi
         if (error != null) {
             return Response(request, error.result as String)
         }
-        val response = action.mutator.invoke(actionContextService, contextCollection, request)
-        if (action.chainTo != Command.NOOP) {
-            return run(
-                Request(
-                    request.mob,
-                    action.chainTo.toString(),
-                    mobService.getRoomForMob(request.mob)))
+        with(action.mutator.invoke(actionContextService, contextCollection, request)) {
+            return if (action.isChained())
+                run(createChainToRequest(request.mob, action))
+            else
+                this
         }
-        return response
+    }
+
+    private fun createChainToRequest(mob: MobEntity, action: Action): Request {
+        return Request(mob, action.chainTo.toString(), mobService.getRoomForMob(mob))
     }
 
     private fun buildContext(request: Request, action: Action): ContextCollection {

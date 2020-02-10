@@ -1,16 +1,20 @@
 package kotlinmud.action
 
-enum class Command {
-    NORTH,
-    SOUTH,
-    EAST,
-    WEST,
-    UP,
-    DOWN,
-    LOOK,
-    EXIT,
-    GET,
-    DROP,
-    INVENTORY,
-    NOOP,
+enum class Command(private val value: String) {
+    NORTH("north"),
+    SOUTH("south"),
+    EAST("east"),
+    WEST("west"),
+    UP("up"),
+    DOWN("down"),
+    LOOK("look"),
+    EXIT("exit"),
+    GET("get"),
+    DROP("drop"),
+    INVENTORY("inventory"),
+    NOOP("noop");
+
+    fun startsWith(input: String): Boolean {
+        return value.startsWith(input)
+    }
 }

@@ -15,4 +15,8 @@ class Action(
     fun hasDisposition(disposition: Disposition): Boolean {
         return requiredDispositions.contains(disposition)
     }
+
+    fun isChained(): Boolean {
+        return chainTo != Command.NOOP
+    }
 }
