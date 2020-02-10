@@ -5,35 +5,35 @@ import kotlinmud.MobService
 import kotlinmud.fixture.FixtureService
 import kotlinmud.io.Request
 import kotlinmud.io.Response
-import kotlinmud.item.Inventory
-import kotlinmud.item.Item
-import kotlinmud.mob.Mob
-import kotlinmud.room.Room
+import kotlinmud.item.InventoryEntity
+import kotlinmud.item.ItemEntity
+import kotlinmud.mob.MobEntity
+import kotlinmud.room.RoomEntity
 
 class TestService(
     private val fixtureService: FixtureService,
     private val mobService: MobService,
     private val actionService: ActionService) {
 
-    fun createMob(): Mob {
+    fun createMob(): MobEntity {
         val mob = fixtureService.createMob()
         mobService.respawnMobToStartRoom(mob)
         return mob
     }
 
-    fun createItem(inventory: Inventory): Item {
+    fun createItem(inventory: InventoryEntity): ItemEntity {
         return fixtureService.createItem(inventory)
     }
 
-    fun getRoomForMob(mob: Mob): Room {
+    fun getRoomForMob(mob: MobEntity): RoomEntity {
         return mobService.getRoomForMob(mob)
     }
 
-    fun getMobsForRoom(room: Room): List<Mob> {
+    fun getMobsForRoom(room: RoomEntity): List<MobEntity> {
         return mobService.getMobsForRoom(room)
     }
 
-    fun runAction(mob: Mob, input: String): Response {
+    fun runAction(mob: MobEntity, input: String): Response {
         return actionService.run(Request(mob, input, mobService.getRoomForMob(mob)))
     }
 }

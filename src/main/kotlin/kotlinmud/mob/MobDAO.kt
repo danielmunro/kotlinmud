@@ -2,7 +2,7 @@ package kotlinmud.mob
 
 import kotlinmud.db.enum.DispositionPGEnum
 import kotlinmud.item.Inventories
-import kotlinmud.item.Inventory
+import kotlinmud.item.InventoryEntity
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -19,13 +19,13 @@ object Mobs: IntIdTable() {
     val inventory = reference("inventory", Inventories)
 }
 
-class Mob(id: EntityID<Int>): IntEntity(id) {
-    companion object: IntEntityClass<Mob>(
+class MobEntity(id: EntityID<Int>): IntEntity(id) {
+    companion object: IntEntityClass<MobEntity>(
         Mobs
     )
 
     var name by Mobs.name
     var description by Mobs.description
     var disposition by Mobs.disposition
-    var inventory by Inventory referencedOn Mobs.inventory
+    var inventory by InventoryEntity referencedOn Mobs.inventory
 }

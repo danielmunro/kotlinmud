@@ -1,9 +1,9 @@
 package kotlinmud.io
 
 import kotlinmud.MobService
-import kotlinmud.item.Inventory
+import kotlinmud.item.InventoryEntity
 import kotlinmud.mob.Disposition
-import kotlinmud.mob.Mob
+import kotlinmud.mob.MobEntity
 import java.net.ServerSocket
 import java.net.Socket
 import kotlinx.coroutines.*
@@ -36,11 +36,11 @@ class Server(private val mobService: MobService, private val server: ServerSocke
 
     private fun receiveSocket(socket: Socket) {
         val mob = transaction {
-            Mob.new {
+            MobEntity.new {
                 name = "a test mob"
                 description = "a test mob is here, being a test."
                 disposition = Disposition.STANDING
-                inventory = Inventory.new {}
+                inventory = InventoryEntity.new {}
             }
         }
         mobService.respawnMobToStartRoom(mob)

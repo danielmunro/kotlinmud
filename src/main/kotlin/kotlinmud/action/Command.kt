@@ -11,5 +11,6 @@ enum class Command {
     EXIT,
     GET,
     DROP,
+    INVENTORY,
     NOOP,
 }

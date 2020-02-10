@@ -18,7 +18,8 @@ class ActionService(private val mobService: MobService, eventService: EventServi
         createUpAction(),
         createDownAction(),
         createGetAction(),
-        createDropAction())
+        createDropAction(),
+        createInventoryAction())
 
     fun run(request: Request): Response {
         val action = actions.find {

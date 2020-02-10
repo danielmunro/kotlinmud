@@ -1,13 +1,13 @@
 package kotlinmud.io
 
 import kotlinmud.mob.Disposition
-import kotlinmud.mob.Mob
-import kotlinmud.room.Room
+import kotlinmud.mob.MobEntity
+import kotlinmud.room.RoomEntity
 
 class Request(
-    val mob: Mob,
+    val mob: MobEntity,
     val input: String,
-    val room: Room) {
+    val room: RoomEntity) {
     val args: List<String> = input.toLowerCase().split(' ')
 
     fun getCommand(): String {

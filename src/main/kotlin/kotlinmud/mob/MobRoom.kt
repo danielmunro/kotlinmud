@@ -1,9 +1,9 @@
 package kotlinmud.mob
 
-import kotlinmud.room.Room
+import kotlinmud.room.RoomEntity
 
 class MobRoom(
-    val mob: Mob,
-    var room: Room
+    val mob: MobEntity,
+    var room: RoomEntity
 ) {
 }

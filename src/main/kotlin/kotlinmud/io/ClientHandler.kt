@@ -2,13 +2,13 @@ package kotlinmud.io
 
 import kotlinmud.MobService
 import kotlinmud.action.Command
-import kotlinmud.mob.Mob
+import kotlinmud.mob.MobEntity
 import java.net.Socket
 import java.nio.charset.Charset
 import java.util.Scanner
 import java.io.OutputStream
 
-class ClientHandler(private val mobService: MobService, private val client: Socket, val mob: Mob) {
+class ClientHandler(private val mobService: MobService, private val client: Socket, val mob: MobEntity) {
     private val reader: Scanner = Scanner(client.getInputStream())
     private val writer: OutputStream = client.getOutputStream()
     private var running: Boolean = false

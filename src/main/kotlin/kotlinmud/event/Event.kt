@@ -1,12 +1,12 @@
 package kotlinmud.event
 
-import kotlinmud.mob.Mob
+import kotlinmud.mob.MobEntity
 import kotlinmud.room.Direction
-import kotlinmud.room.Room
+import kotlinmud.room.RoomEntity
 
 interface Event {
     val eventType: EventType
-    val mob: Mob
-    val room: Room
+    val mob: MobEntity
+    val room: RoomEntity
     val direction: Direction
 }

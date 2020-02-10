@@ -1,30 +1,30 @@
 package kotlinmud
 
-import kotlinmud.mob.Mob
+import kotlinmud.mob.MobEntity
 import kotlinmud.mob.MobRoom
-import kotlinmud.room.Room
+import kotlinmud.room.RoomEntity
 
-class MobService(private val rooms: List<Room>) {
-    private val mobs: List<Mob> = listOf()
+class MobService(private val rooms: List<RoomEntity>) {
+    private val mobs: List<MobEntity> = listOf()
     private val mobRooms: MutableList<MobRoom> = mutableListOf()
 
-    fun getRoomForMob(mob: Mob): Room {
+    fun getRoomForMob(mob: MobEntity): RoomEntity {
         return mobRooms.find { it.mob == mob }!!.room
     }
 
-    fun getMobsForRoom(room: Room): List<Mob> {
+    fun getMobsForRoom(room: RoomEntity): List<MobEntity> {
         return mobRooms.filter { it.room == room }.map { it.mob }
     }
 
-    fun respawnMobToStartRoom(mob: Mob) {
+    fun respawnMobToStartRoom(mob: MobEntity) {
         putMobInRoom(mob, rooms[0])
     }
 
-    fun moveMob(mob: Mob, room: Room) {
+    fun moveMob(mob: MobEntity, room: RoomEntity) {
         putMobInRoom(mob, room)
     }
 
-    private fun putMobInRoom(mob: Mob, room: Room) {
+    private fun putMobInRoom(mob: MobEntity, room: RoomEntity) {
         val r = rooms.find{ it.uuid == room.uuid }
         if (r == null) {
             println("no room exists")

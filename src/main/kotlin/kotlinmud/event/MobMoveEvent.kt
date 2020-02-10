@@ -1,9 +1,9 @@
 package kotlinmud.event
 
-import kotlinmud.mob.Mob
+import kotlinmud.mob.MobEntity
 import kotlinmud.room.Direction
-import kotlinmud.room.Room
+import kotlinmud.room.RoomEntity
 
-class MobMoveEvent(override val mob: Mob, override val room: Room, override val direction: Direction) : Event {
+class MobMoveEvent(override val mob: MobEntity, override val room: RoomEntity, override val direction: Direction) : Event {
     override val eventType: EventType = EventType.MOB_MOVE
 }

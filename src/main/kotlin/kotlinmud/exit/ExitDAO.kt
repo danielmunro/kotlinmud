@@ -2,7 +2,7 @@ package kotlinmud.exit
 
 import kotlinmud.db.enum.DirectionPGEnum
 import kotlinmud.room.Direction
-import kotlinmud.room.Room
+import kotlinmud.room.RoomEntity
 import kotlinmud.room.Rooms
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
@@ -21,10 +21,10 @@ object Exits: IntIdTable() {
         { DirectionPGEnum("DirectionEnum", it) })
 }
 
-class Exit(id: EntityID<Int>): IntEntity(id) {
-    companion object: IntEntityClass<Exit>(Exits)
+class ExitEntity(id: EntityID<Int>): IntEntity(id) {
+    companion object: IntEntityClass<ExitEntity>(Exits)
 
-    var room by Room referencedOn Exits.room
-    var destination by Room referencedOn Exits.destination
+    var room by RoomEntity referencedOn Exits.room
+    var destination by RoomEntity referencedOn Exits.destination
     var direction by Exits.direction
 }

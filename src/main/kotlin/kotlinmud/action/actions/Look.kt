@@ -8,7 +8,7 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
-import kotlinmud.mob.Mob
+import kotlinmud.mob.MobEntity
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createLookAction(): Action {
@@ -23,7 +23,7 @@ fun createLookAction(): Action {
         })
 }
 
-fun describeRoom(request: Request, mobs: List<Mob>): String {
+fun describeRoom(request: Request, mobs: List<MobEntity>): String {
     val observers = mobs.filter { it != request.mob }
     return transaction { String.format("%s\n%s\nExits [%s]%s%s%s%s",
         request.room.name,

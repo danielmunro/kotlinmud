@@ -2,13 +2,13 @@ package kotlinmud.fixture
 
 import io.github.serpro69.kfaker.Faker
 import kotlinmud.MobService
-import kotlinmud.exit.Exit
-import kotlinmud.item.Inventory
-import kotlinmud.item.Item
+import kotlinmud.exit.ExitEntity
+import kotlinmud.item.InventoryEntity
+import kotlinmud.item.ItemEntity
 import kotlinmud.mob.Disposition
-import kotlinmud.mob.Mob
+import kotlinmud.mob.MobEntity
 import kotlinmud.room.Direction
-import kotlinmud.room.Room
+import kotlinmud.room.RoomEntity
 import kotlinmud.room.oppositeDirection
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
@@ -23,7 +23,7 @@ class FixtureService {
         mobService.respawnMobToStartRoom(createMob())
     }
 
-    fun generateWorld(): List<Room> {
+    fun generateWorld(): List<RoomEntity> {
         val room1 = createRoom()
         val room2 = createRoom()
         val room3 = createRoom()
@@ -33,22 +33,22 @@ class FixtureService {
         return listOf(room1, room2, room3)
     }
 
-    fun createMob(): Mob {
+    fun createMob(): MobEntity {
         mobs++
         return transaction {
-            Mob.new {
+            MobEntity.new {
                 name = faker.name.name()
                 description = "A test mob is here ($mobs)."
                 disposition = Disposition.STANDING
-                inventory = Inventory.new{}
+                inventory = InventoryEntity.new{}
             }
         }
     }
 
-    fun createItem(inv: Inventory): Item {
+    fun createItem(inv: InventoryEntity): ItemEntity {
         items++
         return transaction {
-            Item.new{
+            ItemEntity.new{
                 name = "the helmet of ${faker.ancient.hero()}"
                 description = "A test item is here ($items)."
                 inventory = inv
@@ -56,15 +56,15 @@ class FixtureService {
         }
     }
 
-    private fun createExit(src: Room, dest: Room, dir: Direction): Exit {
+    private fun createExit(src: RoomEntity, dest: RoomEntity, dir: Direction): ExitEntity {
         return transaction {
             // reciprocal direction
-            Exit.new {
+            ExitEntity.new {
                 room = dest
                 destination = src
                 direction = oppositeDirection(dir)
             }
-            Exit.new {
+            ExitEntity.new {
                 room = src
                 destination = dest
                 direction = dir
@@ -72,14 +72,14 @@ class FixtureService {
         }
     }
 
-    private fun createRoom(): Room {
+    private fun createRoom(): RoomEntity {
         rooms++
         return transaction {
-            Room.new {
+            RoomEntity.new {
                 uuid = UUID.randomUUID()
                 name = "test room no. $rooms"
                 description = "a test room is here"
-                inventory = Inventory.new {}
+                inventory = InventoryEntity.new {}
             }
         }
     }

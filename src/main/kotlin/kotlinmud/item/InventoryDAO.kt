@@ -7,8 +7,8 @@ import org.jetbrains.exposed.dao.IntIdTable
 
 object Inventories: IntIdTable() {}
 
-class Inventory(id: EntityID<Int>): IntEntity(id) {
-    companion object: IntEntityClass<Inventory>(Inventories)
+class InventoryEntity(id: EntityID<Int>): IntEntity(id) {
+    companion object: IntEntityClass<InventoryEntity>(Inventories)
 
-    val items by Item referrersOn Items.inventory
+    val items by ItemEntity referrersOn Items.inventory
 }
