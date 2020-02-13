@@ -105,6 +105,20 @@ class ActionServiceTest {
     }
 
     @Test
+    fun testMobCannotGetNonexistentItemFromRoom() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+
+        // when
+        val response = testService.runAction(mob, "get foo")
+
+        // then
+        assertTrue(response.message == "you don't see that anywhere.", response.message)
+        assertEquals(transaction { mob.inventory.items.count() }, 0)
+    }
+
+    @Test
     fun testMobCanDropItem() {
         // setup
         val testService = createTestService()

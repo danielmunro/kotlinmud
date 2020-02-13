@@ -10,8 +10,6 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.MobEntity
-import kotlinmud.string.matches
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionService(private val mobService: MobService, eventService: EventService) {
     private val actionContextService = ActionContextService(mobService, eventService)
@@ -50,9 +48,9 @@ class ActionService(private val mobService: MobService, eventService: EventServi
         return Request(mob, action.chainTo.toString(), mobService.getRoomForMob(mob))
     }
 
-    private fun buildContext(request: Request, action: Action): ContextCollection {
+    private fun buildContext(request: Request, action: Action): ActionContextList {
         var i = 0
-        return ContextCollection(action.syntax.map { createContext(request, it, request.args[i++]) } as MutableList<Context<Any>>)
+        return ActionContextList(action.syntax.map { createContext(request, it, request.args[i++]) } as MutableList<Context<Any>>)
     }
 
     private fun createContext(request: Request, syntax: Syntax, word: String): Context<Any> {

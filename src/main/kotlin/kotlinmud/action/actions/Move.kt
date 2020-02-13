@@ -1,10 +1,9 @@
 package kotlinmud.action.actions
 
-import kotlinmud.EventService
 import kotlinmud.action.Action
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
-import kotlinmud.action.ContextCollection
+import kotlinmud.action.ActionContextList
 import kotlinmud.event.MobMoveEvent
 import kotlinmud.io.Request
 import kotlinmud.io.Response
@@ -17,11 +16,11 @@ private fun move(command: Command, direction: Direction): Action {
         command,
         arrayOf(Disposition.STANDING),
         arrayOf(Syntax.DIRECTION_TO_EXIT),
-        fun (actionContextService: ActionContextService, contextCollection: ContextCollection, request: Request): Response {
+        fun (actionContextService: ActionContextService, actionContextList: ActionContextList, request: Request): Response {
             actionContextService.publishEvent(
                 MobMoveEvent(
                     request.mob,
-                    contextCollection.getResultBySyntax(Syntax.DIRECTION_TO_EXIT)!!,
+                    actionContextList.getResultBySyntax(Syntax.DIRECTION_TO_EXIT),
                     direction)
             )
             return Response(request, "you move ${direction.name.toLowerCase()}.")

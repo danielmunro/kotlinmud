@@ -3,7 +3,7 @@ package kotlinmud.action.actions
 import kotlinmud.action.Action
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
-import kotlinmud.action.ContextCollection
+import kotlinmud.action.ActionContextList
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
@@ -16,7 +16,7 @@ fun createInventoryAction(): Action {
         Command.INVENTORY,
         arrayOf(Disposition.SITTING, Disposition.STANDING, Disposition.FIGHTING),
         arrayOf(Syntax.COMMAND),
-        { _: ActionContextService, _: ContextCollection, request: Request ->
+        { _: ActionContextService, _: ActionContextList, request: Request ->
             val items = transaction { request.mob.inventory.items.toList() }
             Response(request, "Your inventory:\n\n${describeItems(items)}")
         })
