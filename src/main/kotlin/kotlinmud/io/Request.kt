@@ -7,7 +7,8 @@ import kotlinmud.room.RoomEntity
 class Request(
     val mob: MobEntity,
     val input: String,
-    val room: RoomEntity) {
+    val room: RoomEntity
+) {
     val args: List<String> = input.toLowerCase().split(' ')
 
     fun getCommand(): String {

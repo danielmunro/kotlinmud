@@ -10,7 +10,7 @@ enum class Direction(val value: String) {
 }
 
 fun oppositeDirection(direction: Direction): Direction {
-    return when(direction) {
+    return when (direction) {
         Direction.NORTH -> Direction.SOUTH
         Direction.SOUTH -> Direction.NORTH
         Direction.WEST -> Direction.EAST

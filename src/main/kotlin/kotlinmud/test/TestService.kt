@@ -1,19 +1,20 @@
 package kotlinmud.test
 
-import kotlinmud.ActionService
-import kotlinmud.MobService
-import kotlinmud.fixture.FixtureService
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.item.InventoryEntity
 import kotlinmud.item.ItemEntity
 import kotlinmud.mob.MobEntity
 import kotlinmud.room.RoomEntity
+import kotlinmud.service.ActionService
+import kotlinmud.service.FixtureService
+import kotlinmud.service.MobService
 
 class TestService(
     private val fixtureService: FixtureService,
     private val mobService: MobService,
-    private val actionService: ActionService) {
+    private val actionService: ActionService
+) {
 
     fun createMob(): MobEntity {
         val mob = fixtureService.createMob()

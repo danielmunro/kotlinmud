@@ -1,8 +1,6 @@
 package kotlinmud.event.observer
 
-import kotlinmud.MobService
-import kotlinmud.event.Event
-import kotlinmud.event.MobMoveEvent
+import kotlinmud.service.MobService
 
 fun createObservers(mobService: MobService): Array<Observer> {
     return arrayOf(

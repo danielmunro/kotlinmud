@@ -1,4 +1,4 @@
-package kotlinmud
+package kotlinmud.service
 
 import kotlinmud.event.Event
 import kotlinmud.event.observer.Observer

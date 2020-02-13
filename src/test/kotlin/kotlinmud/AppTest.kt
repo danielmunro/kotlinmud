@@ -3,10 +3,11 @@
  */
 package kotlinmud
 
-import kotlinmud.io.Server
 import java.net.ServerSocket
 import kotlin.test.Test
 import kotlin.test.assertNotNull
+import kotlinmud.io.Server
+import kotlinmud.service.MobService
 
 class AppTest {
     @Test

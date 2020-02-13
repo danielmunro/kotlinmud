@@ -1,6 +1,7 @@
-package kotlinmud
+package kotlinmud.service
 
-import kotlinmud.action.*
+import kotlinmud.action.Action
+import kotlinmud.action.ActionContextService
 import kotlinmud.action.actions.*
 import kotlinmud.action.contextBuilder.CommandContextBuilder
 import kotlinmud.action.contextBuilder.DirectionToExitContextBuilder
@@ -26,8 +27,8 @@ class ActionService(private val mobService: MobService, eventService: EventServi
         createInventoryAction())
 
     fun run(request: Request): Response {
-        val action = actions.find { it.command.startsWith(request.getCommand()) } ?:
-            return Response(request, "what was that?")
+        val action = actions.find { it.command.startsWith(request.getCommand()) }
+            ?: return Response(request, "what was that?")
         if (!action.hasDisposition(request.getDisposition())) {
             return Response(request, "you are ${request.getDisposition()} and cannot do that.")
         }

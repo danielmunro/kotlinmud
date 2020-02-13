@@ -8,11 +8,11 @@ object DispositionTable : Table() {
     val disposition = customEnumeration(
         "disposition",
         "DispositionEnum",
-        {value -> Disposition.valueOf(value as String)},
-        { DispositionPGEnum("DispositionEnum", it)})
+        { value -> Disposition.valueOf(value as String) },
+        { DispositionPGEnum("DispositionEnum", it) })
 }
 
-class DispositionPGEnum<T:Enum<T>>(enumTypeName: String, enumValue: T?) : PGobject() {
+class DispositionPGEnum<T : Enum<T>>(enumTypeName: String, enumValue: T?) : PGobject() {
     init {
         value = enumValue?.name.toString().toLowerCase()
         type = enumTypeName

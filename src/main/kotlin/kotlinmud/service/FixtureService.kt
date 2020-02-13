@@ -1,7 +1,7 @@
-package kotlinmud.fixture
+package kotlinmud.service
 
 import io.github.serpro69.kfaker.Faker
-import kotlinmud.MobService
+import java.util.UUID
 import kotlinmud.exit.ExitEntity
 import kotlinmud.item.InventoryEntity
 import kotlinmud.item.ItemEntity
@@ -11,7 +11,6 @@ import kotlinmud.room.Direction
 import kotlinmud.room.RoomEntity
 import kotlinmud.room.oppositeDirection
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.util.*
 
 class FixtureService {
     private var rooms = 0
@@ -40,7 +39,7 @@ class FixtureService {
                 name = faker.name.name()
                 description = "A test mob is here ($mobs)."
                 disposition = Disposition.STANDING
-                inventory = InventoryEntity.new{}
+                inventory = InventoryEntity.new {}
             }
         }
     }
@@ -48,7 +47,7 @@ class FixtureService {
     fun createItem(inv: InventoryEntity): ItemEntity {
         items++
         return transaction {
-            ItemEntity.new{
+            ItemEntity.new {
                 name = "the helmet of ${faker.ancient.hero()}"
                 description = "A test item is here ($items)."
                 inventory = inv

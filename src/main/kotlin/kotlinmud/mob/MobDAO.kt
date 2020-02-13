@@ -8,7 +8,7 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.IntIdTable
 
-object Mobs: IntIdTable() {
+object Mobs : IntIdTable() {
     val name = varchar("name", 50)
     val description = text("description")
     val disposition = customEnumeration(
@@ -19,8 +19,8 @@ object Mobs: IntIdTable() {
     val inventory = reference("inventory", Inventories)
 }
 
-class MobEntity(id: EntityID<Int>): IntEntity(id) {
-    companion object: IntEntityClass<MobEntity>(
+class MobEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<MobEntity>(
         Mobs
     )
 

@@ -1,15 +1,20 @@
 package kotlinmud
 
-import kotlinmud.db.connect
-import kotlinmud.db.applyDBSchema
-import kotlinmud.event.observer.createObservers
-import kotlinmud.fixture.FixtureService
-import kotlinmud.io.Server
 import java.net.ServerSocket
+import kotlinmud.db.applyDBSchema
+import kotlinmud.db.connect
+import kotlinmud.event.observer.createObservers
+import kotlinmud.io.Server
+import kotlinmud.service.ActionService
+import kotlinmud.service.EventService
+import kotlinmud.service.FixtureService
+import kotlinmud.service.MobService
 
 class App(mobService: MobService, private val server: Server) {
-    private val eventService: EventService = EventService(createObservers(mobService))
-    private val actionService: ActionService = ActionService(mobService, eventService)
+    private val eventService: EventService =
+        EventService(createObservers(mobService))
+    private val actionService: ActionService =
+        ActionService(mobService, eventService)
 
     fun start() {
         println("starting app")

@@ -8,11 +8,11 @@ object DirectionTable : Table() {
     val disposition = customEnumeration(
         "direction",
         "DirectionEnum",
-        {value -> Direction.valueOf(value as String)},
-        { DirectionPGEnum("DirectionEnum", it)})
+        { value -> Direction.valueOf(value as String) },
+        { DirectionPGEnum("DirectionEnum", it) })
 }
 
-class DirectionPGEnum<T:Enum<T>>(enumTypeName: String, enumValue: T?) : PGobject() {
+class DirectionPGEnum<T : Enum<T>>(enumTypeName: String, enumValue: T?) : PGobject() {
     init {
         value = enumValue?.name.toString().toLowerCase()
         type = enumTypeName

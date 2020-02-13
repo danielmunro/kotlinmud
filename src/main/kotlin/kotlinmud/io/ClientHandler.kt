@@ -1,12 +1,12 @@
 package kotlinmud.io
 
-import kotlinmud.MobService
-import kotlinmud.action.Command
-import kotlinmud.mob.MobEntity
+import java.io.OutputStream
 import java.net.Socket
 import java.nio.charset.Charset
 import java.util.Scanner
-import java.io.OutputStream
+import kotlinmud.action.Command
+import kotlinmud.mob.MobEntity
+import kotlinmud.service.MobService
 
 class ClientHandler(private val mobService: MobService, private val client: Socket, val mob: MobEntity) {
     private val reader: Scanner = Scanner(client.getInputStream())
@@ -28,7 +28,6 @@ class ClientHandler(private val mobService: MobService, private val client: Sock
             } catch (ex: Exception) {
                 shutdown()
             }
-
         }
     }
 
@@ -49,5 +48,4 @@ class ClientHandler(private val mobService: MobService, private val client: Sock
         client.close()
         println("${client.inetAddress.hostAddress} closed the connection")
     }
-
 }

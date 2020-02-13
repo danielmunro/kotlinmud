@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class DirectionToExitContextBuilder(private val roomEntity: RoomEntity) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val room = transaction {
-            roomEntity.exits.find{ it.direction.toString().toLowerCase().startsWith(word) }?.destination
+            roomEntity.exits.find { it.direction.toString().toLowerCase().startsWith(word) }?.destination
         }
         if (room != null) {
             return Context(syntax, Status.OK, room)

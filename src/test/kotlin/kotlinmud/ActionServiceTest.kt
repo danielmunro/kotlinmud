@@ -3,6 +3,9 @@
  */
 package kotlinmud
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 import kotlinmud.action.actions.describeRoom
 import kotlinmud.io.Request
 import kotlinmud.test.createTestService
@@ -11,9 +14,6 @@ import kotlinmud.test.globalTeardown
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.AfterClass
 import org.junit.BeforeClass
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class ActionServiceTest {
     companion object {

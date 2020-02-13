@@ -5,19 +5,18 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.IntIdTable
 
-object Items: IntIdTable() {
+object Items : IntIdTable() {
     val name = varchar("name", 50)
     val description = text("description")
     val inventory = reference("inventory", Inventories)
 }
 
-class ItemEntity(id: EntityID<Int>): IntEntity(id) {
-    companion object: IntEntityClass<ItemEntity>(
+class ItemEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<ItemEntity>(
         Items
     )
 
     var name by Items.name
     var description by Items.description
     var inventory by InventoryEntity referencedOn Items.inventory
-
 }

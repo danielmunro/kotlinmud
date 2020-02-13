@@ -9,7 +9,7 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.IntIdTable
 
-object Exits: IntIdTable() {
+object Exits : IntIdTable() {
     val room = reference("source", Rooms)
     val destination = reference("destination", Rooms)
     val direction = customEnumeration(
@@ -21,8 +21,8 @@ object Exits: IntIdTable() {
         { DirectionPGEnum("DirectionEnum", it) })
 }
 
-class ExitEntity(id: EntityID<Int>): IntEntity(id) {
-    companion object: IntEntityClass<ExitEntity>(Exits)
+class ExitEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<ExitEntity>(Exits)
 
     var room by RoomEntity referencedOn Exits.room
     var destination by RoomEntity referencedOn Exits.destination

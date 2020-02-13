@@ -9,15 +9,15 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.IntIdTable
 
-object Rooms: IntIdTable() {
+object Rooms : IntIdTable() {
     val uuid = uuid("uuid")
     val name = varchar("name", 50)
     val description = text("description")
     val inventory = reference("inventory", Inventories)
 }
 
-class RoomEntity(id: EntityID<Int>): IntEntity(id) {
-    companion object: IntEntityClass<RoomEntity>(
+class RoomEntity(id: EntityID<Int>) : IntEntity(id) {
+    companion object : IntEntityClass<RoomEntity>(
         Rooms
     )
 

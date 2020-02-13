@@ -1,4 +1,4 @@
-package kotlinmud
+package kotlinmud.service
 
 import kotlinmud.mob.MobEntity
 import kotlinmud.mob.MobRoom
@@ -25,7 +25,7 @@ class MobService(private val rooms: List<RoomEntity>) {
     }
 
     private fun putMobInRoom(mob: MobEntity, room: RoomEntity) {
-        val r = rooms.find{ it.uuid == room.uuid }
+        val r = rooms.find { it.uuid == room.uuid }
         if (r == null) {
             println("no room exists")
             return
