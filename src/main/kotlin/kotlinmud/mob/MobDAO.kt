@@ -11,11 +11,7 @@ import org.jetbrains.exposed.dao.IntIdTable
 object Mobs : IntIdTable() {
     val name = varchar("name", 50)
     val description = text("description")
-    val disposition = customEnumeration(
-        "disposition",
-        "DispositionEnum",
-        { Disposition.values()[it as Int] },
-        { DispositionPGEnum("DispositionEnum", it) })
+    val disposition = varchar("disposition", 50)
     val inventory = reference("inventory", Inventories)
 }
 

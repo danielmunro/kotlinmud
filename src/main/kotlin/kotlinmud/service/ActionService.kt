@@ -32,15 +32,23 @@ class ActionService(private val mobService: MobService, eventService: EventServi
     fun run(request: Request): Response {
         val action = actions.find { it.command.startsWith(request.getCommand()) }
             ?: return Response(request, "what was that?")
-        if (!action.hasDisposition(request.getDisposition())) {
-            return Response(request, "you are ${request.getDisposition()} and cannot do that.")
-        }
-        val contextCollection = buildContext(request, action)
-        val error = contextCollection.getError()
+        return dispositionCheck(request, action) ?:
+            invokeActionMutator(request, action, buildActionContextList(request, action))
+    }
+
+    private fun dispositionCheck(request: Request, action: Action): Response? {
+        return if (!action.hasDisposition(request.getDisposition()))
+                Response(request, "you are ${request.getDisposition().toLower()} and cannot do that.")
+            else
+                null
+    }
+
+    private fun invokeActionMutator(request: Request, action: Action, list: ActionContextList): Response {
+        val error = list.getError()
         if (error != null) {
             return Response(request, error.result as String)
         }
-        with(action.mutator.invoke(actionContextService, contextCollection, request)) {
+        with(action.mutator.invoke(actionContextService, list, request)) {
             return if (action.isChained())
                 run(createChainToRequest(request.mob, action))
             else
@@ -52,7 +60,7 @@ class ActionService(private val mobService: MobService, eventService: EventServi
         return Request(mob, action.chainTo.toString(), mobService.getRoomForMob(mob))
     }
 
-    private fun buildContext(request: Request, action: Action): ActionContextList {
+    private fun buildActionContextList(request: Request, action: Action): ActionContextList {
         var i = 0
         return ActionContextList(action.syntax.map { createContext(request, it, request.args[i++]) } as MutableList<Context<Any>>)
     }

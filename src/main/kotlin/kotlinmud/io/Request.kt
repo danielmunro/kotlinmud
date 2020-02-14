@@ -20,6 +20,6 @@ class Request(
     }
 
     fun getDisposition(): Disposition {
-        return mob.disposition
+        return Disposition.valueOf(mob.disposition)
     }
 }

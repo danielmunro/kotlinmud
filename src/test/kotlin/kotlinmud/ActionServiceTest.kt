@@ -8,6 +8,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinmud.action.actions.describeRoom
 import kotlinmud.io.Request
+import kotlinmud.mob.Disposition
 import kotlinmud.test.createTestService
 import kotlinmud.test.globalSetup
 import kotlinmud.test.globalTeardown
@@ -88,6 +89,22 @@ class ActionServiceTest {
 
         // then
         assertEquals(response.message, "Alas, that direction does not exist.")
+    }
+
+    @Test
+    fun testMobCannotMoveWhileSitting() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+
+        // given
+        transaction { mob.disposition = Disposition.SITTING.toString() }
+
+        // when
+        val response = testService.runAction(mob, "n")
+
+        // then
+        assertEquals("you are sitting and cannot do that.", response.message, response.message)
     }
 
     @Test

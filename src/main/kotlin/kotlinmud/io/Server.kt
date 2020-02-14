@@ -40,7 +40,7 @@ class Server(private val mobService: MobService, private val server: ServerSocke
             MobEntity.new {
                 name = "a test mob"
                 description = "a test mob is here, being a test."
-                disposition = Disposition.STANDING
+                disposition = Disposition.STANDING.toString()
                 inventory = InventoryEntity.new {}
             }
         }
