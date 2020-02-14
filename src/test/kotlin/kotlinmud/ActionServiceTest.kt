@@ -98,7 +98,7 @@ class ActionServiceTest {
         val mob = testService.createMob()
 
         // given
-        transaction { mob.disposition = Disposition.SITTING.toString() }
+        transaction { mob.disposition = Disposition.SITTING.value }
 
         // when
         val response = testService.runAction(mob, "n")

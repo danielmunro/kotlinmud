@@ -38,7 +38,7 @@ class FixtureService {
             MobEntity.new {
                 name = faker.name.name()
                 description = "A test mob is here ($mobs)."
-                disposition = Disposition.STANDING.toString()
+                disposition = Disposition.STANDING.value
                 inventory = InventoryEntity.new {}
             }
         }

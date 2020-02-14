@@ -38,7 +38,7 @@ class ActionService(private val mobService: MobService, eventService: EventServi
 
     private fun dispositionCheck(request: Request, action: Action): Response? {
         return if (!action.hasDisposition(request.getDisposition()))
-                Response(request, "you are ${request.getDisposition().toLower()} and cannot do that.")
+                Response(request, "you are ${request.getDisposition().value} and cannot do that.")
             else
                 null
     }

@@ -1,12 +1,8 @@
 package kotlinmud.mob
 
-enum class Disposition(val disposition: String) {
+enum class Disposition(val value: String) {
     DEAD("dead"),
     SITTING("sitting"),
     STANDING("standing"),
     FIGHTING("fighting");
-
-    fun toLower(): String {
-        return disposition.toLowerCase()
-    }
 }
