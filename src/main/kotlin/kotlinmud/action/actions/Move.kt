@@ -5,6 +5,7 @@ import kotlinmud.action.ActionContextList
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.event.MobMoveEvent
+import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
@@ -23,7 +24,11 @@ private fun move(command: Command, direction: Direction): Action {
                     actionContextList.getResultBySyntax(Syntax.DIRECTION_TO_EXIT),
                     direction)
             )
-            return Response(request, "you move ${direction.name.toLowerCase()}.")
+            return Response(
+                request,
+                Message(
+                    "you move ${direction.value}.",
+                    "${request.mob.name} moves ${direction.value}."))
         },
         Command.LOOK)
 }

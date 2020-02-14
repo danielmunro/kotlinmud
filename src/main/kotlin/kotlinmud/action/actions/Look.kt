@@ -4,6 +4,7 @@ import kotlinmud.action.Action
 import kotlinmud.action.ActionContextList
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
+import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
@@ -19,7 +20,7 @@ fun createLookAction(): Action {
         { actionContextService: ActionContextService, _: ActionContextList, request: Request ->
             Response(
                 request,
-                describeRoom(request, actionContextService.getMobsInRoom(request.room)))
+                Message(describeRoom(request, actionContextService.getMobsInRoom(request.room))))
         })
 }
 

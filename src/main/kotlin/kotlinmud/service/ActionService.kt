@@ -6,10 +6,8 @@ import kotlinmud.action.ActionContextList
 import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.action.actions.*
-import kotlinmud.action.contextBuilder.CommandContextBuilder
-import kotlinmud.action.contextBuilder.DirectionToExitContextBuilder
-import kotlinmud.action.contextBuilder.ItemInInventoryContextBuilder
-import kotlinmud.action.contextBuilder.ItemInRoomContextBuilder
+import kotlinmud.action.contextBuilder.*
+import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
@@ -27,18 +25,19 @@ class ActionService(private val mobService: MobService, eventService: EventServi
         createDownAction(),
         createGetAction(),
         createDropAction(),
-        createInventoryAction())
+        createInventoryAction(),
+        createKillAction())
 
     fun run(request: Request): Response {
         val action = actions.find { it.command.startsWith(request.getCommand()) }
-            ?: return Response(request, "what was that?")
+            ?: return Response(request, Message("what was that?"))
         return dispositionCheck(request, action) ?:
             invokeActionMutator(request, action, buildActionContextList(request, action))
     }
 
     private fun dispositionCheck(request: Request, action: Action): Response? {
         return if (!action.hasDisposition(request.getDisposition()))
-                Response(request, "you are ${request.getDisposition().value} and cannot do that.")
+                Response(request, Message("you are ${request.getDisposition().value} and cannot do that."))
             else
                 null
     }
@@ -46,7 +45,7 @@ class ActionService(private val mobService: MobService, eventService: EventServi
     private fun invokeActionMutator(request: Request, action: Action, list: ActionContextList): Response {
         val error = list.getError()
         if (error != null) {
-            return Response(request, error.result as String)
+            return Response(request, Message(error.result as String))
         }
         with(action.mutator.invoke(actionContextService, list, request)) {
             return if (action.isChained())
@@ -71,6 +70,7 @@ class ActionService(private val mobService: MobService, eventService: EventServi
             Syntax.COMMAND -> CommandContextBuilder().build(syntax, word)
             Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(request.mob).build(syntax, word)
             Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.room).build(syntax, word)
+            Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.OK, "What was that?")
         }
     }

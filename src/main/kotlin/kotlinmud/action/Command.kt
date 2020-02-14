@@ -12,6 +12,7 @@ enum class Command(private val value: String) {
     GET("get"),
     DROP("drop"),
     INVENTORY("inventory"),
+    KILL("kill"),
     NOOP("noop");
 
     fun startsWith(input: String): Boolean {

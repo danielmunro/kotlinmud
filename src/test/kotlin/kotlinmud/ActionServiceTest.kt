@@ -44,7 +44,7 @@ class ActionServiceTest {
 
         // then
         assertEquals(
-            response.message,
+            response.message.toActionCreator,
             describeRoom(Request(mob, "look", room), observers))
     }
 
@@ -58,7 +58,7 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "n")
 
         // then
-        assertEquals(response.message, "test room no. 2\n" +
+        assertEquals(response.message.toActionCreator, "test room no. 2\n" +
                 "a test room is here\n" +
                 "Exits [S]")
     }
@@ -73,7 +73,7 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "s")
 
         // then
-        assertEquals(response.message, "test room no. 3\n" +
+        assertEquals(response.message.toActionCreator, "test room no. 3\n" +
                 "a test room is here\n" +
                 "Exits [N]")
     }
@@ -88,7 +88,7 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "w")
 
         // then
-        assertEquals(response.message, "Alas, that direction does not exist.")
+        assertEquals(response.message.toActionCreator, "Alas, that direction does not exist.")
     }
 
     @Test
@@ -104,7 +104,7 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "n")
 
         // then
-        assertEquals("you are sitting and cannot do that.", response.message, response.message)
+        assertEquals("you are sitting and cannot do that.", response.message.toActionCreator)
     }
 
     @Test
@@ -117,7 +117,7 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "get helm")
 
         // then
-        assertTrue(response.message.startsWith("you pick up the helmet"))
+        assertTrue(response.message.toActionCreator.startsWith("you pick up the helmet"))
         assertEquals(transaction { mob.inventory.items.count() }, 1)
     }
 
@@ -131,7 +131,7 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "get foo")
 
         // then
-        assertTrue(response.message == "you don't see that anywhere.", response.message)
+        assertTrue(response.message.toActionCreator == "you don't see that anywhere.", response.message.toActionCreator)
         assertEquals(transaction { mob.inventory.items.count() }, 0)
     }
 
@@ -146,7 +146,7 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "drop helm")
 
         // then
-        assertTrue(response.message.startsWith("you drop the helmet"))
+        assertTrue(response.message.toActionCreator.startsWith("you drop the helmet"))
         assertEquals(transaction { mob.inventory.items.count() }, 0)
     }
 }

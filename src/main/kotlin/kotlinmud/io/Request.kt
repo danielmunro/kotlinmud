@@ -15,11 +15,7 @@ class Request(
         return args[0]
     }
 
-    fun getTarget(): String {
-        return args[1]
-    }
-
     fun getDisposition(): Disposition {
-        return Disposition.valueOf(mob.disposition)
+        return Disposition.valueOf(mob.disposition.toUpperCase())
     }
 }

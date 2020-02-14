@@ -4,6 +4,7 @@ import kotlinmud.action.Action
 import kotlinmud.action.ActionContextList
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
+import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
@@ -21,6 +22,10 @@ fun createDropAction(): Action {
             transaction {
                 item.inventory = request.room.inventory
             }
-            Response(request, "you drop ${item.name}.")
+            Response(
+                request,
+                Message(
+                    "you drop ${item.name}.",
+                    "${request.mob.name} drops ${item.name}."))
         })
 }

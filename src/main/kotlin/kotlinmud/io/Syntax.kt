@@ -5,5 +5,6 @@ enum class Syntax(val syntax: String) {
     DIRECTION_TO_EXIT("direction to exit"),
     ITEM_IN_ROOM("item in room"),
     ITEM_IN_INVENTORY("item in inventory"),
+    MOB_IN_ROOM("mob in room"),
     NOOP("noop"),
 }
