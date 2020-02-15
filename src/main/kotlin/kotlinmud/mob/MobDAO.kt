@@ -2,7 +2,6 @@ package kotlinmud.mob
 
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.AttributesEntity
-import kotlinmud.db.enum.DispositionPGEnum
 import kotlinmud.item.Inventories
 import kotlinmud.item.InventoryEntity
 import org.jetbrains.exposed.dao.EntityID

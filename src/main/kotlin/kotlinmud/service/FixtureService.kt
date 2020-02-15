@@ -1,8 +1,8 @@
 package kotlinmud.service
 
 import io.github.serpro69.kfaker.Faker
-import kotlinmud.attributes.AttributesEntity
 import java.util.UUID
+import kotlinmud.attributes.AttributesEntity
 import kotlinmud.exit.ExitEntity
 import kotlinmud.item.InventoryEntity
 import kotlinmud.item.ItemEntity
@@ -44,7 +44,7 @@ class FixtureService {
                 hp = 20
                 mana = 100
                 mv = 100
-                attributes = AttributesEntity.new{}
+                attributes = AttributesEntity.new {}
             }
         }
     }

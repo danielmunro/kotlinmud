@@ -1,14 +1,12 @@
 package kotlinmud.io
 
-import kotlinmud.attributes.AttributesEntity
+import java.net.ServerSocket
+import java.net.Socket
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.ClientConnectedEvent
-import kotlinmud.event.response.ClientConnectedResponse
 import kotlinmud.mob.MobEntity
-import java.net.ServerSocket
-import java.net.Socket
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
 import kotlinx.coroutines.GlobalScope
@@ -17,7 +15,8 @@ import kotlinx.coroutines.launch
 class Server(
     private val eventService: EventService,
     private val mobService: MobService,
-    private val server: ServerSocket) {
+    private val server: ServerSocket
+) {
     private var clients: MutableList<ClientHandler> = arrayListOf()
 
     fun start() {

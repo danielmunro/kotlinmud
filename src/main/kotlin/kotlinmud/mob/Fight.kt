@@ -31,7 +31,7 @@ class Fight(private val mob1: MobEntity, private val mob2: MobEntity) {
     }
 
     private fun getAc(defender: MobEntity, damageType: DamageType): Int {
-        return when(damageType) {
+        return when (damageType) {
             DamageType.SLASH -> defender.attributes.acSlash
             DamageType.POUND -> defender.attributes.acBash
             DamageType.PIERCE -> defender.attributes.acPierce

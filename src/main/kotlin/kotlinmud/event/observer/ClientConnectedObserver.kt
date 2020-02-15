@@ -2,15 +2,15 @@ package kotlinmud.event.observer
 
 import kotlinmud.attributes.AttributesEntity
 import kotlinmud.event.Event
-import kotlinmud.event.EventType
 import kotlinmud.event.EventResponse
+import kotlinmud.event.EventType
 import kotlinmud.event.response.ClientConnectedResponse
 import kotlinmud.item.InventoryEntity
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.MobEntity
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ClientConnectedObserver: Observer {
+class ClientConnectedObserver : Observer {
     override val eventTypes: List<EventType> = listOf(EventType.CLIENT_CONNECTED)
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {

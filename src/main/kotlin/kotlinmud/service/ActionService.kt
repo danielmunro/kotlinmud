@@ -1,8 +1,8 @@
 package kotlinmud.service
 
 import kotlinmud.action.Action
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.ActionContextList
+import kotlinmud.action.ActionContextService
 import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.action.actions.*
@@ -31,8 +31,8 @@ class ActionService(private val mobService: MobService, eventService: EventServi
     fun run(request: Request): Response {
         val action = actions.find { it.command.startsWith(request.getCommand()) }
             ?: return Response(request, Message("what was that?"))
-        return dispositionCheck(request, action) ?:
-            invokeActionMutator(request, action, buildActionContextList(request, action))
+        return dispositionCheck(request, action)
+            ?: invokeActionMutator(request, action, buildActionContextList(request, action))
     }
 
     private fun dispositionCheck(request: Request, action: Action): Response? {
