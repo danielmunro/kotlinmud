@@ -10,11 +10,8 @@ import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
 
-class App(mobService: MobService, private val server: Server) {
-    private val eventService: EventService =
-        EventService(createObservers(mobService))
-    private val actionService: ActionService =
-        ActionService(mobService, eventService)
+class App(eventService: EventService, mobService: MobService, private val server: Server) {
+    private val actionService: ActionService = ActionService(mobService, eventService)
 
     fun start() {
         println("starting app")
@@ -26,7 +23,7 @@ class App(mobService: MobService, private val server: Server) {
         while (true) {
             server.getClientsWithBuffers().forEach {
                 val output = actionService.run(it.shiftBuffer())
-                it.write("${output.message}\n---> ")
+                it.write("${output.message.toActionCreator}\n---> ")
             }
         }
     }
@@ -38,5 +35,6 @@ fun main() {
     val fixtureService = FixtureService()
     val mobService = MobService(fixtureService.generateWorld())
     fixtureService.populateWorld(mobService)
-    App(mobService, Server(mobService, ServerSocket(9999))).start()
+    val eventService = EventService(createObservers(mobService))
+    App(eventService, mobService, Server(eventService, mobService, ServerSocket(9999))).start()
 }

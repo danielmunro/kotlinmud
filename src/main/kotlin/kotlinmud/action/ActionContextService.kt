@@ -1,6 +1,7 @@
 package kotlinmud.action
 
 import kotlinmud.event.Event
+import kotlinmud.event.EventResponse
 import kotlinmud.mob.MobEntity
 import kotlinmud.room.RoomEntity
 import kotlinmud.service.EventService
@@ -11,7 +12,7 @@ class ActionContextService(private val mobService: MobService, private val event
         return mobService.getMobsForRoom(room)
     }
 
-    fun <T>publishEvent(event: Event<T>) {
-        eventService.publish(event)
+    fun <T, A>publishEvent(event: Event<T>): EventResponse<A> {
+        return eventService.publish(event)
     }
 }

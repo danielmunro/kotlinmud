@@ -1,17 +1,23 @@
 package kotlinmud.io
 
 import kotlinmud.attributes.AttributesEntity
+import kotlinmud.event.Event
+import kotlinmud.event.EventResponse
+import kotlinmud.event.EventType
+import kotlinmud.event.event.ClientConnectedEvent
+import kotlinmud.event.response.ClientConnectedResponse
+import kotlinmud.mob.MobEntity
 import java.net.ServerSocket
 import java.net.Socket
-import kotlinmud.item.InventoryEntity
-import kotlinmud.mob.Disposition
-import kotlinmud.mob.MobEntity
+import kotlinmud.service.EventService
 import kotlinmud.service.MobService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.jetbrains.exposed.sql.transactions.transaction
 
-class Server(private val mobService: MobService, private val server: ServerSocket) {
+class Server(
+    private val eventService: EventService,
+    private val mobService: MobService,
+    private val server: ServerSocket) {
     private var clients: MutableList<ClientHandler> = arrayListOf()
 
     fun start() {
@@ -37,20 +43,9 @@ class Server(private val mobService: MobService, private val server: ServerSocke
     }
 
     private fun receiveSocket(socket: Socket) {
-        val mob = transaction {
-            MobEntity.new {
-                name = "a test mob"
-                description = "a test mob is here, being a test."
-                disposition = Disposition.STANDING.value
-                inventory = InventoryEntity.new {}
-                hp = 20
-                mana = 100
-                mv = 100
-                attributes = AttributesEntity.new {}
-            }
-        }
-        mobService.respawnMobToStartRoom(mob)
-        val handler = ClientHandler(mobService, socket, mob)
+        val response: EventResponse<MobEntity> = eventService.publish(Event(EventType.CLIENT_CONNECTED, ClientConnectedEvent(socket)))
+        mobService.respawnMobToStartRoom(response.subject)
+        val handler = ClientHandler(mobService, socket, response.subject)
         clients.add(handler)
         GlobalScope.launch { handler.run() }
     }
