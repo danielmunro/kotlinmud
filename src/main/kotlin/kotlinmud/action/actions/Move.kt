@@ -19,11 +19,11 @@ private fun move(command: Command, direction: Direction): Action {
         command,
         arrayOf(Disposition.STANDING),
         arrayOf(Syntax.DIRECTION_TO_EXIT),
-        fun (actionContextService: ActionContextService, actionContextList: ActionContextList, request: Request): Response {
+        { actionContextService: ActionContextService, actionContextList: ActionContextList, request: Request ->
             val eventResponse: EventResponse<MobMoveEvent> = actionContextService.publishEvent(
-                createMobMoveEvent(request.mob, actionContextList.getResultBySyntax(Syntax.COMMAND), direction)
+                createMobMoveEvent(request.mob, actionContextList.getResultBySyntax(Syntax.DIRECTION_TO_EXIT), direction)
             )
-            return Response(
+            Response(
                 request,
                 Message(
                     "you move ${direction.value}.",
