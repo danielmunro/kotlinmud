@@ -10,6 +10,7 @@ import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
+import java.lang.Exception
 
 class App(eventService: EventService, private val mobService: MobService, private val server: Server) {
     private val actionService: ActionService = ActionService(mobService, eventService)
@@ -30,13 +31,21 @@ class App(eventService: EventService, private val mobService: MobService, privat
         val request = client.shiftBuffer()
         val response = actionService.run(request)
         val mobsInRoom = mobService.getMobsForRoom(request.room)
-        val target = response.actionContextList.getResultBySyntax<MobEntity>(Syntax.MOB_IN_ROOM)
-        sendMessageToMobsInRoom(mobsInRoom, request.mob, target, response.message)
-        client.write("---> ")
+        sendMessageToMobsInRoom(mobsInRoom, request.mob, getTarget(response), response.message)
+        client.write("\n---> ")
     }
 
-    private fun sendMessageToMobsInRoom(mobs: List<MobEntity>, actionCreator: MobEntity, target: MobEntity, message: Message) {
-        server.getClientsFromMobs(mobs).forEach {
+    private fun getTarget(response: Response): MobEntity? {
+        return try {
+            response.actionContextList.getResultBySyntax<MobEntity>(Syntax.MOB_IN_ROOM)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private fun sendMessageToMobsInRoom(mobs: List<MobEntity>, actionCreator: MobEntity, target: MobEntity?, message: Message) {
+        var clients = server.getClientsFromMobs(mobs)
+        clients.forEach {
             when(it.mob) {
                 actionCreator -> it.write(message.toActionCreator)
                 target -> it.write(message.toTarget)
