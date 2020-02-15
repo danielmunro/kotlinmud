@@ -1,6 +1,7 @@
 package kotlinmud.service
 
 import io.github.serpro69.kfaker.Faker
+import kotlinmud.attributes.AttributesEntity
 import java.util.UUID
 import kotlinmud.exit.ExitEntity
 import kotlinmud.item.InventoryEntity
@@ -40,6 +41,10 @@ class FixtureService {
                 description = "A test mob is here ($mobs)."
                 disposition = Disposition.STANDING.value
                 inventory = InventoryEntity.new {}
+                hp = 20
+                mana = 100
+                mv = 100
+                attributes = AttributesEntity.new{}
             }
         }
     }

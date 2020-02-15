@@ -1,5 +1,6 @@
 package kotlinmud.io
 
+import kotlinmud.attributes.AttributesEntity
 import java.net.ServerSocket
 import java.net.Socket
 import kotlinmud.item.InventoryEntity
@@ -42,6 +43,10 @@ class Server(private val mobService: MobService, private val server: ServerSocke
                 description = "a test mob is here, being a test."
                 disposition = Disposition.STANDING.value
                 inventory = InventoryEntity.new {}
+                hp = 20
+                mana = 100
+                mv = 100
+                attributes = AttributesEntity.new {}
             }
         }
         mobService.respawnMobToStartRoom(mob)

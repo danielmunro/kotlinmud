@@ -1,8 +1,10 @@
 package kotlinmud.db
 
+import kotlinmud.attributes.Attributes
 import kotlinmud.db.enum.DirectionTable
 import kotlinmud.db.enum.DispositionTable
 import kotlinmud.exit.Exits
+import kotlinmud.item.Inventories
 import kotlinmud.item.Items
 import kotlinmud.mob.Mobs
 import kotlinmud.room.Rooms
@@ -23,6 +25,8 @@ fun applyDBSchema() {
             Mobs,
             Rooms,
             Exits,
-            Items)
+            Items,
+            Attributes,
+            Inventories)
     }
 }

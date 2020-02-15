@@ -1,5 +1,7 @@
 package kotlinmud.mob
 
+import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.AttributesEntity
 import kotlinmud.db.enum.DispositionPGEnum
 import kotlinmud.item.Inventories
 import kotlinmud.item.InventoryEntity
@@ -12,7 +14,11 @@ object Mobs : IntIdTable() {
     val name = varchar("name", 50)
     val description = text("description")
     val disposition = varchar("disposition", 50)
+    val hp = integer("hp")
+    val mana = integer("mana")
+    val mv = integer("mv")
     val inventory = reference("inventory", Inventories)
+    val attributes = reference("attributes", Attributes)
 }
 
 class MobEntity(id: EntityID<Int>) : IntEntity(id) {
@@ -23,5 +29,17 @@ class MobEntity(id: EntityID<Int>) : IntEntity(id) {
     var name by Mobs.name
     var description by Mobs.description
     var disposition by Mobs.disposition
+    var hp by Mobs.hp
+    var mana by Mobs.mana
+    var mv by Mobs.mv
     var inventory by InventoryEntity referencedOn Mobs.inventory
+    var attributes by AttributesEntity referencedOn Mobs.attributes
+
+    fun getAttacks(): List<AttackType> {
+        return arrayListOf(AttackType.FIRST)
+    }
+
+    fun getDamageType(): DamageType {
+        return DamageType.POUND
+    }
 }
