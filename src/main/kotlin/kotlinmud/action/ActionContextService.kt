@@ -11,7 +11,7 @@ class ActionContextService(private val mobService: MobService, private val event
         return mobService.getMobsForRoom(room)
     }
 
-    fun publishEvent(event: Event) {
+    fun <T>publishEvent(event: Event<T>) {
         eventService.publish(event)
     }
 }
