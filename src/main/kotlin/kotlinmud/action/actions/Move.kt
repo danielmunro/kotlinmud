@@ -4,9 +4,8 @@ import kotlinmud.action.Action
 import kotlinmud.action.ActionContextList
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
-import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
-import kotlinmud.event.EventType
+import kotlinmud.event.createMobMoveEvent
 import kotlinmud.event.event.MobMoveEvent
 import kotlinmud.io.Message
 import kotlinmud.io.Request
@@ -22,12 +21,7 @@ private fun move(command: Command, direction: Direction): Action {
         arrayOf(Syntax.DIRECTION_TO_EXIT),
         fun (actionContextService: ActionContextService, actionContextList: ActionContextList, request: Request): Response {
             val eventResponse: EventResponse<MobMoveEvent> = actionContextService.publishEvent(
-                Event(EventType.MOB_MOVE, MobMoveEvent(
-                    request.mob,
-                    actionContextList.getResultBySyntax(Syntax.DIRECTION_TO_EXIT),
-                    direction
-                )
-                )
+                createMobMoveEvent(request.mob, actionContextList.getResultBySyntax(Syntax.COMMAND), direction)
             )
             return Response(
                 request,

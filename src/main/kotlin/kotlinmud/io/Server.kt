@@ -5,6 +5,7 @@ import java.net.Socket
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
+import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.mob.MobEntity
 import kotlinmud.service.EventService
@@ -42,7 +43,7 @@ class Server(
     }
 
     private fun receiveSocket(socket: Socket) {
-        val response: EventResponse<MobEntity> = eventService.publish(Event(EventType.CLIENT_CONNECTED, ClientConnectedEvent(socket)))
+        val response: EventResponse<MobEntity> = eventService.publish(createClientConnectedEvent(socket))
         mobService.respawnMobToStartRoom(response.subject)
         val handler = ClientHandler(mobService, socket, response.subject)
         clients.add(handler)
