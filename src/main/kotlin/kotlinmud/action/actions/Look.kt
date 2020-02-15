@@ -4,10 +4,7 @@ import kotlinmud.action.Action
 import kotlinmud.action.ActionContextList
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
-import kotlinmud.io.Message
-import kotlinmud.io.Request
-import kotlinmud.io.Response
-import kotlinmud.io.Syntax
+import kotlinmud.io.*
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.MobEntity
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -18,7 +15,7 @@ fun createLookAction(): Action {
         arrayOf(Disposition.SITTING, Disposition.STANDING, Disposition.FIGHTING),
         arrayOf(Syntax.COMMAND),
         { actionContextService: ActionContextService, _: ActionContextList, request: Request ->
-            Response(
+            createResponseWithEmptyActionContext(
                 request,
                 Message(describeRoom(request, actionContextService.getMobsInRoom(request.room))))
         })

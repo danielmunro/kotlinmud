@@ -25,6 +25,7 @@ private fun move(command: Command, direction: Direction): Action {
             )
             Response(
                 request,
+                actionContextList,
                 Message(
                     "you move ${direction.value}.",
                     "${request.mob.name} moves ${direction.value}."))

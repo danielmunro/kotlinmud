@@ -25,8 +25,16 @@ class Server(
         GlobalScope.launch { pruneClients() }
     }
 
-    fun getClientsWithBuffers(): Array<ClientHandler> {
-        return clients.filter { it.request.size > 0 }.toTypedArray()
+    fun getClientsWithBuffers(): List<ClientHandler> {
+        return clients.filter { it.request.size > 0 }
+    }
+
+    fun getClientsFromMobs(mobs: List<MobEntity>): List<ClientHandler> {
+        val clientsToReturn = mutableListOf<ClientHandler>()
+        mobs.forEach{ mob ->
+            clients.find { it.mob == mob }?.let{ clientsToReturn.add(it) }
+        }
+        return clientsToReturn
     }
 
     private fun pruneClients() {

@@ -24,6 +24,7 @@ fun createDropAction(): Action {
             }
             Response(
                 request,
+                context,
                 Message(
                     "you drop ${item.name}.",
                     "${request.mob.name} drops ${item.name}."))

@@ -4,13 +4,14 @@ import java.net.ServerSocket
 import kotlinmud.db.applyDBSchema
 import kotlinmud.db.connect
 import kotlinmud.event.observer.createObservers
-import kotlinmud.io.Server
+import kotlinmud.io.*
+import kotlinmud.mob.MobEntity
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
 
-class App(eventService: EventService, mobService: MobService, private val server: Server) {
+class App(eventService: EventService, private val mobService: MobService, private val server: Server) {
     private val actionService: ActionService = ActionService(mobService, eventService)
 
     fun start() {
@@ -21,9 +22,25 @@ class App(eventService: EventService, mobService: MobService, private val server
 
     private fun processClientBuffers() {
         while (true) {
-            server.getClientsWithBuffers().forEach {
-                val output = actionService.run(it.shiftBuffer())
-                it.write("${output.message.toActionCreator}\n---> ")
+            server.getClientsWithBuffers().forEach {  processRequest(it) }
+        }
+    }
+
+    private fun processRequest(client: ClientHandler) {
+        val request = client.shiftBuffer()
+        val response = actionService.run(request)
+        val mobsInRoom = mobService.getMobsForRoom(request.room)
+        val target = response.actionContextList.getResultBySyntax<MobEntity>(Syntax.MOB_IN_ROOM)
+        sendMessageToMobsInRoom(mobsInRoom, request.mob, target, response.message)
+        client.write("---> ")
+    }
+
+    private fun sendMessageToMobsInRoom(mobs: List<MobEntity>, actionCreator: MobEntity, target: MobEntity, message: Message) {
+        server.getClientsFromMobs(mobs).forEach {
+            when(it.mob) {
+                actionCreator -> it.write(message.toActionCreator)
+                target -> it.write(message.toTarget)
+                else -> it.write(message.toObservers)
             }
         }
     }

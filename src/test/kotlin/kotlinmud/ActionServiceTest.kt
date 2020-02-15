@@ -44,8 +44,8 @@ class ActionServiceTest {
 
         // then
         assertEquals(
-            response.message.toActionCreator,
-            describeRoom(Request(mob, "look", room), observers))
+            describeRoom(Request(mob, "look", room), observers),
+            response.message.toActionCreator)
     }
 
     @Test
@@ -58,9 +58,9 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "n")
 
         // then
-        assertEquals(response.message.toActionCreator, "test room no. 2\n" +
+        assertEquals("test room no. 2\n" +
                 "a test room is here\n" +
-                "Exits [S]")
+                "Exits [S]", response.message.toActionCreator)
     }
 
     @Test
@@ -73,9 +73,9 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "s")
 
         // then
-        assertEquals(response.message.toActionCreator, "test room no. 3\n" +
+        assertEquals("test room no. 3\n" +
                 "a test room is here\n" +
-                "Exits [N]")
+                "Exits [N]", response.message.toActionCreator)
     }
 
     @Test
@@ -88,7 +88,7 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "w")
 
         // then
-        assertEquals(response.message.toActionCreator, "Alas, that direction does not exist.")
+        assertEquals("Alas, that direction does not exist.", response.message.toActionCreator)
     }
 
     @Test
@@ -118,7 +118,7 @@ class ActionServiceTest {
 
         // then
         assertTrue(response.message.toActionCreator.startsWith("you pick up the helmet"))
-        assertEquals(transaction { mob.inventory.items.count() }, 1)
+        assertEquals(1, transaction { mob.inventory.items.count() })
     }
 
     @Test
@@ -132,7 +132,7 @@ class ActionServiceTest {
 
         // then
         assertTrue(response.message.toActionCreator == "you don't see that anywhere.", response.message.toActionCreator)
-        assertEquals(transaction { mob.inventory.items.count() }, 0)
+        assertEquals(0, transaction { mob.inventory.items.count() })
     }
 
     @Test
@@ -147,6 +147,6 @@ class ActionServiceTest {
 
         // then
         assertTrue(response.message.toActionCreator.startsWith("you drop the helmet"))
-        assertEquals(transaction { mob.inventory.items.count() }, 0)
+        assertEquals(0, transaction { mob.inventory.items.count() })
     }
 }

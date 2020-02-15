@@ -24,6 +24,7 @@ fun createGetAction(): Action {
             }
             Response(
                 request,
+                context,
                 Message(
                     "you pick up ${item.name}.",
                     "${request.mob.name} picks up ${item.name}."))

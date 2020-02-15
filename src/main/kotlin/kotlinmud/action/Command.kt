@@ -1,6 +1,6 @@
 package kotlinmud.action
 
-enum class Command(private val value: String) {
+enum class Command(val value: String) {
     NORTH("north"),
     SOUTH("south"),
     EAST("east"),

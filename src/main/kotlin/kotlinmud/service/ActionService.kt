@@ -7,10 +7,7 @@ import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.action.actions.*
 import kotlinmud.action.contextBuilder.*
-import kotlinmud.io.Message
-import kotlinmud.io.Request
-import kotlinmud.io.Response
-import kotlinmud.io.Syntax
+import kotlinmud.io.*
 import kotlinmud.mob.MobEntity
 
 class ActionService(private val mobService: MobService, eventService: EventService) {
@@ -29,15 +26,16 @@ class ActionService(private val mobService: MobService, eventService: EventServi
         createKillAction())
 
     fun run(request: Request): Response {
-        val action = actions.find { it.command.startsWith(request.getCommand()) }
-            ?: return Response(request, Message("what was that?"))
+        val action = actions.find {
+            it.command.value.startsWith(request.getCommand())
+        } ?: return createResponseWithEmptyActionContext(request, Message("what was that?"))
         return dispositionCheck(request, action)
             ?: invokeActionMutator(request, action, buildActionContextList(request, action))
     }
 
     private fun dispositionCheck(request: Request, action: Action): Response? {
         return if (!action.hasDisposition(request.getDisposition()))
-                Response(request, Message("you are ${request.getDisposition().value} and cannot do that."))
+                createResponseWithEmptyActionContext(request, Message("you are ${request.getDisposition().value} and cannot do that."))
             else
                 null
     }
@@ -45,7 +43,7 @@ class ActionService(private val mobService: MobService, eventService: EventServi
     private fun invokeActionMutator(request: Request, action: Action, list: ActionContextList): Response {
         val error = list.getError()
         if (error != null) {
-            return Response(request, Message(error.result as String))
+            return createResponseWithEmptyActionContext(request, Message(error.result as String))
         }
         with(action.mutator.invoke(actionContextService, list, request)) {
             return if (action.isChained())
