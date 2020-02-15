@@ -44,8 +44,7 @@ class App(eventService: EventService, private val mobService: MobService, privat
     }
 
     private fun sendMessageToMobsInRoom(mobs: List<MobEntity>, actionCreator: MobEntity, target: MobEntity?, message: Message) {
-        var clients = server.getClientsFromMobs(mobs)
-        clients.forEach {
+        server.getClientsFromMobs(mobs).forEach {
             when(it.mob) {
                 actionCreator -> it.write(message.toActionCreator)
                 target -> it.write(message.toTarget)
