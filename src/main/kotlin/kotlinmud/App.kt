@@ -17,7 +17,6 @@ import kotlinmud.service.MobService
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
-import org.kodein.di.erased.provider
 import org.kodein.di.erased.singleton
 
 class App(private val eventService: EventService, private val mobService: MobService, private val server: Server) {
@@ -39,8 +38,7 @@ class App(private val eventService: EventService, private val mobService: MobSer
         val request = client.shiftBuffer()
         val response = actionService.run(request)
         eventService.publish<SendMessageToRoomEvent, SendMessageToRoomResponse<SendMessageToRoomEvent>>(
-            createSendMessageToRoomEvent(response.message, request.room, request.mob, getTarget(response)))
-        client.write("\n---> ")
+            createSendMessageToRoomEvent(response.message, mobService.getRoomForMob(request.mob), request.mob, getTarget(response)))
     }
 
     private fun getTarget(response: Response): MobEntity? {

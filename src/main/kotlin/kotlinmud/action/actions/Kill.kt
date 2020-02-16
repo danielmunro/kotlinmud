@@ -19,7 +19,6 @@ fun createKillAction(): Action {
         { _: ActionContextService, actionContextList: ActionContextList, request: Request ->
             val target = actionContextList.getResultBySyntax<MobEntity>(Syntax.MOB_IN_ROOM)
             Response(
-                request,
                 actionContextList,
                 Message(
                     "you scream and attack ${target.name}!",

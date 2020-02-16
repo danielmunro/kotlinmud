@@ -36,7 +36,10 @@ class ClientHandler(private val mobService: MobService, private val client: Sock
     }
 
     fun write(message: String) {
-        writer.write((message).toByteArray(Charset.defaultCharset()))
+        if (message == "") {
+            return
+        }
+        writer.write(("$message\n---> ").toByteArray(Charset.defaultCharset()))
     }
 
     fun shiftBuffer(): Request {

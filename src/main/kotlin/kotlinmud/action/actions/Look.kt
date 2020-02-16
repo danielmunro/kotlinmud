@@ -16,7 +16,6 @@ fun createLookAction(): Action {
         arrayOf(Syntax.COMMAND),
         { actionContextService: ActionContextService, _: ActionContextList, request: Request ->
             createResponseWithEmptyActionContext(
-                request,
                 Message(describeRoom(request, actionContextService.getMobsInRoom(request.room))))
         })
 }

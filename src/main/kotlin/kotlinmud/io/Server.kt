@@ -27,11 +27,9 @@ class Server(
     }
 
     fun getClientsFromMobs(mobs: List<MobEntity>): List<ClientHandler> {
-        val clientsToReturn = mutableListOf<ClientHandler>()
-        mobs.forEach { mob ->
-            clients.find { it.mob == mob }?.let { clientsToReturn.add(it) }
+        return mobs.mapNotNull { mob ->
+            clients.find { it.mob == mob }
         }
-        return clientsToReturn
     }
 
     private fun pruneClients() {

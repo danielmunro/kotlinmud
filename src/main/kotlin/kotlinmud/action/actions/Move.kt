@@ -4,10 +4,7 @@ import kotlinmud.action.Action
 import kotlinmud.action.ActionContextList
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
-import kotlinmud.io.Message
-import kotlinmud.io.Request
-import kotlinmud.io.Response
-import kotlinmud.io.Syntax
+import kotlinmud.io.*
 import kotlinmud.mob.Disposition
 import kotlinmud.room.Direction
 import kotlinmud.room.RoomEntity
@@ -26,12 +23,13 @@ private fun move(command: Command, direction: Direction): Action {
                 request.room,
                 request.mob)
             actionContextService.moveMob(request.mob, destination)
-            Response(
-                request,
-                actionContextList,
+            actionContextService.sendMessageToRoom(
                 Message(
                     "",
-                    "${request.mob.name} arrives."))
+                    "${request.mob.name} arrives."),
+                destination,
+                request.mob)
+            EmptyResponse()
         },
         Command.LOOK)
 }

@@ -23,7 +23,6 @@ fun createGetAction(): Action {
                 item.inventory = request.mob.inventory
             }
             Response(
-                request,
                 context,
                 Message(
                     "you pick up ${item.name}.",

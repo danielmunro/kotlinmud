@@ -16,7 +16,7 @@ fun createInventoryAction(): Action {
         arrayOf(Syntax.COMMAND),
         { _: ActionContextService, _: ActionContextList, request: Request ->
             val items = transaction { request.mob.inventory.items.toList() }
-            createResponseWithEmptyActionContext(request, Message("Your inventory:\n\n${describeItems(items)}"))
+            createResponseWithEmptyActionContext(Message("Your inventory:\n\n${describeItems(items)}"))
         })
 }
 

@@ -2,8 +2,12 @@ package kotlinmud.io
 
 import kotlinmud.action.ActionContextList
 
-class Response(private val request: Request, val actionContextList: ActionContextList, val message: Message)
+open class Response(val actionContextList: ActionContextList, val message: Message) {
+    override fun toString(): String {
+        return "message: toActionCreator: '${message.toActionCreator}', toTarget: '${message.toTarget}', toObservers: '${message.toObservers}'"
+    }
+}
 
-fun createResponseWithEmptyActionContext(request: Request, message: Message): Response {
-    return Response(request, ActionContextList(mutableListOf()), message)
+fun createResponseWithEmptyActionContext(message: Message): Response {
+    return Response(ActionContextList(mutableListOf()), message)
 }

@@ -14,7 +14,7 @@ class MobService(private val rooms: List<RoomEntity>) {
     }
 
     fun getMobsForRoom(room: RoomEntity): List<MobEntity> {
-        return mobRooms.filter { it.room == room }.map { it.mob }
+        return mobRooms.filter { it.room.uuid == room.uuid }.map { it.mob }
     }
 
     fun respawnMobToStartRoom(mob: MobEntity) {

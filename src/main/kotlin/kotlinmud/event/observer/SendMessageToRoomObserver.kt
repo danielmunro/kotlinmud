@@ -15,7 +15,16 @@ class SendMessageToRoomObserver(private val server: Server, private val mobServi
         if (event.subject is SendMessageToRoomEvent) {
             val mobs = mobService.getMobsForRoom(event.subject.room)
             val message = event.subject.message
-            server.getClientsFromMobs(mobs).forEach {
+            val clients = server.getClientsFromMobs(mobs)
+//            println("=== MESSAGE RECEIVED ===")
+//            println("-- message: $message")
+//            println("-- room: ${event.subject.room.name}")
+//            println("-- actionCreator: ${event.subject.actionCreator.name}")
+//            println("-- mob count: ${mobs.size}")
+//            println("-- client count: ${clients.size}")
+//            println("=======================")
+            clients.forEach {
+//                println("${it.mob.name}: matches: AC: ${if (it.mob == event.subject.actionCreator) "YES" else "NO"}, target: ${if (it.mob == event.subject.target) "YES" else "NO"}")
                 when (it.mob) {
                     event.subject.actionCreator -> it.write(message.toActionCreator)
                     event.subject.target -> it.write(message.toTarget)

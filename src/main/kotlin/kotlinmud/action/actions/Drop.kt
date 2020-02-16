@@ -23,7 +23,6 @@ fun createDropAction(): Action {
                 item.inventory = request.room.inventory
             }
             Response(
-                request,
                 context,
                 Message(
                     "you drop ${item.name}.",

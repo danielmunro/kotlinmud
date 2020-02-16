@@ -28,14 +28,14 @@ class ActionService(private val mobService: MobService, eventService: EventServi
     fun run(request: Request): Response {
         val action = actions.find {
             it.command.value.startsWith(request.getCommand())
-        } ?: return createResponseWithEmptyActionContext(request, Message("what was that?"))
+        } ?: return createResponseWithEmptyActionContext(Message("what was that?"))
         return dispositionCheck(request, action)
             ?: invokeActionMutator(request, action, buildActionContextList(request, action))
     }
 
     private fun dispositionCheck(request: Request, action: Action): Response? {
         return if (!action.hasDisposition(request.getDisposition()))
-                createResponseWithEmptyActionContext(request, Message("you are ${request.getDisposition().value} and cannot do that."))
+                createResponseWithEmptyActionContext(Message("you are ${request.getDisposition().value} and cannot do that."))
             else
                 null
     }
@@ -43,7 +43,7 @@ class ActionService(private val mobService: MobService, eventService: EventServi
     private fun invokeActionMutator(request: Request, action: Action, list: ActionContextList): Response {
         val error = list.getError()
         if (error != null) {
-            return createResponseWithEmptyActionContext(request, Message(error.result as String))
+            return createResponseWithEmptyActionContext(Message(error.result as String))
         }
         with(action.mutator.invoke(actionContextService, list, request)) {
             return if (action.isChained())
