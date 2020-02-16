@@ -19,8 +19,6 @@ plugins {
 //}
 
 repositories {
-    // Use jcenter for resolving dependencies.
-    // You can declare any Maven/Ivy/file repository here.
     jcenter()
     maven {
         url "https://dl.bintray.com/serpro69/maven/"
@@ -29,20 +27,20 @@ repositories {
 
 dependencies {
     // coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.27.0-eap13")
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.27.0-eap13'
 
     // postgres
-    implementation("org.postgresql:postgresql:42.2.2")
-    testImplementation("org.postgresql:postgresql:42.2.2")
+    implementation 'org.postgresql:postgresql:42.2.2'
+    testImplementation 'org.postgresql:postgresql:42.2.2'
 
     // fake data
-    implementation("io.github.serpro69:kotlin-faker:1.1")
+    implementation 'io.github.serpro69:kotlin-faker:1.1'
 
     // orm
-    implementation("org.jetbrains.exposed:exposed:0.17.7")
+    implementation 'org.jetbrains.exposed:exposed:0.17.7'
 
     // Align versions of all Kotlin components
-    implementation platform('org.jetbrains.kotlin:kotlin-bom')
+    implementation 'org.jetbrains.kotlin:kotlin-bom'
 
     // Use the Kotlin JDK 8 standard library.
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
@@ -52,6 +50,10 @@ dependencies {
 
     // Use the Kotlin JUnit integration.
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
+
+    // container DI
+    implementation 'org.kodein.di:kodein-di-erased:6.5.0'
+    testImplementation 'org.kodein.di:kodein-di-erased:6.5.0'
 }
 
 application {
