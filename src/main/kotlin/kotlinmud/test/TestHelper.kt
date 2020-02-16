@@ -1,6 +1,6 @@
 package kotlinmud.test
 
-import java.net.ServerSocket
+import kotlinmud.createContainer
 import kotlinmud.db.applyDBSchema
 import kotlinmud.db.connect
 import kotlinmud.db.disconnect
@@ -10,14 +10,18 @@ import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
+import org.kodein.di.erased.instance
+import java.net.ServerSocket
 
 fun createTestService(): TestService {
-    val fixtureService = FixtureService()
-    val mobService = MobService(fixtureService.generateWorld())
-    val eventService = EventService()
-    val actionService = ActionService(mobService, eventService)
-    eventService.observers = createObservers(Server(eventService, mobService, ServerSocket()), mobService)
-    return TestService(fixtureService, mobService, actionService)
+    val container = createContainer()
+    val fix: FixtureService by container.instance()
+    val mob: MobService by container.instance()
+    val act: ActionService by container.instance()
+    val evt: EventService by container.instance()
+    val server = Server(evt, mob, ServerSocket())
+    evt.observers = createObservers(server, mob)
+    return TestService(fix, mob, act)
 }
 
 fun globalSetup() {

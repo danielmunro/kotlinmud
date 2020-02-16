@@ -14,6 +14,11 @@ import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
+import org.kodein.di.Kodein
+import org.kodein.di.erased.bind
+import org.kodein.di.erased.instance
+import org.kodein.di.erased.provider
+import org.kodein.di.erased.singleton
 
 class App(private val eventService: EventService, private val mobService: MobService, private val server: Server) {
     private val actionService: ActionService = ActionService(mobService, eventService)
@@ -50,12 +55,26 @@ class App(private val eventService: EventService, private val mobService: MobSer
 fun main() {
     connect()
     applyDBSchema()
-    val fixtureService = FixtureService()
-    val mobService = MobService(fixtureService.generateWorld())
-    fixtureService.populateWorld(mobService)
-    val eventService = EventService()
-    val server = Server(eventService, mobService, ServerSocket(9999))
-    val observers = createObservers(server, mobService)
-    eventService.observers = observers
+    val container = createContainer()
+    val mobService: MobService by container.instance()
+    val eventService: EventService by container.instance()
+    val server: Server by container.instance()
+    eventService.observers = createObservers(server, mobService)
     App(eventService, mobService, server).start()
+}
+
+fun createContainer(): Kodein {
+    return Kodein {
+        bind<ServerSocket>() with singleton { ServerSocket(9999) }
+        bind<Server>() with singleton { Server(instance<EventService>(), instance<MobService>(), instance<ServerSocket>()) }
+        bind<FixtureService>() with singleton { FixtureService() }
+        bind<EventService>() with singleton { EventService() }
+        bind<ActionService>() with singleton { ActionService(instance<MobService>(), instance<EventService>()) }
+        bind<MobService>() with singleton {
+            val fix = instance<FixtureService>()
+            val svc = MobService(fix.generateWorld())
+            fix.populateWorld(svc)
+            svc
+        }
+    }
 }
