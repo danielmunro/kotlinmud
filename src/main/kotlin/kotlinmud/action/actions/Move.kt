@@ -6,6 +6,7 @@ import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.io.*
 import kotlinmud.mob.Disposition
+import kotlinmud.mob.MobEntity
 import kotlinmud.room.Direction
 import kotlinmud.room.RoomEntity
 
@@ -16,22 +17,24 @@ private fun move(command: Command, direction: Direction): Action {
         arrayOf(Syntax.DIRECTION_TO_EXIT),
         { actionContextService: ActionContextService, actionContextList: ActionContextList, request: Request ->
             val destination = actionContextList.getResultBySyntax<RoomEntity>(Syntax.DIRECTION_TO_EXIT)
-            actionContextService.sendMessageToRoom(
-                Message(
-                    "you leave heading ${direction.value}.",
-                    "${request.mob.name} leaves heading ${direction.value}."),
-                request.room,
-                request.mob)
+            actionContextService.sendMessageToRoom(createLeaveMessage(request.mob, direction), request.room, request.mob)
             actionContextService.moveMob(request.mob, destination)
-            actionContextService.sendMessageToRoom(
-                Message(
-                    "",
-                    "${request.mob.name} arrives."),
-                destination,
-                request.mob)
+            actionContextService.sendMessageToRoom(createArriveMessage(request.mob), destination, request.mob)
             EmptyResponse()
         },
         Command.LOOK)
+}
+
+fun createLeaveMessage(mob: MobEntity, direction: Direction): Message {
+    return Message(
+        "you leave heading ${direction.value}.",
+        "${mob.name} leaves heading ${direction.value}.")
+}
+
+fun createArriveMessage(mob: MobEntity): Message {
+    return Message(
+        "",
+        "${mob.name} arrives.")
 }
 
 fun createNorthAction(): Action {
