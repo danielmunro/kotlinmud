@@ -5,14 +5,15 @@ import kotlinmud.action.ActionContextList
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.event.EventResponse
-import kotlinmud.event.createMobMoveEvent
-import kotlinmud.event.event.MobMoveEvent
+import kotlinmud.event.createMobLeaveRoomEvent
+import kotlinmud.event.event.MobLeaveEvent
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
 import kotlinmud.room.Direction
+import kotlinmud.room.RoomEntity
 
 private fun move(command: Command, direction: Direction): Action {
     return Action(
@@ -20,15 +21,20 @@ private fun move(command: Command, direction: Direction): Action {
         arrayOf(Disposition.STANDING),
         arrayOf(Syntax.DIRECTION_TO_EXIT),
         { actionContextService: ActionContextService, actionContextList: ActionContextList, request: Request ->
-            val eventResponse: EventResponse<MobMoveEvent> = actionContextService.publishEvent(
-                createMobMoveEvent(request.mob, actionContextList.getResultBySyntax(Syntax.DIRECTION_TO_EXIT), direction)
-            )
+            val destination = actionContextList.getResultBySyntax<RoomEntity>(Syntax.DIRECTION_TO_EXIT)
+            actionContextService.sendMessageToRoom(
+                Message(
+                    "you leave heading ${direction.value}.",
+                    "${request.mob.name} leaves heading ${direction.value}."),
+                request.room,
+                request.mob)
+            actionContextService.moveMob(request.mob, destination)
             Response(
                 request,
                 actionContextList,
                 Message(
-                    "you move ${direction.value}.",
-                    "${request.mob.name} moves ${direction.value}."))
+                    "",
+                    "${request.mob.name} arrives."))
         },
         Command.LOOK)
 }

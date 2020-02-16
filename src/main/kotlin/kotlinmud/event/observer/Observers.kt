@@ -1,9 +1,10 @@
 package kotlinmud.event.observer
 
+import kotlinmud.io.Server
 import kotlinmud.service.MobService
 
-fun createObservers(mobService: MobService): List<Observer> {
+fun createObservers(server: Server, mobService: MobService): List<Observer> {
     return listOf(
-        MobMoveObserver(mobService),
-        ClientConnectedObserver())
+        ClientConnectedObserver(),
+        SendMessageToRoomObserver(server, mobService))
 }

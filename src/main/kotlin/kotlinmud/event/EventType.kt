@@ -1,6 +1,7 @@
 package kotlinmud.event
 
 enum class EventType {
-    MOB_MOVE,
-    CLIENT_CONNECTED
+    MOB_LEAVE_ROOM,
+    CLIENT_CONNECTED,
+    SEND_MESSAGE_TO_ROOM,
 }
