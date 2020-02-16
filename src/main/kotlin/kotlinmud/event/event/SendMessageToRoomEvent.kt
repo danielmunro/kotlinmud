@@ -8,4 +8,5 @@ class SendMessageToRoomEvent(
     val message: Message,
     val room: RoomEntity,
     val actionCreator: MobEntity,
-    val target: MobEntity?)
+    val target: MobEntity?
+)

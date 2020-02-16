@@ -4,9 +4,6 @@ import kotlinmud.action.Action
 import kotlinmud.action.ActionContextList
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
-import kotlinmud.event.EventResponse
-import kotlinmud.event.createMobLeaveRoomEvent
-import kotlinmud.event.event.MobLeaveEvent
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Response

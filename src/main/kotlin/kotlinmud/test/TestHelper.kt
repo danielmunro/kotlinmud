@@ -1,5 +1,6 @@
 package kotlinmud.test
 
+import java.net.ServerSocket
 import kotlinmud.db.applyDBSchema
 import kotlinmud.db.connect
 import kotlinmud.db.disconnect
@@ -9,7 +10,6 @@ import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
-import java.net.ServerSocket
 
 fun createTestService(): TestService {
     val fixtureService = FixtureService()

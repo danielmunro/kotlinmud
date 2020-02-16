@@ -2,11 +2,8 @@ package kotlinmud.io
 
 import java.net.ServerSocket
 import java.net.Socket
-import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
-import kotlinmud.event.EventType
 import kotlinmud.event.createClientConnectedEvent
-import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.mob.MobEntity
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
@@ -31,8 +28,8 @@ class Server(
 
     fun getClientsFromMobs(mobs: List<MobEntity>): List<ClientHandler> {
         val clientsToReturn = mutableListOf<ClientHandler>()
-        mobs.forEach{ mob ->
-            clients.find { it.mob == mob }?.let{ clientsToReturn.add(it) }
+        mobs.forEach { mob ->
+            clients.find { it.mob == mob }?.let { clientsToReturn.add(it) }
         }
         return clientsToReturn
     }

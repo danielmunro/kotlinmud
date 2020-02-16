@@ -1,5 +1,6 @@
 package kotlinmud.event
 
+import java.net.Socket
 import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.event.event.MobLeaveEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
@@ -7,7 +8,6 @@ import kotlinmud.io.Message
 import kotlinmud.mob.MobEntity
 import kotlinmud.room.Direction
 import kotlinmud.room.RoomEntity
-import java.net.Socket
 
 fun createClientConnectedEvent(socket: Socket): Event<ClientConnectedEvent> {
     return Event(EventType.CLIENT_CONNECTED, ClientConnectedEvent(socket))

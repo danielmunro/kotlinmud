@@ -1,5 +1,6 @@
 package kotlinmud
 
+import java.lang.Exception
 import java.net.ServerSocket
 import kotlinmud.db.applyDBSchema
 import kotlinmud.db.connect
@@ -13,7 +14,6 @@ import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
-import java.lang.Exception
 
 class App(private val eventService: EventService, private val mobService: MobService, private val server: Server) {
     private val actionService: ActionService = ActionService(mobService, eventService)
@@ -26,7 +26,7 @@ class App(private val eventService: EventService, private val mobService: MobSer
 
     private fun processClientBuffers() {
         while (true) {
-            server.getClientsWithBuffers().forEach {  processRequest(it) }
+            server.getClientsWithBuffers().forEach { processRequest(it) }
         }
     }
 

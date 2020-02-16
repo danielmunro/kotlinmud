@@ -16,7 +16,7 @@ class SendMessageToRoomObserver(private val server: Server, private val mobServi
             val mobs = mobService.getMobsForRoom(event.subject.room)
             val message = event.subject.message
             server.getClientsFromMobs(mobs).forEach {
-                when(it.mob) {
+                when (it.mob) {
                     event.subject.actionCreator -> it.write(message.toActionCreator)
                     event.subject.target -> it.write(message.toTarget)
                     else -> it.write(message.toObservers)

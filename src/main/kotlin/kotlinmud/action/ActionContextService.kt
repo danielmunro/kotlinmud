@@ -1,6 +1,5 @@
 package kotlinmud.action
 
-import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
