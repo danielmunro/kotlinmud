@@ -1,5 +1,6 @@
 package kotlinmud.test
 
+import java.net.ServerSocket
 import kotlinmud.createContainer
 import kotlinmud.db.applyDBSchema
 import kotlinmud.db.connect
@@ -11,7 +12,6 @@ import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
 import org.kodein.di.erased.instance
-import java.net.ServerSocket
 
 fun createTestService(): TestService {
     val container = createContainer()
