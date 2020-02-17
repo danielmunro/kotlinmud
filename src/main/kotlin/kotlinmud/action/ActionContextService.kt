@@ -14,7 +14,8 @@ import kotlinmud.service.MobService
 class ActionContextService(
     private val mobService: MobService,
     private val eventService: EventService,
-    private val actionContextList: ActionContextList) {
+    private val actionContextList: ActionContextList
+) {
 
     fun <T> get(syntax: Syntax): T {
         return actionContextList.getResultBySyntax(syntax)

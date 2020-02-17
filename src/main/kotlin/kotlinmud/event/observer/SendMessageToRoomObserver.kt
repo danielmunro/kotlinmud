@@ -6,7 +6,6 @@ import kotlinmud.event.EventType
 import kotlinmud.event.WrongEventTypeException
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Server
-import kotlinmud.mob.Disposition
 import kotlinmud.service.MobService
 
 class SendMessageToRoomObserver(private val server: Server, private val mobService: MobService) : Observer {

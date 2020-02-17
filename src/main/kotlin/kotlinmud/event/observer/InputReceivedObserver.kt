@@ -1,6 +1,5 @@
 package kotlinmud.event.observer
 
-import java.lang.Exception
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
