@@ -7,6 +7,7 @@ import kotlinmud.db.connect
 import kotlinmud.db.disconnect
 import kotlinmud.event.observer.createObservers
 import kotlinmud.io.Server
+import kotlinmud.item.ItemEntity
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
@@ -31,4 +32,8 @@ fun globalSetup() {
 
 fun globalTeardown() {
     disconnect()
+}
+
+fun getIdentifyingWord(item: ItemEntity): String {
+    return item.name.split(" ")[1]
 }

@@ -53,7 +53,7 @@ class FixtureService {
         items++
         return transaction {
             ItemEntity.new {
-                name = "the helmet of ${faker.ancient.hero()}"
+                name = "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}"
                 description = "A test item is here ($items)."
                 inventory = inv
             }
