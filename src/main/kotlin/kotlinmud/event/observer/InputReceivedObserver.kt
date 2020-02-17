@@ -15,7 +15,7 @@ class InputReceivedObserver(private val mobService: MobService) : Observer {
         if (event.subject is InputReceivedEvent) {
             val room = mobService.getRoomForMob(event.subject.client.mob)
             @Suppress("UNCHECKED_CAST")
-            return InputReceivedResponse(room as A, room)
+            return InputReceivedResponse(room as A)
         }
         throw Exception()
     }
