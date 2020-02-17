@@ -1,6 +1,10 @@
 package kotlinmud.service
 
-import kotlinmud.mob.*
+import kotlinmud.mob.Attack
+import kotlinmud.mob.AttackResult
+import kotlinmud.mob.Fight
+import kotlinmud.mob.MobEntity
+import kotlinmud.mob.MobRoom
 import kotlinmud.room.RoomEntity
 import org.jetbrains.exposed.sql.transactions.transaction
 
