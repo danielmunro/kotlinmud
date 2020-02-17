@@ -42,6 +42,14 @@ class MobEntity(id: EntityID<Int>) : IntEntity(id) {
         return DamageType.POUND
     }
 
+    fun isSleeping(): Boolean {
+        return disposition == Disposition.SLEEPING.value
+    }
+
+    fun isIncapacitated(): Boolean {
+        return disposition == Disposition.DEAD.value
+    }
+
     override fun toString(): String {
         return name
     }

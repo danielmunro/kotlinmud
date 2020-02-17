@@ -4,6 +4,7 @@ import java.lang.Exception
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
+import kotlinmud.event.WrongEventTypeException
 import kotlinmud.event.event.InputReceivedEvent
 import kotlinmud.service.MobService
 
@@ -16,6 +17,6 @@ class InputReceivedObserver(private val mobService: MobService) : Observer {
             @Suppress("UNCHECKED_CAST")
             return EventResponse(room as A)
         }
-        throw Exception()
+        throw WrongEventTypeException()
     }
 }

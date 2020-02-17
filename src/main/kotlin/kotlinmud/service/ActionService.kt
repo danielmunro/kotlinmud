@@ -24,7 +24,9 @@ class ActionService(private val mobService: MobService, eventService: EventServi
         createDropAction(),
         createInventoryAction(),
         createKillAction(),
-        createSitAction())
+        createSitAction(),
+        createWakeAction(),
+        createSleepAction())
 
     fun run(request: Request): Response {
         val action = actions.find {

@@ -3,6 +3,7 @@ package kotlinmud.event.observer
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
+import kotlinmud.event.WrongEventTypeException
 import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
@@ -18,6 +19,6 @@ class ClientConnectedObserver(private val mobService: MobService) : Observer {
             @Suppress("UNCHECKED_CAST")
             return EventResponse(mob as A)
         }
-        throw Exception()
+        throw WrongEventTypeException()
     }
 }
