@@ -19,7 +19,7 @@ fun createTestService(): TestService {
     val mob: MobService by container.instance()
     val act: ActionService by container.instance()
     val evt: EventService by container.instance()
-    val server = Server(evt, mob, ServerSocket())
+    val server = Server(evt, ServerSocket())
     evt.observers = createObservers(server, mob)
     return TestService(fix, mob, act)
 }

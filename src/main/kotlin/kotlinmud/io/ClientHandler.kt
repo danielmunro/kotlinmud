@@ -5,10 +5,13 @@ import java.net.Socket
 import java.nio.charset.Charset
 import java.util.Scanner
 import kotlinmud.action.Command
+import kotlinmud.event.EventResponse
+import kotlinmud.event.createInputReceivedEvent
 import kotlinmud.mob.MobEntity
-import kotlinmud.service.MobService
+import kotlinmud.room.RoomEntity
+import kotlinmud.service.EventService
 
-class ClientHandler(private val mobService: MobService, private val client: Socket, val mob: MobEntity) {
+class ClientHandler(private val eventService: EventService, private val client: Socket, val mob: MobEntity) {
     private val reader: Scanner = Scanner(client.getInputStream())
     private val writer: OutputStream = client.getOutputStream()
     private var running: Boolean = false
@@ -23,8 +26,9 @@ class ClientHandler(private val mobService: MobService, private val client: Sock
                     shutdown()
                     continue
                 }
-                val room = mobService.getRoomForMob(mob)
-                requests.add(Request(this.mob, text, room))
+                val eventResponse: EventResponse<RoomEntity> = eventService.publish(
+                    createInputReceivedEvent(this))
+                requests.add(Request(this.mob, text, eventResponse.subject))
             } catch (ex: Exception) {
                 shutdown()
             }

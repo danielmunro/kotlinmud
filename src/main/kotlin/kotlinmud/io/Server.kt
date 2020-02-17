@@ -4,17 +4,15 @@ import java.net.ServerSocket
 import java.net.Socket
 import kotlinmud.event.EventResponse
 import kotlinmud.event.createClientConnectedEvent
+import kotlinmud.event.event.ClientConnectedEvent
+import kotlinmud.event.response.ClientConnectedResponse
 import kotlinmud.mob.MobEntity
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class Server(
-    private val eventService: EventService,
-    private val mobService: MobService,
-    private val server: ServerSocket
-) {
+class Server(private val eventService: EventService, private val server: ServerSocket) {
     private var clients: MutableList<ClientHandler> = arrayListOf()
 
     fun start() {
@@ -46,9 +44,9 @@ class Server(
     }
 
     private fun receiveSocket(socket: Socket) {
-        val response: EventResponse<MobEntity> = eventService.publish(createClientConnectedEvent(socket))
-        mobService.respawnMobToStartRoom(response.subject)
-        val handler = ClientHandler(mobService, socket, response.subject)
+        val response: EventResponse<MobEntity> =
+            eventService.publish(createClientConnectedEvent(socket))
+        val handler = ClientHandler(eventService, socket, response.subject)
         clients.add(handler)
         GlobalScope.launch { handler.run() }
     }

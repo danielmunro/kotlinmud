@@ -41,4 +41,8 @@ class MobEntity(id: EntityID<Int>) : IntEntity(id) {
     fun getDamageType(): DamageType {
         return DamageType.POUND
     }
+
+    override fun toString(): String {
+        return name
+    }
 }

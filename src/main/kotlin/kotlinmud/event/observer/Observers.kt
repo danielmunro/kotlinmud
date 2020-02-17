@@ -5,6 +5,7 @@ import kotlinmud.service.MobService
 
 fun createObservers(server: Server, mobService: MobService): List<Observer> {
     return listOf(
-        ClientConnectedObserver(),
-        SendMessageToRoomObserver(server, mobService))
+        ClientConnectedObserver(mobService),
+        SendMessageToRoomObserver(server, mobService),
+        InputReceivedObserver(mobService))
 }

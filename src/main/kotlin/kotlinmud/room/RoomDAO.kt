@@ -26,4 +26,8 @@ class RoomEntity(id: EntityID<Int>) : IntEntity(id) {
     var description by Rooms.description
     val exits by ExitEntity referrersOn Exits.room
     var inventory by InventoryEntity referencedOn Rooms.inventory
+
+    override fun toString(): String {
+        return name
+    }
 }

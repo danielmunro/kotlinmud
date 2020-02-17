@@ -18,7 +18,7 @@ class AppTest {
         val eventService = EventService()
 
         // when
-        val app = App(eventService, mobService, Server(eventService, mobService, ServerSocket()))
+        val app = App(eventService, mobService, Server(eventService, ServerSocket()))
 
         // then
         assertNotNull(app, "app should have a greeting")
