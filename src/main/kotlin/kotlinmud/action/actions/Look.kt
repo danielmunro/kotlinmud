@@ -13,10 +13,9 @@ fun createLookAction(): Action {
         Command.LOOK,
         mustBeAwake(),
         listOf(Syntax.COMMAND),
-        { actionContextService: ActionContextService, _: ActionContextList, request: Request ->
+        { svc: ActionContextService, request: Request ->
             createResponseWithEmptyActionContext(
-                Message(describeRoom(request, actionContextService.getMobsInRoom(request.room)))
-            )
+                Message(describeRoom(request, svc.getMobsInRoom(request.room))))
         })
 }
 

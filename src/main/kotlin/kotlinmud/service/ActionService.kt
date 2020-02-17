@@ -10,8 +10,7 @@ import kotlinmud.action.contextBuilder.*
 import kotlinmud.io.*
 import kotlinmud.mob.MobEntity
 
-class ActionService(private val mobService: MobService, eventService: EventService) {
-    private val actionContextService = ActionContextService(mobService, eventService)
+class ActionService(private val mobService: MobService, private val eventService: EventService) {
     private val actions: List<Action> = arrayListOf(
         createLookAction(),
         createNorthAction(),
@@ -48,7 +47,7 @@ class ActionService(private val mobService: MobService, eventService: EventServi
         if (error != null) {
             return createResponseWithEmptyActionContext(Message(error.result as String))
         }
-        with(action.mutator.invoke(actionContextService, list, request)) {
+        with(action.mutator.invoke(ActionContextService(mobService, eventService, list), request)) {
             return if (action.isChained())
                 run(createChainToRequest(request.mob, action))
             else

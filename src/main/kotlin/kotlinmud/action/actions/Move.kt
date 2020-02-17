@@ -14,11 +14,11 @@ private fun move(command: Command, direction: Direction): Action {
         command,
         mustBeStanding(),
         listOf(Syntax.DIRECTION_TO_EXIT),
-        { actionContextService: ActionContextService, actionContextList: ActionContextList, request: Request ->
-            val destination = actionContextList.getResultBySyntax<RoomEntity>(Syntax.DIRECTION_TO_EXIT)
-            actionContextService.sendMessageToRoom(createLeaveMessage(request.mob, direction), request.room, request.mob)
-            actionContextService.moveMob(request.mob, destination)
-            actionContextService.sendMessageToRoom(createArriveMessage(request.mob), destination, request.mob)
+        { svc: ActionContextService, request: Request ->
+            val destination = svc.get<RoomEntity>(Syntax.DIRECTION_TO_EXIT)
+            svc.sendMessageToRoom(createLeaveMessage(request.mob, direction), request.room, request.mob)
+            svc.moveMob(request.mob, destination)
+            svc.sendMessageToRoom(createArriveMessage(request.mob), destination, request.mob)
             EmptyResponse()
         },
         Command.LOOK)
