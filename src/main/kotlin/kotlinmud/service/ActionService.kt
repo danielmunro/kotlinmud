@@ -69,7 +69,7 @@ class ActionService(private val mobService: MobService, eventService: EventServi
             Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(request.mob).build(syntax, word)
             Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.room).build(syntax, word)
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)
-            Syntax.NOOP -> Context(syntax, Status.OK, "What was that?")
+            Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }
 }
