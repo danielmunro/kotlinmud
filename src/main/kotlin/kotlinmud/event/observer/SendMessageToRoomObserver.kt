@@ -32,6 +32,7 @@ class SendMessageToRoomObserver(private val server: Server, private val mobServi
                 }
             }
         }
+        @Suppress("UNCHECKED_CAST")
         return SendMessageToRoomResponse(event as A)
     }
 }

@@ -1,6 +1,5 @@
 package kotlinmud.action
 
-import kotlinmud.event.EventResponse
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.event.response.SendMessageToRoomResponse
@@ -20,7 +19,7 @@ class ActionContextService(private val mobService: MobService, private val event
     }
 
     fun sendMessageToRoom(message: Message, room: RoomEntity, actionCreator: MobEntity, target: MobEntity? = null) {
-        val resp: EventResponse<SendMessageToRoomResponse<SendMessageToRoomEvent>> =
-            eventService.publish(createSendMessageToRoomEvent(message, room, actionCreator, target))
+        eventService.publish<SendMessageToRoomEvent, SendMessageToRoomResponse<SendMessageToRoomEvent>>(
+            createSendMessageToRoomEvent(message, room, actionCreator, target))
     }
 }

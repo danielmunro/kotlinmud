@@ -11,6 +11,7 @@ class ClientConnectedObserver : Observer {
     private val fixtureService = FixtureService()
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
+        @Suppress("UNCHECKED_CAST")
         return ClientConnectedResponse(fixtureService.createMob() as A)
     }
 }
