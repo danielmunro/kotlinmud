@@ -23,7 +23,8 @@ class ActionService(private val mobService: MobService, eventService: EventServi
         createGetAction(),
         createDropAction(),
         createInventoryAction(),
-        createKillAction())
+        createKillAction(),
+        createSitAction())
 
     fun run(request: Request): Response {
         val action = actions.find {

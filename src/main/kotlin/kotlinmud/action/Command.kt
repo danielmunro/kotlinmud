@@ -13,6 +13,10 @@ enum class Command(val value: String) {
     DROP("drop"),
     INVENTORY("inventory"),
     KILL("kill"),
+    // dispositions
+    SIT("sit"),
+    SLEEP("sleep"),
+    WAKE("wake"),
     NOOP("noop");
 
     fun startsWith(input: String): Boolean {

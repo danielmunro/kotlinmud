@@ -11,13 +11,11 @@ import org.jetbrains.exposed.sql.transactions.transaction
 fun createGetAction(): Action {
     return Action(
         Command.GET,
-        mustBeAlive(),
+        mustBeAwake(),
         listOf(Syntax.COMMAND, Syntax.ITEM_IN_ROOM),
         { _: ActionContextService, context: ActionContextList, request: Request ->
             val item = context.getResultBySyntax<ItemEntity>(Syntax.ITEM_IN_ROOM)
-            transaction {
-                item.inventory = request.mob.inventory
-            }
+            transaction { item.inventory = request.mob.inventory }
             Response(
                 context,
                 Message(

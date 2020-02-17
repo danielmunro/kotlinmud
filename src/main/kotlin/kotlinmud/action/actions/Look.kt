@@ -11,7 +11,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 fun createLookAction(): Action {
     return Action(
         Command.LOOK,
-        mustBeAlive(),
+        mustBeAwake(),
         listOf(Syntax.COMMAND),
         { actionContextService: ActionContextService, _: ActionContextList, request: Request ->
             createResponseWithEmptyActionContext(

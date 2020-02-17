@@ -2,7 +2,7 @@ package kotlinmud.action
 
 import kotlinmud.mob.Disposition
 
-fun mustBeAlive(): List<Disposition> {
+fun mustBeAwake(): List<Disposition> {
     return listOf(Disposition.SITTING, Disposition.STANDING, Disposition.FIGHTING)
 }
 

@@ -11,7 +11,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 fun createInventoryAction(): Action {
     return Action(
         Command.INVENTORY,
-        mustBeAlive(),
+        mustBeAwake(),
         listOf(Syntax.COMMAND),
         { _: ActionContextService, _: ActionContextList, request: Request ->
             val items = transaction { request.mob.inventory.items.toList() }
