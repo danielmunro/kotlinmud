@@ -80,6 +80,22 @@ class ActionServiceTest {
     }
 
     @Test
+    fun testCanLookAtMobInRoom() {
+        // setup
+        val testService = createTestService()
+        val mob1 = testService.createMob()
+        val mob2 = testService.createMob()
+
+        // when
+        val response = testService.runAction(mob1, "look ${mob2.name.split(" ")[0]}")
+
+        // then
+        assertEquals(
+            "${mob2.name} is here.",
+            response.message.toActionCreator)
+    }
+
+    @Test
     fun testMobMovesNorth() {
         // setup
         val testService = createTestService()
