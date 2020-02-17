@@ -13,6 +13,7 @@ import kotlinmud.mob.MobEntity
 class ActionService(private val mobService: MobService, private val eventService: EventService) {
     private val actions: List<Action> = arrayListOf(
         createLookAction(),
+        createLookAtAction(),
         createNorthAction(),
         createSouthAction(),
         createEastAction(),
@@ -29,7 +30,7 @@ class ActionService(private val mobService: MobService, private val eventService
 
     fun run(request: Request): Response {
         val action = actions.find {
-            it.command.value.startsWith(request.getCommand())
+            it.command.value.startsWith(request.getCommand()) && it.syntax.size == request.args.size
         } ?: return createResponseWithEmptyActionContext(Message("what was that?"))
         return dispositionCheck(request, action)
             ?: invokeActionMutator(request, action, buildActionContextList(request, action))
@@ -71,6 +72,7 @@ class ActionService(private val mobService: MobService, private val eventService
             Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(request.mob).build(syntax, word)
             Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.room).build(syntax, word)
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)
+            Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, request.mob, request.room).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

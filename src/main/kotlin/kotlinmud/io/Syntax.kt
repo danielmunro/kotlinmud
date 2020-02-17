@@ -6,5 +6,6 @@ enum class Syntax(val syntax: String) {
     ITEM_IN_ROOM("item in room"),
     ITEM_IN_INVENTORY("item in inventory"),
     MOB_IN_ROOM("mob in room"),
+    AVAILABLE_NOUN("available noun"),
     NOOP("noop"),
 }

@@ -49,6 +49,23 @@ class ActionServiceTest {
     }
 
     @Test
+    fun testCanLookAtItemInRoom() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        val room = testService.getRoomForMob(mob)
+
+        // when
+        val response = testService.runAction(mob, "look helm")
+
+        // then
+        val item = transaction { room.inventory.items.first() }
+        assertEquals(
+            "${item.name} is here.",
+            response.message.toActionCreator)
+    }
+
+    @Test
     fun testMobMovesNorth() {
         // setup
         val testService = createTestService()
