@@ -1,14 +1,10 @@
 package kotlinmud.action.actions
 
-import kotlinmud.action.Action
-import kotlinmud.action.ActionContextList
-import kotlinmud.action.ActionContextService
-import kotlinmud.action.Command
+import kotlinmud.action.*
 import kotlinmud.io.EmptyResponse
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
-import kotlinmud.mob.Disposition
 import kotlinmud.mob.MobEntity
 import kotlinmud.room.Direction
 import kotlinmud.room.RoomEntity
@@ -16,8 +12,8 @@ import kotlinmud.room.RoomEntity
 private fun move(command: Command, direction: Direction): Action {
     return Action(
         command,
-        arrayOf(Disposition.STANDING),
-        arrayOf(Syntax.DIRECTION_TO_EXIT),
+        mustBeStanding(),
+        listOf(Syntax.DIRECTION_TO_EXIT),
         { actionContextService: ActionContextService, actionContextList: ActionContextList, request: Request ->
             val destination = actionContextList.getResultBySyntax<RoomEntity>(Syntax.DIRECTION_TO_EXIT)
             actionContextService.sendMessageToRoom(createLeaveMessage(request.mob, direction), request.room, request.mob)

@@ -1,22 +1,18 @@
 package kotlinmud.action.actions
 
-import kotlinmud.action.Action
-import kotlinmud.action.ActionContextList
-import kotlinmud.action.ActionContextService
-import kotlinmud.action.Command
+import kotlinmud.action.*
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
-import kotlinmud.mob.Disposition
 import kotlinmud.mob.MobEntity
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createLookAction(): Action {
     return Action(
         Command.LOOK,
-        arrayOf(Disposition.SITTING, Disposition.STANDING, Disposition.FIGHTING),
-        arrayOf(Syntax.COMMAND),
+        mustBeAlive(),
+        listOf(Syntax.COMMAND),
         { actionContextService: ActionContextService, _: ActionContextList, request: Request ->
             createResponseWithEmptyActionContext(
                 Message(describeRoom(request, actionContextService.getMobsInRoom(request.room)))

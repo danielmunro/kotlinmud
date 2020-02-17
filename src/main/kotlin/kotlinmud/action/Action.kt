@@ -7,8 +7,8 @@ import kotlinmud.mob.Disposition
 
 class Action(
     val command: Command,
-    private val requiredDispositions: Array<Disposition>,
-    val syntax: Array<Syntax>,
+    private val requiredDispositions: List<Disposition>,
+    val syntax: List<Syntax>,
     val mutator: (ActionContextService, ActionContextList, Request) -> Response,
     val chainTo: Command = Command.NOOP
 ) {
