@@ -5,7 +5,6 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.InputReceivedEvent
-import kotlinmud.event.response.InputReceivedResponse
 import kotlinmud.service.MobService
 
 class InputReceivedObserver(private val mobService: MobService) : Observer {
@@ -15,7 +14,7 @@ class InputReceivedObserver(private val mobService: MobService) : Observer {
         if (event.subject is InputReceivedEvent) {
             val room = mobService.getRoomForMob(event.subject.client.mob)
             @Suppress("UNCHECKED_CAST")
-            return InputReceivedResponse(room as A)
+            return EventResponse(room as A)
         }
         throw Exception()
     }

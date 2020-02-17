@@ -4,14 +4,11 @@ import java.lang.Exception
 import java.net.ServerSocket
 import kotlinmud.db.applyDBSchema
 import kotlinmud.db.connect
+import kotlinmud.event.EventResponse
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.event.observer.createObservers
-import kotlinmud.event.response.SendMessageToRoomResponse
-import kotlinmud.io.ClientHandler
-import kotlinmud.io.Response
-import kotlinmud.io.Server
-import kotlinmud.io.Syntax
+import kotlinmud.io.*
 import kotlinmud.mob.MobEntity
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
@@ -40,7 +37,7 @@ class App(private val eventService: EventService, private val mobService: MobSer
     private fun processRequest(client: ClientHandler) {
         val request = client.shiftBuffer()
         val response = actionService.run(request)
-        eventService.publish<SendMessageToRoomEvent, SendMessageToRoomResponse<SendMessageToRoomEvent>>(
+        eventService.publish<SendMessageToRoomEvent, EventResponse<SendMessageToRoomEvent>>(
             createSendMessageToRoomEvent(response.message, mobService.getRoomForMob(request.mob), request.mob, getTarget(response)))
     }
 

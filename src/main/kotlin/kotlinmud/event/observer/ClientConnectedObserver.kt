@@ -4,7 +4,6 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.ClientConnectedEvent
-import kotlinmud.event.response.ClientConnectedResponse
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
 
@@ -17,7 +16,7 @@ class ClientConnectedObserver(private val mobService: MobService) : Observer {
             val mob = fixtureService.createMob()
             mobService.respawnMobToStartRoom(mob)
             @Suppress("UNCHECKED_CAST")
-            return ClientConnectedResponse(mob as A)
+            return EventResponse(mob as A)
         }
         throw Exception()
     }

@@ -4,7 +4,6 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.SendMessageToRoomEvent
-import kotlinmud.event.response.SendMessageToRoomResponse
 import kotlinmud.io.Server
 import kotlinmud.service.MobService
 
@@ -33,6 +32,6 @@ class SendMessageToRoomObserver(private val server: Server, private val mobServi
             }
         }
         @Suppress("UNCHECKED_CAST")
-        return SendMessageToRoomResponse(event as A)
+        return EventResponse(event as A)
     }
 }

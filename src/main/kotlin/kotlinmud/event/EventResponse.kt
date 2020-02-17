@@ -1,5 +1,3 @@
 package kotlinmud.event
 
-interface EventResponse <A> {
-    val subject: A
-}
+class EventResponse <A> (val subject: A)
