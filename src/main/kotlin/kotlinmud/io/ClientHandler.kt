@@ -12,7 +12,7 @@ class ClientHandler(private val mobService: MobService, private val client: Sock
     private val reader: Scanner = Scanner(client.getInputStream())
     private val writer: OutputStream = client.getOutputStream()
     private var running: Boolean = false
-    val request: MutableList<Request> = arrayListOf()
+    private val requests: MutableList<Request> = mutableListOf()
 
     fun run() {
         running = true
@@ -24,11 +24,15 @@ class ClientHandler(private val mobService: MobService, private val client: Sock
                     continue
                 }
                 val room = mobService.getRoomForMob(mob)
-                request.add(Request(this.mob, text, room))
+                requests.add(Request(this.mob, text, room))
             } catch (ex: Exception) {
                 shutdown()
             }
         }
+    }
+
+    fun hasRequests(): Boolean {
+        return requests.size > 0
     }
 
     fun isRunning(): Boolean {
@@ -43,7 +47,7 @@ class ClientHandler(private val mobService: MobService, private val client: Sock
     }
 
     fun shiftBuffer(): Request {
-        return request.removeAt(0)
+        return requests.removeAt(0)
     }
 
     private fun shutdown() {

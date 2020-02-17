@@ -23,7 +23,7 @@ class Server(
     }
 
     fun getClientsWithBuffers(): List<ClientHandler> {
-        return clients.filter { it.request.size > 0 }
+        return clients.filter { it.hasRequests() }
     }
 
     fun getClientsFromMobs(mobs: List<MobEntity>): List<ClientHandler> {
