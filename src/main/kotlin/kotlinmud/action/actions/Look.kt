@@ -5,8 +5,7 @@ import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
-import kotlinmud.mob.MobEntity
-import org.jetbrains.exposed.sql.transactions.transaction
+import kotlinmud.mob.Mob
 
 fun createLookAction(): Action {
     return Action(
@@ -19,15 +18,15 @@ fun createLookAction(): Action {
         })
 }
 
-fun describeRoom(request: Request, mobs: List<MobEntity>): String {
+fun describeRoom(request: Request, mobs: List<Mob>): String {
     val observers = mobs.filter { it != request.mob }
-    return transaction { String.format("%s\n%s\nExits [%s]%s%s%s%s",
+    return String.format("%s\n%s\nExits [%s]%s%s%s%s",
         request.room.name,
         request.room.description,
         request.room.exits.joinToString("") { it.direction.name.subSequence(0, 1) },
         if (request.room.inventory.items.count() > 0) "\n" else "",
         request.room.inventory.items.joinToString("\n") { "${it.name} is here." },
         if (observers.count() > 0) "\n" else "",
-        observers.joinToString("\n") { "${it.name} is ${it.disposition.toLowerCase()} here." }
-    ) }
+        observers.joinToString("\n") { "${it.name} is ${it.disposition.value.toLowerCase()} here." }
+    )
 }

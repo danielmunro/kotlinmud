@@ -5,7 +5,7 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.IntIdTable
 
-object Attributes : IntIdTable() {
+object AttributesTable : IntIdTable() {
     val hp = integer("hp").default(0)
     val mana = integer("mana").default(0)
     val mv = integer("mv").default(0)
@@ -23,20 +23,20 @@ object Attributes : IntIdTable() {
 }
 
 class AttributesEntity(id: EntityID<Int>) : IntEntity(id) {
-    companion object : IntEntityClass<AttributesEntity>(Attributes)
+    companion object : IntEntityClass<AttributesEntity>(AttributesTable)
 
-    var hp by Attributes.hp
-    var mana by Attributes.mana
-    var mv by Attributes.mv
-    var str by Attributes.str
-    var int by Attributes.int
-    var wis by Attributes.wis
-    var dex by Attributes.dex
-    var con by Attributes.con
-    var hit by Attributes.hit
-    var dam by Attributes.dam
-    var acBash by Attributes.acBash
-    var acPierce by Attributes.acPierce
-    var acSlash by Attributes.acSlash
-    var acMagic by Attributes.acMagic
+    var hp by AttributesTable.hp
+    var mana by AttributesTable.mana
+    var mv by AttributesTable.mv
+    var str by AttributesTable.str
+    var int by AttributesTable.int
+    var wis by AttributesTable.wis
+    var dex by AttributesTable.dex
+    var con by AttributesTable.con
+    var hit by AttributesTable.hit
+    var dam by AttributesTable.dam
+    var acBash by AttributesTable.acBash
+    var acPierce by AttributesTable.acPierce
+    var acSlash by AttributesTable.acSlash
+    var acMagic by AttributesTable.acMagic
 }

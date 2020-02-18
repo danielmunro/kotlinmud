@@ -1,10 +1,10 @@
 package kotlinmud.mob.fight
 
-import kotlinmud.mob.MobEntity
+import kotlinmud.mob.Mob
 import kotlinmud.random.d20
 import kotlinmud.random.dN
 
-class Fight(private val mob1: MobEntity, private val mob2: MobEntity) {
+class Fight(private val mob1: Mob, private val mob2: Mob) {
     fun createRound(): Round {
         return Round(
             mob1,
@@ -14,7 +14,7 @@ class Fight(private val mob1: MobEntity, private val mob2: MobEntity) {
         )
     }
 
-    private fun mapAttacks(attacker: MobEntity, defender: MobEntity): List<Attack> {
+    private fun mapAttacks(attacker: Mob, defender: Mob): List<Attack> {
         return attacker.getAttacks().map {
             if (attackerDefeatsDefenderAC(attacker, defender)) {
                 Attack(
@@ -27,16 +27,16 @@ class Fight(private val mob1: MobEntity, private val mob2: MobEntity) {
         }
     }
 
-    private fun calculateDamage(attacker: MobEntity): Int {
+    private fun calculateDamage(attacker: Mob): Int {
         // hardcoded value for now, replace with weapon values
         return dN(1, 5) + attacker.attributes.dam
     }
 
-    private fun attackerDefeatsDefenderAC(attacker: MobEntity, defender: MobEntity): Boolean {
+    private fun attackerDefeatsDefenderAC(attacker: Mob, defender: Mob): Boolean {
         return d20() - attacker.attributes.hit + getAc(defender, attacker.getDamageType()) < 0
     }
 
-    private fun getAc(defender: MobEntity, damageType: DamageType): Int {
+    private fun getAc(defender: Mob, damageType: DamageType): Int {
         return when (damageType) {
             DamageType.SLASH -> defender.attributes.acSlash
             DamageType.POUND -> defender.attributes.acBash

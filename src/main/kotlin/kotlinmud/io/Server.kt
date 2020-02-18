@@ -4,7 +4,7 @@ import java.net.ServerSocket
 import java.net.Socket
 import kotlinmud.event.EventResponse
 import kotlinmud.event.createClientConnectedEvent
-import kotlinmud.mob.MobEntity
+import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -21,7 +21,7 @@ class Server(private val eventService: EventService, private val server: ServerS
         return clients.filter { it.hasRequests() }
     }
 
-    fun getClientsFromMobs(mobs: List<MobEntity>): List<ClientHandler> {
+    fun getClientsFromMobs(mobs: List<Mob>): List<ClientHandler> {
         return mobs.mapNotNull { mob ->
             clients.find { it.mob == mob }
         }
@@ -41,7 +41,7 @@ class Server(private val eventService: EventService, private val server: ServerS
     }
 
     private fun receiveSocket(socket: Socket) {
-        val response: EventResponse<MobEntity> =
+        val response: EventResponse<Mob> =
             eventService.publish(createClientConnectedEvent(socket))
         val handler = ClientHandler(eventService, socket, response.subject)
         clients.add(handler)

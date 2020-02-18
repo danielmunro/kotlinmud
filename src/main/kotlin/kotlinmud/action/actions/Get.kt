@@ -4,8 +4,7 @@ import kotlinmud.action.*
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
-import kotlinmud.item.ItemEntity
-import org.jetbrains.exposed.sql.transactions.transaction
+import kotlinmud.item.Item
 
 fun createGetAction(): Action {
     return Action(
@@ -13,8 +12,9 @@ fun createGetAction(): Action {
         mustBeAwake(),
         listOf(Syntax.COMMAND, Syntax.ITEM_IN_ROOM),
         { svc: ActionContextService, request: Request ->
-            val item = svc.get<ItemEntity>(Syntax.ITEM_IN_ROOM)
-            transaction { item.inventory = request.mob.inventory }
+            val item = svc.get<Item>(Syntax.ITEM_IN_ROOM)
+            request.room.inventory.items.remove(item)
+            request.mob.inventory.items.add(item)
             svc.createResponse(Message(
                     "you pick up ${item.name}.",
                     "${request.mob.name} picks up ${item.name}."))

@@ -3,10 +3,10 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.io.Syntax
-import kotlinmud.mob.MobEntity
+import kotlinmud.mob.Mob
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ItemInInventoryContextBuilder(private val mob: MobEntity) : ContextBuilder {
+class ItemInInventoryContextBuilder(private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return transaction {
             mob.inventory.items.find { kotlinmud.string.matches(it.name, word) }

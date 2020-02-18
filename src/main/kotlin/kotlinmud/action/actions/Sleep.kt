@@ -7,7 +7,6 @@ import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createSleepAction(): Action {
     return Action(
@@ -15,7 +14,7 @@ fun createSleepAction(): Action {
         listOf(Disposition.STANDING, Disposition.SITTING),
         listOf(Syntax.COMMAND),
         { svc: ActionContextService, request: Request ->
-            transaction { request.mob.disposition = Disposition.SLEEPING.value }
+            request.mob.disposition = Disposition.SLEEPING
             svc.createResponse(
                 Message("you lay down and go to sleep.", "${request.mob.name} lays down and goes to sleep.")
             )

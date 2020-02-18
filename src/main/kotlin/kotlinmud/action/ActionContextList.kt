@@ -2,7 +2,7 @@ package kotlinmud.action
 
 import kotlinmud.io.Syntax
 
-class ActionContextList(val contexts: MutableList<Context<Any>>) {
+class ActionContextList(private val contexts: MutableList<Context<Any>>) {
     fun <T> getResultBySyntax(syntax: Syntax): T {
         @Suppress("UNCHECKED_CAST")
         return contexts

@@ -6,14 +6,14 @@ import kotlinmud.event.event.InputReceivedEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.ClientHandler
 import kotlinmud.io.Message
-import kotlinmud.mob.MobEntity
-import kotlinmud.room.RoomEntity
+import kotlinmud.mob.Mob
+import kotlinmud.room.Room
 
 fun createClientConnectedEvent(socket: Socket): Event<ClientConnectedEvent> {
     return Event(EventType.CLIENT_CONNECTED, ClientConnectedEvent(socket))
 }
 
-fun createSendMessageToRoomEvent(message: Message, room: RoomEntity, actionCreator: MobEntity, target: MobEntity?): Event<SendMessageToRoomEvent> {
+fun createSendMessageToRoomEvent(message: Message, room: Room, actionCreator: Mob, target: Mob?): Event<SendMessageToRoomEvent> {
     return Event(EventType.SEND_MESSAGE_TO_ROOM, SendMessageToRoomEvent(message, room, actionCreator, target))
 }
 

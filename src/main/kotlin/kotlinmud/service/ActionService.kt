@@ -8,7 +8,7 @@ import kotlinmud.action.Status
 import kotlinmud.action.actions.*
 import kotlinmud.action.contextBuilder.*
 import kotlinmud.io.*
-import kotlinmud.mob.MobEntity
+import kotlinmud.mob.Mob
 
 class ActionService(private val mobService: MobService, private val eventService: EventService) {
     private val actions: List<Action> = arrayListOf(
@@ -56,7 +56,7 @@ class ActionService(private val mobService: MobService, private val eventService
         }
     }
 
-    private fun createChainToRequest(mob: MobEntity, action: Action): Request {
+    private fun createChainToRequest(mob: Mob, action: Action): Request {
         return Request(mob, action.chainTo.toString(), mobService.getRoomForMob(mob))
     }
 

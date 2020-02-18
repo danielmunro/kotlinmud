@@ -9,7 +9,7 @@ import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.event.observer.createObservers
 import kotlinmud.io.*
-import kotlinmud.mob.MobEntity
+import kotlinmud.mob.Mob
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
@@ -41,9 +41,9 @@ class App(private val eventService: EventService, private val mobService: MobSer
             createSendMessageToRoomEvent(response.message, mobService.getRoomForMob(request.mob), request.mob, getTarget(response)))
     }
 
-    private fun getTarget(response: Response): MobEntity? {
+    private fun getTarget(response: Response): Mob? {
         return try {
-            response.actionContextList.getResultBySyntax<MobEntity>(Syntax.MOB_IN_ROOM)
+            response.actionContextList.getResultBySyntax<Mob>(Syntax.MOB_IN_ROOM)
         } catch (e: Exception) {
             null
         }

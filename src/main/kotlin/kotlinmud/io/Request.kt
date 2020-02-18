@@ -1,13 +1,13 @@
 package kotlinmud.io
 
 import kotlinmud.mob.Disposition
-import kotlinmud.mob.MobEntity
-import kotlinmud.room.RoomEntity
+import kotlinmud.mob.Mob
+import kotlinmud.room.Room
 
 class Request(
-    val mob: MobEntity,
+    val mob: Mob,
     val input: String,
-    val room: RoomEntity
+    val room: Room
 ) {
     val args: List<String> = input.toLowerCase().split(' ')
 
@@ -16,6 +16,6 @@ class Request(
     }
 
     fun getDisposition(): Disposition {
-        return Disposition.valueOf(mob.disposition.toUpperCase())
+        return mob.disposition
     }
 }

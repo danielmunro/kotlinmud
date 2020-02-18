@@ -1,13 +1,13 @@
 package kotlinmud.db
 
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.AttributesTable
 import kotlinmud.db.enum.DirectionTable
 import kotlinmud.db.enum.DispositionTable
-import kotlinmud.exit.Exits
+import kotlinmud.exit.ExitTable
 import kotlinmud.item.Inventories
 import kotlinmud.item.Items
-import kotlinmud.mob.Mobs
-import kotlinmud.room.Rooms
+import kotlinmud.mob.MobTable
+import kotlinmud.room.RoomTable
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
@@ -22,11 +22,11 @@ fun applyDBSchema() {
         SchemaUtils.create(
             DispositionTable,
             DirectionTable,
-            Mobs,
-            Rooms,
-            Exits,
+            MobTable,
+            RoomTable,
+            ExitTable,
             Items,
-            Attributes,
+            AttributesTable,
             Inventories)
     }
 }

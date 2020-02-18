@@ -5,9 +5,9 @@ import kotlinmud.io.EmptyResponse
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
-import kotlinmud.mob.MobEntity
+import kotlinmud.mob.Mob
 import kotlinmud.room.Direction
-import kotlinmud.room.RoomEntity
+import kotlinmud.room.Room
 
 private fun move(command: Command, direction: Direction): Action {
     return Action(
@@ -15,7 +15,7 @@ private fun move(command: Command, direction: Direction): Action {
         mustBeStanding(),
         listOf(Syntax.DIRECTION_TO_EXIT),
         { svc: ActionContextService, request: Request ->
-            val destination = svc.get<RoomEntity>(Syntax.DIRECTION_TO_EXIT)
+            val destination = svc.get<Room>(Syntax.DIRECTION_TO_EXIT)
             svc.sendMessageToRoom(createLeaveMessage(request.mob, direction), request.room, request.mob)
             svc.moveMob(request.mob, destination)
             svc.sendMessageToRoom(createArriveMessage(request.mob), destination, request.mob)
@@ -24,13 +24,13 @@ private fun move(command: Command, direction: Direction): Action {
         Command.LOOK)
 }
 
-fun createLeaveMessage(mob: MobEntity, direction: Direction): Message {
+fun createLeaveMessage(mob: Mob, direction: Direction): Message {
     return Message(
         "you leave heading ${direction.value}.",
         "${mob.name} leaves heading ${direction.value}.")
 }
 
-fun createArriveMessage(mob: MobEntity): Message {
+fun createArriveMessage(mob: Mob): Message {
     return Message(
         "",
         "${mob.name} arrives.")

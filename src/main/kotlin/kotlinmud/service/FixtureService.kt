@@ -1,17 +1,15 @@
 package kotlinmud.service
 
 import io.github.serpro69.kfaker.Faker
-import java.util.UUID
-import kotlinmud.attributes.AttributesEntity
-import kotlinmud.exit.ExitEntity
-import kotlinmud.item.InventoryEntity
-import kotlinmud.item.ItemEntity
+import kotlinmud.attributes.Attributes
+import kotlinmud.exit.Exit
+import kotlinmud.item.Inventory
+import kotlinmud.item.Item
 import kotlinmud.mob.Disposition
-import kotlinmud.mob.MobEntity
+import kotlinmud.mob.Mob
 import kotlinmud.room.Direction
-import kotlinmud.room.RoomEntity
+import kotlinmud.room.Room
 import kotlinmud.room.oppositeDirection
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class FixtureService {
     private var rooms = 0
@@ -23,68 +21,51 @@ class FixtureService {
         mobService.respawnMobToStartRoom(createMob())
     }
 
-    fun generateWorld(): List<RoomEntity> {
+    fun generateWorld(): List<Room> {
         val room1 = createRoom()
         val room2 = createRoom()
         val room3 = createRoom()
         createExit(room1, room2, Direction.NORTH)
         createExit(room1, room3, Direction.SOUTH)
-        createItem(transaction { room1.inventory })
+        createItem(room1.inventory)
         return listOf(room1, room2, room3)
     }
 
-    fun createMob(): MobEntity {
+    fun createMob(): Mob {
         mobs++
-        return transaction {
-            MobEntity.new {
-                name = faker.name.name()
-                description = "A test mob is here ($mobs)."
-                disposition = Disposition.STANDING.value
-                inventory = InventoryEntity.new {}
-                hp = 20
-                mana = 100
-                mv = 100
-                attributes = AttributesEntity.new {}
-            }
-        }
+        return Mob(
+                faker.name.name(),
+                "A test mob is here ($mobs).",
+                Disposition.STANDING,
+                20,
+                100,
+                100,
+                Attributes(),
+                Inventory())
     }
 
-    fun createItem(inv: InventoryEntity): ItemEntity {
+    fun createItem(inv: Inventory): Item {
         items++
-        return transaction {
-            ItemEntity.new {
-                name = "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}"
-                description = "A test item is here ($items)."
-                inventory = inv
-            }
-        }
+        val item = Item(
+                "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}",
+                "A test item is here ($items).")
+        inv.items.add(item)
+        return item
     }
 
-    private fun createExit(src: RoomEntity, dest: RoomEntity, dir: Direction): ExitEntity {
-        return transaction {
-            // reciprocal direction
-            ExitEntity.new {
-                room = dest
-                destination = src
-                direction = oppositeDirection(dir)
-            }
-            ExitEntity.new {
-                room = src
-                destination = dest
-                direction = dir
-            }
-        }
+    private fun createExit(src: Room, dest: Room, dir: Direction): Exit {
+        val exit = Exit(dest, dir)
+        src.exits.add(exit)
+        dest.exits.add(Exit(src, oppositeDirection(dir)))
+        return exit
     }
 
-    private fun createRoom(): RoomEntity {
+    private fun createRoom(): Room {
         rooms++
-        return transaction {
-            RoomEntity.new {
-                uuid = UUID.randomUUID()
-                name = "test room no. $rooms"
-                description = "a test room is here"
-                inventory = InventoryEntity.new {}
-            }
-        }
+        return Room(
+                "test room no. $rooms",
+                "a test room is here",
+                Inventory(),
+                mutableListOf())
     }
 }

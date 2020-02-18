@@ -1,12 +1,12 @@
 package kotlinmud.event.event
 
 import kotlinmud.io.Message
-import kotlinmud.mob.MobEntity
-import kotlinmud.room.RoomEntity
+import kotlinmud.mob.Mob
+import kotlinmud.room.Room
 
 class SendMessageToRoomEvent(
     val message: Message,
-    val room: RoomEntity,
-    val actionCreator: MobEntity,
-    val target: MobEntity?
+    val room: Room,
+    val actionCreator: Mob,
+    val target: Mob?
 )

@@ -1,10 +1,10 @@
 package kotlinmud.mob.fight
 
-import kotlinmud.mob.MobEntity
+import kotlinmud.mob.Mob
 
 class Round(
-    val attacker: MobEntity,
-    val defender: MobEntity,
+    val attacker: Mob,
+    val defender: Mob,
     val attackerAttacks: List<Attack>,
     val defenderAttacks: List<Attack>
 )

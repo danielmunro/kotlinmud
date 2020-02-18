@@ -4,8 +4,7 @@ import kotlinmud.action.*
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
-import kotlinmud.item.ItemEntity
-import org.jetbrains.exposed.sql.transactions.transaction
+import kotlinmud.item.Item
 
 fun createDropAction(): Action {
     return Action(
@@ -13,8 +12,9 @@ fun createDropAction(): Action {
         mustBeAwake(),
         listOf(Syntax.COMMAND, Syntax.ITEM_IN_INVENTORY),
         { svc: ActionContextService, request: Request ->
-            val item = svc.get<ItemEntity>(Syntax.ITEM_IN_INVENTORY)
-            transaction { item.inventory = request.room.inventory }
+            val item = svc.get<Item>(Syntax.ITEM_IN_INVENTORY)
+            request.mob.inventory.items.remove(item)
+            request.room.inventory.items.add(item)
             svc.createResponse(
                 Message("you drop ${item.name}.", "${request.mob.name} drops ${item.name}."))
         })

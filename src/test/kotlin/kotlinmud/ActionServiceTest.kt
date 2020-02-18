@@ -10,7 +10,6 @@ import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 import kotlinmud.test.globalSetup
 import kotlinmud.test.globalTeardown
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.AfterClass
 import org.junit.BeforeClass
 
@@ -52,7 +51,7 @@ class ActionServiceTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val room = testService.getRoomForMob(mob)
-        val item = transaction { room.inventory.items.first() }
+        val item = room.inventory.items.first()
 
         // when
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")
@@ -68,7 +67,7 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val item = testService.createItem(transaction { mob.inventory })
+        val item = testService.createItem(mob.inventory)
 
         // when
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")
@@ -145,7 +144,7 @@ class ActionServiceTest {
         val mob = testService.createMob()
 
         // given
-        transaction { mob.disposition = Disposition.SITTING.value }
+        mob.disposition = Disposition.SITTING
 
         // when
         val response = testService.runAction(mob, "n")
@@ -160,14 +159,14 @@ class ActionServiceTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val room = testService.getRoomForMob(mob)
-        val item = transaction { room.inventory.items.first() }
+        val item = room.inventory.items.first()
 
         // when
         val response = testService.runAction(mob, "get ${getIdentifyingWord(item)}")
 
         // then
         assertTrue(response.message.toActionCreator.startsWith("you pick up the"))
-        assertEquals(1, transaction { mob.inventory.items.count() })
+        assertEquals(1, mob.inventory.items.count())
     }
 
     @Test
@@ -181,7 +180,7 @@ class ActionServiceTest {
 
         // then
         assertTrue(response.message.toActionCreator == "you don't see that anywhere.", response.message.toActionCreator)
-        assertEquals(0, transaction { mob.inventory.items.count() })
+        assertEquals(0, mob.inventory.items.count())
     }
 
     @Test
@@ -189,13 +188,13 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val item = testService.createItem(transaction { mob.inventory })
+        val item = testService.createItem(mob.inventory)
 
         // when
         val response = testService.runAction(mob, "drop ${getIdentifyingWord(item)}")
 
         // then
         assertTrue(response.message.toActionCreator.startsWith("you drop the "))
-        assertEquals(0, transaction { mob.inventory.items.count() })
+        assertEquals(0, mob.inventory.items.count())
     }
 }

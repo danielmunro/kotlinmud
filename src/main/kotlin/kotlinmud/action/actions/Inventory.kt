@@ -5,8 +5,7 @@ import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
-import kotlinmud.item.ItemEntity
-import org.jetbrains.exposed.sql.transactions.transaction
+import kotlinmud.item.Item
 
 fun createInventoryAction(): Action {
     return Action(
@@ -14,12 +13,12 @@ fun createInventoryAction(): Action {
         mustBeAwake(),
         listOf(Syntax.COMMAND),
         { _: ActionContextService, request: Request ->
-            val items = transaction { request.mob.inventory.items.toList() }
+            val items = request.mob.inventory.items.toList()
             createResponseWithEmptyActionContext(
                 Message("Your inventory:\n\n${describeItems(items)}"))
         })
 }
 
-fun describeItems(items: List<ItemEntity>): String {
+fun describeItems(items: List<Item>): String {
     return items.joinToString("\n") { it.name }
 }

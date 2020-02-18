@@ -5,7 +5,6 @@ import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createSitAction(): Action {
     return Action(
@@ -13,7 +12,7 @@ fun createSitAction(): Action {
         listOf(Disposition.SLEEPING, Disposition.STANDING),
         listOf(Syntax.COMMAND),
         { svc: ActionContextService, request: Request ->
-            transaction { request.mob.disposition = Disposition.SITTING.value }
+            request.mob.disposition = Disposition.SITTING
             svc.createResponse(
                 Message("you sit down.", "${request.mob.name} sits down."))
         })

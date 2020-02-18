@@ -7,7 +7,6 @@ import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createWakeAction(): Action {
     return Action(
@@ -15,7 +14,7 @@ fun createWakeAction(): Action {
         listOf(Disposition.SLEEPING, Disposition.SITTING),
         listOf(Syntax.COMMAND),
         { svc: ActionContextService, request: Request ->
-            transaction { request.mob.disposition = Disposition.STANDING.value }
+            request.mob.disposition = Disposition.STANDING
             svc.createResponse(
                 Message("you stand up.", "${request.mob.name} stands up."))
         })

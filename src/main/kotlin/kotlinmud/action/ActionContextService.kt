@@ -6,8 +6,8 @@ import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Message
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
-import kotlinmud.mob.MobEntity
-import kotlinmud.room.RoomEntity
+import kotlinmud.mob.Mob
+import kotlinmud.room.Room
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
 
@@ -21,15 +21,15 @@ class ActionContextService(
         return actionContextList.getResultBySyntax(syntax)
     }
 
-    fun getMobsInRoom(room: RoomEntity): List<MobEntity> {
+    fun getMobsInRoom(room: Room): List<Mob> {
         return mobService.getMobsForRoom(room)
     }
 
-    fun moveMob(mob: MobEntity, room: RoomEntity) {
+    fun moveMob(mob: Mob, room: Room) {
         mobService.moveMob(mob, room)
     }
 
-    fun sendMessageToRoom(message: Message, room: RoomEntity, actionCreator: MobEntity, target: MobEntity? = null) {
+    fun sendMessageToRoom(message: Message, room: Room, actionCreator: Mob, target: Mob? = null) {
         eventService.publish<SendMessageToRoomEvent, EventResponse<SendMessageToRoomEvent>>(
             createSendMessageToRoomEvent(message, room, actionCreator, target))
     }

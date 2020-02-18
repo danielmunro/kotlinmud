@@ -7,11 +7,11 @@ import java.util.Scanner
 import kotlinmud.action.Command
 import kotlinmud.event.EventResponse
 import kotlinmud.event.createInputReceivedEvent
-import kotlinmud.mob.MobEntity
-import kotlinmud.room.RoomEntity
+import kotlinmud.mob.Mob
+import kotlinmud.room.Room
 import kotlinmud.service.EventService
 
-class ClientHandler(private val eventService: EventService, private val client: Socket, val mob: MobEntity) {
+class ClientHandler(private val eventService: EventService, private val client: Socket, val mob: Mob) {
     private val reader: Scanner = Scanner(client.getInputStream())
     private val writer: OutputStream = client.getOutputStream()
     private var running: Boolean = false
@@ -26,7 +26,7 @@ class ClientHandler(private val eventService: EventService, private val client: 
                     shutdown()
                     continue
                 }
-                val eventResponse: EventResponse<RoomEntity> = eventService.publish(
+                val eventResponse: EventResponse<Room> = eventService.publish(
                     createInputReceivedEvent(this))
                 requests.add(Request(this.mob, text, eventResponse.subject))
             } catch (ex: Exception) {
