@@ -1,8 +1,8 @@
 package kotlinmud.service
 
-import kotlinmud.mob.Attack
-import kotlinmud.mob.AttackResult
-import kotlinmud.mob.Fight
+import kotlinmud.mob.fight.Attack
+import kotlinmud.mob.fight.AttackResult
+import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.MobEntity
 import kotlinmud.mob.MobRoom
 import kotlinmud.room.RoomEntity

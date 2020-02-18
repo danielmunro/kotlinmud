@@ -1,4 +1,4 @@
-package kotlinmud.mob
+package kotlinmud.mob.fight
 
 enum class AttackResult {
     HIT,

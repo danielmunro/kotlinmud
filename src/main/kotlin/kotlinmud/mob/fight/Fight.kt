@@ -1,5 +1,6 @@
-package kotlinmud.mob
+package kotlinmud.mob.fight
 
+import kotlinmud.mob.MobEntity
 import kotlinmud.random.d20
 import kotlinmud.random.dN
 
@@ -9,13 +10,18 @@ class Fight(private val mob1: MobEntity, private val mob2: MobEntity) {
             mob1,
             mob2,
             mapAttacks(mob1, mob2),
-            mapAttacks(mob2, mob1))
+            mapAttacks(mob2, mob1)
+        )
     }
 
     private fun mapAttacks(attacker: MobEntity, defender: MobEntity): List<Attack> {
         return attacker.getAttacks().map {
             if (attackerDefeatsDefenderAC(attacker, defender)) {
-                Attack(AttackResult.HIT, calculateDamage(attacker), attacker.getDamageType())
+                Attack(
+                    AttackResult.HIT,
+                    calculateDamage(attacker),
+                    attacker.getDamageType()
+                )
             }
             Attack(AttackResult.MISS, 0, mob1.getDamageType())
         }

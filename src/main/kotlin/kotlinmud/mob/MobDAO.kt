@@ -4,6 +4,8 @@ import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.AttributesEntity
 import kotlinmud.item.Inventories
 import kotlinmud.item.InventoryEntity
+import kotlinmud.mob.fight.AttackType
+import kotlinmud.mob.fight.DamageType
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

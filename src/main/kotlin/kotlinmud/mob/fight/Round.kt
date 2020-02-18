@@ -1,4 +1,6 @@
-package kotlinmud.mob
+package kotlinmud.mob.fight
+
+import kotlinmud.mob.MobEntity
 
 class Round(
     val attacker: MobEntity,
