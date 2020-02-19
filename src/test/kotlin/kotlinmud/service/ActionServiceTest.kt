@@ -1,4 +1,4 @@
-package kotlinmud
+package kotlinmud.service
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
