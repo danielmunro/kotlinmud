@@ -5,13 +5,23 @@ import kotlinmud.random.d20
 import kotlinmud.random.dN
 
 class Fight(private val mob1: Mob, private val mob2: Mob) {
+    private var status: FightStatus = FightStatus.FIGHTING
+
+    fun isOver(): Boolean {
+        return status == FightStatus.OVER
+    }
+
     fun createRound(): Round {
-        return Round(
+        val round = Round(
             mob1,
             mob2,
             mapAttacks(mob1, mob2),
             mapAttacks(mob2, mob1)
         )
+        if (mob1.isIncapacitated() || mob2.isIncapacitated()) {
+            status = FightStatus.OVER
+        }
+        return round
     }
 
     private fun mapAttacks(attacker: Mob, defender: Mob): List<Attack> {

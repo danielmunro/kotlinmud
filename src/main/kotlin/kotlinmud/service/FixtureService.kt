@@ -1,7 +1,7 @@
 package kotlinmud.service
 
 import io.github.serpro69.kfaker.Faker
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.*
 import kotlinmud.exit.Exit
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
@@ -37,10 +37,10 @@ class FixtureService {
                 faker.name.name(),
                 "A test mob is here ($mobs).",
                 Disposition.STANDING,
-                20,
-                100,
-                100,
-                Attributes(),
+                startingHp,
+                startingMana,
+                startingMv,
+                createDefaultMobAttributes(),
                 Inventory())
     }
 

@@ -7,6 +7,7 @@ import kotlinmud.io.Message
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
+import kotlinmud.mob.fight.Fight
 import kotlinmud.room.Room
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
@@ -36,5 +37,9 @@ class ActionContextService(
 
     fun createResponse(message: Message): Response {
         return Response(actionContextList, message)
+    }
+
+    fun createFight(mob: Mob) {
+        mobService.addFight(Fight(mob, get<Mob>(Syntax.MOB_IN_ROOM)))
     }
 }

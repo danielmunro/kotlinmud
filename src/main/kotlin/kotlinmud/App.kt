@@ -70,7 +70,7 @@ fun createContainer(): Kodein {
         bind<ActionService>() with singleton { ActionService(instance<MobService>(), instance<EventService>()) }
         bind<MobService>() with singleton {
             val fix = instance<FixtureService>()
-            val svc = MobService(fix.generateWorld())
+            val svc = MobService(instance<EventService>(), fix.generateWorld())
             fix.populateWorld(svc)
             svc
         }

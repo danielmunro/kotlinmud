@@ -1,5 +1,16 @@
 package kotlinmud.attributes
 
+const val startingHp = 20
+const val startingMana = 100
+const val startingMv = 100
+const val startingStat = 15
+const val startingHit = 1
+const val startingDam = 1
+const val startingAcBash = 0
+const val startingAcSlash = 0
+const val startingAcPierce = 0
+const val startingAcMagic = 0
+
 class Attributes(
     val hp: Int = 0,
     val mana: Int = 0,
