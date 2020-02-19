@@ -1,9 +1,10 @@
 package kotlinmud.io
 
+import kotlinmud.event.*
 import java.net.ServerSocket
 import java.net.Socket
-import kotlinmud.event.EventResponse
-import kotlinmud.event.createClientConnectedEvent
+import kotlinmud.event.event.PulseEvent
+import kotlinmud.event.event.TickEvent
 import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
 import kotlinx.coroutines.GlobalScope
@@ -11,10 +12,13 @@ import kotlinx.coroutines.launch
 
 class Server(private val eventService: EventService, private val server: ServerSocket) {
     private var clients: MutableList<ClientHandler> = arrayListOf()
+    private var pulses = 0
+    private var ticks = 0
 
     fun start() {
         GlobalScope.launch { listenForClients() }
         GlobalScope.launch { pruneClients() }
+        GlobalScope.launch { timer() }
     }
 
     fun getClientsWithBuffers(): List<ClientHandler> {
@@ -24,6 +28,19 @@ class Server(private val eventService: EventService, private val server: ServerS
     fun getClientsFromMobs(mobs: List<Mob>): List<ClientHandler> {
         return mobs.mapNotNull { mob ->
             clients.find { it.mob == mob }
+        }
+    }
+
+    fun timer() {
+        while (true) {
+            Thread.sleep(2000)
+            pulses++
+            eventService.publish<PulseEvent, Pulse>(Event(EventType.PULSE, PulseEvent()))
+            if (pulses > 30) {
+                pulses = 0
+                ticks++
+                eventService.publish<TickEvent, Tick>(Event(EventType.TICK, TickEvent()))
+            }
         }
     }
 

@@ -7,5 +7,7 @@ fun createObservers(server: Server, mobService: MobService): List<Observer> {
     return listOf(
         ClientConnectedObserver(mobService),
         SendMessageToRoomObserver(server, mobService),
-        InputReceivedObserver(mobService))
+        InputReceivedObserver(mobService),
+        PulseObserver(),
+        TickObserver())
 }

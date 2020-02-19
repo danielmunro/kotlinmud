@@ -5,4 +5,6 @@ enum class EventType {
     CLIENT_CONNECTED,
     SEND_MESSAGE_TO_ROOM,
     INPUT_RECEIVED,
+    PULSE,
+    TICK,
 }
