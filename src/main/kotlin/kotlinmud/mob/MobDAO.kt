@@ -19,6 +19,7 @@ object MobTable : IntIdTable() {
     val mana = integer("mana")
     val mv = integer("mv")
     val inventory = reference("inventory", Inventories)
+    val equipped = reference("equipped", Inventories)
     val attributes = reference("attributes", AttributesTable)
 }
 
@@ -34,6 +35,7 @@ class MobEntity(id: EntityID<Int>) : IntEntity(id) {
     var mana by MobTable.mana
     var mv by MobTable.mv
     var inventory by InventoryEntity referencedOn MobTable.inventory
+    var equipped by InventoryEntity referencedOn MobTable.equipped
     var attributes by AttributesEntity referencedOn MobTable.attributes
 
     fun getAttacks(): List<AttackType> {

@@ -1,5 +1,6 @@
 package kotlinmud.mob.fight
 
+import kotlinmud.attributes.Attribute
 import kotlinmud.mob.Mob
 import kotlinmud.random.d20
 import kotlinmud.random.dN
@@ -32,26 +33,29 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
                     calculateDamage(attacker),
                     attacker.getDamageType()
                 )
-            }
-            Attack(AttackResult.MISS, 0, mob1.getDamageType())
+            } else Attack(AttackResult.MISS, 0, mob1.getDamageType())
         }
     }
 
     private fun calculateDamage(attacker: Mob): Int {
         // hardcoded value for now, replace with weapon values
-        return dN(1, 5) + attacker.attributes.dam
+        return dN(1, 5) + attacker.calc(Attribute.DAM)
     }
 
     private fun attackerDefeatsDefenderAC(attacker: Mob, defender: Mob): Boolean {
-        return d20() - attacker.attributes.hit + getAc(defender, attacker.getDamageType()) < 0
+        val roll = d20()
+        val hit = attacker.calc(Attribute.HIT)
+        val ac = getAc(defender, attacker.getDamageType())
+        println("ac check with roll: $roll, hit: $hit, ac: $ac, final value: ${roll - hit + ac}")
+        return roll - hit + ac < 0
     }
 
     private fun getAc(defender: Mob, damageType: DamageType): Int {
         return when (damageType) {
-            DamageType.SLASH -> defender.attributes.acSlash
-            DamageType.POUND -> defender.attributes.acBash
-            DamageType.PIERCE -> defender.attributes.acPierce
-            else -> defender.attributes.acMagic
+            DamageType.SLASH -> defender.calc(Attribute.AC_SLASH)
+            DamageType.POUND -> defender.calc(Attribute.AC_BASH)
+            DamageType.PIERCE -> defender.calc(Attribute.AC_PIERCE)
+            else -> defender.calc(Attribute.AC_MAGIC)
         }
     }
 }

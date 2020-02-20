@@ -41,6 +41,7 @@ class FixtureService {
                 startingMana,
                 startingMv,
                 createDefaultMobAttributes(),
+                Inventory(),
                 Inventory())
     }
 

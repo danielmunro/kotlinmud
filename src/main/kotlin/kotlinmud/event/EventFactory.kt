@@ -13,7 +13,7 @@ fun createClientConnectedEvent(socket: Socket): Event<ClientConnectedEvent> {
     return Event(EventType.CLIENT_CONNECTED, ClientConnectedEvent(socket))
 }
 
-fun createSendMessageToRoomEvent(message: Message, room: Room, actionCreator: Mob, target: Mob?): Event<SendMessageToRoomEvent> {
+fun createSendMessageToRoomEvent(message: Message, room: Room, actionCreator: Mob, target: Mob? = null): Event<SendMessageToRoomEvent> {
     return Event(EventType.SEND_MESSAGE_TO_ROOM, SendMessageToRoomEvent(message, room, actionCreator, target))
 }
 
