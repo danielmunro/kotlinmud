@@ -1,4 +1,3 @@
 package kotlinmud.event
 
-class Tick {
-}
+class Tick

@@ -7,4 +7,5 @@ class Room(
     val name: String,
     val description: String,
     val inventory: Inventory,
-    val exits: MutableList<Exit>)
+    val exits: MutableList<Exit>
+)

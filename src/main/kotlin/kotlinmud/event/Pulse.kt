@@ -1,4 +1,3 @@
 package kotlinmud.event
 
-class Pulse {
-}
+class Pulse

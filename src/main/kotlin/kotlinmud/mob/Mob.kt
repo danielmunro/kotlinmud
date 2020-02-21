@@ -41,7 +41,7 @@ class Mob(
     }
 
     fun calc(attribute: Attribute): Int {
-        return when(attribute) {
+        return when (attribute) {
             Attribute.HP -> attributes.hp + accumulate { it.attributes.hp }
             Attribute.MANA -> attributes.mana + accumulate { it.attributes.mana }
             Attribute.MV -> attributes.mv + accumulate { it.attributes.mv }

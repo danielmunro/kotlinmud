@@ -1,8 +1,8 @@
 package kotlinmud.io
 
-import kotlinmud.event.*
 import java.net.ServerSocket
 import java.net.Socket
+import kotlinmud.event.*
 import kotlinmud.event.event.PulseEvent
 import kotlinmud.event.event.TickEvent
 import kotlinmud.mob.Mob

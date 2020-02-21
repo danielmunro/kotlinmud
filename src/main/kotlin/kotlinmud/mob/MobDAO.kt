@@ -1,7 +1,7 @@
 package kotlinmud.mob
 
-import kotlinmud.attributes.AttributesTable
 import kotlinmud.attributes.AttributesEntity
+import kotlinmud.attributes.AttributesTable
 import kotlinmud.item.Inventories
 import kotlinmud.item.InventoryEntity
 import kotlinmud.mob.fight.AttackType

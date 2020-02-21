@@ -1,10 +1,10 @@
 package kotlinmud.mob
 
+import kotlin.test.assertEquals
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.test.createTestService
 import org.junit.Test
-import kotlin.test.assertEquals
 
 class MobTest {
     @Test

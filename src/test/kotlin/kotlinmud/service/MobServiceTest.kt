@@ -1,10 +1,10 @@
 package kotlinmud.service
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlinmud.affect.Affect
 import kotlinmud.affect.AffectType
 import kotlinmud.test.createTestService
-import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class MobServiceTest {
     @Test

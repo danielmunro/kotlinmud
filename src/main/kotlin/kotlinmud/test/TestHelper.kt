@@ -2,9 +2,6 @@ package kotlinmud.test
 
 import java.net.ServerSocket
 import kotlinmud.createContainer
-import kotlinmud.db.applyDBSchema
-import kotlinmud.db.connect
-import kotlinmud.db.disconnect
 import kotlinmud.event.observer.createObservers
 import kotlinmud.io.Server
 import kotlinmud.item.Item
