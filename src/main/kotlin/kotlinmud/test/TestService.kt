@@ -1,5 +1,6 @@
 package kotlinmud.test
 
+import kotlinmud.attributes.Attributes
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.item.Inventory
@@ -22,8 +23,8 @@ class TestService(
         return mob
     }
 
-    fun createItem(inventory: Inventory): Item {
-        return fixtureService.createItem(inventory)
+    fun createItem(inventory: Inventory, attributes: Attributes = Attributes()): Item {
+        return fixtureService.createItem(inventory, attributes)
     }
 
     fun getRoomForMob(mob: Mob): Room {

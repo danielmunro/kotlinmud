@@ -45,11 +45,13 @@ class FixtureService {
                 Inventory())
     }
 
-    fun createItem(inv: Inventory): Item {
+    fun createItem(inv: Inventory, attributes: Attributes = Attributes()): Item {
         items++
         val item = Item(
-                "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}",
-                "A test item is here ($items).")
+            "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}",
+            "A test item is here ($items).",
+            1.0,
+            attributes)
         inv.items.add(item)
         return item
     }

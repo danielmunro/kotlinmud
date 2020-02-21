@@ -1,0 +1,25 @@
+package kotlinmud.item
+
+enum class EquipTo {
+    HEAD,
+    TORSO,
+    ARMS,
+    LEGS,
+    WEAPON_1,
+    WEAPON_2,
+    SHIELD,
+    HELD,
+    FINGER_1,
+    FINGER_2,
+    NECK_1,
+    NECK_2,
+    FEET,
+    HANDS,
+    ABOUT,
+    WAIST,
+    WRIST_1,
+    WRIST_2,
+    HOLD,
+    FLOAT,
+    DRAGGING,
+}

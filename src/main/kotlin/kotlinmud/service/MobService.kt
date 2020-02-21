@@ -1,11 +1,8 @@
 package kotlinmud.service
 
 import kotlinmud.attributes.Attribute
-import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
-import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
-import kotlinmud.event.event.FightRoundEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Message
 import kotlinmud.mob.Disposition
@@ -16,7 +13,6 @@ import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.MobRoom
 import kotlinmud.mob.fight.Round
 import kotlinmud.room.Room
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobService(private val eventService: EventService, private val rooms: List<Room>) {
     private val mobs: List<Mob> = listOf()

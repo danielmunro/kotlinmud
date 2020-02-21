@@ -1,9 +1,10 @@
 package kotlinmud.mob
 
+import kotlinmud.affect.Affect
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.HasAttributes
 import kotlinmud.item.Inventory
-import kotlinmud.item.Item
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
 
@@ -16,7 +17,8 @@ class Mob(
     var mv: Int,
     val attributes: Attributes,
     val inventory: Inventory,
-    val equipped: Inventory
+    val equipped: Inventory,
+    val affects: MutableList<Affect> = mutableListOf()
 ) {
     fun isSleeping(): Boolean {
         return disposition == Disposition.SLEEPING
@@ -61,7 +63,8 @@ class Mob(
         return name
     }
 
-    private fun accumulate(accumulator: (Item) -> Int): Int {
-        return equipped.items.map(accumulator).reduce { acc: Int, it: Int -> acc + it }
+    private fun accumulate(accumulator: (HasAttributes) -> Int): Int {
+        return equipped.items.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it } +
+                affects.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it }
     }
 }

@@ -8,26 +8,8 @@ import kotlinmud.io.Request
 import kotlinmud.mob.Disposition
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
-import kotlinmud.test.globalSetup
-import kotlinmud.test.globalTeardown
-import org.junit.AfterClass
-import org.junit.BeforeClass
 
 class ActionServiceTest {
-    companion object {
-        @BeforeClass
-        @JvmStatic
-        fun setup() {
-            globalSetup()
-        }
-
-        @AfterClass
-        @JvmStatic
-        fun teardown() {
-            globalTeardown()
-        }
-    }
-
     @Test
     fun testLookDescribesARoom() {
         // setup
