@@ -1,14 +1,8 @@
 package kotlinmud.mob
 
-import kotlinmud.action.actions.describeRoom
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
-import kotlinmud.io.Request
 import kotlinmud.test.createTestService
-import kotlinmud.test.globalSetup
-import kotlinmud.test.globalTeardown
-import org.junit.AfterClass
-import org.junit.BeforeClass
 import org.junit.Test
 import kotlin.test.assertEquals
 
