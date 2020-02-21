@@ -7,4 +7,8 @@ class Round(
     val defender: Mob,
     val attackerAttacks: List<Attack>,
     val defenderAttacks: List<Attack>
-)
+) {
+    fun isActive(): Boolean {
+        return !attacker.isIncapacitated() && !defender.isIncapacitated()
+    }
+}

@@ -1,11 +1,8 @@
 package kotlinmud.service
 
 import kotlinmud.attributes.Attribute
-import kotlinmud.event.EventResponse
 import kotlinmud.event.createSendMessageToRoomEvent
-import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Message
-import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
@@ -41,31 +38,7 @@ class MobService(private val eventService: EventService, private val rooms: List
     }
 
     fun proceedFights(): List<Round> {
-        val rounds = fights.map { fight ->
-            val round = fight.createRound()
-            val room = getRoomForMob(round.attacker)
-            applyRoundDamage(round.attackerAttacks, round.defender)
-            sendRoundMessage(round.attackerAttacks, room, round.attacker, round.defender)
-            if (round.defender.isStanding()) {
-                applyRoundDamage(round.defenderAttacks, round.attacker)
-                sendRoundMessage(round.defenderAttacks, room, round.defender, round.attacker)
-            }
-            eventService.publish<SendMessageToRoomEvent, EventResponse<SendMessageToRoomEvent>>(
-                createSendMessageToRoomEvent(
-                    Message(getHealthIndication(round.defender)),
-                    room,
-                    round.attacker
-                )
-            )
-            eventService.publish<SendMessageToRoomEvent, EventResponse<SendMessageToRoomEvent>>(
-                createSendMessageToRoomEvent(
-                    Message(getHealthIndication(round.attacker)),
-                    room,
-                    round.defender
-                )
-            )
-            round
-        }
+        val rounds = fights.map { proceedFightRound(it.createRound()) }
         fights.removeIf { it.isOver() }
         return rounds
     }
@@ -79,11 +52,32 @@ class MobService(private val eventService: EventService, private val rooms: List
         }
     }
 
+    private fun proceedFightRound(round: Round): Round {
+        val room = getRoomForMob(round.attacker)
+        sendRoundMessage(round.attackerAttacks, room, round.attacker, round.defender)
+        sendRoundMessage(round.defenderAttacks, room, round.defender, round.attacker)
+        eventService.publishRoomMessage(
+            createSendMessageToRoomEvent(
+                Message(getHealthIndication(round.defender)),
+                room,
+                round.attacker
+            )
+        )
+        eventService.publishRoomMessage(
+            createSendMessageToRoomEvent(
+                Message(getHealthIndication(round.attacker)),
+                room,
+                round.defender
+            )
+        )
+        return round
+    }
+
     private fun sendRoundMessage(attacks: List<Attack>, room: Room, attacker: Mob, defender: Mob) {
         attacks.forEach {
             val verb = if (it.attackResult == AttackResult.HIT) "hit" else "miss"
             val verbPlural = if (it.attackResult == AttackResult.HIT) "hits" else "misses"
-            eventService.publish<SendMessageToRoomEvent, EventResponse<SendMessageToRoomEvent>>(
+            eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
                     Message(
                         "you $verb $defender.",
@@ -95,17 +89,6 @@ class MobService(private val eventService: EventService, private val rooms: List
                     defender
                 )
             )
-        }
-    }
-
-    private fun applyRoundDamage(attacks: List<Attack>, mob: Mob) {
-        attacks.forEach {
-            if (it.attackResult == AttackResult.HIT) {
-                mob.hp -= it.damage
-            }
-        }
-        if (mob.hp < 0) {
-            mob.disposition = Disposition.DEAD
         }
     }
 

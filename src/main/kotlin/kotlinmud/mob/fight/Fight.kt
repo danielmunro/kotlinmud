@@ -1,6 +1,7 @@
 package kotlinmud.mob.fight
 
 import kotlinmud.attributes.Attribute
+import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
 import kotlinmud.random.d20
 import kotlinmud.random.dN
@@ -19,10 +20,25 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
             mapAttacks(mob1, mob2),
             mapAttacks(mob2, mob1)
         )
-        if (mob1.isIncapacitated() || mob2.isIncapacitated()) {
+        applyRoundDamage(round.attackerAttacks, round.defender)
+        if (round.isActive()) {
+            applyRoundDamage(round.defenderAttacks, round.attacker)
+        }
+        if (!round.isActive()) {
             status = FightStatus.OVER
         }
         return round
+    }
+
+    private fun applyRoundDamage(attacks: List<Attack>, mob: Mob) {
+        attacks.forEach {
+            if (it.attackResult == AttackResult.HIT) {
+                mob.hp -= it.damage
+            }
+        }
+        if (mob.hp < 0) {
+            mob.disposition = Disposition.DEAD
+        }
     }
 
     private fun mapAttacks(attacker: Mob, defender: Mob): List<Attack> {
