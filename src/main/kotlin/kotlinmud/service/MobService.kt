@@ -29,7 +29,6 @@ class MobService(private val eventService: EventService, private val rooms: List
     }
 
     fun respawnMobToStartRoom(mob: Mob) {
-        // @todo: copy mob object, don't use reference
         putMobInRoom(mob, rooms[0])
     }
 
