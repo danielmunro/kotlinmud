@@ -70,6 +70,15 @@ class MobService(private val eventService: EventService, private val rooms: List
         return rounds
     }
 
+    fun decrementAffects() {
+        mobRooms.forEach { mobRoom ->
+            mobRoom.mob.affects.removeIf {
+                it.timeout--
+                it.timeout < 0
+            }
+        }
+    }
+
     private fun sendRoundMessage(attacks: List<Attack>, room: Room, attacker: Mob, defender: Mob) {
         attacks.forEach {
             val verb = if (it.attackResult == AttackResult.HIT) "hit" else "miss"

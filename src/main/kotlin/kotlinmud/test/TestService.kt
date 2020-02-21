@@ -35,6 +35,10 @@ class TestService(
         return mobService.getMobsForRoom(room)
     }
 
+    fun decrementAffects() {
+        mobService.decrementAffects()
+    }
+
     fun runAction(mob: Mob, input: String): Response {
         return actionService.run(Request(mob, input, mobService.getRoomForMob(mob)))
     }

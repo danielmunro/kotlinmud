@@ -25,15 +25,6 @@ fun createTestService(): TestService {
     return TestService(fix, mob, act)
 }
 
-fun globalSetup() {
-    connect()
-    applyDBSchema()
-}
-
-fun globalTeardown() {
-    disconnect()
-}
-
 fun getIdentifyingWord(item: Item): String {
     return item.name.split(" ")[1]
 }

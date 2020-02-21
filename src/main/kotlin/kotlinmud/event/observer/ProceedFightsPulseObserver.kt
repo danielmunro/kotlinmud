@@ -6,8 +6,9 @@ import kotlinmud.event.EventType
 import kotlinmud.event.Pulse
 import kotlinmud.service.MobService
 
-class PulseObserver(private val mobService: MobService) : Observer {
+class ProceedFightsPulseObserver(private val mobService: MobService) : Observer {
     override val eventTypes: List<EventType> = listOf(EventType.PULSE)
+
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
         val rounds = mobService.proceedFights()
         println("pulse has ${rounds.size} rounds")
