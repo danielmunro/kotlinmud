@@ -5,7 +5,6 @@ import kotlinmud.affect.AffectType
 import kotlinmud.test.createTestService
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 class MobServiceTest {
     @Test
