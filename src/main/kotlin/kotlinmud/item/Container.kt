@@ -7,4 +7,5 @@ class Container(
     description: String,
     weight: Double = 1.0,
     attributes: Attributes = Attributes(),
-    val inventory: Inventory = Inventory()) : Item(name, description, weight, attributes)
+    val inventory: Inventory = Inventory()
+) : Item(name, description, weight, attributes)
