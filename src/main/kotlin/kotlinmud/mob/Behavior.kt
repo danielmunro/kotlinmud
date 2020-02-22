@@ -1,0 +1,28 @@
+package kotlinmud.mob
+
+enum class Behavior {
+    SENTINEL,
+    SCAVENGER,
+    AGGRESSIVE,
+    STAY_AREA,
+    WIMPY,
+    PET,
+    TRAIN,
+    PRACTICE,
+    UNDEAD,
+    WEAPONSMITH,
+    ARMORER,
+    CLERIC,
+    MAGE,
+    THIEF,
+    WARRIOR,
+    NO_ALIGN,
+    NO_PURGE,
+    OUTDOORS,
+    INDOORS,
+    MOUNT,
+    HEALER,
+    GAIN,
+    BANKER,
+    NO_TRANS,
+}

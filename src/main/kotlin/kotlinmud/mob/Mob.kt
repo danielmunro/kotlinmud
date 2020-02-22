@@ -4,12 +4,12 @@ import kotlinmud.affect.Affect
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
-import kotlinmud.attributes.createRaceAttributes
 import kotlinmud.item.Container
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
+import kotlinmud.mob.race.Race
 
 const val corpseWeight = 20.0
 
@@ -21,15 +21,12 @@ class Mob(
     var mana: Int,
     var mv: Int,
     val race: Race,
-    val specialization: Specialization,
+    val specialization: SpecializationType,
     val attributes: Attributes,
     val inventory: Inventory,
     val equipped: Inventory,
     val affects: MutableList<Affect> = mutableListOf()
 ) {
-    private val raceAttributes = createRaceAttributes(race)
-//    private val size = getSizeForRace(race)
-
     fun isSleeping(): Boolean {
         return disposition == Disposition.SLEEPING
     }
@@ -52,19 +49,19 @@ class Mob(
             Attribute.MANA -> attributes.mana + accumulate { it.attributes.mana }
             Attribute.MV -> attributes.mv + accumulate { it.attributes.mv }
             Attribute.STR -> attributes.str +
-                    raceAttributes.str +
+                    race.attributes.str +
                     accumulate { it.attributes.str }
             Attribute.INT -> attributes.int +
-                    raceAttributes.int +
+                    race.attributes.int +
                     accumulate { it.attributes.int }
             Attribute.WIS -> attributes.wis +
-                    raceAttributes.wis +
+                    race.attributes.wis +
                     accumulate { it.attributes.wis }
             Attribute.DEX -> attributes.dex +
-                    raceAttributes.dex +
+                    race.attributes.dex +
                     accumulate { it.attributes.dex }
             Attribute.CON -> attributes.con +
-                    raceAttributes.con +
+                    race.attributes.con +
                     accumulate { it.attributes.con }
             Attribute.HIT -> attributes.hit + accumulate { it.attributes.hit }
             Attribute.DAM -> attributes.dam + accumulate { it.attributes.dam }

@@ -7,8 +7,9 @@ import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
-import kotlinmud.mob.Race
-import kotlinmud.mob.Specialization
+import kotlinmud.mob.SpecializationType
+import kotlinmud.mob.race.Race
+import kotlinmud.mob.race.impl.Human
 import kotlinmud.room.Direction
 import kotlinmud.room.Room
 import kotlinmud.room.oppositeDirection
@@ -33,7 +34,7 @@ class FixtureService {
         return listOf(room1, room2, room3)
     }
 
-    fun createMob(race: Race = Race.HUMAN, specialization: Specialization = Specialization.NONE): Mob {
+    fun createMob(race: Race = Human(), specialization: SpecializationType = SpecializationType.NONE): Mob {
         mobs++
         return Mob(
                 faker.name.name(),

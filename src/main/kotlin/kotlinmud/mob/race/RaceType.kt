@@ -1,6 +1,6 @@
-package kotlinmud.mob
+package kotlinmud.mob.race
 
-enum class Race {
+enum class RaceType {
     HUMAN,
     ELF,
     KENDER,

@@ -1,22 +1,24 @@
 package kotlinmud.mob
 
+import kotlinmud.mob.race.RaceType
+
 enum class Size {
-    XSMALL,
+    TINY,
     SMALL,
     MEDIUM,
     LARGE,
-    XLARGE,
+    HUGE,
 }
 
-fun getSizeForRace(race: Race): Size {
+fun getSizeForRace(race: RaceType): Size {
     return when (race) {
-        Race.GIANT -> Size.XLARGE
-        Race.FAERIE -> Size.XSMALL
-        Race.OGRE -> Size.LARGE
-        Race.DWARF -> Size.SMALL
-        Race.ELF -> Size.SMALL
-        Race.HUMAN -> Size.MEDIUM
-        Race.KENDER -> Size.SMALL
-        Race.LASHER -> Size.LARGE
+        RaceType.GIANT -> Size.HUGE
+        RaceType.FAERIE -> Size.TINY
+        RaceType.OGRE -> Size.LARGE
+        RaceType.DWARF -> Size.SMALL
+        RaceType.ELF -> Size.SMALL
+        RaceType.HUMAN -> Size.MEDIUM
+        RaceType.KENDER -> Size.SMALL
+        RaceType.LASHER -> Size.LARGE
     }
 }
