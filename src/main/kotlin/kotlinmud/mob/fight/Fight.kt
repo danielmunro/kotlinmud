@@ -63,7 +63,7 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
         val hit = attacker.calc(Attribute.HIT)
         val ac = getAc(defender, attacker.getDamageType())
         println("ac check with roll: $roll, hit: $hit, ac: $ac, final value: ${roll - hit + ac}")
-        return roll - hit + ac < 0
+        return roll - hit + ac < 10
     }
 
     private fun getAc(defender: Mob, damageType: DamageType): Int {

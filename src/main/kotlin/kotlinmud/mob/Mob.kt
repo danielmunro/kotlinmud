@@ -4,9 +4,13 @@ import kotlinmud.affect.Affect
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
+import kotlinmud.item.Container
 import kotlinmud.item.Inventory
+import kotlinmud.item.Item
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
+
+val corpseWeight = 20.0
 
 class Mob(
     val name: String,
@@ -57,6 +61,18 @@ class Mob(
             Attribute.AC_SLASH -> attributes.acSlash + accumulate { it.attributes.acSlash }
             Attribute.AC_MAGIC -> attributes.acMagic + accumulate { it.attributes.acMagic }
         }
+    }
+
+    fun createCorpse(): Item {
+        val corpse = Container(
+            "a corpse of $name",
+            "a corpse of $name is here.",
+            corpseWeight)
+        inventory.items.forEach {
+            inventory.items.remove(it)
+            corpse.inventory.items.add(it)
+        }
+        return corpse
     }
 
     override fun toString(): String {

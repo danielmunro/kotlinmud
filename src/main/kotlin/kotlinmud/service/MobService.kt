@@ -12,7 +12,6 @@ import kotlinmud.mob.fight.Round
 import kotlinmud.room.Room
 
 class MobService(private val eventService: EventService, private val rooms: List<Room>) {
-    private val mobs: List<Mob> = listOf()
     private val mobRooms: MutableList<MobRoom> = mutableListOf()
     private val fights: MutableList<Fight> = mutableListOf()
 
@@ -48,6 +47,20 @@ class MobService(private val eventService: EventService, private val rooms: List
                 it.timeout--
                 it.timeout < 0
             }
+        }
+    }
+
+    fun pruneDeadMobs() {
+        mobRooms.removeIf {
+            if (it.mob.isIncapacitated()) {
+                it.room.inventory.items.add(it.mob.createCorpse())
+                eventService.publishRoomMessage(createSendMessageToRoomEvent(
+                    Message("you are DEAD!", "${it.mob} has died!"),
+                    it.room,
+                    it.mob
+                ))
+            }
+            it.mob.isIncapacitated()
         }
     }
 

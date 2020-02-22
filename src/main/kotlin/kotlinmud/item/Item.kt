@@ -3,7 +3,7 @@ package kotlinmud.item
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
 
-class Item(
+open class Item(
     val name: String,
     val description: String,
     val weight: Double = 1.0,
