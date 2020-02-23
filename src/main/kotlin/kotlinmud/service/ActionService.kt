@@ -8,10 +8,17 @@ import kotlinmud.action.Status
 import kotlinmud.action.actions.*
 import kotlinmud.action.contextBuilder.*
 import kotlinmud.io.*
+import kotlinmud.mob.Invokable
 import kotlinmud.mob.Mob
+import kotlinmud.mob.RequiresDisposition
+import kotlinmud.mob.skill.Skill
+import kotlinmud.mob.skill.impl.Bash
+import kotlinmud.mob.skill.impl.Berserk
+import kotlinmud.mob.skill.impl.Bite
+import kotlinmud.random.percentRoll
 
 class ActionService(private val mobService: MobService, private val eventService: EventService) {
-    private val actions: List<Action> = arrayListOf(
+    private val actions: List<Action> = listOf(
         createLookAction(),
         createLookAtAction(),
         createNorthAction(),
@@ -28,29 +35,48 @@ class ActionService(private val mobService: MobService, private val eventService
         createWakeAction(),
         createSleepAction())
 
+    private val skills: List<Skill> = listOf(
+        Bash(),
+        Berserk(),
+        Bite()
+    )
+
     fun run(request: Request): Response {
+        val skill = skills.find {
+            it.type.toString().toLowerCase().startsWith(request.getCommand())
+        }
+        if (skill != null) {
+            return dispositionCheck(request, skill)
+                ?: skillRoll(request.mob.skills[skill.type] ?: error("no skill"))
+                ?: callInvokable(request, skill, buildActionContextList(request, skill))
+        }
         val action = actions.find {
             it.command.value.startsWith(request.getCommand()) && it.syntax.size == request.args.size
         } ?: return createResponseWithEmptyActionContext(Message("what was that?"))
         return dispositionCheck(request, action)
-            ?: invokeActionMutator(request, action, buildActionContextList(request, action))
+            ?: callInvokable(request, action, buildActionContextList(request, action))
     }
 
-    private fun dispositionCheck(request: Request, action: Action): Response? {
-        return if (!action.hasDisposition(request.getDisposition()))
+    private fun skillRoll(level: Int): Response? {
+        return if (percentRoll() < level) null else createResponseWithEmptyActionContext(
+            Message("You lost your concentration."), IOStatus.FAILED)
+    }
+
+    private fun dispositionCheck(request: Request, requiresDisposition: RequiresDisposition): Response? {
+        return if (!requiresDisposition.dispositions.contains(request.getDisposition()))
                 createResponseWithEmptyActionContext(Message("you are ${request.getDisposition().value} and cannot do that."))
             else
                 null
     }
 
-    private fun invokeActionMutator(request: Request, action: Action, list: ActionContextList): Response {
+    private fun callInvokable(request: Request, invokable: Invokable, list: ActionContextList): Response {
         val error = list.getError()
         if (error != null) {
             return createResponseWithEmptyActionContext(Message(error.result as String))
         }
-        with(action.mutator.invoke(ActionContextService(mobService, eventService, list), request)) {
-            return if (action.isChained())
-                run(createChainToRequest(request.mob, action))
+        with(invokable.invoke(ActionContextService(mobService, eventService, list), request)) {
+            return if (invokable is Action && invokable.isChained())
+                run(createChainToRequest(request.mob, invokable))
             else
                 this
         }
@@ -60,9 +86,9 @@ class ActionService(private val mobService: MobService, private val eventService
         return Request(mob, action.chainTo.toString(), mobService.getRoomForMob(mob))
     }
 
-    private fun buildActionContextList(request: Request, action: Action): ActionContextList {
+    private fun buildActionContextList(request: Request, invokable: Invokable): ActionContextList {
         var i = 0
-        return ActionContextList(action.syntax.map { createContext(request, it, request.args[i++]) } as MutableList<Context<Any>>)
+        return ActionContextList(invokable.syntax.map { createContext(request, it, request.args[i++]) } as MutableList<Context<Any>>)
     }
 
     private fun createContext(request: Request, syntax: Syntax, word: String): Context<Any> {
@@ -73,6 +99,7 @@ class ActionService(private val mobService: MobService, private val eventService
             Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.room).build(syntax, word)
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)
             Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, request.mob, request.room).build(syntax, word)
+            Syntax.TARGET_MOB -> TODO()
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

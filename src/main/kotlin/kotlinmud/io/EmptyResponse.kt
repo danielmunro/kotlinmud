@@ -5,4 +5,4 @@ import kotlinmud.action.ActionContextList
 class EmptyResponse(
     actionContextList: ActionContextList = ActionContextList(mutableListOf()),
     message: Message = Message("", "")
-) : Response(actionContextList, message)
+) : Response(IOStatus.OK, actionContextList, message)

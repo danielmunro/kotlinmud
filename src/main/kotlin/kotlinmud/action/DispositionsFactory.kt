@@ -9,3 +9,7 @@ fun mustBeAwake(): List<Disposition> {
 fun mustBeStanding(): List<Disposition> {
     return listOf(Disposition.STANDING)
 }
+
+fun mustBeAlert(): List<Disposition> {
+    return listOf(Disposition.STANDING, Disposition.FIGHTING)
+}

@@ -1,6 +1,10 @@
 package kotlinmud.affect
 
-import kotlinmud.attributes.Attributes
-import kotlinmud.attributes.HasAttributes
+import kotlinmud.io.Message
+import kotlinmud.mob.Mob
 
-class Affect(val affectType: AffectType, var timeout: Int, override val attributes: Attributes = Attributes()) : HasAttributes
+interface Affect {
+    val type: AffectType
+    fun messageFromInstantiation(mob: Mob, target: Mob?): Message
+    fun messageFromWearOff(mob: Mob): Message
+}

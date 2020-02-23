@@ -2,7 +2,7 @@ package kotlinmud.service
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlinmud.affect.Affect
+import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
 import kotlinmud.test.createTestService
 
@@ -15,7 +15,7 @@ class MobServiceTest {
         val initial = 10
 
         // given
-        mob.affects.add(Affect(AffectType.BLESS, initial))
+        mob.affects.add(AffectInstance(AffectType.BLESS, initial))
 
         // when
         testService.decrementAffects()
@@ -32,7 +32,7 @@ class MobServiceTest {
         val initial = 0
 
         // given
-        mob.affects.add(Affect(AffectType.BLESS, initial))
+        mob.affects.add(AffectInstance(AffectType.BLESS, initial))
 
         // when
         testService.decrementAffects()

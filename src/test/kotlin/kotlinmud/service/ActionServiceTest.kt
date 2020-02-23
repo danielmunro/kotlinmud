@@ -6,6 +6,7 @@ import kotlin.test.assertTrue
 import kotlinmud.action.actions.describeRoom
 import kotlinmud.io.Request
 import kotlinmud.mob.Disposition
+import kotlinmud.mob.skill.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 
@@ -178,5 +179,33 @@ class ActionServiceTest {
         // then
         assertTrue(response.message.toActionCreator.startsWith("you drop the "))
         assertEquals(0, mob.inventory.items.count())
+    }
+
+    @Test
+    fun testMobCanBerserk() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        mob.skills = mob.skills.plus(Pair(SkillType.BERSERK, 100))
+
+        // when
+        val response = testService.runAction(mob, "berserk")
+
+        // then
+        assertEquals("Your pulse speeds up as you are consumed by rage!", response.message.toActionCreator)
+    }
+
+    @Test
+    fun testMobCanLoseConcentration() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        mob.skills = mob.skills.plus(Pair(SkillType.BERSERK, 1))
+
+        // when
+        val response = testService.runActionForFailure(mob, "berserk")
+
+        // then
+        assertEquals("You lost your concentration.", response.message.toActionCreator)
     }
 }

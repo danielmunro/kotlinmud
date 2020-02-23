@@ -43,11 +43,15 @@ class FixtureService {
                 startingHp,
                 startingMana,
                 startingMv,
+                1,
                 race,
                 specialization,
                 createDefaultMobAttributes(),
                 Inventory(),
-                Inventory())
+                Inventory(),
+                mapOf(),
+                mutableListOf()
+        )
     }
 
     fun createItem(inv: Inventory, attributes: Attributes = Attributes()): Item {

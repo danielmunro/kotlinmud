@@ -3,6 +3,7 @@ package kotlinmud.test
 import kotlinmud.attributes.Attributes
 import kotlinmud.io.Request
 import kotlinmud.io.Response
+import kotlinmud.io.IOStatus
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.mob.Mob
@@ -41,5 +42,17 @@ class TestService(
 
     fun runAction(mob: Mob, input: String): Response {
         return actionService.run(Request(mob, input, mobService.getRoomForMob(mob)))
+    }
+
+    fun runActionForFailure(mob: Mob, input: String): Response {
+        var i = 0
+        while (i < 100) {
+            val response = runAction(mob, input)
+            if (response.status == IOStatus.FAILED) {
+                return response
+            }
+            i++
+        }
+        throw Exception("cannot generate failure")
     }
 }

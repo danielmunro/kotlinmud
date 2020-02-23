@@ -1,6 +1,6 @@
 package kotlinmud.mob
 
-import kotlinmud.affect.Affect
+import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
@@ -10,6 +10,7 @@ import kotlinmud.item.Item
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
+import kotlinmud.mob.skill.SkillType
 
 const val corpseWeight = 20.0
 
@@ -20,12 +21,14 @@ class Mob(
     var hp: Int,
     var mana: Int,
     var mv: Int,
+    var level: Int,
     val race: Race,
     val specialization: SpecializationType,
     val attributes: Attributes,
     val inventory: Inventory,
     val equipped: Inventory,
-    val affects: MutableList<Affect> = mutableListOf()
+    var skills: Map<SkillType, Int> = mapOf(),
+    val affects: MutableList<AffectInstance> = mutableListOf()
 ) {
     fun isSleeping(): Boolean {
         return disposition == Disposition.SLEEPING

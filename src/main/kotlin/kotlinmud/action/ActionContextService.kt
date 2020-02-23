@@ -5,6 +5,7 @@ import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Message
 import kotlinmud.io.Response
+import kotlinmud.io.IOStatus
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight
@@ -35,8 +36,8 @@ class ActionContextService(
             createSendMessageToRoomEvent(message, room, actionCreator, target))
     }
 
-    fun createResponse(message: Message): Response {
-        return Response(actionContextList, message)
+    fun createResponse(message: Message, status: IOStatus = IOStatus.OK): Response {
+        return Response(status, actionContextList, message)
     }
 
     fun createFight(mob: Mob) {
