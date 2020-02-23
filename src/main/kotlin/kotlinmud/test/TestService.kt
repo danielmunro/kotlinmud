@@ -8,6 +8,7 @@ import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight
+import kotlinmud.mob.fight.Round
 import kotlinmud.room.Room
 import kotlinmud.service.ActionService
 import kotlinmud.service.FixtureService
@@ -59,5 +60,13 @@ class TestService(
 
     fun addFight(fight: Fight) {
         mobService.addFight(fight)
+    }
+
+    fun findFightForMob(mob: Mob): Fight? {
+        return mobService.findFightForMob(mob)
+    }
+
+    fun proceedFights(): List<Round> {
+        return mobService.proceedFights()
     }
 }

@@ -9,9 +9,11 @@ import kotlinmud.action.actions.*
 import kotlinmud.action.contextBuilder.*
 import kotlinmud.attributes.Attribute
 import kotlinmud.io.*
+import kotlinmud.mob.Intent
 import kotlinmud.mob.Invokable
 import kotlinmud.mob.Mob
 import kotlinmud.mob.RequiresDisposition
+import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.skill.CostType
 import kotlinmud.mob.skill.Skill
 import kotlinmud.mob.skill.impl.Bash
@@ -51,14 +53,21 @@ class ActionService(private val mobService: MobService, private val eventService
     }
 
     private fun runSkill(request: Request): Response? {
-        return skills.find {
+        val skill = skills.find {
             it.type.toString().toLowerCase().startsWith(request.getCommand())
-        }?.let {
-            dispositionCheck(request, it)
-                ?: skillRoll(request.mob.skills[it.type] ?: error("no skill"))
-                ?: deductCosts(request.mob, it)
-                ?: callInvokable(request, it, buildActionContextList(request, it))
+        } ?: return null
+        val response = dispositionCheck(request, skill)
+            ?: skillRoll(request.mob.skills[skill.type] ?: error("no skill"))
+            ?: deductCosts(request.mob, skill)
+            ?: callInvokable(request, skill, buildActionContextList(request, skill))
+        if (skill.intent == Intent.OFFENSIVE) {
+            val target: Mob = response.actionContextList.getResultBySyntax(Syntax.TARGET_MOB)
+            mobService.findFightForMob(request.mob)
+                ?: mobService.addFight(Fight(request.mob, target))
+            mobService.findFightForMob(target)
+                ?: mobService.addFight(Fight(target, request.mob))
         }
+        return response
     }
 
     private fun runAction(request: Request): Response? {

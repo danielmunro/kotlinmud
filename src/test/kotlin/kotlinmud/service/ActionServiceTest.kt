@@ -11,6 +11,7 @@ import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.skill.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
+import kotlin.test.assertNotNull
 
 class ActionServiceTest {
     @Test
@@ -277,5 +278,42 @@ class ActionServiceTest {
         assertEquals("You bite $target.", response.message.toActionCreator)
         assertEquals("$mob bites you.", response.message.toTarget)
         assertEquals("$mob bites $target.", response.message.toObservers)
+    }
+
+    @Test
+    fun testOffensiveSkillTriggersFight() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        val target = testService.createMob()
+        mob.skills = mob.skills.plus(Pair(SkillType.BITE, 100))
+
+        // given
+        testService.runActionForIOStatus(mob, "bite ${getIdentifyingWord(target)}", IOStatus.OK)
+
+        // when
+        val fight = testService.findFightForMob(mob)
+
+        // then
+        assertNotNull(fight)
+    }
+
+    @Test
+    fun testOffensiveSkillTriggersOneAndOnlyOneFight() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        val target = testService.createMob()
+        mob.skills = mob.skills.plus(Pair(SkillType.BITE, 100))
+
+        // given
+        testService.runActionForIOStatus(mob, "bite ${getIdentifyingWord(target)}", IOStatus.OK)
+        testService.runActionForIOStatus(mob, "bite ${getIdentifyingWord(target)}", IOStatus.OK)
+
+        // when
+        val rounds = testService.proceedFights()
+
+        // then
+        assertEquals(1, rounds.size)
     }
 }

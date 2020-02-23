@@ -8,6 +8,6 @@ enum class AffectType {
     FRENZY,
     DETECT_HIDDEN,
     DETECT_INVISIBLE,
-    DAZED,
+    STUNNED,
     BERSERK,
 }
