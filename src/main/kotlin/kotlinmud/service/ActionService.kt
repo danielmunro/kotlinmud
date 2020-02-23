@@ -44,6 +44,7 @@ class ActionService(private val mobService: MobService, private val eventService
     )
 
     fun run(request: Request): Response {
+        // match request to skill
         skills.find {
             it.type.toString().toLowerCase().startsWith(request.getCommand())
         }?.let {
@@ -53,12 +54,16 @@ class ActionService(private val mobService: MobService, private val eventService
                 ?: callInvokable(request, it, buildActionContextList(request, it))
         }
 
+        // match request to action
         actions.find {
             it.command.value.startsWith(request.getCommand()) && it.syntax.size == request.args.size
         }?.let {
             return dispositionCheck(request, it)
                 ?: callInvokable(request, it, buildActionContextList(request, it))
-        } ?: return createResponseWithEmptyActionContext(Message("what was that?"))
+        }
+
+        // no match
+        return createResponseWithEmptyActionContext(Message("what was that?"), IOStatus.ERROR)
     }
 
     private fun deductCosts(mob: Mob, skill: Skill): Response? {
