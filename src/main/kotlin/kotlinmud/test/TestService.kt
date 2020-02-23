@@ -22,7 +22,7 @@ class TestService(
 
     fun createMob(): Mob {
         val mob = fixtureService.createMob()
-        mobService.respawnMobToStartRoom(mob)
+        mobService.addMob(mob)
         return mob
     }
 

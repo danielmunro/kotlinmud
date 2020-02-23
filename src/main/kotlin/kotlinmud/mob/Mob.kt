@@ -16,6 +16,7 @@ import kotlinmud.mob.skill.SkillType
 const val corpseWeight = 20.0
 
 class Mob(
+    val id: Int,
     override val name: String,
     var description: String,
     var disposition: Disposition,

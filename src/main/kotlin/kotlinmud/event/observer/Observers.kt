@@ -12,5 +12,6 @@ fun createObservers(server: Server, mobService: MobService): List<Observer> {
         DecrementAffectTimeoutTickObserver(mobService),
         DecrementDelayObserver(mobService),
         PruneDeadMobsPulseObserver(mobService),
+        RespawnTickObserver(mobService),
         LogTickObserver())
 }

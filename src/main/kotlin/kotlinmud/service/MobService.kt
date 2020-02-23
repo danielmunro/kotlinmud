@@ -9,11 +9,20 @@ import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.reset.MobReset
 import kotlinmud.room.Room
 
-class MobService(private val eventService: EventService, private val rooms: List<Room>) {
+class MobService(
+    private val eventService: EventService,
+    private val rooms: List<Room>,
+    private val mobResets: MutableList<MobReset>) {
+
     private val mobRooms: MutableList<MobRoom> = mutableListOf()
     private val fights: MutableList<Fight> = mutableListOf()
+
+    fun getStartRoom(): Room {
+        return rooms.first()
+    }
 
     fun addFight(fight: Fight) {
         fights.add(fight)
@@ -31,8 +40,12 @@ class MobService(private val eventService: EventService, private val rooms: List
         return mobRooms.filter { it.room == room }.map { it.mob }
     }
 
-    fun respawnMobToStartRoom(mob: Mob) {
+    fun addMob(mob: Mob) {
         putMobInRoom(mob, rooms[0])
+    }
+
+    fun addMobReset(mobReset: MobReset) {
+        mobResets.add(mobReset)
     }
 
     fun moveMob(mob: Mob, room: Room) {
@@ -73,6 +86,14 @@ class MobService(private val eventService: EventService, private val rooms: List
                 ))
             }
             it.mob.isIncapacitated()
+        }
+    }
+
+    fun respawnWorld() {
+        mobResets.forEach {
+            while (it.maxInRoom > getMobsForRoom(it.room).filter { mob -> mob.id == it.mob.id }.size && it.maxInWorld > mobRooms.filter { mobRoom -> mobRoom.mob.id == it.mob.id }.size) {
+                putMobInRoom(it.mob, it.room)
+            }
         }
     }
 

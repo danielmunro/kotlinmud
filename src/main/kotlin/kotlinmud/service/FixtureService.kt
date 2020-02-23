@@ -10,6 +10,7 @@ import kotlinmud.mob.Mob
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.race.Race
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.reset.MobReset
 import kotlinmud.room.Direction
 import kotlinmud.room.Room
 import kotlinmud.room.oppositeDirection
@@ -21,7 +22,8 @@ class FixtureService {
     private val faker = Faker()
 
     fun populateWorld(mobService: MobService) {
-        mobService.respawnMobToStartRoom(createMob())
+        mobService.addMobReset(MobReset(createMob(), mobService.getStartRoom(), 1, 1))
+        mobService.respawnWorld()
     }
 
     fun generateWorld(): List<Room> {
@@ -37,6 +39,7 @@ class FixtureService {
     fun createMob(race: Race = Human(), specialization: SpecializationType = SpecializationType.NONE): Mob {
         mobs++
         return Mob(
+                mobs,
                 faker.name.name(),
                 "A test mob is here ($mobs).",
                 Disposition.STANDING,

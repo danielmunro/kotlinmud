@@ -15,7 +15,7 @@ class ClientConnectedObserver(private val mobService: MobService) : Observer {
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
         if (event.subject is ClientConnectedEvent) {
             val mob = fixtureService.createMob()
-            mobService.respawnMobToStartRoom(mob)
+            mobService.addMob(mob)
             @Suppress("UNCHECKED_CAST")
             return EventResponse(mob as A)
         }

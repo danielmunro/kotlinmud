@@ -17,7 +17,11 @@ import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.singleton
 
-class App(private val eventService: EventService, private val mobService: MobService, private val server: Server) {
+class App(
+    private val eventService: EventService,
+    private val mobService: MobService,
+    private val server: Server) {
+
     private val actionService: ActionService = ActionService(mobService, eventService)
 
     fun start() {
@@ -71,7 +75,7 @@ fun createContainer(): Kodein {
         bind<ActionService>() with singleton { ActionService(instance<MobService>(), instance<EventService>()) }
         bind<MobService>() with singleton {
             val fix = instance<FixtureService>()
-            val svc = MobService(instance<EventService>(), fix.generateWorld())
+            val svc = MobService(instance<EventService>(), fix.generateWorld(), mutableListOf())
             fix.populateWorld(svc)
             svc
         }
