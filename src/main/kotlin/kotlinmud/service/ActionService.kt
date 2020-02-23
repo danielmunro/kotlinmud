@@ -44,26 +44,30 @@ class ActionService(private val mobService: MobService, private val eventService
     )
 
     fun run(request: Request): Response {
-        // match request to skill
-        skills.find {
+        return runSkill(request)
+            ?: runAction(request)
+            ?: createResponseWithEmptyActionContext(
+                Message("what was that?"), IOStatus.ERROR)
+    }
+
+    private fun runSkill(request: Request): Response? {
+        return skills.find {
             it.type.toString().toLowerCase().startsWith(request.getCommand())
         }?.let {
-            return dispositionCheck(request, it)
+            dispositionCheck(request, it)
                 ?: skillRoll(request.mob.skills[it.type] ?: error("no skill"))
                 ?: deductCosts(request.mob, it)
                 ?: callInvokable(request, it, buildActionContextList(request, it))
         }
+    }
 
-        // match request to action
-        actions.find {
+    private fun runAction(request: Request): Response? {
+        return actions.find {
             it.command.value.startsWith(request.getCommand()) && it.syntax.size == request.args.size
         }?.let {
-            return dispositionCheck(request, it)
+            dispositionCheck(request, it)
                 ?: callInvokable(request, it, buildActionContextList(request, it))
         }
-
-        // no match
-        return createResponseWithEmptyActionContext(Message("what was that?"), IOStatus.ERROR)
     }
 
     private fun deductCosts(mob: Mob, skill: Skill): Response? {
