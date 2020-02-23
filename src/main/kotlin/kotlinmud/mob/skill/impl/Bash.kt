@@ -9,7 +9,6 @@ import kotlinmud.mob.Disposition
 import kotlinmud.mob.Intent
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.skill.*
-import kotlinmud.random.percentRoll
 
 class Bash : Skill {
     override val type: SkillType = SkillType.BASH
@@ -28,7 +27,6 @@ class Bash : Skill {
     override val syntax: List<Syntax> = listOf(Syntax.COMMAND, Syntax.TARGET_MOB)
 
     override fun invoke(actionContextService: ActionContextService, request: Request): Response {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
     }
-
 }

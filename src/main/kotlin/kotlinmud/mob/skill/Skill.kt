@@ -1,6 +1,5 @@
 package kotlinmud.mob.skill
 
-import kotlinmud.io.Request
 import kotlinmud.mob.*
 
 interface Skill : RequiresDisposition, Invokable {

@@ -9,7 +9,6 @@ import kotlinmud.mob.Disposition
 import kotlinmud.mob.Intent
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.skill.*
-import kotlinmud.random.percentRoll
 
 class Bite : Skill {
     override val type: SkillType = SkillType.BITE

@@ -1,9 +1,9 @@
 package kotlinmud.test
 
 import kotlinmud.attributes.Attributes
+import kotlinmud.io.IOStatus
 import kotlinmud.io.Request
 import kotlinmud.io.Response
-import kotlinmud.io.IOStatus
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.mob.Mob

@@ -3,9 +3,9 @@ package kotlinmud.action
 import kotlinmud.event.EventResponse
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
+import kotlinmud.io.IOStatus
 import kotlinmud.io.Message
 import kotlinmud.io.Response
-import kotlinmud.io.IOStatus
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight

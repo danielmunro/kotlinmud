@@ -12,7 +12,6 @@ import kotlinmud.mob.Disposition
 import kotlinmud.mob.Intent
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.skill.*
-import kotlinmud.random.percentRoll
 
 class Berserk : Skill {
     override val type: SkillType = SkillType.BERSERK
