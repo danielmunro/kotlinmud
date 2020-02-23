@@ -57,8 +57,8 @@ class ActionService(private val mobService: MobService, private val eventService
             it.type.toString().toLowerCase().startsWith(request.getCommand())
         } ?: return null
         val response = dispositionCheck(request, skill)
-            ?: skillRoll(request.mob.skills[skill.type] ?: error("no skill"))
             ?: deductCosts(request.mob, skill)
+            ?: skillRoll(request.mob.skills[skill.type] ?: error("no skill"))
             ?: callInvokable(request, skill, buildActionContextList(request, skill))
         if (skill.intent == Intent.OFFENSIVE) {
             val target: Mob = response.actionContextList.getResultBySyntax(Syntax.TARGET_MOB)
