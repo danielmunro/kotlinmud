@@ -42,19 +42,20 @@ class ActionService(private val mobService: MobService, private val eventService
     )
 
     fun run(request: Request): Response {
-        val skill = skills.find {
+        skills.find {
             it.type.toString().toLowerCase().startsWith(request.getCommand())
+        }?.let {
+            return dispositionCheck(request, it)
+                ?: skillRoll(request.mob.skills[it.type] ?: error("no skill"))
+                ?: callInvokable(request, it, buildActionContextList(request, it))
         }
-        if (skill != null) {
-            return dispositionCheck(request, skill)
-                ?: skillRoll(request.mob.skills[skill.type] ?: error("no skill"))
-                ?: callInvokable(request, skill, buildActionContextList(request, skill))
-        }
-        val action = actions.find {
+
+        actions.find {
             it.command.value.startsWith(request.getCommand()) && it.syntax.size == request.args.size
+        }?.let {
+            return dispositionCheck(request, it)
+                ?: callInvokable(request, it, buildActionContextList(request, it))
         } ?: return createResponseWithEmptyActionContext(Message("what was that?"))
-        return dispositionCheck(request, action)
-            ?: callInvokable(request, action, buildActionContextList(request, action))
     }
 
     private fun skillRoll(level: Int): Response? {
