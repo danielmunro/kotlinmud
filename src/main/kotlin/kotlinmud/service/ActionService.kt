@@ -65,16 +65,12 @@ class ActionService(private val mobService: MobService, private val eventService
         val cost = skill.costs.find {
             when (it.type) {
                 CostType.MV_AMOUNT -> mob.mv < it.amount
-                CostType.MV_PERCENT -> {
-                    println(mob.calc(Attribute.MV) * (it.amount.toDouble() / 100))
-                    mob.mv < mob.calc(Attribute.MV) * (it.amount.toDouble() / 100)
-                }
+                CostType.MV_PERCENT -> mob.mv < mob.calc(Attribute.MV) * (it.amount.toDouble() / 100)
                 CostType.MANA_AMOUNT -> mob.mana < it.amount
                 CostType.MANA_PERCENT -> mob.mana < mob.calc(Attribute.MANA) * (it.amount.toDouble() / 100)
                 else -> false
             }
         }
-        println(cost)
         if (cost != null) {
             return createResponseWithEmptyActionContext(Message("You are too tired"))
         }
