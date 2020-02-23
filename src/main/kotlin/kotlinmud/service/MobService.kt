@@ -15,7 +15,8 @@ import kotlinmud.room.Room
 class MobService(
     private val eventService: EventService,
     private val rooms: List<Room>,
-    private val mobResets: MutableList<MobReset>) {
+    private val mobResets: MutableList<MobReset>
+) {
 
     private val mobRooms: MutableList<MobRoom> = mutableListOf()
     private val fights: MutableList<Fight> = mutableListOf()

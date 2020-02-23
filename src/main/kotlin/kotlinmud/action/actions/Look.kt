@@ -1,6 +1,7 @@
 package kotlinmud.action.actions
 
 import kotlinmud.action.*
+import kotlinmud.affect.AffectType
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
@@ -19,6 +20,9 @@ fun createLookAction(): Action {
 }
 
 fun describeRoom(request: Request, mobs: List<Mob>): String {
+    request.mob.affects.find {
+        it.affectType == AffectType.BLIND
+    }?.let { return "you can't see anything, you're blind!" }
     val observers = mobs.filter { it != request.mob }
     return String.format("%s\n%s\nExits [%s]%s%s%s%s",
         request.room.name,

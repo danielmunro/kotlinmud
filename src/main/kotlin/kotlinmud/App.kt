@@ -20,7 +20,8 @@ import org.kodein.di.erased.singleton
 class App(
     private val eventService: EventService,
     private val mobService: MobService,
-    private val server: Server) {
+    private val server: Server
+) {
 
     private val actionService: ActionService = ActionService(mobService, eventService)
 

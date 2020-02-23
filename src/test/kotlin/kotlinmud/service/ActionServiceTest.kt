@@ -5,6 +5,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import kotlinmud.action.actions.describeRoom
+import kotlinmud.affect.AffectInstance
+import kotlinmud.affect.AffectType
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Request
 import kotlinmud.mob.Disposition
@@ -28,6 +30,22 @@ class ActionServiceTest {
         // then
         assertEquals(
             describeRoom(Request(mob, "look", room), observers),
+            response.message.toActionCreator)
+    }
+
+    @Test
+    fun testCannotSeeRoomWhenBlind() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        mob.affects.add(AffectInstance(AffectType.BLIND, 1))
+
+        // when
+        val response = testService.runAction(mob, "look")
+
+        // then
+        assertEquals(
+            "you can't see anything, you're blind!",
             response.message.toActionCreator)
     }
 
