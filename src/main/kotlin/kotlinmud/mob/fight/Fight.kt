@@ -9,6 +9,20 @@ import kotlinmud.random.dN
 class Fight(private val mob1: Mob, private val mob2: Mob) {
     private var status: FightStatus = FightStatus.FIGHTING
 
+    fun isParticipant(mob: Mob): Boolean {
+        return mob == mob1 || mob == mob2
+    }
+
+    fun getOpponentFor(mob: Mob): Mob? {
+        if (mob == mob1) {
+            return mob2
+        }
+        if (mob == mob2) {
+            return mob1
+        }
+        return null
+    }
+
     fun isOver(): Boolean {
         return status == FightStatus.OVER
     }

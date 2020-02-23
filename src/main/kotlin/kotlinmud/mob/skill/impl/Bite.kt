@@ -1,12 +1,15 @@
 package kotlinmud.mob.skill.impl
 
+import kotlin.random.Random
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.mustBeAlert
+import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Intent
+import kotlinmud.mob.Mob
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.skill.*
 
@@ -23,6 +26,12 @@ class Bite : Skill {
     override val syntax: List<Syntax> = listOf(Syntax.COMMAND, Syntax.TARGET_MOB)
 
     override fun invoke(actionContextService: ActionContextService, request: Request): Response {
-        TODO()
+        val target: Mob = actionContextService.get(Syntax.TARGET_MOB)
+        target.hp -= Random.nextInt(1, (request.mob.level / 10).coerceAtLeast(2))
+        return actionContextService.createResponse(
+            Message(
+            "You bite $target.",
+                "${request.mob} bites you.",
+                "${request.mob} bites $target."))
     }
 }

@@ -7,6 +7,7 @@ import kotlinmud.io.Response
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.mob.Mob
+import kotlinmud.mob.fight.Fight
 import kotlinmud.room.Room
 import kotlinmud.service.ActionService
 import kotlinmud.service.FixtureService
@@ -54,5 +55,9 @@ class TestService(
             i++
         }
         throw Exception("cannot generate desired IOStatus")
+    }
+
+    fun addFight(fight: Fight) {
+        mobService.addFight(fight)
     }
 }

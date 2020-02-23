@@ -7,6 +7,7 @@ import kotlinmud.action.actions.describeRoom
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Request
 import kotlinmud.mob.Disposition
+import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.skill.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
@@ -239,5 +240,42 @@ class ActionServiceTest {
 
         // then
         assertTrue(mob.delay > 0)
+    }
+
+    @Test
+    fun testMobCanTargetMobInRoomWithAbility() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        val target = testService.createMob()
+        mob.skills = mob.skills.plus(Pair(SkillType.BITE, 100))
+
+        // when
+        val response = testService.runActionForIOStatus(mob, "bite ${getIdentifyingWord(target)}", IOStatus.OK)
+
+        // then
+        assertEquals("You bite $target.", response.message.toActionCreator)
+        assertEquals("$mob bites you.", response.message.toTarget)
+        assertEquals("$mob bites $target.", response.message.toObservers)
+    }
+
+    @Test
+    fun testMobCanTargetMobInFightWithAbility() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        val target = testService.createMob()
+        mob.skills = mob.skills.plus(Pair(SkillType.BITE, 100))
+
+        // given
+        testService.addFight(Fight(mob, target))
+
+        // when
+        val response = testService.runActionForIOStatus(mob, "bite", IOStatus.OK)
+
+        // then
+        assertEquals("You bite $target.", response.message.toActionCreator)
+        assertEquals("$mob bites you.", response.message.toTarget)
+        assertEquals("$mob bites $target.", response.message.toObservers)
     }
 }

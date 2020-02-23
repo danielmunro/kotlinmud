@@ -126,7 +126,7 @@ class ActionService(private val mobService: MobService, private val eventService
 
     private fun buildActionContextList(request: Request, invokable: Invokable): ActionContextList {
         var i = 0
-        return ActionContextList(invokable.syntax.map { createContext(request, it, request.args[i++]) } as MutableList<Context<Any>>)
+        return ActionContextList(invokable.syntax.map { createContext(request, it, if (request.args.size > i) request.args[i++] else "") } as MutableList<Context<Any>>)
     }
 
     private fun createContext(request: Request, syntax: Syntax, word: String): Context<Any> {
@@ -137,7 +137,7 @@ class ActionService(private val mobService: MobService, private val eventService
             Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.room).build(syntax, word)
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)
             Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, request.mob, request.room).build(syntax, word)
-            Syntax.TARGET_MOB -> TODO()
+            Syntax.TARGET_MOB -> TargetMobContextBuilder(mobService, request.mob, request.room).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

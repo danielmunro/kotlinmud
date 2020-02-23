@@ -19,6 +19,10 @@ class MobService(private val eventService: EventService, private val rooms: List
         fights.add(fight)
     }
 
+    fun findFightForMob(mob: Mob): Fight? {
+        return fights.find { it.isParticipant(mob) }
+    }
+
     fun getRoomForMob(mob: Mob): Room {
         return mobRooms.find { it.mob == mob }!!.room
     }

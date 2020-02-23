@@ -1,10 +1,10 @@
 package kotlinmud.test
 
 import java.net.ServerSocket
+import kotlinmud.Noun
 import kotlinmud.createContainer
 import kotlinmud.event.observer.createObservers
 import kotlinmud.io.Server
-import kotlinmud.item.Item
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
@@ -22,6 +22,6 @@ fun createTestService(): TestService {
     return TestService(fix, mob, act)
 }
 
-fun getIdentifyingWord(item: Item): String {
-    return item.name.split(" ")[1]
+fun getIdentifyingWord(noun: Noun): String {
+    return noun.name.split(" ")[1]
 }
