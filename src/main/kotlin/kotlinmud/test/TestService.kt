@@ -44,15 +44,15 @@ class TestService(
         return actionService.run(Request(mob, input, mobService.getRoomForMob(mob)))
     }
 
-    fun runActionForFailure(mob: Mob, input: String): Response {
+    fun runActionForIOStatus(mob: Mob, input: String, status: IOStatus): Response {
         var i = 0
         while (i < 100) {
             val response = runAction(mob, input)
-            if (response.status == IOStatus.FAILED) {
+            if (response.status == status) {
                 return response
             }
             i++
         }
-        throw Exception("cannot generate failure")
+        throw Exception("cannot generate desired IOStatus")
     }
 }

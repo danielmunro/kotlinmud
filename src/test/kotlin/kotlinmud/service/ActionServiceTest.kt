@@ -4,6 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 import kotlinmud.action.actions.describeRoom
+import kotlinmud.io.IOStatus
 import kotlinmud.io.Request
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.skill.SkillType
@@ -189,7 +190,7 @@ class ActionServiceTest {
         mob.skills = mob.skills.plus(Pair(SkillType.BERSERK, 100))
 
         // when
-        val response = testService.runAction(mob, "berserk")
+        val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)
 
         // then
         assertEquals("Your pulse speeds up as you are consumed by rage!", response.message.toActionCreator)
@@ -203,7 +204,7 @@ class ActionServiceTest {
         mob.skills = mob.skills.plus(Pair(SkillType.BERSERK, 1))
 
         // when
-        val response = testService.runActionForFailure(mob, "berserk")
+        val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.FAILED)
 
         // then
         assertEquals("You lost your concentration.", response.message.toActionCreator)
