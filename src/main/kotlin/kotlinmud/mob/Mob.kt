@@ -30,6 +30,8 @@ class Mob(
     var skills: Map<SkillType, Int> = mapOf(),
     val affects: MutableList<AffectInstance> = mutableListOf()
 ) {
+    var delay = 0
+
     fun isSleeping(): Boolean {
         return disposition == Disposition.SLEEPING
     }

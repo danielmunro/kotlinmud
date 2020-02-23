@@ -7,10 +7,12 @@ import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.action.actions.*
 import kotlinmud.action.contextBuilder.*
+import kotlinmud.attributes.Attribute
 import kotlinmud.io.*
 import kotlinmud.mob.Invokable
 import kotlinmud.mob.Mob
 import kotlinmud.mob.RequiresDisposition
+import kotlinmud.mob.skill.CostType
 import kotlinmud.mob.skill.Skill
 import kotlinmud.mob.skill.impl.Bash
 import kotlinmud.mob.skill.impl.Berserk
@@ -47,6 +49,7 @@ class ActionService(private val mobService: MobService, private val eventService
         }?.let {
             return dispositionCheck(request, it)
                 ?: skillRoll(request.mob.skills[it.type] ?: error("no skill"))
+                ?: deductCosts(request.mob, it)
                 ?: callInvokable(request, it, buildActionContextList(request, it))
         }
 
@@ -56,6 +59,35 @@ class ActionService(private val mobService: MobService, private val eventService
             return dispositionCheck(request, it)
                 ?: callInvokable(request, it, buildActionContextList(request, it))
         } ?: return createResponseWithEmptyActionContext(Message("what was that?"))
+    }
+
+    private fun deductCosts(mob: Mob, skill: Skill): Response? {
+        val cost = skill.costs.find {
+            when (it.type) {
+                CostType.MV_AMOUNT -> mob.mv < it.amount
+                CostType.MV_PERCENT -> {
+                    println(mob.calc(Attribute.MV) * (it.amount.toDouble() / 100))
+                    mob.mv < mob.calc(Attribute.MV) * (it.amount.toDouble() / 100)
+                }
+                CostType.MANA_AMOUNT -> mob.mana < it.amount
+                CostType.MANA_PERCENT -> mob.mana < mob.calc(Attribute.MANA) * (it.amount.toDouble() / 100)
+                else -> false
+            }
+        }
+        println(cost)
+        if (cost != null) {
+            return createResponseWithEmptyActionContext(Message("You are too tired"))
+        }
+        skill.costs.forEach {
+            when (it.type) {
+                CostType.DELAY -> mob.delay += it.amount
+                CostType.MV_AMOUNT -> mob.mv -= it.amount
+                CostType.MV_PERCENT -> mob.mv -= (mob.calc(Attribute.MV) * (it.amount.toDouble() / 100)).toInt()
+                CostType.MANA_AMOUNT -> mob.mana -= it.amount
+                CostType.MANA_PERCENT -> mob.mana -= (mob.calc(Attribute.MANA) * (it.amount.toDouble() / 100)).toInt()
+            }
+        }
+        return null
     }
 
     private fun skillRoll(level: Int): Response? {

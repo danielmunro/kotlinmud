@@ -209,4 +209,35 @@ class ActionServiceTest {
         // then
         assertEquals("You lost your concentration.", response.message.toActionCreator)
     }
+
+    @Test
+    fun testMobMustPayCostToUseSkill() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        mob.skills = mob.skills.plus(Pair(SkillType.BERSERK, 100))
+
+        // given
+        mob.mv = 0
+
+        // when
+        val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)
+
+        // then
+        assertEquals("You are too tired", response.message.toActionCreator)
+    }
+
+    @Test
+    fun testMobAppliesDelayWhenUsingSkill() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        mob.skills = mob.skills.plus(Pair(SkillType.BERSERK, 100))
+
+        // when
+        testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)
+
+        // then
+        assertTrue(mob.delay > 0)
+    }
 }
