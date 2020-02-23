@@ -1,5 +1,6 @@
 package kotlinmud.mob.skill.impl
 
+import kotlin.random.Random
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.mustBeAlert
 import kotlinmud.affect.AffectInstance
@@ -14,7 +15,6 @@ import kotlinmud.mob.Intent
 import kotlinmud.mob.Mob
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.skill.*
-import kotlin.random.Random
 
 class Bash : Skill {
     override val type: SkillType = SkillType.BASH

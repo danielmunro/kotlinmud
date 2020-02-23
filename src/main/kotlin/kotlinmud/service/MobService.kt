@@ -54,6 +54,14 @@ class MobService(private val eventService: EventService, private val rooms: List
         }
     }
 
+    fun decrementDelays() {
+        mobRooms.forEach { mobRoom ->
+            if (mobRoom.mob.delay > 0) {
+                mobRoom.mob.delay--
+            }
+        }
+    }
+
     fun pruneDeadMobs() {
         mobRooms.removeIf {
             if (it.mob.isIncapacitated()) {

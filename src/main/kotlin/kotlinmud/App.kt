@@ -4,9 +4,7 @@ import java.lang.Exception
 import java.net.ServerSocket
 import kotlinmud.db.applyDBSchema
 import kotlinmud.db.connect
-import kotlinmud.event.EventResponse
 import kotlinmud.event.createSendMessageToRoomEvent
-import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.event.observer.createObservers
 import kotlinmud.io.*
 import kotlinmud.mob.Mob
@@ -35,9 +33,12 @@ class App(private val eventService: EventService, private val mobService: MobSer
     }
 
     private fun processRequest(client: ClientHandler) {
+        if (client.mob.delay > 0) {
+            return
+        }
         val request = client.shiftBuffer()
         val response = actionService.run(request)
-        eventService.publish<SendMessageToRoomEvent, EventResponse<SendMessageToRoomEvent>>(
+        eventService.publishRoomMessage(
             createSendMessageToRoomEvent(response.message, mobService.getRoomForMob(request.mob), request.mob, getTarget(response)))
     }
 

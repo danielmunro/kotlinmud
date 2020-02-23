@@ -2,6 +2,7 @@ package kotlinmud.service
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import kotlinmud.action.actions.describeRoom
 import kotlinmud.io.IOStatus
@@ -11,7 +12,6 @@ import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.skill.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
-import kotlin.test.assertNotNull
 
 class ActionServiceTest {
     @Test
