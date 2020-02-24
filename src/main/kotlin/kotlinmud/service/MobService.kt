@@ -139,19 +139,11 @@ class MobService(
     }
 
     private fun putMobInRoom(mob: Mob, room: Room) {
-        val r = rooms.find { it == room }
-        if (r == null) {
-            println("no room exists")
-            return
-        }
+        val r = rooms.find { it == room } ?: error("no room found")
 
-        val mobRoom = mobRooms.find { it.mob == mob }
-        if (mobRoom == null) {
-            mobRooms.add(MobRoom(mob, r))
-            return
-        }
-
-        mobRoom.room = r
+        mobRooms.find { it.mob == mob }?.let {
+            it.room = r
+        } ?: mobRooms.add(MobRoom(mob, r))
     }
 }
 
