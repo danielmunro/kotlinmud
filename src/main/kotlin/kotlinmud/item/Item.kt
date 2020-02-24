@@ -9,4 +9,8 @@ open class Item(
     val description: String,
     val weight: Double = 1.0,
     override val attributes: Attributes = Attributes()
-) : HasAttributes, Noun
+) : HasAttributes, Noun {
+    override fun toString(): String {
+        return name
+    }
+}

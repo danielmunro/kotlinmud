@@ -1,76 +1,18 @@
 package kotlinmud.service
 
+import assertk.assertThat
+import assertk.assertions.hasSize
+import assertk.assertions.isEqualTo
+import assertk.assertions.isGreaterThan
+import assertk.assertions.isNotNull
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 import kotlinmud.io.IOStatus
-import kotlinmud.mob.Disposition
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.skill.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 
 class ActionServiceTest {
-    @Test
-    fun testMobMovesNorth() {
-        // setup
-        val testService = createTestService()
-        val mob = testService.createMob()
-
-        // when
-        val response = testService.runAction(mob, "n")
-
-        // then
-        assertEquals("test room no. 2\n" +
-                "a test room is here\n" +
-                "Exits [S]", response.message.toActionCreator)
-    }
-
-    @Test
-    fun testMobMovesSouth() {
-        // setup
-        val testService = createTestService()
-        val mob = testService.createMob()
-
-        // when
-        val response = testService.runAction(mob, "s")
-
-        // then
-        assertEquals("test room no. 3\n" +
-                "a test room is here\n" +
-                "Exits [N]", response.message.toActionCreator)
-    }
-
-    @Test
-    fun testMobCannotMoveInAnInvalidDirection() {
-        // setup
-        val testService = createTestService()
-        val mob = testService.createMob()
-
-        // when
-        val response = testService.runAction(mob, "w")
-
-        // then
-        assertEquals("Alas, that direction does not exist.", response.message.toActionCreator)
-    }
-
-    @Test
-    fun testMobCannotMoveWhileSitting() {
-        // setup
-        val testService = createTestService()
-        val mob = testService.createMob()
-
-        // given
-        mob.disposition = Disposition.SITTING
-
-        // when
-        val response = testService.runAction(mob, "n")
-
-        // then
-        assertEquals("you are sitting and cannot do that.", response.message.toActionCreator)
-    }
-
     @Test
     fun testMobCanGetItemFromRoom() {
         // setup
@@ -83,8 +25,9 @@ class ActionServiceTest {
         val response = testService.runAction(mob, "get ${getIdentifyingWord(item)}")
 
         // then
-        assertTrue(response.message.toActionCreator.startsWith("you pick up the"))
-        assertEquals(1, mob.inventory.items.count())
+        assertThat(response.message.toActionCreator).isEqualTo("you pick up $item.")
+        assertThat(mob.inventory.items).hasSize(1)
+        assertThat(room.inventory.items).hasSize(0)
     }
 
     @Test
@@ -92,13 +35,15 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
+        val room = testService.getRoomForMob(mob)
 
         // when
         val response = testService.runAction(mob, "get foo")
 
         // then
-        assertTrue(response.message.toActionCreator == "you don't see that anywhere.", response.message.toActionCreator)
-        assertEquals(0, mob.inventory.items.count())
+        assertThat(response.message.toActionCreator).isEqualTo("you don't see that anywhere.")
+        assertThat(mob.inventory.items).hasSize(0)
+        assertThat(room.inventory.items).hasSize(1)
     }
 
     @Test
@@ -107,13 +52,15 @@ class ActionServiceTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val item = testService.createItem(mob.inventory)
+        val room = testService.getRoomForMob(mob)
 
         // when
         val response = testService.runAction(mob, "drop ${getIdentifyingWord(item)}")
 
         // then
-        assertTrue(response.message.toActionCreator.startsWith("you drop the "))
-        assertEquals(0, mob.inventory.items.count())
+        assertThat(response.message.toActionCreator).isEqualTo("you drop $item.")
+        assertThat(mob.inventory.items).hasSize(0)
+        assertThat(room.inventory.items).hasSize(2)
     }
 
     @Test
@@ -127,7 +74,7 @@ class ActionServiceTest {
         val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)
 
         // then
-        assertEquals("Your pulse speeds up as you are consumed by rage!", response.message.toActionCreator)
+        assertThat(response.message.toActionCreator).isEqualTo("Your pulse speeds up as you are consumed by rage!")
     }
 
     @Test
@@ -141,7 +88,7 @@ class ActionServiceTest {
         val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.FAILED)
 
         // then
-        assertEquals("You lost your concentration.", response.message.toActionCreator)
+        assertThat(response.message.toActionCreator).isEqualTo("You lost your concentration.")
     }
 
     @Test
@@ -158,7 +105,7 @@ class ActionServiceTest {
         val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)
 
         // then
-        assertEquals("You are too tired", response.message.toActionCreator)
+        assertThat(response.message.toActionCreator).isEqualTo("You are too tired")
     }
 
     @Test
@@ -172,7 +119,7 @@ class ActionServiceTest {
         testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)
 
         // then
-        assertTrue(mob.delay > 0)
+        assertThat(mob.delay).isGreaterThan(0)
     }
 
     @Test
@@ -187,9 +134,9 @@ class ActionServiceTest {
         val response = testService.runActionForIOStatus(mob, "bite ${getIdentifyingWord(target)}", IOStatus.OK)
 
         // then
-        assertEquals("You bite $target.", response.message.toActionCreator)
-        assertEquals("$mob bites you.", response.message.toTarget)
-        assertEquals("$mob bites $target.", response.message.toObservers)
+        assertThat(response.message.toActionCreator).isEqualTo("You bite $target.")
+        assertThat(response.message.toTarget).isEqualTo("$mob bites you.")
+        assertThat(response.message.toObservers).isEqualTo("$mob bites $target.")
     }
 
     @Test
@@ -207,9 +154,9 @@ class ActionServiceTest {
         val response = testService.runActionForIOStatus(mob, "bite", IOStatus.OK)
 
         // then
-        assertEquals("You bite $target.", response.message.toActionCreator)
-        assertEquals("$mob bites you.", response.message.toTarget)
-        assertEquals("$mob bites $target.", response.message.toObservers)
+        assertThat(response.message.toActionCreator).isEqualTo("You bite $target.")
+        assertThat(response.message.toTarget).isEqualTo("$mob bites you.")
+        assertThat(response.message.toObservers).isEqualTo("$mob bites $target.")
     }
 
     @Test
@@ -227,7 +174,7 @@ class ActionServiceTest {
         val fight = testService.findFightForMob(mob)
 
         // then
-        assertNotNull(fight)
+        assertThat(fight).isNotNull()
     }
 
     @Test
@@ -246,6 +193,6 @@ class ActionServiceTest {
         val rounds = testService.proceedFights()
 
         // then
-        assertEquals(1, rounds.size)
+        assertThat(rounds).hasSize(1)
     }
 }

@@ -1,6 +1,7 @@
 package kotlinmud.action.impl
 
-import kotlin.test.assertEquals
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
 import kotlinmud.io.Request
@@ -21,9 +22,7 @@ class LookTest {
         val response = testService.runAction(mob, "look")
 
         // then
-        assertEquals(
-            describeRoom(Request(mob, "look", room), observers),
-            response.message.toActionCreator)
+        assertThat(response.message.toActionCreator).isEqualTo(describeRoom(Request(mob, "look", room), observers))
     }
 
     @Test
@@ -37,9 +36,7 @@ class LookTest {
         val response = testService.runAction(mob, "look")
 
         // then
-        assertEquals(
-            "you can't see anything, you're blind!",
-            response.message.toActionCreator)
+        assertThat(response.message.toActionCreator).isEqualTo("you can't see anything, you're blind!")
     }
 
     @Test
@@ -54,9 +51,7 @@ class LookTest {
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")
 
         // then
-        assertEquals(
-            "${item.name} is here.",
-            response.message.toActionCreator)
+        assertThat(response.message.toActionCreator).isEqualTo("${item.name} is here.")
     }
 
     @Test
@@ -70,9 +65,7 @@ class LookTest {
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")
 
         // then
-        assertEquals(
-            "${item.name} is here.",
-            response.message.toActionCreator)
+        assertThat(response.message.toActionCreator).isEqualTo("${item.name} is here.")
     }
 
     @Test
@@ -86,8 +79,6 @@ class LookTest {
         val response = testService.runAction(mob1, "look ${mob2.name.split(" ")[0]}")
 
         // then
-        assertEquals(
-            "${mob2.name} is here.",
-            response.message.toActionCreator)
+        assertThat(response.message.toActionCreator).isEqualTo("${mob2.name} is here.")
     }
 }
