@@ -1,4 +1,4 @@
-package kotlinmud.action.actions
+package kotlinmud.action.impl
 
 import kotlinmud.action.Action
 import kotlinmud.action.ActionContextService
@@ -8,14 +8,15 @@ import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
 
-fun createWakeAction(): Action {
+fun createSleepAction(): Action {
     return Action(
-        Command.WAKE,
-        listOf(Disposition.SLEEPING, Disposition.SITTING),
+        Command.SLEEP,
+        listOf(Disposition.STANDING, Disposition.SITTING),
         listOf(Syntax.COMMAND),
         { svc: ActionContextService, request: Request ->
-            request.mob.disposition = Disposition.STANDING
+            request.mob.disposition = Disposition.SLEEPING
             svc.createResponse(
-                Message("you stand up.", "${request.mob.name} stands up."))
+                Message("you lay down and go to sleep.", "${request.mob.name} lays down and goes to sleep.")
+            )
         })
 }

@@ -1,7 +1,9 @@
 package kotlinmud.service
 
+import assertk.assertThat
+import assertk.assertions.hasSize
+import assertk.assertions.isEqualTo
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
 import kotlinmud.test.createTestService
@@ -21,7 +23,7 @@ class MobServiceTest {
         testService.decrementAffects()
 
         // then
-        assertEquals(initial - 1, mob.affects.first().timeout)
+        assertThat(mob.affects.first().timeout).isEqualTo(initial - 1)
     }
 
     @Test
@@ -38,6 +40,6 @@ class MobServiceTest {
         testService.decrementAffects()
 
         // then
-        assertEquals(0, mob.affects.size)
+        assertThat(mob.affects).hasSize(0)
     }
 }

@@ -5,8 +5,8 @@ import kotlinmud.action.ActionContextList
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Context
 import kotlinmud.action.Status
-import kotlinmud.action.actions.*
 import kotlinmud.action.contextBuilder.*
+import kotlinmud.action.impl.*
 import kotlinmud.attributes.Attribute
 import kotlinmud.io.*
 import kotlinmud.mob.Intent

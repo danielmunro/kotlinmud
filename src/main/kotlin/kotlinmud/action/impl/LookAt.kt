@@ -1,4 +1,4 @@
-package kotlinmud.action.actions
+package kotlinmud.action.impl
 
 import kotlinmud.action.Action
 import kotlinmud.action.ActionContextService

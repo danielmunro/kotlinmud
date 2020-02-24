@@ -31,7 +31,6 @@ dependencies {
 
     // postgres
     implementation 'org.postgresql:postgresql:42.2.2'
-    testImplementation 'org.postgresql:postgresql:42.2.2'
 
     // fake data
     implementation 'io.github.serpro69:kotlin-faker:1.1'
@@ -45,15 +44,17 @@ dependencies {
     // Use the Kotlin JDK 8 standard library.
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
 
+    // container DI
+    implementation 'org.kodein.di:kodein-di-erased:6.5.0'
+
     // Use the Kotlin test library.
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 
     // Use the Kotlin JUnit integration.
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
 
-    // container DI
-    implementation 'org.kodein.di:kodein-di-erased:6.5.0'
-    testImplementation 'org.kodein.di:kodein-di-erased:6.5.0'
+    // assertions
+    testImplementation 'com.willowtreeapps.assertk:assertk-jvm:0.21'
 }
 
 application {
