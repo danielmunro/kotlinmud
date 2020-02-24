@@ -91,6 +91,25 @@ class Mob(
         return corpse
     }
 
+    fun copy(): Mob {
+        return Mob(
+            id,
+            name,
+            description,
+            disposition,
+            hp,
+            mana,
+            mv,
+            level,
+            race,
+            specialization,
+            attributes.copy(),
+            inventory.copy(),
+            equipped.copy(),
+            skills.toMap(),
+            affects.toMutableList())
+    }
+
     override fun toString(): String {
         return name
     }

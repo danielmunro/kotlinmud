@@ -9,6 +9,7 @@ import kotlinmud.item.Item
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.reset.MobReset
 import kotlinmud.room.Room
 import kotlinmud.service.ActionService
 import kotlinmud.service.FixtureService
@@ -19,6 +20,17 @@ class TestService(
     private val mobService: MobService,
     private val actionService: ActionService
 ) {
+    fun respawnWorld() {
+        mobService.respawnWorld()
+    }
+
+    fun addMobReset(mobReset: MobReset) {
+        mobService.addMobReset(mobReset)
+    }
+
+    fun getStartRoom(): Room {
+        return mobService.getStartRoom()
+    }
 
     fun createMob(): Mob {
         val mob = fixtureService.createMob()

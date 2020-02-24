@@ -93,7 +93,7 @@ class MobService(
     fun respawnWorld() {
         mobResets.forEach {
             while (it.maxInRoom > getMobsForRoom(it.room).filter { mob -> mob.id == it.mob.id }.size && it.maxInWorld > mobRooms.filter { mobRoom -> mobRoom.mob.id == it.mob.id }.size) {
-                putMobInRoom(it.mob, it.room)
+                putMobInRoom(it.mob.copy(), it.room)
             }
         }
     }

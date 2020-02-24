@@ -26,4 +26,23 @@ class Attributes(
     val acSlash: Int = 0,
     val acPierce: Int = 0,
     val acMagic: Int = 0
-)
+) {
+    fun copy(): Attributes {
+        return Attributes(
+            hp,
+            mana,
+            mv,
+            str,
+            int,
+            wis,
+            dex,
+            con,
+            hit,
+            dam,
+            acBash,
+            acSlash,
+            acPierce,
+            acMagic
+        )
+    }
+}
