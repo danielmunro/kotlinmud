@@ -5,9 +5,9 @@ import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
-import kotlinmud.item.Container
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
+import kotlinmud.item.Position
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
@@ -80,13 +80,17 @@ class Mob(
     }
 
     fun createCorpse(): Item {
-        val corpse = Container(
+        val corpse = Item(
             "a corpse of $name",
             "a corpse of $name is here.",
-            corpseWeight)
+            corpseWeight,
+            Attributes(),
+            Position.NONE,
+            Inventory()
+        )
         inventory.items.forEach {
             inventory.items.remove(it)
-            corpse.inventory.items.add(it)
+            corpse.inventory?.items?.add(it)
         }
         return corpse
     }

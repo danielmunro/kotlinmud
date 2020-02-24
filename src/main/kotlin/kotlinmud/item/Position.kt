@@ -18,4 +18,5 @@ enum class Position {
     HOLD,
     FLOAT,
     DRAGGING,
+    NONE,
 }
