@@ -3,7 +3,7 @@ package kotlinmud.db
 import kotlinmud.attributes.AttributesTable
 import kotlinmud.db.enum.DirectionTable
 import kotlinmud.db.enum.DispositionTable
-import kotlinmud.exit.ExitTable
+import kotlinmud.room.exit.ExitTable
 import kotlinmud.item.Inventories
 import kotlinmud.item.Items
 import kotlinmud.mob.MobTable

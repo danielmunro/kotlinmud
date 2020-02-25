@@ -1,4 +1,4 @@
-package kotlinmud.exit
+package kotlinmud.room.exit
 
 import kotlinmud.db.enum.DirectionPGEnum
 import kotlinmud.room.Direction

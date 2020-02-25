@@ -1,7 +1,7 @@
 package kotlinmud.room
 
-import kotlinmud.exit.ExitEntity
-import kotlinmud.exit.ExitTable
+import kotlinmud.room.exit.ExitEntity
+import kotlinmud.room.exit.ExitTable
 import kotlinmud.item.Inventories
 import kotlinmud.item.InventoryEntity
 import org.jetbrains.exposed.dao.EntityID

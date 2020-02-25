@@ -2,7 +2,7 @@ package kotlinmud.service
 
 import io.github.serpro69.kfaker.Faker
 import kotlinmud.attributes.*
-import kotlinmud.exit.Exit
+import kotlinmud.room.exit.Exit
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.mob.Disposition
