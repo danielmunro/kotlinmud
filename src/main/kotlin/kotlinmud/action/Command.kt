@@ -13,6 +13,11 @@ enum class Command(val value: String) {
     DROP("drop"),
     INVENTORY("inventory"),
     KILL("kill"),
+
+    // door
+    OPEN("open"),
+    CLOSE("close"),
+
     // dispositions
     SIT("sit"),
     SLEEP("sleep"),

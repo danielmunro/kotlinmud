@@ -15,6 +15,6 @@ class DirectionToExitContextBuilder(private val room: Room) : ContextBuilder {
             return Context(syntax, Status.FAILED, "you must open the door first.")
         }
 
-        return Context(syntax, Status.OK, room)
+        return Context(syntax, Status.OK, exit.destination)
     }
 }

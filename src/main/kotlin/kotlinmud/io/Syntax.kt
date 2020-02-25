@@ -8,5 +8,6 @@ enum class Syntax(val syntax: String) {
     MOB_IN_ROOM("mob in room"),
     AVAILABLE_NOUN("available noun"),
     TARGET_MOB("target mob"),
+    DOOR_IN_ROOM("door in room"),
     NOOP("noop"),
 }
