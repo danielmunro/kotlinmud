@@ -41,7 +41,7 @@ class FixtureService {
             Direction.EAST,
             Door("a solid wooden door", "A heavy wooden door is here.", DoorDisposition.CLOSED))
         createItem(room1.inventory)
-        return listOf(room1, room2, room3)
+        return listOf(room1, room2, room3, room4)
     }
 
     fun createMob(race: Race = Human(), specialization: SpecializationType = SpecializationType.NONE): Mob {

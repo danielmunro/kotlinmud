@@ -65,4 +65,17 @@ class MoveTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you are sitting and cannot do that.")
     }
+
+    @Test
+    fun testMobCannotMoveDirectionIfDoorIsClosed() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+
+        // when
+        val response = testService.runAction(mob, "e")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("you must open the door first.")
+    }
 }
