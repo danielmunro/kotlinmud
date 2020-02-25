@@ -2,7 +2,6 @@ package kotlinmud.service
 
 import io.github.serpro69.kfaker.Faker
 import kotlinmud.attributes.*
-import kotlinmud.room.exit.Exit
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.mob.Disposition
@@ -13,6 +12,9 @@ import kotlinmud.mob.race.impl.Human
 import kotlinmud.reset.MobReset
 import kotlinmud.room.Direction
 import kotlinmud.room.Room
+import kotlinmud.room.exit.Door
+import kotlinmud.room.exit.DoorDisposition
+import kotlinmud.room.exit.Exit
 import kotlinmud.room.oppositeDirection
 
 class FixtureService {
@@ -30,8 +32,14 @@ class FixtureService {
         val room1 = createRoom()
         val room2 = createRoom()
         val room3 = createRoom()
+        val room4 = createRoom()
         createExit(room1, room2, Direction.NORTH)
         createExit(room1, room3, Direction.SOUTH)
+        createExit(
+            room1,
+            room4,
+            Direction.EAST,
+            Door("a solid wooden door", "A heavy wooden door is here.", DoorDisposition.CLOSED))
         createItem(room1.inventory)
         return listOf(room1, room2, room3)
     }
@@ -68,10 +76,10 @@ class FixtureService {
         return item
     }
 
-    private fun createExit(src: Room, dest: Room, dir: Direction): Exit {
-        val exit = Exit(dest, dir)
+    private fun createExit(src: Room, dest: Room, dir: Direction, door: Door? = null): Exit {
+        val exit = Exit(dest, dir, door)
         src.exits.add(exit)
-        dest.exits.add(Exit(src, oppositeDirection(dir)))
+        dest.exits.add(Exit(src, oppositeDirection(dir), door))
         return exit
     }
 

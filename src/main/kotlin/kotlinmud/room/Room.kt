@@ -1,7 +1,7 @@
 package kotlinmud.room
 
-import kotlinmud.room.exit.Exit
 import kotlinmud.item.Inventory
+import kotlinmud.room.exit.Exit
 
 class Room(
     val name: String,

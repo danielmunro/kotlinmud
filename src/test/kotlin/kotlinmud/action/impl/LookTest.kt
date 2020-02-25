@@ -1,6 +1,7 @@
 package kotlinmud.action.impl
 
 import assertk.assertThat
+import assertk.assertions.contains
 import assertk.assertions.isEqualTo
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
@@ -80,5 +81,20 @@ class LookTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("${mob2.name} is here.")
+    }
+
+    @Test
+    fun testCanSeeADoor() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        val room = testService.getStartRoom()
+        val door = room.exits.find { it.door != null }!!.door!!
+
+        // when
+        val response = testService.runAction(mob, "look")
+
+        // then
+        assertThat(response.message.toActionCreator).contains(door.name)
     }
 }

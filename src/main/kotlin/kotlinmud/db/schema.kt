@@ -3,11 +3,11 @@ package kotlinmud.db
 import kotlinmud.attributes.AttributesTable
 import kotlinmud.db.enum.DirectionTable
 import kotlinmud.db.enum.DispositionTable
-import kotlinmud.room.exit.ExitTable
 import kotlinmud.item.Inventories
 import kotlinmud.item.Items
 import kotlinmud.mob.MobTable
 import kotlinmud.room.RoomTable
+import kotlinmud.room.exit.ExitTable
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
