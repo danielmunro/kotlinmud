@@ -55,5 +55,6 @@ class CloseTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you don't see that anywhere.")
+        assertThat(response.status).isEqualTo(IOStatus.ERROR)
     }
 }

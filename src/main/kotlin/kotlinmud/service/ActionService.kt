@@ -121,7 +121,7 @@ class ActionService(private val mobService: MobService, private val eventService
     private fun callInvokable(request: Request, invokable: Invokable, list: ActionContextList): Response {
         val error = list.getError()
         if (error != null) {
-            return createResponseWithEmptyActionContext(Message(error.result as String))
+            return createResponseWithEmptyActionContext(Message(error.result as String), IOStatus.ERROR)
         }
         with(invokable.invoke(ActionContextService(mobService, eventService, list), request)) {
             return if (invokable is Action && invokable.isChained())
