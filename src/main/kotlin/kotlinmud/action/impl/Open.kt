@@ -18,7 +18,7 @@ fun createOpenAction(): Action {
         listOf(Syntax.COMMAND, Syntax.DOOR_IN_ROOM),
         { svc: ActionContextService, request: Request ->
             val door: Door = svc.get(Syntax.DOOR_IN_ROOM)
-            when(door.disposition) {
+            when (door.disposition) {
                 DoorDisposition.LOCKED -> svc.createResponse(Message("it is locked."), IOStatus.ERROR)
                 DoorDisposition.OPEN -> svc.createResponse(Message("it is already open."), IOStatus.ERROR)
                 DoorDisposition.CLOSED -> {

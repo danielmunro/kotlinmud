@@ -40,7 +40,11 @@ class ActionContextService(
         return Response(status, actionContextList, message)
     }
 
-    fun createFight(mob: Mob) {
-        mobService.addFight(Fight(mob, get<Mob>(Syntax.MOB_IN_ROOM)))
+    fun createFightFor(mob: Mob) {
+        mobService.addFight(Fight(mob, get(Syntax.MOB_IN_ROOM)))
+    }
+
+    fun endFightFor(mob: Mob) {
+        mobService.endFightFor(mob)
     }
 }

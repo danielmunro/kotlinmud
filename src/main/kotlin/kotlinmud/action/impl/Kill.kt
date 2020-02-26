@@ -13,7 +13,7 @@ fun createKillAction(): Action {
         listOf(Syntax.COMMAND, Syntax.MOB_IN_ROOM),
         { svc: ActionContextService, request: Request ->
             val target = svc.get<Mob>(Syntax.MOB_IN_ROOM)
-            svc.createFight(request.mob)
+            svc.createFightFor(request.mob)
             svc.createResponse(Message(
                     "you scream and attack ${target.name}!",
                     "${request.mob.name} screams and attacks you!",

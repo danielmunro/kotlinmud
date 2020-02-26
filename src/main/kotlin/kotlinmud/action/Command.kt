@@ -12,7 +12,10 @@ enum class Command(val value: String) {
     GET("get"),
     DROP("drop"),
     INVENTORY("inventory"),
+
+    // fighting
     KILL("kill"),
+    FLEE("flee"),
 
     // door
     OPEN("open"),

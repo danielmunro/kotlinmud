@@ -35,6 +35,7 @@ class ActionService(private val mobService: MobService, private val eventService
         createDropAction(),
         createInventoryAction(),
         createKillAction(),
+        createFleeAction(),
         createSitAction(),
         createWakeAction(),
         createSleepAction(),

@@ -23,6 +23,10 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
         return null
     }
 
+    fun end() {
+        status = FightStatus.OVER
+    }
+
     fun isOver(): Boolean {
         return status == FightStatus.OVER
     }

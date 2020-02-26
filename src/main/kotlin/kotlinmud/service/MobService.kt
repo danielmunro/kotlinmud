@@ -29,6 +29,10 @@ class MobService(
         fights.add(fight)
     }
 
+    fun endFightFor(mob: Mob) {
+        fights.find { it.isParticipant(mob) }?.end()
+    }
+
     fun findFightForMob(mob: Mob): Fight? {
         return fights.find { it.isParticipant(mob) }
     }
@@ -54,9 +58,8 @@ class MobService(
     }
 
     fun proceedFights(): List<Round> {
-        val rounds = fights.map { proceedFightRound(it.createRound()) }
         fights.removeIf { it.isOver() }
-        return rounds
+        return fights.map { proceedFightRound(it.createRound()) }
     }
 
     fun decrementAffects() {
