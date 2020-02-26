@@ -38,7 +38,8 @@ class ActionService(private val mobService: MobService, private val eventService
         createSitAction(),
         createWakeAction(),
         createSleepAction(),
-        createOpenAction())
+        createOpenAction(),
+        createCloseAction())
 
     private val skills: List<Skill> = listOf(
         Bash(),
