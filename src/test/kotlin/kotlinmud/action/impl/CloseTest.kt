@@ -2,6 +2,7 @@ package kotlinmud.action.impl
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import kotlinmud.io.IOStatus
 import kotlinmud.room.exit.DoorDisposition
 import kotlinmud.test.createTestService
 import org.junit.Test
@@ -21,6 +22,23 @@ class CloseTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you close a solid wooden door.")
+    }
+
+    @Test
+    fun testCannotCloseAClosedDoor() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+
+        // given
+        testService.getStartRoom().exits.find { it.door != null }?.let { it.door?.disposition = DoorDisposition.CLOSED }
+
+        // when
+        val response = testService.runAction(mob, "close door")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("it is already closed.")
+        assertThat(response.status).isEqualTo(IOStatus.ERROR)
     }
 
     @Test
