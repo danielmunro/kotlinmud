@@ -4,6 +4,7 @@ import kotlinmud.loader.model.RoomModel
 import kotlinmud.room.Direction
 import kotlinmud.room.Room
 import kotlinmud.room.exit.Exit
+import kotlinmud.room.oppositeDirection
 
 class RoomMapper(private val roomModels: List<RoomModel>) {
     fun map(): List<Room> {
@@ -30,6 +31,8 @@ class RoomMapper(private val roomModels: List<RoomModel>) {
 
 fun addExit(room: Room, roomMap: Map<Int, Room>, direction: Direction, id: Int?) {
     if (id != null && id != 0) {
-        room.exits.add(Exit(roomMap[id] ?: error("no map for $id"), direction))
+        val destination = roomMap[id] ?: error("no map for $id")
+        room.exits.add(Exit(destination, direction))
+        destination.exits.add(Exit(room, oppositeDirection(direction)))
     }
 }

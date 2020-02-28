@@ -1,5 +1,6 @@
-package kotlinmud.loader
+package kotlinmud.loader.loader
 
+import kotlinmud.loader.Tokenizer
 import kotlinmud.loader.model.RoomModel
 
 class RoomLoader(private val tokenizer: Tokenizer) {

@@ -10,7 +10,7 @@ import kotlinmud.io.ClientHandler
 import kotlinmud.io.Response
 import kotlinmud.io.Server
 import kotlinmud.io.Syntax
-import kotlinmud.loader.RoomLoader
+import kotlinmud.loader.loader.RoomLoader
 import kotlinmud.loader.Tokenizer
 import kotlinmud.loader.model.RoomModel
 import kotlinmud.mapper.RoomMapper

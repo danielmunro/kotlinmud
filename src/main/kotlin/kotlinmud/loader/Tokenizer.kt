@@ -34,6 +34,9 @@ class Tokenizer(val value: String) {
 
     fun parseProperties(): Map<String, String> {
         var key = getNext()
+        if (key == "~") {
+            return mapOf()
+        }
         var value = getNext()
         val map = mutableMapOf<String, String>()
         while (!value.contains("~")) {
