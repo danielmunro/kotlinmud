@@ -1,4 +1,4 @@
 #1
 a heavy wooden door~
 A heavy wooden door is here.~
-disposition: open~
+closed~

@@ -3,11 +3,11 @@ A test room~
 This is the starting test room.
 
 Multi-line room descriptions are supported.~
-n: 2, s: 3, e: 4~
+n: 2, s: 3, e: door:1:4~
 
 #2
 A different test room~
-This in a different test room.~
+This is a different test room.~
 ~
 
 #3

@@ -39,7 +39,7 @@ class FixtureService {
             room1,
             room4,
             Direction.EAST,
-            Door("a solid wooden door", "A heavy wooden door is here.", DoorDisposition.CLOSED))
+            Door(1, "a solid wooden door", "A heavy wooden door is here.", DoorDisposition.CLOSED))
         createItem(room1.inventory)
         return listOf(room1, room2, room3, room4)
     }

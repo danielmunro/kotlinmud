@@ -3,10 +3,11 @@ package kotlinmud.mapper
 import kotlinmud.loader.model.RoomModel
 import kotlinmud.room.Direction
 import kotlinmud.room.Room
+import kotlinmud.room.exit.Door
 import kotlinmud.room.exit.Exit
 import kotlinmud.room.oppositeDirection
 
-class RoomMapper(private val roomModels: List<RoomModel>) {
+class RoomMapper(private val roomModels: List<RoomModel>, private val doors: List<Door>) {
     fun map(): List<Room> {
         val rooms = roomModels.map { Room(it.id, it.name, it.description) }
         val modelMap = mutableMapOf<Int, RoomModel>()
@@ -27,13 +28,24 @@ class RoomMapper(private val roomModels: List<RoomModel>) {
         }
         return rooms
     }
-}
 
-fun addExit(room: Room, roomMap: Map<Int, Room>, direction: Direction, id: Int?) {
-    if (id == null || id == 0) {
-        return
+    private fun addExit(room: Room, roomMap: Map<Int, Room>, direction: Direction, id: String?, door: Door? = null) {
+        if (id == null || id == "") {
+            return
+        }
+        if (id.contains(":")) {
+            val parts = id.split(":")
+            addExit(room, roomMap, direction, parts[2], doors.find {
+                it.id == parts[1].toInt()
+            })
+            return
+        }
+        val toInt = id.toInt()
+        if (toInt == 0) {
+            return
+        }
+        val destination = roomMap[toInt] ?: error("no map for $id")
+        room.exits.add(Exit(destination, direction, door))
+        destination.exits.add(Exit(room, oppositeDirection(direction), door))
     }
-    val destination = roomMap[id] ?: error("no map for $id")
-    room.exits.add(Exit(destination, direction))
-    destination.exits.add(Exit(room, oppositeDirection(direction)))
 }

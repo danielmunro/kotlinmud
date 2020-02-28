@@ -4,12 +4,12 @@ class RoomModel(
     val id: Int,
     val name: String,
     val description: String,
-    val north: Int,
-    val south: Int,
-    val east: Int,
-    val west: Int,
-    val up: Int,
-    val down: Int
+    val north: String,
+    val south: String,
+    val east: String,
+    val west: String,
+    val up: String,
+    val down: String
 ) {
 
     override fun toString(): String {

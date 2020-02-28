@@ -10,6 +10,7 @@ import kotlinmud.io.ClientHandler
 import kotlinmud.io.Response
 import kotlinmud.io.Server
 import kotlinmud.io.Syntax
+import kotlinmud.loader.AreaLoader
 import kotlinmud.loader.loader.RoomLoader
 import kotlinmud.loader.Tokenizer
 import kotlinmud.loader.model.RoomModel
@@ -91,17 +92,5 @@ fun createContainer(): Kodein {
 }
 
 fun loadRooms(): List<Room> {
-    val filename = "areas/midgard/rooms.txt"
-    val classLoader = ClassLoader.getSystemClassLoader()
-    val tokenizer = Tokenizer(File(classLoader?.getResource(filename)!!.file).readText())
-    val roomLoader = RoomLoader(tokenizer)
-    val models: MutableList<RoomModel> = mutableListOf()
-    while (true) {
-        try {
-            models.add(roomLoader.load())
-        } catch (e: Exception) {
-            break
-        }
-    }
-    return RoomMapper(models.toList()).map()
+    return AreaLoader("areas/midgard").load()
 }
