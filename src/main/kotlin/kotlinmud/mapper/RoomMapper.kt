@@ -30,9 +30,10 @@ class RoomMapper(private val roomModels: List<RoomModel>) {
 }
 
 fun addExit(room: Room, roomMap: Map<Int, Room>, direction: Direction, id: Int?) {
-    if (id != null && id != 0) {
-        val destination = roomMap[id] ?: error("no map for $id")
-        room.exits.add(Exit(destination, direction))
-        destination.exits.add(Exit(room, oppositeDirection(direction)))
+    if (id == null || id == 0) {
+        return
     }
+    val destination = roomMap[id] ?: error("no map for $id")
+    room.exits.add(Exit(destination, direction))
+    destination.exits.add(Exit(room, oppositeDirection(direction)))
 }
