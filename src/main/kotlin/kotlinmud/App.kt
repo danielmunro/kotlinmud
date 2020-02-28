@@ -1,13 +1,21 @@
 package kotlinmud
 
-import java.lang.Exception
+import java.io.File
 import java.net.ServerSocket
 import kotlinmud.db.applyDBSchema
 import kotlinmud.db.connect
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.observer.createObservers
-import kotlinmud.io.*
+import kotlinmud.io.ClientHandler
+import kotlinmud.io.Response
+import kotlinmud.io.Server
+import kotlinmud.io.Syntax
+import kotlinmud.loader.RoomLoader
+import kotlinmud.loader.Tokenizer
+import kotlinmud.loader.model.RoomModel
+import kotlinmud.mapper.RoomMapper
 import kotlinmud.mob.Mob
+import kotlinmud.room.Room
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
@@ -22,7 +30,6 @@ class App(
     private val mobService: MobService,
     private val server: Server
 ) {
-
     private val actionService: ActionService = ActionService(mobService, eventService)
 
     fun start() {
@@ -76,9 +83,25 @@ fun createContainer(): Kodein {
         bind<ActionService>() with singleton { ActionService(instance<MobService>(), instance<EventService>()) }
         bind<MobService>() with singleton {
             val fix = instance<FixtureService>()
-            val svc = MobService(instance<EventService>(), fix.generateWorld(), mutableListOf())
+            val svc = MobService(instance<EventService>(), loadRooms(), mutableListOf())
             fix.populateWorld(svc)
             svc
         }
     }
+}
+
+fun loadRooms(): List<Room> {
+    val filename = "areas/midgard/rooms.txt"
+    val classLoader = ClassLoader.getSystemClassLoader()
+    val tokenizer = Tokenizer(File(classLoader?.getResource(filename)!!.file).readText())
+    val roomLoader = RoomLoader(tokenizer)
+    val models: MutableList<RoomModel> = mutableListOf()
+    while (true) {
+        try {
+            models.add(roomLoader.load())
+        } catch (e: Exception) {
+            break
+        }
+    }
+    return RoomMapper(models.toList()).map()
 }

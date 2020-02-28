@@ -1,0 +1,21 @@
+#1
+A test room~
+This is the starting test room.
+
+Multi-line room descriptions are supported.~
+n: 2, s: 3, e: 4~
+
+#2
+A different test room~
+This in a different test room.~
+s: 1~
+
+#3
+A back room~
+A back room is here.~
+n: 1~
+
+#4
+A quiet barroom in a tavern~
+Light flickering from a lantern illuminates a cozy bar.~
+w: 1~

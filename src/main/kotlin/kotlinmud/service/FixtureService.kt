@@ -86,6 +86,7 @@ class FixtureService {
     private fun createRoom(): Room {
         rooms++
         return Room(
+                rooms,
                 "test room no. $rooms",
                 "a test room is here",
                 Inventory(),
