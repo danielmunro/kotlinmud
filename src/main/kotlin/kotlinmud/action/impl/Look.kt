@@ -7,6 +7,7 @@ import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.mob.Mob
+import kotlinmud.room.Room
 import kotlinmud.room.exit.DoorDisposition
 import kotlinmud.room.exit.Exit
 
@@ -17,22 +18,22 @@ fun createLookAction(): Action {
         listOf(Syntax.COMMAND),
         { svc: ActionContextService, request: Request ->
             createResponseWithEmptyActionContext(
-                Message(describeRoom(request, svc.getMobsInRoom(request.room))))
+                Message(describeRoom(request.room, request.mob, svc.getMobsInRoom(request.room))))
         })
 }
 
-fun describeRoom(request: Request, mobs: List<Mob>): String {
-    request.mob.affects.find {
+fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>): String {
+    mob.affects.find {
         it.affectType == AffectType.BLIND
     }?.let { return "you can't see anything, you're blind!" }
-    val observers = mobs.filter { it != request.mob }
+    val observers = mobs.filter { it != mob }
     return String.format("%s\n%s\n%sExits [%s]%s%s%s%s",
-        request.room.name,
-        request.room.description,
-        showDoors(request.room.exits),
-        reduceExits(request.room.exits),
-        if (request.room.inventory.items.count() > 0) "\n" else "",
-        request.room.inventory.items.joinToString("\n") { "${it.name} is here." },
+        room.name,
+        room.description,
+        showDoors(room.exits),
+        reduceExits(room.exits),
+        if (room.inventory.items.count() > 0) "\n" else "",
+        room.inventory.items.joinToString("\n") { "${it.name} is here." },
         if (observers.count() > 0) "\n" else "",
         observers.joinToString("\n") { "${it.name} is ${it.disposition.value.toLowerCase()} here." }
     )

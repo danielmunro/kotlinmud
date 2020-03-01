@@ -81,6 +81,7 @@ class Mob(
 
     fun createCorpse(): Item {
         val corpse = Item(
+            0,
             "a corpse of $name",
             "a corpse of $name is here.",
             corpseWeight,

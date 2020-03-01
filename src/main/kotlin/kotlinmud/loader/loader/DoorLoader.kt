@@ -2,7 +2,6 @@ package kotlinmud.loader.loader
 
 import kotlinmud.loader.Tokenizer
 import kotlinmud.loader.model.DoorModel
-import kotlinmud.room.exit.DoorDisposition
 import kotlinmud.room.exit.getDoorDispositionFromString
 
 class DoorLoader(private val tokenizer: Tokenizer) {

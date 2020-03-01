@@ -5,7 +5,6 @@ import assertk.assertions.contains
 import assertk.assertions.isEqualTo
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
-import kotlinmud.io.Request
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 import org.junit.Test
@@ -23,7 +22,7 @@ class LookTest {
         val response = testService.runAction(mob, "look")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo(describeRoom(Request(mob, "look", room), observers))
+        assertThat(response.message.toActionCreator).isEqualTo(describeRoom(room, mob, observers))
     }
 
     @Test

@@ -17,8 +17,8 @@ class MoveTest {
         val response = testService.runAction(mob, "n")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("test room no. 2\n" +
-                "a test room is here\n" +
+        assertThat(response.message.toActionCreator).isEqualTo("A different test room\n" +
+                "This is a different test room.\n" +
                 "Exits [S]")
     }
 
@@ -32,8 +32,8 @@ class MoveTest {
         val response = testService.runAction(mob, "s")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("test room no. 3\n" +
-                "a test room is here\n" +
+        assertThat(response.message.toActionCreator).isEqualTo("A back room\n" +
+                "A back room is here.\n" +
                 "Exits [N]")
     }
 

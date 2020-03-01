@@ -21,7 +21,7 @@ class CloseTest {
         val response = testService.runAction(mob, "close door")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you close a solid wooden door.")
+        assertThat(response.message.toActionCreator).isEqualTo("you close a heavy wooden door.")
     }
 
     @Test

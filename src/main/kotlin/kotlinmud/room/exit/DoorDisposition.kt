@@ -7,7 +7,7 @@ enum class DoorDisposition {
 }
 
 fun getDoorDispositionFromString(disposition: String): DoorDisposition {
-    return when(disposition) {
+    return when (disposition) {
         "closed" -> DoorDisposition.CLOSED
         "open" -> DoorDisposition.OPEN
         "locked" -> DoorDisposition.LOCKED

@@ -26,6 +26,7 @@ class FixtureService {
     fun populateWorld(mobService: MobService) {
         mobService.addMobReset(MobReset(createMob(), mobService.getStartRoom(), 1, 1))
         mobService.respawnWorld()
+        createItem(mobService.getStartRoom().inventory)
     }
 
     fun generateWorld(): List<Room> {
@@ -68,6 +69,7 @@ class FixtureService {
     fun createItem(inv: Inventory, attributes: Attributes = Attributes()): Item {
         items++
         val item = Item(
+            items,
             "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}",
             "A test item is here ($items).",
             1.0,

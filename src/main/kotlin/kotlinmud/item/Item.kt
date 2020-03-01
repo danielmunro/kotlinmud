@@ -5,6 +5,7 @@ import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
 
 class Item(
+    val id: Int,
     override val name: String,
     val description: String,
     val weight: Double = 1.0,
