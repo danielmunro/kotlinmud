@@ -10,6 +10,7 @@ import kotlinmud.mob.skill.SkillType
 class MobModel(
     override val id: Int,
     val name: String,
+    val brief: String,
     val description: String,
     val disposition: Disposition,
     var hp: Int,

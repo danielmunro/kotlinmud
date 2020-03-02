@@ -10,6 +10,7 @@ class MobMapper(private val mobs: List<MobModel>) {
             Mob(
                 it.id,
                 it.name,
+                it.brief,
                 it.description,
                 it.disposition,
                 it.hp,

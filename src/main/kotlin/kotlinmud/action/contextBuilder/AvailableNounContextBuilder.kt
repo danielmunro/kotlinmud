@@ -16,11 +16,11 @@ class AvailableNounContextBuilder(
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val target = mobService.getMobsForRoom(room).find {
                 matches(it.name, word)
-            }?.name ?: mob.inventory.items.find {
+            } ?: mob.inventory.items.find {
                 matches(it.name, word)
-            }?.name ?: room.inventory.items.find {
+            } ?: room.inventory.items.find {
                 matches(it.name, word)
-            }?.name ?: return Context(syntax, Status.FAILED, "you don't see anything like that here.")
-        return Context(syntax, Status.OK, "$target is here.")
+            } ?: return Context(syntax, Status.FAILED, "you don't see anything like that here.")
+        return Context(syntax, Status.OK, target)
     }
 }

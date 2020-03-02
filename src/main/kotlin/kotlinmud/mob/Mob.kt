@@ -18,7 +18,8 @@ const val corpseWeight = 20.0
 class Mob(
     val id: Int,
     override val name: String,
-    var description: String,
+    var brief: String,
+    override var description: String,
     var disposition: Disposition,
     var hp: Int,
     var mana: Int,
@@ -100,6 +101,7 @@ class Mob(
         return Mob(
             id,
             name,
+            brief,
             description,
             disposition,
             hp,

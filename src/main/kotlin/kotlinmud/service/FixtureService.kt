@@ -32,9 +32,11 @@ class FixtureService {
 
     fun createMob(race: Race = Human(), specialization: SpecializationType = SpecializationType.NONE): Mob {
         mobs++
+        val name = faker.name.name()
         return Mob(
                 mobs,
-                faker.name.name(),
+                name,
+                "$name is here.",
                 "A test mob is here ($mobs).",
                 Disposition.STANDING,
                 startingHp,

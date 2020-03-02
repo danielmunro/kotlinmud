@@ -35,7 +35,7 @@ fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>): String {
         if (room.inventory.items.count() > 0) "\n" else "",
         room.inventory.items.joinToString("\n") { "${it.name} is here." },
         if (observers.count() > 0) "\n" else "",
-        observers.joinToString("\n") { "${it.name} is ${it.disposition.value.toLowerCase()} here." }
+        observers.joinToString("\n") { it.brief }
     )
 }
 

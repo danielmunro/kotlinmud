@@ -1,5 +1,6 @@
 package kotlinmud.action.impl
 
+import kotlinmud.Noun
 import kotlinmud.action.Action
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
@@ -16,6 +17,6 @@ fun createLookAtAction(): Action {
         listOf(Syntax.COMMAND, Syntax.AVAILABLE_NOUN),
         { svc: ActionContextService, _: Request ->
             createResponseWithEmptyActionContext(
-                Message(svc.get(Syntax.AVAILABLE_NOUN)))
+                Message(svc.get<Noun>(Syntax.AVAILABLE_NOUN).description))
         })
 }

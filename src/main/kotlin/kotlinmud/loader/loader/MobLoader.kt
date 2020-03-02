@@ -10,6 +10,7 @@ import kotlinmud.mob.race.createRaceFromString
 class MobLoader(private val tokenizer: Tokenizer) : Loader {
     var id = 0
     var name = ""
+    var brief = ""
     var description = ""
     var disposition = ""
     var attributes: Map<String, String> = mapOf()
@@ -17,6 +18,7 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
     override fun load(): MobModel {
         id = tokenizer.parseId()
         name = tokenizer.parseString()
+        brief = tokenizer.parseString()
         description = tokenizer.parseString()
         disposition = tokenizer.parseString()
         attributes = tokenizer.parseProperties()
@@ -27,6 +29,7 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
         return MobModel(
             id,
             name,
+            brief,
             description,
             Disposition.valueOf(disposition.toUpperCase()),
             hp,
