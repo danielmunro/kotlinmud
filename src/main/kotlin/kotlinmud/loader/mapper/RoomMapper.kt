@@ -1,4 +1,4 @@
-package kotlinmud.mapper
+package kotlinmud.loader.mapper
 
 import kotlinmud.loader.model.RoomModel
 import kotlinmud.room.Direction

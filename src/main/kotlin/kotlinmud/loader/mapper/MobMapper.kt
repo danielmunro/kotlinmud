@@ -1,4 +1,4 @@
-package kotlinmud.mapper
+package kotlinmud.loader.mapper
 
 import kotlinmud.item.Inventory
 import kotlinmud.loader.model.MobModel
