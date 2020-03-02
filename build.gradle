@@ -12,11 +12,13 @@ plugins {
     id 'application'
 
     id 'maven'
+
+    id 'jacoco'
 }
 
-//project.plugins.each {
-//    println it
-//}
+jacoco {
+    toolVersion = "0.8.5"
+}
 
 repositories {
     jcenter()
