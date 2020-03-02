@@ -12,7 +12,6 @@ import kotlinmud.io.Syntax
 import kotlinmud.loader.Area
 import kotlinmud.loader.AreaLoader
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService

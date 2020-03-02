@@ -3,7 +3,7 @@ package kotlinmud.mob.race
 import kotlinmud.mob.race.impl.*
 
 fun createRaceFromString(name: String): Race {
-    return when(name) {
+    return when (name) {
         "human" -> Human()
         "elf" -> Elf()
         "kender" -> Kender()

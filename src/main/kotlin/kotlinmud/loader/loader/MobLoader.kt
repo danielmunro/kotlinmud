@@ -7,7 +7,7 @@ import kotlinmud.mob.Disposition
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.race.createRaceFromString
 
-class MobLoader(private val tokenizer: Tokenizer): Loader {
+class MobLoader(private val tokenizer: Tokenizer) : Loader {
     var id = 0
     var name = ""
     var description = ""

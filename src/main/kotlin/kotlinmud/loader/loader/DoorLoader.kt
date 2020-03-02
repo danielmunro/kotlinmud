@@ -4,7 +4,7 @@ import kotlinmud.loader.Tokenizer
 import kotlinmud.loader.model.DoorModel
 import kotlinmud.room.exit.getDoorDispositionFromString
 
-class DoorLoader(private val tokenizer: Tokenizer): Loader {
+class DoorLoader(private val tokenizer: Tokenizer) : Loader {
     var id = 0
     var name = ""
     var description = ""

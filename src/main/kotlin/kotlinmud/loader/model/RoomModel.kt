@@ -10,7 +10,7 @@ class RoomModel(
     val west: String,
     val up: String,
     val down: String
-): Model {
+) : Model {
 
     override fun toString(): String {
         return "id: $id\nname: $name\ndescription: $description\nnorth: $north\nsouth: $south\neast: $east\nwest: $west\nup: $up\ndown: $down"

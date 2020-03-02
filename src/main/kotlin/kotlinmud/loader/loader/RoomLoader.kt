@@ -3,7 +3,7 @@ package kotlinmud.loader.loader
 import kotlinmud.loader.Tokenizer
 import kotlinmud.loader.model.RoomModel
 
-class RoomLoader(private val tokenizer: Tokenizer): Loader {
+class RoomLoader(private val tokenizer: Tokenizer) : Loader {
     var id = 0
     var name = ""
     var description = ""
