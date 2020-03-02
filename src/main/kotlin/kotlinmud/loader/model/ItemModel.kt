@@ -1,3 +1,3 @@
 package kotlinmud.loader.model
 
-class ItemModel(val id: Int, val name: String, val description: String)
+class ItemModel(override val id: Int, val name: String, val description: String): Model

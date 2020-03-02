@@ -2,14 +2,8 @@ package kotlinmud.loader
 
 import java.io.File
 import kotlinmud.item.Item
-import kotlinmud.loader.loader.DoorLoader
-import kotlinmud.loader.loader.ItemLoader
-import kotlinmud.loader.loader.MobLoader
-import kotlinmud.loader.loader.RoomLoader
-import kotlinmud.loader.model.DoorModel
-import kotlinmud.loader.model.ItemModel
-import kotlinmud.loader.model.MobModel
-import kotlinmud.loader.model.RoomModel
+import kotlinmud.loader.loader.*
+import kotlinmud.loader.model.*
 import kotlinmud.mapper.DoorMapper
 import kotlinmud.mapper.ItemMapper
 import kotlinmud.mapper.MobMapper
@@ -27,70 +21,47 @@ class AreaLoader(private val baseDir: String) {
     }
 
     private fun loadRooms(): List<RoomModel> {
-        val filename = "$baseDir/rooms.txt"
-        val tokenizer = createTokenizer(filename)
-        val roomLoader = RoomLoader(tokenizer)
+        val roomLoader = RoomLoader(createTokenizer("$baseDir/rooms.txt"))
         val models: MutableList<RoomModel> = mutableListOf()
-        while (true) {
-            try {
-                models.add(roomLoader.load())
-            } catch (e: Exception) {
-                break
-            }
-        }
+        addModels(roomLoader, models)
         return models.toList()
     }
 
     private fun loadDoors(): List<Door> {
-        val filename = "$baseDir/doors.txt"
-        val tokenizer = createTokenizer(filename)
-        val doorLoader = DoorLoader(tokenizer)
+        val doorLoader = DoorLoader(createTokenizer("$baseDir/doors.txt"))
         val models: MutableList<DoorModel> = mutableListOf()
-        while (true) {
-            try {
-                models.add(doorLoader.load())
-            } catch (e: Exception) {
-                println(e)
-                break
-            }
-        }
+        addModels(doorLoader, models)
         return DoorMapper(models.toList()).map()
     }
 
     private fun loadItems(): List<Item> {
-        val filename = "$baseDir/items.txt"
-        val tokenizer = createTokenizer(filename)
-        val itemLoader = ItemLoader(tokenizer)
+        val itemLoader = ItemLoader(createTokenizer("$baseDir/items.txt"))
         val models: MutableList<ItemModel> = mutableListOf()
-        while (true) {
-            try {
-                models.add(itemLoader.load())
-            } catch (e: Exception) {
-                println(e)
-                break
-            }
-        }
+        addModels(itemLoader, models)
         return ItemMapper(models.toList()).map()
     }
 
     private fun loadMobs(): List<Mob> {
-        val filename = "$baseDir/mobs.txt"
-        val tokenizer = createTokenizer(filename)
-        val mobLoader = MobLoader(tokenizer)
+        val mobLoader = MobLoader(createTokenizer("$baseDir/mobs.txt"))
         val models: MutableList<MobModel> = mutableListOf()
-        while (true) {
-            try {
-                models.add(mobLoader.load())
-            } catch (e: Exception) {
-                println(e)
-                break
-            }
-        }
+        addModels(mobLoader, models)
         return MobMapper(models.toList()).map()
+    }
+
+    private fun createTokenizer(filename: String): Tokenizer {
+        val classLoader = ClassLoader.getSystemClassLoader()
+        return Tokenizer(File(classLoader.getResource(filename)!!.file).readText())
     }
 }
 
-fun createTokenizer(filename: String): Tokenizer {
-    val classLoader = ClassLoader.getSystemClassLoader()
-    return Tokenizer(File(classLoader.getResource(filename)!!.file).readText())
+fun <T> addModels(loader: Loader, models: MutableList<T>) {
+    while (true) {
+        try {
+            @Suppress("UNCHECKED_CAST")
+            models.add(loader.load() as T)
+        } catch (e: Exception) {
+            println(e)
+            break
+        }
+    }
 }
