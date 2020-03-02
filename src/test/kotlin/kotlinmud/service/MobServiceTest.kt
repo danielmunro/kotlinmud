@@ -49,7 +49,6 @@ class MobServiceTest {
         // setup
         val testService = createTestService()
         val room = testService.getStartRoom()
-        val initialCount = 1
         val resetNumbers = 5
 
         // given
@@ -59,6 +58,6 @@ class MobServiceTest {
         testService.respawnWorld()
 
         // then
-        assertThat(testService.getMobsForRoom(room)).hasSize(initialCount + resetNumbers)
+        assertThat(testService.getMobsForRoom(room)).hasSize(resetNumbers)
     }
 }

@@ -1,0 +1,6 @@
+#1
+Hassan~
+Hassan is here, waiting to dispense some justice~
+standing~
+hp: 100, mana: 100, mv: 100,
+specialization: warrior, level: 51, race: giant~

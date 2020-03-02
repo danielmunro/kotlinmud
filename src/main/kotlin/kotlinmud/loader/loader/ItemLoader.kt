@@ -12,6 +12,7 @@ class ItemLoader(private val tokenizer: Tokenizer) {
         id = tokenizer.parseId()
         name = tokenizer.parseString()
         description = tokenizer.parseString()
+        tokenizer.parseProperties()
 
         return ItemModel(id, name, description)
     }

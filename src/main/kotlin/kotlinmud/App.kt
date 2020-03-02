@@ -9,6 +9,7 @@ import kotlinmud.io.ClientHandler
 import kotlinmud.io.Response
 import kotlinmud.io.Server
 import kotlinmud.io.Syntax
+import kotlinmud.loader.Area
 import kotlinmud.loader.AreaLoader
 import kotlinmud.mob.Mob
 import kotlinmud.room.Room
@@ -79,13 +80,14 @@ fun createContainer(): Kodein {
         bind<ActionService>() with singleton { ActionService(instance<MobService>(), instance<EventService>()) }
         bind<MobService>() with singleton {
             val fix = instance<FixtureService>()
-            val svc = MobService(instance<EventService>(), loadRooms(), mutableListOf())
-            fix.populateWorld(svc)
+            val area = loadArea()
+            val svc = MobService(instance<EventService>(), area.rooms, mutableListOf())
+            fix.populateWorld(area, svc)
             svc
         }
     }
 }
 
-fun loadRooms(): List<Room> {
+fun loadArea(): Area {
     return AreaLoader("areas/midgard").load()
 }

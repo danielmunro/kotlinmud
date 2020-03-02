@@ -4,20 +4,26 @@ import java.io.File
 import kotlinmud.item.Item
 import kotlinmud.loader.loader.DoorLoader
 import kotlinmud.loader.loader.ItemLoader
+import kotlinmud.loader.loader.MobLoader
 import kotlinmud.loader.loader.RoomLoader
 import kotlinmud.loader.model.DoorModel
 import kotlinmud.loader.model.ItemModel
+import kotlinmud.loader.model.MobModel
 import kotlinmud.loader.model.RoomModel
 import kotlinmud.mapper.DoorMapper
 import kotlinmud.mapper.ItemMapper
+import kotlinmud.mapper.MobMapper
 import kotlinmud.mapper.RoomMapper
-import kotlinmud.room.Room
+import kotlinmud.mob.Mob
 import kotlinmud.room.exit.Door
 
 class AreaLoader(private val baseDir: String) {
-    fun load(): List<Room> {
-        println(loadItems())
-        return RoomMapper(loadRooms(), loadDoors()).map()
+    fun load(): Area {
+        return Area(
+            RoomMapper(loadRooms(), loadDoors()).map(),
+            loadItems(),
+            loadMobs()
+        )
     }
 
     private fun loadRooms(): List<RoomModel> {
@@ -65,6 +71,22 @@ class AreaLoader(private val baseDir: String) {
             }
         }
         return ItemMapper(models.toList()).map()
+    }
+
+    private fun loadMobs(): List<Mob> {
+        val filename = "$baseDir/mobs.txt"
+        val tokenizer = createTokenizer(filename)
+        val mobLoader = MobLoader(tokenizer)
+        val models: MutableList<MobModel> = mutableListOf()
+        while (true) {
+            try {
+                models.add(mobLoader.load())
+            } catch (e: Exception) {
+                println(e)
+                break
+            }
+        }
+        return MobMapper(models.toList()).map()
     }
 }
 
