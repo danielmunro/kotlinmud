@@ -9,43 +9,41 @@ import kotlinmud.loader.mapper.MobMapper
 import kotlinmud.loader.mapper.RoomMapper
 import kotlinmud.loader.model.*
 import kotlinmud.mob.Mob
+import kotlinmud.room.Room
 import kotlinmud.room.exit.Door
 
 class AreaLoader(private val baseDir: String) {
     fun load(): Area {
         return Area(
-            RoomMapper(loadRooms(), loadDoors()).map(),
+            loadRooms(),
             loadItems(),
             loadMobs()
         )
     }
 
-    private fun loadRooms(): List<RoomModel> {
-        val roomLoader = RoomLoader(createTokenizer("$baseDir/rooms.txt"))
-        val models: MutableList<RoomModel> = mutableListOf()
-        addModels(roomLoader, models)
-        return models.toList()
+    private fun loadRooms(): List<Room> {
+        return RoomMapper(
+            createModelList(RoomLoader(createTokenizer("$baseDir/rooms.txt"))),
+            loadDoors()
+        ).map()
     }
 
     private fun loadDoors(): List<Door> {
-        val doorLoader = DoorLoader(createTokenizer("$baseDir/doors.txt"))
-        val models: MutableList<DoorModel> = mutableListOf()
-        addModels(doorLoader, models)
-        return DoorMapper(models.toList()).map()
+        return DoorMapper(
+            createModelList(DoorLoader(createTokenizer("$baseDir/doors.txt")))
+        ).map()
     }
 
     private fun loadItems(): List<Item> {
-        val itemLoader = ItemLoader(createTokenizer("$baseDir/items.txt"))
-        val models: MutableList<ItemModel> = mutableListOf()
-        addModels(itemLoader, models)
-        return ItemMapper(models.toList()).map()
+        return ItemMapper(
+            createModelList(ItemLoader(createTokenizer("$baseDir/items.txt")))
+        ).map()
     }
 
     private fun loadMobs(): List<Mob> {
-        val mobLoader = MobLoader(createTokenizer("$baseDir/mobs.txt"))
-        val models: MutableList<MobModel> = mutableListOf()
-        addModels(mobLoader, models)
-        return MobMapper(models.toList()).map()
+        return MobMapper(
+            createModelList(MobLoader(createTokenizer("$baseDir/mobs.txt")))
+        ).map()
     }
 
     private fun createTokenizer(filename: String): Tokenizer {
@@ -54,7 +52,8 @@ class AreaLoader(private val baseDir: String) {
     }
 }
 
-fun <T> addModels(loader: Loader, models: MutableList<T>) {
+fun <T> createModelList(loader: Loader): List<T> {
+    val models: MutableList<T> = mutableListOf()
     while (true) {
         try {
             @Suppress("UNCHECKED_CAST")
@@ -64,4 +63,5 @@ fun <T> addModels(loader: Loader, models: MutableList<T>) {
             break
         }
     }
+    return models.toList()
 }
