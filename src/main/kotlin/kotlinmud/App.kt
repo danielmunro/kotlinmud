@@ -1,8 +1,6 @@
 package kotlinmud
 
 import java.net.ServerSocket
-import kotlinmud.db.applyDBSchema
-import kotlinmud.db.connect
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.observer.createObservers
 import kotlinmud.io.ClientHandler
@@ -60,8 +58,6 @@ class App(
 }
 
 fun main() {
-    connect()
-    applyDBSchema()
     val container = createContainer()
     val mobService: MobService by container.instance()
     val eventService: EventService by container.instance()
