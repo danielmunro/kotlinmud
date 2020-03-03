@@ -31,7 +31,11 @@ class Server(private val eventService: EventService, private val server: ServerS
         }
     }
 
-    fun timer() {
+    fun getClients(): List<ClientHandler> {
+        return clients.toList()
+    }
+
+    private fun timer() {
         while (true) {
             Thread.sleep(2000)
             pulses++

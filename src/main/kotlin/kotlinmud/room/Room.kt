@@ -5,6 +5,7 @@ import kotlinmud.room.exit.Exit
 
 class Room(
     val id: Int,
+    val area: String,
     val name: String,
     val description: String,
     val inventory: Inventory = Inventory(),

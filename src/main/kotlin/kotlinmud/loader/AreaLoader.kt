@@ -14,6 +14,7 @@ import kotlinmud.room.exit.Door
 class AreaLoader(private val baseDir: String) {
     fun load(): Area {
         return Area(
+            baseDir,
             loadRooms(),
             loadItems(),
             loadMobs()
@@ -22,6 +23,7 @@ class AreaLoader(private val baseDir: String) {
 
     private fun loadRooms(): List<Room> {
         return RoomMapper(
+            baseDir,
             createModelList(RoomLoader(createTokenizer("$baseDir/rooms.txt"))),
             loadDoors()
         ).map()

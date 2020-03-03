@@ -1,17 +1,24 @@
 package kotlinmud.action
 
 enum class Command(val value: String) {
+    // move
     NORTH("north"),
     SOUTH("south"),
     EAST("east"),
     WEST("west"),
     UP("up"),
     DOWN("down"),
-    LOOK("look"),
-    EXIT("exit"),
+
+    // items
     GET("get"),
     DROP("drop"),
+
+    // informational
+    LOOK("look"),
     INVENTORY("inventory"),
+
+    // social
+    SAY("say"),
 
     // fighting
     KILL("kill"),
@@ -25,9 +32,8 @@ enum class Command(val value: String) {
     SIT("sit"),
     SLEEP("sleep"),
     WAKE("wake"),
-    NOOP("noop");
+    NOOP("noop"),
 
-    fun startsWith(input: String): Boolean {
-        return value.startsWith(input)
-    }
+    // other
+    EXIT("exit");
 }

@@ -40,7 +40,8 @@ class ActionService(private val mobService: MobService, private val eventService
         createWakeAction(),
         createSleepAction(),
         createOpenAction(),
-        createCloseAction())
+        createCloseAction(),
+        createSayAction())
 
     private val skills: List<Skill> = listOf(
         Bash(),
@@ -151,6 +152,7 @@ class ActionService(private val mobService: MobService, private val eventService
             Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, request.mob, request.room).build(syntax, word)
             Syntax.TARGET_MOB -> TargetMobContextBuilder(mobService, request.mob, request.room).build(syntax, word)
             Syntax.DOOR_IN_ROOM -> DoorInRoomContextBuilder(request.room).build(syntax, word)
+            Syntax.FREE_FORM -> FreeFormContextBuilder(request.args).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

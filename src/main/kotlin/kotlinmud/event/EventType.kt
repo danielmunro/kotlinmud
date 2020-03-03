@@ -8,4 +8,5 @@ enum class EventType {
     PULSE,
     TICK,
     FIGHT_ROUND,
+    SOCIAL,
 }

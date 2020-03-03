@@ -1,8 +1,11 @@
 #1
-A test room~
-This is the starting test room.
+A large fountain~
+A simple, but impressively large fountain marks the center of Midgard. Made
+of stone, the fountain is as old as the town itself, and serves as a gathering
+place for the people of Midgard, as well as travellers passing through.
 
-Multi-line room descriptions are supported.~
+A row of flowers wrap around the stone structure and line the roads going in
+all directions.~
 n: 2, s: 3, e: door:1:4~
 
 #2
