@@ -1,12 +1,14 @@
 package kotlinmud.loader
 
+import java.io.EOFException
+
 class Tokenizer(val value: String) {
     private val raw = value.split(" ", "\n")
     private var i = 0
 
     private fun getNext(): String {
         if (i == raw.size) {
-            throw Exception("EOF")
+            throw EOFException()
         }
         val value = raw[i]
         i++

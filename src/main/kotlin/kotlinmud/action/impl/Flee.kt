@@ -1,9 +1,6 @@
 package kotlinmud.action.impl
 
-import kotlinmud.action.Action
-import kotlinmud.action.ActionContextService
-import kotlinmud.action.Command
-import kotlinmud.action.mustBeStanding
+import kotlinmud.action.*
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
@@ -12,7 +9,7 @@ import kotlinmud.mob.Disposition
 fun createFleeAction(): Action {
     return Action(
         Command.FLEE,
-        mustBeStanding(),
+        mustBeAlert(),
         listOf(Syntax.COMMAND),
         { svc: ActionContextService, request: Request ->
             if (request.mob.disposition != Disposition.FIGHTING) {

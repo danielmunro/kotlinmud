@@ -1,5 +1,6 @@
 package kotlinmud.loader
 
+import java.io.EOFException
 import java.io.File
 import kotlinmud.item.Item
 import kotlinmud.loader.loader.*
@@ -59,8 +60,7 @@ fun <T> createModelList(loader: Loader): List<T> {
         try {
             @Suppress("UNCHECKED_CAST")
             models.add(loader.load() as T)
-        } catch (e: Exception) {
-            println(e)
+        } catch (e: EOFException) {
             break
         }
     }
