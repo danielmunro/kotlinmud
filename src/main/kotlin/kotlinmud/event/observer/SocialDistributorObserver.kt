@@ -23,7 +23,7 @@ class SocialDistributorObserver(private val server: Server, private val mobServi
         val soc = event.subject.social
         when (soc.channel) {
             SocialChannel.SAY -> sayToRoom(soc.mob, soc.room, soc.message)
-            SocialChannel.TELL -> tellMob(soc.mob, soc.target!!, soc.message)
+            SocialChannel.TELL -> tellMob(soc.target!!, soc.message)
             SocialChannel.YELL -> yellToArea(soc.mob, soc.room, soc.message)
             SocialChannel.GOSSIP -> gossipToClients(soc.mob, soc.message)
         }
@@ -34,9 +34,7 @@ class SocialDistributorObserver(private val server: Server, private val mobServi
     private fun yellToArea(mob: Mob, room: Room, message: Message) {
         server.getClients().forEach {
             val clientRoom = mobService.getRoomForMob(it.mob)
-            if (it.mob == mob) {
-                it.write(message.toActionCreator)
-            } else if (clientRoom.area == room.area) {
+            if (it.mob != mob && clientRoom.area == room.area) {
                 it.write(message.toObservers)
             }
         }
@@ -44,26 +42,21 @@ class SocialDistributorObserver(private val server: Server, private val mobServi
 
     private fun gossipToClients(mob: Mob, message: Message) {
         server.getClients().forEach {
-            if (it.mob == mob) {
-                it.write(message.toActionCreator)
-            } else {
+            if (it.mob != mob) {
                 it.write(message.toObservers)
             }
         }
     }
 
-    private fun tellMob(mob: Mob, target: Mob, message: Message) {
-        val clients = server.getClientsFromMobs(listOf(mob, target))
-        clients[0].write(message.toActionCreator)
-        clients[1].write(message.toTarget)
+    private fun tellMob(target: Mob, message: Message) {
+        val clients = server.getClientsFromMobs(listOf(target))
+        clients[0].write(message.toTarget)
     }
 
     private fun sayToRoom(mob: Mob, room: Room, message: Message) {
         val mobs = mobService.getMobsForRoom(room)
         server.getClientsFromMobs(mobs).forEach {
-            if (it.mob == mob) {
-                it.write(message.toActionCreator)
-            } else {
+            if (it.mob != mob) {
                 it.write(message.toObservers)
             }
         }

@@ -1,8 +1,11 @@
 package kotlinmud.action
 
+import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
+import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
+import kotlinmud.event.event.SocialEvent
 import kotlinmud.io.*
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight
@@ -46,5 +49,7 @@ class ActionContextService(
     }
 
     fun publishSocial(social: Social) {
+        eventService.publish<SocialEvent, EventResponse<SocialEvent>>(
+            Event(EventType.SOCIAL, SocialEvent(social)))
     }
 }
