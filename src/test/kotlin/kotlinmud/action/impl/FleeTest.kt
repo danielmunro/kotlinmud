@@ -28,4 +28,17 @@ class FleeTest {
         // then
         assertThat(fight.isOver()).isEqualTo(true)
     }
+
+    @Test
+    fun testFleeRequiresFightingDisposition() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+
+        // when
+        val response = testService.runActionForIOStatus(mob, "flee", IOStatus.OK)
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("you are standing and cannot do that.")
+    }
 }
