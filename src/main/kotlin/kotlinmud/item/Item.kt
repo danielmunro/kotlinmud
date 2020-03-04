@@ -10,6 +10,7 @@ class Item(
     override val description: String,
     val weight: Double = 1.0,
     override val attributes: Attributes = Attributes(),
+    val material: Material = Material.ORGANIC,
     val position: Position = Position.NONE,
     val inventory: Inventory? = null
 ) : HasAttributes, Noun {

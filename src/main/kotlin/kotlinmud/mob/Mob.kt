@@ -7,6 +7,7 @@ import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
+import kotlinmud.item.Material
 import kotlinmud.item.Position
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
@@ -87,6 +88,7 @@ class Mob(
             "a corpse of $name is here.",
             corpseWeight,
             Attributes(),
+            Material.ORGANIC,
             Position.NONE,
             Inventory()
         )
