@@ -12,6 +12,8 @@ enum class Command(val value: String) {
     // items
     GET("get"),
     DROP("drop"),
+    WEAR("wear"),
+    REMOVE("remove"),
 
     // informational
     LOOK("look"),

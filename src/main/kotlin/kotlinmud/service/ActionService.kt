@@ -41,7 +41,9 @@ class ActionService(private val mobService: MobService, private val eventService
         createSleepAction(),
         createOpenAction(),
         createCloseAction(),
-        createSayAction())
+        createSayAction(),
+        createRemoveAction(),
+        createWearAction())
 
     private val skills: List<Skill> = listOf(
         Bash(),
@@ -148,6 +150,8 @@ class ActionService(private val mobService: MobService, private val eventService
             Syntax.COMMAND -> CommandContextBuilder().build(syntax, word)
             Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(request.mob).build(syntax, word)
             Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.room).build(syntax, word)
+            Syntax.EQUIPMENT_IN_INVENTORY -> EquipmentInInventoryContextBuilder(request.mob).build(syntax, word)
+            Syntax.EQUIPPED_ITEM -> EquippedItemContextBuilder(request.mob).build(syntax, word)
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)
             Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, request.mob, request.room).build(syntax, word)
             Syntax.TARGET_MOB -> TargetMobContextBuilder(mobService, request.mob, request.room).build(syntax, word)
