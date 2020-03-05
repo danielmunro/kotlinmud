@@ -13,7 +13,6 @@ class RoomMapper(private val area: String, val roomModels: List<RoomModel>, val 
         val modelMap = mutableMapOf<Int, RoomModel>()
         val roomMap = mutableMapOf<Int, Room>()
         roomModels.forEach {
-            println("room: ${it.id}, $it")
             modelMap += Pair(it.id, it)
         }
         rooms.forEach {

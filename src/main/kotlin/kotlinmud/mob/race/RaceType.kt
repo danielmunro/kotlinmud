@@ -9,4 +9,7 @@ enum class RaceType {
     GIANT,
     FAERIE,
     LASHER,
+
+    // not playable
+    CANID,
 }
