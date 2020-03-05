@@ -15,10 +15,11 @@ class MoveTest {
 
         // when
         val response = testService.runAction(mob, "n")
+        val room = testService.getRoomForMob(mob)
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(testService.getRoomForMob(mob), mob, listOf()))
+            describeRoom(room, mob, testService.getMobsForRoom(room)))
     }
 
     @Test
@@ -29,10 +30,11 @@ class MoveTest {
 
         // when
         val response = testService.runAction(mob, "s")
+        val room = testService.getRoomForMob(mob)
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(testService.getRoomForMob(mob), mob, listOf()))
+            describeRoom(room, mob, testService.getMobsForRoom(room)))
     }
 
     @Test
