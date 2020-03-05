@@ -49,10 +49,6 @@ class MobService(
         putMobInRoom(mob, world.rooms[0])
     }
 
-    fun addMobReset(mobReset: MobReset) {
-//        mobResets.add(mobReset)
-    }
-
     fun moveMob(mob: Mob, room: Room) {
         putMobInRoom(mob, room)
     }

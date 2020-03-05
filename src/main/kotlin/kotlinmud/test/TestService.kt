@@ -6,7 +6,6 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
-import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
@@ -22,10 +21,6 @@ class TestService(
 ) {
     fun respawnWorld() {
         mobService.respawnWorld()
-    }
-
-    fun addMobReset(mobReset: MobReset) {
-        mobService.addMobReset(mobReset)
     }
 
     fun getStartRoom(): Room {
