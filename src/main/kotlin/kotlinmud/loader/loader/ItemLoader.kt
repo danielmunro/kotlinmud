@@ -12,10 +12,11 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
     var description = ""
 
     override fun load(): ItemModel {
-        id = tokenizer.parseId()
+        id = tokenizer.parseInt()
         name = tokenizer.parseString()
         description = tokenizer.parseString()
         val props = tokenizer.parseProperties()
+        println("props: $props")
         return ItemModel(
             id,
             name,

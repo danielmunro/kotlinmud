@@ -2,8 +2,8 @@ package kotlinmud.loader
 
 import java.io.EOFException
 
-class Tokenizer(val value: String) {
-    private val raw = value.split(" ", "\n")
+class Tokenizer(value: String) {
+    private val raw = value.split(":", " ", "\n")
     private var i = 0
 
     private fun getNext(): String {
@@ -15,10 +15,18 @@ class Tokenizer(val value: String) {
         return value.trim()
     }
 
-    fun parseId(): Int {
+    private fun getNextNonEmpty(): String {
         val next = getNext()
         if (next == "") {
-            return parseId()
+            return getNextNonEmpty()
+        }
+        return next
+    }
+
+    fun parseInt(): Int {
+        val next = getNext()
+        if (next == "") {
+            return parseInt()
         }
         return next.substring(1).toInt()
     }
@@ -35,16 +43,16 @@ class Tokenizer(val value: String) {
     }
 
     fun parseProperties(): Map<String, String> {
-        var key = getNext()
+        var key = getNextNonEmpty()
         if (key == "~") {
             return mapOf()
         }
-        var value = getNext()
+        var value = getNextNonEmpty()
         val map = mutableMapOf<String, String>()
         while (!value.contains("~")) {
             map += Pair(key.trim(':'), value.trim(',', '~'))
-            key = getNext()
-            value = getNext()
+            key = getNextNonEmpty()
+            value = getNextNonEmpty()
         }
         map += Pair(key.trim(':'), value.trim(',', '~'))
         return map

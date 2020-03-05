@@ -11,7 +11,7 @@ class DoorLoader(private val tokenizer: Tokenizer) : Loader {
     var disposition = ""
 
     override fun load(): DoorModel {
-        id = tokenizer.parseId()
+        id = tokenizer.parseInt()
         name = tokenizer.parseString()
         description = tokenizer.parseString()
         disposition = tokenizer.parseString()

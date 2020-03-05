@@ -16,7 +16,7 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
     var attributes: Map<String, String> = mapOf()
 
     override fun load(): MobModel {
-        id = tokenizer.parseId()
+        id = tokenizer.parseInt()
         name = tokenizer.parseString()
         brief = tokenizer.parseString()
         description = tokenizer.parseString()
@@ -37,7 +37,7 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
             mv,
             intAttr("level"),
             createRaceFromString(strAttr("race")),
-            SpecializationType.valueOf(strAttr("specialization").toUpperCase()),
+            if (attributes["specialization"] != null) SpecializationType.valueOf(strAttr("specialization").toUpperCase()) else SpecializationType.NONE,
             Attributes(hp, mana, mv)
         )
     }

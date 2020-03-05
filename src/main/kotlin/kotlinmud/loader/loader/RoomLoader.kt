@@ -15,7 +15,7 @@ class RoomLoader(private val tokenizer: Tokenizer) : Loader {
     var down = ""
 
     override fun load(): RoomModel {
-        id = tokenizer.parseId()
+        id = tokenizer.parseInt()
         name = tokenizer.parseString()
         description = tokenizer.parseString()
         val props = tokenizer.parseProperties()

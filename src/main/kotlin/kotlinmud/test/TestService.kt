@@ -6,10 +6,10 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
+import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
-import kotlinmud.reset.MobReset
 import kotlinmud.room.Room
 import kotlinmud.service.ActionService
 import kotlinmud.service.FixtureService

@@ -4,28 +4,18 @@ import io.github.serpro69.kfaker.Faker
 import kotlinmud.attributes.*
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
-import kotlinmud.loader.Area
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.race.Race
 import kotlinmud.mob.race.impl.Human
-import kotlinmud.reset.MobReset
 
 class FixtureService {
     private var mobs = 0
     private var items = 0
     private val faker = Faker()
 
-    fun populateWorld(area: Area, mobService: MobService) {
-        mobService.addMobReset(
-            MobReset(
-                area.mobs[0],
-                mobService.getStartRoom(),
-                1,
-                1
-            )
-        )
+    fun populateWorld(mobService: MobService) {
         mobService.respawnWorld()
         createItem(mobService.getStartRoom().inventory)
     }

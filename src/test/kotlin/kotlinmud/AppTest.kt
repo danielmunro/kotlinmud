@@ -7,6 +7,7 @@ import java.net.ServerSocket
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlinmud.io.Server
+import kotlinmud.loader.World
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
 
@@ -15,7 +16,7 @@ class AppTest {
     fun testAppSanityCheck() {
         // setup
         val eventService = EventService()
-        val mobService = MobService(eventService, listOf(), mutableListOf())
+        val mobService = MobService(eventService, World(listOf()))
 
         // when
         val app = App(eventService, mobService, Server(eventService, ServerSocket()))

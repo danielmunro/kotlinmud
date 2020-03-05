@@ -3,26 +3,26 @@ package kotlinmud.service
 import kotlinmud.attributes.Attribute
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.io.Message
+import kotlinmud.loader.World
+import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobRoom
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
-import kotlinmud.reset.MobReset
 import kotlinmud.room.Room
 
 class MobService(
     private val eventService: EventService,
-    private val rooms: List<Room>,
-    private val mobResets: MutableList<MobReset>
+    private val world: World
 ) {
 
     private val mobRooms: MutableList<MobRoom> = mutableListOf()
     private val fights: MutableList<Fight> = mutableListOf()
 
     fun getStartRoom(): Room {
-        return rooms.first()
+        return world.rooms.first()
     }
 
     fun addFight(fight: Fight) {
@@ -46,11 +46,11 @@ class MobService(
     }
 
     fun addMob(mob: Mob) {
-        putMobInRoom(mob, rooms[0])
+        putMobInRoom(mob, world.rooms[0])
     }
 
     fun addMobReset(mobReset: MobReset) {
-        mobResets.add(mobReset)
+//        mobResets.add(mobReset)
     }
 
     fun moveMob(mob: Mob, room: Room) {
@@ -94,11 +94,18 @@ class MobService(
     }
 
     fun respawnWorld() {
-        mobResets.forEach {
-            while (it.maxInRoom > getMobsForRoom(it.room).filter { mob -> mob.id == it.mob.id }.size && it.maxInWorld > mobRooms.filter { mobRoom -> mobRoom.mob.id == it.mob.id }.size) {
-                putMobInRoom(it.mob.copy(), it.room)
+        println("respawn world with ${world.mobResets.size} mob resets")
+        world.mobResets.forEach { reset ->
+            val room = world.rooms.find { it.id == reset.roomId }!!
+            while (mobCanRespawn(reset, room)) {
+                val mob = world.mobs.find { it.id == reset.mobId }!!
+                putMobInRoom(mob.copy(), room)
             }
         }
+    }
+
+    private fun mobCanRespawn(reset: MobReset, room: Room): Boolean {
+        return reset.maxInRoom > getMobsForRoom(room).filter { mob -> mob.id == reset.mobId }.size && reset.maxInWorld > mobRooms.filter { mobRoom -> mobRoom.mob.id == reset.mobId }.size
     }
 
     private fun proceedFightRound(round: Round): Round {
@@ -142,7 +149,7 @@ class MobService(
     }
 
     private fun putMobInRoom(mob: Mob, room: Room) {
-        val r = rooms.find { it == room } ?: error("no room found")
+        val r = world.rooms.find { it == room } ?: error("no room found")
 
         mobRooms.find { it.mob == mob }?.let {
             it.room = r

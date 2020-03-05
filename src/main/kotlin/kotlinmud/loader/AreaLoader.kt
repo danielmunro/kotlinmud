@@ -4,30 +4,36 @@ import java.io.EOFException
 import java.io.File
 import kotlinmud.item.Item
 import kotlinmud.loader.loader.*
+import kotlinmud.loader.loader.reset.MobResetLoader
 import kotlinmud.loader.mapper.DoorMapper
 import kotlinmud.loader.mapper.ItemMapper
 import kotlinmud.loader.mapper.MobMapper
 import kotlinmud.loader.mapper.RoomMapper
+import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
 import kotlinmud.room.exit.Door
 
 class AreaLoader(private val baseDir: String) {
     fun load(): Area {
         return Area(
             baseDir,
-            loadRooms(),
+            createRoomMapper(),
             loadItems(),
-            loadMobs()
+            loadMobs(),
+            loadMobResets()
         )
     }
 
-    private fun loadRooms(): List<Room> {
+    private fun createRoomMapper(): RoomMapper {
         return RoomMapper(
             baseDir,
             createModelList(RoomLoader(createTokenizer("$baseDir/rooms.txt"))),
             loadDoors()
-        ).map()
+        )
+    }
+
+    private fun loadMobResets(): List<MobReset> {
+        return createModelList(MobResetLoader(createTokenizer("$baseDir/reset/mobs.txt")))
     }
 
     private fun loadDoors(): List<Door> {

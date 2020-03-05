@@ -1,12 +1,14 @@
 package kotlinmud.loader
 
 import kotlinmud.item.Item
+import kotlinmud.loader.mapper.RoomMapper
+import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
 
 class Area(
     val id: String,
-    val rooms: List<Room>,
+    val roomMapper: RoomMapper,
     val items: List<Item>,
-    val mobs: List<Mob>
+    val mobs: List<Mob>,
+    val mobResets: List<MobReset>
 )

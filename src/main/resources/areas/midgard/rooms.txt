@@ -6,19 +6,43 @@ place for the people of Midgard, as well as travellers passing through.
 
 A row of flowers wrap around the stone structure and line the roads going in
 all directions.~
-n: 2, s: 3, e: door:1:4~
+n: 2, s: 25, e: door-1-6, w:1000~
 
 #2
-A different test room~
-This is a different test room.~
-~
+Noble Way~
+Mature oak trees line a wide and busy road. Sitting back from the hustle and
+bustle of Noble Way, stately town homes stretch up and down the worn brick
+path.~
+n: 3~
 
 #3
-A back room~
+Noble Way~
+Starting the historic business district.~
+n: 6, w: 4, e: 5~
+
+#4
+Jeweler~
+A jewelery shop is here.~
+~
+
+#5
+Midgard Bank~
+A bank is here.~
+~
+
+#6
+Noble Way~
+Mature oak trees line a wide and busy road. Sitting back from the hustle and
+bustle of Noble Way, stately town homes stretch up and down the worn brick
+path.~
+~
+
+#25
+Cedar Ave~
 A back room is here.~
 ~
 
-#4
+#6
 A quiet barroom in a tavern~
 Light flickering from a lantern illuminates a cozy bar.~
 ~

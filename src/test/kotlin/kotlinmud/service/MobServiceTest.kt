@@ -6,7 +6,6 @@ import assertk.assertions.isEqualTo
 import kotlin.test.Test
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
-import kotlinmud.reset.MobReset
 import kotlinmud.test.createTestService
 
 class MobServiceTest {
@@ -49,10 +48,7 @@ class MobServiceTest {
         // setup
         val testService = createTestService()
         val room = testService.getStartRoom()
-        val resetNumbers = 5
-
-        // given
-        testService.addMobReset(MobReset(testService.createMob(), room, resetNumbers, resetNumbers))
+        val resetNumbers = 1
 
         // when
         testService.respawnWorld()
