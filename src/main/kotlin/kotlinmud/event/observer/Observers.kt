@@ -16,7 +16,7 @@ fun createObservers(server: Server, mobService: MobService, eventService: EventS
         RespawnTickObserver(mobService),
         LogTickObserver(),
         SocialDistributorObserver(server, mobService),
-        MoveScavengersOnTickObserver(mobService),
+        MoveScavengersOnTickObserver(mobService, eventService),
         ScavengerCollectsItemsObserver(mobService, eventService)
     )
 }
