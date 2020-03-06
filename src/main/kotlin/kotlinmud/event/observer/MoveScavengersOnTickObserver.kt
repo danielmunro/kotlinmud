@@ -12,7 +12,7 @@ class MoveScavengersOnTickObserver(private val mobService: MobService) : Observe
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
         mobService.getMobRooms().filter {
-            it.mob.job == JobType.SCAVENGER && dN(1, 4) == 1
+            it.mob.job == JobType.SCAVENGER
         }.forEach {
             val exit = it.room.exits.random()
             mobService.moveMob(it.mob, exit.destination, exit.direction)

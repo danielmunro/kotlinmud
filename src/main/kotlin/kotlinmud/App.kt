@@ -62,7 +62,7 @@ fun main() {
     val mobService: MobService by container.instance()
     val eventService: EventService by container.instance()
     val server: Server by container.instance()
-    eventService.observers = createObservers(server, mobService)
+    eventService.observers = createObservers(server, mobService, eventService)
     App(eventService, mobService, server).start()
 }
 

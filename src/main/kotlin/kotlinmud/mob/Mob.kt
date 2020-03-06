@@ -45,6 +45,10 @@ class Mob(
         return disposition == Disposition.DEAD
     }
 
+    fun isStanding(): Boolean {
+        return disposition == Disposition.STANDING
+    }
+
     fun getAttacks(): List<AttackType> {
         return arrayListOf(AttackType.FIRST)
     }

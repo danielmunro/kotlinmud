@@ -10,6 +10,8 @@ import kotlinmud.service.EventService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
+const val TICK_LENGTH_IN_SECONDS = 30
+
 class Server(private val eventService: EventService, private val server: ServerSocket) {
     private var clients: MutableList<ClientHandler> = arrayListOf()
     private var pulses = 0
@@ -40,7 +42,7 @@ class Server(private val eventService: EventService, private val server: ServerS
             Thread.sleep(2000)
             pulses++
             eventService.publish<PulseEvent, Pulse>(Event(EventType.PULSE, PulseEvent()))
-            if (pulses > 30) {
+            if (pulses * 2 > TICK_LENGTH_IN_SECONDS) {
                 pulses = 0
                 ticks++
                 eventService.publish<TickEvent, Tick>(Event(EventType.TICK, TickEvent()))
