@@ -1,7 +1,9 @@
 package kotlinmud.service
 
 import kotlinmud.attributes.Attribute
+import kotlinmud.event.EventResponse
 import kotlinmud.event.createSendMessageToRoomEvent
+import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Message
 import kotlinmud.loader.World
 import kotlinmud.loader.model.reset.MobReset
@@ -11,6 +13,7 @@ import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.room.Direction
 import kotlinmud.room.Room
 
 class MobService(
@@ -45,12 +48,18 @@ class MobService(
         return mobRooms.filter { it.room == room }.map { it.mob }
     }
 
+    fun getMobRooms(): List<MobRoom> {
+        return mobRooms
+    }
+
     fun addMob(mob: Mob) {
         putMobInRoom(mob, world.rooms[0])
     }
 
-    fun moveMob(mob: Mob, room: Room) {
+    fun moveMob(mob: Mob, room: Room, direction: Direction) {
+        sendMessageToRoom(createLeaveMessage(mob, direction), getRoomForMob(mob), mob)
         putMobInRoom(mob, room)
+        sendMessageToRoom(createArriveMessage(mob), room, mob)
     }
 
     fun proceedFights(): List<Round> {
@@ -98,6 +107,11 @@ class MobService(
                 putMobInRoom(mob.copy(), room)
             }
         }
+    }
+
+    fun sendMessageToRoom(message: Message, room: Room, actionCreator: Mob, target: Mob? = null) {
+        eventService.publish<SendMessageToRoomEvent, EventResponse<SendMessageToRoomEvent>>(
+            createSendMessageToRoomEvent(message, room, actionCreator, target))
     }
 
     private fun mobCanRespawn(reset: MobReset, room: Room): Boolean {
@@ -164,4 +178,16 @@ fun getHealthIndication(mob: Mob): String {
         amount > 0.15 -> "$mob looks pretty hurt."
         else -> "$mob is in awful condition."
     }
+}
+
+fun createLeaveMessage(mob: Mob, direction: Direction): Message {
+    return Message(
+        "you leave heading ${direction.value}.",
+        "${mob.name} leaves heading ${direction.value}.")
+}
+
+fun createArriveMessage(mob: Mob): Message {
+    return Message(
+        "",
+        "${mob.name} arrives.")
 }

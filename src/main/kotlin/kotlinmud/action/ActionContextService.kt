@@ -3,12 +3,11 @@ package kotlinmud.action
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
-import kotlinmud.event.createSendMessageToRoomEvent
-import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.event.event.SocialEvent
 import kotlinmud.io.*
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight
+import kotlinmud.room.Direction
 import kotlinmud.room.Room
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
@@ -27,13 +26,12 @@ class ActionContextService(
         return mobService.getMobsForRoom(room)
     }
 
-    fun moveMob(mob: Mob, room: Room) {
-        mobService.moveMob(mob, room)
+    fun moveMob(mob: Mob, room: Room, direction: Direction) {
+        mobService.moveMob(mob, room, direction)
     }
 
     fun sendMessageToRoom(message: Message, room: Room, actionCreator: Mob, target: Mob? = null) {
-        eventService.publish<SendMessageToRoomEvent, EventResponse<SendMessageToRoomEvent>>(
-            createSendMessageToRoomEvent(message, room, actionCreator, target))
+        mobService.sendMessageToRoom(message, room, actionCreator, target)
     }
 
     fun createResponse(message: Message, status: IOStatus = IOStatus.OK): Response {

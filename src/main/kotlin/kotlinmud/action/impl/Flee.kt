@@ -12,9 +12,11 @@ fun createFleeAction(): Action {
         listOf(Syntax.COMMAND),
         { svc: ActionContextService, request: Request ->
             svc.endFightFor(request.mob)
+            val exit = request.room.exits.random()
             svc.moveMob(
                 request.mob,
-                request.room.exits.random().destination)
+                exit.destination,
+                exit.direction)
             svc.createResponse(
                 Message(
                     "you flee!",

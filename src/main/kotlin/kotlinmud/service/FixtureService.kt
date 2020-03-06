@@ -5,6 +5,7 @@ import kotlinmud.attributes.*
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.mob.Disposition
+import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.race.Race
@@ -36,10 +37,7 @@ class FixtureService {
                 race,
                 specialization,
                 createDefaultMobAttributes(),
-                Inventory(),
-                Inventory(),
-                mapOf(),
-                mutableListOf()
+                JobType.NONE
         )
     }
 

@@ -14,5 +14,7 @@ fun createObservers(server: Server, mobService: MobService): List<Observer> {
         PruneDeadMobsPulseObserver(mobService),
         RespawnTickObserver(mobService),
         LogTickObserver(),
-        SocialDistributorObserver(server, mobService))
+        SocialDistributorObserver(server, mobService),
+        MoveScavengersOnTickObserver(mobService)
+    )
 }

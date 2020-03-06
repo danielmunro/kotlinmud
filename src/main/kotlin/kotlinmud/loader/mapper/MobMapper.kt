@@ -1,6 +1,5 @@
 package kotlinmud.loader.mapper
 
-import kotlinmud.item.Inventory
 import kotlinmud.loader.model.MobModel
 import kotlinmud.mob.Mob
 
@@ -20,8 +19,7 @@ class MobMapper(private val mobs: List<MobModel>) {
                 it.race,
                 it.specialization,
                 it.attributes.copy(),
-                Inventory(),
-                Inventory()
+                it.job
             )
         }
     }

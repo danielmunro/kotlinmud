@@ -4,6 +4,7 @@ import kotlinmud.attributes.Attributes
 import kotlinmud.loader.Tokenizer
 import kotlinmud.loader.model.MobModel
 import kotlinmud.mob.Disposition
+import kotlinmud.mob.JobType
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.race.createRaceFromString
 
@@ -25,6 +26,7 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
         val hp = intAttr("hp")
         val mana = intAttr("mana")
         val mv = intAttr("mv")
+        val job = strAttr("job", "none")
 
         return MobModel(
             id,
@@ -38,7 +40,8 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
             intAttr("level"),
             createRaceFromString(strAttr("race")),
             if (attributes["specialization"] != null) SpecializationType.valueOf(strAttr("specialization").toUpperCase()) else SpecializationType.NONE,
-            Attributes(hp, mana, mv)
+            Attributes(hp, mana, mv),
+            JobType.valueOf(job.toUpperCase())
         )
     }
 
@@ -46,7 +49,7 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
         return attributes[name]?.toInt() ?: 0
     }
 
-    private fun strAttr(name: String): String {
-        return attributes[name] ?: ""
+    private fun strAttr(name: String, default: String = ""): String {
+        return attributes[name] ?: default
     }
 }

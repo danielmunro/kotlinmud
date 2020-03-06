@@ -10,12 +10,12 @@ specialization: warrior, level: 51, race: giant~
 a jeweler~
 a jeweler is here.~
 a description for a jeweler.~
-standing~
-race: human~
+sitting~
+race: human, job: shopkeeper~
 
 #3
 a beastly fido~
 a beastly fido is here, looking for scraps.~
 a beastly fido description.~
 standing~
-level: 5, race: canid~
+level: 5, race: canid, job: scavenger~

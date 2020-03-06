@@ -29,8 +29,9 @@ class Mob(
     val race: Race,
     val specialization: SpecializationType,
     val attributes: Attributes,
-    val inventory: Inventory,
-    val equipped: Inventory,
+    val job: JobType,
+    val inventory: Inventory = Inventory(),
+    val equipped: Inventory = Inventory(),
     var skills: Map<SkillType, Int> = mapOf(),
     val affects: MutableList<AffectInstance> = mutableListOf()
 ) : Noun {
@@ -113,10 +114,12 @@ class Mob(
             race,
             specialization,
             attributes.copy(),
+            job,
             inventory.copy(),
             equipped.copy(),
             skills.toMap(),
-            affects.toMutableList())
+            affects.toMutableList()
+        )
     }
 
     override fun toString(): String {
