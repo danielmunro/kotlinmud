@@ -14,6 +14,7 @@ import kotlinmud.service.MobService
 import java.lang.IndexOutOfBoundsException
 import java.util.*
 import kotlin.concurrent.schedule
+import kotlin.random.Random.Default.nextInt
 
 class ScavengerCollectsItemsObserver(
     private val mobService: MobService,
@@ -32,25 +33,22 @@ class ScavengerCollectsItemsObserver(
 
     private fun pickUpItem(mob: Mob) {
         val room = mobService.getRoomForMob(mob)
-        if (mob.isStanding()) {
-            try {
-                val item = room.inventory.items.random()
-                room.inventory.items.remove(item)
-                mob.inventory.items.add(item)
-                eventService.publishRoomMessage(createSendMessageToRoomEvent(
-                    Message(
-                        "you pick up $item.",
-                        "$mob picks up $item."
-                    ),
-                    room,
-                    mob
-                ))
-            } catch (e: IndexOutOfBoundsException) {
-            }
+        if (mob.isStanding() && room.inventory.items.size > 0) {
+            val item = room.inventory.items.random()
+            room.inventory.items.remove(item)
+            mob.inventory.items.add(item)
+            eventService.publishRoomMessage(createSendMessageToRoomEvent(
+                Message(
+                    "you pick up $item.",
+                    "$mob picks up $item."
+                ),
+                room,
+                mob
+            ))
         }
     }
 }
 
 fun eventually(doThis: TimerTask.() -> Unit) {
-    Timer().schedule(((TICK_LENGTH_IN_SECONDS / Random().nextInt(2) + 1) * 1000).toLong(), doThis)
+    Timer().schedule((Random().nextInt(TICK_LENGTH_IN_SECONDS) * 1000).toLong(), doThis)
 }
