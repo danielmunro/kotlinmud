@@ -4,7 +4,6 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.mob.JobType
-import kotlinmud.mob.Mob
 import kotlinmud.mob.MobController
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
@@ -17,13 +16,11 @@ class MoveScavengersOnTickObserver(private val mobService: MobService, private v
         mobService.getMobRooms().filter {
             it.mob.job == JobType.SCAVENGER
         }.forEach {
-            eventually { wander(it.mob) }
+            eventually {
+                MobController(mobService, eventService, it.mob).wander()
+            }
         }
         @Suppress("UNCHECKED_CAST")
         return EventResponse(event as A)
-    }
-
-    private fun wander(mob: Mob) {
-        MobController(mobService, eventService, mob).wander()
     }
 }

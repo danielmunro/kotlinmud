@@ -4,7 +4,6 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.mob.JobType
-import kotlinmud.mob.Mob
 import kotlinmud.mob.MobController
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
@@ -20,13 +19,11 @@ class ScavengerCollectsItemsObserver(
         mobService.getMobRooms().filter {
             it.mob.job == JobType.SCAVENGER
         }.forEach {
-            eventually { pickUpItem(it.mob) }
+            eventually {
+                MobController(mobService, eventService, it.mob).pickUpAnyItem()
+            }
         }
         @Suppress("UNCHECKED_CAST")
         return EventResponse(event as A)
-    }
-
-    private fun pickUpItem(mob: Mob) {
-        MobController(mobService, eventService, mob).pickUpAnyItem()
     }
 }
