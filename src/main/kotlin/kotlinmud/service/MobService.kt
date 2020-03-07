@@ -104,6 +104,12 @@ class MobService(
             val room = world.rooms.find { it.id == reset.roomId }!!
             while (mobCanRespawn(reset, room)) {
                 val mob = world.mobs.find { it.id == reset.mobId }!!
+                world.itemMobResets.filter { it.mobId == mob.id }.forEach { itemReset ->
+                    println("FOUND ITEM MOB RESET")
+                    val item = world.items.find { it.id == itemReset.itemId }!!
+                    mob.inventory.items.add(item.copy())
+                    println("mob $mob received $item, inv: ${mob.inventory.items.size}")
+                }
                 putMobInRoom(mob.copy(), room)
             }
         }

@@ -6,6 +6,6 @@ class Inventory(
     val maxWeight: Int = 0
 ) {
     fun copy(): Inventory {
-        return Inventory(mutableListOf(), maxItems, maxWeight)
+        return Inventory(items.map { it.copy() }.toMutableList(), maxItems, maxWeight)
     }
 }

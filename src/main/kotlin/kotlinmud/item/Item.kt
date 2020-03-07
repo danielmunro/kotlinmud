@@ -18,4 +18,18 @@ class Item(
     override fun toString(): String {
         return name
     }
+
+    fun copy(): Item {
+        return Item(
+            id,
+            name,
+            description,
+            value,
+            weight,
+            attributes,
+            material,
+            position,
+            inventory
+        )
+    }
 }
