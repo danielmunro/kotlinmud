@@ -15,6 +15,11 @@ enum class Command(val value: String) {
     WEAR("wear"),
     REMOVE("remove"),
 
+    // shops
+    LIST("list"),
+    BUY("buy"),
+    SELL("sell"),
+
     // informational
     LOOK("look"),
     INVENTORY("inventory"),

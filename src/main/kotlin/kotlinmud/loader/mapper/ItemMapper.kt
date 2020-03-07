@@ -11,6 +11,7 @@ class ItemMapper(private val items: List<ItemModel>) {
                 i++,
                 it.name,
                 it.description,
+                it.value,
                 it.weight,
                 it.attributes,
                 it.material,

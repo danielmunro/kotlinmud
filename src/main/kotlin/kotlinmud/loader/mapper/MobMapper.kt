@@ -19,7 +19,8 @@ class MobMapper(private val mobs: List<MobModel>) {
                 it.race,
                 it.specialization,
                 it.attributes.copy(),
-                it.job
+                it.job,
+                it.gold
             )
         }
     }

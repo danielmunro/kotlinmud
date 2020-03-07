@@ -6,4 +6,4 @@ A plant from the gods.~
 #2
 a practice shield~
 A wooden practice shield is here, worn from use.~
-material: wood, weight: 4, position: shield~
+material: wood, weight: 4, position: shield, value: 25~

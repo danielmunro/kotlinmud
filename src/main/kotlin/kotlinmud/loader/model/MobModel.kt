@@ -22,6 +22,7 @@ class MobModel(
     val specialization: SpecializationType,
     val attributes: Attributes,
     val job: JobType,
+    val gold: Int = 0,
     var skills: Map<SkillType, Int> = mapOf(),
     val affects: MutableList<AffectInstance> = mutableListOf()
 ) : Model

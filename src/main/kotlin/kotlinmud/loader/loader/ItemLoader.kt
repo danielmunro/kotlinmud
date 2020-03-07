@@ -10,6 +10,7 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
     var id = 0
     var name = ""
     var description = ""
+    var value = 0
 
     override fun load(): ItemModel {
         id = tokenizer.parseInt()
@@ -20,6 +21,7 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
             id,
             name,
             description,
+            props["value"]?.toInt() ?: 1,
             props["weight"]?.toDouble() ?: 1.0,
             Attributes(),
             if (props["material"] != null) Material.valueOf(props["material"]!!.toUpperCase()) else Material.ORGANIC,

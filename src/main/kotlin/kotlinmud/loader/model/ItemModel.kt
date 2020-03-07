@@ -9,6 +9,7 @@ class ItemModel(
     override val id: Int,
     val name: String,
     val description: String,
+    val value: Int,
     val weight: Double = 1.0,
     val attributes: Attributes = Attributes(),
     val material: Material = Material.ORGANIC,
