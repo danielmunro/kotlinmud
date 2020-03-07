@@ -3,9 +3,10 @@ package kotlinmud.item
 import kotlinmud.Noun
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
+import kotlinmud.data.Row
 
 class Item(
-    val id: Int,
+    override val id: Int,
     override val name: String,
     override val description: String,
     val value: Int,
@@ -14,7 +15,7 @@ class Item(
     val material: Material = Material.ORGANIC,
     val position: Position = Position.NONE,
     val inventory: Inventory? = null
-) : HasAttributes, Noun {
+) : HasAttributes, Noun, Row {
     override fun toString(): String {
         return name
     }

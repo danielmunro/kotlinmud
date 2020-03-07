@@ -25,7 +25,7 @@ class MobService(
     private val fights: MutableList<Fight> = mutableListOf()
 
     fun getStartRoom(): Room {
-        return world.rooms.first()
+        return world.rooms.toList().first()
     }
 
     fun addFight(fight: Fight) {
@@ -53,7 +53,7 @@ class MobService(
     }
 
     fun addMob(mob: Mob) {
-        putMobInRoom(mob, world.rooms[0])
+        putMobInRoom(mob, world.rooms.get(1))
     }
 
     fun moveMob(mob: Mob, room: Room, direction: Direction) {
@@ -99,16 +99,14 @@ class MobService(
     }
 
     fun respawnWorld() {
-        println("respawn world with ${world.mobResets.size} mob resets")
-        world.mobResets.forEach { reset ->
-            val room = world.rooms.find { it.id == reset.roomId }!!
+        val mobResets = world.mobResets.toList()
+        mobResets.forEach { reset ->
+            val room = world.rooms.get(reset.roomId)
             while (mobCanRespawn(reset, room)) {
-                val mob = world.mobs.find { it.id == reset.mobId }!!
-                world.itemMobResets.filter { it.mobId == mob.id }.forEach { itemReset ->
-                    println("FOUND ITEM MOB RESET")
-                    val item = world.items.find { it.id == itemReset.itemId }!!
+                val mob = world.mobs.get(reset.mobId)
+                world.itemMobResets.toList().filter { it.mobId == mob.id }.forEach { itemReset ->
+                    val item = world.items.get(itemReset.itemId)
                     mob.inventory.items.add(item.copy())
-                    println("mob $mob received $item, inv: ${mob.inventory.items.size}")
                 }
                 putMobInRoom(mob.copy(), room)
             }
@@ -165,11 +163,9 @@ class MobService(
     }
 
     private fun putMobInRoom(mob: Mob, room: Room) {
-        val r = world.rooms.find { it == room } ?: error("no room found")
-
         mobRooms.find { it.mob == mob }?.let {
-            it.room = r
-        } ?: mobRooms.add(MobRoom(mob, r))
+            it.room = room
+        } ?: mobRooms.add(MobRoom(mob, room))
     }
 }
 

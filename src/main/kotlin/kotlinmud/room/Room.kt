@@ -1,13 +1,14 @@
 package kotlinmud.room
 
+import kotlinmud.data.Row
 import kotlinmud.item.Inventory
 import kotlinmud.room.exit.Exit
 
 class Room(
-    val id: Int,
+    override val id: Int,
     val area: String,
     val name: String,
     val description: String,
     val inventory: Inventory = Inventory(),
     val exits: MutableList<Exit> = mutableListOf()
-)
+) : Row

@@ -5,6 +5,7 @@ import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
+import kotlinmud.data.Row
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.item.Material
@@ -17,7 +18,7 @@ import kotlinmud.mob.skill.SkillType
 const val corpseWeight = 20.0
 
 class Mob(
-    val id: Int,
+    override val id: Int,
     override val name: String,
     var brief: String,
     override var description: String,
@@ -35,7 +36,7 @@ class Mob(
     val equipped: Inventory = Inventory(),
     var skills: Map<SkillType, Int> = mapOf(),
     val affects: MutableList<AffectInstance> = mutableListOf()
-) : Noun {
+) : Noun, Row {
     var delay = 0
 
     fun isSleeping(): Boolean {
