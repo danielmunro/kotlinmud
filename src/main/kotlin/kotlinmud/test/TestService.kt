@@ -7,6 +7,7 @@ import kotlinmud.io.Response
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.mob.Mob
+import kotlinmud.mob.MobRoom
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.room.Room
@@ -37,12 +38,24 @@ class TestService(
         return fixtureService.createItem(inventory, attributes)
     }
 
+    fun getMobRooms(): List<MobRoom> {
+        return mobService.getMobRooms()
+    }
+
     fun getRoomForMob(mob: Mob): Room {
         return mobService.getRoomForMob(mob)
     }
 
     fun getMobsForRoom(room: Room): List<Mob> {
         return mobService.getMobsForRoom(room)
+    }
+
+    fun pruneDeadMobs() {
+        mobService.pruneDeadMobs()
+    }
+
+    fun decrementDelays() {
+        mobService.decrementDelays()
     }
 
     fun decrementAffects() {
