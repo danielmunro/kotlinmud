@@ -6,7 +6,6 @@ import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Message
 import kotlinmud.loader.World
-import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobRoom
 import kotlinmud.mob.fight.Attack
@@ -99,18 +98,7 @@ class MobService(
     }
 
     fun respawnWorld() {
-        val mobResets = world.mobResets.toList()
-        mobResets.forEach { reset ->
-            val room = world.rooms.get(reset.roomId)
-            while (mobCanRespawn(reset, room)) {
-                val mob = world.mobs.get(reset.mobId)
-                world.itemMobResets.toList().filter { it.mobId == mob.id }.forEach { itemReset ->
-                    val item = world.items.get(itemReset.itemId)
-                    mob.inventory.items.add(item.copy())
-                }
-                putMobInRoom(mob.copy(), room)
-            }
-        }
+        RespawnService(world, this).respawn()
     }
 
     fun sendMessageToRoom(message: Message, room: Room, actionCreator: Mob, target: Mob? = null) {
@@ -118,8 +106,10 @@ class MobService(
             createSendMessageToRoomEvent(message, room, actionCreator, target))
     }
 
-    private fun mobCanRespawn(reset: MobReset, room: Room): Boolean {
-        return reset.maxInRoom > getMobsForRoom(room).filter { mob -> mob.id == reset.mobId }.size && reset.maxInWorld > mobRooms.filter { mobRoom -> mobRoom.mob.id == reset.mobId }.size
+    fun putMobInRoom(mob: Mob, room: Room) {
+        mobRooms.find { it.mob == mob }?.let {
+            it.room = room
+        } ?: mobRooms.add(MobRoom(mob, room))
     }
 
     private fun proceedFightRound(round: Round): Round {
@@ -160,12 +150,6 @@ class MobService(
                 )
             )
         }
-    }
-
-    private fun putMobInRoom(mob: Mob, room: Room) {
-        mobRooms.find { it.mob == mob }?.let {
-            it.room = room
-        } ?: mobRooms.add(MobRoom(mob, room))
     }
 }
 

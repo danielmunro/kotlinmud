@@ -94,6 +94,7 @@ class Mob(
             "a corpse of $name",
             "a corpse of $name is here.",
             0,
+            level,
             corpseWeight,
             Attributes(),
             Material.ORGANIC,

@@ -22,6 +22,7 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
             name,
             description,
             props["value"]?.toInt() ?: 1,
+            props["level"]?.toInt() ?: 1,
             props["weight"]?.toDouble() ?: 1.0,
             Attributes(),
             if (props["material"] != null) Material.valueOf(props["material"]!!.toUpperCase()) else Material.ORGANIC,

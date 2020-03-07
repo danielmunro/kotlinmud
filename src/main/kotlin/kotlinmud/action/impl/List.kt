@@ -18,7 +18,8 @@ fun createListAction(): Action {
             val shopkeeper = svc.getMobsInRoom(request.room).find { it.job == JobType.SHOPKEEPER }!!
             svc.createResponse(
                 Message(
-                    shopkeeper.inventory.items.map { "$it - ${it.value}" }.reduce {
+                    "[lvl cost name]\n" +
+                    shopkeeper.inventory.items.map { "${it.level} ${it.value} $it" }.reduce {
                             acc: String, it: String -> "$acc\n$it"
                     }
                 )

@@ -48,6 +48,7 @@ class FixtureService {
             "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}",
             "A test item is here ($items).",
             1,
+            1,
             1.0,
             attributes)
         inv.items.add(item)
