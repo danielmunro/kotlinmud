@@ -19,8 +19,10 @@ fun createListAction(): Action {
             svc.createResponse(
                 Message(
                     "[lvl cost name]\n" +
-                    shopkeeper.inventory.items.map { "${it.level} ${it.value} $it" }.reduce {
-                            acc: String, it: String -> "$acc\n$it"
+                    shopkeeper.inventory.getItemGroups().map {
+                        "${it.value[0].level} ${it.value[0].value} ${it.value[0].name}"
+                    }.reduce {
+                        acc: String, it: String -> "$acc\n$it"
                     }
                 )
             )

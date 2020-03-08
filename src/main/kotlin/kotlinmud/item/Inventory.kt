@@ -8,4 +8,8 @@ class Inventory(
     fun copy(): Inventory {
         return Inventory(items.map { it.copy() }.toMutableList(), maxItems, maxWeight)
     }
+
+    fun getItemGroups(): Map<Int, List<Item>> {
+        return items.groupBy { it.id }
+    }
 }
