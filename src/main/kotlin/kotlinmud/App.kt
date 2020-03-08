@@ -10,10 +10,7 @@ import kotlinmud.io.Syntax
 import kotlinmud.loader.AreaLoader
 import kotlinmud.loader.World
 import kotlinmud.mob.Mob
-import kotlinmud.service.ActionService
-import kotlinmud.service.EventService
-import kotlinmud.service.FixtureService
-import kotlinmud.service.MobService
+import kotlinmud.service.*
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
@@ -62,7 +59,9 @@ fun main() {
     val mobService: MobService by container.instance()
     val eventService: EventService by container.instance()
     val server: Server by container.instance()
-    eventService.observers = createObservers(server, mobService, eventService)
+    val respawnService: RespawnService by container.instance()
+    eventService.observers = createObservers(server, mobService, eventService, respawnService)
+    respawnService.respawn()
     App(eventService, mobService, server).start()
 }
 
@@ -72,18 +71,25 @@ fun createContainer(): Kodein {
         bind<Server>() with singleton { Server(instance<EventService>(), instance<ServerSocket>()) }
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
+        bind<ItemService>() with singleton { ItemService() }
         bind<ActionService>() with singleton { ActionService(instance<MobService>(), instance<EventService>()) }
-        bind<MobService>() with singleton {
-            val fix = instance<FixtureService>()
-            val world = World(
+        bind<World>() with singleton {
+            World(
                 listOf(
                     AreaLoader("areas/midgard").load(),
                     AreaLoader("areas/woods").load()
                 )
             )
-            val svc = MobService(instance<EventService>(), world)
-            fix.populateWorld(svc)
-            svc
+        }
+        bind<MobService>() with singleton {
+            MobService(instance<EventService>(), instance<World>())
+        }
+        bind<RespawnService>() with singleton {
+            RespawnService(
+                instance<World>(),
+                instance<MobService>(),
+                instance<ItemService>()
+            )
         }
     }
 }

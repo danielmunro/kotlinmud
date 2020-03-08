@@ -14,14 +14,20 @@ import kotlinmud.room.Room
 import kotlinmud.service.ActionService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
+import kotlinmud.service.RespawnService
 
 class TestService(
     private val fixtureService: FixtureService,
     private val mobService: MobService,
-    private val actionService: ActionService
+    private val actionService: ActionService,
+    private val respawnService: RespawnService
 ) {
+    init {
+        fixtureService.createItem(mobService.getStartRoom().inventory)
+    }
+
     fun respawnWorld() {
-        mobService.respawnWorld()
+        respawnService.respawn()
     }
 
     fun getStartRoom(): Room {

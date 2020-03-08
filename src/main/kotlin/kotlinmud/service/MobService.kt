@@ -97,10 +97,6 @@ class MobService(
         }
     }
 
-    fun respawnWorld() {
-        RespawnService(world, this).respawn()
-    }
-
     fun sendMessageToRoom(message: Message, room: Room, actionCreator: Mob, target: Mob? = null) {
         eventService.publish<SendMessageToRoomEvent, EventResponse<SendMessageToRoomEvent>>(
             createSendMessageToRoomEvent(message, room, actionCreator, target))

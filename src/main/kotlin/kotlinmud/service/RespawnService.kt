@@ -5,28 +5,47 @@ import kotlinmud.loader.model.reset.ItemMobReset
 import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
 import kotlinmud.room.Room
+import kotlin.system.measureTimeMillis
 
-class RespawnService(private val world: World, private val mobService: MobService) {
+class RespawnService(
+    private val world: World,
+    private val mobService: MobService,
+    private val itemService: ItemService
+) {
+
     fun respawn() {
-        world.mobResets.toList().forEach { reset ->
-            val room = world.rooms.get(reset.roomId)
-            while (mobCanRespawn(reset, room)) {
-                val mob = world.mobs.get(reset.mobId)
-                addItemsToMob(mob)
-                mobService.putMobInRoom(mob.copy(), room)
+        val time = measureTimeMillis {
+            world.mobResets.toList().forEach { reset ->
+                val room = world.rooms.get(reset.roomId)
+                while (mobCanRespawn(reset, room)) {
+                    val mob = world.mobs.get(reset.mobId)
+                    addItemsToMob(mob)
+                    mobService.putMobInRoom(mob.copy(), room)
+                }
             }
         }
+        println("respawn took $time ms")
     }
 
     private fun addItemsToMob(mob: Mob) {
         filterItemMobResets(mob.id).forEach { itemReset ->
             val item = world.items.get(itemReset.itemId)
-            mob.inventory.items.add(item.copy())
+            while (itemMobCanRespawn(itemReset, mob)) {
+                with(item.copy(), {
+                    itemService.add(this)
+                    mob.inventory.items.add(this)
+                })
+            }
         }
     }
 
     private fun filterItemMobResets(mobId: Int): List<ItemMobReset> {
         return world.itemMobResets.toList().filter { it.mobId == mobId }
+    }
+
+    private fun itemMobCanRespawn(reset: ItemMobReset, mob: Mob): Boolean {
+        return reset.maxInInventory > mob.inventory.items.filter { it.id == reset.itemId }.size &&
+                reset.maxInWorld > itemService.getItemsById(reset.itemId).size
     }
 
     private fun mobCanRespawn(reset: MobReset, room: Room): Boolean {

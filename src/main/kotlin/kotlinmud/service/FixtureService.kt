@@ -16,11 +16,6 @@ class FixtureService {
     private var items = 0
     private val faker = Faker()
 
-    fun populateWorld(mobService: MobService) {
-        mobService.respawnWorld()
-        createItem(mobService.getStartRoom().inventory)
-    }
-
     fun createMob(race: Race = Human(), specialization: SpecializationType = SpecializationType.NONE): Mob {
         mobs++
         val name = faker.name.name()
