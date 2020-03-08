@@ -14,6 +14,7 @@ enum class Command(val value: String) {
     DROP("drop"),
     WEAR("wear"),
     REMOVE("remove"),
+    EQUIPMENT("equipment"),
 
     // shops
     LIST("list"),

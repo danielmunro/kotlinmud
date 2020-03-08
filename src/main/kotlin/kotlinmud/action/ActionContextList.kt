@@ -10,7 +10,7 @@ class ActionContextList(private val contexts: MutableList<Context<Any>>) {
             .let { if (it != null) it.result as T else throw Exception() }
     }
 
-    fun getError(): Context<Any>? {
-        return contexts.find { it.status == Status.FAILED }
+    fun getBadResult(): Context<Any>? {
+        return contexts.find { it.status != Status.OK }
     }
 }

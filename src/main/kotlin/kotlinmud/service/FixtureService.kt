@@ -37,7 +37,8 @@ class FixtureService {
                 race,
                 specialization,
                 createDefaultMobAttributes(),
-                JobType.NONE
+                JobType.NONE,
+            100
         )
     }
 

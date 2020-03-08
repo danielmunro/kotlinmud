@@ -24,9 +24,9 @@ fun createSellAction(): Action {
             shopkeeper.gold -= item.value
             svc.createResponse(
                 Message(
-                    "you buy $item from $shopkeeper for ${item.value}.",
-                    "${request.mob} buys $item from you.",
-                    "${request.mob} buys $item from $shopkeeper."
+                    "you sell $item to $shopkeeper for ${item.value}.",
+                    "${request.mob} sells $item to you.",
+                    "${request.mob} sells $item to $shopkeeper."
                 )
             )
         }

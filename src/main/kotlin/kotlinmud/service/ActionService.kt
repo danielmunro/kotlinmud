@@ -34,6 +34,7 @@ class ActionService(private val mobService: MobService, private val eventService
         createGetAction(),
         createDropAction(),
         createInventoryAction(),
+        createEquipmentAction(),
         createKillAction(),
         createFleeAction(),
         createSitAction(),
@@ -127,12 +128,10 @@ class ActionService(private val mobService: MobService, private val eventService
     }
 
     private fun callInvokable(request: Request, invokable: Invokable, list: ActionContextList): Response {
-        val error = list.getError()
-        if (error != null) {
-            return createResponseWithEmptyActionContext(Message(error.result as String), IOStatus.ERROR)
-        }
-        with(invokable.invoke(ActionContextService(mobService, eventService, list), request)) {
-            return if (invokable is Action && invokable.isChained())
+        return list.getBadResult()?.let {
+            createResponseWithEmptyActionContext(Message(it.result as String), IOStatus.ERROR)
+        } ?: with(invokable.invoke(ActionContextService(mobService, eventService, list), request)) {
+            if (invokable is Action && invokable.isChained())
                 run(createChainToRequest(request.mob, invokable))
             else
                 this
