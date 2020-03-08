@@ -39,6 +39,13 @@ class Mob(
     val affects: MutableList<AffectInstance> = mutableListOf()
 ) : Noun, Row {
     var delay = 0
+    var trains = 0
+    var practices = 0
+    var skillPoints = 0
+    var bounty = 0
+    var experience = 0
+    var wimpy = 0
+    var sacPoints = 0
 
     fun isSleeping(): Boolean {
         return disposition == Disposition.SLEEPING
@@ -60,26 +67,31 @@ class Mob(
         return DamageType.POUND
     }
 
+    fun getSaves(): Int {
+        return 1
+    }
+
+    fun base(attribute: Attribute): Int {
+        return when (attribute) {
+            Attribute.STR -> attributes.str + race.attributes.str
+            Attribute.INT -> attributes.int + race.attributes.int
+            Attribute.WIS -> attributes.wis + race.attributes.wis
+            Attribute.DEX -> attributes.dex + race.attributes.dex
+            Attribute.CON -> attributes.con + race.attributes.con
+            else -> 0
+        }
+    }
+
     fun calc(attribute: Attribute): Int {
         return when (attribute) {
             Attribute.HP -> attributes.hp + accumulate { it.attributes.hp }
             Attribute.MANA -> attributes.mana + accumulate { it.attributes.mana }
             Attribute.MV -> attributes.mv + accumulate { it.attributes.mv }
-            Attribute.STR -> attributes.str +
-                    race.attributes.str +
-                    accumulate { it.attributes.str }
-            Attribute.INT -> attributes.int +
-                    race.attributes.int +
-                    accumulate { it.attributes.int }
-            Attribute.WIS -> attributes.wis +
-                    race.attributes.wis +
-                    accumulate { it.attributes.wis }
-            Attribute.DEX -> attributes.dex +
-                    race.attributes.dex +
-                    accumulate { it.attributes.dex }
-            Attribute.CON -> attributes.con +
-                    race.attributes.con +
-                    accumulate { it.attributes.con }
+            Attribute.STR -> base(attribute) + accumulate { it.attributes.str }
+            Attribute.INT -> base(attribute) + accumulate { it.attributes.int }
+            Attribute.WIS -> base(attribute) + accumulate { it.attributes.wis }
+            Attribute.DEX -> base(attribute) + accumulate { it.attributes.dex }
+            Attribute.CON -> base(attribute) + accumulate { it.attributes.con }
             Attribute.HIT -> attributes.hit + accumulate { it.attributes.hit }
             Attribute.DAM -> attributes.dam + accumulate { it.attributes.dam }
             Attribute.AC_BASH -> attributes.acBash + accumulate { it.attributes.acBash }
