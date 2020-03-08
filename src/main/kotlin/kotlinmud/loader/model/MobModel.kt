@@ -3,6 +3,7 @@ package kotlinmud.loader.model
 import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.Attributes
 import kotlinmud.mob.Disposition
+import kotlinmud.mob.Gender
 import kotlinmud.mob.JobType
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.race.Race
@@ -22,6 +23,7 @@ class MobModel(
     val specialization: SpecializationType,
     val attributes: Attributes,
     val job: JobType,
+    val gender: Gender = Gender.NONE,
     val gold: Int = 0,
     var skills: Map<SkillType, Int> = mapOf(),
     val affects: MutableList<AffectInstance> = mutableListOf()

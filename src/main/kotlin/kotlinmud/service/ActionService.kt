@@ -1,12 +1,7 @@
 package kotlinmud.service
 
-import kotlinmud.action.Action
-import kotlinmud.action.ActionContextList
-import kotlinmud.action.ActionContextService
-import kotlinmud.action.Context
-import kotlinmud.action.Status
+import kotlinmud.action.*
 import kotlinmud.action.contextBuilder.*
-import kotlinmud.action.impl.*
 import kotlinmud.attributes.Attribute
 import kotlinmud.io.*
 import kotlinmud.mob.Intent
@@ -22,34 +17,7 @@ import kotlinmud.mob.skill.impl.Bite
 import kotlinmud.random.percentRoll
 
 class ActionService(private val mobService: MobService, private val eventService: EventService) {
-    private val actions: List<Action> = listOf(
-        createLookAction(),
-        createLookAtAction(),
-        createNorthAction(),
-        createSouthAction(),
-        createEastAction(),
-        createWestAction(),
-        createUpAction(),
-        createDownAction(),
-        createGetAction(),
-        createDropAction(),
-        createInventoryAction(),
-        createEquipmentAction(),
-        createKillAction(),
-        createFleeAction(),
-        createSitAction(),
-        createWakeAction(),
-        createSleepAction(),
-        createOpenAction(),
-        createCloseAction(),
-        createSayAction(),
-        createRemoveAction(),
-        createWearAction(),
-        createBuyAction(),
-        createSellAction(),
-        createListAction()
-    )
-
+    private val actions: List<Action> = createActionsList()
     private val skills: List<Skill> = listOf(
         Bash(),
         Berserk(),

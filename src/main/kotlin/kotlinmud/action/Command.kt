@@ -24,6 +24,18 @@ enum class Command(val value: String) {
     // informational
     LOOK("look"),
     INVENTORY("inventory"),
+    SCORE("score"),
+    ATTRIBUTES("attributes"),
+    AFFECTS("affects"),
+    TIME("time"),
+    WEATHER("weather"),
+
+    // mobs
+    FOLLOW("follow"),
+    GROUP("group"),
+    NOFOLLOW("nofollow"),
+    GROUP_TELL("group tell"),
+    GT("GT"),
 
     // social
     SAY("say"),

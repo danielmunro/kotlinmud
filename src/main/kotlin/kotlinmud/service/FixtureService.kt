@@ -4,10 +4,7 @@ import io.github.serpro69.kfaker.Faker
 import kotlinmud.attributes.*
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
-import kotlinmud.mob.Disposition
-import kotlinmud.mob.JobType
-import kotlinmud.mob.Mob
-import kotlinmud.mob.SpecializationType
+import kotlinmud.mob.*
 import kotlinmud.mob.race.Race
 import kotlinmud.mob.race.impl.Human
 
@@ -33,6 +30,7 @@ class FixtureService {
                 specialization,
                 createDefaultMobAttributes(),
                 JobType.NONE,
+                Gender.NONE,
             100
         )
     }

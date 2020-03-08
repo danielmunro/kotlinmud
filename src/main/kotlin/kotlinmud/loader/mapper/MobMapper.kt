@@ -20,6 +20,7 @@ class MobMapper(private val mobs: List<MobModel>) {
                 it.specialization,
                 it.attributes.copy(),
                 it.job,
+                it.gender,
                 it.gold
             )
         }
