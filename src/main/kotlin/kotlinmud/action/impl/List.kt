@@ -8,6 +8,7 @@ import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.mob.JobType
+import kotlinmud.string.leftPad
 
 fun createListAction(): Action {
     return Action(
@@ -20,7 +21,11 @@ fun createListAction(): Action {
                 Message(
                     "[lvl cost name]\n" +
                     shopkeeper.inventory.getItemGroups().map {
-                        "${it.value[0].level} ${it.value[0].value} ${it.value[0].name}"
+                        val level = it.value[0].level.toString()
+                        val cost = it.value[0].value.toString()
+                        leftPad(level, 5 - level.length) +
+                                " " + leftPad(cost, 6 - cost.length) +
+                                " " + it.value[0].name
                     }.reduce {
                         acc: String, it: String -> "$acc\n$it"
                     }
