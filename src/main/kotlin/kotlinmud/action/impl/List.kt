@@ -26,7 +26,7 @@ fun createListAction(): Action {
                         leftPad(level, 5 - level.length) +
                                 " " + leftPad(cost, 6 - cost.length) +
                                 " " + it.value[0].name
-                    }.reduce {
+                    }.fold("") {
                         acc: String, it: String -> "$acc\n$it"
                     }
                 )
