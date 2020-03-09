@@ -111,7 +111,7 @@ class MobServiceTest {
         val guard = testService.createMob(JobType.GUARD)
 
         // when
-        val response = testService.runAction(aggressor, "kill ${getIdentifyingWord(defender)}")
+        testService.runAction(aggressor, "kill ${getIdentifyingWord(defender)}")
 
         // then
         assertThat(testService.findFightForMob(guard)).isNotNull()
