@@ -6,10 +6,13 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
+import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobRoom
+import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.race.impl.Human
 import kotlinmud.room.Room
 import kotlinmud.service.ActionService
 import kotlinmud.service.FixtureService
@@ -34,8 +37,8 @@ class TestService(
         return mobService.getStartRoom()
     }
 
-    fun createMob(): Mob {
-        val mob = fixtureService.createMob()
+    fun createMob(job: JobType = JobType.NONE): Mob {
+        val mob = fixtureService.createMob(Human(), SpecializationType.NONE, job)
         mobService.addMob(mob)
         return mob
     }

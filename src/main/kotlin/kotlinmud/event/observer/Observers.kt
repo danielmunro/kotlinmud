@@ -7,17 +7,25 @@ import kotlinmud.service.RespawnService
 
 fun createObservers(server: Server, mobService: MobService, eventService: EventService, respawnService: RespawnService): List<Observer> {
     return listOf(
+        // client/server observers
         ClientConnectedObserver(mobService),
         SendMessageToRoomObserver(server, mobService),
         InputReceivedObserver(mobService),
+
+        // time
         ProceedFightsPulseObserver(mobService),
         DecrementAffectTimeoutTickObserver(mobService),
         DecrementDelayObserver(mobService),
+
+        // game logic
+        LogTickObserver(),
         PruneDeadMobsPulseObserver(mobService),
         RespawnTickObserver(respawnService),
-        LogTickObserver(),
         SocialDistributorObserver(server, mobService),
+
+        // job behaviors
         MoveScavengersOnTickObserver(mobService, eventService),
-        ScavengerCollectsItemsObserver(mobService, eventService)
+        ScavengerCollectsItemsObserver(mobService, eventService),
+        GuardAttacksAggroMobsObserver(mobService)
     )
 }

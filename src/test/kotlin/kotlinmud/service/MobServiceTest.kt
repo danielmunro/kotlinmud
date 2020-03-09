@@ -3,11 +3,14 @@ package kotlinmud.service
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
+import assertk.assertions.isNotNull
 import kotlin.test.Test
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
 import kotlinmud.mob.Disposition
+import kotlinmud.mob.JobType
 import kotlinmud.test.createTestService
+import kotlinmud.test.getIdentifyingWord
 
 class MobServiceTest {
     @Test
@@ -95,5 +98,22 @@ class MobServiceTest {
 
         // then
         assertThat(testService.getMobRooms()).hasSize(mobCount - 1)
+    }
+
+    @Test
+    fun testGuardsAttackAggressors() {
+        // setup
+        val testService = createTestService()
+        val aggressor = testService.createMob()
+        val defender = testService.createMob()
+
+        // given
+        val guard = testService.createMob(JobType.GUARD)
+
+        // when
+        val response = testService.runAction(aggressor, "kill ${getIdentifyingWord(defender)}")
+
+        // then
+        assertThat(testService.findFightForMob(guard)).isNotNull()
     }
 }

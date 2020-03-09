@@ -3,6 +3,7 @@ package kotlinmud.action
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
+import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.event.SocialEvent
 import kotlinmud.io.*
 import kotlinmud.mob.Mob
@@ -30,16 +31,16 @@ class ActionContextService(
         mobService.moveMob(mob, room, direction)
     }
 
-    fun sendMessageToRoom(message: Message, room: Room, actionCreator: Mob, target: Mob? = null) {
-        mobService.sendMessageToRoom(message, room, actionCreator, target)
-    }
-
     fun createResponse(message: Message, status: IOStatus = IOStatus.OK): Response {
         return Response(status, actionContextList, message)
     }
 
     fun createFightFor(mob: Mob) {
-        mobService.addFight(Fight(mob, get(Syntax.MOB_IN_ROOM)))
+        val target: Mob = get(Syntax.MOB_IN_ROOM)
+        val fight = Fight(mob, target)
+        mobService.addFight(fight)
+        eventService.publish<FightStartedEvent, FightStartedEvent>(
+            Event(EventType.FIGHT_STARTED, FightStartedEvent(fight, mob, target)))
     }
 
     fun endFightFor(mob: Mob) {
