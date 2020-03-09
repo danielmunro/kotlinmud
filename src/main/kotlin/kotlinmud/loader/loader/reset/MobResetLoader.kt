@@ -17,8 +17,8 @@ class MobResetLoader(private val tokenizer: Tokenizer) : Loader {
         val props = tokenizer.parseProperties()
         mobId = props["mobId"]!!.toInt()
         roomId = props["roomId"]!!.toInt()
-        maxInRoom = props["maxInRoom"]!!.toInt()
-        maxInWorld = props["maxInWorld"]!!.toInt()
+        maxInRoom = props["maxInRoom"]?.toInt() ?: 1
+        maxInWorld = props["maxInWorld"]?.toInt() ?: 1
 
         return MobReset(id, mobId, roomId, maxInRoom, maxInWorld)
     }

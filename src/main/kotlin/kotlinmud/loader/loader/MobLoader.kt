@@ -38,7 +38,7 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
             mana,
             mv,
             intAttr("level"),
-            createRaceFromString(strAttr("race")),
+            createRaceFromString(strAttr("race", "human")),
             if (attributes["specialization"] != null) SpecializationType.valueOf(strAttr("specialization").toUpperCase()) else SpecializationType.NONE,
             Attributes(hp, mana, mv),
             JobType.valueOf(job.toUpperCase())

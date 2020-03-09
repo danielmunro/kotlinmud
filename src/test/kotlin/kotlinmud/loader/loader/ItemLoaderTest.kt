@@ -14,10 +14,10 @@ class ItemLoaderTest {
         val area = AreaLoader("areas/midgard").load()
 
         // given
-        val item = area.items.last()
+        val item = area.items.first()
 
         // expect
-        assertThat(item.material).isEqualTo(Material.WOOD)
-        assertThat(item.position).isEqualTo(Position.SHIELD)
+        assertThat(item.material).isEqualTo(Material.ORGANIC)
+        assertThat(item.position).isEqualTo(Position.NONE)
     }
 }

@@ -6,7 +6,7 @@ place for the people of Midgard, as well as travellers passing through.
 
 A row of flowers wrap around the stone structure and line the roads going in
 all directions.~
-n: 2, s: 25, e: door-1-6, w:1000~
+n: 2, s: 100, e: door-1-7, w:1000~
 
 #2
 Noble Way~
@@ -37,12 +37,27 @@ bustle of Noble Way, stately town homes stretch up and down the worn brick
 path.~
 ~
 
-#25
-Cedar Ave~
-A back room is here.~
-~
-
-#6
+#7
 A quiet barroom in a tavern~
 Light flickering from a lantern illuminates a cozy bar.~
+~
+
+#100
+Market Ave~
+Shops and businesses.~
+s: 103, w: 101, e: 102~
+
+#101
+Blacksmith~
+Town blacksmith.~
+~
+
+#102
+Bakery~
+Town bakery.~
+~
+
+#103
+Market Ave~
+~
 ~

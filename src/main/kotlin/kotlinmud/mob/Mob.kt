@@ -1,10 +1,9 @@
 package kotlinmud.mob
 
+import io.github.serpro69.kfaker.Faker
 import kotlinmud.Noun
 import kotlinmud.affect.AffectInstance
-import kotlinmud.attributes.Attribute
-import kotlinmud.attributes.Attributes
-import kotlinmud.attributes.HasAttributes
+import kotlinmud.attributes.*
 import kotlinmud.data.Row
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
@@ -13,6 +12,7 @@ import kotlinmud.item.Position
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
+import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.skill.SkillType
 
 const val corpseWeight = 20.0
@@ -152,5 +152,79 @@ class Mob(
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {
         return equipped.items.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it } +
                 affects.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it }
+    }
+
+    class Builder {
+        var id = 0
+        var name = Faker().name.name()
+        var brief = ""
+        var description = ""
+        var disposition = Disposition.STANDING
+        var hp = startingHp
+        var mana = startingMana
+        var mv = startingMv
+        var level = 1
+        var race = Human()
+        var specialization = SpecializationType.NONE
+        var attributes = Attributes()
+        var job = JobType.NONE
+        var gender = Gender.NONE
+        var gold = 0
+        var inventory: Inventory = Inventory()
+        var equipped: Inventory = Inventory()
+        var skills: Map<SkillType, Int> = mapOf()
+        var affects: MutableList<AffectInstance> = mutableListOf()
+        var delay = 0
+        var trains = 0
+        var practices = 0
+        var skillPoints = 0
+        var bounty = 0
+        var experience = 0
+        var wimpy = 0
+        var sacPoints = 0
+
+        fun setId(value: Int): Builder {
+            id = value
+            return this
+        }
+
+        fun setName(value: String): Builder {
+            name = value
+            return this
+        }
+
+        fun setBrief(value: String): Builder {
+            brief = value
+            return this
+        }
+
+        fun setDescription(value: String): Builder {
+            description = value
+            return this
+        }
+
+        fun build(): Mob {
+            return Mob(
+                id,
+                name,
+                brief,
+                description,
+                disposition,
+                hp,
+                mana,
+                mv,
+                level,
+                race,
+                specialization,
+                attributes,
+                job,
+                gender,
+                gold,
+                inventory,
+                equipped,
+                skills,
+                affects
+            )
+        }
     }
 }
