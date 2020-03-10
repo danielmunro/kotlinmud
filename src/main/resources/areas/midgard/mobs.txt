@@ -40,3 +40,24 @@ a strong blacksmith sits here, examining a blade.~
 a blacksmith description.~
 sitting~
 job: shopkeeper~
+
+#7
+a potion brewer~
+a potion brewer is here, running inventory.~
+a potion brewer is here.~
+standing~
+job: shopkeeper~
+
+#8
+a scribe~
+a scribe sits here, deep in focus.~
+a scribe is here.~
+sitting~
+job: shopkeeper~
+
+#9
+an alley cat~
+a mangy alley cat is here, sniffing around the garbage.~
+A mangy alley cat.~
+standing~
+race: felid~

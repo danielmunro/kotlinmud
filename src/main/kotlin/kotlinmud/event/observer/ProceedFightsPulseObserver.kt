@@ -11,7 +11,9 @@ class ProceedFightsPulseObserver(private val mobService: MobService) : Observer 
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
         val rounds = mobService.proceedFights()
-        println("pulse has ${rounds.size} rounds")
+        if (rounds.isNotEmpty()) {
+            println("pulse has ${rounds.size} fight rounds")
+        }
         @Suppress("UNCHECKED_CAST")
         return EventResponse(Pulse() as A)
     }

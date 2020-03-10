@@ -59,5 +59,45 @@ Town bakery.~
 
 #103
 Market Ave~
+Shops and businesses.~
+w: 104, e: 105, s: 106~
+
+#104
+Potions~
+Town potion shop.~
 ~
+
+#105
+Scrolls~
+Scroll shop.~
+~
+
+#106
+Common Square~
+Traders and towns folk mingle in the heart of Midgard.~
+s: 107~
+
+#107
+South Market Ave~
+The smell of ocean salt fills the air as you get closer to the docks.~
+w: 108, e: 109~
+
+#108
+The Ramshackle Tavern~
+A bar is here.~
+~
+
+#109
+A Back Alley~
+A stinky back alley is here.~
+n: 110, e: 111~
+
+#110
+An Abandoned Warehouse~
+An abandoned harbor warehouse is here.~
+~
+
+#111
+End Of The Alley~
+The alley ends here, with cramped dock buildings all around you.~
 ~

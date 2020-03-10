@@ -13,6 +13,7 @@ fun createRaceFromString(name: String): Race {
         "faerie" -> Faerie()
         "lasher" -> Lasher()
         "canid" -> Canid()
+        "felid" -> Felid()
         else -> error("no race: $name")
     }
 }
