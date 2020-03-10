@@ -8,3 +8,4 @@ mobId: 7, roomId: 104~
 mobId: 8, roomId: 105~
 mobId: 9, roomId: 109, maxInWorld: 8~
 mobId: 9, roomId: 111, maxInWorld: 8~
+mobId: 9, roomId: 113, maxInWorld: 8~

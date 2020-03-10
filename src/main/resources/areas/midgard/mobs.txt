@@ -60,4 +60,4 @@ an alley cat~
 a mangy alley cat is here, sniffing around the garbage.~
 A mangy alley cat.~
 standing~
-race: felid~
+race: felid, level: 3~

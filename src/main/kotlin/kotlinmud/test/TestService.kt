@@ -1,9 +1,12 @@
 package kotlinmud.test
 
 import kotlinmud.attributes.Attributes
+import kotlinmud.event.Event
+import kotlinmud.event.EventResponse
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Request
 import kotlinmud.io.Response
+import kotlinmud.io.Server
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.mob.JobType
@@ -14,19 +17,22 @@ import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.room.Room
-import kotlinmud.service.ActionService
-import kotlinmud.service.FixtureService
-import kotlinmud.service.MobService
-import kotlinmud.service.RespawnService
+import kotlinmud.service.*
 
 class TestService(
     private val fixtureService: FixtureService,
     private val mobService: MobService,
     private val actionService: ActionService,
-    private val respawnService: RespawnService
+    private val respawnService: RespawnService,
+    private val eventService: EventService,
+    val server: Server
 ) {
     init {
         fixtureService.createItem(mobService.getStartRoom().inventory)
+    }
+
+    fun <T, A> publish(event: Event<T>): EventResponse<A> {
+        return eventService.publish(event)
     }
 
     fun respawnWorld() {

@@ -44,6 +44,7 @@ class Mob(
     var skillPoints = 0
     var bounty = 0
     var experience = 0
+    var experiencePerLevel = 1000
     var wimpy = 0
     var sacPoints = 0
 
@@ -121,6 +122,17 @@ class Mob(
         return corpse
     }
 
+    fun addExperience(value: Int): AddExperience {
+        experience += value
+        var didLevel = false
+        val toLevel = getExperienceToLevel()
+        if (toLevel < 0) {
+            level++
+            didLevel = true
+        }
+        return AddExperience(experience, didLevel)
+    }
+
     fun copy(): Mob {
         return Mob(
             id,
@@ -147,6 +159,10 @@ class Mob(
 
     override fun toString(): String {
         return name
+    }
+
+    private fun getExperienceToLevel(): Int {
+        return experiencePerLevel - experience + (experiencePerLevel * level)
     }
 
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {

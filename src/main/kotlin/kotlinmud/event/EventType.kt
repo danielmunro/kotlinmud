@@ -9,5 +9,6 @@ enum class EventType {
     TICK,
     FIGHT_STARTED,
     FIGHT_ROUND,
+    KILL,
     SOCIAL,
 }

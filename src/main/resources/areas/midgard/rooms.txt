@@ -100,4 +100,49 @@ An abandoned harbor warehouse is here.~
 #111
 End Of The Alley~
 The alley ends here, with cramped dock buildings all around you.~
+e: door-2-112~
+
+#112
+A Warehouse Complex~
+A sprawling warehouse complex spans almost as far as you can see.~
+e: 113, n: 115~
+
+#113
+A Warehouse Complex~
+A sprawling warehouse complex spans almost as far as you can see.~
+e: 114, n: 116~
+
+#114
+A Warehouse Complex~
+A sprawling warehouse complex spans almost as far as you can see.~
+n: 117~
+
+#115
+A Warehouse Complex~
+A sprawling warehouse complex spans almost as far as you can see.~
+e: 116, n: 118~
+
+#116
+A Warehouse Complex~
+A sprawling warehouse complex spans almost as far as you can see.~
+e: 117, n: 119~
+
+#117
+A Warehouse Complex~
+A sprawling warehouse complex spans almost as far as you can see.~
+n: 120~
+
+#118
+A Warehouse Complex~
+A sprawling warehouse complex spans almost as far as you can see.~
+e: 119~
+
+#119
+A Warehouse Complex~
+A sprawling warehouse complex spans almost as far as you can see.~
+e: 120~
+
+#120
+A Warehouse Complex~
+A sprawling warehouse complex spans almost as far as you can see.~
 ~

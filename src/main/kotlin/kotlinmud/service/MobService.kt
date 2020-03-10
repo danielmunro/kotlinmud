@@ -1,7 +1,9 @@
 package kotlinmud.service
 
 import kotlinmud.attributes.Attribute
+import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
+import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Message
@@ -62,6 +64,11 @@ class MobService(
     }
 
     fun proceedFights(): List<Round> {
+        fights.forEach {
+            if (it.hasFatality()) {
+                eventService.publish<Fight, EventResponse<Fight>>(Event(EventType.KILL, it))
+            }
+        }
         fights.removeIf { it.isOver() }
         return fights.map { proceedFightRound(it.createRound()) }
     }

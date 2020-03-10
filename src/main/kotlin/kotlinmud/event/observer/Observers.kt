@@ -22,6 +22,7 @@ fun createObservers(server: Server, mobService: MobService, eventService: EventS
         PruneDeadMobsPulseObserver(mobService),
         RespawnTickObserver(respawnService),
         SocialDistributorObserver(server, mobService),
+        GrantExperienceOnKillObserver(server),
 
         // job behaviors
         MoveScavengersOnTickObserver(mobService, eventService),

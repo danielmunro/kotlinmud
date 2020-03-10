@@ -31,6 +31,19 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
         return status == FightStatus.OVER
     }
 
+    fun hasFatality(): Boolean {
+        return mob1.isIncapacitated() || mob2.isIncapacitated()
+    }
+
+    fun getWinner(): Mob? {
+        if (mob1.isIncapacitated()) {
+            return mob2
+        } else if (mob2.isIncapacitated()) {
+            return mob1
+        }
+        return null
+    }
+
     fun createRound(): Round {
         val round = Round(
             mob1,

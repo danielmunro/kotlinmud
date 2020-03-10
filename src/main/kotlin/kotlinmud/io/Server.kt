@@ -33,6 +33,10 @@ class Server(private val eventService: EventService, private val server: ServerS
         }
     }
 
+    fun getClientForMob(mob: Mob): ClientHandler? {
+        return clients.find { it.mob == mob }
+    }
+
     fun getClients(): List<ClientHandler> {
         return clients.toList()
     }
