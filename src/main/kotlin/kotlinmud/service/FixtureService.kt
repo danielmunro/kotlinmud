@@ -15,8 +15,7 @@ class FixtureService {
 
     fun createMob(race: Race = Human(), specialization: SpecializationType = SpecializationType.NONE, job: JobType = JobType.NONE): Mob {
         mobs++
-        return Mob.Builder()
-            .setId(mobs)
+        return Mob.Builder(mobs, faker.name.name())
             .setRace(race)
             .setSpecialization(specialization)
             .setJob(job)

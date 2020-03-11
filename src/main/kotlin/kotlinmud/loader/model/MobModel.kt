@@ -26,5 +26,6 @@ class MobModel(
     val gender: Gender = Gender.NONE,
     val gold: Int = 0,
     var skills: Map<SkillType, Int> = mapOf(),
-    val affects: MutableList<AffectInstance> = mutableListOf()
+    val affects: MutableList<AffectInstance> = mutableListOf(),
+    val wimpy: Int = 0
 ) : Model

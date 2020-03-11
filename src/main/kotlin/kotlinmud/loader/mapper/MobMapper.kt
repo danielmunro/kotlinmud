@@ -6,27 +6,21 @@ import kotlinmud.mob.Mob
 class MobMapper(private val mobs: List<MobModel>) {
     fun map(): List<Mob> {
         return mobs.map {
-            Mob(
-                it.id,
-                it.name,
-                it.brief,
-                it.description,
-                it.disposition,
-                it.hp,
-                it.mana,
-                it.mv,
-                it.level,
-                it.race,
-                it.specialization,
-                it.attributes.copy(),
-                it.job,
-                it.gender,
-                it.gold,
-                mapOf(),
-                mutableListOf(),
-                0,
-                0
-            )
+            Mob.Builder(it.id, it.name)
+                .setBrief(it.brief)
+                .setDescription(it.description)
+                .setDisposition(it.disposition)
+                .setHp(it.hp)
+                .setMana(it.mana)
+                .setMv(it.mv)
+                .setLevel(it.level)
+                .setRace(it.race)
+                .setSpecialization(it.specialization)
+                .setJob(it.job)
+                .setGender(it.gender)
+                .setGold(it.gold)
+                .setWimpy(it.wimpy)
+                .build()
         }
     }
 }

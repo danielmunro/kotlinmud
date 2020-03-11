@@ -1,6 +1,5 @@
 package kotlinmud.mob
 
-import io.github.serpro69.kfaker.Faker
 import kotlinmud.Noun
 import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.*
@@ -170,11 +169,9 @@ class Mob(
                 affects.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it }
     }
 
-    class Builder {
-        var id = 0
-        var name = Faker().name.name()
-        var brief = ""
-        var description = ""
+    class Builder(val id: Int, val name: String) {
+        var brief = "$name is here."
+        var description = "$name is here, minding their own business."
         var disposition = Disposition.STANDING
         var hp = startingHp
         var mana = startingMana
@@ -189,16 +186,6 @@ class Mob(
         var affects: MutableList<AffectInstance> = mutableListOf()
         var wimpy = 0
         var experiencePerLevel = 1000
-
-        fun setId(value: Int): Builder {
-            id = value
-            return this
-        }
-
-        fun setName(value: String): Builder {
-            name = value
-            return this
-        }
 
         fun setBrief(value: String): Builder {
             brief = value
