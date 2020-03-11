@@ -4,7 +4,7 @@ import kotlinmud.data.Row
 import kotlinmud.item.Inventory
 import kotlinmud.room.exit.Exit
 
-class Room(
+data class Room(
     override val id: Int,
     val area: String,
     val name: String,

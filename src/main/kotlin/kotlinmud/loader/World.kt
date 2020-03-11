@@ -8,7 +8,7 @@ import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
 import kotlinmud.room.Room
 
-class World(areas: List<Area>) {
+data class World(val areas: List<Area>) {
     var rooms: Table<Room>
     var mobs: Table<Mob>
     var items: Table<Item>
