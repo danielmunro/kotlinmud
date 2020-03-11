@@ -11,7 +11,7 @@ const val startingAcSlash = 0
 const val startingAcPierce = 0
 const val startingAcMagic = 0
 
-class Attributes(
+data class Attributes(
     val hp: Int = 0,
     val mana: Int = 0,
     val mv: Int = 0,
@@ -26,23 +26,4 @@ class Attributes(
     val acSlash: Int = 0,
     val acPierce: Int = 0,
     val acMagic: Int = 0
-) {
-    fun copy(): Attributes {
-        return Attributes(
-            hp,
-            mana,
-            mv,
-            str,
-            int,
-            wis,
-            dex,
-            con,
-            hit,
-            dam,
-            acBash,
-            acSlash,
-            acPierce,
-            acMagic
-        )
-    }
-}
+)
