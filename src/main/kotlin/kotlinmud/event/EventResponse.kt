@@ -1,3 +1,3 @@
 package kotlinmud.event
 
-class EventResponse <A> (val subject: A)
+data class EventResponse <A> (val subject: A)

@@ -4,7 +4,7 @@ import kotlinmud.io.Message
 import kotlinmud.mob.Mob
 import kotlinmud.room.Room
 
-class SendMessageToRoomEvent(
+data class SendMessageToRoomEvent(
     val message: Message,
     val room: Room,
     val actionCreator: Mob,

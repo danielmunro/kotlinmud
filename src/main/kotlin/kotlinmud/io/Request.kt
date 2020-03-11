@@ -4,7 +4,7 @@ import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
 import kotlinmud.room.Room
 
-class Request(
+data class Request(
     val mob: Mob,
     val input: String,
     val room: Room
