@@ -31,21 +31,21 @@ class Mob(
     val specialization: SpecializationType,
     val attributes: Attributes,
     val job: JobType,
-    var gender: Gender = Gender.NONE,
-    var gold: Int = 0,
-    val inventory: Inventory = Inventory(),
-    val equipped: Inventory = Inventory(),
-    var skills: Map<SkillType, Int> = mapOf(),
-    val affects: MutableList<AffectInstance> = mutableListOf()
+    var gender: Gender,
+    var gold: Int,
+    var skills: Map<SkillType, Int>,
+    val affects: MutableList<AffectInstance>,
+    var wimpy: Int,
+    var experiencePerLevel: Int
 ) : Noun, Row {
+    val inventory: Inventory = Inventory()
+    val equipped: Inventory = Inventory()
     var delay = 0
     var trains = 0
     var practices = 0
     var skillPoints = 0
     var bounty = 0
     var experience = 0
-    var experiencePerLevel = 1000
-    var wimpy = 0
     var sacPoints = 0
 
     fun isSleeping(): Boolean {
@@ -150,10 +150,10 @@ class Mob(
             job,
             gender,
             gold,
-            inventory.copy(),
-            equipped.copy(),
             skills.toMap(),
-            affects.toMutableList()
+            affects.toMutableList(),
+            wimpy,
+            experiencePerLevel
         )
     }
 
@@ -180,24 +180,15 @@ class Mob(
         var mana = startingMana
         var mv = startingMv
         var level = 1
-        var race = Human()
+        var race: Race = Human()
         var specialization = SpecializationType.NONE
-        var attributes = Attributes()
         var job = JobType.NONE
         var gender = Gender.NONE
         var gold = 0
-        var inventory: Inventory = Inventory()
-        var equipped: Inventory = Inventory()
         var skills: Map<SkillType, Int> = mapOf()
         var affects: MutableList<AffectInstance> = mutableListOf()
-        var delay = 0
-        var trains = 0
-        var practices = 0
-        var skillPoints = 0
-        var bounty = 0
-        var experience = 0
         var wimpy = 0
-        var sacPoints = 0
+        var experiencePerLevel = 1000
 
         fun setId(value: Int): Builder {
             id = value
@@ -219,6 +210,66 @@ class Mob(
             return this
         }
 
+        fun setDisposition(value: Disposition): Builder {
+            disposition = value
+            return this
+        }
+
+        fun setHp(value: Int): Builder {
+            hp = value
+            return this
+        }
+
+        fun setMana(value: Int): Builder {
+            mana = value
+            return this
+        }
+
+        fun setMv(value: Int): Builder {
+            mv = value
+            return this
+        }
+
+        fun setLevel(value: Int): Builder {
+            level = value
+            return this
+        }
+
+        fun setRace(value: Race): Builder {
+            race = value
+            return this
+        }
+
+        fun setSpecialization(value: SpecializationType): Builder {
+            specialization = value
+            return this
+        }
+
+        fun setJob(value: JobType): Builder {
+            job = value
+            return this
+        }
+
+        fun setGender(value: Gender): Builder {
+            gender = value
+            return this
+        }
+
+        fun setGold(value: Int): Builder {
+            gold = value
+            return this
+        }
+
+        fun setWimpy(value: Int): Builder {
+            wimpy = value
+            return this
+        }
+
+        fun setExperiencePerLevel(value: Int): Builder {
+            experiencePerLevel = value
+            return this
+        }
+
         fun build(): Mob {
             return Mob(
                 id,
@@ -232,14 +283,18 @@ class Mob(
                 level,
                 race,
                 specialization,
-                attributes,
+                Attributes(
+                    hp,
+                    mana,
+                    mv
+                ),
                 job,
                 gender,
                 gold,
-                inventory,
-                equipped,
                 skills,
-                affects
+                affects,
+                wimpy,
+                experiencePerLevel
             )
         }
     }

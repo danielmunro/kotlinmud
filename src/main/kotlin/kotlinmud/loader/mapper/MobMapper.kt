@@ -21,7 +21,11 @@ class MobMapper(private val mobs: List<MobModel>) {
                 it.attributes.copy(),
                 it.job,
                 it.gender,
-                it.gold
+                it.gold,
+                mapOf(),
+                mutableListOf(),
+                0,
+                0
             )
         }
     }

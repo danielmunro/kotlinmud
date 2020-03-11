@@ -31,7 +31,11 @@ class FixtureService {
                 createDefaultMobAttributes(),
                 job,
                 Gender.NONE,
-            100
+            100,
+            mapOf(),
+            mutableListOf(),
+            0,
+            1000
         )
     }
 
