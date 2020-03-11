@@ -20,6 +20,7 @@ class MobMapper(private val mobs: List<MobModel>) {
                 .setGender(it.gender)
                 .setGold(it.gold)
                 .setWimpy(it.wimpy)
+                .setSavingThrows(it.savingThrows)
                 .build()
         }
     }

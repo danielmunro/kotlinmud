@@ -27,6 +27,7 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
         val mana = intAttr("mana")
         val mv = intAttr("mv")
         val job = strAttr("job", "none")
+        val specialization = strAttr("specialization", "none")
 
         return MobModel(
             id,
@@ -39,7 +40,7 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
             mv,
             intAttr("level"),
             createRaceFromString(strAttr("race", "human")),
-            if (attributes["specialization"] != null) SpecializationType.valueOf(strAttr("specialization").toUpperCase()) else SpecializationType.NONE,
+            SpecializationType.valueOf(specialization.toUpperCase()),
             Attributes(hp, mana, mv),
             JobType.valueOf(job.toUpperCase())
         )

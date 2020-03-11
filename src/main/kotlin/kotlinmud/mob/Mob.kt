@@ -35,7 +35,8 @@ class Mob(
     var skills: Map<SkillType, Int>,
     val affects: MutableList<AffectInstance>,
     var wimpy: Int,
-    var experiencePerLevel: Int
+    var experiencePerLevel: Int,
+    var savingThrows: Int
 ) : Noun, Row {
     val inventory: Inventory = Inventory()
     val equipped: Inventory = Inventory()
@@ -152,7 +153,8 @@ class Mob(
             skills.toMap(),
             affects.toMutableList(),
             wimpy,
-            experiencePerLevel
+            experiencePerLevel,
+            savingThrows
         )
     }
 
@@ -186,6 +188,7 @@ class Mob(
         var affects: MutableList<AffectInstance> = mutableListOf()
         var wimpy = 0
         var experiencePerLevel = 1000
+        var savingThrows = 0
 
         fun setBrief(value: String): Builder {
             brief = value
@@ -257,6 +260,11 @@ class Mob(
             return this
         }
 
+        fun setSavingThrows(value: Int): Builder {
+            savingThrows = value
+            return this
+        }
+
         fun build(): Mob {
             return Mob(
                 id,
@@ -281,7 +289,8 @@ class Mob(
                 skills,
                 affects,
                 wimpy,
-                experiencePerLevel
+                experiencePerLevel,
+                savingThrows
             )
         }
     }

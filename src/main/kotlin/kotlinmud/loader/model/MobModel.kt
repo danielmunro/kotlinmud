@@ -27,5 +27,6 @@ class MobModel(
     val gold: Int = 0,
     var skills: Map<SkillType, Int> = mapOf(),
     val affects: MutableList<AffectInstance> = mutableListOf(),
-    val wimpy: Int = 0
+    val wimpy: Int = 0,
+    val savingThrows: Int = 0
 ) : Model
