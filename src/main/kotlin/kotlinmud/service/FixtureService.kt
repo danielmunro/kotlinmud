@@ -15,28 +15,12 @@ class FixtureService {
 
     fun createMob(race: Race = Human(), specialization: SpecializationType = SpecializationType.NONE, job: JobType = JobType.NONE): Mob {
         mobs++
-        val name = faker.name.name()
-        return Mob(
-                mobs,
-                name,
-                "$name is here.",
-                "A test mob is here ($mobs).",
-                Disposition.STANDING,
-                startingHp,
-                startingMana,
-                startingMv,
-                1,
-                race,
-                specialization,
-                createDefaultMobAttributes(),
-                job,
-                Gender.NONE,
-            100,
-            mapOf(),
-            mutableListOf(),
-            0,
-            1000
-        )
+        return Mob.Builder()
+            .setId(mobs)
+            .setRace(race)
+            .setSpecialization(specialization)
+            .setJob(job)
+            .build()
     }
 
     fun createItem(inv: Inventory, attributes: Attributes = Attributes()): Item {
