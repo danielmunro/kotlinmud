@@ -13,6 +13,10 @@ class FixtureService {
     private var items = 0
     private val faker = Faker()
 
+    fun createMobBuilder(): Mob.Builder {
+        return Mob.Builder(mobs, faker.name.name())
+    }
+
     fun createMob(race: Race = Human(), specialization: SpecializationType = SpecializationType.NONE, job: JobType = JobType.NONE): Mob {
         mobs++
         return Mob.Builder(mobs, faker.name.name())

@@ -6,7 +6,6 @@ import kotlinmud.event.EventResponse
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Request
 import kotlinmud.io.Response
-import kotlinmud.io.Server
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.mob.JobType
@@ -24,8 +23,7 @@ class TestService(
     private val mobService: MobService,
     private val actionService: ActionService,
     private val respawnService: RespawnService,
-    private val eventService: EventService,
-    val server: Server
+    private val eventService: EventService
 ) {
     init {
         fixtureService.createItem(mobService.getStartRoom().inventory)
@@ -45,6 +43,16 @@ class TestService(
 
     fun createMob(job: JobType = JobType.NONE): Mob {
         val mob = fixtureService.createMob(Human(), SpecializationType.NONE, job)
+        mobService.addMob(mob)
+        return mob
+    }
+
+    fun mobBuilder(): Mob.Builder {
+        return fixtureService.createMobBuilder()
+    }
+
+    fun buildMob(mobBuilder: Mob.Builder): Mob {
+        val mob = mobBuilder.build()
         mobService.addMob(mob)
         return mob
     }

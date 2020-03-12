@@ -17,7 +17,7 @@ fun createTestService(): TestService {
     val server = Server(evt, ServerSocket())
     val respawnService: RespawnService by container.instance()
     evt.observers = createObservers(server, mob, evt, respawnService)
-    return TestService(fix, mob, act, respawnService, evt, server)
+    return TestService(fix, mob, act, respawnService, evt)
 }
 
 fun getIdentifyingWord(noun: Noun): String {

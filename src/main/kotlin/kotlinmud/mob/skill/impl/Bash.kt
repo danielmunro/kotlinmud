@@ -40,8 +40,9 @@ class Bash : Skill {
     override fun invoke(actionContextService: ActionContextService, request: Request): Response {
         val target: Mob = actionContextService.get(Syntax.TARGET_MOB)
         val limit = (request.mob.level / 10).coerceAtLeast(2)
-        val modifier = limit + if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)
-        target.hp -= Random.nextInt(1, modifier)
+        val modifier = Random.nextInt(1, limit) +
+                if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)
+        target.hp -= modifier
         target.affects.add(AffectInstance(
             AffectType.STUNNED, modifier / 5, Attributes(0, 0, 0, 0, -1)))
         return actionContextService.createResponse(Message(

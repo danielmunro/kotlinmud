@@ -1,8 +1,14 @@
 package kotlinmud.mob
 
+import assertk.assertThat
+import assertk.assertions.isGreaterThan
+import assertk.assertions.isLessThan
 import kotlin.test.assertEquals
+import kotlinmud.affect.AffectType
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
+import kotlinmud.mob.fight.DamageType
+import kotlinmud.mob.race.impl.Elf
 import kotlinmud.test.createTestService
 import org.junit.Test
 
@@ -42,5 +48,61 @@ class MobTest {
         assertEquals(initialAc + 1, mob.calc(Attribute.AC_SLASH))
         assertEquals(initialAc + 1, mob.calc(Attribute.AC_PIERCE))
         assertEquals(initialAc + 1, mob.calc(Attribute.AC_MAGIC))
+    }
+
+    @Test
+    fun testElfSaveBonus() {
+        // setup
+        val testService = createTestService()
+        val mob1 = testService.createMob()
+        var mob1Successes = 0
+        var mob2Successes = 0
+        var iterations = 1000
+
+        // given
+        val mob2 = testService.buildMob(
+            testService.mobBuilder().setRace(Elf())
+        )
+
+        // when
+        while (iterations > 0) {
+            if (mob1.savesAgainst(DamageType.NONE)) {
+                mob1Successes++
+            }
+            if (mob2.savesAgainst(DamageType.NONE)) {
+                mob2Successes++
+            }
+            iterations--
+        }
+
+        // then
+        assertThat(mob1Successes).isLessThan(mob2Successes)
+    }
+
+    @Test
+    fun testCurseSavePenalty() {
+        // setup
+        val testService = createTestService()
+        val mob1 = testService.createMob()
+        var mob1Successes = 0
+        var mob2Successes = 0
+        var iterations = 1000
+
+        // given
+        val mob2 = testService.buildMob(testService.mobBuilder().addAffect(AffectType.CURSE))
+
+        // when
+        while (iterations > 0) {
+            if (mob1.savesAgainst(DamageType.NONE)) {
+                mob1Successes++
+            }
+            if (mob2.savesAgainst(DamageType.NONE)) {
+                mob2Successes++
+            }
+            iterations--
+        }
+
+        // then
+        assertThat(mob1Successes).isGreaterThan(mob2Successes)
     }
 }

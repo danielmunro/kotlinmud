@@ -233,6 +233,11 @@ class Mob(
         var experiencePerLevel = 1000
         var savingThrows = 0
 
+        fun addAffect(affect: AffectType): Builder {
+            affects.add(AffectInstance(affect, 1))
+            return this
+        }
+
         fun setBrief(value: String): Builder {
             brief = value
             return this
