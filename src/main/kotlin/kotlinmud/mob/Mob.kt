@@ -2,6 +2,7 @@ package kotlinmud.mob
 
 import kotlinmud.Noun
 import kotlinmud.affect.AffectInstance
+import kotlinmud.affect.AffectType
 import kotlinmud.attributes.*
 import kotlinmud.data.Row
 import kotlinmud.item.Inventory
@@ -12,8 +13,10 @@ import kotlinmud.loader.model.Model
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
+import kotlinmud.mob.race.RaceType
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.skill.SkillType
+import kotlinmud.random.percentRoll
 
 const val corpseWeight = 20.0
 
@@ -69,8 +72,8 @@ class Mob(
         return DamageType.POUND
     }
 
-    fun getSaves(): Int {
-        return 1
+    fun isAffectedBy(affectType: AffectType): Boolean {
+        return affects.find { it.affectType == affectType } != null
     }
 
     fun base(attribute: Attribute): Int {
@@ -157,6 +160,45 @@ class Mob(
             experiencePerLevel,
             savingThrows
         )
+    }
+
+    fun savesAgainst(damageType: DamageType): Boolean {
+        var saves = savingThrows
+        if (race.type == RaceType.ELF) {
+            saves -= 5
+        }
+        var base = 80 + (level / 6) + saves
+        base -= calc(Attribute.STR) + calc(Attribute.INT)
+        if (isAffectedBy(AffectType.CURSE)) {
+            base += 5
+        }
+        if (disposition == Disposition.FIGHTING) {
+            base += 5
+        }
+        affects.find { it.affectType == AffectType.BERSERK }?.let {
+            base -= level / 10
+        }
+
+        base += when {
+            race.vulnerableTo.contains(damageType) -> 25
+            race.resist.contains(damageType) -> -25
+            race.immuneTo.contains(damageType) -> return true
+            else -> 0
+        }
+
+        if (specialization == SpecializationType.MAGE) {
+            base -= 10
+        } else if (specialization == SpecializationType.CLERIC) {
+            base -= -5
+        }
+
+        if (base < 5) {
+            base = 5
+        } else if (base > 95) {
+            base = 95
+        }
+
+        return percentRoll() > base
     }
 
     override fun toString(): String {

@@ -34,7 +34,7 @@ fun createScoreAction(): Action {
                             "You need 0 exp to level.\n" +
                             "Wimpy set to ${mob.wimpy}.\n" +
                             "You are ${mob.disposition.toString().toLowerCase()}.\n" +
-                            "Saving Throw Adjustment: ${mob.getSaves()}\n" +
+                            "Saving Throw Adjustment: ${mob.savingThrows}\n" +
                             "You are hopelessly vulnerable to piercing.\n" +
                             "You are hopelessly vulnerable to bashing.\n" +
                             "You are hopelessly vulnerable to slashing.\n" +

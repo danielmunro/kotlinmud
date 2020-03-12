@@ -14,6 +14,7 @@ import kotlinmud.mob.Disposition
 import kotlinmud.mob.Intent
 import kotlinmud.mob.Mob
 import kotlinmud.mob.SpecializationType
+import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.skill.*
 
 class Bash : Skill {
@@ -38,7 +39,8 @@ class Bash : Skill {
 
     override fun invoke(actionContextService: ActionContextService, request: Request): Response {
         val target: Mob = actionContextService.get(Syntax.TARGET_MOB)
-        val modifier = request.mob.level / 10
+        val limit = (request.mob.level / 10).coerceAtLeast(2)
+        val modifier = limit + if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)
         target.hp -= Random.nextInt(1, modifier)
         target.affects.add(AffectInstance(
             AffectType.STUNNED, modifier / 5, Attributes(0, 0, 0, 0, -1)))

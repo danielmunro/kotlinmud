@@ -11,6 +11,7 @@ import kotlinmud.mob.Disposition
 import kotlinmud.mob.Intent
 import kotlinmud.mob.Mob
 import kotlinmud.mob.SpecializationType
+import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.skill.*
 
 class Bite : Skill {
@@ -27,7 +28,9 @@ class Bite : Skill {
 
     override fun invoke(actionContextService: ActionContextService, request: Request): Response {
         val target: Mob = actionContextService.get(Syntax.TARGET_MOB)
-        target.hp -= Random.nextInt(1, (request.mob.level / 10).coerceAtLeast(2))
+        val limit = (request.mob.level / 10).coerceAtLeast(2)
+        target.hp -= Random.nextInt(1, limit) +
+                if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)
         return actionContextService.createResponse(
             Message(
             "You bite $target.",
