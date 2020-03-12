@@ -8,6 +8,7 @@ import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.item.Material
 import kotlinmud.item.Position
+import kotlinmud.loader.model.Model
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
@@ -171,7 +172,7 @@ class Mob(
                 affects.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it }
     }
 
-    class Builder(val id: Int, val name: String) {
+    class Builder(override val id: Int, val name: String) : Model {
         var brief = "$name is here."
         var description = "$name is here, minding their own business."
         var disposition = Disposition.STANDING

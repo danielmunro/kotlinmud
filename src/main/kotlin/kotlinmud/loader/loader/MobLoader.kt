@@ -1,49 +1,41 @@
 package kotlinmud.loader.loader
 
-import kotlinmud.attributes.Attributes
 import kotlinmud.loader.Tokenizer
-import kotlinmud.loader.model.MobModel
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.JobType
+import kotlinmud.mob.Mob
 import kotlinmud.mob.SpecializationType
-import kotlinmud.mob.race.createRaceFromString
 
 class MobLoader(private val tokenizer: Tokenizer) : Loader {
     var id = 0
     var name = ""
     var brief = ""
     var description = ""
-    var disposition = ""
+    var disposition = Disposition.STANDING
     var attributes: Map<String, String> = mapOf()
 
-    override fun load(): MobModel {
+    override fun load(): Mob.Builder {
         id = tokenizer.parseInt()
         name = tokenizer.parseString()
         brief = tokenizer.parseString()
         description = tokenizer.parseString()
-        disposition = tokenizer.parseString()
+        disposition = Disposition.valueOf(tokenizer.parseString().toUpperCase())
         attributes = tokenizer.parseProperties()
         val hp = intAttr("hp")
         val mana = intAttr("mana")
         val mv = intAttr("mv")
-        val job = strAttr("job", "none")
-        val specialization = strAttr("specialization", "none")
+        val job = JobType.valueOf(strAttr("job", "none").toUpperCase())
+        val specialization = SpecializationType.valueOf(strAttr("specialization", "none").toUpperCase())
 
-        return MobModel(
-            id,
-            name,
-            brief,
-            description,
-            Disposition.valueOf(disposition.toUpperCase()),
-            hp,
-            mana,
-            mv,
-            intAttr("level"),
-            createRaceFromString(strAttr("race", "human")),
-            SpecializationType.valueOf(specialization.toUpperCase()),
-            Attributes(hp, mana, mv),
-            JobType.valueOf(job.toUpperCase())
-        )
+        return Mob.Builder(id, name)
+            .setBrief(brief)
+            .setDescription(description)
+            .setDisposition(disposition)
+            .setHp(hp)
+            .setMana(mana)
+            .setMv(mv)
+            .setJob(job)
+            .setSpecialization(specialization)
     }
 
     private fun intAttr(name: String): Int {
