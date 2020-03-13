@@ -16,9 +16,13 @@ import kotlinmud.mob.skill.*
 class Berserk : Skill {
     override val type: SkillType = SkillType.BERSERK
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
-        Pair(SpecializationType.WARRIOR, 1))
+        Pair(SpecializationType.WARRIOR, 1),
+        Pair(SpecializationType.THIEF, 45)
+    )
     override val difficulty: Map<SpecializationType, LearningDifficulty> = mapOf(
-        Pair(SpecializationType.WARRIOR, LearningDifficulty.HARD))
+        Pair(SpecializationType.WARRIOR, LearningDifficulty.HARD),
+        Pair(SpecializationType.THIEF, LearningDifficulty.VERY_HARD)
+    )
     override val dispositions: List<Disposition> = mustBeAlert()
     override val costs: List<Cost> = listOf(
         Cost(CostType.MV_PERCENT, 20),

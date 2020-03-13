@@ -3,8 +3,10 @@ package kotlinmud.mob.fight
 import kotlinmud.attributes.Attribute
 import kotlinmud.math.random.d20
 import kotlinmud.math.random.dN
+import kotlinmud.math.random.percentRoll
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
+import kotlinmud.mob.skill.SkillType
 
 class Fight(private val mob1: Mob, private val mob2: Mob) {
     private var status: FightStatus = FightStatus.FIGHTING
@@ -74,13 +76,22 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
 
     private fun mapAttacks(attacker: Mob, defender: Mob): List<Attack> {
         return attacker.getAttacks().map {
-            if (attackerDefeatsDefenderAC(attacker, defender)) {
-                Attack(
+            val skillType = rollEvasiveSkills(defender)
+            when {
+                skillType != null -> Attack(AttackResult.EVADE, 0, mob1.getDamageType(), skillType)
+                attackerDefeatsDefenderAC(attacker, defender) -> Attack(
                     AttackResult.HIT,
                     calculateDamage(attacker),
                     attacker.getDamageType()
                 )
-            } else Attack(AttackResult.MISS, 0, mob1.getDamageType())
+                else -> Attack(AttackResult.MISS, 0, mob1.getDamageType())
+            }
+        }
+    }
+
+    private fun rollEvasiveSkills(defender: Mob): SkillType? {
+        return defender.skills.getOrDefault(SkillType.SHIELD_BLOCK, 1).let {
+            if (percentRoll() < it / 3) SkillType.SHIELD_BLOCK else null
         }
     }
 
@@ -94,7 +105,7 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
         val hit = attacker.calc(Attribute.HIT)
         val ac = getAc(defender, attacker.getDamageType())
         println("ac check with roll: $roll, hit: $hit, ac: $ac, final value: ${roll - hit + ac}")
-        return roll - hit + ac < 10
+        return roll - hit + ac < 0
     }
 
     private fun getAc(defender: Mob, damageType: DamageType): Int {
