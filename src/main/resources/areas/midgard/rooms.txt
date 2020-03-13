@@ -35,11 +35,26 @@ Noble Way~
 Mature oak trees line a wide and busy road. Sitting back from the hustle and
 bustle of Noble Way, stately town homes stretch up and down the worn brick
 path.~
-~
+n: 8~
 
 #7
 A quiet barroom in a tavern~
 Light flickering from a lantern illuminates a cozy bar.~
+~
+
+#8
+Outside the Castle Gates~
+You are outside the Midgard castle gates.~
+w: 9, e: 10, n: 2000~
+
+#9
+Outside the Castle Walls~
+You are outside the castle walls.~
+~
+
+#10
+Outside the Castle Walls~
+You are outside the castle walls.~
 ~
 
 #100

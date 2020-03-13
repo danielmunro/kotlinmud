@@ -77,6 +77,7 @@ fun createContainer(): Kodein {
             World(
                 listOf(
                     AreaLoader("areas/midgard").load(),
+                    AreaLoader("areas/midgard_castle").load(),
                     AreaLoader("areas/woods").load()
                 )
             )

@@ -61,3 +61,10 @@ a mangy alley cat is here, sniffing around the garbage.~
 A mangy alley cat.~
 standing~
 race: felid, level: 3~
+
+#10
+a city guard~
+a Midgard city guard is here, keeping watch on things.~
+A city guard is here.~
+standing~
+job: guard, level: 20, hp: 400, mv: 1000~
