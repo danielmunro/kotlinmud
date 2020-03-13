@@ -4,6 +4,7 @@ import kotlinmud.action.*
 import kotlinmud.action.contextBuilder.*
 import kotlinmud.attributes.Attribute
 import kotlinmud.io.*
+import kotlinmud.math.random.percentRoll
 import kotlinmud.mob.Intent
 import kotlinmud.mob.Invokable
 import kotlinmud.mob.Mob
@@ -14,7 +15,6 @@ import kotlinmud.mob.skill.Skill
 import kotlinmud.mob.skill.impl.Bash
 import kotlinmud.mob.skill.impl.Berserk
 import kotlinmud.mob.skill.impl.Bite
-import kotlinmud.random.percentRoll
 
 class ActionService(private val mobService: MobService, private val eventService: EventService) {
     private val actions: List<Action> = createActionsList()

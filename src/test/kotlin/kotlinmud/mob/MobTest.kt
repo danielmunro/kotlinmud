@@ -1,6 +1,7 @@
 package kotlinmud.mob
 
 import assertk.assertThat
+import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
 import kotlin.test.assertEquals
@@ -9,6 +10,10 @@ import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.impl.Elf
+import kotlinmud.mob.race.impl.Faerie
+import kotlinmud.mob.race.impl.Goblin
+import kotlinmud.mob.race.impl.Ogre
+import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
 import org.junit.Test
 
@@ -55,28 +60,16 @@ class MobTest {
         // setup
         val testService = createTestService()
         val mob1 = testService.createMob()
-        var mob1Successes = 0
-        var mob2Successes = 0
-        var iterations = 1000
+        val prob = ProbabilityTest()
 
         // given
-        val mob2 = testService.buildMob(
-            testService.mobBuilder().setRace(Elf())
-        )
+        val mob2 = testService.buildMob(testService.mobBuilder().setRace(Elf()))
 
         // when
-        while (iterations > 0) {
-            if (mob1.savesAgainst(DamageType.NONE)) {
-                mob1Successes++
-            }
-            if (mob2.savesAgainst(DamageType.NONE)) {
-                mob2Successes++
-            }
-            iterations--
-        }
+        prob.test({ mob1.savesAgainst(DamageType.NONE) }, { mob2.savesAgainst(DamageType.NONE) })
 
         // then
-        assertThat(mob1Successes).isLessThan(mob2Successes)
+        assertThat(prob.getOutcome1()).isLessThan(prob.getOutcome2())
     }
 
     @Test
@@ -84,25 +77,94 @@ class MobTest {
         // setup
         val testService = createTestService()
         val mob1 = testService.createMob()
-        var mob1Successes = 0
-        var mob2Successes = 0
-        var iterations = 1000
+        val prob = ProbabilityTest()
 
         // given
         val mob2 = testService.buildMob(testService.mobBuilder().addAffect(AffectType.CURSE))
 
         // when
-        while (iterations > 0) {
-            if (mob1.savesAgainst(DamageType.NONE)) {
-                mob1Successes++
-            }
-            if (mob2.savesAgainst(DamageType.NONE)) {
-                mob2Successes++
-            }
-            iterations--
+        while (prob.isIterating()) {
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
         }
 
         // then
-        assertThat(mob1Successes).isGreaterThan(mob2Successes)
+        assertThat(prob.getOutcome1()).isGreaterThan(prob.getOutcome2())
+    }
+
+    @Test
+    fun testBerserkSaveBonus() {
+        // setup
+        val testService = createTestService()
+        val mob1 = testService.createMob()
+        val prob = ProbabilityTest()
+
+        // given
+        val mob2 = testService.buildMob(testService.mobBuilder().addAffect(AffectType.BERSERK))
+
+        // when
+        while (prob.isIterating()) {
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+        }
+
+        // then
+        assertThat(prob.getOutcome1()).isLessThan(prob.getOutcome2())
+    }
+
+    @Test
+    fun testWisIntSaveBonus() {
+        // setup
+        val testService = createTestService()
+        val prob = ProbabilityTest()
+
+        // given
+        val mob1 = testService.buildMob(testService.mobBuilder().setRace(Faerie()))
+        val mob2 = testService.buildMob(testService.mobBuilder().setRace(Ogre()))
+
+        // when
+        while (prob.isIterating()) {
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+        }
+
+        // then
+        assertThat(prob.getOutcome1()).isGreaterThan(prob.getOutcome2())
+    }
+
+    @Test
+    fun testFightingReducesSaves() {
+        // setup
+        val testService = createTestService()
+        val prob = ProbabilityTest()
+
+        // given
+        val mob1 = testService.createMob()
+        val mob2 = testService.buildMob(testService.mobBuilder().setDisposition(Disposition.FIGHTING))
+
+        // when
+        while (prob.isIterating()) {
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+        }
+
+        // then
+        assertThat(prob.getOutcome1()).isGreaterThan(prob.getOutcome2())
+    }
+
+    @Test
+    fun testImmuneSaves() {
+        // setup
+        val testService = createTestService()
+        val prob = ProbabilityTest()
+
+        // given
+        val mob1 = testService.buildMob(testService.mobBuilder().setRace(Goblin()))
+        val mob2 = testService.buildMob(testService.mobBuilder().setRace(Ogre()))
+
+        // when
+        while (prob.isIterating()) {
+            prob.decrementIteration(mob1.savesAgainst(DamageType.POISON), mob2.savesAgainst(DamageType.POISON))
+        }
+
+        // then
+        assertThat(prob.getOutcome1()).isEqualTo(1000)
+        assertThat(prob.getOutcome2()).isLessThan(1000)
     }
 }

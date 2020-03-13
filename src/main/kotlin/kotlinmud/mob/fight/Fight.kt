@@ -1,10 +1,10 @@
 package kotlinmud.mob.fight
 
 import kotlinmud.attributes.Attribute
+import kotlinmud.math.random.d20
+import kotlinmud.math.random.dN
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
-import kotlinmud.random.d20
-import kotlinmud.random.dN
 
 class Fight(private val mob1: Mob, private val mob2: Mob) {
     private var status: FightStatus = FightStatus.FIGHTING

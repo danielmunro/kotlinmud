@@ -10,13 +10,14 @@ import kotlinmud.item.Item
 import kotlinmud.item.Material
 import kotlinmud.item.Position
 import kotlinmud.loader.model.Model
+import kotlinmud.math.normalize
+import kotlinmud.math.random.percentRoll
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
 import kotlinmud.mob.race.RaceType
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.skill.SkillType
-import kotlinmud.random.percentRoll
 
 const val corpseWeight = 20.0
 
@@ -164,17 +165,21 @@ class Mob(
 
     fun savesAgainst(damageType: DamageType): Boolean {
         var saves = savingThrows
+
         if (race.type == RaceType.ELF) {
             saves -= 5
         }
-        var base = 80 + (level / 6) + saves
-        base -= calc(Attribute.STR) + calc(Attribute.INT)
+
+        var base = 80 + (level / 6) + saves - calc(Attribute.WIS) - calc(Attribute.INT)
+
         if (isAffectedBy(AffectType.CURSE)) {
             base += 5
         }
+
         if (disposition == Disposition.FIGHTING) {
             base += 5
         }
+
         affects.find { it.affectType == AffectType.BERSERK }?.let {
             base -= level / 10
         }
@@ -187,18 +192,12 @@ class Mob(
         }
 
         if (specialization == SpecializationType.MAGE) {
-            base -= 10
+            base -= 5
         } else if (specialization == SpecializationType.CLERIC) {
-            base -= -5
+            base -= -3
         }
 
-        if (base < 5) {
-            base = 5
-        } else if (base > 95) {
-            base = 95
-        }
-
-        return percentRoll() > base
+        return percentRoll() > normalize(5, base, 95)
     }
 
     override fun toString(): String {

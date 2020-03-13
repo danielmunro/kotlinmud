@@ -1,4 +1,4 @@
-package kotlinmud.random
+package kotlinmud.math.random
 
 import kotlin.random.Random
 

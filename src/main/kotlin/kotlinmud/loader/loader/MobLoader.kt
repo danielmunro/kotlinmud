@@ -5,6 +5,7 @@ import kotlinmud.mob.Disposition
 import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
 import kotlinmud.mob.SpecializationType
+import kotlinmud.mob.race.createRaceFromString
 
 class MobLoader(private val tokenizer: Tokenizer) : Loader {
     var id = 0
@@ -36,6 +37,7 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
             .setMv(mv)
             .setJob(job)
             .setSpecialization(specialization)
+            .setRace(createRaceFromString(strAttr("race", "human")))
     }
 
     private fun intAttr(name: String): Int {
