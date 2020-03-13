@@ -1,10 +1,10 @@
 package kotlinmud.loader.loader
 
-import kotlinmud.attributes.Attributes
+import kotlinmud.item.Item
 import kotlinmud.item.Material
 import kotlinmud.item.Position
 import kotlinmud.loader.Tokenizer
-import kotlinmud.loader.model.ItemModel
+import kotlinmud.loader.model.Model
 
 class ItemLoader(private val tokenizer: Tokenizer) : Loader {
     var id = 0
@@ -13,22 +13,18 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
     var value = 0
     override var props: Map<String, String> = mapOf()
 
-    override fun load(): ItemModel {
+    override fun load(): Model {
         id = tokenizer.parseInt()
         name = tokenizer.parseString()
         description = tokenizer.parseString()
         props = tokenizer.parseProperties()
 
-        return ItemModel(
-            id,
-            name,
-            description,
-            props["value"]?.toInt() ?: 1,
-            props["level"]?.toInt() ?: 1,
-            props["weight"]?.toDouble() ?: 1.0,
-            Attributes(),
-            Material.valueOf(strAttr("material", "organic").toUpperCase()),
-            Position.valueOf(strAttr("position", "none").toUpperCase())
-        )
+        return Item.Builder(id, name)
+            .setDescription(description)
+            .setValue(props["value"]?.toInt() ?: 1)
+            .setLevel(props["level"]?.toInt() ?: 1)
+            .setWeight(props["weight"]?.toDouble() ?: 1.0)
+            .setMaterial(Material.valueOf(strAttr("material", "organic").toUpperCase()))
+            .setPosition(Position.valueOf(strAttr("position", "none").toUpperCase()))
     }
 }
