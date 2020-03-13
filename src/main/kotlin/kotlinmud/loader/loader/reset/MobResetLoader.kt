@@ -11,6 +11,9 @@ class MobResetLoader(private val tokenizer: Tokenizer) : Loader {
     var roomId = 0
     var maxInRoom = 0
     var maxInWorld = 0
+    override var props: Map<String, String>
+        get() = TODO("Not yet implemented")
+        set(value) {}
 
     override fun load(): Model {
         id++

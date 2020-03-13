@@ -13,7 +13,7 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
     var brief = ""
     var description = ""
     var disposition = Disposition.STANDING
-    var attributes: Map<String, String> = mapOf()
+    override var props: Map<String, String> = mapOf()
 
     override fun load(): Mob.Builder {
         id = tokenizer.parseInt()
@@ -21,7 +21,7 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
         brief = tokenizer.parseString()
         description = tokenizer.parseString()
         disposition = Disposition.valueOf(tokenizer.parseString().toUpperCase())
-        attributes = tokenizer.parseProperties()
+        props = tokenizer.parseProperties()
         val hp = intAttr("hp")
         val mana = intAttr("mana")
         val mv = intAttr("mv")
@@ -38,13 +38,5 @@ class MobLoader(private val tokenizer: Tokenizer) : Loader {
             .setJob(job)
             .setSpecialization(specialization)
             .setRace(createRaceFromString(strAttr("race", "human")))
-    }
-
-    private fun intAttr(name: String): Int {
-        return attributes[name]?.toInt() ?: 0
-    }
-
-    private fun strAttr(name: String, default: String = ""): String {
-        return attributes[name] ?: default
     }
 }

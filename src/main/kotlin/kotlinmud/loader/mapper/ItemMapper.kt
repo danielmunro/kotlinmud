@@ -7,17 +7,15 @@ class ItemMapper(private val items: List<ItemModel>) {
     fun map(): List<Item> {
         var i = 1
         return items.map {
-            Item(
-                i++,
-                it.name,
-                it.description,
-                it.value,
-                it.level,
-                it.weight,
-                it.attributes,
-                it.material,
-                it.position
-            )
+            Item.Builder(i++, it.name)
+                .setDescription(it.description)
+                .setValue(it.value)
+                .setLevel(it.level)
+                .setWeight(it.weight)
+                .setAttributes(it.attributes)
+                .setMaterial(it.material)
+                .setPosition(it.position)
+                .build()
         }
     }
 }

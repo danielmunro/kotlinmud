@@ -13,6 +13,9 @@ class RoomLoader(private val tokenizer: Tokenizer) : Loader {
     var west = ""
     var up = ""
     var down = ""
+    override var props: Map<String, String>
+        get() = TODO("Not yet implemented")
+        set(value) {}
 
     override fun load(): RoomModel {
         id = tokenizer.parseInt()

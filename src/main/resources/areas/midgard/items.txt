@@ -25,3 +25,8 @@ a leather belt~
 A leather belt is here.~
 material: leather, weight: 3, position: waist,
 value: 25, level: 1~
+
+#20
+Midgard fountain~
+The Midgard fountain is here, the jewel of the city.~
+material: concrete~

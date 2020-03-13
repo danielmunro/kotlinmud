@@ -15,6 +15,7 @@ enum class Material {
     VULN_SOUND,
     FLAMMABLE,
     CONDUCTOR,
+    CONCRETE,
     VULN_SHATTER,
     VULN_COLD,
     VULN_RUST,

@@ -28,14 +28,10 @@ class FixtureService {
 
     fun createItem(inv: Inventory, attributes: Attributes = Attributes()): Item {
         items++
-        val item = Item(
-            items,
-            "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}",
-            "A test item is here ($items).",
-            1,
-            1,
-            1.0,
-            attributes)
+        val item = Item.Builder(items, "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}")
+            .setDescription("A test item is here ($items).")
+            .setAttributes(attributes)
+            .build()
         inv.items.add(item)
         return item
     }

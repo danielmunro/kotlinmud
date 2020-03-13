@@ -11,12 +11,14 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
     var name = ""
     var description = ""
     var value = 0
+    override var props: Map<String, String> = mapOf()
 
     override fun load(): ItemModel {
         id = tokenizer.parseInt()
         name = tokenizer.parseString()
         description = tokenizer.parseString()
-        val props = tokenizer.parseProperties()
+        props = tokenizer.parseProperties()
+
         return ItemModel(
             id,
             name,
@@ -25,8 +27,8 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
             props["level"]?.toInt() ?: 1,
             props["weight"]?.toDouble() ?: 1.0,
             Attributes(),
-            if (props["material"] != null) Material.valueOf(props["material"]!!.toUpperCase()) else Material.ORGANIC,
-            if (props["position"] != null) Position.valueOf(props["position"]!!.toUpperCase()) else Position.NONE
+            Material.valueOf(strAttr("material", "organic").toUpperCase()),
+            Position.valueOf(strAttr("position", "none").toUpperCase())
         )
     }
 }
