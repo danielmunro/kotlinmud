@@ -194,7 +194,7 @@ class Mob(
         if (specialization == SpecializationType.MAGE) {
             base -= 5
         } else if (specialization == SpecializationType.CLERIC) {
-            base -= -3
+            base -= 3
         }
 
         return percentRoll() > normalize(5, base, 95)

@@ -95,11 +95,14 @@ class MobTest {
     fun testBerserkSaveBonus() {
         // setup
         val testService = createTestService()
-        val mob1 = testService.createMob()
+        val mob1 = testService.buildMob(testService.mobBuilder().setLevel(50))
         val prob = ProbabilityTest()
 
         // given
-        val mob2 = testService.buildMob(testService.mobBuilder().addAffect(AffectType.BERSERK))
+        val mob2 = testService.buildMob(testService
+            .mobBuilder()
+            .setLevel(50)
+            .addAffect(AffectType.BERSERK))
 
         // when
         while (prob.isIterating()) {
@@ -166,5 +169,43 @@ class MobTest {
         // then
         assertThat(prob.getOutcome1()).isEqualTo(1000)
         assertThat(prob.getOutcome2()).isLessThan(1000)
+    }
+
+    @Test
+    fun testMageSaveBonus() {
+        // setup
+        val testService = createTestService()
+        val prob = ProbabilityTest()
+
+        // given
+        val mob1 = testService.buildMob(testService.mobBuilder().setSpecialization(SpecializationType.MAGE))
+        val mob2 = testService.createMob()
+
+        // when
+        while (prob.isIterating()) {
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+        }
+
+        // then
+        assertThat(prob.getOutcome1()).isGreaterThan(prob.getOutcome2())
+    }
+
+    @Test
+    fun testClericSaveBonus() {
+        // setup
+        val testService = createTestService()
+        val prob = ProbabilityTest(10000)
+
+        // given
+        val mob1 = testService.buildMob(testService.mobBuilder().setSpecialization(SpecializationType.CLERIC))
+        val mob2 = testService.createMob()
+
+        // when
+        while (prob.isIterating()) {
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+        }
+
+        // then
+        assertThat(prob.getOutcome1()).isGreaterThan(prob.getOutcome2())
     }
 }
