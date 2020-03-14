@@ -202,9 +202,9 @@ class Mob(
 
     fun getEvasiveSkills(): List<SkillType> {
         return skills.keys.filter {
-            it == SkillType.DODGE
-                    || it == SkillType.PARRY
-                    || it == SkillType.SHIELD_BLOCK
+            it == SkillType.DODGE ||
+                    it == SkillType.PARRY ||
+                    it == SkillType.SHIELD_BLOCK
         }
     }
 
@@ -234,11 +234,16 @@ class Mob(
         var job = JobType.NONE
         var gender = Gender.NONE
         var gold = 0
-        var skills: Map<SkillType, Int> = mapOf()
+        var skills: MutableMap<SkillType, Int> = mutableMapOf()
         var affects: MutableList<AffectInstance> = mutableListOf()
         var wimpy = 0
         var experiencePerLevel = 1000
         var savingThrows = 0
+
+        fun addSkill(skillType: SkillType, level: Int): Builder {
+            skills[skillType] = level
+            return this
+        }
 
         fun addAffect(affect: AffectType): Builder {
             affects.add(AffectInstance(affect, 1))
