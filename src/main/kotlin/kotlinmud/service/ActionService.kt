@@ -32,7 +32,7 @@ class ActionService(private val mobService: MobService, private val eventService
         val response = executeSkill(request, skill)
 
         if (skill.intent == Intent.OFFENSIVE) {
-            triggerFightsForOffensiveSkills(
+            triggerFightForOffensiveSkills(
                 request.mob,
                 response.actionContextList.getResultBySyntax(Syntax.TARGET_MOB)
             )
@@ -81,7 +81,7 @@ class ActionService(private val mobService: MobService, private val eventService
         return null
     }
 
-    private fun triggerFightsForOffensiveSkills(mob: Mob, target: Mob) {
+    private fun triggerFightForOffensiveSkills(mob: Mob, target: Mob) {
         mobService.findFightForMob(mob) ?: mobService.addFight(Fight(mob, target))
     }
 

@@ -90,9 +90,14 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
     }
 
     private fun rollEvasiveSkills(defender: Mob): SkillType? {
-        return defender.skills.getOrDefault(SkillType.SHIELD_BLOCK, 1).let {
-            if (percentRoll() < it / 3) SkillType.SHIELD_BLOCK else null
+        defender.getEvasiveSkills().forEach { skillType ->
+            defender.skills.getOrDefault(skillType, 1).let {
+                if (percentRoll() < it / 3) {
+                    return skillType
+                }
+            }
         }
+        return null
     }
 
     private fun calculateDamage(attacker: Mob): Int {
