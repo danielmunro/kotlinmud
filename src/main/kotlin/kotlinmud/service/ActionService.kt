@@ -12,17 +12,12 @@ import kotlinmud.mob.RequiresDisposition
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.skill.CostType
 import kotlinmud.mob.skill.Skill
-import kotlinmud.mob.skill.impl.Bash
-import kotlinmud.mob.skill.impl.Berserk
-import kotlinmud.mob.skill.impl.Bite
+import kotlinmud.mob.skill.SkillInvokesOn
+import kotlinmud.mob.skill.createSkillList
 
 class ActionService(private val mobService: MobService, private val eventService: EventService) {
     private val actions: List<Action> = createActionsList()
-    private val skills: List<Skill> = listOf(
-        Bash(),
-        Berserk(),
-        Bite()
-    )
+    private val skills: List<Skill> = createSkillList()
 
     fun run(request: Request): Response {
         return runSkill(request)
@@ -33,7 +28,7 @@ class ActionService(private val mobService: MobService, private val eventService
 
     private fun runSkill(request: Request): Response? {
         val skill = skills.find {
-            it.type.toString().toLowerCase().startsWith(request.getCommand())
+            it.type.toString().toLowerCase().startsWith(request.getCommand()) && it.invokesOn == SkillInvokesOn.INPUT
         } ?: return null
         val response = dispositionCheck(request, skill)
             ?: deductCosts(request.mob, skill)

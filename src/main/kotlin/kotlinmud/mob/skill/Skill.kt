@@ -9,4 +9,5 @@ interface Skill : RequiresDisposition, Invokable {
     override val dispositions: List<Disposition>
     val costs: List<Cost>
     val intent: Intent
+    val invokesOn: SkillInvokesOn
 }

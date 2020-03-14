@@ -29,6 +29,7 @@ class Berserk : Skill {
         Cost(CostType.DELAY, 2))
     override val intent: Intent = Intent.NEUTRAL
     override val syntax: List<Syntax> = listOf(Syntax.COMMAND)
+    override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
 
     override fun invoke(actionContextService: ActionContextService, request: Request): Response {
         request.mob.affects.add(AffectInstance(AffectType.BERSERK, request.mob.level / 8))

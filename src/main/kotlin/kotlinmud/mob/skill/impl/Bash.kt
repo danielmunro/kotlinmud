@@ -36,6 +36,7 @@ class Bash : Skill {
     )
     override val intent: Intent = Intent.OFFENSIVE
     override val syntax: List<Syntax> = listOf(Syntax.COMMAND, Syntax.TARGET_MOB)
+    override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
 
     override fun invoke(actionContextService: ActionContextService, request: Request): Response {
         val target: Mob = actionContextService.get(Syntax.TARGET_MOB)
