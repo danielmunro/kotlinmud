@@ -14,6 +14,7 @@ class FixtureService {
     private val faker = Faker()
 
     fun createMobBuilder(): Mob.Builder {
+        mobs++
         return Mob.Builder(mobs, faker.name.name())
     }
 
@@ -26,11 +27,15 @@ class FixtureService {
             .build()
     }
 
-    fun createItem(inv: Inventory, attributes: Attributes = Attributes()): Item {
+    fun createItemBuilder(name: String = faker.book.title()): Item.Builder {
+        items++
+        return Item.Builder(items, name)
+    }
+
+    fun createItem(inv: Inventory): Item {
         items++
         val item = Item.Builder(items, "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}")
             .setDescription("A test item is here ($items).")
-            .setAttributes(attributes)
             .build()
         inv.items.add(item)
         return item

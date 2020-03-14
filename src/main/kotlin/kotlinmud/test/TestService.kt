@@ -1,6 +1,5 @@
 package kotlinmud.test
 
-import kotlinmud.attributes.Attributes
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.io.IOStatus
@@ -57,8 +56,17 @@ class TestService(
         return mob
     }
 
-    fun createItem(inventory: Inventory, attributes: Attributes = Attributes()): Item {
-        return fixtureService.createItem(inventory, attributes)
+    fun createItem(inventory: Inventory): Item {
+        return fixtureService.createItem(inventory)
+    }
+
+    fun itemBuilder(): Item.Builder {
+        return fixtureService.createItemBuilder()
+    }
+
+    fun buildItem(itemBuilder: Item.Builder): Item {
+        // item service?
+        return itemBuilder.build()
     }
 
     fun getMobRooms(): List<MobRoom> {

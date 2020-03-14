@@ -8,6 +8,7 @@ import kotlin.test.assertEquals
 import kotlinmud.affect.AffectType
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
+import kotlinmud.item.Position
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.impl.Elf
 import kotlinmud.mob.race.impl.Faerie
@@ -34,9 +35,12 @@ class MobTest {
         val initialAc = mob.calc(Attribute.AC_BASH)
 
         // when
-        testService.createItem(mob.equipped, Attributes(
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-        ))
+        val item = testService.itemBuilder().setAttributes(
+            Attributes(
+                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+            )
+        ).build()
+        mob.equipped.items.add(item)
 
         // then
         assertEquals(initialHp + 1, mob.calc(Attribute.HP))
@@ -207,5 +211,28 @@ class MobTest {
 
         // then
         assertThat(prob.getOutcome1()).isGreaterThan(prob.getOutcome2())
+    }
+
+    @Test
+    fun testEquipItemIncreasesAttribute() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+
+        // given
+        mob.equipped.items.add(
+            testService.buildItem(
+                testService.itemBuilder()
+                    .setPosition(Position.SHIELD)
+                    .setAttributes(
+                        Attributes.Builder()
+                            .setHp(100)
+                            .build()
+                    )
+            )
+        )
+
+        // expect
+        assertThat(mob.calc(Attribute.HP)).isEqualTo(120)
     }
 }

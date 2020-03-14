@@ -31,17 +31,87 @@ data class Attributes(
         var hp = 0
         var mana = 0
         var mv = 0
-        val str = 0
-        val int = 0
-        val wis = 0
-        val dex = 0
-        val con = 0
-        val hit = 0
-        val dam = 0
-        val acBash = 0
-        val acSlash = 0
-        val acPierce = 0
-        val acMagic = 0
+        var str = 0
+        var int = 0
+        var wis = 0
+        var dex = 0
+        var con = 0
+        var hit = 0
+        var dam = 0
+        var acBash = 0
+        var acSlash = 0
+        var acPierce = 0
+        var acMagic = 0
+
+        fun setHp(value: Int): Builder {
+            hp = value
+            return this
+        }
+
+        fun setMana(value: Int): Builder {
+            mana = value
+            return this
+        }
+
+        fun setMv(value: Int): Builder {
+            mv = value
+            return this
+        }
+
+        fun setStr(value: Int): Builder {
+            str = value
+            return this
+        }
+
+        fun setInt(value: Int): Builder {
+            int = value
+            return this
+        }
+
+        fun setWis(value: Int): Builder {
+            wis = value
+            return this
+        }
+
+        fun setDex(value: Int): Builder {
+            dex = value
+            return this
+        }
+
+        fun setCon(value: Int): Builder {
+            con = value
+            return this
+        }
+
+        fun setHit(value: Int): Builder {
+            hit = value
+            return this
+        }
+
+        fun setDam(value: Int): Builder {
+            dam = value
+            return this
+        }
+
+        fun setAcBash(value: Int): Builder {
+            acBash = value
+            return this
+        }
+
+        fun setAcSlash(value: Int): Builder {
+            acSlash = value
+            return this
+        }
+
+        fun setAcPierce(value: Int): Builder {
+            acPierce = value
+            return this
+        }
+
+        fun setAcMagic(value: Int): Builder {
+            acMagic = value
+            return this
+        }
 
         fun build(): Attributes {
             return Attributes(

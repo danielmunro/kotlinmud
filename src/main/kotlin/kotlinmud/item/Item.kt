@@ -44,7 +44,7 @@ class Item(
         var weight = 1.0
         var material = Material.ORGANIC
         var position = Position.NONE
-        var attributes: Attributes? = null
+        var attributes = Attributes()
         var inventory: Inventory? = null
 
         fun setDescription(value: String): Builder {
@@ -95,7 +95,7 @@ class Item(
                 value,
                 level,
                 weight,
-                attributes ?: Attributes(),
+                attributes,
                 material,
                 position,
                 inventory
