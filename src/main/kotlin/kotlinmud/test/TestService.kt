@@ -12,10 +12,8 @@ import kotlinmud.item.Position
 import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobRoom
-import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
-import kotlinmud.mob.race.impl.Human
 import kotlinmud.room.Room
 import kotlinmud.service.*
 

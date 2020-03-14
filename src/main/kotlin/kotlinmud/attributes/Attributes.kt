@@ -114,7 +114,7 @@ data class Attributes(
         }
 
         fun setAttribute(attribute: Attribute, value: Int) {
-            when(attribute) {
+            when (attribute) {
                 Attribute.HP -> hp = value
                 Attribute.MANA -> mana = value
                 Attribute.MV -> mv = value

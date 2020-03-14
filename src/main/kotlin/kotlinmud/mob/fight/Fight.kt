@@ -101,8 +101,10 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
     }
 
     private fun calculateDamage(attacker: Mob): Int {
-        // hardcoded value for now, replace with weapon values
-        return dN(1, 5) + attacker.calc(Attribute.DAM)
+        val hit = attacker.calc(Attribute.HIT)
+        val dam = attacker.calc(Attribute.DAM)
+
+        return dN(hit, dam) + dam
     }
 
     private fun attackerDefeatsDefenderAC(attacker: Mob, defender: Mob): Boolean {
