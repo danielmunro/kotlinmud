@@ -17,7 +17,7 @@ import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.skill.*
 
-class Bash : Skill {
+class Bash : SkillAction {
     override val type: SkillType = SkillType.BASH
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
         Pair(SpecializationType.WARRIOR, 1),

@@ -10,10 +10,8 @@ import kotlinmud.mob.Invokable
 import kotlinmud.mob.Mob
 import kotlinmud.mob.RequiresDisposition
 import kotlinmud.mob.fight.Fight
-import kotlinmud.mob.skill.CostType
-import kotlinmud.mob.skill.Skill
-import kotlinmud.mob.skill.SkillInvokesOn
-import kotlinmud.mob.skill.createSkillList
+import kotlinmud.mob.skill.*
+import kotlinmud.string.matches
 
 class ActionService(private val mobService: MobService, private val eventService: EventService) {
     private val actions: List<Action> = createActionsList()
@@ -27,19 +25,17 @@ class ActionService(private val mobService: MobService, private val eventService
     }
 
     private fun runSkill(request: Request): Response? {
-        val skill = skills.find {
-            it.type.toString().toLowerCase().startsWith(request.getCommand()) && it.invokesOn == SkillInvokesOn.INPUT
-        } ?: return null
-        val response = dispositionCheck(request, skill)
-            ?: deductCosts(request.mob, skill)
-            ?: skillRoll(request.mob.skills[skill.type] ?: error("no skill"))
-            ?: callInvokable(request, skill, buildActionContextList(request, skill))
+        val skill = (skills.find {
+            matches(it.type.toString(), request.getCommand()) && it is SkillAction
+        } ?: return null) as SkillAction
+
+        val response = executeSkill(request, skill)
+
         if (skill.intent == Intent.OFFENSIVE) {
-            val target: Mob = response.actionContextList.getResultBySyntax(Syntax.TARGET_MOB)
-            mobService.findFightForMob(request.mob)
-                ?: mobService.addFight(Fight(request.mob, target))
-            mobService.findFightForMob(target)
-                ?: mobService.addFight(Fight(target, request.mob))
+            triggerFightsForOffensiveSkills(
+                request.mob,
+                response.actionContextList.getResultBySyntax(Syntax.TARGET_MOB)
+            )
         }
         return response
     }
@@ -51,6 +47,13 @@ class ActionService(private val mobService: MobService, private val eventService
             dispositionCheck(request, it)
                 ?: callInvokable(request, it, buildActionContextList(request, it))
         }
+    }
+
+    private fun executeSkill(request: Request, skill: SkillAction): Response {
+        return dispositionCheck(request, skill)
+            ?: deductCosts(request.mob, skill)
+            ?: skillRoll(request.mob.skills[skill.type] ?: error("no skill"))
+            ?: callInvokable(request, skill, buildActionContextList(request, skill))
     }
 
     private fun deductCosts(mob: Mob, skill: Skill): Response? {
@@ -76,6 +79,10 @@ class ActionService(private val mobService: MobService, private val eventService
             }
         }
         return null
+    }
+
+    private fun triggerFightsForOffensiveSkills(mob: Mob, target: Mob) {
+        mobService.findFightForMob(mob) ?: mobService.addFight(Fight(mob, target))
     }
 
     private fun skillRoll(level: Int): Response? {

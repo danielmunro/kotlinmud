@@ -13,7 +13,7 @@ import kotlinmud.mob.Intent
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.skill.*
 
-class Berserk : Skill {
+class Berserk : SkillAction {
     override val type: SkillType = SkillType.BERSERK
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
         Pair(SpecializationType.WARRIOR, 1),

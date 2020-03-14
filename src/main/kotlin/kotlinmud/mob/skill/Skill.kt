@@ -2,7 +2,7 @@ package kotlinmud.mob.skill
 
 import kotlinmud.mob.*
 
-interface Skill : RequiresDisposition, Invokable {
+interface Skill : RequiresDisposition {
     val type: SkillType
     val levelObtained: Map<SpecializationType, Int>
     val difficulty: Map<SpecializationType, LearningDifficulty>

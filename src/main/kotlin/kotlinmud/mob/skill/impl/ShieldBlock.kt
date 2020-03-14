@@ -1,10 +1,6 @@
 package kotlinmud.mob.skill.impl
 
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.mustBeFighting
-import kotlinmud.io.Request
-import kotlinmud.io.Response
-import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Intent
 import kotlinmud.mob.SpecializationType
@@ -23,10 +19,5 @@ class ShieldBlock : Skill {
     override val dispositions: List<Disposition> = mustBeFighting()
     override val costs: List<Cost> = listOf()
     override val intent: Intent = Intent.PROTECTIVE
-    override val syntax: List<Syntax> = listOf()
     override val invokesOn: SkillInvokesOn = SkillInvokesOn.ATTACK_ROUND
-
-    override fun invoke(actionContextService: ActionContextService, request: Request): Response {
-        TODO()
-    }
 }

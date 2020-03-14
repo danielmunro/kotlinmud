@@ -14,7 +14,7 @@ import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.skill.*
 
-class Bite : Skill {
+class Bite : SkillAction {
     override val type: SkillType = SkillType.BITE
     override val levelObtained: Map<SpecializationType, Int> = mapOf()
     override val difficulty: Map<SpecializationType, LearningDifficulty> = mapOf()
