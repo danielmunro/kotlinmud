@@ -12,8 +12,9 @@ class BerserkTest {
     fun testMobCanBerserk() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
-        mob.skills = mob.skills.plus(Pair(SkillType.BERSERK, 100))
+        val mob = testService.buildMob(testService.mobBuilder()
+            .addSkill(SkillType.BERSERK, 100)
+        )
 
         // when
         val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)

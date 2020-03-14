@@ -1,6 +1,7 @@
 package kotlinmud.item
 
 import kotlinmud.Noun
+import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
 import kotlinmud.data.Row
@@ -44,7 +45,7 @@ class Item(
         var weight = 1.0
         var material = Material.ORGANIC
         var position = Position.NONE
-        var attributes = Attributes()
+        var attributes = Attributes.Builder()
         var inventory: Inventory? = null
 
         fun setDescription(value: String): Builder {
@@ -77,8 +78,13 @@ class Item(
             return this
         }
 
-        fun setAttributes(value: Attributes): Builder {
+        fun setAttributes(value: Attributes.Builder): Builder {
             attributes = value
+            return this
+        }
+
+        fun setAttribute(attribute: Attribute, value: Int): Builder {
+            attributes.setAttribute(attribute, value)
             return this
         }
 
@@ -95,7 +101,7 @@ class Item(
                 value,
                 level,
                 weight,
-                attributes,
+                attributes.build(),
                 material,
                 position,
                 inventory

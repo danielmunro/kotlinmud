@@ -1,5 +1,6 @@
 package kotlinmud.test
 
+import kotlinmud.attributes.Attribute
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.io.IOStatus
@@ -7,6 +8,7 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
+import kotlinmud.item.Position
 import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobRoom
@@ -41,7 +43,13 @@ class TestService(
     }
 
     fun createMob(job: JobType = JobType.NONE): Mob {
-        val mob = fixtureService.createMob(Human(), SpecializationType.NONE, job)
+        val mob = fixtureService.createMobBuilder()
+            .setJob(job)
+            .equip(buildItem(itemBuilder()
+                .setPosition(Position.WEAPON)
+                .setAttribute(Attribute.HIT, 5)
+                .setAttribute(Attribute.DAM, 5)))
+            .build()
         mobService.addMob(mob)
         return mob
     }

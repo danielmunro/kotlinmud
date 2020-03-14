@@ -36,11 +36,23 @@ class MobTest {
 
         // when
         val item = testService.itemBuilder().setAttributes(
-            Attributes(
-                1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-            )
-        ).build()
-        mob.equipped.items.add(item)
+            Attributes.Builder()
+                .setHp(1)
+                .setMana(1)
+                .setMv(1)
+                .setStr(1)
+                .setInt(1)
+                .setWis(1)
+                .setDex(1)
+                .setCon(1)
+                .setHit(1)
+                .setDam(1)
+                .setAcBash(1)
+                .setAcSlash(1)
+                .setAcPierce(1)
+                .setAcMagic(1)
+        )
+        mob.equipped.items.add(item.build())
 
         // then
         assertEquals(initialHp + 1, mob.calc(Attribute.HP))
@@ -227,7 +239,6 @@ class MobTest {
                     .setAttributes(
                         Attributes.Builder()
                             .setHp(100)
-                            .build()
                     )
             )
         )

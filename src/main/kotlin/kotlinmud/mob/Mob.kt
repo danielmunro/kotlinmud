@@ -37,14 +37,14 @@ class Mob(
     val job: JobType,
     var gender: Gender,
     var gold: Int,
-    var skills: Map<SkillType, Int>,
+    val skills: Map<SkillType, Int>,
     val affects: MutableList<AffectInstance>,
     var wimpy: Int,
-    var experiencePerLevel: Int,
-    var savingThrows: Int
+    val experiencePerLevel: Int,
+    var savingThrows: Int,
+    val inventory: Inventory,
+    val equipped: Inventory
 ) : Noun, Row {
-    val inventory: Inventory = Inventory()
-    val equipped: Inventory = Inventory()
     var delay = 0
     var trains = 0
     var practices = 0
@@ -159,7 +159,9 @@ class Mob(
             affects.toMutableList(),
             wimpy,
             experiencePerLevel,
-            savingThrows
+            savingThrows,
+            Inventory(),
+            Inventory()
         )
     }
 
@@ -239,6 +241,8 @@ class Mob(
         var wimpy = 0
         var experiencePerLevel = 1000
         var savingThrows = 0
+        var inventory = Inventory()
+        var equipment = Inventory()
 
         fun addSkill(skillType: SkillType, level: Int): Builder {
             skills[skillType] = level
@@ -325,6 +329,12 @@ class Mob(
             return this
         }
 
+        fun equip(item: Item): Builder {
+            // @todo check for equipment position exception
+            equipment.items.add(item)
+            return this
+        }
+
         fun build(): Mob {
             return Mob(
                 id,
@@ -350,7 +360,9 @@ class Mob(
                 affects,
                 wimpy,
                 experiencePerLevel,
-                savingThrows
+                savingThrows,
+                inventory,
+                equipment
             )
         }
     }

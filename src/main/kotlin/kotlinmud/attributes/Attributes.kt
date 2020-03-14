@@ -27,7 +27,7 @@ data class Attributes(
     val acPierce: Int = 0,
     val acMagic: Int = 0
 ) {
-    class Builder() {
+    class Builder {
         var hp = 0
         var mana = 0
         var mv = 0
@@ -111,6 +111,25 @@ data class Attributes(
         fun setAcMagic(value: Int): Builder {
             acMagic = value
             return this
+        }
+
+        fun setAttribute(attribute: Attribute, value: Int) {
+            when(attribute) {
+                Attribute.HP -> hp = value
+                Attribute.MANA -> mana = value
+                Attribute.MV -> mv = value
+                Attribute.STR -> str = value
+                Attribute.INT -> int = value
+                Attribute.WIS -> wis = value
+                Attribute.DEX -> dex = value
+                Attribute.CON -> con = value
+                Attribute.HIT -> hit = value
+                Attribute.DAM -> dam = value
+                Attribute.AC_BASH -> acBash = value
+                Attribute.AC_SLASH -> acSlash = value
+                Attribute.AC_PIERCE -> acPierce = value
+                Attribute.AC_MAGIC -> acMagic = value
+            }
         }
 
         fun build(): Attributes {
