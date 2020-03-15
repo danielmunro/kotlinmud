@@ -22,6 +22,7 @@ class ClientHandler(private val eventService: EventService, private val client: 
         while (running) {
             try {
                 val text = reader.nextLine().toLowerCase()
+                println("client handler reader nextLine: \"$text\"")
                 if (text == Command.EXIT.toString()) {
                     shutdown()
                     continue
