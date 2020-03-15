@@ -40,6 +40,7 @@ class App(
             return
         }
         val request = client.shiftBuffer()
+        println("handling request from ${request.mob}: ${request.input}")
         val response = actionService.run(request)
         eventService.publishRoomMessage(
             createSendMessageToRoomEvent(response.message, mobService.getRoomForMob(request.mob), request.mob, getTarget(response)))
