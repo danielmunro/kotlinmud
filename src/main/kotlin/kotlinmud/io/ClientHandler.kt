@@ -47,6 +47,7 @@ class ClientHandler(private val eventService: EventService, private val client: 
         if (message == "") {
             return
         }
+        println("writing to ${client.inetAddress}: $message")
         writer.write(("$message\n---> ").toByteArray(Charset.defaultCharset()))
     }
 
