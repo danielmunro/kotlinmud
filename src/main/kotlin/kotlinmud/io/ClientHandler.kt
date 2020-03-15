@@ -19,7 +19,7 @@ class ClientHandler(private val eventService: EventService, private val client: 
 
     fun run() {
         running = true
-        reader.useDelimiter("\r\n")
+        reader.useDelimiter("\n")
         while (running) {
             try {
                 println("waiting for input from ${client.inetAddress}")
