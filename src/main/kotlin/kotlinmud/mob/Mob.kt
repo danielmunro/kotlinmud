@@ -202,14 +202,6 @@ class Mob(
         return percentRoll() > normalize(5, base, 95)
     }
 
-    fun getEvasiveSkills(): List<SkillType> {
-        return skills.keys.filter {
-            it == SkillType.DODGE ||
-                    it == SkillType.PARRY ||
-                    it == SkillType.SHIELD_BLOCK
-        }
-    }
-
     override fun toString(): String {
         return name
     }

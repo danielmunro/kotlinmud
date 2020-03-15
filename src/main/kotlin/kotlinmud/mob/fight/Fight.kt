@@ -1,6 +1,7 @@
 package kotlinmud.mob.fight
 
 import kotlinmud.attributes.Attribute
+import kotlinmud.item.Position
 import kotlinmud.math.random.d20
 import kotlinmud.math.random.dN
 import kotlinmud.math.random.percentRoll
@@ -90,11 +91,25 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
     }
 
     private fun rollEvasiveSkills(defender: Mob): SkillType? {
-        defender.getEvasiveSkills().forEach { skillType ->
-            defender.skills.getOrDefault(skillType, 1).let {
+        defender.equipped.items.find { it.position == Position.SHIELD }?.let { _ ->
+            defender.skills[SkillType.SHIELD_BLOCK]?.let {
                 if (percentRoll() < it / 3) {
-                    return skillType
+                    return SkillType.SHIELD_BLOCK
                 }
+            }
+        }
+
+        defender.equipped.items.find { it.position == Position.WEAPON }?.let { _ ->
+            defender.skills[SkillType.PARRY]?.let {
+                if (percentRoll() < it / 3) {
+                    return SkillType.PARRY
+                }
+            }
+        }
+
+        defender.skills[SkillType.DODGE]?.let {
+            if (percentRoll() < it / 3) {
+                return SkillType.DODGE
             }
         }
         return null
