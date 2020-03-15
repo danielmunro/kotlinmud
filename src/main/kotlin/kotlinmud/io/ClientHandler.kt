@@ -21,6 +21,7 @@ class ClientHandler(private val eventService: EventService, private val client: 
         running = true
         while (running) {
             try {
+                println("waiting for input from ${client.inetAddress}")
                 val text = reader.nextLine().toLowerCase()
                 println("client handler reader nextLine: \"$text\"")
                 if (text == Command.EXIT.toString()) {
