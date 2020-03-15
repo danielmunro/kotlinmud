@@ -18,8 +18,8 @@ class ClientHandler(private val eventService: EventService, private val client: 
     private val requests: MutableList<Request> = mutableListOf()
 
     fun run() {
+        println("start run function")
         running = true
-        reader.useDelimiter("\n")
         while (running) {
             try {
                 println("waiting for input from ${client.inetAddress}")
