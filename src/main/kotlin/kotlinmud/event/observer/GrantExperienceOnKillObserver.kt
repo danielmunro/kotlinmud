@@ -1,6 +1,9 @@
 package kotlinmud.event.observer
 
-import kotlinmud.event.*
+import kotlinmud.event.Event
+import kotlinmud.event.EventResponse
+import kotlinmud.event.EventType
+import kotlinmud.event.WrongEventTypeException
 import kotlinmud.io.Server
 import kotlinmud.mob.fight.Fight
 

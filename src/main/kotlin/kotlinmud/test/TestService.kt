@@ -15,7 +15,11 @@ import kotlinmud.mob.MobRoom
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.room.Room
-import kotlinmud.service.*
+import kotlinmud.service.ActionService
+import kotlinmud.service.EventService
+import kotlinmud.service.FixtureService
+import kotlinmud.service.MobService
+import kotlinmud.service.RespawnService
 
 class TestService(
     private val fixtureService: FixtureService,

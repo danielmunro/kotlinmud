@@ -10,7 +10,12 @@ import kotlinmud.io.Syntax
 import kotlinmud.loader.AreaLoader
 import kotlinmud.loader.World
 import kotlinmud.mob.Mob
-import kotlinmud.service.*
+import kotlinmud.service.ActionService
+import kotlinmud.service.EventService
+import kotlinmud.service.FixtureService
+import kotlinmud.service.ItemService
+import kotlinmud.service.MobService
+import kotlinmud.service.RespawnService
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance

@@ -10,7 +10,10 @@ import kotlinmud.io.Message
 import kotlinmud.loader.World
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobRoom
-import kotlinmud.mob.fight.*
+import kotlinmud.mob.fight.Attack
+import kotlinmud.mob.fight.AttackResult
+import kotlinmud.mob.fight.Fight
+import kotlinmud.mob.fight.Round
 import kotlinmud.room.Direction
 import kotlinmud.room.Room
 

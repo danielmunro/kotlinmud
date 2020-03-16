@@ -5,7 +5,11 @@ import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.event.SocialEvent
-import kotlinmud.io.*
+import kotlinmud.io.IOStatus
+import kotlinmud.io.Message
+import kotlinmud.io.Response
+import kotlinmud.io.Social
+import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight
 import kotlinmud.room.Direction

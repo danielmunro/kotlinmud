@@ -3,7 +3,12 @@ package kotlinmud.mob
 import kotlinmud.Noun
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
-import kotlinmud.attributes.*
+import kotlinmud.attributes.Attribute
+import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.HasAttributes
+import kotlinmud.attributes.startingHp
+import kotlinmud.attributes.startingMana
+import kotlinmud.attributes.startingMv
 import kotlinmud.data.Row
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item

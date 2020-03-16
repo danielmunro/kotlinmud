@@ -4,7 +4,11 @@ import kotlinmud.action.mustBeFighting
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Intent
 import kotlinmud.mob.SpecializationType
-import kotlinmud.mob.skill.*
+import kotlinmud.mob.skill.Cost
+import kotlinmud.mob.skill.LearningDifficulty
+import kotlinmud.mob.skill.Skill
+import kotlinmud.mob.skill.SkillInvokesOn
+import kotlinmud.mob.skill.SkillType
 
 class Dodge : Skill {
     override val type: SkillType = SkillType.DODGE

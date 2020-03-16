@@ -5,7 +5,11 @@ import kotlinmud.Noun
 import kotlinmud.createContainer
 import kotlinmud.event.observer.createObservers
 import kotlinmud.io.Server
-import kotlinmud.service.*
+import kotlinmud.service.ActionService
+import kotlinmud.service.EventService
+import kotlinmud.service.FixtureService
+import kotlinmud.service.MobService
+import kotlinmud.service.RespawnService
 import org.kodein.di.erased.instance
 
 fun createTestService(): TestService {

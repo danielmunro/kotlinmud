@@ -4,7 +4,11 @@ import kotlinmud.action.Action
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
-import kotlinmud.io.*
+import kotlinmud.io.Message
+import kotlinmud.io.Request
+import kotlinmud.io.Social
+import kotlinmud.io.SocialChannel
+import kotlinmud.io.Syntax
 
 fun createSayAction(): Action {
     return Action(

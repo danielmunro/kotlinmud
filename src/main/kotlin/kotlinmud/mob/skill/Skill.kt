@@ -1,6 +1,9 @@
 package kotlinmud.mob.skill
 
-import kotlinmud.mob.*
+import kotlinmud.mob.Disposition
+import kotlinmud.mob.Intent
+import kotlinmud.mob.RequiresDisposition
+import kotlinmud.mob.SpecializationType
 
 interface Skill : RequiresDisposition {
     val type: SkillType
