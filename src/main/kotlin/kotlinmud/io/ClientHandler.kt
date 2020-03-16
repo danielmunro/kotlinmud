@@ -10,6 +10,7 @@ import kotlinmud.event.createInputReceivedEvent
 import kotlinmud.mob.Mob
 import kotlinmud.room.Room
 import kotlinmud.service.EventService
+import kotlinmud.string.matches
 
 class ClientHandler(private val eventService: EventService, private val client: Socket, val mob: Mob) {
     private val reader: Scanner = Scanner(client.getInputStream())
@@ -18,14 +19,12 @@ class ClientHandler(private val eventService: EventService, private val client: 
     private val requests: MutableList<Request> = mutableListOf()
 
     fun run() {
-        println("start run function")
         running = true
         while (running) {
             try {
-                println("waiting for input from ${client.inetAddress}")
                 val text = reader.nextLine().toLowerCase()
                 println("client handler reader nextLine: \"$text\"")
-                if (text == Command.EXIT.toString()) {
+                if (matches(Command.EXIT.value, text)) {
                     shutdown()
                     continue
                 }
