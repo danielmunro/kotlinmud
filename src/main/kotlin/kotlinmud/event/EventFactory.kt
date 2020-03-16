@@ -17,6 +17,6 @@ fun createSendMessageToRoomEvent(message: Message, room: Room, actionCreator: Mo
     return Event(EventType.SEND_MESSAGE_TO_ROOM, SendMessageToRoomEvent(message, room, actionCreator, target))
 }
 
-fun createInputReceivedEvent(client: ClientHandler): Event<InputReceivedEvent> {
-    return Event(EventType.INPUT_RECEIVED, InputReceivedEvent(client))
+fun createInputReceivedEvent(client: ClientHandler, input: String): Event<InputReceivedEvent> {
+    return Event(EventType.INPUT_RECEIVED, InputReceivedEvent(client, input))
 }

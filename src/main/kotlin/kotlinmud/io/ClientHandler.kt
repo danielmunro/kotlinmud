@@ -5,10 +5,9 @@ import java.net.Socket
 import java.nio.charset.Charset
 import java.util.Scanner
 import kotlinmud.action.Command
-import kotlinmud.event.EventResponse
 import kotlinmud.event.createInputReceivedEvent
+import kotlinmud.event.event.InputReceivedEvent
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
 import kotlinmud.service.EventService
 import kotlinmud.string.matches
 
@@ -22,15 +21,7 @@ class ClientHandler(private val eventService: EventService, private val client: 
         running = true
         while (running) {
             try {
-                val text = reader.nextLine().toLowerCase()
-                println("client handler reader nextLine: \"$text\"")
-                if (matches(Command.EXIT.value, text)) {
-                    shutdown()
-                    continue
-                }
-                val eventResponse: EventResponse<Room> = eventService.publish(
-                    createInputReceivedEvent(this))
-                requests.add(Request(this.mob, text, eventResponse.subject))
+                reader.nextLine().toLowerCase().let { captureInput(it) }
             } catch (ex: Exception) {
                 shutdown()
             }
@@ -55,6 +46,19 @@ class ClientHandler(private val eventService: EventService, private val client: 
 
     fun shiftBuffer(): Request {
         return requests.removeAt(0)
+    }
+
+    fun addRequest(request: Request) {
+        requests.add(request)
+    }
+
+    private fun captureInput(input: String) {
+        println("client handler reader nextLine: \"$input\"")
+        if (matches(Command.EXIT.value, input)) {
+            shutdown()
+            return
+        }
+        eventService.publish<InputReceivedEvent, InputReceivedEvent>(createInputReceivedEvent(this, input))
     }
 
     private fun shutdown() {
