@@ -2,7 +2,10 @@ package kotlinmud.action.impl
 
 import assertk.assertThat
 import assertk.assertions.doesNotContain
+import assertk.assertions.isEqualTo
+import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
+import kotlinmud.io.IOStatus
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 import org.junit.Test
@@ -25,5 +28,28 @@ class LookAtTest {
 
         // then
         assertThat(response.message.toActionCreator).doesNotContain(mob1.name)
+        assertThat(response.status).isEqualTo(IOStatus.ERROR)
+    }
+
+    @Test
+    fun testCannotLookAtInvisibleItems() {
+        // setup
+        val testService = createTestService()
+
+        // given
+        val item = testService.buildItem(
+            testService.itemBuilder()
+                .addAffect(
+                    AffectInstance(AffectType.INVISIBLE, 1))
+        )
+        val mob = testService.createMob()
+        mob.inventory.items.add(item)
+
+        // when
+        val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")
+
+        // then
+        assertThat(response.message.toActionCreator).doesNotContain(item.name)
+        assertThat(response.status).isEqualTo(IOStatus.ERROR)
     }
 }

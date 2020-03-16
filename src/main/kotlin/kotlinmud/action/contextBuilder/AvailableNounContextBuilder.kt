@@ -18,7 +18,7 @@ class AvailableNounContextBuilder(
         val target = mobService.getMobsForRoom(room).find {
                 matches(it.name, word) && !it.isAffectedBy(AffectType.INVISIBLE)
             } ?: mob.inventory.items.find {
-                matches(it.name, word)
+                matches(it.name, word) && !it.isAffectedBy(AffectType.INVISIBLE)
             } ?: room.inventory.items.find {
                 matches(it.name, word)
             } ?: return Context(syntax, Status.FAILED, "you don't see anything like that here.")

@@ -31,6 +31,7 @@ class FixtureService {
     fun createItemBuilder(name: String = faker.book.title()): Item.Builder {
         items++
         return Item.Builder(items, name)
+            .setDescription("$name is here")
     }
 
     fun createItem(inv: Inventory): Item {

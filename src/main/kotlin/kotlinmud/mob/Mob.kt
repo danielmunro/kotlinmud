@@ -123,6 +123,7 @@ class Mob(
             Attributes(),
             Material.ORGANIC,
             Position.NONE,
+            mutableListOf(),
             Inventory()
         )
         inventory.items.forEach {

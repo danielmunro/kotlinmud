@@ -1,6 +1,8 @@
 package kotlinmud.item
 
 import kotlinmud.Noun
+import kotlinmud.affect.AffectInstance
+import kotlinmud.affect.AffectType
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
@@ -17,10 +19,15 @@ class Item(
     override val attributes: Attributes,
     val material: Material,
     val position: Position,
+    val affects: MutableList<AffectInstance>,
     val inventory: Inventory?
 ) : HasAttributes, Noun, Row {
     override fun toString(): String {
         return name
+    }
+
+    fun isAffectedBy(affectType: AffectType): Boolean {
+        return affects.find { it.affectType == affectType } != null
     }
 
     fun copy(): Item {
@@ -34,6 +41,7 @@ class Item(
             attributes.copy(),
             material,
             position,
+            mutableListOf(),
             Inventory()
         )
     }
@@ -47,6 +55,7 @@ class Item(
         var position = Position.NONE
         var attributes = Attributes.Builder()
         var inventory: Inventory? = null
+        var affects: MutableList<AffectInstance> = mutableListOf()
 
         fun setDescription(value: String): Builder {
             description = value
@@ -88,6 +97,11 @@ class Item(
             return this
         }
 
+        fun addAffect(affect: AffectInstance): Builder {
+            affects.add(affect)
+            return this
+        }
+
         fun makeContainer(): Builder {
             inventory = Inventory()
             return this
@@ -104,6 +118,7 @@ class Item(
                 attributes.build(),
                 material,
                 position,
+                affects,
                 inventory
             )
         }
