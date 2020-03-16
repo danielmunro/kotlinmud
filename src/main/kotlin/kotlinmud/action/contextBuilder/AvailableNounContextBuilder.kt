@@ -2,6 +2,7 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.Context
 import kotlinmud.action.Status
+import kotlinmud.affect.AffectType
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
 import kotlinmud.room.Room
@@ -15,7 +16,7 @@ class AvailableNounContextBuilder(
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val target = mobService.getMobsForRoom(room).find {
-                matches(it.name, word)
+                matches(it.name, word) && !it.isAffectedBy(AffectType.INVISIBLE)
             } ?: mob.inventory.items.find {
                 matches(it.name, word)
             } ?: room.inventory.items.find {

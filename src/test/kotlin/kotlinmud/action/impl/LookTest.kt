@@ -2,6 +2,7 @@ package kotlinmud.action.impl
 
 import assertk.assertThat
 import assertk.assertions.contains
+import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
@@ -95,5 +96,24 @@ class LookTest {
 
         // then
         assertThat(response.message.toActionCreator).contains(door.name)
+    }
+
+    @Test
+    fun testCannotSeeInvisibleMobs() {
+        // setup
+        val testService = createTestService()
+
+        // given
+        val mob1 = testService.buildMob(
+            testService.mobBuilder()
+                .addAffect(AffectType.INVISIBLE)
+        )
+        val mob2 = testService.createMob()
+
+        // when
+        val response = testService.runAction(mob2, "look")
+
+        // then
+        assertThat(response.message.toActionCreator).doesNotContain(mob1.name)
     }
 }

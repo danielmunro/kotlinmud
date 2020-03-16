@@ -29,7 +29,9 @@ fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>): String {
     mob.affects.find {
         it.affectType == AffectType.BLIND
     }?.let { return "you can't see anything, you're blind!" }
-    val observers = mobs.filter { it != mob }
+    val observers = mobs.filter {
+        it != mob && !it.isAffectedBy(AffectType.INVISIBLE)
+    }
     return String.format("%s\n%s\n%sExits [%s]%s%s%s%s",
         room.name,
         room.description,
