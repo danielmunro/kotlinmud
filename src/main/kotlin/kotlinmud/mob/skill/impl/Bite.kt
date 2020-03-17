@@ -3,6 +3,7 @@ package kotlinmud.mob.skill.impl
 import kotlin.random.Random
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.mustBeAlert
+import kotlinmud.affect.Affect
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Response
@@ -31,6 +32,7 @@ class Bite : SkillAction {
     override val intent: Intent = Intent.OFFENSIVE
     override val syntax: List<Syntax> = listOf(Syntax.COMMAND, Syntax.TARGET_MOB)
     override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
+    override val affect: Affect? = null
 
     override fun invoke(actionContextService: ActionContextService, request: Request): Response {
         val target: Mob = actionContextService.get(Syntax.TARGET_MOB)

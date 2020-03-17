@@ -138,4 +138,35 @@ class ActionServiceTest {
         // then
         assertThat(rounds).hasSize(1)
     }
+
+    @Test
+    fun testMobCanCastInvisibilityOnTarget() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.buildMob(
+            testService.mobBuilder().addSkill(SkillType.INVISIBILITY, 100)
+        )
+        val target = testService.createMob()
+
+        // when
+        val response = testService.runAction(mob, "cast invis ${getIdentifyingWord(target)}")
+
+        // expect
+        assertThat(response.message.toActionCreator).isEqualTo("$target fades out of existence.")
+    }
+
+    @Test
+    fun testMobCanCastInvisibilityOnSelf() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.buildMob(
+            testService.mobBuilder().addSkill(SkillType.INVISIBILITY, 100)
+        )
+
+        // when
+        val response = testService.runAction(mob, "cast invis")
+
+        // expect
+        assertThat(response.message.toActionCreator).isEqualTo("$mob fades out of existence.")
+    }
 }

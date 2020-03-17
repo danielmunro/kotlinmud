@@ -6,6 +6,7 @@ import kotlinmud.action.ActionContextService
 import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.action.contextBuilder.AvailableNounContextBuilder
+import kotlinmud.action.contextBuilder.CastContextBuilder
 import kotlinmud.action.contextBuilder.CommandContextBuilder
 import kotlinmud.action.contextBuilder.DirectionToExitContextBuilder
 import kotlinmud.action.contextBuilder.DoorInRoomContextBuilder
@@ -17,6 +18,8 @@ import kotlinmud.action.contextBuilder.ItemInInventoryContextBuilder
 import kotlinmud.action.contextBuilder.ItemInRoomContextBuilder
 import kotlinmud.action.contextBuilder.ItemToSellContextBuilder
 import kotlinmud.action.contextBuilder.MobInRoomContextBuilder
+import kotlinmud.action.contextBuilder.OptionalTargetContextBuilder
+import kotlinmud.action.contextBuilder.SpellContextBuilder
 import kotlinmud.action.contextBuilder.TargetMobContextBuilder
 import kotlinmud.action.createActionsList
 import kotlinmud.attributes.Attribute
@@ -36,7 +39,6 @@ import kotlinmud.mob.skill.CostType
 import kotlinmud.mob.skill.Skill
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.createSkillList
-import kotlinmud.string.matches
 
 class ActionService(private val mobService: MobService, private val eventService: EventService) {
     private val actions: List<Action> = createActionsList()
@@ -51,7 +53,7 @@ class ActionService(private val mobService: MobService, private val eventService
 
     private fun runSkill(request: Request): Response? {
         val skill = (skills.find {
-            matches(it.type.toString(), request.getCommand()) && it is SkillAction
+            it is SkillAction && it.matchesRequest(request)
         } ?: return null) as SkillAction
 
         val response = executeSkill(request, skill)
@@ -153,10 +155,13 @@ class ActionService(private val mobService: MobService, private val eventService
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)
             Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, request.mob, request.room).build(syntax, word)
             Syntax.TARGET_MOB -> TargetMobContextBuilder(mobService, request.mob, request.room).build(syntax, word)
+            Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, mobService.getMobsForRoom(request.room)).build(syntax, word)
             Syntax.DOOR_IN_ROOM -> DoorInRoomContextBuilder(request.room).build(syntax, word)
             Syntax.FREE_FORM -> FreeFormContextBuilder(request.args).build(syntax, word)
             Syntax.ITEM_FROM_MERCHANT -> ItemFromMerchantContextBuilder(request.mob, mobService.getMobsForRoom(request.room)).build(syntax, word)
             Syntax.ITEM_TO_SELL -> ItemToSellContextBuilder(request.mob, mobService.getMobsForRoom(request.room)).build(syntax, word)
+            Syntax.SPELL -> SpellContextBuilder(skills).build(syntax, word)
+            Syntax.CAST -> CastContextBuilder().build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

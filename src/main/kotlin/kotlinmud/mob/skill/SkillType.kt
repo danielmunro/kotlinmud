@@ -80,4 +80,5 @@ enum class SkillType {
     ENERVATION,
     FUMBLE,
     BLUR,
+    INVISIBILITY
 }

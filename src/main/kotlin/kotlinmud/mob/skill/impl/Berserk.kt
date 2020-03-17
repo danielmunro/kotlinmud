@@ -4,6 +4,7 @@ import kotlinmud.action.ActionContextService
 import kotlinmud.action.mustBeAlert
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
+import kotlinmud.affect.impl.BerserkAffect
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Response
@@ -35,6 +36,7 @@ class Berserk : SkillAction {
     override val intent: Intent = Intent.NEUTRAL
     override val syntax: List<Syntax> = listOf(Syntax.COMMAND)
     override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
+    override val affect = BerserkAffect()
 
     override fun invoke(actionContextService: ActionContextService, request: Request): Response {
         request.mob.affects.add(AffectInstance(AffectType.BERSERK, request.mob.level / 8))

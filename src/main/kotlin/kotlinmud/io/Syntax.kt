@@ -2,6 +2,7 @@ package kotlinmud.io
 
 enum class Syntax(val syntax: String) {
     COMMAND("command"),
+    CAST("cast"),
     DIRECTION_TO_EXIT("direction to exit"),
     ITEM_IN_ROOM("item in room"),
     ITEM_IN_INVENTORY("item in inventory"),
@@ -12,7 +13,9 @@ enum class Syntax(val syntax: String) {
     MOB_IN_ROOM("mob in room"),
     AVAILABLE_NOUN("available noun"),
     TARGET_MOB("target mob"),
+    OPTIONAL_TARGET("optional target"),
     DOOR_IN_ROOM("door in room"),
     FREE_FORM("free form"),
+    SPELL("spell"),
     NOOP("noop"),
 }

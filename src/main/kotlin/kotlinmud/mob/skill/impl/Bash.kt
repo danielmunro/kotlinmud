@@ -5,6 +5,7 @@ import kotlinmud.action.ActionContextService
 import kotlinmud.action.mustBeAlert
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
+import kotlinmud.affect.impl.StunnedAffect
 import kotlinmud.attributes.Attributes
 import kotlinmud.io.Message
 import kotlinmud.io.Request
@@ -42,6 +43,7 @@ class Bash : SkillAction {
     override val intent: Intent = Intent.OFFENSIVE
     override val syntax: List<Syntax> = listOf(Syntax.COMMAND, Syntax.TARGET_MOB)
     override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
+    override val affect = StunnedAffect()
 
     override fun invoke(actionContextService: ActionContextService, request: Request): Response {
         val target: Mob = actionContextService.get(Syntax.TARGET_MOB)
