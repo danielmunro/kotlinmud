@@ -18,9 +18,9 @@ class RespawnService(
             world.mobResets.toList().forEach { reset ->
                 val room = world.rooms.get(reset.roomId)
                 while (mobCanRespawn(reset, room)) {
-                    val mob = world.mobs.get(reset.mobId)
+                    val mob = world.mobs.get(reset.mobId).copy()
                     addItemsToMob(mob)
-                    mobService.putMobInRoom(mob.copy(), room)
+                    mobService.putMobInRoom(mob, room)
                 }
             }
         }
