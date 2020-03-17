@@ -155,7 +155,7 @@ class ActionService(private val mobService: MobService, private val eventService
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)
             Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, request.mob, request.room).build(syntax, word)
             Syntax.TARGET_MOB -> TargetMobContextBuilder(mobService, request.mob, request.room).build(syntax, word)
-            Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, mobService.getMobsForRoom(request.room)).build(syntax, word)
+            Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, mobService.getMobsForRoom(request.room) + request.mob.inventory.items).build(syntax, word)
             Syntax.DOOR_IN_ROOM -> DoorInRoomContextBuilder(request.room).build(syntax, word)
             Syntax.FREE_FORM -> FreeFormContextBuilder(request.args).build(syntax, word)
             Syntax.ITEM_FROM_MERCHANT -> ItemFromMerchantContextBuilder(request.mob, mobService.getMobsForRoom(request.room)).build(syntax, word)

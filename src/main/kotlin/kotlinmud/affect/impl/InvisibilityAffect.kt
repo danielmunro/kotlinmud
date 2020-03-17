@@ -1,5 +1,6 @@
 package kotlinmud.affect.impl
 
+import kotlinmud.Noun
 import kotlinmud.affect.Affect
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
@@ -9,7 +10,7 @@ import kotlinmud.mob.Mob
 class InvisibilityAffect : Affect {
     override val type: AffectType = AffectType.INVISIBLE
 
-    override fun messageFromInstantiation(mob: Mob, target: Mob?): Message {
+    override fun messageFromInstantiation(mob: Mob, target: Noun?): Message {
         return Message(
             "$target fades out of existence.",
             "you fade out of existence",
@@ -17,11 +18,11 @@ class InvisibilityAffect : Affect {
         )
     }
 
-    override fun messageFromWearOff(mob: Mob): Message {
+    override fun messageFromWearOff(target: Noun): Message {
         return Message(
             "you shimmer back into existence.",
             "you shimmer back into existence.",
-            "$mob shimmers back into existence."
+            "$target shimmers back into existence."
         )
     }
 

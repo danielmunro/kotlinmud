@@ -169,4 +169,21 @@ class ActionServiceTest {
         // expect
         assertThat(response.message.toActionCreator).isEqualTo("$mob fades out of existence.")
     }
+
+    @Test
+    fun testMobCanCastInvisibilityOnItemInInventory() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.buildMob(
+            testService.mobBuilder()
+                .addSkill(SkillType.INVISIBILITY, 100)
+        )
+        val item = testService.createItem(mob.inventory)
+
+        // when
+        val response = testService.runAction(mob, "cast invis $item")
+
+        // expect
+        assertThat(response.message.toActionCreator).isEqualTo("$item fades out of existence.")
+    }
 }

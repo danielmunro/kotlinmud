@@ -43,7 +43,7 @@ class Mob(
     var gender: Gender,
     var gold: Int,
     val skills: Map<SkillType, Int>,
-    val affects: MutableList<AffectInstance>,
+    override val affects: MutableList<AffectInstance>,
     var wimpy: Int,
     val experiencePerLevel: Int,
     var savingThrows: Int,
@@ -330,6 +330,11 @@ class Mob(
         fun equip(item: Item): Builder {
             // @todo check for equipment position exception
             equipment.items.add(item)
+            return this
+        }
+
+        fun addItem(item: Item): Builder {
+            inventory.items.add(item)
             return this
         }
 

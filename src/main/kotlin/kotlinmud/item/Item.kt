@@ -19,7 +19,7 @@ class Item(
     override val attributes: Attributes,
     val material: Material,
     val position: Position,
-    val affects: MutableList<AffectInstance>,
+    override val affects: MutableList<AffectInstance>,
     val inventory: Inventory?
 ) : HasAttributes, Noun, Row {
     override fun toString(): String {

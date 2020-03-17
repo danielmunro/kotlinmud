@@ -1,5 +1,6 @@
 package kotlinmud.affect.impl
 
+import kotlinmud.Noun
 import kotlinmud.affect.Affect
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
@@ -10,11 +11,11 @@ import kotlinmud.mob.Mob
 class StunnedAffect : Affect {
     override val type: AffectType = AffectType.STUNNED
 
-    override fun messageFromInstantiation(mob: Mob, target: Mob?): Message {
+    override fun messageFromInstantiation(mob: Mob, target: Noun?): Message {
         TODO("Not yet implemented")
     }
 
-    override fun messageFromWearOff(mob: Mob): Message {
+    override fun messageFromWearOff(target: Noun): Message {
         TODO("Not yet implemented")
     }
 
