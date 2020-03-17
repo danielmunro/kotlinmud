@@ -25,6 +25,7 @@ import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.skill.SkillType
 
 const val corpseWeight = 20.0
+const val baseStat = 15
 
 class Mob(
     override val id: Int,
@@ -84,11 +85,11 @@ class Mob(
 
     fun base(attribute: Attribute): Int {
         return when (attribute) {
-            Attribute.STR -> attributes.str + race.attributes.str
-            Attribute.INT -> attributes.int + race.attributes.int
-            Attribute.WIS -> attributes.wis + race.attributes.wis
-            Attribute.DEX -> attributes.dex + race.attributes.dex
-            Attribute.CON -> attributes.con + race.attributes.con
+            Attribute.STR -> baseStat + attributes.str + race.attributes.str
+            Attribute.INT -> baseStat + attributes.int + race.attributes.int
+            Attribute.WIS -> baseStat + attributes.wis + race.attributes.wis
+            Attribute.DEX -> baseStat + attributes.dex + race.attributes.dex
+            Attribute.CON -> baseStat + attributes.con + race.attributes.con
             else -> 0
         }
     }
