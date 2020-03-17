@@ -50,6 +50,5 @@ class LookAtTest {
 
         // then
         assertThat(response.message.toActionCreator).doesNotContain(item.name)
-        assertThat(response.status).isEqualTo(IOStatus.ERROR)
     }
 }
