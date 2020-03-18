@@ -17,5 +17,6 @@ enum class Syntax(val syntax: String) {
     DOOR_IN_ROOM("door in room"),
     FREE_FORM("free form"),
     SPELL("spell"),
+    PLAYER_MOB("player mob"),
     NOOP("noop"),
 }

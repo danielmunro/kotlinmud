@@ -19,6 +19,7 @@ import kotlinmud.action.contextBuilder.ItemInRoomContextBuilder
 import kotlinmud.action.contextBuilder.ItemToSellContextBuilder
 import kotlinmud.action.contextBuilder.MobInRoomContextBuilder
 import kotlinmud.action.contextBuilder.OptionalTargetContextBuilder
+import kotlinmud.action.contextBuilder.PlayerMobContextBuilder
 import kotlinmud.action.contextBuilder.SpellContextBuilder
 import kotlinmud.action.contextBuilder.TargetMobContextBuilder
 import kotlinmud.action.createActionsList
@@ -162,6 +163,7 @@ class ActionService(private val mobService: MobService, private val eventService
             Syntax.ITEM_TO_SELL -> ItemToSellContextBuilder(request.mob, mobService.getMobsForRoom(request.room)).build(syntax, word)
             Syntax.SPELL -> SpellContextBuilder(skills).build(syntax, word)
             Syntax.CAST -> CastContextBuilder().build(syntax, word)
+            Syntax.PLAYER_MOB -> PlayerMobContextBuilder(mobService).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

@@ -8,6 +8,7 @@ import kotlinmud.action.impl.createEastAction
 import kotlinmud.action.impl.createEquipmentAction
 import kotlinmud.action.impl.createFleeAction
 import kotlinmud.action.impl.createGetAction
+import kotlinmud.action.impl.createGossipAction
 import kotlinmud.action.impl.createInventoryAction
 import kotlinmud.action.impl.createKillAction
 import kotlinmud.action.impl.createListAction
@@ -22,6 +23,7 @@ import kotlinmud.action.impl.createSellAction
 import kotlinmud.action.impl.createSitAction
 import kotlinmud.action.impl.createSleepAction
 import kotlinmud.action.impl.createSouthAction
+import kotlinmud.action.impl.createTellAction
 import kotlinmud.action.impl.createUpAction
 import kotlinmud.action.impl.createWakeAction
 import kotlinmud.action.impl.createWearAction
@@ -49,6 +51,8 @@ fun createActionsList(): List<Action> {
         createOpenAction(),
         createCloseAction(),
         createSayAction(),
+        createGossipAction(),
+        createTellAction(),
         createRemoveAction(),
         createWearAction(),
         createBuyAction(),

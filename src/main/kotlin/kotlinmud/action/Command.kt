@@ -39,6 +39,8 @@ enum class Command(val value: String) {
 
     // social
     SAY("say"),
+    GOSSIP("gossip"),
+    TELL("tell"),
 
     // fighting
     KILL("kill"),
