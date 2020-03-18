@@ -70,7 +70,8 @@ class ActionService(private val mobService: MobService, private val eventService
 
     private fun runAction(request: Request): Response? {
         return actions.find {
-            it.command.value.startsWith(request.getCommand()) && it.syntax.size == request.args.size
+            it.command.value.startsWith(request.getCommand()) &&
+                    (it.syntax.size == request.args.size || it.syntax.contains(Syntax.FREE_FORM))
         }?.let {
             dispositionCheck(request, it)
                 ?: callInvokable(request, it, buildActionContextList(request, it))

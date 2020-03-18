@@ -6,6 +6,6 @@ import kotlinmud.io.Syntax
 
 class FreeFormContextBuilder(private val input: List<String>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        return Context(Syntax.FREE_FORM, Status.OK, input.drop(0).joinToString(" "))
+        return Context(Syntax.FREE_FORM, Status.OK, input.drop(input.indexOf(word)).joinToString(" "))
     }
 }

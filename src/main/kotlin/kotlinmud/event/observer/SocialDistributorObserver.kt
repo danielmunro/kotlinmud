@@ -50,7 +50,9 @@ class SocialDistributorObserver(private val server: Server, private val mobServi
 
     private fun tellMob(target: Mob, message: Message) {
         val clients = server.getClientsFromMobs(listOf(target))
-        clients[0].write(message.toTarget)
+        if (clients.isNotEmpty()) {
+            clients[0].write(message.toTarget)
+        }
     }
 
     private fun sayToRoom(mob: Mob, room: Room, message: Message) {

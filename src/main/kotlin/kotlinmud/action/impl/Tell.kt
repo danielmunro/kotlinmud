@@ -28,7 +28,8 @@ fun createTellAction(): Action {
                     SocialChannel.TELL,
                     request.mob,
                     request.room,
-                    message
+                    message,
+                    target
                 )
             )
             svc.createResponse(message)
