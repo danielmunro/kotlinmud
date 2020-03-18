@@ -64,13 +64,14 @@ class MobService(
     }
 
     fun proceedFights(): List<Round> {
+        val rounds = fights.map { proceedFightRound(it.createRound()) }
         fights.forEach {
             if (it.hasFatality()) {
                 eventService.publish<Fight, EventResponse<Fight>>(Event(EventType.KILL, it))
             }
         }
         fights.removeIf { it.isOver() }
-        return fights.map { proceedFightRound(it.createRound()) }
+        return rounds
     }
 
     fun decrementAffects() {

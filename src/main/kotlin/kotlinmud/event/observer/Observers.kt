@@ -23,6 +23,7 @@ fun createObservers(server: Server, mobService: MobService, eventService: EventS
         RespawnTickObserver(respawnService),
         SocialDistributorObserver(server, mobService),
         GrantExperienceOnKillObserver(server),
+        TransferGoldOnKillObserver(),
 
         // job behaviors
         MoveScavengersOnTickObserver(mobService, eventService),

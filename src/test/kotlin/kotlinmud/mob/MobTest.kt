@@ -10,6 +10,7 @@ import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.item.Position
 import kotlinmud.mob.fight.DamageType
+import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.race.impl.Elf
 import kotlinmud.mob.race.impl.Faerie
 import kotlinmud.mob.race.impl.Goblin
@@ -245,5 +246,24 @@ class MobTest {
 
         // expect
         assertThat(mob.calc(Attribute.HP)).isEqualTo(120)
+    }
+
+    @Test
+    fun testGoldTransfersWhenMobIsKilled() {
+        // setup
+        val testService = createTestService()
+
+        val mob1 = testService.buildMob(testService.mobBuilder().setGold(5).setHp(1))
+        val mob2 = testService.buildMob(testService.mobBuilder().setGold(5).setHp(1))
+        val fight = Fight(mob1, mob2)
+        testService.addFight(fight)
+
+        while (!fight.isOver()) {
+            testService.proceedFights()
+        }
+
+        val winner = fight.getWinner()!!
+        assertThat(winner.gold).isEqualTo(10)
+        assertThat(fight.getOpponentFor(winner)!!.gold).isEqualTo(0)
     }
 }

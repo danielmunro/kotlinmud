@@ -47,10 +47,7 @@ class TestService(
     fun createMob(job: JobType = JobType.NONE): Mob {
         val mob = fixtureService.createMobBuilder()
             .setJob(job)
-            .equip(buildItem(itemBuilder()
-                .setPosition(Position.WEAPON)
-                .setAttribute(Attribute.HIT, 5)
-                .setAttribute(Attribute.DAM, 5)))
+            .equip(weapon())
             .build()
         mobService.addMob(mob)
         return mob
@@ -62,6 +59,7 @@ class TestService(
 
     fun buildMob(mobBuilder: Mob.Builder): Mob {
         val mob = mobBuilder.build()
+        mob.equipped.items.add(weapon())
         mobService.addMob(mob)
         return mob
     }
@@ -129,5 +127,12 @@ class TestService(
 
     fun proceedFights(): List<Round> {
         return mobService.proceedFights()
+    }
+
+    private fun weapon(): Item {
+        return buildItem(itemBuilder()
+            .setPosition(Position.WEAPON)
+            .setAttribute(Attribute.HIT, 5)
+            .setAttribute(Attribute.DAM, 5))
     }
 }

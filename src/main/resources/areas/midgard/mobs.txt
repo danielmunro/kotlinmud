@@ -25,7 +25,7 @@ a wandering vagabond~
 a wandering vagabond is here.~
 a wandering vagabond description.~
 standing~
-level: 5~
+level: 5, hp: 8, goldMin: 1, goldMax: 2~
 
 #5
 a baker~
@@ -60,11 +60,11 @@ an alley cat~
 a mangy alley cat is here, sniffing around the garbage.~
 A mangy alley cat.~
 standing~
-race: felid, level: 3~
+race: felid, level: 3, goldMin: 1, goldMax: 3, hp: 4~
 
 #10
 a city guard~
 a Midgard city guard is here, keeping watch on things.~
 A city guard is here.~
 standing~
-job: guard, level: 20, hp: 400, mv: 1000~
+job: guard, level: 20, hp: 400, mv: 1000, goldMin: 5, goldMax: 15~

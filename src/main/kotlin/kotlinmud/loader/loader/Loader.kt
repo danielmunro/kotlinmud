@@ -7,8 +7,8 @@ interface Loader {
 
     fun load(): Model
 
-    fun intAttr(name: String): Int {
-        return props[name]?.toInt() ?: 0
+    fun intAttr(name: String, default: Int = 0): Int {
+        return props[name]?.toInt() ?: default
     }
 
     fun strAttr(name: String, default: String = ""): String {

@@ -81,6 +81,7 @@ class FightTest {
         val mob1 = testService.buildMob(testService.mobBuilder()
             .addSkill(SkillType.PARRY, 100)
         )
+        mob1.equipped.items.removeAt(0)
 
         val mob2 = testService.buildMob(testService.mobBuilder()
             .addSkill(SkillType.PARRY, 100)
