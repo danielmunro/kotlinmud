@@ -9,12 +9,14 @@ import kotlinmud.loader.loader.Loader
 import kotlinmud.loader.loader.MobLoader
 import kotlinmud.loader.loader.RoomLoader
 import kotlinmud.loader.loader.reset.ItemMobResetLoader
+import kotlinmud.loader.loader.reset.ItemRoomResetLoader
 import kotlinmud.loader.loader.reset.MobResetLoader
 import kotlinmud.loader.mapper.DoorMapper
 import kotlinmud.loader.mapper.ItemMapper
 import kotlinmud.loader.mapper.MobMapper
 import kotlinmud.loader.mapper.RoomMapper
 import kotlinmud.loader.model.reset.ItemMobReset
+import kotlinmud.loader.model.reset.ItemRoomReset
 import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
 import kotlinmud.room.exit.Door
@@ -27,7 +29,8 @@ class AreaLoader(private val baseDir: String) {
             loadItems(),
             loadMobs(),
             loadMobResets(),
-            loadItemMobResets()
+            loadItemMobResets(),
+            loadItemRoomResets()
         )
     }
 
@@ -37,6 +40,10 @@ class AreaLoader(private val baseDir: String) {
             createModelList(RoomLoader(createTokenizer("$baseDir/rooms.txt"))),
             loadDoors()
         )
+    }
+
+    private fun loadItemRoomResets(): List<ItemRoomReset> {
+        return createModelList(ItemRoomResetLoader(createTokenizer("$baseDir/reset/item_rooms.txt")))
     }
 
     private fun loadMobResets(): List<MobReset> {

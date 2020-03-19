@@ -3,6 +3,7 @@ package kotlinmud.service
 import kotlin.system.measureTimeMillis
 import kotlinmud.loader.World
 import kotlinmud.loader.model.reset.ItemMobReset
+import kotlinmud.loader.model.reset.ItemRoomReset
 import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
 import kotlinmud.room.Room
@@ -23,6 +24,13 @@ class RespawnService(
                     mobService.putMobInRoom(mob, room)
                 }
             }
+            world.itemRoomResets.toList().forEach { reset ->
+                while (itemRoomCanRespawn(reset, world.rooms.get(reset.roomId))) {
+                    world.rooms.get(reset.roomId).inventory.items.add(
+                        world.items.get(reset.itemId).copy()
+                    )
+                }
+            }
         }
         println("respawn took $time ms")
     }
@@ -41,6 +49,11 @@ class RespawnService(
 
     private fun filterItemMobResets(mobId: Int): List<ItemMobReset> {
         return world.itemMobResets.toList().filter { it.mobId == mobId }
+    }
+
+    private fun itemRoomCanRespawn(reset: ItemRoomReset, room: Room): Boolean {
+        return reset.maxInInventory > room.inventory.items.filter { it.id == reset.itemId }.size &&
+                reset.maxInWorld > itemService.getItemsById(reset.itemId).size
     }
 
     private fun itemMobCanRespawn(reset: ItemMobReset, mob: Mob): Boolean {
