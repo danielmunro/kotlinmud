@@ -1,3 +1,7 @@
 itemId: 2, mobId: 6, maxInInventory: 25, maxInWorld: 999~
 itemId: 3, mobId: 6, maxInInventory: 25, maxInWorld: 999~
 itemId: 4, mobId: 6, maxInInventory: 25, maxInWorld: 999~
+itemId: 6, mobId: 6, maxInInventory: 25, maxInWorld: 999~
+itemId: 7, mobId: 6, maxInInventory: 25, maxInWorld: 999~
+itemId: 8, mobId: 6, maxInInventory: 25, maxInWorld: 999~
+itemId: 9, mobId: 6, maxInInventory: 25, maxInWorld: 999~
