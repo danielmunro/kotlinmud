@@ -3,6 +3,7 @@ package kotlinmud.action
 import kotlinmud.action.impl.createBuyAction
 import kotlinmud.action.impl.createCloseAction
 import kotlinmud.action.impl.createDownAction
+import kotlinmud.action.impl.createDrinkAction
 import kotlinmud.action.impl.createDropAction
 import kotlinmud.action.impl.createEastAction
 import kotlinmud.action.impl.createEquipmentAction
@@ -58,6 +59,7 @@ fun createActionsList(): List<Action> {
         createBuyAction(),
         createSellAction(),
         createListAction(),
-        createScoreAction()
+        createScoreAction(),
+        createDrinkAction()
     )
 }

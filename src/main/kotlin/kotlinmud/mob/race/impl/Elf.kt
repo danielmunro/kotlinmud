@@ -17,4 +17,6 @@ class Elf : Race {
     override val form: Form = Form.MAMMAL
     override val attributes: Attributes = createStats(-2, 1, 2, 1, -2)
     override val size: Size = Size.SMALL
+    override val maxAppetite: Int = 2
+    override val maxThirst: Int = 2
 }

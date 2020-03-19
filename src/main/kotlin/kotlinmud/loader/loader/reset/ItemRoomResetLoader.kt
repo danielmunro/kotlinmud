@@ -26,5 +26,4 @@ class ItemRoomResetLoader(private val tokenizer: Tokenizer) : Loader {
 
         return ItemRoomReset(id, itemId, roomId, maxInRoom, maxInWorld)
     }
-
 }

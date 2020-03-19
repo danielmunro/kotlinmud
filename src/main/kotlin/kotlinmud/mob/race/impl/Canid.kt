@@ -16,4 +16,6 @@ class Canid : Race {
     override val form: Form = Form.MAMMAL
     override val attributes: Attributes = Attributes()
     override val size: Size = Size.SMALL
+    override val maxAppetite: Int = 3
+    override val maxThirst: Int = 3
 }

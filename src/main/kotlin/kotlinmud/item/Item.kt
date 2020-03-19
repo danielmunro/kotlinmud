@@ -20,7 +20,9 @@ class Item(
     val material: Material,
     val position: Position,
     override val affects: MutableList<AffectInstance>,
-    val inventory: Inventory?
+    val inventory: Inventory?,
+    val drink: Drink,
+    var quantity: Int
 ) : HasAttributes, Noun, Row {
     override fun toString(): String {
         return name
@@ -42,7 +44,9 @@ class Item(
             material,
             position,
             mutableListOf(),
-            Inventory()
+            Inventory(),
+            drink,
+            quantity
         )
     }
 
@@ -56,6 +60,8 @@ class Item(
         var attributes = Attributes.Builder()
         var inventory: Inventory? = null
         var affects: MutableList<AffectInstance> = mutableListOf()
+        var drink: Drink = Drink.NONE
+        var quantity: Int = -1
 
         fun setDescription(value: String): Builder {
             description = value
@@ -102,6 +108,16 @@ class Item(
             return this
         }
 
+        fun setDrink(value: Drink): Builder {
+            drink = value
+            return this
+        }
+
+        fun setQuantity(value: Int): Builder {
+            quantity = value
+            return this
+        }
+
         fun makeContainer(): Builder {
             inventory = Inventory()
             return this
@@ -119,7 +135,9 @@ class Item(
                 material,
                 position,
                 affects,
-                inventory
+                inventory,
+                drink,
+                quantity
             )
         }
     }

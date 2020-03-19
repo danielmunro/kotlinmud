@@ -14,4 +14,6 @@ interface Race {
     val form: Form
     val attributes: Attributes
     val size: Size
+    val maxAppetite: Int
+    val maxThirst: Int
 }

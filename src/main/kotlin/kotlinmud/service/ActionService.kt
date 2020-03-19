@@ -5,6 +5,7 @@ import kotlinmud.action.ActionContextList
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Context
 import kotlinmud.action.Status
+import kotlinmud.action.contextBuilder.AvailableDrinkContextBuilder
 import kotlinmud.action.contextBuilder.AvailableNounContextBuilder
 import kotlinmud.action.contextBuilder.CastContextBuilder
 import kotlinmud.action.contextBuilder.CommandContextBuilder
@@ -165,6 +166,7 @@ class ActionService(private val mobService: MobService, private val eventService
             Syntax.SPELL -> SpellContextBuilder(skills).build(syntax, word)
             Syntax.CAST -> CastContextBuilder().build(syntax, word)
             Syntax.PLAYER_MOB -> PlayerMobContextBuilder(mobService).build(syntax, word)
+            Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(request.mob, request.room).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

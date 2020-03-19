@@ -16,4 +16,6 @@ class Felid : Race {
     override val form: Form = Form.MAMMAL
     override val attributes: Attributes = Attributes()
     override val size: Size = Size.TINY
+    override val maxAppetite: Int = 2
+    override val maxThirst: Int = 1
 }

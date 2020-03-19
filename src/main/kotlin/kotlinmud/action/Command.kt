@@ -15,6 +15,8 @@ enum class Command(val value: String) {
     WEAR("wear"),
     REMOVE("remove"),
     EQUIPMENT("equipment"),
+    DRINK("drink"),
+    EAT("eat"),
 
     // shops
     LIST("list"),

@@ -10,6 +10,7 @@ import kotlinmud.attributes.startingHp
 import kotlinmud.attributes.startingMana
 import kotlinmud.attributes.startingMv
 import kotlinmud.data.Row
+import kotlinmud.item.Drink
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.item.Material
@@ -49,7 +50,8 @@ class Mob(
     val experiencePerLevel: Int,
     var savingThrows: Int,
     val inventory: Inventory,
-    val equipped: Inventory
+    val equipped: Inventory,
+    val appetite: Appetite
 ) : Noun, Row {
     var delay = 0
     var trains = 0
@@ -125,7 +127,9 @@ class Mob(
             Material.ORGANIC,
             Position.NONE,
             mutableListOf(),
-            Inventory()
+            Inventory(),
+            Drink.NONE,
+            0
         )
         inventory.items.forEach {
             inventory.items.remove(it)
@@ -168,7 +172,8 @@ class Mob(
             experiencePerLevel,
             savingThrows,
             Inventory(),
-            Inventory()
+            Inventory(),
+            Appetite(race)
         )
     }
 
@@ -366,7 +371,8 @@ class Mob(
                 experiencePerLevel,
                 savingThrows,
                 inventory,
-                equipment
+                equipment,
+                Appetite(race)
             )
         }
     }
