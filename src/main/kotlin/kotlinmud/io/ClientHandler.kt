@@ -9,7 +9,6 @@ import kotlinmud.event.createInputReceivedEvent
 import kotlinmud.event.event.InputReceivedEvent
 import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
-import kotlinmud.string.matches
 
 class ClientHandler(private val eventService: EventService, private val client: Socket, val mob: Mob) {
     private val reader: Scanner = Scanner(client.getInputStream())

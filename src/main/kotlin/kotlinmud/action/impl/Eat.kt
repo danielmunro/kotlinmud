@@ -30,7 +30,7 @@ fun createEatAction(): Action {
             request.mob.inventory.items.remove(item)
 
             svc.createResponse(
-                Message("you eat ${item.food.toString().toLowerCase()}.")
+                Message("you eat $item.")
             )
         })
 }
