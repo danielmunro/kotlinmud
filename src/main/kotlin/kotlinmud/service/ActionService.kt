@@ -167,6 +167,7 @@ class ActionService(private val mobService: MobService, private val eventService
             Syntax.CAST -> CastContextBuilder().build(syntax, word)
             Syntax.PLAYER_MOB -> PlayerMobContextBuilder(mobService).build(syntax, word)
             Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(request.mob, request.room).build(syntax, word)
+            Syntax.AVAILABLE_FOOD -> TODO()
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

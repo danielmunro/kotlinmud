@@ -2,6 +2,7 @@ package kotlinmud.loader.loader
 
 import kotlinmud.attributes.Attribute
 import kotlinmud.item.Drink
+import kotlinmud.item.Food
 import kotlinmud.item.Item
 import kotlinmud.item.Material
 import kotlinmud.item.Position
@@ -20,6 +21,7 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
     var acPierce = 0
     var acMagic = 0
     var drink = Drink.NONE
+    var food = Food.NONE
     var quantity = 0
     override var props: Map<String, String> = mapOf()
 
@@ -32,6 +34,7 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
         hit = intAttr("hit")
         dam = intAttr("dam")
         drink = Drink.valueOf(strAttr("drink", "none").toUpperCase())
+        food = Food.valueOf(strAttr("food", "none").toUpperCase())
         quantity = intAttr("quantity", 0)
         acSlash = ac[0].toInt()
         acBash = ac[1].toInt()
@@ -44,6 +47,7 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
             .setLevel(props["level"]?.toInt() ?: 1)
             .setWeight(props["weight"]?.toDouble() ?: 1.0)
             .setDrink(drink)
+            .setFood(food)
             .setQuantity(quantity)
             .setAttribute(Attribute.HIT, hit)
             .setAttribute(Attribute.DAM, dam)

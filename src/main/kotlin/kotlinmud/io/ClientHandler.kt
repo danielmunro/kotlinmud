@@ -54,7 +54,7 @@ class ClientHandler(private val eventService: EventService, private val client: 
 
     private fun captureInput(input: String) {
         println("client handler reader nextLine: \"$input\"")
-        if (matches(Command.EXIT.value, input)) {
+        if (Command.EXIT.value == input) {
             shutdown()
             return
         }

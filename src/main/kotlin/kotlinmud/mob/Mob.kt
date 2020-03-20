@@ -11,6 +11,7 @@ import kotlinmud.attributes.startingMana
 import kotlinmud.attributes.startingMv
 import kotlinmud.data.Row
 import kotlinmud.item.Drink
+import kotlinmud.item.Food
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.item.Material
@@ -130,6 +131,7 @@ class Mob(
             mutableListOf(),
             Inventory(),
             Drink.NONE,
+            Food.NONE,
             0
         )
         inventory.items.forEach {

@@ -19,5 +19,6 @@ enum class Syntax(val syntax: String) {
     SPELL("spell"),
     PLAYER_MOB("player mob"),
     AVAILABLE_DRINK("available drink"),
+    AVAILABLE_FOOD("available food"),
     NOOP("noop"),
 }
