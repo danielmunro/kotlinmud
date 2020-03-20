@@ -51,7 +51,8 @@ class Mob(
     var savingThrows: Int,
     val inventory: Inventory,
     val equipped: Inventory,
-    val appetite: Appetite
+    val appetite: Appetite,
+    val isNpc: Boolean
 ) : Noun, Row {
     var delay = 0
     var trains = 0
@@ -173,7 +174,8 @@ class Mob(
             savingThrows,
             Inventory(),
             Inventory(),
-            Appetite(race)
+            Appetite(race),
+            isNpc
         )
     }
 
@@ -247,6 +249,7 @@ class Mob(
         var savingThrows = 0
         var inventory = Inventory()
         var equipment = Inventory()
+        var isNpc = true
 
         fun addSkill(skillType: SkillType, level: Int): Builder {
             skills[skillType] = level
@@ -333,6 +336,11 @@ class Mob(
             return this
         }
 
+        fun setIsNpc(value: Boolean): Builder {
+            isNpc = value
+            return this
+        }
+
         fun equip(item: Item): Builder {
             // @todo check for equipment position exception
             equipment.items.add(item)
@@ -372,7 +380,8 @@ class Mob(
                 savingThrows,
                 inventory,
                 equipment,
-                Appetite(race)
+                Appetite(race),
+                isNpc
             )
         }
     }

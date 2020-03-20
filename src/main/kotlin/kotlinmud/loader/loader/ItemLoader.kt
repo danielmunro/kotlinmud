@@ -12,6 +12,8 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
     var name = ""
     var description = ""
     var value = 0
+    var hit = 0
+    var dam = 0
     var acSlash = 0
     var acBash = 0
     var acPierce = 0
@@ -24,6 +26,8 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
         description = tokenizer.parseString()
         props = tokenizer.parseProperties()
         val ac = strAttr("ac", "0-0-0-0").split("-")
+        hit = intAttr("hit")
+        dam = intAttr("dam")
         acSlash = ac[0].toInt()
         acBash = ac[1].toInt()
         acPierce = ac[2].toInt()
@@ -34,6 +38,8 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
             .setValue(props["value"]?.toInt() ?: 1)
             .setLevel(props["level"]?.toInt() ?: 1)
             .setWeight(props["weight"]?.toDouble() ?: 1.0)
+            .setAttribute(Attribute.HIT, hit)
+            .setAttribute(Attribute.DAM, dam)
             .setAttribute(Attribute.AC_SLASH, acSlash)
             .setAttribute(Attribute.AC_PIERCE, acPierce)
             .setAttribute(Attribute.AC_BASH, acBash)

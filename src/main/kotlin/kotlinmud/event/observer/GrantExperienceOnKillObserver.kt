@@ -16,6 +16,10 @@ class GrantExperienceOnKillObserver(private val server: Server) : Observer {
         }
         val winner = event.subject.getWinner()!!
         val killed = event.subject.getOpponentFor(winner)!!
+        if (winner.isNpc) {
+            @Suppress("UNCHECKED_CAST")
+            return EventResponse(event.subject as A)
+        }
         val experience = getBaseExperience(killed.level - winner.level).let {
             when {
                 winner.level < 11 -> 15 * it / (winner.level + 4)

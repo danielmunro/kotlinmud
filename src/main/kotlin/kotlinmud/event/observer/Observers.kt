@@ -24,6 +24,7 @@ fun createObservers(server: Server, mobService: MobService, eventService: EventS
         SocialDistributorObserver(server, mobService),
         GrantExperienceOnKillObserver(server),
         TransferGoldOnKillObserver(),
+        IncreaseThirstAndHungerObserver(mobService, server),
 
         // job behaviors
         MoveScavengersOnTickObserver(mobService, eventService),

@@ -53,6 +53,11 @@ class TestService(
         return mob
     }
 
+    fun createPlayerMobBuilder(): Mob.Builder {
+        return fixtureService.createMobBuilder()
+            .setIsNpc(false)
+    }
+
     fun mobBuilder(): Mob.Builder {
         return fixtureService.createMobBuilder()
     }
