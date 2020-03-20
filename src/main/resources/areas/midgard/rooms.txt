@@ -6,7 +6,7 @@ place for the people of Midgard, as well as travellers passing through.
 
 A row of flowers wrap around the stone structure and line the roads going in
 all directions.~
-n: 2, s: 100, e: door-1-7, w:1000~
+n: 2, s: 100, e: door-1-20, w:1000~
 
 #2
 Noble Way~
@@ -55,6 +55,21 @@ You are outside the castle walls.~
 #10
 Outside the Castle Walls~
 You are outside the castle walls.~
+~
+
+#20
+Road on the concourse~
+You are on a road through a concourse.~
+e: 21, n: 7~
+
+#21
+Inside the town walls~
+The walls extends north and south.~
+e: 22~
+
+#22
+Outside the town walls~
+You are outside the Midgard town walls.~
 ~
 
 #100

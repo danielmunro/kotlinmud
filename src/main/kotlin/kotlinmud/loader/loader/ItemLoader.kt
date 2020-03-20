@@ -16,6 +16,14 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
     var value = 0
     var hit = 0
     var dam = 0
+    var hp = 0
+    var mana = 0
+    var mv = 0
+    var str = 0
+    var int = 0
+    var wis = 0
+    var dex = 0
+    var con = 0
     var acSlash = 0
     var acBash = 0
     var acPierce = 0
@@ -33,6 +41,14 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
         val ac = strAttr("ac", "0-0-0-0").split("-")
         hit = intAttr("hit")
         dam = intAttr("dam")
+        hp = intAttr("hp")
+        mana = intAttr("mana")
+        mv = intAttr("mv")
+        str = intAttr("str")
+        int = intAttr("int")
+        wis = intAttr("wis")
+        dex = intAttr("dex")
+        con = intAttr("con")
         drink = Drink.valueOf(strAttr("drink", "none").toUpperCase())
         food = Food.valueOf(strAttr("food", "none").toUpperCase())
         quantity = intAttr("quantity", 0)
@@ -49,8 +65,16 @@ class ItemLoader(private val tokenizer: Tokenizer) : Loader {
             .setDrink(drink)
             .setFood(food)
             .setQuantity(quantity)
+            .setAttribute(Attribute.HP, hp)
+            .setAttribute(Attribute.MANA, mana)
+            .setAttribute(Attribute.MV, mv)
             .setAttribute(Attribute.HIT, hit)
             .setAttribute(Attribute.DAM, dam)
+            .setAttribute(Attribute.STR, str)
+            .setAttribute(Attribute.INT, int)
+            .setAttribute(Attribute.WIS, wis)
+            .setAttribute(Attribute.DEX, dex)
+            .setAttribute(Attribute.CON, con)
             .setAttribute(Attribute.AC_SLASH, acSlash)
             .setAttribute(Attribute.AC_PIERCE, acPierce)
             .setAttribute(Attribute.AC_BASH, acBash)

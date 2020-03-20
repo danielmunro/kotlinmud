@@ -88,7 +88,7 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val room = testService.getStartRoom()
+        val room = testService.getRoomForMob(mob)
         val door = room.exits.find { it.door != null }!!.door!!
 
         // when
