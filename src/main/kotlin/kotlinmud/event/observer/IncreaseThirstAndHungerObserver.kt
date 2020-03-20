@@ -3,8 +3,6 @@ package kotlinmud.event.observer
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
-import kotlinmud.event.Tick
-import kotlinmud.event.WrongEventTypeException
 import kotlinmud.io.Server
 import kotlinmud.service.MobService
 
@@ -12,10 +10,6 @@ class IncreaseThirstAndHungerObserver(private val mobService: MobService, privat
     override val eventTypes: List<EventType> = listOf(EventType.TICK)
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
-        if (event.subject !is Tick) {
-            throw WrongEventTypeException()
-        }
-
         val mobs = mobService.getMobRooms().filter { !it.mob.isNpc }.map { it.mob }
         val clients = server.getClientsFromMobs(mobs)
 

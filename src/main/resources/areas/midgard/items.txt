@@ -50,6 +50,24 @@ A worn pair of leather sleeves.~
 material: leather, weight: 3, position: arms,
 value: 25, level: 5, ac: 5-5-5-0~
 
+#10
+a pair of leather boots~
+A pair of leather boots have been carelessly discarded here.~
+material: leather, weight: 5, position: feet,
+value: 25, level: 5, ac: 5-5-5-0~
+
+#11
+a pair of leather bracers~
+A pair of leather bracers are here.~
+material: leather, weight: 3, position: wrist,
+value: 25, level: 5, ac: 5-5-5-0~
+
+#12
+a pair of leather pants~
+A pair of leather pants are here.~
+material: leather, weight: 3, position: legs,
+value: 25, level: 5, ac: 5-5-5-0~
+
 #20
 the Midgard fountain~
 The Midgard fountain is here, the jewel of the city.~
