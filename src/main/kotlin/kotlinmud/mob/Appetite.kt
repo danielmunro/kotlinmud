@@ -30,10 +30,10 @@ class Appetite(race: Race) {
     }
 
     fun nourishThirst() {
-        thirst = Math.max(1, thirst + 1)
+        thirst = Math.max(1, Math.min(maxThirst, thirst + 1))
     }
 
     fun nourishHunger(amount: Int) {
-        hunger = Math.max(1, hunger + amount)
+        hunger = Math.max(1, Math.min(maxHunger, hunger + amount))
     }
 }

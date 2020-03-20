@@ -22,10 +22,6 @@ fun createEatAction(): Action {
                 return@Action svc.createResponse(Message("you are full."), IOStatus.ERROR)
             }
 
-            if (item.quantity > 0) {
-                item.quantity--
-            }
-
             request.mob.appetite.nourishHunger(item.quantity)
             request.mob.inventory.items.remove(item)
 
