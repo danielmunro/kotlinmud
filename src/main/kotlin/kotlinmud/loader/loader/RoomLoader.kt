@@ -22,7 +22,7 @@ class RoomLoader(private val tokenizer: Tokenizer) : Loader {
         name = tokenizer.parseString()
         description = tokenizer.parseString()
         props = tokenizer.parseProperties()
-        regen = RegenLevel.valueOf(strAttr("regen", "none").toUpperCase())
+        regen = RegenLevel.valueOf(strAttr("regen", "normal").toUpperCase())
         north = props["n"] ?: ""
         south = props["s"] ?: ""
         east = props["e"] ?: ""

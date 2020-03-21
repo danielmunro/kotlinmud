@@ -5,5 +5,5 @@ enum class RegenLevel {
     LOW,
     NORMAL,
     HIGH,
-    FULL_HEAL,
+    FULL,
 }

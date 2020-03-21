@@ -13,7 +13,7 @@ Noble Way~
 Mature oak trees line a wide and busy road. Sitting back from the hustle and
 bustle of Noble Way, stately town homes stretch up and down the worn brick
 path.~
-n: 3~
+n: 3, regen: low~
 
 #3
 Noble Way~
@@ -28,19 +28,19 @@ A jewelery shop is here.~
 #5
 Midgard Bank~
 A bank is here.~
-~
+regen: full~
 
 #6
 Noble Way~
 Mature oak trees line a wide and busy road. Sitting back from the hustle and
 bustle of Noble Way, stately town homes stretch up and down the worn brick
 path.~
-n: 8~
+n: 8, regen: none~
 
 #7
 A quiet barroom in a tavern~
 Light flickering from a lantern illuminates a cozy bar.~
-~
+regen: high~
 
 #8
 Outside the Castle Gates~

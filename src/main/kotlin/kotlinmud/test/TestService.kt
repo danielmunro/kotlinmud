@@ -36,8 +36,20 @@ class TestService(
         return eventService.publish(event)
     }
 
+    fun regenMobs() {
+        mobService.regenMobs()
+    }
+
+    fun putMobInRoom(mob: Mob, room: Room) {
+        mobService.putMobInRoom(mob, room)
+    }
+
     fun respawnWorld() {
         respawnService.respawn()
+    }
+
+    fun getRooms(): List<Room> {
+        return mobService.getRooms()
     }
 
     fun getStartRoom(): Room {

@@ -8,6 +8,8 @@ import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Message
 import kotlinmud.loader.World
+import kotlinmud.math.normalizeDouble
+import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobRoom
 import kotlinmud.mob.fight.Attack
@@ -15,6 +17,7 @@ import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.room.Direction
+import kotlinmud.room.RegenLevel
 import kotlinmud.room.Room
 
 class MobService(
@@ -24,6 +27,24 @@ class MobService(
 
     private val mobRooms: MutableList<MobRoom> = mutableListOf()
     private val fights: MutableList<Fight> = mutableListOf()
+
+    fun regenMobs() {
+        mobRooms.filter { !it.mob.isIncapacitated() }.forEach {
+            val regen = normalizeDouble(
+                0.0,
+                getRegenRate(it.room.regen) +
+                        getDispositionRegenRate(it.mob.disposition),
+                1.0
+            )
+            it.mob.increaseHp((regen * it.mob.calc(Attribute.HP)).toInt())
+            it.mob.increaseMana((regen * it.mob.calc(Attribute.MANA)).toInt())
+            it.mob.increaseMv((regen * it.mob.calc(Attribute.MV)).toInt())
+        }
+    }
+
+    fun getRooms(): List<Room> {
+        return world.rooms.toList()
+    }
 
     fun getStartRoom(): Room {
         return world.rooms.toList().first()
@@ -188,4 +209,24 @@ fun createArriveMessage(mob: Mob): Message {
     return Message(
         "",
         "${mob.name} arrives.")
+}
+
+fun getRegenRate(regenLevel: RegenLevel): Double {
+    return when (regenLevel) {
+        RegenLevel.NONE -> 0.0
+        RegenLevel.LOW -> 0.05
+        RegenLevel.NORMAL -> 0.1
+        RegenLevel.HIGH -> .20
+        RegenLevel.FULL -> 1.0
+    }
+}
+
+fun getDispositionRegenRate(disposition: Disposition): Double {
+    return when (disposition) {
+        Disposition.DEAD -> 0.0
+        Disposition.SLEEPING -> 0.15
+        Disposition.SITTING -> 0.05
+        Disposition.STANDING -> 0.0
+        Disposition.FIGHTING -> -0.15
+    }
 }
