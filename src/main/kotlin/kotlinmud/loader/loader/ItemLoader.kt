@@ -27,7 +27,7 @@ class ItemLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
         drink = Drink.valueOf(strAttr("drink", "none").toUpperCase())
         food = Food.valueOf(strAttr("food", "none").toUpperCase())
         quantity = intAttr("quantity", 0)
-        parseProps()
+        parseAttributes()
 
         return Item.Builder(id, name)
             .setDescription(description)

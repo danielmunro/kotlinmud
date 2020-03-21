@@ -252,6 +252,10 @@ class Mob(
         var inventory = Inventory()
         var equipment = Inventory()
         var isNpc = true
+        var attributes = Attributes.Builder()
+            .setHp(startingHp)
+            .setMana(startingMana)
+            .setMv(startingMv)
 
         fun addSkill(skillType: SkillType, level: Int): Builder {
             skills[skillType] = level
@@ -280,16 +284,19 @@ class Mob(
 
         fun setHp(value: Int): Builder {
             hp = value
+            attributes.hp = hp
             return this
         }
 
         fun setMana(value: Int): Builder {
             mana = value
+            attributes.mana = mana
             return this
         }
 
         fun setMv(value: Int): Builder {
             mv = value
+            attributes.mv = mv
             return this
         }
 
@@ -354,6 +361,11 @@ class Mob(
             return this
         }
 
+        fun setAttribute(attribute: Attribute, value: Int): Builder {
+            attributes.setAttribute(attribute, value)
+            return this
+        }
+
         fun build(): Mob {
             return Mob(
                 id,
@@ -367,11 +379,7 @@ class Mob(
                 level,
                 race,
                 specialization,
-                Attributes(
-                    hp,
-                    mana,
-                    mv
-                ),
+                attributes.build(),
                 job,
                 gender,
                 gold,

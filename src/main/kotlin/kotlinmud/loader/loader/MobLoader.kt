@@ -1,6 +1,7 @@
 package kotlinmud.loader.loader
 
 import kotlin.random.Random
+import kotlinmud.attributes.Attribute
 import kotlinmud.loader.Tokenizer
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.JobType
@@ -27,7 +28,7 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
         val specialization = SpecializationType.valueOf(strAttr("specialization", "none").toUpperCase())
         val goldMin = intAttr("goldMin", 0)
         val goldMax = intAttr("goldMax", 1)
-        parseProps()
+        parseAttributes()
 
         return Mob.Builder(id, name)
             .setBrief(brief)
@@ -36,6 +37,17 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
             .setHp(hp)
             .setMana(mana)
             .setMv(mv)
+            .setAttribute(Attribute.HIT, hit)
+            .setAttribute(Attribute.DAM, dam)
+            .setAttribute(Attribute.STR, str)
+            .setAttribute(Attribute.INT, int)
+            .setAttribute(Attribute.WIS, wis)
+            .setAttribute(Attribute.DEX, dex)
+            .setAttribute(Attribute.CON, con)
+            .setAttribute(Attribute.AC_SLASH, acSlash)
+            .setAttribute(Attribute.AC_PIERCE, acPierce)
+            .setAttribute(Attribute.AC_BASH, acBash)
+            .setAttribute(Attribute.AC_MAGIC, acMagic)
             .setJob(job)
             .setSpecialization(specialization)
             .setRace(createRaceFromString(strAttr("race", "human")))

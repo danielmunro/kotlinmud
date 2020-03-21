@@ -16,7 +16,7 @@ abstract class WithAttrLoader : Loader {
     var acPierce = 0
     var acMagic = 0
 
-    fun parseProps() {
+    fun parseAttributes() {
         hit = intAttr("hit")
         dam = intAttr("dam")
         hp = intAttr("hp")
