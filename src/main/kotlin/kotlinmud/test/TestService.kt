@@ -137,7 +137,7 @@ class TestService(
     private fun weapon(): Item {
         return buildItem(itemBuilder()
             .setPosition(Position.WEAPON)
-            .setAttribute(Attribute.HIT, 5)
-            .setAttribute(Attribute.DAM, 5))
+            .setAttribute(Attribute.HIT, 2)
+            .setAttribute(Attribute.DAM, 1))
     }
 }

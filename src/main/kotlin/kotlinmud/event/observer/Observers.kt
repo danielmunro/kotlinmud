@@ -22,6 +22,9 @@ fun createObservers(server: Server, mobService: MobService, eventService: EventS
         PruneDeadMobsPulseObserver(mobService),
         RespawnTickObserver(respawnService),
         SocialDistributorObserver(server, mobService),
+
+        // mobs
+        WimpyObserver(mobService),
         GrantExperienceOnKillObserver(server),
         TransferGoldOnKillObserver(),
         IncreaseThirstAndHungerObserver(mobService, server),

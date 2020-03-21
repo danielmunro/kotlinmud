@@ -75,6 +75,10 @@ class Mob(
         return disposition == Disposition.STANDING
     }
 
+    fun isAlert(): Boolean {
+        return disposition == Disposition.FIGHTING || disposition == Disposition.STANDING
+    }
+
     fun getAttacks(): List<AttackType> {
         return arrayListOf(AttackType.FIRST)
     }

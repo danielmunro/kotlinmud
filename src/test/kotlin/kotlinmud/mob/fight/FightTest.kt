@@ -3,7 +3,9 @@ package kotlinmud.mob.fight
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
+import assertk.assertions.isNotEqualTo
 import kotlinmud.item.Position
+import kotlinmud.mob.Disposition
 import kotlinmud.mob.skill.SkillType
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
@@ -102,5 +104,36 @@ class FightTest {
         // then
         assertThat(prob.getOutcome1()).isGreaterThan(0)
         assertThat(prob.getOutcome2()).isEqualTo(0)
+    }
+
+    @Test
+    fun testWimpyIsInvoked() {
+        // setup
+        val hp = 100
+        val testService = createTestService()
+        val mob1 = testService.buildMob(testService.mobBuilder().setHp(hp).setWimpy(hp))
+        val mob2 = testService.buildMob(testService.mobBuilder().setHp(hp).setWimpy(hp))
+        val fight = Fight(mob1, mob2)
+
+        // given
+        testService.addFight(fight)
+
+        // when
+        while (!fight.isOver()) {
+            testService.proceedFights()
+        }
+
+        // then
+        assertThat(mob1.disposition).isEqualTo(Disposition.STANDING)
+        assertThat(mob2.disposition).isEqualTo(Disposition.STANDING)
+
+        // and
+        assertThat(mob1.hp).isGreaterThan(0)
+        assertThat(mob2.hp).isGreaterThan(0)
+
+        // and
+        val room1 = testService.getRoomForMob(mob1)
+        val room2 = testService.getRoomForMob(mob2)
+        assertThat(room1.id).isNotEqualTo(room2.id)
     }
 }
