@@ -6,7 +6,7 @@ place for the people of Midgard, as well as travellers passing through.
 
 A row of flowers wrap around the stone structure and line the roads going in
 all directions.~
-n: 2, s: 100, e: 20, w:1000~
+n: 2, s: 100, e: door-1-20, w:1000~
 
 #2
 Noble Way~
