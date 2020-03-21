@@ -12,6 +12,11 @@ import kotlinmud.mob.skill.SkillType
 class Fight(private val mob1: Mob, private val mob2: Mob) {
     private var status: FightStatus = FightStatus.FIGHTING
 
+    init {
+        mob1.disposition = Disposition.FIGHTING
+        mob2.disposition = Disposition.FIGHTING
+    }
+
     fun isParticipant(mob: Mob): Boolean {
         return mob == mob1 || mob == mob2
     }
@@ -28,6 +33,8 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
 
     fun end() {
         status = FightStatus.OVER
+        resetDisposition(mob1)
+        resetDisposition(mob2)
     }
 
     fun isOver(): Boolean {
@@ -64,10 +71,17 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
         return round
     }
 
+    private fun resetDisposition(mob: Mob) {
+        if (mob.disposition == Disposition.FIGHTING) {
+            mob.disposition = Disposition.STANDING
+        }
+    }
+
     private fun applyRoundDamage(attacks: List<Attack>, mob: Mob) {
         attacks.forEach {
             if (it.attackResult == AttackResult.HIT) {
                 mob.hp -= it.damage
+                mob.disposition = Disposition.FIGHTING
             }
         }
         if (mob.hp < 0) {

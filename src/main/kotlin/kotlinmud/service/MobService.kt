@@ -64,7 +64,10 @@ class MobService(
     }
 
     fun proceedFights(): List<Round> {
-        val rounds = fights.map { proceedFightRound(it.createRound()) }
+        val currentFights = fights.filter { !it.isOver() }
+        val rounds = currentFights.map {
+            proceedFightRound(it.createRound())
+        }
         rounds.forEach {
             eventService.publish<Round, EventResponse<Round>>(Event(EventType.FIGHT_ROUND, it))
         }
