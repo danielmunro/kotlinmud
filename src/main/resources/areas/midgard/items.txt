@@ -87,3 +87,13 @@ material: organic, food: meat_pie, quantity: 3, value: 20~
 a slice of flat bread~
 A slice of flat bread is here.~
 material: organic, food: bread, quantity: 1, value: 8~
+
+#40
+a gold pendant~
+A simple gold pendant is here.~
+material: gold, value: 100~
+
+#41
+a gold, diamond encrusted brooch~
+A beautiful gold and diamond encrusted brooch is here.~
+material: gold, value: 1000~

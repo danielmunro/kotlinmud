@@ -5,6 +5,7 @@ enum class Material {
     MINERAL,
     METAL,
     IRON,
+    GOLD,
     WOOD,
     RUBBER,
     LEATHER,
