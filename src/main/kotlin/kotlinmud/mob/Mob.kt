@@ -17,7 +17,7 @@ import kotlinmud.item.Item
 import kotlinmud.item.Material
 import kotlinmud.item.Position
 import kotlinmud.loader.model.Model
-import kotlinmud.math.normalize
+import kotlinmud.math.normalizeInt
 import kotlinmud.math.random.percentRoll
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
@@ -219,7 +219,34 @@ class Mob(
             base -= 3
         }
 
-        return percentRoll() > normalize(5, base, 95)
+        return percentRoll() > normalizeInt(5, base, 95)
+    }
+
+    fun increaseHp(value: Int) {
+        hp += value
+        with(calc(Attribute.HP)) {
+            if (hp > this) {
+                hp = this
+            }
+        }
+    }
+
+    fun increaseMana(value: Int) {
+        mana += value
+        with(calc(Attribute.MANA)) {
+            if (mana > this) {
+                mana = this
+            }
+        }
+    }
+
+    fun increaseMv(value: Int) {
+        mv += value
+        with(calc(Attribute.MV)) {
+            if (mv > this) {
+                mv = this
+            }
+        }
     }
 
     override fun toString(): String {

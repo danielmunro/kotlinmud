@@ -12,8 +12,8 @@ n: 2, s: 100, e: 20, w:1000~
 Noble Way~
 Mature oak trees line a wide and busy road. Sitting back from the hustle and
 bustle of Noble Way, stately town homes stretch up and down the worn brick
-path.~
-n: 3~
+path. You see a modest temple to the east.~
+n: 3, e: 11~
 
 #3
 Noble Way~
@@ -57,10 +57,15 @@ Outside the Castle Walls~
 You are outside the castle walls.~
 ~
 
+#11
+A restful temple~
+You are in a temple.~
+regen: high~
+
 #20
 Road on the concourse~
 You are on a road through a concourse.~
-e: 21, n: 7~
+e: 21, n: door-1-7~
 
 #21
 Inside the town walls~

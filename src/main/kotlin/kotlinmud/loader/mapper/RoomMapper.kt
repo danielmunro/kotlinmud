@@ -9,7 +9,7 @@ import kotlinmud.room.oppositeDirection
 
 class RoomMapper(private val area: String, val roomModels: List<RoomModel>, val doors: List<Door>) {
     fun map(): List<Room> {
-        val rooms = roomModels.map { Room(it.id, area, it.name, it.description) }
+        val rooms = roomModels.map { Room(it.id, area, it.name, it.description, it.regen) }
         val modelMap = mutableMapOf<Int, RoomModel>()
         val roomMap = mutableMapOf<Int, Room>()
         roomModels.forEach {

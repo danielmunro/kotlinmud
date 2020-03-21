@@ -2,26 +2,27 @@ package kotlinmud.loader.loader
 
 import kotlinmud.loader.Tokenizer
 import kotlinmud.loader.model.RoomModel
+import kotlinmud.room.RegenLevel
 
 class RoomLoader(private val tokenizer: Tokenizer) : Loader {
     var id = 0
     var name = ""
     var description = ""
+    var regen = RegenLevel.NORMAL
     var north = ""
     var south = ""
     var east = ""
     var west = ""
     var up = ""
     var down = ""
-    override var props: Map<String, String>
-        get() = TODO("Not yet implemented")
-        set(value) {}
+    override var props: Map<String, String> = mapOf()
 
     override fun load(): RoomModel {
         id = tokenizer.parseInt()
         name = tokenizer.parseString()
         description = tokenizer.parseString()
-        val props = tokenizer.parseProperties()
+        props = tokenizer.parseProperties()
+        regen = RegenLevel.valueOf(strAttr("regen", "none").toUpperCase())
         north = props["n"] ?: ""
         south = props["s"] ?: ""
         east = props["e"] ?: ""
@@ -29,6 +30,6 @@ class RoomLoader(private val tokenizer: Tokenizer) : Loader {
         up = props["u"] ?: ""
         down = props["d"] ?: ""
 
-        return RoomModel(id, name, description, north, south, east, west, up, down)
+        return RoomModel(id, name, description, regen, north, south, east, west, up, down)
     }
 }
