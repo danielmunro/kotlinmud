@@ -52,7 +52,7 @@ class Item(
         )
     }
 
-    class Builder(override val id: Int, val name: String) : Model {
+    class Builder(override val id: Int, var name: String) : Model {
         var description = ""
         var value = 0
         var level = 1
@@ -65,6 +65,11 @@ class Item(
         var drink: Drink = Drink.NONE
         var food: Food = Food.NONE
         var quantity: Int = -1
+
+        fun setName(value: String): Builder {
+            name = value
+            return this
+        }
 
         fun setDescription(value: String): Builder {
             description = value
