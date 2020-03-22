@@ -48,6 +48,9 @@ class ActionService(private val mobService: MobService, private val eventService
     private val skills: List<Skill> = createSkillList()
 
     fun run(request: Request): Response {
+        if (request.input == "") {
+            return createResponseWithEmptyActionContext(Message(""))
+        }
         return runSkill(request)
             ?: runAction(request)
             ?: createResponseWithEmptyActionContext(

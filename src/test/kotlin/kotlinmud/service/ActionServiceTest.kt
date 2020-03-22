@@ -186,4 +186,17 @@ class ActionServiceTest {
         // expect
         assertThat(response.message.toActionCreator).isEqualTo("$item fades out of existence.")
     }
+
+    @Test
+    fun testEmptyInputDoesNotCrash() {
+        // setup
+        val test = createTestService()
+        val mob = test.createMob()
+
+        // when
+        val response = test.runAction(mob, "")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("")
+    }
 }
