@@ -3,7 +3,6 @@ package kotlinmud.event.observer
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
-import kotlinmud.event.WrongEventTypeException
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.io.Message
 import kotlinmud.mob.JobType
@@ -14,27 +13,24 @@ class GuardAttacksAggroMobsObserver(private val mobService: MobService) : Observ
     override val eventTypes: List<EventType> = listOf(EventType.FIGHT_STARTED)
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
-        if (event.subject !is FightStartedEvent) {
-            throw WrongEventTypeException()
-        }
-
-        val room = mobService.getRoomForMob(event.subject.aggressor)
+        val fight = event.subject as FightStartedEvent
+        val room = mobService.getRoomForMob(fight.aggressor)
         mobService.getMobsForRoom(room).filter {
-                it != event.subject.aggressor &&
-                        it != event.subject.defender &&
+                it != fight.aggressor &&
+                        it != fight.defender &&
                         it.job == JobType.GUARD &&
                         mobService.findFightForMob(it) == null
             }.forEach {
-                mobService.addFight(Fight(it, event.subject.aggressor))
+                mobService.addFight(Fight(it, fight.aggressor))
                 mobService.sendMessageToRoom(
                     Message(
-                        "You scream and attack ${event.subject.aggressor}!",
+                        "You scream and attack ${fight.aggressor}!",
                         "$it screams and attacks you!",
-                        "$it screams and attacks ${event.subject.aggressor}"
+                        "$it screams and attacks ${fight.aggressor}"
                     ),
                     room,
                     it,
-                    event.subject.aggressor
+                    fight.aggressor
                 )
             }
 

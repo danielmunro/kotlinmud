@@ -3,7 +3,6 @@ package kotlinmud.event.observer
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
-import kotlinmud.event.WrongEventTypeException
 import kotlinmud.event.event.SocialEvent
 import kotlinmud.io.Message
 import kotlinmud.io.Server
@@ -16,11 +15,8 @@ class SocialDistributorObserver(private val server: Server, private val mobServi
     override val eventTypes: List<EventType> = listOf(EventType.SOCIAL)
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
-        if (event.subject !is SocialEvent) {
-            throw WrongEventTypeException()
-        }
-
-        val soc = event.subject.social
+        val socialEvent = event.subject as SocialEvent
+        val soc = socialEvent.social
         when (soc.channel) {
             SocialChannel.SAY -> sayToRoom(soc.mob, soc.room, soc.message)
             SocialChannel.TELL -> tellMob(soc.target!!, soc.message)

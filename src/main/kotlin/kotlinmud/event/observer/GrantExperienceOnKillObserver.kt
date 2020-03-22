@@ -3,7 +3,6 @@ package kotlinmud.event.observer
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
-import kotlinmud.event.WrongEventTypeException
 import kotlinmud.io.Server
 import kotlinmud.mob.fight.Fight
 
@@ -11,11 +10,9 @@ class GrantExperienceOnKillObserver(private val server: Server) : Observer {
     override val eventTypes: List<EventType> = listOf(EventType.KILL)
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
-        if (event.subject !is Fight) {
-            throw WrongEventTypeException()
-        }
-        val winner = event.subject.getWinner()!!
-        val killed = event.subject.getOpponentFor(winner)!!
+        val fight = event.subject as Fight
+        val winner = fight.getWinner()!!
+        val killed = fight.getOpponentFor(winner)!!
         if (winner.isNpc) {
             @Suppress("UNCHECKED_CAST")
             return EventResponse(event.subject as A)
