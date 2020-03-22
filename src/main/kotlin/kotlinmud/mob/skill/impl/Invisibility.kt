@@ -39,7 +39,7 @@ class Invisibility : SpellAction {
 
     override fun invoke(actionContextService: ActionContextService, request: Request): Response {
         val target = actionContextService.get<Noun>(Syntax.OPTIONAL_TARGET)
-        target.affects.add(affect.createInstance(request.mob.level))
+        target.affectsService().add(affect.createInstance(request.mob.level))
         return actionContextService.createResponse(
             affect.messageFromInstantiation(request.mob, target)
         )

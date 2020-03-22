@@ -24,9 +24,7 @@ fun createEatAction(): Action {
 
             request.mob.appetite.nourishHunger(item.quantity)
             request.mob.inventory.items.remove(item)
-            item.affects.forEach {
-                request.mob.affects.add(it.copy())
-            }
+            request.mob.affectsService().copyFrom(item)
 
             svc.createResponse(
                 Message("you eat $item.")

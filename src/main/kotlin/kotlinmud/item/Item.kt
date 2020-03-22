@@ -8,6 +8,7 @@ import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
 import kotlinmud.data.Row
 import kotlinmud.loader.model.Model
+import kotlinmud.service.AffectService
 
 class Item(
     override val id: Int,
@@ -29,8 +30,12 @@ class Item(
         return name
     }
 
+    override fun affectsService(): AffectService {
+        return AffectService(this)
+    }
+
     fun isAffectedBy(affectType: AffectType): Boolean {
-        return affects.find { it.affectType == affectType } != null
+        return affectsService().findByType(affectType) != null
     }
 
     fun copy(): Item {

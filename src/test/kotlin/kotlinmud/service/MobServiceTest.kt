@@ -21,13 +21,14 @@ class MobServiceTest {
         val initial = 10
 
         // given
-        mob.affects.add(AffectInstance(AffectType.BLESS, initial))
+        mob.affectsService().add(AffectInstance(AffectType.BLESS, initial))
 
         // when
         testService.decrementAffects()
 
         // then
-        assertThat(mob.affects.first().timeout).isEqualTo(initial - 1)
+        val affect = mob.affectsService().findByType(AffectType.BLESS)!!
+        assertThat(affect.timeout).isEqualTo(initial - 1)
     }
 
     @Test
@@ -38,13 +39,13 @@ class MobServiceTest {
         val initial = 0
 
         // given
-        mob.affects.add(AffectInstance(AffectType.BLESS, initial))
+        mob.affectsService().add(AffectInstance(AffectType.BLESS, initial))
 
         // when
         testService.decrementAffects()
 
         // then
-        assertThat(mob.affects).hasSize(0)
+        assertThat(mob.affectsService().getAffects()).hasSize(0)
     }
 
     @Test

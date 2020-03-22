@@ -26,9 +26,9 @@ fun createLookAction(): Action {
 }
 
 fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>): String {
-    mob.affects.find {
-        it.affectType == AffectType.BLIND
-    }?.let { return "you can't see anything, you're blind!" }
+    mob.affectsService().findByType(AffectType.BLIND)?.let {
+        return "you can't see anything, you're blind!"
+    }
     val observers = mobs.filter {
         it != mob && !it.isAffectedBy(AffectType.INVISIBLE)
     }

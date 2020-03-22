@@ -25,6 +25,7 @@ import kotlinmud.mob.race.Race
 import kotlinmud.mob.race.RaceType
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.skill.SkillType
+import kotlinmud.service.AffectService
 
 const val corpseWeight = 20.0
 const val baseStat = 15
@@ -62,6 +63,10 @@ class Mob(
     var bounty = 0
     var experience = 0
     var sacPoints = 0
+
+    override fun affectsService(): AffectService {
+        return AffectService(this)
+    }
 
     fun isSleeping(): Boolean {
         return disposition == Disposition.SLEEPING
@@ -202,7 +207,7 @@ class Mob(
             base += 5
         }
 
-        affects.find { it.affectType == AffectType.BERSERK }?.let {
+        affectsService().findByType(AffectType.BERSERK)?.let {
             base -= level / 10
         }
 

@@ -31,7 +31,7 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        mob.affects.add(AffectInstance(AffectType.BLIND, 1))
+        mob.affectsService().add(AffectInstance(AffectType.BLIND, 1))
 
         // when
         val response = testService.runAction(mob, "look")

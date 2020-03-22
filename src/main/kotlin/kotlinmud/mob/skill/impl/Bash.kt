@@ -51,7 +51,7 @@ class Bash : SkillAction {
         val modifier = Random.nextInt(1, limit) +
                 if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)
         target.hp -= modifier
-        target.affects.add(AffectInstance(
+        target.affectsService().add(AffectInstance(
             AffectType.STUNNED, modifier / 5, Attributes(0, 0, 0, 0, -1)))
         return actionContextService.createResponse(Message(
             "you slam into $target and send them flying!",

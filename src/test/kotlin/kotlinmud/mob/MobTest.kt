@@ -280,6 +280,6 @@ class MobTest {
 
         val mob = test.getMobRooms().find { it.mob.id == 1 }!!.mob
 
-        assertThat(mob.affects).hasSize(2)
+        assertThat(mob.affectsService().getAffects()).hasSize(2)
     }
 }

@@ -104,11 +104,8 @@ class MobService(
     }
 
     fun decrementAffects() {
-        mobRooms.forEach { mobRoom ->
-            mobRoom.mob.affects.removeIf {
-                it.timeout--
-                it.timeout < 0
-            }
+        mobRooms.forEach {
+            it.mob.affectsService().decrement()
         }
     }
 
