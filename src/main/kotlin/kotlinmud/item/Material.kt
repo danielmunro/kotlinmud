@@ -17,6 +17,7 @@ enum class Material {
     FLAMMABLE,
     CONDUCTOR,
     CONCRETE,
+    GLASS,
     VULN_SHATTER,
     VULN_COLD,
     VULN_RUST,

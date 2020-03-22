@@ -1,5 +1,6 @@
 package kotlinmud.loader.loader
 
+import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.Attribute
 import kotlinmud.item.Drink
 import kotlinmud.item.Food
@@ -28,8 +29,12 @@ class ItemLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
         food = Food.valueOf(strAttr("food", "none").toUpperCase())
         quantity = intAttr("quantity", 0)
         parseAttributes()
+        val builder = Item.Builder(id, name)
+        parseAffectTypes(tokenizer).forEach {
+            builder.addAffect(AffectInstance(it, -1))
+        }
 
-        return Item.Builder(id, name)
+        return builder
             .setDescription(description)
             .setValue(props["value"]?.toInt() ?: 1)
             .setLevel(props["level"]?.toInt() ?: 1)

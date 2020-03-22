@@ -1,7 +1,6 @@
 package kotlinmud.loader.loader
 
 import kotlin.random.Random
-import kotlinmud.affect.AffectType
 import kotlinmud.attributes.Attribute
 import kotlinmud.loader.Tokenizer
 import kotlinmud.mob.Disposition
@@ -31,9 +30,8 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
         val goldMax = intAttr("goldMax", 1)
         parseAttributes()
         val builder = Mob.Builder(id, name)
-        tokenizer.parseString().split(",").filter { it != "" }.forEach {
-            val affect = AffectType.valueOf(it.trim().toUpperCase())
-            builder.addAffect(affect)
+        parseAffectTypes(tokenizer).forEach {
+            builder.addAffect(it)
         }
 
         return builder

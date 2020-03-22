@@ -65,7 +65,7 @@ regen: high~
 #20
 Road on the concourse~
 You are on a road through a concourse.~
-e: 21, n: door-1-7~
+e: 21, n: door-1-7, s: 23~
 
 #21
 Inside the town walls~
@@ -75,6 +75,11 @@ e: 22~
 #22
 Outside the town walls~
 You are outside the Midgard town walls.~
+~
+
+#23
+The Midgard Inn~
+This is an inn.~
 ~
 
 #100

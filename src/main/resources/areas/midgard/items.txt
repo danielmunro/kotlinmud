@@ -2,98 +2,134 @@
 the Banana OG of Aeneas~
 A plant from the gods.~
 material: organic~
+~
 
 #2
 a practice shield~
 A wooden practice shield is here, worn from use.~
 material: wood, weight: 7, position: shield, value: 25, level: 1~
+~
 
 #3
 a practice sword~
 A wooden practice sword is here.~
 material: wood, weight: 5, position: weapon,
 value: 25, level: 1, hit: 1, dam: 2~
+~
 
 #4
 a practice mace~
 A practice mace is here.~
 material: rubber, weight: 5, position: weapon,
 value: 25, level: 1, hit: 1, dam: 2~
+~
 
 #5
 a leather belt~
 A leather belt is here.~
 material: leather, weight: 3, position: waist,
 value: 25, level: 5, ac: 5-5-5-0~
+~
 
 #6
 a leather girdle~
 A leather girdle is here.~
 material: leather, weight: 6, position: torso,
 value: 25, level: 5, ac: 5-5-5-0~
+~
 
 #7
 a leather bracer~
 A leather bracer is here.~
 material: leather, weight: 1, position: wrist,
 value: 25, level: 5, ac: 5-5-5-0~
+~
 
 #8
 a pair of leather gloves~
 A pair of worn leather gloves are carelessly discarded here.~
 material: leather, weight: 1, position: hands,
 value: 25, level: 5, ac: 5-5-5-0~
+~
 
 #9
 a pair of leather sleeves~
 A worn pair of leather sleeves.~
 material: leather, weight: 3, position: arms,
 value: 25, level: 5, ac: 5-5-5-0~
+~
 
 #10
 a pair of leather boots~
 A pair of leather boots have been carelessly discarded here.~
 material: leather, weight: 5, position: feet,
 value: 25, level: 5, ac: 5-5-5-0~
+~
 
 #11
 a pair of leather bracers~
 A pair of leather bracers are here.~
 material: leather, weight: 3, position: wrist,
 value: 25, level: 5, ac: 5-5-5-0~
+~
 
 #12
 a pair of leather pants~
 A pair of leather pants are here.~
 material: leather, weight: 3, position: legs,
 value: 25, level: 5, ac: 5-5-5-0~
+~
 
 #20
 the Midgard fountain~
 The Midgard fountain is here, the jewel of the city.~
 material: concrete, drink: water, quantity: -1~
+~
 
 #30
 a loaf of bread~
 A nondescript loaf of bread is here.~
 material: organic, food: bread, quantity: 2, value: 10~
+~
 
 #31
 a meat pie~
 A large, tasty looking meat pie is here.~
 material: organic, food: meat_pie, quantity: 3, value: 20~
+~
 
 #32
 a slice of flat bread~
 A slice of flat bread is here.~
 material: organic, food: bread, quantity: 1, value: 8~
+~
 
 #40
 a gold pendant~
 A simple gold pendant is here.~
 material: gold, value: 100~
+~
 
 #41
 a gold, diamond encrusted brooch~
 A beautiful gold and diamond encrusted brooch is here.~
 material: gold, value: 1000~
+~
+
+#50
+a bottle of ale~
+a bottle of ale is here.~
+material: glass, quantity: 1, value: 20~
+drunk~
+
+#51
+a bottle of lager~
+a bottle of lager is here.~
+material: glass, quantity: 1, value: 20~
+drunk~
+
+#52
+a jug of beer~
+a large jug of beer is here.~
+material: glass, quantity: 3, value: 45~
+drunk~

@@ -1,5 +1,8 @@
 package kotlinmud.loader.loader
 
+import kotlinmud.affect.AffectType
+import kotlinmud.loader.Tokenizer
+
 abstract class WithAttrLoader : Loader {
     var hit = 0
     var dam = 0
@@ -32,5 +35,11 @@ abstract class WithAttrLoader : Loader {
         acBash = ac[1].toInt()
         acPierce = ac[2].toInt()
         acMagic = ac[3].toInt()
+    }
+
+    protected fun parseAffectTypes(tokenizer: Tokenizer): List<AffectType> {
+        return tokenizer.parseString().split(",").filter { it != "" }.map {
+            AffectType.valueOf(it.trim().toUpperCase())
+        }
     }
 }
