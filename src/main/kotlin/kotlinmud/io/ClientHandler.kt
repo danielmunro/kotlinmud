@@ -39,7 +39,6 @@ class ClientHandler(private val eventService: EventService, private val client: 
         if (message == "") {
             return
         }
-        println("writing to ${client.inetAddress}: $message")
         writer.write(("$message\n---> ").toByteArray(Charset.defaultCharset()))
     }
 
@@ -52,7 +51,6 @@ class ClientHandler(private val eventService: EventService, private val client: 
     }
 
     private fun captureInput(input: String) {
-        println("client handler reader nextLine: \"$input\"")
         if (Command.EXIT.value == input) {
             shutdown()
             return
