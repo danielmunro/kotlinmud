@@ -64,7 +64,7 @@ class Mob(
     var experience = 0
     var sacPoints = 0
 
-    override fun affectsService(): AffectService {
+    override fun affects(): AffectService {
         return AffectService(this)
     }
 
@@ -207,7 +207,7 @@ class Mob(
             base += 5
         }
 
-        affectsService().findByType(AffectType.BERSERK)?.let {
+        affects().findByType(AffectType.BERSERK)?.let {
             base -= level / 10
         }
 

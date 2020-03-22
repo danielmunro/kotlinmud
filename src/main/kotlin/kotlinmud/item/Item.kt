@@ -30,12 +30,12 @@ class Item(
         return name
     }
 
-    override fun affectsService(): AffectService {
+    override fun affects(): AffectService {
         return AffectService(this)
     }
 
     fun isAffectedBy(affectType: AffectType): Boolean {
-        return affectsService().findByType(affectType) != null
+        return affects().findByType(affectType) != null
     }
 
     fun copy(): Item {

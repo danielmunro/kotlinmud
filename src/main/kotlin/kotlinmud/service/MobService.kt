@@ -105,7 +105,7 @@ class MobService(
 
     fun decrementAffects() {
         mobRooms.forEach {
-            it.mob.affectsService().decrement()
+            it.mob.affects().decrement()
         }
     }
 

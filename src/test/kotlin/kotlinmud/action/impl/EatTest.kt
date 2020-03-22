@@ -35,8 +35,8 @@ class EatTest {
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.OK)
-        assertThat(mob.affectsService().getAffects()).hasSize(1)
-        val affect = mob.affectsService().findByType(AffectType.STUNNED)!!
+        assertThat(mob.affects().getAffects()).hasSize(1)
+        val affect = mob.affects().findByType(AffectType.STUNNED)!!
         assertThat(affect.affectType).isEqualTo(AffectType.STUNNED)
         assertThat(affect.timeout).isEqualTo(timeout)
     }

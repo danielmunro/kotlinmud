@@ -28,7 +28,7 @@ class AffectService(private val noun: Noun) {
 
     fun copyFrom(fromNoun: Noun) {
         fromNoun.affects.forEach {
-            noun.affectsService().add(it.copy())
+            noun.affects().add(it.copy())
         }
     }
 

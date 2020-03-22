@@ -27,7 +27,7 @@ fun createDrinkAction(): Action {
             }
 
             request.mob.appetite.nourishThirst()
-            request.mob.affectsService().copyFrom(item)
+            request.mob.affects().copyFrom(item)
 
             val empty = if (item.quantity == 0) " $item is now empty." else ""
 

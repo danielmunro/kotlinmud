@@ -35,8 +35,8 @@ class DrinkTest {
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.OK)
-        assertThat(mob.affectsService().getAffects()).hasSize(1)
-        val affect = mob.affectsService().findByType(AffectType.DRUNK)!!
+        assertThat(mob.affects().getAffects()).hasSize(1)
+        val affect = mob.affects().findByType(AffectType.DRUNK)!!
         assertThat(affect.affectType).isEqualTo(AffectType.DRUNK)
         assertThat(affect.timeout).isEqualTo(timeout)
     }

@@ -8,5 +8,5 @@ interface Noun {
     val description: String
     val affects: MutableList<AffectInstance>
 
-    fun affectsService(): AffectService
+    fun affects(): AffectService
 }

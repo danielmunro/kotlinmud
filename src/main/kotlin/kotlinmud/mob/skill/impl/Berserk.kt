@@ -39,7 +39,7 @@ class Berserk : SkillAction {
     override val affect = BerserkAffect()
 
     override fun invoke(actionContextService: ActionContextService, request: Request): Response {
-        request.mob.affectsService().add(AffectInstance(AffectType.BERSERK, request.mob.level / 8))
+        request.mob.affects().add(AffectInstance(AffectType.BERSERK, request.mob.level / 8))
         return actionContextService.createResponse(Message(
             "Your pulse speeds up as you are consumed by rage!",
             "${request.mob}'s pulse speeds up as they are consumed by rage!"))

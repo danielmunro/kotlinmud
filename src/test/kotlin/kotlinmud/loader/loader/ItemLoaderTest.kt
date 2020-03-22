@@ -47,7 +47,7 @@ class ItemLoaderTest {
         val item = area.items.find { it.id == 50 }!!
 
         // expect
-        assertThat(item.affectsService().getAffects()).hasSize(1)
+        assertThat(item.affects().getAffects()).hasSize(1)
         assertThat(item.isAffectedBy(AffectType.DRUNK)).isTrue()
     }
 }
