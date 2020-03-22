@@ -1,6 +1,7 @@
 package kotlinmud.mob
 
 import assertk.assertThat
+import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
@@ -253,17 +254,32 @@ class MobTest {
         // setup
         val testService = createTestService()
 
+        // given
         val mob1 = testService.buildMob(testService.mobBuilder().setGold(5).setHp(1))
         val mob2 = testService.buildMob(testService.mobBuilder().setGold(5).setHp(1))
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
 
+        // when
         while (!fight.isOver()) {
             testService.proceedFights()
         }
 
+        // then
         val winner = fight.getWinner()!!
         assertThat(winner.gold).isEqualTo(10)
         assertThat(fight.getOpponentFor(winner)!!.gold).isEqualTo(0)
+    }
+
+    @Test
+    fun testLoadMobWithAffects() {
+        // setup
+        val test = createTestService()
+
+        test.respawnWorld()
+
+        val mob = test.getMobRooms().find { it.mob.id == 1 }!!.mob
+
+        assertThat(mob.affects).hasSize(2)
     }
 }

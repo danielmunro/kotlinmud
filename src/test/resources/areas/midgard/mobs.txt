@@ -5,6 +5,7 @@ At over 12 feet tall, Hassan stands like a mountain above even the other giants.
 standing~
 hp: 100, mana: 100, mv: 100,
 specialization: warrior, level: 51, race: giant~
+bless, haste~
 
 #2
 a jeweler~
@@ -12,6 +13,7 @@ a jeweler is here.~
 a description for a jeweler.~
 sitting~
 job: shopkeeper, race: dwarf~
+~
 
 #3
 a beastly fido~
@@ -19,6 +21,7 @@ a beastly fido is here, looking for scraps.~
 a beastly fido description.~
 standing~
 level: 5, race: canid, job: scavenger~
+~
 
 #4
 a wandering vagabond~
@@ -26,6 +29,7 @@ a wandering vagabond is here.~
 a wandering vagabond description.~
 standing~
 level: 5, hp: 8, goldMin: 1, goldMax: 2~
+~
 
 #5
 a baker~
@@ -33,6 +37,7 @@ a baker stands here, wiping flour from his hands.~
 a baker is here description.~
 standing~
 job: shopkeeper~
+~
 
 #6
 a blacksmith~
@@ -40,6 +45,7 @@ a strong blacksmith sits here, examining a blade.~
 a blacksmith description.~
 sitting~
 job: shopkeeper~
+~
 
 #7
 a potion brewer~
@@ -47,6 +53,7 @@ a potion brewer is here, running inventory.~
 a potion brewer is here.~
 standing~
 job: shopkeeper~
+~
 
 #8
 a scribe~
@@ -54,6 +61,7 @@ a scribe sits here, deep in focus.~
 a scribe is here.~
 sitting~
 job: shopkeeper~
+~
 
 #9
 an alley cat~
@@ -61,6 +69,7 @@ a mangy alley cat is here, sniffing around the garbage.~
 A mangy alley cat.~
 standing~
 race: felid, level: 3, goldMin: 1, goldMax: 3, hp: 4~
+~
 
 #10
 a city guard~
@@ -68,3 +77,4 @@ a Midgard city guard is here, keeping watch on things.~
 A city guard is here.~
 standing~
 job: guard, level: 20, hp: 400, mv: 1000, goldMin: 5, goldMax: 15~
+~

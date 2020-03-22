@@ -12,4 +12,5 @@ enum class AffectType {
     STUNNED,
     BERSERK,
     DRUNK,
+    HASTE,
 }
