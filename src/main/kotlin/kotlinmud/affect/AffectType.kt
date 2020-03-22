@@ -11,4 +11,5 @@ enum class AffectType {
     INVISIBLE,
     STUNNED,
     BERSERK,
+    DRUNK,
 }

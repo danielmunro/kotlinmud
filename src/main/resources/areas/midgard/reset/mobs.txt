@@ -12,3 +12,5 @@ mobId: 9, roomId: 113, maxInWorld: 8~
 mobId: 3, roomId: 117, maxInWorld: 10~
 mobId: 3, roomId: 119, maxInWorld: 10~
 mobId: 10, roomId: 8, maxInRoom: 2, maxInWorld: 10~
+mobId: 11, roomId: 7, maxInRoom: 1, maxInWorld: 1~
+mobId: 12, roomId: 7, maxInRoom: 2, maxInWorld: 2~
