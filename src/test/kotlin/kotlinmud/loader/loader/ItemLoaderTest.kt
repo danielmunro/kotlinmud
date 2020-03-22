@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
-import assertk.assertions.isTrue
+import assertk.assertions.isNotNull
 import kotlinmud.affect.AffectType
 import kotlinmud.item.Material
 import kotlinmud.item.Position
@@ -48,6 +48,6 @@ class ItemLoaderTest {
 
         // expect
         assertThat(item.affects().getAffects()).hasSize(1)
-        assertThat(item.isAffectedBy(AffectType.DRUNK)).isTrue()
+        assertThat(item.affects().findByType(AffectType.DRUNK)).isNotNull()
     }
 }

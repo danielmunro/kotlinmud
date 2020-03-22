@@ -80,20 +80,12 @@ class Mob(
         return disposition == Disposition.STANDING
     }
 
-    fun isAlert(): Boolean {
-        return disposition == Disposition.FIGHTING || disposition == Disposition.STANDING
-    }
-
     fun getAttacks(): List<AttackType> {
         return arrayListOf(AttackType.FIRST)
     }
 
     fun getDamageType(): DamageType {
         return DamageType.POUND
-    }
-
-    fun isAffectedBy(affectType: AffectType): Boolean {
-        return affects.find { it.affectType == affectType } != null
     }
 
     fun base(attribute: Attribute): Int {
@@ -199,7 +191,7 @@ class Mob(
 
         var base = 80 + (level / 6) + saves - calc(Attribute.WIS) - calc(Attribute.INT)
 
-        if (isAffectedBy(AffectType.CURSE)) {
+        if (affects().findByType(AffectType.CURSE) != null) {
             base += 5
         }
 

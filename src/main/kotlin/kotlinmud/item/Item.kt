@@ -2,7 +2,6 @@ package kotlinmud.item
 
 import kotlinmud.Noun
 import kotlinmud.affect.AffectInstance
-import kotlinmud.affect.AffectType
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
@@ -32,10 +31,6 @@ class Item(
 
     override fun affects(): AffectService {
         return AffectService(this)
-    }
-
-    fun isAffectedBy(affectType: AffectType): Boolean {
-        return affects().findByType(affectType) != null
     }
 
     fun copy(): Item {

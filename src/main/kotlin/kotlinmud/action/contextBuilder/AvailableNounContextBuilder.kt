@@ -16,9 +16,9 @@ class AvailableNounContextBuilder(
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val target = mobService.getMobsForRoom(room).find {
-                matches(it.name, word) && !it.isAffectedBy(AffectType.INVISIBLE)
+                matches(it.name, word) && it.affects().findByType(AffectType.INVISIBLE) == null
             } ?: mob.inventory.items.find {
-                matches(it.name, word) && !it.isAffectedBy(AffectType.INVISIBLE)
+                matches(it.name, word) && it.affects().findByType(AffectType.INVISIBLE) == null
             } ?: room.inventory.items.find {
                 matches(it.name, word)
             } ?: return Context(syntax, Status.FAILED, "you don't see anything like that here.")

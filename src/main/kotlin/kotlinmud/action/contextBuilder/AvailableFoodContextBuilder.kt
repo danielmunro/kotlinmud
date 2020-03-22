@@ -13,7 +13,7 @@ class AvailableFoodContextBuilder(private val mob: Mob) : ContextBuilder {
             kotlinmud.string.matches(it.name, word)
         } ?: return notFound(syntax)
 
-        if (target.isAffectedBy(AffectType.INVISIBLE)) {
+        if (target.affects().findByType(AffectType.INVISIBLE) != null) {
             return notFound(syntax)
         }
 
