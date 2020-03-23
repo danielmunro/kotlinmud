@@ -6,19 +6,38 @@ place for the people of Midgard, as well as travellers passing through.
 
 A row of flowers wrap around the stone structure and line the roads going in
 all directions.~
-n: 2, s: 100, e: 20, w:1000~
+n: 200, s: 100, e: 20, w:1000~
 
-#2
-Noble Way~
-Mature oak trees line a wide and busy road. Sitting back from the hustle and
-bustle of Noble Way, stately town homes stretch up and down the worn brick
-path. You see a modest temple to the east.~
-n: 3, e: 11~
+#200
+Pike Street~
+Mature oak trees line a wide and busy road. Sitting back a comfortable distance from the hustle and
+bustle of Pike Street, stately town homes stretch up and down the worn brick
+path.~
+n: 201, e: 11~
 
-#3
-Noble Way~
-Starting the historic business district.~
-n: 6, w: 4, e: 5~
+#201
+Pike Street~
+Mature oak trees line a wide and busy road. Sitting back a comfortable distance from the hustle and
+bustle of Pike Street, stately town homes stretch up and down the worn brick
+path.~
+n: 202, w: 4, e: 5~
+
+#202
+Pike Street~
+Mature oak trees line a wide and busy road. Sitting back a comfortable distance from the hustle and
+bustle of Pike Street, stately town homes stretch up and down the worn brick
+path.~
+n: 203~
+
+#203
+Inside the North Castle Gates~
+You are outside the Midgard castle gates.~
+n: 204~
+
+#204
+Outside the North Castle Gates~
+You are outside the Midgard castle gates.~
+w: 9, e: 10, n: 2000~
 
 #4
 Jeweler~
@@ -30,22 +49,10 @@ Midgard Bank~
 A bank is here.~
 ~
 
-#6
-Noble Way~
-Mature oak trees line a wide and busy road. Sitting back from the hustle and
-bustle of Noble Way, stately town homes stretch up and down the worn brick
-path.~
-n: 8~
-
 #7
 A quiet barroom in a tavern~
 Light flickering from a lantern illuminates a cozy bar.~
 ~
-
-#8
-Outside the Castle Gates~
-You are outside the Midgard castle gates.~
-w: 9, e: 10, n: 2000~
 
 #9
 Outside the Castle Walls~

@@ -17,11 +17,16 @@ class RespawnService(
     fun respawn() {
         val time = measureTimeMillis {
             world.mobResets.toList().forEach { reset ->
-                val room = world.rooms.get(reset.roomId)
-                while (mobCanRespawn(reset, room)) {
-                    val mob = world.mobs.get(reset.mobId).copy()
-                    addItemsToMob(mob)
-                    mobService.putMobInRoom(mob, room)
+                try {
+                    val room = world.rooms.get(reset.roomId)
+                    while (mobCanRespawn(reset, room)) {
+                        val mob = world.mobs.get(reset.mobId).copy()
+                        addItemsToMob(mob)
+                        mobService.putMobInRoom(mob, room)
+                    }
+                } catch (e: Exception) {
+                    println("wiring problem with reset: $reset")
+                    throw e
                 }
             }
             world.itemRoomResets.toList().forEach { reset ->
