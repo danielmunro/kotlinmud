@@ -22,8 +22,10 @@ import kotlinmud.action.contextBuilder.ItemToSellContextBuilder
 import kotlinmud.action.contextBuilder.MobInRoomContextBuilder
 import kotlinmud.action.contextBuilder.OptionalTargetContextBuilder
 import kotlinmud.action.contextBuilder.PlayerMobContextBuilder
+import kotlinmud.action.contextBuilder.SkillToPracticeContextBuilder
 import kotlinmud.action.contextBuilder.SpellContextBuilder
 import kotlinmud.action.contextBuilder.TargetMobContextBuilder
+import kotlinmud.action.contextBuilder.TrainableContextBuilder
 import kotlinmud.action.createActionsList
 import kotlinmud.attributes.Attribute
 import kotlinmud.io.IOStatus
@@ -172,7 +174,8 @@ class ActionService(private val mobService: MobService, private val eventService
             Syntax.PLAYER_MOB -> PlayerMobContextBuilder(mobService).build(syntax, word)
             Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(request.mob, request.room).build(syntax, word)
             Syntax.AVAILABLE_FOOD -> AvailableFoodContextBuilder(request.mob).build(syntax, word)
-            Syntax.TRAINABLE -> TODO()
+            Syntax.TRAINABLE -> TrainableContextBuilder(mobService, request.mob).build(syntax, word)
+            Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(request.mob).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

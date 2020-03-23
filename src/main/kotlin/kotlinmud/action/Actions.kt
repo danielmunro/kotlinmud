@@ -18,6 +18,7 @@ import kotlinmud.action.impl.createLookAction
 import kotlinmud.action.impl.createLookAtAction
 import kotlinmud.action.impl.createNorthAction
 import kotlinmud.action.impl.createOpenAction
+import kotlinmud.action.impl.createPracticeAction
 import kotlinmud.action.impl.createRemoveAction
 import kotlinmud.action.impl.createSayAction
 import kotlinmud.action.impl.createScoreAction
@@ -26,6 +27,7 @@ import kotlinmud.action.impl.createSitAction
 import kotlinmud.action.impl.createSleepAction
 import kotlinmud.action.impl.createSouthAction
 import kotlinmud.action.impl.createTellAction
+import kotlinmud.action.impl.createTrainAction
 import kotlinmud.action.impl.createUpAction
 import kotlinmud.action.impl.createWakeAction
 import kotlinmud.action.impl.createWearAction
@@ -62,6 +64,8 @@ fun createActionsList(): List<Action> {
         createListAction(),
         createScoreAction(),
         createDrinkAction(),
-        createEatAction()
+        createEatAction(),
+        createTrainAction(),
+        createPracticeAction()
     )
 }

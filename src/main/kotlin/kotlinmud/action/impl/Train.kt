@@ -4,20 +4,45 @@ import kotlinmud.action.Action
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeStanding
+import kotlinmud.attributes.Attribute
+import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.isVitals
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
-import kotlinmud.mob.Disposition
 
 fun createTrainAction(): Action {
     return Action(
         Command.TRAIN,
         mustBeStanding(),
-        listOf(Syntax.COMMAND),
+        listOf(Syntax.COMMAND, Syntax.TRAINABLE),
         { svc: ActionContextService, request: Request ->
-            request.mob.disposition = Disposition.STANDING
+            val attribute: Attribute = svc.get(Syntax.TRAINABLE)
+            request.mob.trains -= 1
+            request.mob.trainedAttributes.add(
+                Attributes.Builder()
+                    .setAttribute(attribute, if (isVitals(attribute)) 10 else 1)
+                    .build()
+            )
             svc.createResponse(
-                Message("you stand up.", "${request.mob.name} stands up.")
+                Message(
+                    "you train your ${getImprove(attribute)}.",
+                    "${request.mob.name} trains their ${getImprove(attribute)}."
+                )
             )
         })
+}
+
+fun getImprove(attribute: Attribute): String {
+    return when (attribute) {
+        Attribute.HP -> "health"
+        Attribute.MANA -> "mana"
+        Attribute.MV -> "movement"
+        Attribute.STR -> "strength"
+        Attribute.INT -> "intelligence"
+        Attribute.WIS -> "wisdom"
+        Attribute.DEX -> "dexterity"
+        Attribute.CON -> "constitution"
+        else -> "attributes"
+    }
 }

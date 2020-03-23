@@ -132,7 +132,7 @@ data class Attributes(
             return this
         }
 
-        fun setAttribute(attribute: Attribute, value: Int) {
+        fun setAttribute(attribute: Attribute, value: Int): Builder {
             when (attribute) {
                 Attribute.HP -> hp = value
                 Attribute.MANA -> mana = value
@@ -149,6 +149,7 @@ data class Attributes(
                 Attribute.AC_PIERCE -> acPierce = value
                 Attribute.AC_MAGIC -> acMagic = value
             }
+            return this
         }
 
         fun build(): Attributes {
@@ -170,4 +171,8 @@ data class Attributes(
             )
         }
     }
+}
+
+fun isVitals(attribute: Attribute): Boolean {
+    return attribute == Attribute.HP || attribute == Attribute.MANA || attribute == Attribute.MV
 }

@@ -13,6 +13,8 @@ class ClientConnectedObserver(private val mobService: MobService) : Observer {
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
         val mob = fixtureService.createMobBuilder()
             .setIsNpc(false)
+            .setTrains(5)
+            .setPractices(10)
             .setGold(100)
             .build()
         mobService.addMob(mob)

@@ -47,7 +47,7 @@ class Mob(
     val job: JobType,
     var gender: Gender,
     var gold: Int,
-    val skills: Map<SkillType, Int>,
+    val skills: MutableMap<SkillType, Int>,
     override val affects: MutableList<AffectInstance>,
     var wimpy: Int,
     val experiencePerLevel: Int,
@@ -55,11 +55,11 @@ class Mob(
     val inventory: Inventory,
     val equipped: Inventory,
     val appetite: Appetite,
-    val isNpc: Boolean
+    val isNpc: Boolean,
+    var trains: Int,
+    var practices: Int
 ) : Noun, Row {
     var delay = 0
-    var trains = 0
-    var practices = 0
     var skillPoints = 0
     var bounty = 0
     var experience = 0
@@ -193,7 +193,7 @@ class Mob(
             job,
             gender,
             gold,
-            skills.toMap(),
+            skills.toMutableMap(),
             affects.toMutableList(),
             wimpy,
             experiencePerLevel,
@@ -201,7 +201,9 @@ class Mob(
             Inventory(),
             Inventory(),
             Appetite(race),
-            isNpc
+            isNpc,
+            trains,
+            practices
         )
     }
 
@@ -273,7 +275,7 @@ class Mob(
         return name
     }
 
-    private fun calcTrained(attribute: Attribute): Int {
+    fun calcTrained(attribute: Attribute): Int {
         return trainedAttributes.fold(0) { acc, it -> acc + it.getAttribute(attribute) }
     }
 
@@ -306,6 +308,8 @@ class Mob(
         var savingThrows = 0
         var inventory = Inventory()
         var equipment = Inventory()
+        var trains = 0
+        var practices = 0
         var isNpc = true
         var attributes = Attributes.Builder()
             .setHp(startingHp)
@@ -400,6 +404,16 @@ class Mob(
             return this
         }
 
+        fun setTrains(value: Int): Builder {
+            trains = value
+            return this
+        }
+
+        fun setPractices(value: Int): Builder {
+            practices = value
+            return this
+        }
+
         fun setIsNpc(value: Boolean): Builder {
             isNpc = value
             return this
@@ -447,7 +461,9 @@ class Mob(
                 inventory,
                 equipment,
                 Appetite(race),
-                isNpc
+                isNpc,
+                trains,
+                practices
             )
         }
     }
