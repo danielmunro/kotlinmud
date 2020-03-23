@@ -43,6 +43,7 @@ class Mob(
     val race: Race,
     val specialization: SpecializationType,
     val attributes: Attributes,
+    val trainedAttributes: MutableList<Attributes>,
     val job: JobType,
     var gender: Gender,
     var gold: Int,
@@ -90,20 +91,41 @@ class Mob(
 
     fun base(attribute: Attribute): Int {
         return when (attribute) {
-            Attribute.STR -> baseStat + attributes.str + race.attributes.str
-            Attribute.INT -> baseStat + attributes.int + race.attributes.int
-            Attribute.WIS -> baseStat + attributes.wis + race.attributes.wis
-            Attribute.DEX -> baseStat + attributes.dex + race.attributes.dex
-            Attribute.CON -> baseStat + attributes.con + race.attributes.con
+            Attribute.STR -> baseStat +
+                    attributes.str +
+                    race.attributes.str +
+                    calcTrained(Attribute.STR)
+            Attribute.INT -> baseStat +
+                    attributes.int +
+                    race.attributes.int +
+                    calcTrained(Attribute.INT)
+            Attribute.WIS -> baseStat +
+                    attributes.wis +
+                    race.attributes.wis +
+                    calcTrained(Attribute.WIS)
+            Attribute.DEX -> baseStat +
+                    attributes.dex +
+                    race.attributes.dex +
+                    calcTrained(Attribute.DEX)
+            Attribute.CON -> baseStat +
+                    attributes.con +
+                    race.attributes.con +
+                    calcTrained(Attribute.CON)
             else -> 0
         }
     }
 
     fun calc(attribute: Attribute): Int {
         return when (attribute) {
-            Attribute.HP -> attributes.hp + accumulate { it.attributes.hp }
-            Attribute.MANA -> attributes.mana + accumulate { it.attributes.mana }
-            Attribute.MV -> attributes.mv + accumulate { it.attributes.mv }
+            Attribute.HP -> attributes.hp +
+                    accumulate { it.attributes.hp } +
+                    calcTrained(Attribute.HP)
+            Attribute.MANA -> attributes.mana +
+                    accumulate { it.attributes.mana } +
+                    calcTrained(Attribute.MANA)
+            Attribute.MV -> attributes.mv +
+                    accumulate { it.attributes.mv } +
+                    calcTrained(Attribute.MV)
             Attribute.STR -> base(attribute) + accumulate { it.attributes.str }
             Attribute.INT -> base(attribute) + accumulate { it.attributes.int }
             Attribute.WIS -> base(attribute) + accumulate { it.attributes.wis }
@@ -167,6 +189,7 @@ class Mob(
             race,
             specialization,
             attributes.copy(),
+            trainedAttributes.toMutableList(),
             job,
             gender,
             gold,
@@ -248,6 +271,10 @@ class Mob(
 
     override fun toString(): String {
         return name
+    }
+
+    private fun calcTrained(attribute: Attribute): Int {
+        return trainedAttributes.fold(0) { acc, it -> acc + it.getAttribute(attribute) }
     }
 
     private fun getExperienceToLevel(): Int {
@@ -408,6 +435,7 @@ class Mob(
                 race,
                 specialization,
                 attributes.build(),
+                mutableListOf(),
                 job,
                 gender,
                 gold,

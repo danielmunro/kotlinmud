@@ -4,5 +4,7 @@ enum class JobType {
     SHOPKEEPER,
     SCAVENGER,
     GUARD,
+    TRAINER,
+    PRACTITIONER,
     NONE,
 }

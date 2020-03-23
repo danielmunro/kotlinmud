@@ -38,6 +38,8 @@ enum class Command(val value: String) {
     NOFOLLOW("nofollow"),
     GROUP_TELL("group tell"),
     GT("GT"),
+    TRAIN("train"),
+    PRACTICE("practice"),
 
     // social
     SAY("say"),

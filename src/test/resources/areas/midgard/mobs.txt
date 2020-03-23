@@ -78,3 +78,11 @@ A city guard is here.~
 standing~
 job: guard, level: 20, hp: 400, mv: 1000, goldMin: 5, goldMax: 15~
 ~
+
+#11
+Bob the trainer~
+Bob the trainer is here, ready to help you.~
+Bob~
+standing~
+job: trainer~
+~
