@@ -36,7 +36,7 @@ fun createObservers(server: Server, mobService: MobService, eventService: EventS
         DecrementDelayObserver(mobService),
 
         // game logic
-        LogTickObserver(),
+        LogTickObserver(mobService, server),
         PruneDeadMobsPulseObserver(mobService),
         RespawnTickObserver(respawnService),
         SocialDistributorObserver(server, mobService),
