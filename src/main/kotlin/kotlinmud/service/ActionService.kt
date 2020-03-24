@@ -34,7 +34,7 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
-import kotlinmud.math.random.percentRoll
+import kotlinmud.math.percentRoll
 import kotlinmud.mob.Intent
 import kotlinmud.mob.Invokable
 import kotlinmud.mob.Mob

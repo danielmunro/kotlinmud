@@ -2,9 +2,9 @@ package kotlinmud.mob.fight
 
 import kotlinmud.attributes.Attribute
 import kotlinmud.item.Position
-import kotlinmud.math.random.d20
-import kotlinmud.math.random.dN
-import kotlinmud.math.random.percentRoll
+import kotlinmud.math.d20
+import kotlinmud.math.dN
+import kotlinmud.math.percentRoll
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
 import kotlinmud.mob.skill.SkillType

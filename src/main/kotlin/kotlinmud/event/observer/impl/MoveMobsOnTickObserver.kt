@@ -15,9 +15,7 @@ class MoveMobsOnTickObserver(private val mobService: MobService, private val eve
     override val eventTypes: List<EventType> = listOf(EventType.TICK)
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
-        mobService.getMobRooms().filter {
-            it.mob.job == JobType.SCAVENGER || it.mob.job == JobType.FODDER
-        }.forEach {
+        mobService.getMobRooms().filter { it.mob.wantsToMove() }.forEach {
             eventually {
                 MobController(mobService, eventService, it.mob).wander()
             }

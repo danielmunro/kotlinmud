@@ -18,7 +18,8 @@ import kotlinmud.item.Material
 import kotlinmud.item.Position
 import kotlinmud.loader.model.Model
 import kotlinmud.math.normalizeInt
-import kotlinmud.math.random.percentRoll
+import kotlinmud.math.dN
+import kotlinmud.math.percentRoll
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
@@ -277,6 +278,18 @@ class Mob(
 
     fun calcTrained(attribute: Attribute): Int {
         return trainedAttributes.fold(0) { acc, it -> acc + it.getAttribute(attribute) }
+    }
+
+    fun wantsToMove(): Boolean {
+        if (!isNpc) {
+            return false
+        }
+
+        if (job != JobType.SCAVENGER || job != JobType.FODDER) {
+            return false
+        }
+
+        return dN(1, 2) == 1
     }
 
     private fun getExperienceToLevel(): Int {
