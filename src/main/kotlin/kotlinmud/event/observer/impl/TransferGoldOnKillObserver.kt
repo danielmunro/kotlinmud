@@ -1,8 +1,9 @@
-package kotlinmud.event.observer
+package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
+import kotlinmud.event.observer.Observer
 import kotlinmud.mob.fight.Fight
 
 class TransferGoldOnKillObserver : Observer {

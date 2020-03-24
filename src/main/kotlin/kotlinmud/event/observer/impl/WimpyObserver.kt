@@ -1,8 +1,9 @@
-package kotlinmud.event.observer
+package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
+import kotlinmud.event.observer.Observer
 import kotlinmud.io.Message
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Round

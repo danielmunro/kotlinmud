@@ -1,26 +1,25 @@
-package kotlinmud.event.observer
+package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
+import kotlinmud.event.observer.Observer
 import kotlinmud.mob.JobType
 import kotlinmud.mob.MobController
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
 import kotlinmud.time.eventually
 
-class ScavengerCollectsItemsObserver(
-    private val mobService: MobService,
-    private val eventService: EventService
-) : Observer {
+class MoveMobsOnTickObserver(private val mobService: MobService, private val eventService: EventService) :
+    Observer {
     override val eventTypes: List<EventType> = listOf(EventType.TICK)
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
         mobService.getMobRooms().filter {
-            it.mob.job == JobType.SCAVENGER
+            it.mob.job == JobType.SCAVENGER || it.mob.job == JobType.FODDER
         }.forEach {
             eventually {
-                MobController(mobService, eventService, it.mob).pickUpAnyItem()
+                MobController(mobService, eventService, it.mob).wander()
             }
         }
         @Suppress("UNCHECKED_CAST")

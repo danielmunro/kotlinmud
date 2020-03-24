@@ -1,9 +1,10 @@
-package kotlinmud.event.observer
+package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.SocialEvent
+import kotlinmud.event.observer.Observer
 import kotlinmud.io.Message
 import kotlinmud.io.Server
 import kotlinmud.io.SocialChannel
@@ -11,7 +12,8 @@ import kotlinmud.mob.Mob
 import kotlinmud.room.Room
 import kotlinmud.service.MobService
 
-class SocialDistributorObserver(private val server: Server, private val mobService: MobService) : Observer {
+class SocialDistributorObserver(private val server: Server, private val mobService: MobService) :
+    Observer {
     override val eventTypes: List<EventType> = listOf(EventType.SOCIAL)
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {

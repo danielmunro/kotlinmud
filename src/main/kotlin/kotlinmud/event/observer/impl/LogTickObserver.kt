@@ -1,16 +1,16 @@
-package kotlinmud.event.observer
+package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
-import kotlinmud.service.RespawnService
+import kotlinmud.event.Tick
+import kotlinmud.event.observer.Observer
 
-class RespawnTickObserver(private val respawnService: RespawnService) : Observer {
+class LogTickObserver : Observer {
     override val eventTypes: List<EventType> = listOf(EventType.TICK)
-
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
-        respawnService.respawn()
+        println("tick")
         @Suppress("UNCHECKED_CAST")
-        return EventResponse(event as A)
+        return EventResponse(Tick() as A)
     }
 }

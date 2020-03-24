@@ -1,8 +1,9 @@
-package kotlinmud.event.observer
+package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
+import kotlinmud.event.observer.Observer
 import kotlinmud.io.Server
 import kotlinmud.mob.fight.Fight
 
@@ -17,7 +18,8 @@ class GrantExperienceOnKillObserver(private val server: Server) : Observer {
             @Suppress("UNCHECKED_CAST")
             return EventResponse(event.subject as A)
         }
-        val experience = getBaseExperience(killed.level - winner.level).let {
+        val experience = getBaseExperience(killed.level - winner.level)
+            .let {
             when {
                 winner.level < 11 -> 15 * it / (winner.level + 4)
                 winner.level > 40 -> 40 * it / (winner.level - 1)

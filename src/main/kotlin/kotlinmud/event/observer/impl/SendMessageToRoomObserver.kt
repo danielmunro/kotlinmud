@@ -1,13 +1,15 @@
-package kotlinmud.event.observer
+package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.SendMessageToRoomEvent
+import kotlinmud.event.observer.Observer
 import kotlinmud.io.Server
 import kotlinmud.service.MobService
 
-class SendMessageToRoomObserver(private val server: Server, private val mobService: MobService) : Observer {
+class SendMessageToRoomObserver(private val server: Server, private val mobService: MobService) :
+    Observer {
     override val eventTypes: List<EventType> = listOf(EventType.SEND_MESSAGE_TO_ROOM)
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {

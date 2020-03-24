@@ -1,9 +1,10 @@
-package kotlinmud.event.observer
+package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.InputReceivedEvent
+import kotlinmud.event.observer.Observer
 import kotlinmud.io.Request
 import kotlinmud.service.MobService
 

@@ -1,12 +1,14 @@
-package kotlinmud.event.observer
+package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
+import kotlinmud.event.observer.Observer
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
 
-class ClientConnectedObserver(private val mobService: MobService) : Observer {
+class ClientConnectedObserver(private val mobService: MobService) :
+    Observer {
     override val eventTypes: List<EventType> = listOf(EventType.CLIENT_CONNECTED)
     private val fixtureService = FixtureService()
 

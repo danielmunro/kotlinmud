@@ -1,17 +1,18 @@
-package kotlinmud.event.observer
+package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
-import kotlinmud.service.MobService
+import kotlinmud.event.observer.Observer
+import kotlinmud.service.RespawnService
 
-class RegenMobsObserver(private val mobService: MobService) : Observer {
+class RespawnTickObserver(private val respawnService: RespawnService) :
+    Observer {
     override val eventTypes: List<EventType> = listOf(EventType.TICK)
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
-        mobService.regenMobs()
-
+        respawnService.respawn()
         @Suppress("UNCHECKED_CAST")
-        return EventResponse(event.subject as A)
+        return EventResponse(event as A)
     }
 }
