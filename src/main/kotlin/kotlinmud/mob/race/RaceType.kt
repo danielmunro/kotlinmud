@@ -14,4 +14,5 @@ enum class RaceType {
     // not playable
     CANID,
     FELID,
+    REPTILE,
 }

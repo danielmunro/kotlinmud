@@ -11,6 +11,7 @@ import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.impl.Kender
 import kotlinmud.mob.race.impl.Lasher
 import kotlinmud.mob.race.impl.Ogre
+import kotlinmud.mob.race.impl.Reptile
 
 fun createRaceFromString(name: String): Race {
     return when (name) {
@@ -25,6 +26,7 @@ fun createRaceFromString(name: String): Race {
         "canid" -> Canid()
         "felid" -> Felid()
         "goblin" -> Goblin()
+        "reptile" -> Reptile()
         else -> error("no race: $name")
     }
 }

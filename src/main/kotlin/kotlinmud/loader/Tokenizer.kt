@@ -3,7 +3,7 @@ package kotlinmud.loader
 import java.io.EOFException
 
 class Tokenizer(value: String) {
-    private val raw = value.split(":", " ", "\n")
+    private val raw = removeComments(value).split(":", " ", "\n")
     private var i = 0
 
     private fun getNext(): String {
@@ -57,4 +57,11 @@ class Tokenizer(value: String) {
         map += Pair(key.trim(':'), value.trim(',', '~'))
         return map
     }
+}
+
+fun removeComments(value: String): String {
+    return value
+        .split("\n")
+        .filter { !it.startsWith("//") }
+        .joinToString("\n") { it }
 }

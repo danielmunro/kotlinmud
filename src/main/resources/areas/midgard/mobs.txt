@@ -68,7 +68,7 @@ an alley cat~
 a mangy alley cat is here, sniffing around the garbage.~
 A mangy alley cat.~
 standing~
-race: felid, level: 3, goldMin: 1, goldMax: 3, hp: 4~
+race: felid, level: 3, goldMin: 1, goldMax: 3, hp: 4, job: fodder~
 ~
 
 #10
@@ -101,4 +101,20 @@ the barkeeper is standing here, ready to serve you.~
 the barkeeper is here.~
 standing~
 job: shopkeeper~
+~
+
+#50
+a fox~
+a fox is here, darting in and out of sight.~
+a fox is here.~
+standing~
+race: canid, level: 4, hp: 10, goldMin: 1, goldMax: 2, job: fodder~
+~
+
+#51
+a lizard~
+a lizard is here, bathing in the sun.~
+a lizard is here.~
+standing~
+race: reptile, level: 3, hp: 8, goldMin: 1, goldMax: 2, job: fodder~
 ~

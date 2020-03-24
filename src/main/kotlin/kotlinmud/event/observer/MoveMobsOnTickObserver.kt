@@ -9,12 +9,12 @@ import kotlinmud.service.EventService
 import kotlinmud.service.MobService
 import kotlinmud.time.eventually
 
-class MoveScavengersOnTickObserver(private val mobService: MobService, private val eventService: EventService) : Observer {
+class MoveMobsOnTickObserver(private val mobService: MobService, private val eventService: EventService) : Observer {
     override val eventTypes: List<EventType> = listOf(EventType.TICK)
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
         mobService.getMobRooms().filter {
-            it.mob.job == JobType.SCAVENGER
+            it.mob.job == JobType.SCAVENGER || it.mob.job == JobType.FODDER
         }.forEach {
             eventually {
                 MobController(mobService, eventService, it.mob).wander()

@@ -8,6 +8,22 @@ A row of flowers wrap around the stone structure and line the roads going in
 all directions.~
 n: 200, s: 100, e: 20, w:1000~
 
+// shops north of recall
+
+#2
+Jeweler~
+A jewelery shop is here.~
+~
+
+#3
+Midgard Bank~
+A bank is here.~
+~
+
+//
+// Pike street -- main road north of recall
+//
+
 #200
 Pike Street~
 Mature oak trees line a wide and busy road. Sitting back a comfortable distance from the hustle and
@@ -20,7 +36,7 @@ Pike Street~
 Mature oak trees line a wide and busy road. Sitting back a comfortable distance from the hustle and
 bustle of Pike Street, stately town homes stretch up and down the worn brick
 path.~
-n: 202, w: 4, e: 5~
+n: 202, w: 2, e: 3~
 
 #202
 Pike Street~
@@ -38,16 +54,6 @@ n: 204~
 Outside the North Castle Gates~
 You are outside the Midgard castle gates.~
 w: 9, e: 10, n: 2000~
-
-#4
-Jeweler~
-A jewelery shop is here.~
-~
-
-#5
-Midgard Bank~
-A bank is here.~
-~
 
 #7
 A quiet barroom in a tavern~
@@ -69,6 +75,10 @@ A restful temple~
 You are in a temple.~
 regen: high~
 
+//
+// east of recall
+//
+
 #20
 Road on the concourse~
 You are on a road through a concourse.~
@@ -89,25 +99,29 @@ The Midgard Inn~
 This is an inn.~
 ~
 
+//
+// south of recall
+//
+
 #100
 Market Ave~
 Shops and businesses.~
-s: 103, w: 101, e: 102~
+s: 101, w: 107, e: 106~
 
 #101
-Blacksmith~
-Town blacksmith.~
-~
-
-#102
-Bakery~
-Town bakery.~
-~
-
-#103
 Market Ave~
 Shops and businesses.~
-w: 104, e: 105, s: 106~
+w: 104, e: 105, s: 102~
+
+#102
+Common Square~
+Traders and towns folk mingle in the heart of Midgard.~
+s: 103~
+
+#103
+South Market Ave~
+The smell of ocean salt fills the air as you get closer to the docks.~
+w: 108, e: 109~
 
 #104
 Potions~
@@ -120,14 +134,14 @@ Scroll shop.~
 ~
 
 #106
-Common Square~
-Traders and towns folk mingle in the heart of Midgard.~
-s: 107~
+Bakery~
+Town bakery.~
+~
 
 #107
-South Market Ave~
-The smell of ocean salt fills the air as you get closer to the docks.~
-w: 108, e: 109~
+Midgard Armory~
+All sorts of implements of destruction and defense hang from the cramped walls of the town armory.~
+~
 
 #108
 The Ramshackle Tavern~
@@ -148,6 +162,10 @@ An abandoned harbor warehouse is here.~
 End Of The Alley~
 The alley ends here, with cramped dock buildings all around you.~
 e: door-2-112~
+
+//
+// warehouse complex -- 0 - 5 leveling area
+//
 
 #112
 A Warehouse Complex~
