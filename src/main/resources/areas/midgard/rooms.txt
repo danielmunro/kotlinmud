@@ -115,7 +115,7 @@ w: 104, e: 105, s: 102~
 
 #102
 Common Square~
-Traders and towns folk mingle in the heart of Midgard.~
+Traders and villagers mingle in the heart of Midgard.~
 s: 103~
 
 #103
