@@ -15,14 +15,17 @@ class RespawnService(
 ) {
 
     fun respawn() {
+        var mobs = 0
+        var items = 0
         val time = measureTimeMillis {
             world.mobResets.toList().forEach { reset ->
                 try {
                     val room = world.rooms.get(reset.roomId)
                     while (mobCanRespawn(reset, room)) {
                         val mob = world.mobs.get(reset.mobId).copy()
-                        addItemsToMob(mob)
+                        items += addItemsToMob(mob)
                         mobService.putMobInRoom(mob, room)
+                        mobs += 1
                     }
                 } catch (e: Exception) {
                     println("wiring problem with reset: $reset")
@@ -34,13 +37,15 @@ class RespawnService(
                     world.rooms.get(reset.roomId).inventory.items.add(
                         world.items.get(reset.itemId).copy()
                     )
+                    items += 1
                 }
             }
         }
-        println("respawn took $time ms")
+        println("respawn took $time ms. $mobs mobs spawned, $items items spawned")
     }
 
-    private fun addItemsToMob(mob: Mob) {
+    private fun addItemsToMob(mob: Mob): Int {
+        var items = 0
         filterItemMobResets(mob.id).forEach { itemReset ->
             val item = world.items.get(itemReset.itemId)
             while (itemMobCanRespawn(itemReset, mob)) {
@@ -48,8 +53,10 @@ class RespawnService(
                     itemService.add(this)
                     mob.inventory.items.add(this)
                 })
+                items++
             }
         }
+        return items
     }
 
     private fun filterItemMobResets(mobId: Int): List<ItemMobReset> {
