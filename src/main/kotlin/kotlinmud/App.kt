@@ -26,7 +26,7 @@ class App(
     private val mobService: MobService,
     private val server: Server
 ) {
-    private val actionService: ActionService = ActionService(mobService, eventService)
+    private val actionService: ActionService = ActionService(mobService, eventService, server)
 
     fun start() {
         println("starting app")
@@ -77,7 +77,9 @@ fun createContainer(): Kodein {
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
         bind<ItemService>() with singleton { ItemService() }
-        bind<ActionService>() with singleton { ActionService(instance<MobService>(), instance<EventService>()) }
+        bind<ActionService>() with singleton {
+            ActionService(instance<MobService>(), instance<EventService>(), instance<Server>())
+        }
         bind<World>() with singleton {
             World(
                 listOf(

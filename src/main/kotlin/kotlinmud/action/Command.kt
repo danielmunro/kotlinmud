@@ -27,6 +27,7 @@ enum class Command(val value: String) {
     LOOK("look"),
     INVENTORY("inventory"),
     SCORE("score"),
+    WHO("who"),
     ATTRIBUTES("attributes"),
     AFFECTS("affects"),
     TIME("time"),

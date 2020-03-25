@@ -5,9 +5,11 @@ import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.event.SocialEvent
+import kotlinmud.io.ClientHandler
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Message
 import kotlinmud.io.Response
+import kotlinmud.io.Server
 import kotlinmud.io.Social
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
@@ -20,7 +22,8 @@ import kotlinmud.service.MobService
 class ActionContextService(
     private val mobService: MobService,
     private val eventService: EventService,
-    private val actionContextList: ActionContextList
+    private val actionContextList: ActionContextList,
+    private val server: Server
 ) {
 
     fun <T> get(syntax: Syntax): T {
@@ -54,5 +57,9 @@ class ActionContextService(
     fun publishSocial(social: Social) {
         eventService.publish<SocialEvent, EventResponse<SocialEvent>>(
             Event(EventType.SOCIAL, SocialEvent(social)))
+    }
+
+    fun getClients(): List<ClientHandler> {
+        return server.getClients()
     }
 }

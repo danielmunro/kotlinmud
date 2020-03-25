@@ -17,8 +17,8 @@ import kotlinmud.item.Item
 import kotlinmud.item.Material
 import kotlinmud.item.Position
 import kotlinmud.loader.model.Model
-import kotlinmud.math.normalizeInt
 import kotlinmud.math.dN
+import kotlinmud.math.normalizeInt
 import kotlinmud.math.percentRoll
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType

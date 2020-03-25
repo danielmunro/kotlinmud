@@ -199,4 +199,18 @@ class ActionServiceTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("")
     }
+
+    @Test
+    fun testUnknownInputGetsAResponse() {
+        // setup
+        val test = createTestService()
+        val mob = test.createMob()
+
+        // when
+        val response = test.runAction(mob, "floodle")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("what was that?")
+        assertThat(response.status).isEqualTo(IOStatus.ERROR)
+    }
 }

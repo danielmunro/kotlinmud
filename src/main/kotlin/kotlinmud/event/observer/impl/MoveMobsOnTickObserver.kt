@@ -4,7 +4,6 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
-import kotlinmud.mob.JobType
 import kotlinmud.mob.MobController
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService

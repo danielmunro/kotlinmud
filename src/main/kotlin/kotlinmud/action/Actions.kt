@@ -32,6 +32,7 @@ import kotlinmud.action.impl.createUpAction
 import kotlinmud.action.impl.createWakeAction
 import kotlinmud.action.impl.createWearAction
 import kotlinmud.action.impl.createWestAction
+import kotlinmud.action.impl.createWhoAction
 
 fun createActionsList(): List<Action> {
     return listOf(
@@ -66,6 +67,7 @@ fun createActionsList(): List<Action> {
         createDrinkAction(),
         createEatAction(),
         createTrainAction(),
-        createPracticeAction()
+        createPracticeAction(),
+        createWhoAction()
     )
 }

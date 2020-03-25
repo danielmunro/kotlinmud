@@ -32,6 +32,7 @@ import kotlinmud.io.IOStatus
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Response
+import kotlinmud.io.Server
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.math.percentRoll
@@ -45,7 +46,11 @@ import kotlinmud.mob.skill.Skill
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.createSkillList
 
-class ActionService(private val mobService: MobService, private val eventService: EventService) {
+class ActionService(
+    private val mobService: MobService,
+    private val eventService: EventService,
+    private val server: Server
+) {
     private val actions: List<Action> = createActionsList()
     private val skills: List<Skill> = createSkillList()
 
@@ -136,7 +141,7 @@ class ActionService(private val mobService: MobService, private val eventService
     private fun callInvokable(request: Request, invokable: Invokable, list: ActionContextList): Response {
         return list.getBadResult()?.let {
             createResponseWithEmptyActionContext(Message(it.result as String), IOStatus.ERROR)
-        } ?: with(invokable.invoke(ActionContextService(mobService, eventService, list), request)) {
+        } ?: with(invokable.invoke(ActionContextService(mobService, eventService, list, server), request)) {
             if (invokable is Action && invokable.isChained())
                 run(createChainToRequest(request.mob, invokable))
             else
