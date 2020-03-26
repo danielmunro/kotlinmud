@@ -78,7 +78,7 @@ fun main() {
 
 fun createContainer(): Kodein {
     return Kodein {
-        bind<ServerSocket>() with singleton { ServerSocket(9999) }
+        bind<ServerSocket>() with singleton { ServerSocket(0) }
         bind<Server>() with singleton { Server(instance<EventService>(), instance<ServerSocket>()) }
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
