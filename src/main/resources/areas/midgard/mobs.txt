@@ -80,6 +80,14 @@ job: guard, level: 20, hp: 400, mv: 1000, goldMin: 5, goldMax: 15~
 ~
 
 #11
+a city guard~
+a Midgard city guard is here, keeping watch on things.~
+A city guard is here.~
+standing~
+job: patrol, route: 1-2000-22, level: 20, hp: 400, mv: 1000, goldMin: 5, goldMax: 15~
+~
+
+#15
 the innkeeper~
 the innkeeper sits here, keeping an eye on things.~
 a stout man is here, he doesn't look too happy.~
@@ -87,7 +95,7 @@ sitting~
 job: shopkeeper~
 ~
 
-#12
+#20
 a bar patron~
 a bar patron is here, imbibing their grog.~
 a bar patron is here.~
@@ -95,7 +103,7 @@ sitting~
 ~
 drunk~
 
-#13
+#25
 the barkeeper~
 the barkeeper is standing here, ready to serve you.~
 the barkeeper is here.~

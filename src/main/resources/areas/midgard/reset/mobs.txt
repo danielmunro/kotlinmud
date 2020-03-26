@@ -1,5 +1,6 @@
 // recall
 mobId: 1, roomId: 1~
+mobId: 11, roomId: 1~
 // bank
 mobId: 2, roomId: 2~
 mobId: 3, roomId: 103, maxInRoom: 2, maxInWorld: 10~
@@ -11,9 +12,9 @@ mobId: 8, roomId: 105~
 mobId: 9, roomId: 109, maxInWorld: 8~
 mobId: 9, roomId: 111, maxInWorld: 8~
 mobId: 10, roomId: 203, maxInRoom: 2, maxInWorld: 10~
-mobId: 11, roomId: 7, maxInRoom: 1, maxInWorld: 1~
-mobId: 12, roomId: 7, maxInRoom: 2, maxInWorld: 2~
-mobId: 13, roomId: 23, maxInRoom: 1, maxInWorld: 1~
+mobId: 15, roomId: 7, maxInRoom: 1, maxInWorld: 1~
+mobId: 20, roomId: 7, maxInRoom: 2, maxInWorld: 2~
+mobId: 25, roomId: 23, maxInRoom: 1, maxInWorld: 1~
 
 // warehouse complex
 mobId: 9, roomId: 113, maxInWorld: 8~

@@ -13,6 +13,6 @@ itemId: 11, mobId: 6,  maxInInventory: 25, maxInWorld: 999~
 itemId: 12, mobId: 6,  maxInInventory: 25, maxInWorld: 999~
 itemId: 40, mobId: 2,  maxInInventory: 25, maxInWorld: 999~
 itemId: 41, mobId: 2,  maxInInventory: 25, maxInWorld: 999~
-itemId: 50, mobId: 13, maxInInventory: 25, maxInWorld: 999~
-itemId: 51, mobId: 13, maxInInventory: 25, maxInWorld: 999~
-itemId: 52, mobId: 13, maxInInventory: 25, maxInWorld: 999~
+itemId: 50, mobId: 25, maxInInventory: 25, maxInWorld: 999~
+itemId: 51, mobId: 25, maxInInventory: 25, maxInWorld: 999~
+itemId: 52, mobId: 25, maxInInventory: 25, maxInWorld: 999~

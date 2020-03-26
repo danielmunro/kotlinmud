@@ -7,5 +7,6 @@ enum class JobType {
     TRAINER,
     PRACTITIONER,
     FODDER,
+    PATROL,
     NONE,
 }

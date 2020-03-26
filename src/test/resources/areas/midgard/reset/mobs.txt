@@ -12,4 +12,4 @@ mobId: 9, roomId: 113, maxInWorld: 8~
 mobId: 3, roomId: 117, maxInWorld: 10~
 mobId: 3, roomId: 119, maxInWorld: 10~
 mobId: 10, roomId: 8, maxInRoom: 2, maxInWorld: 10~
-mobId: 11, roomId: 2~
+mobId: 12, roomId: 2~

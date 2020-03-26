@@ -33,6 +33,7 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
         parseAffectTypes(tokenizer).forEach {
             builder.addAffect(it)
         }
+        val route = strAttr("route", "").split("-").map { it.toInt() }
 
         return builder
             .setBrief(brief)
@@ -56,5 +57,6 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
             .setSpecialization(specialization)
             .setRace(createRaceFromString(strAttr("race", "human")))
             .setGold(Random.nextInt(goldMin, goldMax))
+            .setRoute(route)
     }
 }

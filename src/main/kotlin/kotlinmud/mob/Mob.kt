@@ -58,13 +58,15 @@ class Mob(
     val appetite: Appetite,
     val isNpc: Boolean,
     var trains: Int,
-    var practices: Int
+    var practices: Int,
+    val route: List<Int>?
 ) : Noun, Row {
     var delay = 0
     var skillPoints = 0
     var bounty = 0
     var experience = 0
     var sacPoints = 0
+    var lastRoute = 0
 
     override fun affects(): AffectService {
         return AffectService(this)
@@ -204,7 +206,8 @@ class Mob(
             Appetite(race),
             isNpc,
             trains,
-            practices
+            practices,
+            route
         )
     }
 
@@ -328,6 +331,7 @@ class Mob(
             .setHp(startingHp)
             .setMana(startingMana)
             .setMv(startingMv)
+        var route: List<Int> = mutableListOf()
 
         fun addSkill(skillType: SkillType, level: Int): Builder {
             skills[skillType] = level
@@ -448,6 +452,11 @@ class Mob(
             return this
         }
 
+        fun setRoute(value: List<Int>): Builder {
+            route = value
+            return this
+        }
+
         fun build(): Mob {
             return Mob(
                 id,
@@ -476,7 +485,8 @@ class Mob(
                 Appetite(race),
                 isNpc,
                 trains,
-                practices
+                practices,
+                route
             )
         }
     }
