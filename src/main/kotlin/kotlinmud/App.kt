@@ -30,7 +30,7 @@ class App(
     private val actionService: ActionService = ActionService(mobService, eventService, server)
 
     fun start() {
-        println("starting app")
+        println("starting app on port ${server.getPort()}")
 //        pathfind()
         server.start()
         processClientBuffers()

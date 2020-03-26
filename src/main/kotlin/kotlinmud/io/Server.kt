@@ -46,6 +46,10 @@ class Server(private val eventService: EventService, private val server: ServerS
         return clients.toList()
     }
 
+    fun getPort(): Int {
+        return server.localPort
+    }
+
     private fun timer() {
         while (true) {
             Thread.sleep(2000)
