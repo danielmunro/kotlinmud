@@ -8,5 +8,5 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 script:
-  - ./gradlew check codeCoverageReport --debug
+  - ./gradlew check codeCoverageReport
 
