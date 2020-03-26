@@ -59,7 +59,7 @@ class Mob(
     val isNpc: Boolean,
     var trains: Int,
     var practices: Int,
-    val route: List<Int>?
+    val route: List<Int> = listOf()
 ) : Noun, Row {
     var delay = 0
     var skillPoints = 0
@@ -288,7 +288,9 @@ class Mob(
             return false
         }
 
-        if (job != JobType.SCAVENGER || job != JobType.FODDER) {
+        if (job != JobType.SCAVENGER &&
+            job != JobType.FODDER &&
+            job != JobType.PATROL) {
             return false
         }
 

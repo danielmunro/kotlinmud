@@ -2,14 +2,17 @@ package kotlinmud.mob
 
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.io.Message
+import kotlinmud.path.Pathfinder
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
 
 class MobController(private val mobService: MobService, private val eventService: EventService, private val mob: Mob) {
-    fun wander() {
-        val room = mobService.getRoomForMob(mob)
-        val exit = room.exits.random()
-        mobService.moveMob(mob, exit.destination, exit.direction)
+    fun move() {
+        when (mob.job) {
+            JobType.FODDER, JobType.SCAVENGER -> wander()
+            JobType.PATROL -> proceedRoute()
+            else -> return
+        }
     }
 
     fun pickUpAnyItem() {
@@ -28,5 +31,30 @@ class MobController(private val mobService: MobService, private val eventService
                     mob
                 ))
         }
+    }
+
+    private fun proceedRoute() {
+        println("mob $mob moving on route")
+        val nextRoomId = mob.route[mob.lastRoute]
+        val currentRoom = mobService.getRoomForMob(mob)
+        val nextRoom = mobService.getRooms().find { it.id == nextRoomId }!!
+        if (currentRoom.id == nextRoomId) {
+            mob.lastRoute += 1
+            if (mob.lastRoute > mob.route.size) {
+                mob.lastRoute = 0
+                return proceedRoute()
+            }
+        }
+        val path = Pathfinder(currentRoom, nextRoom)
+        val rooms = path.find()
+        val nextMove = currentRoom.exits.find { it.destination == rooms[1] }!!
+        mobService.moveMob(mob, nextMove.destination, nextMove.direction)
+    }
+
+    private fun wander() {
+        println("mob $mob moving via random choice")
+        val room = mobService.getRoomForMob(mob)
+        val exit = room.exits.random()
+        mobService.moveMob(mob, exit.destination, exit.direction)
     }
 }

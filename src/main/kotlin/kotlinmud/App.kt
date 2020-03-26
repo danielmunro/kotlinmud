@@ -10,6 +10,7 @@ import kotlinmud.io.Syntax
 import kotlinmud.loader.AreaLoader
 import kotlinmud.loader.World
 import kotlinmud.mob.Mob
+import kotlinmud.path.Pathfinder
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
@@ -30,8 +31,13 @@ class App(
 
     fun start() {
         println("starting app")
+//        pathfind()
         server.start()
         processClientBuffers()
+    }
+
+    fun pathfind() {
+        Pathfinder(mobService.getStartRoom(), mobService.getRooms().find { it.id == 119 }!!).find()
     }
 
     private fun processClientBuffers() {

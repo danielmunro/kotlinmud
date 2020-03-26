@@ -16,7 +16,7 @@ class MoveMobsOnTickObserver(private val mobService: MobService, private val eve
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
         mobService.getMobRooms().filter { it.mob.wantsToMove() }.forEach {
             eventually {
-                MobController(mobService, eventService, it.mob).wander()
+                MobController(mobService, eventService, it.mob).move()
             }
         }
         @Suppress("UNCHECKED_CAST")
