@@ -9,6 +9,7 @@ import kotlinmud.mob.Disposition
 import kotlinmud.mob.JobType
 import kotlinmud.mob.MobBuilder
 import kotlinmud.mob.SpecializationType
+import kotlinmud.mob.mobBuilder
 import kotlinmud.mob.race.createRaceFromString
 
 class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
@@ -31,7 +32,7 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
         val goldMin = intAttr("goldMin", 0)
         val goldMax = intAttr("goldMax", 1)
         parseAttributes()
-        val builder = MobBuilder()
+        val builder = mobBuilder(id, name)
         val affects: MutableList<AffectInstance> = mutableListOf()
         parseAffectTypes(tokenizer).forEach {
             affects.add(AffectInstance(it, 0))

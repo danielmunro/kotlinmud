@@ -35,30 +35,29 @@ class Mob(
     override val name: String,
     @DefaultValue("a nondescript mob is here") var brief: String,
     @DefaultValue("a nondescript mob is standing here, minding his own business.") override var description: String,
-    @DefaultValue("kotlinmud.mob.Disposition.STANDING") var disposition: Disposition,
-    @DefaultValue("kotlinmud.attributes.startingHp") var hp: Int,
-    @DefaultValue("kotlinmud.attributes.startingMana") var mana: Int,
-    @DefaultValue("kotlinmud.attributes.startingMv") var mv: Int,
-    @DefaultValue("1") var level: Int,
-    @DefaultValue("kotlinmud.mob.race.impl.Human()") val race: Race,
-    @DefaultValue("kotlinmud.mob.SpecializationType.NONE") val specialization: SpecializationType,
-    @DefaultValue("kotlinmud.attributes.Attributes()") val attributes: Attributes,
+    var disposition: Disposition,
+    var hp: Int,
+    var mana: Int,
+    var mv: Int,
+    var level: Int,
+    val race: Race,
+    val specialization: SpecializationType,
+    val attributes: Attributes,
     @DefaultValue("mutableListOf()") @Mutable val trainedAttributes: MutableList<Attributes>,
-    @DefaultValue("kotlinmud.mob.JobType.NONE") val job: JobType,
-    @DefaultValue("kotlinmud.mob.Gender.NONE") var gender: Gender,
+    val job: JobType,
+    var gender: Gender,
     @DefaultValue("0") var gold: Int,
     @DefaultValue("mutableMapOf()") @Mutable val skills: MutableMap<SkillType, Int>,
     @DefaultValue("mutableListOf()") @Mutable override val affects: MutableList<AffectInstance>,
     @DefaultValue("0") var wimpy: Int,
     @DefaultValue("1000") val experiencePerLevel: Int,
     @DefaultValue("0") var savingThrows: Int,
-    @DefaultValue("kotlinmud.item.Inventory()") val inventory: Inventory,
-    @DefaultValue("kotlinmud.item.Inventory()") val equipped: Inventory,
-    @DefaultValue("kotlinmud.mob.Appetite(race!!)") val appetite: Appetite,
+    val inventory: Inventory,
+    val equipped: Inventory,
     @DefaultValue("true") val isNpc: Boolean,
     @DefaultValue("1") var trains: Int,
     @DefaultValue("1") var practices: Int,
-    @DefaultValue("listOf()") val route: List<Int> = listOf()
+    @DefaultValue("listOf()") val route: List<Int>
 ) : Noun, Row {
     var delay = 0
     var skillPoints = 0
@@ -66,6 +65,7 @@ class Mob(
     var experience = 0
     var sacPoints = 0
     var lastRoute = 0
+    val appetite: Appetite = Appetite(race)
 
     override fun affects(): AffectService {
         return AffectService(this)
@@ -202,7 +202,6 @@ class Mob(
             savingThrows,
             Inventory(),
             Inventory(),
-            Appetite(race),
             isNpc,
             trains,
             practices,
