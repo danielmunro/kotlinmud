@@ -43,21 +43,21 @@ class Mob(
     val race: Race,
     val specialization: SpecializationType,
     val attributes: Attributes,
-    @DefaultValue("mutableListOf()") @Mutable val trainedAttributes: MutableList<Attributes>,
+    @Mutable val trainedAttributes: MutableList<Attributes>,
     val job: JobType,
     var gender: Gender,
-    @DefaultValue("0") var gold: Int,
-    @DefaultValue("mutableMapOf()") @Mutable val skills: MutableMap<SkillType, Int>,
-    @DefaultValue("mutableListOf()") @Mutable override val affects: MutableList<AffectInstance>,
-    @DefaultValue("0") var wimpy: Int,
-    @DefaultValue("1000") val experiencePerLevel: Int,
-    @DefaultValue("0") var savingThrows: Int,
+    var gold: Int,
+    @Mutable val skills: MutableMap<SkillType, Int>,
+    @Mutable override val affects: MutableList<AffectInstance>,
+    var wimpy: Int,
+    val experiencePerLevel: Int,
+    var savingThrows: Int,
     val inventory: Inventory,
     val equipped: Inventory,
-    @DefaultValue("true") val isNpc: Boolean,
-    @DefaultValue("1") var trains: Int,
-    @DefaultValue("1") var practices: Int,
-    @DefaultValue("listOf()") val route: List<Int>
+    val isNpc: Boolean,
+    var trains: Int,
+    var practices: Int,
+    val route: List<Int>
 ) : Noun, Row {
     var delay = 0
     var skillPoints = 0
