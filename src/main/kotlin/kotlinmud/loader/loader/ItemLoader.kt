@@ -1,14 +1,13 @@
 package kotlinmud.loader.loader
 
 import kotlinmud.affect.AffectInstance
-import kotlinmud.attributes.Attribute
+import kotlinmud.attributes.Attributes
 import kotlinmud.item.Drink
 import kotlinmud.item.Food
-import kotlinmud.item.Item
 import kotlinmud.item.Material
 import kotlinmud.item.Position
+import kotlinmud.item.itemBuilder
 import kotlinmud.loader.Tokenizer
-import kotlinmud.loader.model.Model
 
 class ItemLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
     var id = 0
@@ -20,7 +19,7 @@ class ItemLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
     var quantity = 0
     override var props: Map<String, String> = mapOf()
 
-    override fun load(): Model {
+    override fun load(): Any {
         id = tokenizer.parseInt()
         name = tokenizer.parseString()
         description = tokenizer.parseString()
@@ -29,34 +28,39 @@ class ItemLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
         food = Food.valueOf(strAttr("food", "none").toUpperCase())
         quantity = intAttr("quantity", 0)
         parseAttributes()
-        val builder = Item.Builder(id, name)
-        parseAffectTypes(tokenizer).forEach {
-            builder.addAffect(AffectInstance(it, -1))
+        val builder = itemBuilder(id, name)
+        val affects = parseAffectTypes(tokenizer).map {
+            AffectInstance(it, -1)
         }
 
         return builder
-            .setDescription(description)
-            .setValue(props["value"]?.toInt() ?: 1)
-            .setLevel(props["level"]?.toInt() ?: 1)
-            .setWeight(props["weight"]?.toDouble() ?: 1.0)
-            .setDrink(drink)
-            .setFood(food)
-            .setQuantity(quantity)
-            .setAttribute(Attribute.HP, hp)
-            .setAttribute(Attribute.MANA, mana)
-            .setAttribute(Attribute.MV, mv)
-            .setAttribute(Attribute.HIT, hit)
-            .setAttribute(Attribute.DAM, dam)
-            .setAttribute(Attribute.STR, str)
-            .setAttribute(Attribute.INT, int)
-            .setAttribute(Attribute.WIS, wis)
-            .setAttribute(Attribute.DEX, dex)
-            .setAttribute(Attribute.CON, con)
-            .setAttribute(Attribute.AC_SLASH, acSlash)
-            .setAttribute(Attribute.AC_PIERCE, acPierce)
-            .setAttribute(Attribute.AC_BASH, acBash)
-            .setAttribute(Attribute.AC_MAGIC, acMagic)
-            .setMaterial(Material.valueOf(strAttr("material", "organic").toUpperCase()))
-            .setPosition(Position.valueOf(strAttr("position", "none").toUpperCase()))
+            .description(description)
+            .worth(props["value"]?.toInt() ?: 1)
+            .level(props["level"]?.toInt() ?: 1)
+            .weight(props["weight"]?.toDouble() ?: 1.0)
+            .drink(drink)
+            .food(food)
+            .quantity(quantity)
+            .material(Material.valueOf(strAttr("material", "organic").toUpperCase()))
+            .position(Position.valueOf(strAttr("position", "none").toUpperCase()))
+            .affects(affects.toMutableList())
+            .attributes(
+                Attributes.Builder()
+                    .setHp(hp)
+                    .setMana(mana)
+                    .setMv(mv)
+                    .setHit(hit)
+                    .setDam(dam)
+                    .setStr(str)
+                    .setInt(int)
+                    .setWis(wis)
+                    .setDex(dex)
+                    .setCon(con)
+                    .setAcSlash(acSlash)
+                    .setAcBash(acBash)
+                    .setAcPierce(acPierce)
+                    .setAcMagic(acMagic)
+                    .build()
+            )
     }
 }

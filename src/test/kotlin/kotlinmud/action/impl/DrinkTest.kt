@@ -24,9 +24,10 @@ class DrinkTest {
                 InventoryBuilder().items(
                     mutableListOf(test.buildItem(
                         test.itemBuilder()
-                            .setDrink(Drink.BEER)
-                            .setName("a glass of beer")
-                            .addAffect(DrunkAffect().createInstance(timeout))
+                            .drink(Drink.BEER)
+                            .name("a glass of beer")
+                            .quantity(1)
+                            .affects(mutableListOf(DrunkAffect().createInstance(timeout)))
                         )
                     )
                 ).build()

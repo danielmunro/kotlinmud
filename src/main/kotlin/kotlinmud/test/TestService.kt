@@ -1,6 +1,6 @@
 package kotlinmud.test
 
-import kotlinmud.attributes.Attribute
+import kotlinmud.attributes.Attributes
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.io.IOStatus
@@ -8,6 +8,7 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
+import kotlinmud.item.ItemBuilder
 import kotlinmud.item.Position
 import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
@@ -86,11 +87,11 @@ class TestService(
         return fixtureService.createItem(inventory)
     }
 
-    fun itemBuilder(): Item.Builder {
+    fun itemBuilder(): ItemBuilder {
         return fixtureService.createItemBuilder()
     }
 
-    fun buildItem(itemBuilder: Item.Builder): Item {
+    fun buildItem(itemBuilder: ItemBuilder): Item {
         // item service?
         return itemBuilder.build()
     }
@@ -149,8 +150,12 @@ class TestService(
 
     private fun weapon(): Item {
         return buildItem(itemBuilder()
-            .setPosition(Position.WEAPON)
-            .setAttribute(Attribute.HIT, 2)
-            .setAttribute(Attribute.DAM, 1))
+            .position(Position.WEAPON)
+            .attributes(
+                Attributes.Builder()
+                    .setHit(2)
+                    .setDam(1)
+                    .build()
+            ))
     }
 }

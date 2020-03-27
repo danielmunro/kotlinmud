@@ -20,8 +20,8 @@ class RemoveTest {
                 InventoryBuilder().items(
                     mutableListOf(test.buildItem(
                         test.itemBuilder()
-                            .setPosition(Position.SHIELD)
-                            .setName("a shield")
+                            .position(Position.SHIELD)
+                            .name("a shield")
                     ))
                 ).build()
             )

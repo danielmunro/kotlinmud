@@ -12,7 +12,7 @@ class ItemFromMerchantContextBuilder(private val mob: Mob, private val mobsInRoo
             ?: return Context(Syntax.ITEM_FROM_MERCHANT, Status.ERROR, "no merchant is here.")
         val item = shopkeeper.inventory.items.find { kotlinmud.string.matches(it.name, word) }
             ?: return Context(Syntax.ITEM_FROM_MERCHANT, Status.ERROR, "they don't have anything like that.")
-        if (item.value > mob.gold) {
+        if (item.worth > mob.gold) {
             return Context(Syntax.ITEM_FROM_MERCHANT, Status.ERROR, "you can't afford that.")
         }
         return Context(Syntax.ITEM_FROM_MERCHANT, Status.OK, item)

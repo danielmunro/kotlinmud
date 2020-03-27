@@ -38,7 +38,7 @@ class MobTest {
         val initialAc = mob.calc(Attribute.AC_BASH)
 
         // when
-        val item = testService.itemBuilder().setAttributes(
+        val item = testService.itemBuilder().attributes(
             Attributes.Builder()
                 .setHp(1)
                 .setMana(1)
@@ -54,6 +54,7 @@ class MobTest {
                 .setAcSlash(1)
                 .setAcPierce(1)
                 .setAcMagic(1)
+                .build()
         )
         mob.equipped.items.add(item.build())
 
@@ -238,10 +239,11 @@ class MobTest {
         mob.equipped.items.add(
             testService.buildItem(
                 testService.itemBuilder()
-                    .setPosition(Position.SHIELD)
-                    .setAttributes(
+                    .position(Position.SHIELD)
+                    .attributes(
                         Attributes.Builder()
                             .setHp(100)
+                            .build()
                     )
             )
         )

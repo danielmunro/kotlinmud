@@ -22,7 +22,7 @@ fun createListAction(): Action {
                     "[lvl cost name]\n" +
                     shopkeeper.inventory.getItemGroups().map {
                         val level = it.value[0].level.toString()
-                        val cost = it.value[0].value.toString()
+                        val cost = it.value[0].worth.toString()
                         leftPad(level, 5 - level.length) +
                                 " " + leftPad(cost, 6 - cost.length) +
                                 " " + it.value[0].name

@@ -61,7 +61,7 @@ class FightTest {
             .skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
             .equipped(
                 InventoryBuilder().items(
-                    mutableListOf(testService.buildItem(testService.itemBuilder().setPosition(Position.SHIELD)))
+                    mutableListOf(testService.buildItem(testService.itemBuilder().position(Position.SHIELD)))
                 ).build()
             )
         )
@@ -100,7 +100,7 @@ class FightTest {
                 InventoryBuilder()
                     .items(
                         mutableListOf(testService.buildItem(testService.itemBuilder()
-                            .setPosition(Position.WEAPON)))
+                            .position(Position.WEAPON)))
                     ).build()
                 )
         )

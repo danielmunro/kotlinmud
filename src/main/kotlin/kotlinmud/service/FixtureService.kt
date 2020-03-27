@@ -3,6 +3,8 @@ package kotlinmud.service
 import io.github.serpro69.kfaker.Faker
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
+import kotlinmud.item.ItemBuilder
+import kotlinmud.item.itemBuilder
 import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobBuilder
@@ -30,16 +32,16 @@ class FixtureService {
             .build()
     }
 
-    fun createItemBuilder(name: String = faker.book.title()): Item.Builder {
+    fun createItemBuilder(name: String = faker.book.title()): ItemBuilder {
         items++
-        return Item.Builder(items, name)
-            .setDescription("$name is here")
+        return itemBuilder(items, name)
+            .description("$name is here")
     }
 
     fun createItem(inv: Inventory): Item {
         items++
-        val item = Item.Builder(items, "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}")
-            .setDescription("A test item is here ($items).")
+        val item = itemBuilder(items, "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}")
+            .description("A test item is here ($items).")
             .build()
         inv.items.add(item)
         return item

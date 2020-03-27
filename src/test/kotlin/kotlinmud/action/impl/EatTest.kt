@@ -24,9 +24,9 @@ class EatTest {
                 InventoryBuilder().items(
                     mutableListOf(test.buildItem(
                         test.itemBuilder()
-                            .setFood(Food.MEAT_PIE)
-                            .setName("a big meat pie")
-                            .addAffect(StunnedAffect().createInstance(timeout))
+                            .food(Food.MEAT_PIE)
+                            .name("a big meat pie")
+                            .affects(mutableListOf(StunnedAffect().createInstance(timeout)))
                         )
                     )
                 ).build()

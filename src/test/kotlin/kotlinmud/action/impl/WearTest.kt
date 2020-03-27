@@ -22,8 +22,8 @@ class WearTest {
                         mutableListOf(
                             test.buildItem(
                                 test.itemBuilder()
-                                    .setPosition(Position.SHIELD)
-                                    .setName("a shield")
+                                    .position(Position.SHIELD)
+                                    .name("a shield")
                             )
                         )
                     ).build()
@@ -56,7 +56,7 @@ class WearTest {
                         mutableListOf(
                             test.buildItem(
                                 test.itemBuilder()
-                                    .setName("a book")
+                                    .name("a book")
                             )
                         )
                     ).build()

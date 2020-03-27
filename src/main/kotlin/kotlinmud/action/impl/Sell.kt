@@ -20,11 +20,11 @@ fun createSellAction(): Action {
             val shopkeeper = svc.getMobsInRoom(request.room).find { it.job == JobType.SHOPKEEPER }!!
             shopkeeper.inventory.items.add(item)
             request.mob.inventory.items.remove(item)
-            request.mob.gold += item.value
-            shopkeeper.gold -= item.value
+            request.mob.gold += item.worth
+            shopkeeper.gold -= item.worth
             svc.createResponse(
                 Message(
-                    "you sell $item to $shopkeeper for ${item.value} gold.",
+                    "you sell $item to $shopkeeper for ${item.worth} gold.",
                     "${request.mob} sells $item to you.",
                     "${request.mob} sells $item to $shopkeeper."
                 )

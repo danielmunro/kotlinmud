@@ -5,6 +5,7 @@ import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import kotlinmud.affect.AffectType
 import kotlinmud.affect.affect
+import kotlinmud.affect.affects
 import kotlinmud.io.IOStatus
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
@@ -40,8 +41,8 @@ class LookAtTest {
         // given
         val item = testService.buildItem(
             testService.itemBuilder()
-                .addAffect(
-                    affect(AffectType.INVISIBLE))
+                .affects(
+                    affects(AffectType.INVISIBLE))
         )
         val mob = testService.createMob()
         mob.inventory.items.add(item)

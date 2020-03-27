@@ -22,6 +22,6 @@ class SellTest {
 
         // then
         assertThat(response.message.toActionCreator)
-            .isEqualTo("you sell $item to $shopkeeper for ${item.value} gold.")
+            .isEqualTo("you sell $item to $shopkeeper for ${item.worth} gold.")
     }
 }
