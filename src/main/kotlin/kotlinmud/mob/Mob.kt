@@ -34,7 +34,7 @@ class Mob(
     override val id: Int,
     override val name: String,
     @DefaultValue("a nondescript mob is here") var brief: String,
-    @DefaultValue("a nondescript mob is standing here, minding his own business.") override var description: String,
+    @DefaultValue("a nondescript mob is standing here, minding their own business.") override var description: String,
     var disposition: Disposition,
     var hp: Int,
     var mana: Int,
