@@ -4,8 +4,8 @@ import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
-import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
+import kotlinmud.affect.affect
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 import org.junit.Test
@@ -31,7 +31,7 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        mob.affects().add(AffectInstance(AffectType.BLIND, 1))
+        mob.affects().add(affect(AffectType.BLIND))
 
         // when
         val response = testService.runAction(mob, "look")
@@ -106,7 +106,7 @@ class LookTest {
         // given
         val mob1 = testService.buildMob(
             testService.mobBuilder()
-                .addAffect(AffectType.INVISIBLE)
+                .affects(mutableListOf(affect(AffectType.INVISIBLE)))
         )
         val mob2 = testService.createMob()
 

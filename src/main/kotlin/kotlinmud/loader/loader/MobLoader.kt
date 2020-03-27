@@ -1,11 +1,13 @@
 package kotlinmud.loader.loader
 
 import kotlin.random.Random
+import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.Attribute
+import kotlinmud.attributes.Attributes
 import kotlinmud.loader.Tokenizer
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.JobType
-import kotlinmud.mob.Mob
+import kotlinmud.mob.MobBuilder
 import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.race.createRaceFromString
 
@@ -17,7 +19,7 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
     var disposition = Disposition.STANDING
     override var props: Map<String, String> = mapOf()
 
-    override fun load(): Mob.Builder {
+    override fun load(): MobBuilder {
         id = tokenizer.parseInt()
         name = tokenizer.parseString()
         brief = tokenizer.parseString()
@@ -29,20 +31,14 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
         val goldMin = intAttr("goldMin", 0)
         val goldMax = intAttr("goldMax", 1)
         parseAttributes()
-        val builder = Mob.Builder(id, name)
+        val builder = MobBuilder()
+        val affects: MutableList<AffectInstance> = mutableListOf()
         parseAffectTypes(tokenizer).forEach {
-            builder.addAffect(it)
+            affects.add(AffectInstance(it, 0))
         }
         val strRoute = strAttr("route")
         val route = if (strRoute != "") strRoute.split("-").map { it.toInt() } else listOf()
-
-        return builder
-            .setBrief(brief)
-            .setDescription(description)
-            .setDisposition(disposition)
-            .setHp(hp)
-            .setMana(mana)
-            .setMv(mv)
+        var attributes = Attributes.Builder()
             .setAttribute(Attribute.HIT, hit)
             .setAttribute(Attribute.DAM, dam)
             .setAttribute(Attribute.STR, str)
@@ -54,11 +50,24 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
             .setAttribute(Attribute.AC_PIERCE, acPierce)
             .setAttribute(Attribute.AC_BASH, acBash)
             .setAttribute(Attribute.AC_MAGIC, acMagic)
-            .setJob(job)
-            .setSpecialization(specialization)
-            .setRace(createRaceFromString(strAttr("race", "human")))
-            .setGold(Random.nextInt(goldMin, goldMax))
-            .setRoute(route)
-            .setIsNpc(true)
+            .build()
+
+        return builder
+            .id(id)
+            .name(name)
+            .brief(brief)
+            .description(description)
+            .disposition(disposition)
+            .hp(hp)
+            .mana(mana)
+            .mv(mv)
+            .job(job)
+            .specialization(specialization)
+            .race(createRaceFromString(strAttr("race", "human")))
+            .gold(Random.nextInt(goldMin, goldMax))
+            .route(route)
+            .isNpc(true)
+            .affects(affects)
+            .attributes(attributes)
     }
 }

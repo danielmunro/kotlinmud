@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotEqualTo
+import kotlinmud.item.InventoryBuilder
 import kotlinmud.item.Position
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.skill.SkillType
@@ -20,9 +21,13 @@ class FightTest {
 
         // given
         val mob = testService.buildMob(testService.mobBuilder()
-            .addSkill(SkillType.SHIELD_BLOCK, 100)
-            .addSkill(SkillType.PARRY, 100)
-            .addSkill(SkillType.DODGE, 100)
+            .skills(
+                mutableMapOf(
+                    Pair(SkillType.SHIELD_BLOCK, 100),
+                    Pair(SkillType.PARRY, 100),
+                    Pair(SkillType.DODGE, 100)
+                )
+            )
         )
 
         // when
@@ -49,13 +54,17 @@ class FightTest {
 
         // given
         val mob1 = testService.buildMob(testService.mobBuilder()
-            .addSkill(SkillType.SHIELD_BLOCK, 100)
+            .skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
         )
 
         val mob2 = testService.buildMob(testService.mobBuilder()
-            .addSkill(SkillType.SHIELD_BLOCK, 100)
-            .equip(testService.buildItem(testService.itemBuilder()
-                .setPosition(Position.SHIELD))))
+            .skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
+            .equipped(
+                InventoryBuilder().items(
+                    mutableListOf(testService.buildItem(testService.itemBuilder().setPosition(Position.SHIELD)))
+                ).build()
+            )
+        )
 
         // when
         val fight = Fight(mob1, mob2)
@@ -81,14 +90,20 @@ class FightTest {
 
         // given
         val mob1 = testService.buildMob(testService.mobBuilder()
-            .addSkill(SkillType.PARRY, 100)
+            .skills(mutableMapOf(Pair(SkillType.PARRY, 100)))
         )
         mob1.equipped.items.removeAt(0)
 
         val mob2 = testService.buildMob(testService.mobBuilder()
-            .addSkill(SkillType.PARRY, 100)
-            .equip(testService.buildItem(testService.itemBuilder()
-                .setPosition(Position.WEAPON))))
+            .skills(mutableMapOf(Pair(SkillType.PARRY, 100)))
+            .equipped(
+                InventoryBuilder()
+                    .items(
+                        mutableListOf(testService.buildItem(testService.itemBuilder()
+                            .setPosition(Position.WEAPON)))
+                    ).build()
+                )
+        )
 
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
@@ -111,8 +126,8 @@ class FightTest {
         // setup
         val hp = 100
         val testService = createTestService()
-        val mob1 = testService.buildMob(testService.mobBuilder().setHp(hp).setWimpy(hp))
-        val mob2 = testService.buildMob(testService.mobBuilder().setHp(hp).setWimpy(hp))
+        val mob1 = testService.buildMob(testService.mobBuilder().hp(hp).wimpy(hp))
+        val mob2 = testService.buildMob(testService.mobBuilder().hp(hp).wimpy(hp))
         val fight = Fight(mob1, mob2)
 
         // given

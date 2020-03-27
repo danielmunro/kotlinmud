@@ -13,7 +13,7 @@ class BerserkTest {
         // setup
         val testService = createTestService()
         val mob = testService.buildMob(testService.mobBuilder()
-            .addSkill(SkillType.BERSERK, 100)
+            .skills(mutableMapOf(Pair(SkillType.BERSERK, 100)))
         )
 
         // when

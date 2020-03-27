@@ -18,7 +18,7 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val mob = testService.buildMob(
-            testService.mobBuilder().addSkill(SkillType.BERSERK, 1)
+            testService.mobBuilder().skills(mutableMapOf(Pair(SkillType.BERSERK, 1)))
         )
 
         // when
@@ -33,7 +33,7 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val mob = testService.buildMob(
-            testService.mobBuilder().addSkill(SkillType.BERSERK, 100)
+            testService.mobBuilder().skills(mutableMapOf(Pair(SkillType.BERSERK, 100)))
         )
 
         // given
@@ -51,7 +51,7 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val mob = testService.buildMob(
-            testService.mobBuilder().addSkill(SkillType.BERSERK, 100)
+            testService.mobBuilder().skills(mutableMapOf(Pair(SkillType.BERSERK, 100)))
         )
 
         // when
@@ -67,7 +67,7 @@ class ActionServiceTest {
         val testService = createTestService()
         val target = testService.createMob()
         val mob = testService.buildMob(
-            testService.mobBuilder().addSkill(SkillType.BITE, 100)
+            testService.mobBuilder().skills(mutableMapOf(Pair(SkillType.BITE, 100)))
         )
 
         // when
@@ -85,7 +85,7 @@ class ActionServiceTest {
         val testService = createTestService()
         val target = testService.createMob()
         val mob = testService.buildMob(
-            testService.mobBuilder().addSkill(SkillType.BITE, 100)
+            testService.mobBuilder().skills(mutableMapOf(Pair(SkillType.BITE, 100)))
         )
 
         // given
@@ -106,7 +106,7 @@ class ActionServiceTest {
         val testService = createTestService()
         val target = testService.createMob()
         val mob = testService.buildMob(
-            testService.mobBuilder().addSkill(SkillType.BITE, 100)
+            testService.mobBuilder().skills(mutableMapOf(Pair(SkillType.BITE, 100)))
         )
 
         // given
@@ -125,7 +125,7 @@ class ActionServiceTest {
         val testService = createTestService()
         val target = testService.createMob()
         val mob = testService.buildMob(
-            testService.mobBuilder().addSkill(SkillType.BITE, 100)
+            testService.mobBuilder().skills(mutableMapOf(Pair(SkillType.BITE, 100)))
         )
 
         // given
@@ -144,7 +144,7 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val mob = testService.buildMob(
-            testService.mobBuilder().addSkill(SkillType.INVISIBILITY, 100)
+            testService.mobBuilder().skills(mutableMapOf(Pair(SkillType.INVISIBILITY, 100)))
         )
         val target = testService.createMob()
 
@@ -160,7 +160,7 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val mob = testService.buildMob(
-            testService.mobBuilder().addSkill(SkillType.INVISIBILITY, 100)
+            testService.mobBuilder().skills(mutableMapOf(Pair(SkillType.INVISIBILITY, 100)))
         )
 
         // when
@@ -176,7 +176,7 @@ class ActionServiceTest {
         val testService = createTestService()
         val mob = testService.buildMob(
             testService.mobBuilder()
-                .addSkill(SkillType.INVISIBILITY, 100)
+                .skills(mutableMapOf(Pair(SkillType.INVISIBILITY, 100)))
         )
         val item = testService.createItem(mob.inventory)
 

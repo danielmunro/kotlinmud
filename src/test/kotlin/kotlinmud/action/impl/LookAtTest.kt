@@ -3,8 +3,8 @@ package kotlinmud.action.impl
 import assertk.assertThat
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
-import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
+import kotlinmud.affect.affect
 import kotlinmud.io.IOStatus
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
@@ -19,7 +19,8 @@ class LookAtTest {
         // given
         val mob1 = testService.buildMob(
             testService.mobBuilder()
-                .addAffect(AffectType.INVISIBLE)
+                .affects(mutableListOf(affect(AffectType.INVISIBLE))
+            )
         )
         val mob2 = testService.createMob()
 
@@ -40,7 +41,7 @@ class LookAtTest {
         val item = testService.buildItem(
             testService.itemBuilder()
                 .addAffect(
-                    AffectInstance(AffectType.INVISIBLE, 1))
+                    affect(AffectType.INVISIBLE))
         )
         val mob = testService.createMob()
         mob.inventory.items.add(item)

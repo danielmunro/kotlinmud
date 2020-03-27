@@ -5,6 +5,6 @@ import kotlinmud.attributes.HasAttributes
 
 data class AffectInstance(
     val affectType: AffectType,
-    var timeout: Int,
+    var timeout: Int = 0,
     override val attributes: Attributes = Attributes()
 ) : HasAttributes

@@ -1,14 +1,14 @@
 package kotlinmud.mob
 
+import com.thinkinglogic.builder.annotation.Builder
+import com.thinkinglogic.builder.annotation.DefaultValue
+import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.Noun
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
-import kotlinmud.attributes.startingHp
-import kotlinmud.attributes.startingMana
-import kotlinmud.attributes.startingMv
 import kotlinmud.data.Row
 import kotlinmud.item.Drink
 import kotlinmud.item.Food
@@ -16,7 +16,6 @@ import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.item.Material
 import kotlinmud.item.Position
-import kotlinmud.loader.model.Model
 import kotlinmud.math.dN
 import kotlinmud.math.normalizeInt
 import kotlinmud.math.percentRoll
@@ -24,42 +23,42 @@ import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
 import kotlinmud.mob.race.RaceType
-import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.skill.SkillType
 import kotlinmud.service.AffectService
 
 const val corpseWeight = 20.0
 const val baseStat = 15
 
+@Builder
 class Mob(
     override val id: Int,
     override val name: String,
-    var brief: String,
-    override var description: String,
-    var disposition: Disposition,
-    var hp: Int,
-    var mana: Int,
-    var mv: Int,
-    var level: Int,
-    val race: Race,
-    val specialization: SpecializationType,
-    val attributes: Attributes,
-    val trainedAttributes: MutableList<Attributes>,
-    val job: JobType,
-    var gender: Gender,
-    var gold: Int,
-    val skills: MutableMap<SkillType, Int>,
-    override val affects: MutableList<AffectInstance>,
-    var wimpy: Int,
-    val experiencePerLevel: Int,
-    var savingThrows: Int,
-    val inventory: Inventory,
-    val equipped: Inventory,
-    val appetite: Appetite,
-    val isNpc: Boolean,
-    var trains: Int,
-    var practices: Int,
-    val route: List<Int> = listOf()
+    @DefaultValue("a nondescript mob is here") var brief: String,
+    @DefaultValue("a nondescript mob is standing here, minding his own business.") override var description: String,
+    @DefaultValue("kotlinmud.mob.Disposition.STANDING") var disposition: Disposition,
+    @DefaultValue("kotlinmud.attributes.startingHp") var hp: Int,
+    @DefaultValue("kotlinmud.attributes.startingMana") var mana: Int,
+    @DefaultValue("kotlinmud.attributes.startingMv") var mv: Int,
+    @DefaultValue("1") var level: Int,
+    @DefaultValue("kotlinmud.mob.race.impl.Human()") val race: Race,
+    @DefaultValue("kotlinmud.mob.SpecializationType.NONE") val specialization: SpecializationType,
+    @DefaultValue("kotlinmud.attributes.Attributes()") val attributes: Attributes,
+    @DefaultValue("mutableListOf()") @Mutable val trainedAttributes: MutableList<Attributes>,
+    @DefaultValue("kotlinmud.mob.JobType.NONE") val job: JobType,
+    @DefaultValue("kotlinmud.mob.Gender.NONE") var gender: Gender,
+    @DefaultValue("0") var gold: Int,
+    @DefaultValue("mutableMapOf()") @Mutable val skills: MutableMap<SkillType, Int>,
+    @DefaultValue("mutableListOf()") @Mutable override val affects: MutableList<AffectInstance>,
+    @DefaultValue("0") var wimpy: Int,
+    @DefaultValue("1000") val experiencePerLevel: Int,
+    @DefaultValue("0") var savingThrows: Int,
+    @DefaultValue("kotlinmud.item.Inventory()") val inventory: Inventory,
+    @DefaultValue("kotlinmud.item.Inventory()") val equipped: Inventory,
+    @DefaultValue("kotlinmud.mob.Appetite(race!!)") val appetite: Appetite,
+    @DefaultValue("true") val isNpc: Boolean,
+    @DefaultValue("1") var trains: Int,
+    @DefaultValue("1") var practices: Int,
+    @DefaultValue("listOf()") val route: List<Int> = listOf()
 ) : Noun, Row {
     var delay = 0
     var skillPoints = 0
@@ -304,192 +303,5 @@ class Mob(
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {
         return equipped.items.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it } +
                 affects.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it }
-    }
-
-    class Builder(override val id: Int, val name: String) : Model {
-        var brief = "$name is here."
-        var description = "$name is here, minding their own business."
-        var disposition = Disposition.STANDING
-        var hp = startingHp
-        var mana = startingMana
-        var mv = startingMv
-        var level = 1
-        var race: Race = Human()
-        var specialization = SpecializationType.NONE
-        var job = JobType.NONE
-        var gender = Gender.NONE
-        var gold = 0
-        var skills: MutableMap<SkillType, Int> = mutableMapOf()
-        var affects: MutableList<AffectInstance> = mutableListOf()
-        var wimpy = 0
-        var experiencePerLevel = 1000
-        var savingThrows = 0
-        var inventory = Inventory()
-        var equipment = Inventory()
-        var trains = 0
-        var practices = 0
-        var isNpc = true
-        var attributes = Attributes.Builder()
-            .setHp(startingHp)
-            .setMana(startingMana)
-            .setMv(startingMv)
-        var route: List<Int> = mutableListOf()
-
-        fun addSkill(skillType: SkillType, level: Int): Builder {
-            skills[skillType] = level
-            return this
-        }
-
-        fun addAffect(affect: AffectType): Builder {
-            affects.add(AffectInstance(affect, 1))
-            return this
-        }
-
-        fun setBrief(value: String): Builder {
-            brief = value
-            return this
-        }
-
-        fun setDescription(value: String): Builder {
-            description = value
-            return this
-        }
-
-        fun setDisposition(value: Disposition): Builder {
-            disposition = value
-            return this
-        }
-
-        fun setHp(value: Int): Builder {
-            hp = value
-            attributes.hp = hp
-            return this
-        }
-
-        fun setMana(value: Int): Builder {
-            mana = value
-            attributes.mana = mana
-            return this
-        }
-
-        fun setMv(value: Int): Builder {
-            mv = value
-            attributes.mv = mv
-            return this
-        }
-
-        fun setLevel(value: Int): Builder {
-            level = value
-            return this
-        }
-
-        fun setRace(value: Race): Builder {
-            race = value
-            return this
-        }
-
-        fun setSpecialization(value: SpecializationType): Builder {
-            specialization = value
-            return this
-        }
-
-        fun setJob(value: JobType): Builder {
-            job = value
-            return this
-        }
-
-        fun setGender(value: Gender): Builder {
-            gender = value
-            return this
-        }
-
-        fun setGold(value: Int): Builder {
-            gold = value
-            return this
-        }
-
-        fun setWimpy(value: Int): Builder {
-            wimpy = value
-            return this
-        }
-
-        fun setExperiencePerLevel(value: Int): Builder {
-            experiencePerLevel = value
-            return this
-        }
-
-        fun setSavingThrows(value: Int): Builder {
-            savingThrows = value
-            return this
-        }
-
-        fun setTrains(value: Int): Builder {
-            trains = value
-            return this
-        }
-
-        fun setPractices(value: Int): Builder {
-            practices = value
-            return this
-        }
-
-        fun setIsNpc(value: Boolean): Builder {
-            isNpc = value
-            return this
-        }
-
-        fun equip(item: Item): Builder {
-            // @todo check for equipment position exception
-            equipment.items.add(item)
-            return this
-        }
-
-        fun addItem(item: Item): Builder {
-            inventory.items.add(item)
-            return this
-        }
-
-        fun setAttribute(attribute: Attribute, value: Int): Builder {
-            attributes.setAttribute(attribute, value)
-            return this
-        }
-
-        fun setRoute(value: List<Int>): Builder {
-            route = value
-            return this
-        }
-
-        fun build(): Mob {
-            return Mob(
-                id,
-                name,
-                brief,
-                description,
-                disposition,
-                hp,
-                mana,
-                mv,
-                level,
-                race,
-                specialization,
-                attributes.build(),
-                mutableListOf(),
-                job,
-                gender,
-                gold,
-                skills,
-                affects,
-                wimpy,
-                experiencePerLevel,
-                savingThrows,
-                inventory,
-                equipment,
-                Appetite(race),
-                isNpc,
-                trains,
-                practices,
-                route
-            )
-        }
     }
 }

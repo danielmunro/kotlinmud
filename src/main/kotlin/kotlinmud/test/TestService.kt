@@ -11,6 +11,7 @@ import kotlinmud.item.Item
 import kotlinmud.item.Position
 import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
+import kotlinmud.mob.MobBuilder
 import kotlinmud.mob.MobRoom
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
@@ -58,23 +59,23 @@ class TestService(
 
     fun createMob(job: JobType = JobType.NONE): Mob {
         val mob = fixtureService.createMobBuilder()
-            .setJob(job)
-            .equip(weapon())
+            .job(job)
             .build()
+        mob.equipped.items.add(weapon())
         mobService.addMob(mob)
         return mob
     }
 
-    fun createPlayerMobBuilder(): Mob.Builder {
+    fun createPlayerMobBuilder(): MobBuilder {
         return fixtureService.createMobBuilder()
-            .setIsNpc(false)
+            .isNpc(false)
     }
 
-    fun mobBuilder(): Mob.Builder {
+    fun mobBuilder(): MobBuilder {
         return fixtureService.createMobBuilder()
     }
 
-    fun buildMob(mobBuilder: Mob.Builder): Mob {
+    fun buildMob(mobBuilder: MobBuilder): Mob {
         val mob = mobBuilder.build()
         mob.equipped.items.add(weapon())
         mobService.addMob(mob)

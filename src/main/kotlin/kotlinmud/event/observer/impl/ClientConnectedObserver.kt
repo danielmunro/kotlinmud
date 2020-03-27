@@ -14,10 +14,10 @@ class ClientConnectedObserver(private val mobService: MobService) :
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
         val mob = fixtureService.createMobBuilder()
-            .setIsNpc(false)
-            .setTrains(5)
-            .setPractices(10)
-            .setGold(100)
+            .isNpc(false)
+            .trains(5)
+            .practices(10)
+            .gold(100)
             .build()
         mobService.addMob(mob)
         @Suppress("UNCHECKED_CAST")

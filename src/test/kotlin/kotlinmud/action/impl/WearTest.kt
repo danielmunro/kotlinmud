@@ -3,6 +3,7 @@ package kotlinmud.action.impl
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
+import kotlinmud.item.InventoryBuilder
 import kotlinmud.item.Position
 import kotlinmud.test.createTestService
 import org.junit.Test
@@ -16,12 +17,16 @@ class WearTest {
         // given
         val mob = test.buildMob(
             test.mobBuilder()
-                .addItem(
-                    test.buildItem(
-                        test.itemBuilder()
-                            .setPosition(Position.SHIELD)
-                            .setName("a shield")
-                    )
+                .inventory(
+                    InventoryBuilder().items(
+                        mutableListOf(
+                            test.buildItem(
+                                test.itemBuilder()
+                                    .setPosition(Position.SHIELD)
+                                    .setName("a shield")
+                            )
+                        )
+                    ).build()
                 )
         )
 
@@ -46,11 +51,15 @@ class WearTest {
         // given
         val mob = test.buildMob(
             test.mobBuilder()
-                .addItem(
-                    test.buildItem(
-                        test.itemBuilder()
-                            .setName("a book")
-                    )
+                .inventory(
+                    InventoryBuilder().items(
+                        mutableListOf(
+                            test.buildItem(
+                                test.itemBuilder()
+                                    .setName("a book")
+                            )
+                        )
+                    ).build()
                 )
         )
 
