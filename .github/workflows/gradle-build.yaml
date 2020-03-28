@@ -1,0 +1,15 @@
+name: Run Gradle Tests
+on: push
+jobs:
+  gradle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - uses: eskatos/gradle-command-action@v1
+        env:
+          ENV: ci
+        with:
+          arguments: clean test
