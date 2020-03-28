@@ -13,6 +13,12 @@ jobs:
           ENV: ci
         with:
           arguments: clean test
+      - name: Publish to Quay
+        uses: HurricanKai/Publish-Docker-Github-Action@master
+        with:
+          name: quay.io/dmunro/kotlinmud
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Restart service
         uses: appleboy/ssh-action@master
         with:
