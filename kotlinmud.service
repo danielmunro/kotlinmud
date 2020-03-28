@@ -1,0 +1,13 @@
+[Unit]
+Description=Kotlinmud Service
+After=network.target
+StartLimitIntervalSec=0
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/snap/bin/docker run -p 9999:9999 quay.io/dmunro/kotlinmud
+
+[Install]
+WantedBy=multi-user.target

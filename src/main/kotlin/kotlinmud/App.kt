@@ -79,8 +79,9 @@ fun main() {
 }
 
 fun createContainer(): Kodein {
+    val port = if (System.getenv("ENV") == "ci") 0 else 9999
     return Kodein {
-        bind<ServerSocket>() with singleton { ServerSocket(0) }
+        bind<ServerSocket>() with singleton { ServerSocket(port) }
         bind<Server>() with singleton { Server(instance<EventService>(), instance<ServerSocket>()) }
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
