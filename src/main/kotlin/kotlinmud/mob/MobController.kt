@@ -34,17 +34,17 @@ class MobController(private val mobService: MobService, private val eventService
     }
 
     private fun proceedRoute() {
-        println("mob $mob moving on route")
         val nextRoomId = mob.route[mob.lastRoute]
         val currentRoom = mobService.getRoomForMob(mob)
         val nextRoom = mobService.getRooms().find { it.id == nextRoomId }!!
         if (currentRoom.id == nextRoomId) {
             mob.lastRoute += 1
-            if (mob.lastRoute > mob.route.size) {
+            if (mob.lastRoute == mob.route.size) {
                 mob.lastRoute = 0
-                return proceedRoute()
             }
+            return proceedRoute()
         }
+        println("mob $mob moving on route")
         val path = Pathfinder(currentRoom, nextRoom)
         val rooms = path.find()
         val nextMove = currentRoom.exits.find { it.destination == rooms[1] }!!

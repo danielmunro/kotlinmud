@@ -13,6 +13,7 @@ import kotlinmud.item.Position
 import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobBuilder
+import kotlinmud.mob.MobController
 import kotlinmud.mob.MobRoom
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
@@ -36,6 +37,10 @@ class TestService(
 
     fun <T, A> publish(event: Event<T>): EventResponse<A> {
         return eventService.publish(event)
+    }
+
+    fun createMobController(mob: Mob): MobController {
+        return MobController(mobService, eventService, mob)
     }
 
     fun regenMobs() {

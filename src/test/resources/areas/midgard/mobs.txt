@@ -84,7 +84,7 @@ a city guard~
 a Midgard city guard is here, keeping watch on things.~
 A city guard is here.~
 standing~
-job: patrol, rooms: 1-2000-22, level: 20, hp: 400, mv: 1000, goldMin: 5, goldMax: 15~
+job: patrol, route: 1-2-100, level: 20, hp: 400, mv: 1000, goldMin: 5, goldMax: 15~
 ~
 
 #12

@@ -1,4 +1,5 @@
 mobId: 1, roomId: 1~
+mobId: 11, roomId: 1~
 mobId: 2, roomId: 4~
 mobId: 3, roomId: 103, maxInRoom: 2, maxInWorld: 10~
 mobId: 4, roomId: 100, maxInWorld: 4~

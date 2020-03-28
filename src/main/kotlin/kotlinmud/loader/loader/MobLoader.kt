@@ -39,7 +39,7 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
         }
         val strRoute = strAttr("route")
         val route = if (strRoute != "") strRoute.split("-").map { it.toInt() } else listOf()
-        var attributes = Attributes.Builder()
+        val attributes = Attributes.Builder()
             .setAttribute(Attribute.HIT, hit)
             .setAttribute(Attribute.DAM, dam)
             .setAttribute(Attribute.STR, str)
