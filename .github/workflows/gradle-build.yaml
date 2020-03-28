@@ -16,7 +16,7 @@ jobs:
       - name: Publish to Quay
         uses: HurricanKai/Publish-Docker-Github-Action@master
         with:
-          name: dmunro/kotlinmud
+          name: quay.io/dmunro/kotlinmud
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: quay.io
