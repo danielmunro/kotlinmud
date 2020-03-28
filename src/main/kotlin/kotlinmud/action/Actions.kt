@@ -8,6 +8,7 @@ import kotlinmud.action.impl.createDropAction
 import kotlinmud.action.impl.createEastAction
 import kotlinmud.action.impl.createEatAction
 import kotlinmud.action.impl.createEquipmentAction
+import kotlinmud.action.impl.createExitsAction
 import kotlinmud.action.impl.createFleeAction
 import kotlinmud.action.impl.createGetAction
 import kotlinmud.action.impl.createGossipAction
@@ -68,6 +69,7 @@ fun createActionsList(): List<Action> {
         createEatAction(),
         createTrainAction(),
         createPracticeAction(),
-        createWhoAction()
+        createWhoAction(),
+        createExitsAction()
     )
 }

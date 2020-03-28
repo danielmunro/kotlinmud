@@ -32,6 +32,7 @@ enum class Command(val value: String) {
     AFFECTS("affects"),
     TIME("time"),
     WEATHER("weather"),
+    EXITS("exits"),
 
     // mobs
     FOLLOW("follow"),
