@@ -13,3 +13,11 @@ jobs:
           ENV: ci
         with:
           arguments: clean test
+      - name: Restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: systemctl stop kotlinmud && systemctl start kotlinmud
