@@ -9,6 +9,7 @@ class RoomLoader(private val tokenizer: Tokenizer) : Loader {
     var name = ""
     var description = ""
     var regen = RegenLevel.NORMAL
+    var isIndoor = true
     var north = ""
     var south = ""
     var east = ""
@@ -23,6 +24,7 @@ class RoomLoader(private val tokenizer: Tokenizer) : Loader {
         description = tokenizer.parseString()
         props = tokenizer.parseProperties()
         regen = RegenLevel.valueOf(strAttr("regen", "normal").toUpperCase())
+        isIndoor = strAttr("isIndoor", "true").toBoolean()
         north = props["n"] ?: ""
         south = props["s"] ?: ""
         east = props["e"] ?: ""
@@ -30,6 +32,6 @@ class RoomLoader(private val tokenizer: Tokenizer) : Loader {
         up = props["u"] ?: ""
         down = props["d"] ?: ""
 
-        return RoomModel(id, name, description, regen, north, south, east, west, up, down)
+        return RoomModel(id, name, description, regen, isIndoor, north, south, east, west, up, down)
     }
 }

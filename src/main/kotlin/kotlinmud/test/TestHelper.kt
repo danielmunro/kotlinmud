@@ -10,6 +10,7 @@ import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
+import kotlinmud.service.WeatherService
 import org.kodein.di.erased.instance
 
 fun createTestService(): TestService {
@@ -20,7 +21,8 @@ fun createTestService(): TestService {
     val evt: EventService by container.instance()
     val server = Server(evt, ServerSocket())
     val respawnService: RespawnService by container.instance()
-    evt.observers = createObservers(server, mob, evt, respawnService)
+    val weatherService: WeatherService by container.instance()
+    evt.observers = createObservers(server, mob, evt, respawnService, weatherService)
     return TestService(fix, mob, act, respawnService, evt)
 }
 

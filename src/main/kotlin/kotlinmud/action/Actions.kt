@@ -1,5 +1,6 @@
 package kotlinmud.action
 
+import kotlinmud.action.impl.createAttributesAction
 import kotlinmud.action.impl.createBuyAction
 import kotlinmud.action.impl.createCloseAction
 import kotlinmud.action.impl.createDownAction
@@ -32,6 +33,7 @@ import kotlinmud.action.impl.createTrainAction
 import kotlinmud.action.impl.createUpAction
 import kotlinmud.action.impl.createWakeAction
 import kotlinmud.action.impl.createWearAction
+import kotlinmud.action.impl.createWeatherAction
 import kotlinmud.action.impl.createWestAction
 import kotlinmud.action.impl.createWhoAction
 
@@ -70,6 +72,8 @@ fun createActionsList(): List<Action> {
         createTrainAction(),
         createPracticeAction(),
         createWhoAction(),
-        createExitsAction()
+        createExitsAction(),
+        createAttributesAction(),
+        createWeatherAction()
     )
 }

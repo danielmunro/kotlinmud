@@ -7,6 +7,7 @@ data class RoomModel(
     val name: String,
     val description: String,
     val regen: RegenLevel,
+    val isIndoor: Boolean,
     val north: String,
     val south: String,
     val east: String,

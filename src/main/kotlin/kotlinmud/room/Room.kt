@@ -10,6 +10,8 @@ data class Room(
     val name: String,
     val description: String,
     val regen: RegenLevel,
-    val inventory: Inventory = Inventory(),
+    val isIndoor: Boolean
+) : Row {
+    val inventory: Inventory = Inventory()
     val exits: MutableList<Exit> = mutableListOf()
-) : Row
+}

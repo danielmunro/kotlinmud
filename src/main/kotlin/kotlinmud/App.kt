@@ -10,13 +10,13 @@ import kotlinmud.io.Syntax
 import kotlinmud.loader.AreaLoader
 import kotlinmud.loader.World
 import kotlinmud.mob.Mob
-import kotlinmud.path.Pathfinder
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
+import kotlinmud.service.WeatherService
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
@@ -31,13 +31,8 @@ class App(
 
     fun start() {
         println("starting app on port ${server.getPort()}")
-//        pathfind()
         server.start()
         processClientBuffers()
-    }
-
-    fun pathfind() {
-        Pathfinder(mobService.getStartRoom(), mobService.getRooms().find { it.id == 119 }!!).find()
     }
 
     private fun processClientBuffers() {
@@ -71,7 +66,14 @@ fun main() {
     val eventService: EventService by container.instance()
     val server: Server by container.instance()
     val respawnService: RespawnService by container.instance()
-    eventService.observers = createObservers(server, mobService, eventService, respawnService)
+    val weatherService: WeatherService by container.instance()
+    eventService.observers = createObservers(
+        server,
+        mobService,
+        eventService,
+        respawnService,
+        weatherService
+    )
     respawnService.respawn()
     App(eventService, mobService, server).start()
 }
@@ -83,6 +85,7 @@ fun createContainer(): Kodein {
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
         bind<ItemService>() with singleton { ItemService() }
+        bind<WeatherService>() with singleton { WeatherService() }
         bind<ActionService>() with singleton {
             ActionService(instance<MobService>(), instance<EventService>(), instance<Server>())
         }

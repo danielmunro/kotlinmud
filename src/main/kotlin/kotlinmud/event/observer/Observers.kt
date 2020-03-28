@@ -1,5 +1,6 @@
 package kotlinmud.event.observer
 
+import kotlinmud.event.observer.impl.ChangeWeatherObserver
 import kotlinmud.event.observer.impl.ClientConnectedObserver
 import kotlinmud.event.observer.impl.DecrementAffectTimeoutTickObserver
 import kotlinmud.event.observer.impl.DecrementDelayObserver
@@ -22,8 +23,9 @@ import kotlinmud.io.Server
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
+import kotlinmud.service.WeatherService
 
-fun createObservers(server: Server, mobService: MobService, eventService: EventService, respawnService: RespawnService): List<Observer> {
+fun createObservers(server: Server, mobService: MobService, eventService: EventService, respawnService: RespawnService, weatherService: WeatherService): List<Observer> {
     return listOf(
         // client/server observers
         ClientConnectedObserver(mobService),
@@ -40,6 +42,7 @@ fun createObservers(server: Server, mobService: MobService, eventService: EventS
         PruneDeadMobsPulseObserver(mobService),
         RespawnTickObserver(respawnService),
         SocialDistributorObserver(server, mobService),
+        ChangeWeatherObserver(weatherService),
 
         // mobs
         WimpyObserver(mobService),
