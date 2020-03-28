@@ -53,7 +53,7 @@ class MobServiceTest {
         // setup
         val testService = createTestService()
         val room = testService.getStartRoom()
-        val resetNumbers = 1
+        val resetNumbers = 2
 
         // when
         testService.respawnWorld()
