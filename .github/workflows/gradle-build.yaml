@@ -16,15 +16,12 @@ jobs:
       - name: Publish to Quay
         uses: HurricanKai/Publish-Docker-Github-Action@master
         env:
-          GITHUB_REF: build-$(git rev-parse --short HEAD)
-          GITHUB_TAG: build-$(git rev-parse --short HEAD)
-        if: contains(github.ref, 'refs/tags/v')
+          BRANCH: build-$(git rev-parse --short HEAD)
         with:
           name: quay.io/dmunro/kotlinmud
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: quay.io
-          tagging: true
       - name: Restart service
         uses: appleboy/ssh-action@master
         with:
