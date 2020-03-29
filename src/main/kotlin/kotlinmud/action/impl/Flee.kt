@@ -7,6 +7,8 @@ import kotlinmud.action.mustBeFighting
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
+import kotlinmud.mob.skill.Cost
+import kotlinmud.mob.skill.CostType
 
 fun createFleeAction(): Action {
     return Action(
@@ -26,5 +28,9 @@ fun createFleeAction(): Action {
                     "${request.mob.name} flees!")
             )
         },
-        Command.LOOK)
+        listOf(
+            Cost(CostType.MV_PERCENT, 25)
+        ),
+        Command.LOOK
+    )
 }

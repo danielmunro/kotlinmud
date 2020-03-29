@@ -36,6 +36,7 @@ import kotlinmud.io.Server
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.math.percentRoll
+import kotlinmud.mob.HasCosts
 import kotlinmud.mob.Intent
 import kotlinmud.mob.Invokable
 import kotlinmud.mob.Mob
@@ -86,6 +87,7 @@ class ActionService(
                     (it.syntax.size == request.args.size || it.syntax.contains(Syntax.FREE_FORM))
         }?.let {
             dispositionCheck(request, it)
+                ?: deductCosts(request.mob, it)
                 ?: callInvokable(request, it, buildActionContextList(request, it))
         }
     }
@@ -97,8 +99,8 @@ class ActionService(
             ?: callInvokable(request, skill, buildActionContextList(request, skill))
     }
 
-    private fun deductCosts(mob: Mob, skill: Skill): Response? {
-        val cost = skill.costs.find {
+    private fun deductCosts(mob: Mob, hasCosts: HasCosts): Response? {
+        val cost = hasCosts.costs.find {
             when (it.type) {
                 CostType.MV_AMOUNT -> mob.mv < it.amount
                 CostType.MV_PERCENT -> mob.mv < Math.max(mob.calc(Attribute.MV) * (it.amount.toDouble() / 100), 50.0)
@@ -110,7 +112,7 @@ class ActionService(
         if (cost != null) {
             return createResponseWithEmptyActionContext(Message("You are too tired"))
         }
-        skill.costs.forEach {
+        hasCosts.costs.forEach {
             when (it.type) {
                 CostType.DELAY -> mob.delay += it.amount
                 CostType.MV_AMOUNT -> mob.mv -= it.amount

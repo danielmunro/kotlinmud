@@ -7,6 +7,8 @@ import kotlinmud.action.mustBeAlert
 import kotlinmud.io.EmptyResponse
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
+import kotlinmud.mob.skill.Cost
+import kotlinmud.mob.skill.CostType
 
 fun createRecallAction(): Action {
     return Action(
@@ -17,6 +19,9 @@ fun createRecallAction(): Action {
             svc.putMobInRoom(request.mob, svc.getRecall())
             EmptyResponse()
         },
+        listOf(
+            Cost(CostType.MV_PERCENT, 50)
+        ),
         Command.LOOK
     )
 }

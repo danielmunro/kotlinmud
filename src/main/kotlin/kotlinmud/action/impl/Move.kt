@@ -7,6 +7,8 @@ import kotlinmud.action.mustBeStanding
 import kotlinmud.io.EmptyResponse
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
+import kotlinmud.mob.skill.Cost
+import kotlinmud.mob.skill.CostType
 import kotlinmud.room.Direction
 import kotlinmud.room.Room
 
@@ -20,6 +22,9 @@ private fun move(command: Command, direction: Direction): Action {
             svc.moveMob(request.mob, destination, direction)
             EmptyResponse()
         },
+        listOf(
+            Cost(CostType.MV_AMOUNT, 1)
+        ),
         Command.LOOK)
 }
 
