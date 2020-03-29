@@ -14,6 +14,7 @@ import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlin.streams.toList
 
 const val TICK_LENGTH_IN_SECONDS = 30
 
@@ -29,7 +30,9 @@ class Server(private val eventService: EventService, private val server: ServerS
     }
 
     fun getClientsWithBuffers(): List<ClientHandler> {
-        return clients.filter { it.hasRequests() }
+        return clients.stream()
+            .filter { it.hasRequests() }
+            .toList()
     }
 
     fun getClientsFromMobs(mobs: List<Mob>): List<ClientHandler> {
