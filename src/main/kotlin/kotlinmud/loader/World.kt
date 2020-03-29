@@ -20,7 +20,7 @@ data class World(val areas: List<Area>) {
     init {
         val allRoomModels = areas.flatMap { it.roomMapper.roomModels }
         val allDoors = areas.flatMap { it.roomMapper.doors }
-        val allRoomsMapper = RoomMapper("world", allRoomModels, allDoors)
+        val allRoomsMapper = RoomMapper(allRoomModels, allDoors)
         rooms = Table(allRoomsMapper.map())
         mobs = Table(areas.flatMap { it.mobs })
         items = Table(areas.flatMap { it.items })

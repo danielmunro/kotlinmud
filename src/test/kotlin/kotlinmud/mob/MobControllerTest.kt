@@ -40,8 +40,8 @@ class MobControllerTest {
         val test = createTestService()
         test.respawnWorld()
         val mobs = test.getMobRooms().stream().filter { it.mob.id == 9 }.map { it.mob }.collect(Collectors.toList())
-        val prob = ProbabilityTest()
-        val area = test.getRoomForMob(mobs.first()).area
+        val prob = ProbabilityTest(1000)
+        val area = "warehouse"
 
         while (prob.isIterating()) {
             mobs.forEach {

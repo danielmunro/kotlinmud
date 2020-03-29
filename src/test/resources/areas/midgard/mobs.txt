@@ -68,7 +68,7 @@ an alley cat~
 a mangy alley cat is here, sniffing around the garbage.~
 A mangy alley cat.~
 standing~
-race: felid, level: 3, goldMin: 1, goldMax: 3, hp: 4~
+race: felid, level: 3, goldMin: 1, goldMax: 3, hp: 4, job: fodder~
 ~
 
 #10

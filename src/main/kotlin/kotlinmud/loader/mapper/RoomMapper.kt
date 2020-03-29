@@ -7,10 +7,10 @@ import kotlinmud.room.exit.Door
 import kotlinmud.room.exit.Exit
 import kotlinmud.room.oppositeDirection
 
-class RoomMapper(private val area: String, val roomModels: List<RoomModel>, val doors: List<Door>) {
+class RoomMapper(val roomModels: List<RoomModel>, val doors: List<Door>) {
     fun map(): List<Room> {
         val rooms = roomModels.map {
-            Room(it.id, area, it.name, it.description, it.regen, it.isIndoor)
+            Room(it.id, it.area, it.name, it.description, it.regen, it.isIndoor)
         }
         val modelMap = mutableMapOf<Int, RoomModel>()
         val roomMap = mutableMapOf<Int, Room>()

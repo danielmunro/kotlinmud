@@ -16,6 +16,7 @@ class RoomLoader(private val tokenizer: Tokenizer) : Loader {
     var west = ""
     var up = ""
     var down = ""
+    var area = ""
     override var props: Map<String, String> = mapOf()
 
     override fun load(): RoomModel {
@@ -31,7 +32,8 @@ class RoomLoader(private val tokenizer: Tokenizer) : Loader {
         west = props["w"] ?: ""
         up = props["u"] ?: ""
         down = props["d"] ?: ""
+        area = strAttr("area", "any")
 
-        return RoomModel(id, name, description, regen, isIndoor, north, south, east, west, up, down)
+        return RoomModel(id, name, description, regen, isIndoor, north, south, east, west, up, down, area)
     }
 }

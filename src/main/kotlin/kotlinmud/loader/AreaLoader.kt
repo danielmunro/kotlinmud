@@ -36,7 +36,6 @@ class AreaLoader(private val baseDir: String) {
 
     private fun createRoomMapper(): RoomMapper {
         return RoomMapper(
-            baseDir,
             createModelList(RoomLoader(createTokenizer("$baseDir/rooms.txt"))),
             loadDoors()
         )

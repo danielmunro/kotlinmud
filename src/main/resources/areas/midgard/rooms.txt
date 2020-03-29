@@ -170,44 +170,44 @@ e: door-2-112~
 #112
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
-e: 113, n: 115~
+e: 113, n: 115, area: warehouse~
 
 #113
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
-e: 114, n: 116~
+e: 114, n: 116, area: warehouse~
 
 #114
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
-n: 117~
+n: 117, area: warehouse~
 
 #115
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
-e: 116, n: 118~
+e: 116, n: 118, area: warehouse~
 
 #116
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
-e: 117, n: 119~
+e: 117, n: 119, area: warehouse~
 
 #117
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
-n: 120~
+n: 120, area: warehouse~
 
 #118
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
-e: 119~
+e: 119, area: warehouse~
 
 #119
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
-e: 120~
+e: 120, area: warehouse~
 
 #120
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
-~
+area: warehouse~
