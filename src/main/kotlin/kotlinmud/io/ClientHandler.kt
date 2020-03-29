@@ -9,6 +9,7 @@ import kotlinmud.event.createInputReceivedEvent
 import kotlinmud.event.event.InputReceivedEvent
 import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
+import java.net.SocketException
 
 class ClientHandler(private val eventService: EventService, private val client: Socket, val mob: Mob) {
     private val reader: Scanner = Scanner(client.getInputStream())
@@ -39,7 +40,12 @@ class ClientHandler(private val eventService: EventService, private val client: 
         if (message == "") {
             return
         }
-        writer.write(("$message\n---> ").toByteArray(Charset.defaultCharset()))
+        try {
+            writer.write(("$message\n---> ").toByteArray(Charset.defaultCharset()))
+        } catch (e: SocketException) {
+            println("client ${client.remoteSocketAddress} lost connection")
+            shutdown()
+        }
     }
 
     fun shiftBuffer(): Request {
