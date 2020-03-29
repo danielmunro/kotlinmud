@@ -15,8 +15,6 @@ jobs:
           arguments: clean test
       - name: Publish to Quay
         uses: HurricanKai/Publish-Docker-Github-Action@master
-        env:
-          BRANCH: build-$(git rev-parse --short HEAD)
         with:
           name: quay.io/dmunro/kotlinmud
           username: ${{ secrets.DOCKER_USERNAME }}
