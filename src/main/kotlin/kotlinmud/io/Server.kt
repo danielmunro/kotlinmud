@@ -67,7 +67,7 @@ class Server(private val eventService: EventService, private val server: ServerS
     }
 
     private fun pruneClients() {
-        clients = clients.filter { it.isRunning() }.toMutableList()
+        clients.removeIf { !it.isRunning() }
     }
 
     private fun listenForClients() {
