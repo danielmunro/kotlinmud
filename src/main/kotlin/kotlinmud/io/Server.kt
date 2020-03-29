@@ -84,10 +84,6 @@ class Server(private val eventService: EventService, private val server: ServerS
             eventService.publish(createClientConnectedEvent(socket))
         val handler = ClientHandler(eventService, socket, response.subject)
         clients.add(handler)
-        GlobalScope.launch {
-            println("inside new global scope")
-            handler.run()
-        }
-        println("receive socket done")
+        GlobalScope.launch { handler.run() }
     }
 }
