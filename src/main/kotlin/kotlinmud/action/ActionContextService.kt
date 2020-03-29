@@ -25,6 +25,9 @@ class ActionContextService(
     private val actionContextList: ActionContextList,
     private val server: Server
 ) {
+    fun getRecall(): Room {
+        return mobService.getStartRoom()
+    }
 
     fun <T> get(syntax: Syntax): T {
         return actionContextList.getResultBySyntax(syntax)
@@ -36,6 +39,10 @@ class ActionContextService(
 
     fun moveMob(mob: Mob, room: Room, direction: Direction) {
         mobService.moveMob(mob, room, direction)
+    }
+
+    fun putMobInRoom(mob: Mob, room: Room) {
+        mobService.putMobInRoom(mob, room)
     }
 
     fun createResponse(message: Message, status: IOStatus = IOStatus.OK): Response {

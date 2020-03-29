@@ -22,6 +22,7 @@ import kotlinmud.action.impl.createLookAtAction
 import kotlinmud.action.impl.createNorthAction
 import kotlinmud.action.impl.createOpenAction
 import kotlinmud.action.impl.createPracticeAction
+import kotlinmud.action.impl.createRecallAction
 import kotlinmud.action.impl.createRemoveAction
 import kotlinmud.action.impl.createSayAction
 import kotlinmud.action.impl.createScoreAction
@@ -76,6 +77,7 @@ fun createActionsList(): List<Action> {
         createExitsAction(),
         createAttributesAction(),
         createWeatherAction(),
-        createAffectsAction()
+        createAffectsAction(),
+        createRecallAction()
     )
 }
