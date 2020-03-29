@@ -63,8 +63,9 @@ class MobController(
     private fun wander() {
         println("mob $mob moving via random choice")
         val room = mobService.getRoomForMob(mob)
-        val exit = room.openExits().random()
-        mobService.moveMob(mob, exit.destination, exit.direction)
+        room.openExits().filter { it.destination.area == room.area }.random().let {
+            mobService.moveMob(mob, it.destination, it.direction)
+        }
     }
 
     private fun openDoorIfExistsAndClosed(room: Room, exit: Exit): Boolean {

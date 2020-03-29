@@ -2,6 +2,7 @@ package kotlinmud.io
 
 import java.net.ServerSocket
 import java.net.Socket
+import kotlin.streams.toList
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
@@ -14,7 +15,6 @@ import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlin.streams.toList
 
 const val TICK_LENGTH_IN_SECONDS = 30
 

@@ -6,4 +6,4 @@ closed~
 #2
 a warehouse door~
 a nondescript warehouse door is here.~
-closed~
+open~
