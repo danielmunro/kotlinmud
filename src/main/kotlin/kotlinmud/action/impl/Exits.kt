@@ -8,6 +8,7 @@ import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
+import kotlinmud.room.exit.DoorDisposition
 
 fun createExitsAction(): Action {
     return Action(
@@ -18,7 +19,7 @@ fun createExitsAction(): Action {
             createResponseWithEmptyActionContext(
                 Message("Exits include:\n${request.room.exits.fold("") {
                     acc, it ->
-                    acc + "\n${it.direction.value} - ${it.destination.name}"
+                    acc + if (it.door != null && it.door.disposition != DoorDisposition.OPEN) "\n${it.direction.value} - ${it.door}" else "\n${it.direction.value} - ${it.destination.name}"
                 }}")
             )
         })

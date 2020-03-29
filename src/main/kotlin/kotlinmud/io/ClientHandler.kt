@@ -2,6 +2,7 @@ package kotlinmud.io
 
 import java.io.OutputStream
 import java.net.Socket
+import java.net.SocketException
 import java.nio.charset.Charset
 import java.util.Scanner
 import kotlinmud.action.Command
@@ -9,7 +10,6 @@ import kotlinmud.event.createInputReceivedEvent
 import kotlinmud.event.event.InputReceivedEvent
 import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
-import java.net.SocketException
 
 class ClientHandler(private val eventService: EventService, private val client: Socket, val mob: Mob) {
     private val reader: Scanner = Scanner(client.getInputStream())
