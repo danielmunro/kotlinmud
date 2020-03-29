@@ -20,7 +20,7 @@ class LookAtTest {
         // given
         val mob1 = testService.buildMob(
             testService.mobBuilder()
-                .affects(mutableListOf(affect(AffectType.INVISIBLE))
+                .affects(mutableListOf(affect(AffectType.INVISIBILITY))
             )
         )
         val mob2 = testService.createMob()
@@ -42,7 +42,7 @@ class LookAtTest {
         val item = testService.buildItem(
             testService.itemBuilder()
                 .affects(
-                    affects(AffectType.INVISIBLE))
+                    affects(AffectType.INVISIBILITY))
         )
         val mob = testService.createMob()
         mob.inventory.items.add(item)

@@ -30,7 +30,7 @@ fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>): String {
         return "you can't see anything, you're blind!"
     }
     val observers = mobs.filter {
-        it != mob && it.affects().findByType(AffectType.INVISIBLE) == null
+        it != mob && it.affects().findByType(AffectType.INVISIBILITY) == null
     }
     return String.format("%s\n%s\n%sExits [%s]%s%s%s%s",
         room.name,

@@ -1,5 +1,6 @@
 package kotlinmud.action
 
+import kotlinmud.action.impl.createAffectsAction
 import kotlinmud.action.impl.createAttributesAction
 import kotlinmud.action.impl.createBuyAction
 import kotlinmud.action.impl.createCloseAction
@@ -74,6 +75,7 @@ fun createActionsList(): List<Action> {
         createWhoAction(),
         createExitsAction(),
         createAttributesAction(),
-        createWeatherAction()
+        createWeatherAction(),
+        createAffectsAction()
     )
 }

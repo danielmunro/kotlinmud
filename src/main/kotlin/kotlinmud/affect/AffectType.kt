@@ -1,16 +1,16 @@
 package kotlinmud.affect
 
-enum class AffectType {
-    BLESS,
-    CURSE,
-    BLIND,
-    GIANT_STRENGTH,
-    FRENZY,
-    DETECT_HIDDEN,
-    DETECT_INVISIBLE,
-    INVISIBLE,
-    STUNNED,
-    BERSERK,
-    DRUNK,
-    HASTE,
+enum class AffectType(val value: String) {
+    BLESS("bless"),
+    CURSE("curse"),
+    BLIND("blind"),
+    GIANT_STRENGTH("giant strength"),
+    FRENZY("frenzy"),
+    DETECT_HIDDEN("detect hidden"),
+    DETECT_INVISIBLE("detect invisible"),
+    INVISIBILITY("invisibility"),
+    STUNNED("stunned"),
+    BERSERK("berserk"),
+    DRUNK("drunk"),
+    HASTE("haste"),
 }
