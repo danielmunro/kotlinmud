@@ -17,18 +17,17 @@ fun createGossipAction(): Action {
         listOf(Syntax.COMMAND, Syntax.FREE_FORM),
         { svc: ActionContextService, request: Request ->
             val text = svc.get<String>(Syntax.FREE_FORM)
-            val message = Message(
-                "you gossip, \"$text\"",
-                "${request.mob} gossips, \"$text\""
-            )
             svc.publishSocial(
                 Social(
                     SocialChannel.GOSSIP,
                     request.mob,
                     request.room,
-                    message
+                    Message(
+                        "you gossip, \"$text\"",
+                        "${request.mob} gossips, \"$text\""
+                    )
                 )
             )
-            svc.createResponse(message)
+            svc.createResponse(Message("you gossip, \"$text\""))
         })
 }

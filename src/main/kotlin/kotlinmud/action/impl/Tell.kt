@@ -19,19 +19,18 @@ fun createTellAction(): Action {
         { svc: ActionContextService, request: Request ->
             val text = svc.get<String>(Syntax.FREE_FORM)
             val target = svc.get<Mob>(Syntax.PLAYER_MOB)
-            val message = Message(
-                "you tell $target, \"$text\"",
-                "${request.mob} tells you, \"$text\""
-            )
             svc.publishSocial(
                 Social(
                     SocialChannel.TELL,
                     request.mob,
                     request.room,
-                    message,
+                    Message(
+                        "you tell $target, \"$text\"",
+                        "${request.mob} tells you, \"$text\""
+                    ),
                     target
                 )
             )
-            svc.createResponse(message)
+            svc.createResponse(Message("you tell $target, \"$text\""))
         })
 }
