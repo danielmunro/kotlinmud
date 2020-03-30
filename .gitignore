@@ -8,6 +8,8 @@ out/
 
 .idea/
 
+.env
+
 # Compiled class file
 *.class
 
