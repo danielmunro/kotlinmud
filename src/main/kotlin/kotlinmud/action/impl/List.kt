@@ -16,7 +16,8 @@ fun createListAction(): Action {
         mustBeAlert(),
         listOf(Syntax.COMMAND),
         { svc: ActionContextService, request: Request ->
-            val shopkeeper = svc.getMobsInRoom(request.room).find { it.job == JobType.SHOPKEEPER }!!
+            val shopkeeper = svc.getMobsInRoom(request.room).find { it.job == JobType.SHOPKEEPER }
+                ?: return@Action svc.createResponse(Message("There are no shopkeepers here."))
             svc.createResponse(
                 Message(
                     "[lvl cost name]\n" +

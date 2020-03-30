@@ -1,9 +1,9 @@
 itemId: 30, mobId: 5,  maxInInventory: 25, maxInWorld: 999~
 itemId: 31, mobId: 5,  maxInInventory: 25, maxInWorld: 999~
 itemId: 32, mobId: 5,  maxInInventory: 25, maxInWorld: 999~
-itemId:  2, mobId: 6,  maxInInventory: 25, maxInWorld: 999~
-itemId:  3, mobId: 6,  maxInInventory: 25, maxInWorld: 999~
-itemId:  4, mobId: 6,  maxInInventory: 25, maxInWorld: 999~
+itemId:  2, mobId: 12, maxInInventory: 25, maxInWorld: 999~
+itemId:  3, mobId: 12, maxInInventory: 25, maxInWorld: 999~
+itemId:  4, mobId: 12, maxInInventory: 25, maxInWorld: 999~
 itemId:  6, mobId: 6,  maxInInventory: 25, maxInWorld: 999~
 itemId:  7, mobId: 6,  maxInInventory: 25, maxInWorld: 999~
 itemId:  8, mobId: 6,  maxInInventory: 25, maxInWorld: 999~

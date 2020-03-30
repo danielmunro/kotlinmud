@@ -41,7 +41,7 @@ job: shopkeeper~
 
 #6
 a blacksmith~
-a strong blacksmith sits here, examining a blade.~
+a strong blacksmith sits here, examining a shield.~
 a blacksmith description.~
 sitting~
 job: shopkeeper~
@@ -85,6 +85,14 @@ a Midgard city guard is here, keeping watch on things.~
 A city guard is here.~
 standing~
 job: patrol, route: 1-2000-22, level: 20, hp: 400, mv: 1000, goldMin: 5, goldMax: 15~
+~
+
+#12
+a blacksmith~
+a strong blacksmith sits here, examining a blade.~
+a blacksmith description.~
+sitting~
+job: shopkeeper~
 ~
 
 #15
