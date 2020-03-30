@@ -24,7 +24,6 @@ class MobService(
     private val eventService: EventService,
     private val world: World
 ) {
-
     private val mobRooms: MutableList<MobRoom> = mutableListOf()
     private val fights: MutableList<Fight> = mutableListOf()
 
@@ -129,6 +128,10 @@ class MobService(
             }
             it.mob.isIncapacitated()
         }
+    }
+
+    fun removeMob(mob: Mob) {
+        mobRooms.removeIf { it.mob == mob }
     }
 
     fun sendMessageToRoom(message: Message, room: Room, actionCreator: Mob, target: Mob? = null) {

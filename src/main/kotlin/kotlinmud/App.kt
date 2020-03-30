@@ -37,7 +37,10 @@ class App(
 
     private fun processClientBuffers() {
         while (true) {
-            server.getClientsWithBuffers().forEach { processRequest(it) }
+            server.getClientsWithBuffers().forEach {
+                processRequest(it)
+            }
+            server.pruneClients()
         }
     }
 

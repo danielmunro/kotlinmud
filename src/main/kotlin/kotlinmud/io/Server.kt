@@ -2,6 +2,7 @@ package kotlinmud.io
 
 import java.net.ServerSocket
 import java.net.Socket
+import java.util.stream.Collectors
 import kotlin.streams.toList
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
@@ -25,7 +26,6 @@ class Server(private val eventService: EventService, private val server: ServerS
 
     fun start() {
         GlobalScope.launch { listenForClients() }
-        GlobalScope.launch { pruneClients() }
         GlobalScope.launch { timer() }
     }
 
@@ -53,6 +53,14 @@ class Server(private val eventService: EventService, private val server: ServerS
         return server.localPort
     }
 
+    fun pruneClients() {
+        val toPrune = clients.stream().filter { !it.isRunning() }.collect(Collectors.toList())
+        toPrune.forEach {
+            eventService.publish<ClientHandler, ClientHandler>(Event(EventType.CLIENT_DISCONNECTED, it))
+        }
+        clients.removeAll(toPrune)
+    }
+
     private fun timer() {
         while (true) {
             Thread.sleep(2000)
@@ -64,10 +72,6 @@ class Server(private val eventService: EventService, private val server: ServerS
                 eventService.publish<TickEvent, Tick>(Event(EventType.TICK, TickEvent()))
             }
         }
-    }
-
-    private fun pruneClients() {
-        clients.removeIf { !it.isRunning() }
     }
 
     private fun listenForClients() {

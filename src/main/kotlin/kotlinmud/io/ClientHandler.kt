@@ -14,11 +14,10 @@ import kotlinmud.service.EventService
 class ClientHandler(private val eventService: EventService, private val client: Socket, val mob: Mob) {
     private val reader: Scanner = Scanner(client.getInputStream())
     private val writer: OutputStream = client.getOutputStream()
-    private var running: Boolean = false
+    private var running: Boolean = true
     private val requests: MutableList<Request> = mutableListOf()
 
     fun run() {
-        running = true
         while (running) {
             try {
                 reader.nextLine().toLowerCase().let { captureInput(it) }
@@ -57,7 +56,7 @@ class ClientHandler(private val eventService: EventService, private val client: 
     }
 
     private fun captureInput(input: String) {
-        if (Command.EXIT.value == input) {
+        if (Command.EXIT.value == input || Command.QUIT.value == input) {
             shutdown()
             return
         }

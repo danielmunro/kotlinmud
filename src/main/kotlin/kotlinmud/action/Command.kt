@@ -64,5 +64,6 @@ enum class Command(val value: String) {
 
     // other
     EXIT("exit"),
+    QUIT("quit"),
     RECALL("recall");
 }
