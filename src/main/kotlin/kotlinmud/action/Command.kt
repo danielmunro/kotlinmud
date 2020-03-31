@@ -22,6 +22,7 @@ enum class Command(val value: String) {
     LIST("list"),
     BUY("buy"),
     SELL("sell"),
+    HEAL("heal"),
 
     // informational
     LOOK("look"),

@@ -24,6 +24,7 @@ import kotlinmud.action.contextBuilder.OptionalTargetContextBuilder
 import kotlinmud.action.contextBuilder.PlayerMobContextBuilder
 import kotlinmud.action.contextBuilder.SkillToPracticeContextBuilder
 import kotlinmud.action.contextBuilder.SpellContextBuilder
+import kotlinmud.action.contextBuilder.SpellFromHealerContextBuilder
 import kotlinmud.action.contextBuilder.TargetMobContextBuilder
 import kotlinmud.action.contextBuilder.TrainableContextBuilder
 import kotlinmud.action.createActionsList
@@ -177,6 +178,7 @@ class ActionService(
             Syntax.ITEM_FROM_MERCHANT -> ItemFromMerchantContextBuilder(request.mob, mobService.getMobsForRoom(request.room)).build(syntax, word)
             Syntax.ITEM_TO_SELL -> ItemToSellContextBuilder(request.mob, mobService.getMobsForRoom(request.room)).build(syntax, word)
             Syntax.SPELL -> SpellContextBuilder(skills).build(syntax, word)
+            Syntax.SPELL_FROM_HEALER -> SpellFromHealerContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)
             Syntax.CAST -> CastContextBuilder().build(syntax, word)
             Syntax.PLAYER_MOB -> PlayerMobContextBuilder(mobService).build(syntax, word)
             Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(request.mob, request.room).build(syntax, word)

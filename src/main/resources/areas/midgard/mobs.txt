@@ -119,6 +119,14 @@ standing~
 job: shopkeeper~
 ~
 
+#30
+a healer~
+the Midgard healer is here, waiting to sell you some spells.~
+a wise old human, the Midgard healer is here to sell you spells.~
+standing~
+job: healer~
+~
+
 #50
 a fox~
 a fox is here, darting in and out of sight.~

@@ -16,6 +16,7 @@ mobId: 12, roomId: 228~
 mobId: 15, roomId: 7, maxInRoom: 1, maxInWorld: 1~
 mobId: 20, roomId: 7, maxInRoom: 2, maxInWorld: 2~
 mobId: 25, roomId: 23, maxInRoom: 1, maxInWorld: 1~
+mobId: 30, roomId: 225~
 
 // warehouse complex
 mobId: 9, roomId: 113, maxInWorld: 8~

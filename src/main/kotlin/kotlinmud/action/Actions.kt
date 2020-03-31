@@ -9,6 +9,8 @@ import kotlinmud.action.impl.createEastAction
 import kotlinmud.action.impl.createEatAction
 import kotlinmud.action.impl.createFleeAction
 import kotlinmud.action.impl.createGetAction
+import kotlinmud.action.impl.createHealAction
+import kotlinmud.action.impl.createHealListAction
 import kotlinmud.action.impl.createKillAction
 import kotlinmud.action.impl.createListAction
 import kotlinmud.action.impl.createNorthAction
@@ -78,6 +80,8 @@ fun createActionsList(): List<Action> {
         createAttributesAction(),
         createWeatherAction(),
         createAffectsAction(),
-        createRecallAction()
+        createRecallAction(),
+        createHealAction(),
+        createHealListAction()
     )
 }
