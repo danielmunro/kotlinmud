@@ -1,6 +1,7 @@
 package kotlinmud.item
 
 import com.thinkinglogic.builder.annotation.Builder
+import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
 import com.thinkinglogic.builder.annotation.NullableType
 import kotlinmud.Noun
@@ -21,6 +22,7 @@ class Item(
     override val attributes: Attributes,
     val material: Material,
     val position: Position,
+    @DefaultValue("") val attackVerb: String,
     @Mutable override val affects: MutableList<AffectInstance>,
     @NullableType val inventory: Inventory?,
     val drink: Drink,
@@ -46,6 +48,7 @@ class Item(
             attributes.copy(),
             material,
             position,
+            attackVerb,
             mutableListOf(),
             Inventory(),
             drink,

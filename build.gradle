@@ -24,9 +24,8 @@ jacoco {
 
 repositories {
     jcenter()
-    maven {
-        url "https://dl.bintray.com/serpro69/maven/"
-    }
+    maven { url "https://dl.bintray.com/serpro69/maven/" }
+    maven { url "https://jitpack.io" }
 }
 
 subprojects {
@@ -77,6 +76,8 @@ dependencies {
     implementation 'com.thinkinglogic.builder:kotlin-builder-annotation:1.2.0'
 
     kapt 'com.thinkinglogic.builder:kotlin-builder-processor:1.2.0'
+
+    implementation 'com.github.cesarferreira:kotlin-pluralizer:0.2.9'
 
     // Use the Kotlin test library.
     testImplementation 'org.jetbrains.kotlin:kotlin-test'

@@ -1,5 +1,6 @@
 package kotlinmud.service
 
+import com.cesarferreira.pluralize.pluralize
 import kotlinmud.attributes.Attribute
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
@@ -168,8 +169,8 @@ class MobService(
 
     private fun sendRoundMessage(attacks: List<Attack>, room: Room, attacker: Mob, defender: Mob) {
         attacks.forEach {
-            val verb = if (it.attackResult == AttackResult.HIT) "hit" else "miss"
-            val verbPlural = if (it.attackResult == AttackResult.HIT) "hits" else "misses"
+            val verb = if (it.attackResult == AttackResult.HIT) it.attackVerb else "miss"
+            val verbPlural = if (it.attackResult == AttackResult.HIT) it.attackVerb.pluralize() else "misses"
             eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
                     Message(

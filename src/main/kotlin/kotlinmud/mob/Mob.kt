@@ -91,6 +91,12 @@ class Mob(
         return DamageType.POUND
     }
 
+    fun getAttackVerb(): String {
+        return equipped.items.find {
+                it.position == Position.WEAPON
+            }?.attackVerb ?: race.unarmedAttackVerb
+    }
+
     fun base(attribute: Attribute): Int {
         return when (attribute) {
             Attribute.STR -> baseStat +
@@ -153,6 +159,7 @@ class Mob(
             Attributes(),
             Material.ORGANIC,
             Position.NONE,
+            "",
             mutableListOf(),
             Inventory(),
             Drink.NONE,

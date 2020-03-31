@@ -14,6 +14,7 @@ class Faerie : Race {
     override val immuneTo: List<DamageType> = listOf()
     override val resist: List<DamageType> = listOf(DamageType.MENTAL, DamageType.ENERGY)
     override val vulnerableTo: List<DamageType> = listOf(DamageType.POUND)
+    override val unarmedAttackVerb: String = "slap"
     override val form: Form = Form.MAMMAL
     override val attributes: Attributes = createStats(-3, 2, 2, 2, -3, 1, -1)
     override val size: Size = Size.TINY

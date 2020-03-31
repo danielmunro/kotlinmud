@@ -93,13 +93,14 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
         return attacker.getAttacks().map {
             val skillType = rollEvasiveSkills(defender)
             when {
-                skillType != null -> Attack(AttackResult.EVADE, 0, mob1.getDamageType(), skillType)
+                skillType != null -> Attack(AttackResult.EVADE, attacker.getAttackVerb(), 0, mob1.getDamageType(), skillType)
                 attackerDefeatsDefenderAC(attacker, defender) -> Attack(
                     AttackResult.HIT,
+                    attacker.getAttackVerb(),
                     calculateDamage(attacker),
                     attacker.getDamageType()
                 )
-                else -> Attack(AttackResult.MISS, 0, mob1.getDamageType())
+                else -> Attack(AttackResult.MISS, attacker.getAttackVerb(), 0, mob1.getDamageType())
             }
         }
     }
