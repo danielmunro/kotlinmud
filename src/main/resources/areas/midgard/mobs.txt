@@ -133,7 +133,7 @@ a fox is here, darting in and out of sight.~
 a fox is here.~
 standing~
 race: canid, level: 4, hp: 10, goldMin: 1, goldMax: 2, job: fodder~
-~
+haste~
 
 #51
 a lizard~
