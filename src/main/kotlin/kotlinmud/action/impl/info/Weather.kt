@@ -1,4 +1,4 @@
-package kotlinmud.action.impl
+package kotlinmud.action.impl.info
 
 import kotlinmud.action.Action
 import kotlinmud.action.ActionContextService
@@ -9,16 +9,20 @@ import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
 
-fun createAffectsAction(): Action {
+fun createWeatherAction(): Action {
     return Action(
-        Command.AFFECTS,
+        Command.WEATHER,
         mustBeAlert(),
         listOf(Syntax.COMMAND),
         { _: ActionContextService, request: Request ->
+            if (request.room.isIndoor) {
+                return@Action createResponseWithEmptyActionContext(
+                    Message("You can't see the weather indoors.")
+                )
+            }
             createResponseWithEmptyActionContext(
                 Message(
-                    "You are affected by:\n${request.mob.affects.fold("") { acc, it -> acc + "${it.affectType.value}: ${it.timeout} tick${if (it.timeout == 1) "" else "s"}\n" }}"
-                )
+                    "")
             )
         })
 }

@@ -1,4 +1,4 @@
-package kotlinmud.action.impl
+package kotlinmud.action.impl.info
 
 import kotlinmud.Noun
 import kotlinmud.action.Action

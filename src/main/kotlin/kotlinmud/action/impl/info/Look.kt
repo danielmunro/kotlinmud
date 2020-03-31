@@ -1,4 +1,4 @@
-package kotlinmud.action.impl
+package kotlinmud.action.impl.info
 
 import kotlinmud.action.Action
 import kotlinmud.action.ActionContextService
@@ -21,7 +21,13 @@ fun createLookAction(): Action {
         listOf(Syntax.COMMAND),
         { svc: ActionContextService, request: Request ->
             createResponseWithEmptyActionContext(
-                Message(describeRoom(request.room, request.mob, svc.getMobsInRoom(request.room))))
+                Message(
+                    describeRoom(
+                        request.room,
+                        request.mob,
+                        svc.getMobsInRoom(request.room)
+                    )
+                ))
         })
 }
 

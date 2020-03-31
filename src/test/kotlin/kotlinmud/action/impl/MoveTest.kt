@@ -2,6 +2,7 @@ package kotlinmud.action.impl
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import kotlinmud.action.impl.info.describeRoom
 import kotlinmud.mob.Disposition
 import kotlinmud.test.createTestService
 import org.junit.Test
@@ -19,7 +20,8 @@ class MoveTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(room, mob, testService.getMobsForRoom(room)))
+            describeRoom(room, mob, testService.getMobsForRoom(room))
+        )
     }
 
     @Test
@@ -34,7 +36,8 @@ class MoveTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(room, mob, testService.getMobsForRoom(room)))
+            describeRoom(room, mob, testService.getMobsForRoom(room))
+        )
     }
 
     @Test

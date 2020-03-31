@@ -1,4 +1,4 @@
-package kotlinmud.action.impl
+package kotlinmud.action.impl.info
 
 import assertk.assertThat
 import assertk.assertions.contains
@@ -23,7 +23,13 @@ class LookTest {
         val response = testService.runAction(mob, "look")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo(describeRoom(room, mob, observers))
+        assertThat(response.message.toActionCreator).isEqualTo(
+            describeRoom(
+                room,
+                mob,
+                observers
+            )
+        )
     }
 
     @Test

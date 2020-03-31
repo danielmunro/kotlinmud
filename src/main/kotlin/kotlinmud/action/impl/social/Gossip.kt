@@ -1,33 +1,33 @@
-package kotlinmud.action.impl
+package kotlinmud.action.impl.social
 
 import kotlinmud.action.Action
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
-import kotlinmud.action.mustBeAwake
+import kotlinmud.action.mustBeAlive
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Social
 import kotlinmud.io.SocialChannel
 import kotlinmud.io.Syntax
 
-fun createSayAction(): Action {
+fun createGossipAction(): Action {
     return Action(
-        Command.SAY,
-        mustBeAwake(),
+        Command.GOSSIP,
+        mustBeAlive(),
         listOf(Syntax.COMMAND, Syntax.FREE_FORM),
         { svc: ActionContextService, request: Request ->
             val text = svc.get<String>(Syntax.FREE_FORM)
             svc.publishSocial(
                 Social(
-                    SocialChannel.SAY,
+                    SocialChannel.GOSSIP,
                     request.mob,
                     request.room,
                     Message(
-                        "you say, \"$text\"",
-                        "${request.mob} says, \"$text\""
+                        "you gossip, \"$text\"",
+                        "${request.mob} gossips, \"$text\""
                     )
                 )
             )
-            svc.createResponse(Message("you say, \"$text\""))
+            svc.createResponse(Message("you gossip, \"$text\""))
         })
 }

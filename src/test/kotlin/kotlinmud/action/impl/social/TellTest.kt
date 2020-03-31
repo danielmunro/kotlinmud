@@ -1,4 +1,4 @@
-package kotlinmud.action.impl
+package kotlinmud.action.impl.social
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
