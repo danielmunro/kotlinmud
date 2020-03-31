@@ -15,33 +15,45 @@ class RespawnService(
 ) {
 
     fun respawn() {
+        val time = measureTimeMillis {
+            respawnFromResets()
+            resetDoors()
+        }
+        println("respawn took $time ms.")
+    }
+
+    private fun resetDoors() {
+        world.rooms.toList().forEach { room ->
+            room.exits.filter { it.door != null }.forEach { it.door!!.reset() }
+        }
+    }
+
+    private fun respawnFromResets() {
         var mobs = 0
         var items = 0
-        val time = measureTimeMillis {
-            world.mobResets.toList().forEach { reset ->
-                try {
-                    val room = world.rooms.get(reset.roomId)
-                    while (mobCanRespawn(reset, room)) {
-                        val mob = world.mobs.get(reset.mobId).copy()
-                        items += addItemsToMob(mob)
-                        mobService.putMobInRoom(mob, room)
-                        mobs += 1
-                    }
-                } catch (e: Exception) {
-                    println("wiring problem with reset: $reset")
-                    throw e
+        world.mobResets.toList().forEach { reset ->
+            try {
+                val room = world.rooms.get(reset.roomId)
+                while (mobCanRespawn(reset, room)) {
+                    val mob = world.mobs.get(reset.mobId).copy()
+                    items += addItemsToMob(mob)
+                    mobService.putMobInRoom(mob, room)
+                    mobs += 1
                 }
-            }
-            world.itemRoomResets.toList().forEach { reset ->
-                while (itemRoomCanRespawn(reset, world.rooms.get(reset.roomId))) {
-                    world.rooms.get(reset.roomId).inventory.items.add(
-                        world.items.get(reset.itemId).copy()
-                    )
-                    items += 1
-                }
+            } catch (e: Exception) {
+                println("wiring problem with reset: $reset")
+                throw e
             }
         }
-        println("respawn took $time ms. $mobs mobs spawned, $items items spawned")
+        world.itemRoomResets.toList().forEach { reset ->
+            while (itemRoomCanRespawn(reset, world.rooms.get(reset.roomId))) {
+                world.rooms.get(reset.roomId).inventory.items.add(
+                    world.items.get(reset.itemId).copy()
+                )
+                items += 1
+            }
+        }
+        println("respawn complete :: $mobs mobs, $items items")
     }
 
     private fun addItemsToMob(mob: Mob): Int {
