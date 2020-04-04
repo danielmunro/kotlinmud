@@ -8,6 +8,7 @@ import kotlinmud.io.Server
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
+import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.WeatherService
@@ -17,13 +18,21 @@ fun createTestService(): TestService {
     val container = createContainer()
     val fix: FixtureService by container.instance()
     val mob: MobService by container.instance()
+    val item: ItemService by container.instance()
     val act: ActionService by container.instance()
     val evt: EventService by container.instance()
     val server = Server(evt, ServerSocket())
     val respawnService: RespawnService by container.instance()
     val weatherService: WeatherService by container.instance()
     evt.observers = createObservers(server, mob, evt, respawnService, weatherService)
-    return TestService(fix, mob, act, respawnService, evt)
+    return TestService(
+        fix,
+        mob,
+        item,
+        act,
+        respawnService,
+        evt
+    )
 }
 
 fun getIdentifyingWord(noun: Noun): String {

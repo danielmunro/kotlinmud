@@ -21,12 +21,14 @@ import kotlinmud.room.Room
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
+import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
 
 class TestService(
     private val fixtureService: FixtureService,
     private val mobService: MobService,
+    private val itemService: ItemService,
     private val actionService: ActionService,
     private val respawnService: RespawnService,
     private val eventService: EventService
@@ -64,17 +66,17 @@ class TestService(
     }
 
     fun createMob(job: JobType = JobType.NONE): Mob {
-        val mob = fixtureService.createMobBuilder()
+        fixtureService.createMobBuilder()
             .job(job)
-            .build()
-        mob.equipped.items.add(weapon())
-        mobService.addMob(mob)
-        return mob
+            .equipped(Inventory(mutableListOf(weapon())))
+            .build().let {
+                mobService.addMob(it)
+                return it
+            }
     }
 
     fun createPlayerMobBuilder(): MobBuilder {
-        return fixtureService.createMobBuilder()
-            .isNpc(false)
+        return fixtureService.createMobBuilder().isNpc(false)
     }
 
     fun withMob(builder: (MobBuilder) -> MobBuilder): Mob {
@@ -90,8 +92,10 @@ class TestService(
     }
 
     fun buildItem(itemBuilder: ItemBuilder): Item {
-        // item service?
-        return itemBuilder.build()
+        itemBuilder.build().let {
+            itemService.add(it)
+            return it
+        }
     }
 
     fun getMobRooms(): List<MobRoom> {
