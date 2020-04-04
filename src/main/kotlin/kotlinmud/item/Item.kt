@@ -16,18 +16,19 @@ class Item(
     override val id: Int,
     override val name: String,
     override val description: String,
-    val worth: Int,
+    @DefaultValue("0") val worth: Int,
     val level: Int,
     val weight: Double = 1.0,
-    override val attributes: Attributes,
-    val material: Material,
-    val position: Position,
+    @DefaultValue("Attributes()") override val attributes: Attributes,
+    @DefaultValue("Material.ORGANIC") val material: Material,
+    @DefaultValue("Position.NONE") val position: Position,
     @DefaultValue("") val attackVerb: String,
-    @Mutable override val affects: MutableList<AffectInstance>,
+    @DefaultValue("mutableListOf()") @Mutable override val affects: MutableList<AffectInstance>,
     @NullableType val inventory: Inventory?,
-    val drink: Drink,
-    val food: Food,
-    var quantity: Int
+    @DefaultValue("Drink.NONE") val drink: Drink,
+    @DefaultValue("Food.NONE") val food: Food,
+    @DefaultValue("0") var quantity: Int,
+    @DefaultValue("-1") var decayTimer: Int
 ) : HasAttributes, Noun, Row {
     override fun toString(): String {
         return name
@@ -53,7 +54,8 @@ class Item(
             Inventory(),
             drink,
             food,
-            quantity
+            quantity,
+            decayTimer
         )
     }
 }

@@ -10,11 +10,9 @@ import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
 import kotlinmud.data.Row
-import kotlinmud.item.Drink
-import kotlinmud.item.Food
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
-import kotlinmud.item.Material
+import kotlinmud.item.ItemBuilder
 import kotlinmud.item.Position
 import kotlinmud.math.dN
 import kotlinmud.math.normalizeInt
@@ -149,23 +147,16 @@ class Mob(
     }
 
     fun createCorpse(): Item {
-        val corpse = Item(
-            0,
-            "a corpse of $name",
-            "a corpse of $name is here.",
-            0,
-            level,
-            corpseWeight,
-            Attributes(),
-            Material.ORGANIC,
-            Position.NONE,
-            "",
-            mutableListOf(),
-            Inventory(),
-            Drink.NONE,
-            Food.NONE,
-            0
-        )
+        val corpse = ItemBuilder()
+            .id(0)
+            .name("a corpse of $name")
+            .description("a corpse of $name is here.")
+            .level(level)
+            .weight(corpseWeight)
+            .inventory(Inventory())
+            .decayTimer(20)
+            .build()
+
         inventory.items.forEach {
             inventory.items.remove(it)
             corpse.inventory?.items?.add(it)
