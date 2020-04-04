@@ -11,6 +11,7 @@ import kotlinmud.affect.affects
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.item.Position
+import kotlinmud.item.inventory
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.race.impl.Elf
@@ -295,10 +296,33 @@ class MobTest {
         // setup
         val test = createTestService()
 
+        // given
         test.respawnWorld()
 
+        // when
         val mob = test.getMobRooms().find { it.mob.id == 1 }!!.mob
 
+        // then
         assertThat(mob.affects().getAffects()).hasSize(2)
+    }
+
+    @Test
+    fun testCreateCorpseTransfersInventoryAndEquipment() {
+        // setup
+        val test = createTestService()
+
+        // given
+        val mob = test.withMob {
+            it.equipped(inventory(test.itemBuilder().build()))
+            it.inventory(inventory(test.itemBuilder().build()))
+        }
+
+        // when
+        val corpse = mob.createCorpse()
+
+        // then
+        assertThat(corpse.inventory!!.items).hasSize(3) // initial item + inventory + equipped
+        assertThat(mob.equipped.items).hasSize(0)
+        assertThat(mob.inventory.items).hasSize(0)
     }
 }

@@ -17,3 +17,7 @@ fun itemBuilder(id: Int, name: String): ItemBuilder {
         .food(Food.NONE)
         .quantity(0)
 }
+
+fun inventory(vararg item: Item): Inventory {
+    return Inventory(item.toMutableList())
+}

@@ -3,6 +3,7 @@ package kotlinmud.mob
 import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
+import java.util.stream.Collectors
 import kotlinmud.Noun
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
@@ -157,10 +158,16 @@ class Mob(
             .decayTimer(20)
             .build()
 
-        inventory.items.forEach {
+        equipped.items.stream().collect(Collectors.toList()).forEach {
+            equipped.items.remove(it)
+            corpse.inventory?.items?.add(it)
+        }
+
+        inventory.items.stream().collect(Collectors.toList()).forEach {
             inventory.items.remove(it)
             corpse.inventory?.items?.add(it)
         }
+
         return corpse
     }
 
