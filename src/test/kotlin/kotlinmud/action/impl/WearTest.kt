@@ -15,20 +15,19 @@ class WearTest {
         val test = createTestService()
 
         // given
-        val mob = test.buildMob(
-            test.mobBuilder()
-                .inventory(
-                    InventoryBuilder().items(
-                        mutableListOf(
-                            test.buildItem(
-                                test.itemBuilder()
-                                    .position(Position.SHIELD)
-                                    .name("a shield")
-                            )
+        val mob = test.withMob {
+            it.inventory(
+                InventoryBuilder().items(
+                    mutableListOf(
+                        test.buildItem(
+                            test.itemBuilder()
+                                .position(Position.SHIELD)
+                                .name("a shield")
                         )
-                    ).build()
-                )
-        )
+                    )
+                ).build()
+            )
+        }
 
         // when
         val response = test.runAction(mob, "wear shield")
@@ -49,19 +48,18 @@ class WearTest {
         val test = createTestService()
 
         // given
-        val mob = test.buildMob(
-            test.mobBuilder()
-                .inventory(
-                    InventoryBuilder().items(
-                        mutableListOf(
-                            test.buildItem(
-                                test.itemBuilder()
-                                    .name("a book")
-                            )
+        val mob = test.withMob {
+            it.inventory(
+                InventoryBuilder().items(
+                    mutableListOf(
+                        test.buildItem(
+                            test.itemBuilder()
+                                .name("a book")
                         )
-                    ).build()
-                )
-        )
+                    )
+                ).build()
+            )
+        }
 
         // when
         val response = test.runAction(mob, "wear book")

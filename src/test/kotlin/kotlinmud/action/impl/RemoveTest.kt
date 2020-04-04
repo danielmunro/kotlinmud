@@ -15,17 +15,19 @@ class RemoveTest {
         val test = createTestService()
 
         // given
-        val mob = test.buildMob(
-            test.mobBuilder().equipped(
+        val mob = test.withMob {
+            it.equipped(
                 InventoryBuilder().items(
-                    mutableListOf(test.buildItem(
-                        test.itemBuilder()
-                            .position(Position.SHIELD)
-                            .name("a shield")
-                    ))
+                    mutableListOf(
+                        test.buildItem(
+                            test.itemBuilder()
+                                .position(Position.SHIELD)
+                                .name("a shield")
+                        )
+                    )
                 ).build()
             )
-        )
+        }
 
         // when
         val response = test.runAction(mob, "remove shield")

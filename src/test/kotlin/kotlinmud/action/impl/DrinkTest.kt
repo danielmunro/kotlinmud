@@ -19,20 +19,21 @@ class DrinkTest {
 
         // given
         val timeout = 2
-        val mob = test.buildMob(
-            test.mobBuilder().inventory(
+        val mob = test.withMob {
+            it.inventory(
                 InventoryBuilder().items(
-                    mutableListOf(test.buildItem(
-                        test.itemBuilder()
-                            .drink(Drink.BEER)
-                            .name("a glass of beer")
-                            .quantity(1)
-                            .affects(mutableListOf(DrunkAffect().createInstance(timeout)))
+                    mutableListOf(
+                        test.buildItem(
+                            test.itemBuilder()
+                                .drink(Drink.BEER)
+                                .name("a glass of beer")
+                                .quantity(1)
+                                .affects(mutableListOf(DrunkAffect().createInstance(timeout)))
                         )
                     )
                 ).build()
             )
-        )
+        }
         mob.appetite.decrement()
 
         // when

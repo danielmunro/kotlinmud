@@ -20,15 +20,15 @@ class FightTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob = testService.buildMob(testService.mobBuilder()
-            .skills(
+        val mob = testService.withMob {
+            it.skills(
                 mutableMapOf(
                     Pair(SkillType.SHIELD_BLOCK, 100),
                     Pair(SkillType.PARRY, 100),
                     Pair(SkillType.DODGE, 100)
                 )
             )
-        )
+        }
 
         // when
         val fight = Fight(mob, testService.createMob())
@@ -53,18 +53,18 @@ class FightTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.buildMob(testService.mobBuilder()
-            .skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
-        )
+        val mob1 = testService.withMob {
+            it.skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
+        }
 
-        val mob2 = testService.buildMob(testService.mobBuilder()
-            .skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
+        val mob2 = testService.withMob {
+            it.skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
             .equipped(
                 InventoryBuilder().items(
                     mutableListOf(testService.buildItem(testService.itemBuilder().position(Position.SHIELD)))
                 ).build()
             )
-        )
+        }
 
         // when
         val fight = Fight(mob1, mob2)
@@ -89,21 +89,23 @@ class FightTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.buildMob(testService.mobBuilder()
-            .skills(mutableMapOf(Pair(SkillType.PARRY, 100)))
-        )
+        val mob1 = testService.withMob { it.skills(mutableMapOf(Pair(SkillType.PARRY, 100))) }
         mob1.equipped.items.removeAt(0)
 
-        val mob2 = testService.buildMob(testService.mobBuilder()
-            .skills(mutableMapOf(Pair(SkillType.PARRY, 100)))
+        val mob2 = testService.withMob {
+            it.skills(mutableMapOf(Pair(SkillType.PARRY, 100)))
             .equipped(
                 InventoryBuilder()
                     .items(
-                        mutableListOf(testService.buildItem(testService.itemBuilder()
-                            .position(Position.WEAPON)))
+                        mutableListOf(
+                            testService.buildItem(
+                                testService.itemBuilder()
+                                    .position(Position.WEAPON)
+                            )
+                        )
                     ).build()
-                )
-        )
+            )
+        }
 
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
@@ -126,8 +128,8 @@ class FightTest {
         // setup
         val hp = 100
         val testService = createTestService()
-        val mob1 = testService.buildMob(testService.mobBuilder().hp(hp).wimpy(hp))
-        val mob2 = testService.buildMob(testService.mobBuilder().hp(hp).wimpy(hp))
+        val mob1 = testService.withMob { it.hp(hp).wimpy(hp) }
+        val mob2 = testService.withMob { it.hp(hp).wimpy(hp) }
         val fight = Fight(mob1, mob2)
 
         // given

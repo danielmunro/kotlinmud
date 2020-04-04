@@ -4,7 +4,6 @@ import assertk.assertThat
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import kotlinmud.affect.AffectType
-import kotlinmud.affect.affect
 import kotlinmud.affect.affects
 import kotlinmud.io.IOStatus
 import kotlinmud.test.createTestService
@@ -18,11 +17,9 @@ class LookAtTest {
         val testService = createTestService()
 
         // given
-        val mob1 = testService.buildMob(
-            testService.mobBuilder()
-                .affects(mutableListOf(affect(AffectType.INVISIBILITY))
-            )
-        )
+        val mob1 = testService.withMob {
+            it.affects(affects(AffectType.INVISIBILITY))
+        }
         val mob2 = testService.createMob()
 
         // when

@@ -77,15 +77,8 @@ class TestService(
             .isNpc(false)
     }
 
-    fun mobBuilder(): MobBuilder {
-        return fixtureService.createMobBuilder()
-    }
-
-    fun buildMob(mobBuilder: MobBuilder): Mob {
-        val mob = mobBuilder.build()
-        mob.equipped.items.add(weapon())
-        mobService.addMob(mob)
-        return mob
+    fun withMob(builder: (MobBuilder) -> MobBuilder): Mob {
+        return buildMob(builder(fixtureService.createMobBuilder()))
     }
 
     fun createItem(inventory: Inventory): Item {
@@ -151,6 +144,13 @@ class TestService(
 
     fun proceedFights(): List<Round> {
         return mobService.proceedFights()
+    }
+
+    private fun buildMob(mobBuilder: MobBuilder): Mob {
+        val mob = mobBuilder.build()
+        mob.equipped.items.add(weapon())
+        mobService.addMob(mob)
+        return mob
     }
 
     private fun weapon(): Item {

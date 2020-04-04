@@ -83,7 +83,9 @@ class MobTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob2 = testService.buildMob(testService.mobBuilder().race(Elf()))
+        val mob2 = testService.withMob {
+            it.race(Elf())
+        }
 
         // when
         prob.test({ mob1.savesAgainst(DamageType.NONE) }, { mob2.savesAgainst(DamageType.NONE) })
@@ -100,7 +102,9 @@ class MobTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob2 = testService.buildMob(testService.mobBuilder().affects(affects(AffectType.CURSE)))
+        val mob2 = testService.withMob {
+            it.affects(affects(AffectType.CURSE))
+        }
 
         // when
         while (prob.isIterating()) {
@@ -115,14 +119,14 @@ class MobTest {
     fun testBerserkSaveBonus() {
         // setup
         val testService = createTestService()
-        val mob1 = testService.buildMob(testService.mobBuilder().level(50))
+        val mob1 = testService.withMob { it.level(50) }
         val prob = ProbabilityTest()
 
         // given
-        val mob2 = testService.buildMob(testService
-            .mobBuilder()
-            .level(50)
-            .affects(affects(AffectType.BERSERK)))
+        val mob2 = testService.withMob {
+            it.level(50)
+                .affects(affects(AffectType.BERSERK))
+        }
 
         // when
         while (prob.isIterating()) {
@@ -140,8 +144,12 @@ class MobTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.buildMob(testService.mobBuilder().race(Faerie()))
-        val mob2 = testService.buildMob(testService.mobBuilder().race(Ogre()))
+        val mob1 = testService.withMob {
+            it.race(Faerie())
+        }
+        val mob2 = testService.withMob {
+            it.race(Ogre())
+        }
 
         // when
         while (prob.isIterating()) {
@@ -160,7 +168,9 @@ class MobTest {
 
         // given
         val mob1 = testService.createMob()
-        val mob2 = testService.buildMob(testService.mobBuilder().disposition(Disposition.FIGHTING))
+        val mob2 = testService.withMob {
+            it.disposition(Disposition.FIGHTING)
+        }
 
         // when
         while (prob.isIterating()) {
@@ -178,8 +188,8 @@ class MobTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.buildMob(testService.mobBuilder().race(Goblin()))
-        val mob2 = testService.buildMob(testService.mobBuilder().race(Ogre()))
+        val mob1 = testService.withMob { it.race(Goblin()) }
+        val mob2 = testService.withMob { it.race(Ogre()) }
 
         // when
         while (prob.isIterating()) {
@@ -198,7 +208,7 @@ class MobTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.buildMob(testService.mobBuilder().specialization(SpecializationType.MAGE))
+        val mob1 = testService.withMob { it.specialization(SpecializationType.MAGE) }
         val mob2 = testService.createMob()
 
         // when
@@ -217,7 +227,7 @@ class MobTest {
         val prob = ProbabilityTest(10000)
 
         // given
-        val mob1 = testService.buildMob(testService.mobBuilder().specialization(SpecializationType.CLERIC))
+        val mob1 = testService.withMob { it.specialization(SpecializationType.CLERIC) }
         val mob2 = testService.createMob()
 
         // when
@@ -258,8 +268,14 @@ class MobTest {
         val testService = createTestService()
 
         // given
-        val mob1 = testService.buildMob(testService.mobBuilder().gold(5).hp(1))
-        val mob2 = testService.buildMob(testService.mobBuilder().gold(5).hp(1))
+        val mob1 = testService.withMob {
+            it.gold(5)
+                .hp(1)
+        }
+        val mob2 = testService.withMob {
+            it.gold(5)
+                .hp(1)
+        }
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
 
