@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 import kotlinmud.affect.AffectType
 import kotlinmud.affect.affects
 import kotlinmud.attributes.Attribute
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.item.Position
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.fight.Fight
@@ -39,21 +39,21 @@ class MobTest {
 
         // when
         val item = testService.itemBuilder().attributes(
-            Attributes.Builder()
-                .setHp(1)
-                .setMana(1)
-                .setMv(1)
-                .setStr(1)
-                .setInt(1)
-                .setWis(1)
-                .setDex(1)
-                .setCon(1)
-                .setHit(1)
-                .setDam(1)
-                .setAcBash(1)
-                .setAcSlash(1)
-                .setAcPierce(1)
-                .setAcMagic(1)
+            AttributesBuilder()
+                .hp(1)
+                .mana(1)
+                .mv(1)
+                .strength(1)
+                .intelligence(1)
+                .wisdom(1)
+                .dexterity(1)
+                .constitution(1)
+                .hit(1)
+                .dam(1)
+                .acBash(1)
+                .acSlash(1)
+                .acPierce(1)
+                .acMagic(1)
                 .build()
         )
         mob.equipped.items.add(item.build())
@@ -241,8 +241,8 @@ class MobTest {
                 testService.itemBuilder()
                     .position(Position.SHIELD)
                     .attributes(
-                        Attributes.Builder()
-                            .setHp(100)
+                        AttributesBuilder()
+                            .hp(100)
                             .build()
                     )
             )

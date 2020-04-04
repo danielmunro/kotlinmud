@@ -3,7 +3,8 @@ package kotlinmud.loader.loader
 import kotlin.random.Random
 import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.Attribute
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.AttributeSetter
+import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.loader.Tokenizer
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.JobType
@@ -39,18 +40,18 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
         }
         val strRoute = strAttr("route")
         val route = if (strRoute != "") strRoute.split("-").map { it.toInt() } else listOf()
-        val attributes = Attributes.Builder()
-            .setAttribute(Attribute.HIT, hit)
-            .setAttribute(Attribute.DAM, dam)
-            .setAttribute(Attribute.STR, str)
-            .setAttribute(Attribute.INT, int)
-            .setAttribute(Attribute.WIS, wis)
-            .setAttribute(Attribute.DEX, dex)
-            .setAttribute(Attribute.CON, con)
-            .setAttribute(Attribute.AC_SLASH, acSlash)
-            .setAttribute(Attribute.AC_PIERCE, acPierce)
-            .setAttribute(Attribute.AC_BASH, acBash)
-            .setAttribute(Attribute.AC_MAGIC, acMagic)
+        val attributes = AttributeSetter(AttributesBuilder())
+            .set(Attribute.HIT, hit)
+            .set(Attribute.DAM, dam)
+            .set(Attribute.STR, str)
+            .set(Attribute.INT, int)
+            .set(Attribute.WIS, wis)
+            .set(Attribute.DEX, dex)
+            .set(Attribute.CON, con)
+            .set(Attribute.AC_SLASH, acSlash)
+            .set(Attribute.AC_PIERCE, acPierce)
+            .set(Attribute.AC_BASH, acBash)
+            .set(Attribute.AC_MAGIC, acMagic)
             .build()
 
         return builder

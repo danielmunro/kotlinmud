@@ -1,6 +1,6 @@
 package kotlinmud.test
 
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.io.IOStatus
@@ -157,9 +157,9 @@ class TestService(
         return buildItem(itemBuilder()
             .position(Position.WEAPON)
             .attributes(
-                Attributes.Builder()
-                    .setHit(2)
-                    .setDam(1)
+                AttributesBuilder()
+                    .hit(2)
+                    .dam(1)
                     .build()
             ))
     }

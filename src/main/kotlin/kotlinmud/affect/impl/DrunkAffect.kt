@@ -4,7 +4,7 @@ import kotlinmud.Noun
 import kotlinmud.affect.Affect
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.io.Message
 import kotlinmud.mob.Mob
 
@@ -27,9 +27,9 @@ class DrunkAffect : Affect {
         return AffectInstance(
             type,
             timeout,
-            Attributes.Builder()
-                .setDex(-1)
-                .setInt(-1)
+            AttributesBuilder()
+                .dexterity(-1)
+                .intelligence(-1)
                 .build()
         )
     }

@@ -5,8 +5,9 @@ import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeStanding
 import kotlinmud.attributes.Attribute
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.attributes.isVitals
+import kotlinmud.attributes.setAttribute
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
@@ -20,9 +21,7 @@ fun createTrainAction(): Action {
             val attribute: Attribute = svc.get(Syntax.TRAINABLE)
             request.mob.trains -= 1
             request.mob.trainedAttributes.add(
-                Attributes.Builder()
-                    .setAttribute(attribute, if (isVitals(attribute)) 10 else 1)
-                    .build()
+                setAttribute(AttributesBuilder(), attribute, if (isVitals(attribute)) 10 else 1).build()
             )
             svc.createResponse(
                 Message(

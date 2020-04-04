@@ -1,7 +1,7 @@
 package kotlinmud.loader.loader
 
 import kotlinmud.affect.AffectInstance
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.item.Drink
 import kotlinmud.item.Food
 import kotlinmud.item.Material
@@ -45,21 +45,21 @@ class ItemLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
             .position(Position.valueOf(strAttr("position", "none").toUpperCase()))
             .affects(affects.toMutableList())
             .attributes(
-                Attributes.Builder()
-                    .setHp(hp)
-                    .setMana(mana)
-                    .setMv(mv)
-                    .setHit(hit)
-                    .setDam(dam)
-                    .setStr(str)
-                    .setInt(int)
-                    .setWis(wis)
-                    .setDex(dex)
-                    .setCon(con)
-                    .setAcSlash(acSlash)
-                    .setAcBash(acBash)
-                    .setAcPierce(acPierce)
-                    .setAcMagic(acMagic)
+                AttributesBuilder()
+                    .hp(hp)
+                    .mana(mana)
+                    .mv(mv)
+                    .hit(hit)
+                    .dam(dam)
+                    .strength(str)
+                    .intelligence(int)
+                    .wisdom(wis)
+                    .dexterity(dex)
+                    .constitution(con)
+                    .acSlash(acSlash)
+                    .acBash(acBash)
+                    .acPierce(acPierce)
+                    .acMagic(acMagic)
                     .build()
             )
     }

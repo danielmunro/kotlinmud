@@ -1,6 +1,6 @@
 package kotlinmud.mob
 
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.attributes.startingHp
 import kotlinmud.attributes.startingMana
 import kotlinmud.attributes.startingMv
@@ -34,10 +34,10 @@ fun mobBuilder(id: Int, name: String): MobBuilder {
         .trainedAttributes(mutableListOf())
         .route(listOf())
         .attributes(
-            Attributes.Builder()
-                .setHp(startingHp)
-                .setMana(startingMana)
-                .setMv(startingMv)
+            AttributesBuilder()
+                .hp(startingHp)
+                .mana(startingMana)
+                .mv(startingMv)
                 .build()
         )
 }

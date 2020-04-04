@@ -100,24 +100,24 @@ class Mob(
     fun base(attribute: Attribute): Int {
         return when (attribute) {
             Attribute.STR -> baseStat +
-                    attributes.str +
-                    race.attributes.str +
+                    attributes.strength +
+                    race.attributes.strength +
                     calcTrained(Attribute.STR)
             Attribute.INT -> baseStat +
-                    attributes.int +
-                    race.attributes.int +
+                    attributes.intelligence +
+                    race.attributes.intelligence +
                     calcTrained(Attribute.INT)
             Attribute.WIS -> baseStat +
-                    attributes.wis +
-                    race.attributes.wis +
+                    attributes.wisdom +
+                    race.attributes.wisdom +
                     calcTrained(Attribute.WIS)
             Attribute.DEX -> baseStat +
-                    attributes.dex +
-                    race.attributes.dex +
+                    attributes.dexterity +
+                    race.attributes.dexterity +
                     calcTrained(Attribute.DEX)
             Attribute.CON -> baseStat +
-                    attributes.con +
-                    race.attributes.con +
+                    attributes.constitution +
+                    race.attributes.constitution +
                     calcTrained(Attribute.CON)
             else -> 0
         }
@@ -134,11 +134,11 @@ class Mob(
             Attribute.MV -> attributes.mv +
                     accumulate { it.attributes.mv } +
                     calcTrained(Attribute.MV)
-            Attribute.STR -> base(attribute) + accumulate { it.attributes.str }
-            Attribute.INT -> base(attribute) + accumulate { it.attributes.int }
-            Attribute.WIS -> base(attribute) + accumulate { it.attributes.wis }
-            Attribute.DEX -> base(attribute) + accumulate { it.attributes.dex }
-            Attribute.CON -> base(attribute) + accumulate { it.attributes.con }
+            Attribute.STR -> base(attribute) + accumulate { it.attributes.strength }
+            Attribute.INT -> base(attribute) + accumulate { it.attributes.intelligence }
+            Attribute.WIS -> base(attribute) + accumulate { it.attributes.wisdom }
+            Attribute.DEX -> base(attribute) + accumulate { it.attributes.dexterity }
+            Attribute.CON -> base(attribute) + accumulate { it.attributes.constitution }
             Attribute.HIT -> attributes.hit + accumulate { it.attributes.hit }
             Attribute.DAM -> attributes.dam + accumulate { it.attributes.dam }
             Attribute.AC_BASH -> attributes.acBash + accumulate { it.attributes.acBash }
