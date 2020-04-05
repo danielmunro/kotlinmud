@@ -40,7 +40,6 @@ class LookAtTest {
         val item = testService.buildItem(
             testService.itemBuilder()
                 .affects(affects(AffectType.INVISIBILITY)), mob)
-        mob.inventory.items.add(item)
 
         // when
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")

@@ -81,4 +81,8 @@ class ActionContextService(
     fun changeItemOwner(item: Item, hasInventory: HasInventory) {
         itemService.changeItemOwner(item, hasInventory)
     }
+
+    fun destroy(item: Item) {
+        itemService.destroy(item)
+    }
 }

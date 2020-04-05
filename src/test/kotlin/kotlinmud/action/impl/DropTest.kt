@@ -21,7 +21,7 @@ class DropTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you drop $item.")
-        assertThat(mob.inventory.items).hasSize(0)
-        assertThat(room.inventory.items).hasSize(2)
+        assertThat(testService.countItemsFor(mob)).isEqualTo(1)
+        assertThat(testService.countItemsFor(room)).isEqualTo(1)
     }
 }

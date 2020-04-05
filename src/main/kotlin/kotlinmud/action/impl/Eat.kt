@@ -23,8 +23,8 @@ fun createEatAction(): Action {
             }
 
             request.mob.appetite.nourishHunger(item.quantity)
-            request.mob.inventory.items.remove(item)
             request.mob.affects().copyFrom(item)
+            svc.destroy(item)
 
             svc.createResponse(
                 Message("you eat $item.")

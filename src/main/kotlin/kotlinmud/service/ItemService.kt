@@ -43,4 +43,8 @@ class ItemService(private val items: MutableList<ItemOwner> = mutableListOf()) {
             return@removeIf false
         }
     }
+
+    fun destroy(item: Item) {
+        items.removeIf { it.item == item }
+    }
 }

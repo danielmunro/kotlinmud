@@ -39,7 +39,7 @@ class GetTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you don't see that anywhere.")
-        assertThat(mob.inventory.items).hasSize(0)
-        assertThat(room.inventory.items).hasSize(1)
+        assertThat(testService.countItemsFor(mob)).isEqualTo(1)
+        assertThat(testService.countItemsFor(room)).isEqualTo(0)
     }
 }

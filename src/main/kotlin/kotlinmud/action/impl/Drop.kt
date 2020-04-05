@@ -16,8 +16,7 @@ fun createDropAction(): Action {
         listOf(Syntax.COMMAND, Syntax.ITEM_IN_INVENTORY),
         { svc: ActionContextService, request: Request ->
             val item = svc.get<Item>(Syntax.ITEM_IN_INVENTORY)
-            request.mob.inventory.items.remove(item)
-            request.room.inventory.items.add(item)
+            svc.changeItemOwner(item, request.room)
             svc.createResponse(
                 Message("you drop ${item.name}.", "${request.mob.name} drops ${item.name}."))
         })

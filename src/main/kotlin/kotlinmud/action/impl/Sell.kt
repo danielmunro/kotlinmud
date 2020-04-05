@@ -18,8 +18,7 @@ fun createSellAction(): Action {
         { svc: ActionContextService, request: Request ->
             val item: Item = svc.get(Syntax.ITEM_IN_INVENTORY)
             val shopkeeper = svc.getMobsInRoom(request.room).find { it.job == JobType.SHOPKEEPER }!!
-            shopkeeper.inventory.items.add(item)
-            request.mob.inventory.items.remove(item)
+            svc.changeItemOwner(item, shopkeeper)
             request.mob.gold += item.worth
             shopkeeper.gold -= item.worth
             svc.createResponse(

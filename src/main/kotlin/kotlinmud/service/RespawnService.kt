@@ -84,7 +84,7 @@ class RespawnService(
     }
 
     private fun itemMobCanRespawn(reset: ItemMobReset, mob: Mob): Boolean {
-        return reset.maxInInventory > mob.inventory.items.filter { it.id == reset.itemId }.size &&
+        return reset.maxInInventory > itemService.findAllByOwner(mob).filter { it.id == reset.itemId }.size &&
                 reset.maxInWorld > itemService.countItemsById(reset.itemId)
     }
 

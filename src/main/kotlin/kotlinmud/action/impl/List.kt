@@ -21,7 +21,7 @@ fun createListAction(): Action {
             svc.createResponse(
                 Message(
                     "[lvl cost name]\n" +
-                    shopkeeper.inventory.getItemGroups().map {
+                     shopkeeper.inventory.getItemGroups().map {
                         val level = it.value[0].level.toString()
                         val cost = it.value[0].worth.toString()
                         leftPad(level, 5 - level.length) +
