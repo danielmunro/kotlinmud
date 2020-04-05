@@ -43,7 +43,7 @@ class TestService(
     }
 
     fun createMobController(mob: Mob): MobController {
-        return MobController(mobService, eventService, mob)
+        return MobController(mobService, itemService, eventService, mob)
     }
 
     fun countItemsFor(hasInventory: HasInventory): Int {

@@ -7,10 +7,12 @@ import kotlinmud.room.Room
 import kotlinmud.room.exit.DoorDisposition
 import kotlinmud.room.exit.Exit
 import kotlinmud.service.EventService
+import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 
 class MobController(
     private val mobService: MobService,
+    private val itemService: ItemService,
     private val eventService: EventService,
     private val mob: Mob
 ) {
@@ -26,8 +28,7 @@ class MobController(
         val room = mobService.getRoomForMob(mob)
         if (mob.isStanding() && room.inventory.items.size > 0) {
             val item = room.inventory.items.random()
-            room.inventory.items.remove(item)
-            mob.inventory.items.add(item)
+            itemService.changeItemOwner(item, mob)
             eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
                     Message(

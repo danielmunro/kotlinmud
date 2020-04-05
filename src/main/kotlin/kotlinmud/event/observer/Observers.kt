@@ -57,8 +57,8 @@ fun createObservers(server: Server, mobService: MobService, eventService: EventS
         RegenMobsObserver(mobService),
 
         // job behaviors
-        MoveMobsOnTickObserver(mobService, eventService),
-        ScavengerCollectsItemsObserver(mobService, eventService),
+        MoveMobsOnTickObserver(mobService, itemService, eventService),
+        ScavengerCollectsItemsObserver(mobService, itemService, eventService),
         GuardAttacksAggroMobsObserver(mobService)
     )
 }
