@@ -4,7 +4,6 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotEqualTo
-import kotlinmud.item.InventoryBuilder
 import kotlinmud.item.Position
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.skill.SkillType
@@ -59,12 +58,8 @@ class FightTest {
 
         val mob2 = testService.withMob {
             it.skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
-            .equipped(
-                InventoryBuilder().items(
-                    mutableListOf(testService.buildItem(testService.itemBuilder().position(Position.SHIELD)))
-                ).build()
-            )
         }
+        mob2.equipped.items.add(testService.buildItem(testService.itemBuilder().position(Position.SHIELD), mob2))
 
         // when
         val fight = Fight(mob1, mob2)
@@ -94,18 +89,10 @@ class FightTest {
 
         val mob2 = testService.withMob {
             it.skills(mutableMapOf(Pair(SkillType.PARRY, 100)))
-            .equipped(
-                InventoryBuilder()
-                    .items(
-                        mutableListOf(
-                            testService.buildItem(
-                                testService.itemBuilder()
-                                    .position(Position.WEAPON)
-                            )
-                        )
-                    ).build()
-            )
         }
+        mob2.equipped.items.add(testService.buildItem(
+            testService.itemBuilder()
+                .position(Position.WEAPON), mob2))
 
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)

@@ -3,7 +3,6 @@ package kotlinmud.action.impl
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
-import kotlinmud.item.InventoryBuilder
 import kotlinmud.item.Position
 import kotlinmud.test.createTestService
 import org.junit.Test
@@ -15,19 +14,11 @@ class RemoveTest {
         val test = createTestService()
 
         // given
-        val mob = test.withMob {
-            it.equipped(
-                InventoryBuilder().items(
-                    mutableListOf(
-                        test.buildItem(
-                            test.itemBuilder()
-                                .position(Position.SHIELD)
-                                .name("a shield")
-                        )
-                    )
-                ).build()
-            )
-        }
+        val mob = test.createMob()
+        mob.equipped.items.add(test.buildItem(
+            test.itemBuilder()
+                .position(Position.SHIELD)
+                .name("a shield"), mob))
 
         // when
         val response = test.runAction(mob, "remove shield")

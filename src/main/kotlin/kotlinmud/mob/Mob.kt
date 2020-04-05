@@ -11,6 +11,7 @@ import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
 import kotlinmud.data.Row
+import kotlinmud.item.HasInventory
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.item.ItemBuilder
@@ -57,7 +58,7 @@ class Mob(
     var trains: Int,
     var practices: Int,
     val route: List<Int>
-) : Noun, Row {
+) : Noun, Row, HasInventory {
     var delay = 0
     var skillPoints = 0
     var bounty = 0

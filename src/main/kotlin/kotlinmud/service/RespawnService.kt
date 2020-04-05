@@ -1,6 +1,7 @@
 package kotlinmud.service
 
 import kotlin.system.measureTimeMillis
+import kotlinmud.item.ItemOwner
 import kotlinmud.loader.World
 import kotlinmud.loader.model.reset.ItemMobReset
 import kotlinmud.loader.model.reset.ItemRoomReset
@@ -48,8 +49,9 @@ class RespawnService(
         world.itemRoomResets.toList().forEach { reset ->
             while (itemRoomCanRespawn(reset, world.rooms.get(reset.roomId))) {
                 with(world.items.get(reset.itemId).copy()) {
-                    itemService.add(this)
-                    world.rooms.get(reset.roomId).inventory.items.add(this)
+                    val room = world.rooms.get(reset.roomId)
+                    itemService.add(ItemOwner(this, room))
+                    room.inventory.items.add(this)
                 }
                 items += 1
             }
@@ -63,7 +65,7 @@ class RespawnService(
             val item = world.items.get(itemReset.itemId)
             while (itemMobCanRespawn(itemReset, mob)) {
                 with(item.copy()) {
-                    itemService.add(this)
+                    itemService.add(ItemOwner(this, mob))
                     mob.inventory.items.add(this)
                 }
                 items++
@@ -78,12 +80,12 @@ class RespawnService(
 
     private fun itemRoomCanRespawn(reset: ItemRoomReset, room: Room): Boolean {
         return reset.maxInInventory > room.inventory.items.filter { it.id == reset.itemId }.size &&
-                reset.maxInWorld > itemService.getItemsById(reset.itemId).size
+                reset.maxInWorld > itemService.countItemsById(reset.itemId)
     }
 
     private fun itemMobCanRespawn(reset: ItemMobReset, mob: Mob): Boolean {
         return reset.maxInInventory > mob.inventory.items.filter { it.id == reset.itemId }.size &&
-                reset.maxInWorld > itemService.getItemsById(reset.itemId).size
+                reset.maxInWorld > itemService.countItemsById(reset.itemId)
     }
 
     private fun mobCanRespawn(reset: MobReset, room: Room): Boolean {

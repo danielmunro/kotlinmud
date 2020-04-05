@@ -255,7 +255,8 @@ class MobTest {
                         AttributesBuilder()
                             .hp(100)
                             .build()
-                    )
+                    ),
+                mob
             )
         )
 

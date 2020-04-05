@@ -7,7 +7,6 @@ import kotlinmud.affect.AffectType
 import kotlinmud.affect.impl.DrunkAffect
 import kotlinmud.io.IOStatus
 import kotlinmud.item.Drink
-import kotlinmud.item.InventoryBuilder
 import kotlinmud.test.createTestService
 import org.junit.Test
 
@@ -19,21 +18,13 @@ class DrinkTest {
 
         // given
         val timeout = 2
-        val mob = test.withMob {
-            it.inventory(
-                InventoryBuilder().items(
-                    mutableListOf(
-                        test.buildItem(
-                            test.itemBuilder()
-                                .drink(Drink.BEER)
-                                .name("a glass of beer")
-                                .quantity(1)
-                                .affects(mutableListOf(DrunkAffect().createInstance(timeout)))
-                        )
-                    )
-                ).build()
-            )
-        }
+        val mob = test.createMob()
+        mob.inventory.items.add(
+            test.buildItem(test.itemBuilder()
+                .drink(Drink.BEER)
+                .name("a glass of beer")
+                .quantity(1)
+                .affects(mutableListOf(DrunkAffect().createInstance(timeout))), mob))
         mob.appetite.decrement()
 
         // when

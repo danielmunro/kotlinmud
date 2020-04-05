@@ -6,9 +6,11 @@ import kotlinmud.event.EventResponse
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Request
 import kotlinmud.io.Response
+import kotlinmud.item.HasInventory
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.item.ItemBuilder
+import kotlinmud.item.ItemOwner
 import kotlinmud.item.Position
 import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
@@ -66,13 +68,12 @@ class TestService(
     }
 
     fun createMob(job: JobType = JobType.NONE): Mob {
-        fixtureService.createMobBuilder()
-            .job(job)
-            .equipped(Inventory(mutableListOf(weapon())))
-            .build().let {
-                mobService.addMob(it)
-                return it
-            }
+        val mobBuilder = fixtureService.createMobBuilder()
+        mobBuilder.job(job).build().let {
+            it.equipped.items.add(weapon(it))
+            mobService.addMob(it)
+            return it
+        }
     }
 
     fun createPlayerMobBuilder(): MobBuilder {
@@ -91,9 +92,9 @@ class TestService(
         return fixtureService.createItemBuilder()
     }
 
-    fun buildItem(itemBuilder: ItemBuilder): Item {
+    fun buildItem(itemBuilder: ItemBuilder, hasInventory: HasInventory): Item {
         itemBuilder.build().let {
-            itemService.add(it)
+            itemService.add(ItemOwner(it, hasInventory))
             return it
         }
     }
@@ -152,12 +153,12 @@ class TestService(
 
     private fun buildMob(mobBuilder: MobBuilder): Mob {
         val mob = mobBuilder.build()
-        mob.equipped.items.add(weapon())
+        mob.equipped.items.add(weapon(mob))
         mobService.addMob(mob)
         return mob
     }
 
-    private fun weapon(): Item {
+    private fun weapon(hasInventory: HasInventory): Item {
         return buildItem(itemBuilder()
             .position(Position.WEAPON)
             .attributes(
@@ -165,6 +166,6 @@ class TestService(
                     .hit(2)
                     .dam(1)
                     .build()
-            ))
+            ), hasInventory)
     }
 }

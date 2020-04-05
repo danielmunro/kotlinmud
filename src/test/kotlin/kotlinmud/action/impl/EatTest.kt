@@ -7,7 +7,6 @@ import kotlinmud.affect.AffectType
 import kotlinmud.affect.impl.StunnedAffect
 import kotlinmud.io.IOStatus
 import kotlinmud.item.Food
-import kotlinmud.item.InventoryBuilder
 import kotlinmud.test.createTestService
 import org.junit.Test
 
@@ -19,20 +18,12 @@ class EatTest {
 
         // given
         val timeout = 2
-        val mob = test.withMob {
-            it.inventory(
-                InventoryBuilder().items(
-                    mutableListOf(
-                        test.buildItem(
-                            test.itemBuilder()
-                                .food(Food.MEAT_PIE)
-                                .name("a big meat pie")
-                                .affects(mutableListOf(StunnedAffect().createInstance(timeout)))
-                        )
-                    )
-                ).build()
-            )
-        }
+        val mob = test.createMob()
+        mob.inventory.items.add(test.buildItem(
+            test.itemBuilder()
+                .food(Food.MEAT_PIE)
+                .name("a big meat pie")
+                .affects(mutableListOf(StunnedAffect().createInstance(timeout))), mob))
         mob.appetite.decrement()
 
         // when

@@ -1,6 +1,7 @@
 package kotlinmud.room
 
 import kotlinmud.data.Row
+import kotlinmud.item.HasInventory
 import kotlinmud.item.Inventory
 import kotlinmud.room.exit.DoorDisposition
 import kotlinmud.room.exit.Exit
@@ -12,7 +13,7 @@ data class Room(
     val description: String,
     val regen: RegenLevel,
     val isIndoor: Boolean
-) : Row {
+) : Row, HasInventory {
     val inventory: Inventory = Inventory()
     val exits: MutableList<Exit> = mutableListOf()
 
