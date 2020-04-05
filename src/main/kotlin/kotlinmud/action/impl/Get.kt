@@ -16,8 +16,7 @@ fun createGetAction(): Action {
         listOf(Syntax.COMMAND, Syntax.ITEM_IN_ROOM),
         { svc: ActionContextService, request: Request ->
             val item = svc.get<Item>(Syntax.ITEM_IN_ROOM)
-            request.room.inventory.items.remove(item)
-            request.mob.inventory.items.add(item)
+            svc.changeItemOwner(item, request.mob)
             svc.createResponse(Message(
                     "you pick up ${item.name}.",
                     "${request.mob.name} picks up ${item.name}."))

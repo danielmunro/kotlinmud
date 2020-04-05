@@ -12,6 +12,7 @@ import kotlinmud.io.Response
 import kotlinmud.io.Server
 import kotlinmud.io.Social
 import kotlinmud.io.Syntax
+import kotlinmud.item.HasInventory
 import kotlinmud.item.Item
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight
@@ -75,5 +76,9 @@ class ActionContextService(
 
     fun getItemsFor(mob: Mob): List<Item> {
         return itemService.findAllByOwner(mob)
+    }
+
+    fun changeItemOwner(item: Item, hasInventory: HasInventory) {
+        itemService.changeItemOwner(item, hasInventory)
     }
 }

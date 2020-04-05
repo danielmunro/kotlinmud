@@ -14,15 +14,17 @@ class GetTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val room = testService.getRoomForMob(mob)
-        val item = room.inventory.items.first()
+        val item = testService.createItem(room)
+        val roomItemCount = testService.countItemsFor(room)
+        val mobItemCount = testService.countItemsFor(mob)
 
         // when
         val response = testService.runAction(mob, "get ${getIdentifyingWord(item)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you pick up $item.")
-        assertThat(mob.inventory.items).hasSize(1)
-        assertThat(room.inventory.items).hasSize(0)
+        assertThat(testService.countItemsFor(mob)).isEqualTo(mobItemCount + 1)
+        assertThat(testService.countItemsFor(room)).isEqualTo(roomItemCount - 1)
     }
 
     @Test

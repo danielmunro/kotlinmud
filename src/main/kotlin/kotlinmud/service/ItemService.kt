@@ -28,6 +28,12 @@ class ItemService(private val items: MutableList<ItemOwner> = mutableListOf()) {
         return items.stream().filter { it.owner == hasInventory }.map { it.item }.toList()
     }
 
+    fun changeItemOwner(item: Item, hasInventory: HasInventory) {
+        items.find { it.item == item }?.let {
+            it.owner = hasInventory
+        }
+    }
+
     fun decrementDecayTimer() {
         items.removeIf {
             if (it.item.decayTimer > 0) {

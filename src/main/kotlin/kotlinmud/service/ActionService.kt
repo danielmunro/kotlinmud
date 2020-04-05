@@ -167,7 +167,7 @@ class ActionService(
             Syntax.DIRECTION_TO_EXIT -> DirectionToExitContextBuilder(request.room).build(syntax, word)
             Syntax.COMMAND -> CommandContextBuilder().build(syntax, word)
             Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(itemService, request.mob).build(syntax, word)
-            Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.room).build(syntax, word)
+            Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(itemService, request.room).build(syntax, word)
             Syntax.EQUIPMENT_IN_INVENTORY -> EquipmentInInventoryContextBuilder(request.mob).build(syntax, word)
             Syntax.EQUIPPED_ITEM -> EquippedItemContextBuilder(request.mob).build(syntax, word)
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)

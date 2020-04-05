@@ -46,6 +46,10 @@ class TestService(
         return MobController(mobService, eventService, mob)
     }
 
+    fun countItemsFor(hasInventory: HasInventory): Int {
+        return itemService.findAllByOwner(hasInventory).size
+    }
+
     fun regenMobs() {
         mobService.regenMobs()
     }

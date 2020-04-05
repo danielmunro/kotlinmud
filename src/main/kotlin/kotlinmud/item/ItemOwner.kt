@@ -1,3 +1,3 @@
 package kotlinmud.item
 
-class ItemOwner(val item: Item, val owner: HasInventory)
+class ItemOwner(val item: Item, var owner: HasInventory)
