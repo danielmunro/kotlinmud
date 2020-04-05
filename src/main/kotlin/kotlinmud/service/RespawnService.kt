@@ -47,9 +47,10 @@ class RespawnService(
         }
         world.itemRoomResets.toList().forEach { reset ->
             while (itemRoomCanRespawn(reset, world.rooms.get(reset.roomId))) {
-                world.rooms.get(reset.roomId).inventory.items.add(
-                    world.items.get(reset.itemId).copy()
-                )
+                with(world.items.get(reset.itemId).copy()) {
+                    itemService.add(this)
+                    world.rooms.get(reset.roomId).inventory.items.add(this)
+                }
                 items += 1
             }
         }
@@ -61,10 +62,10 @@ class RespawnService(
         filterItemMobResets(mob.id).forEach { itemReset ->
             val item = world.items.get(itemReset.itemId)
             while (itemMobCanRespawn(itemReset, mob)) {
-                with(item.copy(), {
+                with(item.copy()) {
                     itemService.add(this)
                     mob.inventory.items.add(this)
-                })
+                }
                 items++
             }
         }

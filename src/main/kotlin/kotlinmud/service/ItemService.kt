@@ -10,4 +10,14 @@ class ItemService(private val items: MutableList<Item> = mutableListOf()) {
     fun add(item: Item) {
         items.add(item)
     }
+
+    fun decrementDecayTimer() {
+        items.removeIf {
+            if (it.decayTimer > 0) {
+                it.decayTimer -= 1
+                return@removeIf it.decayTimer == 0
+            }
+            return@removeIf false
+        }
+    }
 }

@@ -24,7 +24,8 @@ fun createTestService(): TestService {
     val server = Server(evt, ServerSocket())
     val respawnService: RespawnService by container.instance()
     val weatherService: WeatherService by container.instance()
-    evt.observers = createObservers(server, mob, evt, respawnService, weatherService)
+    val itemService: ItemService by container.instance()
+    evt.observers = createObservers(server, mob, evt, respawnService, weatherService, itemService)
     return TestService(
         fix,
         mob,
