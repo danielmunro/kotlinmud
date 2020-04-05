@@ -9,6 +9,7 @@ import kotlin.test.assertNotNull
 import kotlinmud.io.Server
 import kotlinmud.loader.World
 import kotlinmud.service.EventService
+import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 
 class AppTest {
@@ -19,7 +20,7 @@ class AppTest {
         val mobService = MobService(eventService, World(listOf()))
 
         // when
-        val app = App(eventService, mobService, Server(eventService, ServerSocket()))
+        val app = App(eventService, mobService, ItemService(), Server(eventService, ServerSocket()))
 
         // then
         assertNotNull(app, "app should have a greeting")

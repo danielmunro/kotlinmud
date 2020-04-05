@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.mob.JobType
 import kotlinmud.test.createTestService
+import kotlinmud.test.getIdentifyingWord
 import org.junit.Test
 
 class SellTest {
@@ -15,10 +16,10 @@ class SellTest {
         val shopkeeper = testService.createMob(JobType.SHOPKEEPER)
 
         // given
-        val item = testService.createItem(mob.inventory)
+        val item = testService.createItem(mob)
 
         // when
-        val response = testService.runAction(mob, "sell the")
+        val response = testService.runAction(mob, "sell ${getIdentifyingWord(item)}")
 
         // then
         assertThat(response.message.toActionCreator)

@@ -67,7 +67,7 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val item = testService.createItem(mob.inventory)
+        val item = testService.createItem(mob)
 
         // when
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")

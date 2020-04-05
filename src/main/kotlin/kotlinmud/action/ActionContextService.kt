@@ -12,15 +12,18 @@ import kotlinmud.io.Response
 import kotlinmud.io.Server
 import kotlinmud.io.Social
 import kotlinmud.io.Syntax
+import kotlinmud.item.Item
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight
 import kotlinmud.room.Direction
 import kotlinmud.room.Room
 import kotlinmud.service.EventService
+import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 
 class ActionContextService(
     private val mobService: MobService,
+    private val itemService: ItemService,
     private val eventService: EventService,
     private val actionContextList: ActionContextList,
     private val server: Server
@@ -68,5 +71,9 @@ class ActionContextService(
 
     fun getClients(): List<ClientHandler> {
         return server.getClients()
+    }
+
+    fun getItemsFor(mob: Mob): List<Item> {
+        return itemService.findAllByOwner(mob)
     }
 }

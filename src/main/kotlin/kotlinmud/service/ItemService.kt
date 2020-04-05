@@ -1,6 +1,11 @@
 package kotlinmud.service
 
+import kotlin.streams.toList
+import kotlinmud.affect.AffectType
+import kotlinmud.item.HasInventory
+import kotlinmud.item.Item
 import kotlinmud.item.ItemOwner
+import kotlinmud.string.matches
 
 class ItemService(private val items: MutableList<ItemOwner> = mutableListOf()) {
     fun countItemsById(id: Int): Int {
@@ -9,6 +14,18 @@ class ItemService(private val items: MutableList<ItemOwner> = mutableListOf()) {
 
     fun add(item: ItemOwner) {
         items.add(item)
+    }
+
+    fun findByOwner(hasInventory: HasInventory, input: String): Item? {
+        val item = items.find { it.owner == hasInventory && matches(it.item.name, input) }?.item
+        if (item?.affects()?.findByType(AffectType.INVISIBILITY) == null) {
+            return item
+        }
+        return null
+    }
+
+    fun findAllByOwner(hasInventory: HasInventory): List<Item> {
+        return items.stream().filter { it.owner == hasInventory }.map { it.item }.toList()
     }
 
     fun decrementDecayTimer() {

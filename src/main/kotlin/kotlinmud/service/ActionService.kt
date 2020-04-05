@@ -50,6 +50,7 @@ import kotlinmud.mob.skill.createSkillList
 
 class ActionService(
     private val mobService: MobService,
+    private val itemService: ItemService,
     private val eventService: EventService,
     private val server: Server
 ) {
@@ -144,7 +145,7 @@ class ActionService(
     private fun callInvokable(request: Request, invokable: Invokable, list: ActionContextList): Response {
         return list.getBadResult()?.let {
             createResponseWithEmptyActionContext(Message(it.result as String), IOStatus.ERROR)
-        } ?: with(invokable.invoke(ActionContextService(mobService, eventService, list, server), request)) {
+        } ?: with(invokable.invoke(ActionContextService(mobService, itemService, eventService, list, server), request)) {
             if (invokable is Action && invokable.isChained())
                 run(createChainToRequest(request.mob, invokable))
             else
@@ -165,14 +166,14 @@ class ActionService(
         return when (syntax) {
             Syntax.DIRECTION_TO_EXIT -> DirectionToExitContextBuilder(request.room).build(syntax, word)
             Syntax.COMMAND -> CommandContextBuilder().build(syntax, word)
-            Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(request.mob).build(syntax, word)
+            Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(itemService, request.mob).build(syntax, word)
             Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.room).build(syntax, word)
             Syntax.EQUIPMENT_IN_INVENTORY -> EquipmentInInventoryContextBuilder(request.mob).build(syntax, word)
             Syntax.EQUIPPED_ITEM -> EquippedItemContextBuilder(request.mob).build(syntax, word)
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)
-            Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, request.mob, request.room).build(syntax, word)
+            Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, itemService, request.mob, request.room).build(syntax, word)
             Syntax.TARGET_MOB -> TargetMobContextBuilder(mobService, request.mob, request.room).build(syntax, word)
-            Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, mobService.getMobsForRoom(request.room) + request.mob.inventory.items).build(syntax, word)
+            Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, mobService.getMobsForRoom(request.room) + itemService.findAllByOwner(request.mob)).build(syntax, word)
             Syntax.DOOR_IN_ROOM -> DoorInRoomContextBuilder(request.room).build(syntax, word)
             Syntax.FREE_FORM -> FreeFormContextBuilder(request.args).build(syntax, word)
             Syntax.ITEM_FROM_MERCHANT -> ItemFromMerchantContextBuilder(request.mob, mobService.getMobsForRoom(request.room)).build(syntax, word)

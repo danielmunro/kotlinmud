@@ -25,9 +25,10 @@ import org.kodein.di.erased.singleton
 class App(
     private val eventService: EventService,
     private val mobService: MobService,
+    itemService: ItemService,
     private val server: Server
 ) {
-    private val actionService: ActionService = ActionService(mobService, eventService, server)
+    private val actionService: ActionService = ActionService(mobService, itemService, eventService, server)
 
     fun start() {
         println("starting app on port ${server.getPort()}")
@@ -80,7 +81,7 @@ fun main() {
         itemService
     )
     respawnService.respawn()
-    App(eventService, mobService, server).start()
+    App(eventService, mobService, itemService, server).start()
 }
 
 fun createContainer(): Kodein {
@@ -95,7 +96,7 @@ fun createContainer(): Kodein {
         bind<ItemService>() with singleton { ItemService() }
         bind<WeatherService>() with singleton { WeatherService() }
         bind<ActionService>() with singleton {
-            ActionService(instance<MobService>(), instance<EventService>(), instance<Server>())
+            ActionService(instance<MobService>(), instance<ItemService>(), instance<EventService>(), instance<Server>())
         }
         bind<World>() with singleton {
             World(

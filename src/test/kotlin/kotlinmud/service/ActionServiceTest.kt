@@ -177,10 +177,10 @@ class ActionServiceTest {
         val mob = testService.withMob {
             it.skills(mutableMapOf(Pair(SkillType.INVISIBILITY, 100)))
         }
-        val item = testService.createItem(mob.inventory)
+        val item = testService.createItem(mob)
 
         // when
-        val response = testService.runAction(mob, "cast invis $item")
+        val response = testService.runAction(mob, "cast invis ${getIdentifyingWord(item)}")
 
         // expect
         assertThat(response.message.toActionCreator).isEqualTo("$item fades out of existence.")

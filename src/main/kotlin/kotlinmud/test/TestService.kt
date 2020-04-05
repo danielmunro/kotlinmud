@@ -7,7 +7,6 @@ import kotlinmud.io.IOStatus
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.item.HasInventory
-import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.item.ItemBuilder
 import kotlinmud.item.ItemOwner
@@ -84,8 +83,8 @@ class TestService(
         return buildMob(builder(fixtureService.createMobBuilder()))
     }
 
-    fun createItem(inventory: Inventory): Item {
-        return fixtureService.createItem(inventory)
+    fun createItem(hasInventory: HasInventory): Item {
+        return buildItem(itemBuilder(), hasInventory)
     }
 
     fun itemBuilder(): ItemBuilder {

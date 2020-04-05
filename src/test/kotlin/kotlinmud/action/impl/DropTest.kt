@@ -13,7 +13,7 @@ class DropTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val item = testService.createItem(mob.inventory)
+        val item = testService.createItem(mob)
         val room = testService.getRoomForMob(mob)
 
         // when

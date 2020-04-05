@@ -15,8 +15,8 @@ fun createInventoryAction(): Action {
         Command.INVENTORY,
         mustBeAwake(),
         listOf(Syntax.COMMAND),
-        { _: ActionContextService, request: Request ->
-            val items = request.mob.inventory.items.toList()
+        { svc: ActionContextService, request: Request ->
+            val items = svc.getItemsFor(request.mob)
             createResponseWithEmptyActionContext(
                 Message("Your inventory:\n\n${describeItems(items)}"))
         })

@@ -37,5 +37,5 @@ fun createTestService(): TestService {
 }
 
 fun getIdentifyingWord(noun: Noun): String {
-    return noun.name.split(" ")[1]
+    return noun.name.split(" ").first { it.length > 3 }
 }
