@@ -39,8 +39,7 @@ class LookAtTest {
         val mob = testService.createMob()
         val item = testService.buildItem(
             testService.itemBuilder()
-                .affects(
-                    affects(AffectType.INVISIBILITY)), mob)
+                .affects(affects(AffectType.INVISIBILITY)), mob)
         mob.inventory.items.add(item)
 
         // when
