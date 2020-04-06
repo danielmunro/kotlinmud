@@ -22,7 +22,6 @@ fun createWearAction(): Action {
                 request.mob.equipped.items.remove(it)
                 it
             }
-            request.mob.inventory.items.remove(item)
             request.mob.equipped.items.add(item)
             svc.createResponse(
                 Message(

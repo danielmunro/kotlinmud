@@ -15,8 +15,9 @@ fun createScoreAction(): Action {
         Command.SCORE,
         mustBeAlive(),
         listOf(Syntax.COMMAND),
-        { _: ActionContextService, request: Request ->
+        { svc: ActionContextService, request: Request ->
             val mob = request.mob
+            val items = svc.getItemsFor(mob)
             createResponseWithEmptyActionContext(
                 Message(
                     "You are $mob, unknown years old.\n" +
@@ -27,7 +28,7 @@ fun createScoreAction(): Action {
                             "Race: ${mob.race.type.toString().toLowerCase()} Gender: ${mob.gender.toString().toLowerCase()} " +
                             "Class: ${mob.specialization.toString().toLowerCase()} Kit: none\n" +
                             "Trains: ${mob.trains}  Practices: ${mob.practices}  Skill Points: ${mob.skillPoints}  Bounty: ${mob.bounty} " +
-                            "You are carrying ${mob.inventory.items.size}/${mob.inventory.maxItems} items, ${mob.inventory.items.map{ it.weight }.fold(0.0) { acc: Double, value: Double -> acc + value}}/${mob.inventory.maxWeight} weight capacity.\n" +
+                            "You are carrying ${items.size}/${mob.inventory.maxItems} items, ${items.map{ it.weight }.fold(0.0) { acc: Double, value: Double -> acc + value}}/${mob.inventory.maxWeight} weight capacity.\n" +
                             "Str: ${mob.base(Attribute.STR)}/${mob.calc(Attribute.STR)} " +
                             "Int: ${mob.base(Attribute.INT)}/${mob.calc(Attribute.INT)} " +
                             "Wis: ${mob.base(Attribute.WIS)}/${mob.calc(Attribute.WIS)} " +

@@ -20,7 +20,6 @@ class RemoveTest {
                 .position(Position.SHIELD)
                 .name("a shield"), mob))
         val equippedAmount = mob.equipped.items.size
-        val inventoryAmount = mob.inventory.items.size
 
         // when
         val response = test.runAction(mob, "remove shield")
@@ -32,6 +31,5 @@ class RemoveTest {
 
         // and
         assertThat(mob.equipped.items).hasSize(equippedAmount - 1)
-        assertThat(mob.inventory.items).hasSize(inventoryAmount + 1)
     }
 }
