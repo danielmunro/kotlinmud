@@ -16,7 +16,7 @@ fun createRemoveAction(): Action {
         listOf(Syntax.COMMAND, Syntax.EQUIPPED_ITEM),
         { svc: ActionContextService, request: Request ->
             val item = svc.get<Item>(Syntax.EQUIPPED_ITEM)
-            request.mob.equipped.items.remove(item)
+            request.mob.equipped.remove(item)
             svc.createResponse(Message(
                 "you remove $item and put it in your inventory.",
                 "${request.mob} removes $item and puts it in their inventory."

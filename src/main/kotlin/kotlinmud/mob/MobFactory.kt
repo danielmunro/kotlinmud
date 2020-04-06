@@ -4,7 +4,6 @@ import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.attributes.startingHp
 import kotlinmud.attributes.startingMana
 import kotlinmud.attributes.startingMv
-import kotlinmud.item.Inventory
 import kotlinmud.mob.race.impl.Human
 
 fun mobBuilder(id: Int, name: String): MobBuilder {
@@ -20,7 +19,7 @@ fun mobBuilder(id: Int, name: String): MobBuilder {
         .specialization(SpecializationType.NONE)
         .job(JobType.NONE)
         .gender(Gender.NONE)
-        .equipped(Inventory())
+        .equipped(mutableListOf())
         .wimpy(0)
         .savingThrows(0)
         .gold(0)

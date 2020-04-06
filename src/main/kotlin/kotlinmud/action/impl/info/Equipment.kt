@@ -16,7 +16,7 @@ fun createEquipmentAction(): Action {
         mustBeAlert(),
         listOf(Syntax.COMMAND),
         { _: ActionContextService, request: Request ->
-            val items = request.mob.equipped.items.toList()
+            val items = request.mob.equipped.toList()
             createResponseWithEmptyActionContext(
                 Message("Your equipment:\n\n${describeEquipment(items)}")
             )

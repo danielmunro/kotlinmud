@@ -29,7 +29,7 @@ class WearTest {
         assertThat(response.message.toObservers).isEqualTo("$mob wears a shield.")
 
         // and
-        assertThat(mob.equipped.items).hasSize(2)
+        assertThat(mob.equipped).hasSize(2)
     }
 
     @Test
@@ -48,6 +48,6 @@ class WearTest {
         assertThat(response.message.toActionCreator).isEqualTo("you can't equip that.")
 
         // and
-        assertThat(mob.equipped.items).hasSize(1)
+        assertThat(mob.equipped).hasSize(1)
     }
 }

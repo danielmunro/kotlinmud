@@ -3,7 +3,6 @@ package kotlinmud.item
 import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
-import com.thinkinglogic.builder.annotation.NullableType
 import kotlinmud.Noun
 import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.Attributes
@@ -24,7 +23,7 @@ class Item(
     @DefaultValue("Position.NONE") val position: Position,
     @DefaultValue("") val attackVerb: String,
     @DefaultValue("mutableListOf()") @Mutable override val affects: MutableList<AffectInstance>,
-    @NullableType val inventory: Inventory?,
+    @Mutable val inventory: MutableList<Item>?,
     @DefaultValue("Drink.NONE") val drink: Drink,
     @DefaultValue("Food.NONE") val food: Food,
     @DefaultValue("0") var quantity: Int,
@@ -51,7 +50,7 @@ class Item(
             position,
             attackVerb,
             mutableListOf(),
-            inventory,
+            if (inventory != null) mutableListOf() else null,
             drink,
             food,
             quantity,

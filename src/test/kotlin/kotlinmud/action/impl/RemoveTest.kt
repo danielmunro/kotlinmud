@@ -15,11 +15,11 @@ class RemoveTest {
 
         // given
         val mob = test.createMob()
-        mob.equipped.items.add(test.buildItem(
+        mob.equipped.add(test.buildItem(
             test.itemBuilder()
                 .position(Position.SHIELD)
                 .name("a shield"), mob))
-        val equippedAmount = mob.equipped.items.size
+        val equippedAmount = mob.equipped.size
 
         // when
         val response = test.runAction(mob, "remove shield")
@@ -30,6 +30,6 @@ class RemoveTest {
         assertThat(response.message.toObservers).isEqualTo("$mob removes a shield and puts it in their inventory.")
 
         // and
-        assertThat(mob.equipped.items).hasSize(equippedAmount - 1)
+        assertThat(mob.equipped).hasSize(equippedAmount - 1)
     }
 }

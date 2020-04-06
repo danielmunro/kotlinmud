@@ -11,7 +11,7 @@ import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
 import kotlinmud.data.Row
 import kotlinmud.item.HasInventory
-import kotlinmud.item.Inventory
+import kotlinmud.item.Item
 import kotlinmud.item.Position
 import kotlinmud.math.dN
 import kotlinmud.math.normalizeInt
@@ -49,7 +49,7 @@ class Mob(
     var wimpy: Int,
     val experiencePerLevel: Int,
     var savingThrows: Int,
-    val equipped: Inventory,
+    @Mutable val equipped: MutableList<Item>,
     val isNpc: Boolean,
     var trains: Int,
     var practices: Int,
@@ -90,7 +90,7 @@ class Mob(
     }
 
     fun getAttackVerb(): String {
-        return equipped.items.find {
+        return equipped.find {
                 it.position == Position.WEAPON
             }?.attackVerb ?: race.unarmedAttackVerb
     }
@@ -180,7 +180,7 @@ class Mob(
             wimpy,
             experiencePerLevel,
             savingThrows,
-            Inventory(),
+            mutableListOf(),
             isNpc,
             trains,
             practices,
@@ -281,7 +281,7 @@ class Mob(
     }
 
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {
-        return equipped.items.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it } +
+        return equipped.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it } +
                 affects.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it }
     }
 }

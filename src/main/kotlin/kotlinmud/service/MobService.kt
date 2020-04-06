@@ -9,7 +9,6 @@ import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Message
-import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.item.ItemBuilder
 import kotlinmud.item.ItemOwner
@@ -160,12 +159,12 @@ class MobService(
             .description("a corpse of ${mob.name} is here.")
             .level(mob.level)
             .weight(corpseWeight)
-            .inventory(Inventory())
+            .inventory(mutableListOf())
             .decayTimer(20)
             .build()
 
-        mob.equipped.items.stream().collect(Collectors.toList()).forEach {
-            mob.equipped.items.remove(it)
+        mob.equipped.stream().collect(Collectors.toList()).forEach {
+            mob.equipped.remove(it)
         }
 
         itemService.transferAllItems(mob, corpse)

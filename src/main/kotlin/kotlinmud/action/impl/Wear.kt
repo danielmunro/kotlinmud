@@ -16,13 +16,13 @@ fun createWearAction(): Action {
         listOf(Syntax.COMMAND, Syntax.EQUIPMENT_IN_INVENTORY),
         { svc: ActionContextService, request: Request ->
             val item = svc.get<Item>(Syntax.EQUIPMENT_IN_INVENTORY)
-            val removed = request.mob.equipped.items.find {
+            val removed = request.mob.equipped.find {
                 it.position == item.position
             }?.let {
-                request.mob.equipped.items.remove(it)
+                request.mob.equipped.remove(it)
                 it
             }
-            request.mob.equipped.items.add(item)
+            request.mob.equipped.add(item)
             svc.createResponse(
                 Message(
                     "you ${if (removed != null) "remove $removed and " else ""}wear $item.",

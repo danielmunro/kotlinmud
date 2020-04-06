@@ -77,7 +77,7 @@ class TestService(
     fun createMob(job: JobType = JobType.NONE): Mob {
         val mobBuilder = fixtureService.createMobBuilder()
         mobBuilder.job(job).build().let {
-            it.equipped.items.add(weapon(it))
+            it.equipped.add(weapon(it))
             mobService.addMob(it)
             return it
         }
@@ -164,7 +164,7 @@ class TestService(
 
     private fun buildMob(mobBuilder: MobBuilder): Mob {
         val mob = mobBuilder.build()
-        mob.equipped.items.add(weapon(mob))
+        mob.equipped.add(weapon(mob))
         mobService.addMob(mob)
         return mob
     }

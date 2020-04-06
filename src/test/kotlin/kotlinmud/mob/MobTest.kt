@@ -56,7 +56,7 @@ class MobTest {
                 .acMagic(1)
                 .build()
         )
-        mob.equipped.items.add(item.build())
+        mob.equipped.add(item.build())
 
         // then
         assertEquals(initialHp + 1, mob.calc(Attribute.HP))
@@ -246,7 +246,7 @@ class MobTest {
         val mob = testService.createMob()
 
         // given
-        mob.equipped.items.add(
+        mob.equipped.add(
             testService.buildItem(
                 testService.itemBuilder()
                     .position(Position.SHIELD)
@@ -314,7 +314,7 @@ class MobTest {
         // given
         val mob = test.createMob()
         test.createItem(mob)
-        mob.equipped.items.add(test.itemBuilder().build())
+        mob.equipped.add(test.itemBuilder().build())
         val inventoryAmount = test.countItemsFor(mob)
 
         // when
@@ -322,7 +322,7 @@ class MobTest {
 
         // then
         assertThat(test.countItemsFor(corpse)).isEqualTo(inventoryAmount)
-        assertThat(mob.equipped.items).hasSize(0)
+        assertThat(mob.equipped).hasSize(0)
         assertThat(test.countItemsFor(mob)).isEqualTo(0)
     }
 }

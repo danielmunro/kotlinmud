@@ -59,7 +59,7 @@ class FightTest {
         val mob2 = testService.withMob {
             it.skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
         }
-        mob2.equipped.items.add(testService.buildItem(testService.itemBuilder().position(Position.SHIELD), mob2))
+        mob2.equipped.add(testService.buildItem(testService.itemBuilder().position(Position.SHIELD), mob2))
 
         // when
         val fight = Fight(mob1, mob2)
@@ -85,12 +85,12 @@ class FightTest {
 
         // given
         val mob1 = testService.withMob { it.skills(mutableMapOf(Pair(SkillType.PARRY, 100))) }
-        mob1.equipped.items.removeAt(0)
+        mob1.equipped.removeAt(0)
 
         val mob2 = testService.withMob {
             it.skills(mutableMapOf(Pair(SkillType.PARRY, 100)))
         }
-        mob2.equipped.items.add(testService.buildItem(
+        mob2.equipped.add(testService.buildItem(
             testService.itemBuilder()
                 .position(Position.WEAPON), mob2))
 
