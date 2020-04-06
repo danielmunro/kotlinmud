@@ -15,10 +15,10 @@ class WearTest {
 
         // given
         val mob = test.createMob()
-        mob.inventory.items.add(test.buildItem(
+        test.buildItem(
             test.itemBuilder()
                 .position(Position.SHIELD)
-                .name("a shield"), mob))
+                .name("a shield"), mob)
 
         // when
         val response = test.runAction(mob, "wear shield")
@@ -39,9 +39,7 @@ class WearTest {
 
         // given
         val mob = test.createMob()
-        mob.inventory.items.add(test.buildItem(
-            test.itemBuilder()
-                .name("a book"), mob))
+        test.buildItem(test.itemBuilder().name("a book"), mob)
 
         // when
         val response = test.runAction(mob, "wear book")

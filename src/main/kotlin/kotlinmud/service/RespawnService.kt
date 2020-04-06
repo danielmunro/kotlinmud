@@ -66,7 +66,6 @@ class RespawnService(
             while (itemMobCanRespawn(itemReset, mob)) {
                 with(item.copy()) {
                     itemService.add(ItemOwner(this, mob))
-                    mob.inventory.items.add(this)
                 }
                 items++
             }

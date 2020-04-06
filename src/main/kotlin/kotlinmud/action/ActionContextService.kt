@@ -78,6 +78,10 @@ class ActionContextService(
         return itemService.findAllByOwner(mob)
     }
 
+    fun getItemGroupsFor(mob: Mob): Map<Int, List<Item>> {
+        return itemService.getItemGroups(mob)
+    }
+
     fun changeItemOwner(item: Item, hasInventory: HasInventory) {
         itemService.changeItemOwner(item, hasInventory)
     }

@@ -28,6 +28,10 @@ class ItemService(private val items: MutableList<ItemOwner> = mutableListOf()) {
         return items.stream().filter { it.owner == hasInventory }.map { it.item }.toList()
     }
 
+    fun getItemGroups(hasInventory: HasInventory): Map<Int, List<Item>> {
+        return findAllByOwner(hasInventory).groupBy { it.id }
+    }
+
     fun changeItemOwner(item: Item, hasInventory: HasInventory) {
         items.find { it.item == item }?.let {
             it.owner = hasInventory
