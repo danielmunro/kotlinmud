@@ -1,8 +1,6 @@
 package kotlinmud.service
 
 import io.github.serpro69.kfaker.Faker
-import kotlinmud.item.Inventory
-import kotlinmud.item.Item
 import kotlinmud.item.ItemBuilder
 import kotlinmud.item.itemBuilder
 import kotlinmud.mob.JobType
@@ -36,14 +34,5 @@ class FixtureService {
         items++
         return itemBuilder(items, name)
             .description("$name is here")
-    }
-
-    fun createItem(inv: Inventory): Item {
-        items++
-        val item = itemBuilder(items, "the ${faker.cannabis.strains()} of ${faker.ancient.hero()}")
-            .description("A test item is here ($items).")
-            .build()
-        inv.items.add(item)
-        return item
     }
 }

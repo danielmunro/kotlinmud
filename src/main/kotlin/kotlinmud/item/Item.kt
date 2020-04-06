@@ -51,7 +51,7 @@ class Item(
             position,
             attackVerb,
             mutableListOf(),
-            Inventory(),
+            inventory,
             drink,
             food,
             quantity,
