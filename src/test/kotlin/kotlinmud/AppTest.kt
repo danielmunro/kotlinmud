@@ -17,7 +17,11 @@ class AppTest {
     fun testAppSanityCheck() {
         // setup
         val eventService = EventService()
-        val mobService = MobService(eventService, World(listOf()))
+        val mobService = MobService(
+            ItemService(),
+            eventService,
+            World(listOf())
+        )
 
         // when
         val app = App(eventService, mobService, ItemService(), Server(eventService, ServerSocket()))

@@ -3,7 +3,6 @@ package kotlinmud.mob
 import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
-import java.util.stream.Collectors
 import kotlinmud.Noun
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
@@ -13,8 +12,6 @@ import kotlinmud.attributes.HasAttributes
 import kotlinmud.data.Row
 import kotlinmud.item.HasInventory
 import kotlinmud.item.Inventory
-import kotlinmud.item.Item
-import kotlinmud.item.ItemBuilder
 import kotlinmud.item.Position
 import kotlinmud.math.dN
 import kotlinmud.math.normalizeInt
@@ -146,30 +143,6 @@ class Mob(
             Attribute.AC_SLASH -> attributes.acSlash + accumulate { it.attributes.acSlash }
             Attribute.AC_MAGIC -> attributes.acMagic + accumulate { it.attributes.acMagic }
         }
-    }
-
-    fun createCorpse(): Item {
-        val corpse = ItemBuilder()
-            .id(0)
-            .name("a corpse of $name")
-            .description("a corpse of $name is here.")
-            .level(level)
-            .weight(corpseWeight)
-            .inventory(Inventory())
-            .decayTimer(20)
-            .build()
-
-        equipped.items.stream().collect(Collectors.toList()).forEach {
-            equipped.items.remove(it)
-            corpse.inventory?.items?.add(it)
-        }
-
-        inventory.items.stream().collect(Collectors.toList()).forEach {
-            inventory.items.remove(it)
-            corpse.inventory?.items?.add(it)
-        }
-
-        return corpse
     }
 
     fun addExperience(value: Int): AddExperience {

@@ -319,7 +319,7 @@ class MobTest {
         }
 
         // when
-        val corpse = mob.createCorpse()
+        val corpse = test.createCorpseFrom(mob)
 
         // then
         assertThat(corpse.inventory!!.items).hasSize(3) // initial item + inventory + equipped

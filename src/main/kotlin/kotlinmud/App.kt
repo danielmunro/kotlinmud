@@ -108,7 +108,11 @@ fun createContainer(): Kodein {
             )
         }
         bind<MobService>() with singleton {
-            MobService(instance<EventService>(), instance<World>())
+            MobService(
+                instance<ItemService>(),
+                instance<EventService>(),
+                instance<World>()
+            )
         }
         bind<RespawnService>() with singleton {
             RespawnService(

@@ -79,6 +79,10 @@ class TestService(
         }
     }
 
+    fun createCorpseFrom(mob: Mob): Item {
+        return mobService.createCorpseFrom(mob)
+    }
+
     fun createPlayerMobBuilder(): MobBuilder {
         return fixtureService.createMobBuilder().isNpc(false)
     }

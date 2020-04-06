@@ -1,7 +1,6 @@
 package kotlinmud.action.impl
 
 import assertk.assertThat
-import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord

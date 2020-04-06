@@ -1,6 +1,7 @@
 package kotlinmud.service
 
 import com.cesarferreira.pluralize.pluralize
+import java.util.stream.Collectors
 import kotlinmud.attributes.Attribute
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
@@ -8,11 +9,15 @@ import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Message
+import kotlinmud.item.Inventory
+import kotlinmud.item.Item
+import kotlinmud.item.ItemBuilder
 import kotlinmud.loader.World
 import kotlinmud.math.normalizeDouble
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobRoom
+import kotlinmud.mob.corpseWeight
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
@@ -22,6 +27,7 @@ import kotlinmud.room.RegenLevel
 import kotlinmud.room.Room
 
 class MobService(
+    private val itemService: ItemService,
     private val eventService: EventService,
     private val world: World
 ) {
@@ -120,7 +126,7 @@ class MobService(
     fun pruneDeadMobs() {
         mobRooms.removeIf {
             if (it.mob.isIncapacitated()) {
-                it.room.inventory.items.add(it.mob.createCorpse())
+                it.room.inventory.items.add(createCorpseFrom(it.mob))
                 eventService.publishRoomMessage(createSendMessageToRoomEvent(
                     Message("you are DEAD!", "${it.mob} has died!"),
                     it.room,
@@ -144,6 +150,30 @@ class MobService(
         mobRooms.find { it.mob == mob }?.let {
             it.room = room
         } ?: mobRooms.add(MobRoom(mob, room))
+    }
+
+    fun createCorpseFrom(mob: Mob): Item {
+        val corpse = ItemBuilder()
+            .id(0)
+            .name("a corpse of ${mob.name}")
+            .description("a corpse of ${mob.name} is here.")
+            .level(mob.level)
+            .weight(corpseWeight)
+            .inventory(Inventory())
+            .decayTimer(20)
+            .build()
+
+        mob.equipped.items.stream().collect(Collectors.toList()).forEach {
+            mob.equipped.items.remove(it)
+            corpse.inventory?.items?.add(it)
+        }
+
+        mob.inventory.items.stream().collect(Collectors.toList()).forEach {
+            mob.inventory.items.remove(it)
+            corpse.inventory?.items?.add(it)
+        }
+
+        return corpse
     }
 
     private fun proceedFightRound(round: Round): Round {

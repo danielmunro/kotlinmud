@@ -8,7 +8,6 @@ import kotlinmud.item.Drink
 import kotlinmud.mob.Mob
 import kotlinmud.room.Room
 import kotlinmud.service.ItemService
-import kotlinmud.string.matches
 
 const val notFound = "you don't see anything like that here."
 
