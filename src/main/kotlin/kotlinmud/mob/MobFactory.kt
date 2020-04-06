@@ -20,7 +20,6 @@ fun mobBuilder(id: Int, name: String): MobBuilder {
         .specialization(SpecializationType.NONE)
         .job(JobType.NONE)
         .gender(Gender.NONE)
-        .inventory(Inventory())
         .equipped(Inventory())
         .wimpy(0)
         .savingThrows(0)

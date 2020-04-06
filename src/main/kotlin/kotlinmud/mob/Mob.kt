@@ -49,12 +49,13 @@ class Mob(
     var wimpy: Int,
     val experiencePerLevel: Int,
     var savingThrows: Int,
-    val inventory: Inventory,
     val equipped: Inventory,
     val isNpc: Boolean,
     var trains: Int,
     var practices: Int,
-    val route: List<Int>
+    val route: List<Int>,
+    @DefaultValue("50") val maxItems: Int,
+    @DefaultValue("100") val maxWeight: Int
 ) : Noun, Row, HasInventory {
     var delay = 0
     var skillPoints = 0
@@ -180,11 +181,12 @@ class Mob(
             experiencePerLevel,
             savingThrows,
             Inventory(),
-            Inventory(),
             isNpc,
             trains,
             practices,
-            route
+            route,
+            maxItems,
+            maxWeight
         )
     }
 
