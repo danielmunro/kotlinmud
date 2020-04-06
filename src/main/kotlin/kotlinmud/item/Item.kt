@@ -29,7 +29,7 @@ class Item(
     @DefaultValue("Food.NONE") val food: Food,
     @DefaultValue("0") var quantity: Int,
     @DefaultValue("-1") var decayTimer: Int
-) : HasAttributes, Noun, Row {
+) : HasAttributes, Noun, Row, HasInventory {
     override fun toString(): String {
         return name
     }

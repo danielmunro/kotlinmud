@@ -47,4 +47,12 @@ class ItemService(private val items: MutableList<ItemOwner> = mutableListOf()) {
     fun destroy(item: Item) {
         items.removeIf { it.item == item }
     }
+
+    fun transferAllItems(from: HasInventory, to: HasInventory) {
+        items.forEach {
+            if (it.owner == from) {
+                it.owner = to
+            }
+        }
+    }
 }

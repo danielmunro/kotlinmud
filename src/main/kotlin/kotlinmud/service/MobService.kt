@@ -165,13 +165,9 @@ class MobService(
 
         mob.equipped.items.stream().collect(Collectors.toList()).forEach {
             mob.equipped.items.remove(it)
-            corpse.inventory?.items?.add(it)
         }
 
-        mob.inventory.items.stream().collect(Collectors.toList()).forEach {
-            mob.inventory.items.remove(it)
-            corpse.inventory?.items?.add(it)
-        }
+        itemService.transferAllItems(mob, corpse)
 
         return corpse
     }
