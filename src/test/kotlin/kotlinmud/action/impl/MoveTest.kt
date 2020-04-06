@@ -20,7 +20,7 @@ class MoveTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(room, mob, testService.getMobsForRoom(room))
+            describeRoom(room, mob, testService.getMobsForRoom(room), testService.getItemsFor(room))
         )
     }
 
@@ -36,7 +36,7 @@ class MoveTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(room, mob, testService.getMobsForRoom(room))
+            describeRoom(room, mob, testService.getMobsForRoom(room), testService.getItemsFor(room))
         )
     }
 

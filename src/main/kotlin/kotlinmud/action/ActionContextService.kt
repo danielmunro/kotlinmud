@@ -74,8 +74,8 @@ class ActionContextService(
         return server.getClients()
     }
 
-    fun getItemsFor(mob: Mob): List<Item> {
-        return itemService.findAllByOwner(mob)
+    fun getItemsFor(hasInventory: HasInventory): List<Item> {
+        return itemService.findAllByOwner(hasInventory)
     }
 
     fun getItemGroupsFor(mob: Mob): Map<Int, List<Item>> {

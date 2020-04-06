@@ -26,8 +26,9 @@ class MobController(
 
     fun pickUpAnyItem() {
         val room = mobService.getRoomForMob(mob)
-        if (mob.isStanding() && room.inventory.items.size > 0) {
-            val item = room.inventory.items.random()
+        val items = itemService.findAllByOwner(room)
+        if (mob.isStanding() && items.isNotEmpty()) {
+            val item = items.random()
             itemService.changeItemOwner(item, mob)
             eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
@@ -37,7 +38,8 @@ class MobController(
                     ),
                     room,
                     mob
-                ))
+                )
+            )
         }
     }
 

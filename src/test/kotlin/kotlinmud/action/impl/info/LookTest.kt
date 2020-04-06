@@ -28,7 +28,8 @@ class LookTest {
             describeRoom(
                 room,
                 mob,
-                observers
+                observers,
+                testService.getItemsFor(room)
             )
         )
     }

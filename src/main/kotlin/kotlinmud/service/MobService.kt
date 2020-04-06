@@ -12,6 +12,7 @@ import kotlinmud.io.Message
 import kotlinmud.item.Inventory
 import kotlinmud.item.Item
 import kotlinmud.item.ItemBuilder
+import kotlinmud.item.ItemOwner
 import kotlinmud.loader.World
 import kotlinmud.math.normalizeDouble
 import kotlinmud.mob.Disposition
@@ -126,7 +127,7 @@ class MobService(
     fun pruneDeadMobs() {
         mobRooms.removeIf {
             if (it.mob.isIncapacitated()) {
-                it.room.inventory.items.add(createCorpseFrom(it.mob))
+                itemService.add(ItemOwner(createCorpseFrom(it.mob), it.room))
                 eventService.publishRoomMessage(createSendMessageToRoomEvent(
                     Message("you are DEAD!", "${it.mob} has died!"),
                     it.room,

@@ -9,6 +9,7 @@ import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
+import kotlinmud.item.Item
 import kotlinmud.mob.Mob
 import kotlinmud.room.Room
 import kotlinmud.room.exit.DoorDisposition
@@ -25,13 +26,14 @@ fun createLookAction(): Action {
                     describeRoom(
                         request.room,
                         request.mob,
-                        svc.getMobsInRoom(request.room)
+                        svc.getMobsInRoom(request.room),
+                        svc.getItemsFor(request.room)
                     )
                 ))
         })
 }
 
-fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>): String {
+fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>, roomItems: List<Item>): String {
     mob.affects().findByType(AffectType.BLIND)?.let {
         return "you can't see anything, you're blind!"
     }
@@ -43,8 +45,8 @@ fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>): String {
         room.description,
         showDoors(room.exits),
         reduceExits(room.exits),
-        if (room.inventory.items.count() > 0) "\n" else "",
-        room.inventory.items.joinToString("\n") { "${it.name} is here." },
+        if (roomItems.isNotEmpty()) "\n" else "",
+        roomItems.joinToString("\n") { "${it.name} is here." },
         if (observers.count() > 0) "\n" else "",
         observers.joinToString("\n") { it.brief }
     )
