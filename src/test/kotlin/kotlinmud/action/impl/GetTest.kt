@@ -32,6 +32,7 @@ class GetTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val room = testService.getRoomForMob(mob)
+        val itemCount = testService.countItemsFor(room)
 
         // when
         val response = testService.runAction(mob, "get foo")
@@ -39,6 +40,6 @@ class GetTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you don't see that anywhere.")
         assertThat(testService.countItemsFor(mob)).isEqualTo(1)
-        assertThat(testService.countItemsFor(room)).isEqualTo(0)
+        assertThat(testService.countItemsFor(room)).isEqualTo(itemCount)
     }
 }

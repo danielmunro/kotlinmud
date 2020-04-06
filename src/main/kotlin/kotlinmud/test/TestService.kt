@@ -35,7 +35,7 @@ class TestService(
     private val eventService: EventService
 ) {
     init {
-        fixtureService.createItem(mobService.getStartRoom().inventory)
+        createItem(mobService.getStartRoom())
     }
 
     fun <T, A> publish(event: Event<T>): EventResponse<A> {
@@ -48,6 +48,10 @@ class TestService(
 
     fun countItemsFor(hasInventory: HasInventory): Int {
         return itemService.findAllByOwner(hasInventory).size
+    }
+
+    fun getItemsFor(hasInventory: HasInventory): List<Item> {
+        return itemService.findAllByOwner(hasInventory)
     }
 
     fun regenMobs() {

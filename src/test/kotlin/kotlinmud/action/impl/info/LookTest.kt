@@ -53,7 +53,7 @@ class LookTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val room = testService.getRoomForMob(mob)
-        val item = room.inventory.items.first()
+        val item = testService.getItemsFor(room).first()
 
         // when
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")

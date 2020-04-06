@@ -25,5 +25,5 @@ fun createInventoryAction(): Action {
 fun describeItems(items: List<Item>): String {
     return items.groupBy { it.id }
         .map { if (it.value.size > 1) "(${it.value.size}) " else "" + it.value[0].name }
-        .joinToString("\n") { it }
+        .fold("\n") { acc, it -> "$acc$it\n" }
 }
