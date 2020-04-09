@@ -10,8 +10,11 @@ import kotlinmud.saver.mapper.reset.mapItemRoomReset
 import kotlinmud.saver.mapper.reset.mapMobReset
 import kotlinmud.world.World
 
+const val BASE_DIR = "state/areas"
+
 class WorldSaver(private val world: World) {
     fun save() {
+        checkDirectoryExistence()
         saveMobs()
         saveRooms()
         saveDoors()
@@ -19,6 +22,13 @@ class WorldSaver(private val world: World) {
         saveMobResets()
         saveItemMobResets()
         saveItemRoomResets()
+    }
+
+    private fun checkDirectoryExistence() {
+        val base = File("$BASE_DIR/reset")
+        if (!base.exists()) {
+            base.mkdirs()
+        }
     }
 
     private fun saveMobs() {
