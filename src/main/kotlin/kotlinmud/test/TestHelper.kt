@@ -5,6 +5,7 @@ import kotlinmud.Noun
 import kotlinmud.createContainer
 import kotlinmud.event.observer.createObservers
 import kotlinmud.io.Server
+import kotlinmud.saver.WorldSaver
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
@@ -13,6 +14,7 @@ import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
+import kotlinmud.world.World
 import org.kodein.di.erased.instance
 
 fun createTestService(): TestService {
@@ -26,7 +28,9 @@ fun createTestService(): TestService {
     val respawnService: RespawnService by container.instance()
     val weatherService: WeatherService by container.instance()
     val itemService: ItemService by container.instance()
-    evt.observers = createObservers(server, mob, evt, respawnService, weatherService, itemService)
+    val world: World by container.instance()
+    val worldSaver = WorldSaver(world)
+    evt.observers = createObservers(server, mob, evt, respawnService, weatherService, itemService, worldSaver)
     return TestService(
         fix,
         mob,

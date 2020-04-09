@@ -16,19 +16,29 @@ import kotlinmud.event.observer.impl.PruneDeadMobsPulseObserver
 import kotlinmud.event.observer.impl.RegenMobsObserver
 import kotlinmud.event.observer.impl.RemoveMobOnClientDisconnectObserver
 import kotlinmud.event.observer.impl.RespawnTickObserver
+import kotlinmud.event.observer.impl.SaveWorldObserver
 import kotlinmud.event.observer.impl.ScavengerCollectsItemsObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
 import kotlinmud.io.Server
+import kotlinmud.saver.WorldSaver
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.WeatherService
 
-fun createObservers(server: Server, mobService: MobService, eventService: EventService, respawnService: RespawnService, weatherService: WeatherService, itemService: ItemService): List<Observer> {
+fun createObservers(
+    server: Server,
+    mobService: MobService,
+    eventService: EventService,
+    respawnService: RespawnService,
+    weatherService: WeatherService,
+    itemService: ItemService,
+    worldSaver: WorldSaver
+): List<Observer> {
     return listOf(
         // client/server observers
         ClientConnectedObserver(mobService),
@@ -41,6 +51,7 @@ fun createObservers(server: Server, mobService: MobService, eventService: EventS
         DecrementAffectTimeoutTickObserver(mobService),
         DecrementDelayObserver(mobService),
         DecrementItemDecayTimerObserver(itemService),
+        SaveWorldObserver(worldSaver),
 
         // game logic
         LogTickObserver(mobService, server),

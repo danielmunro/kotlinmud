@@ -23,7 +23,9 @@ class TimeService(private val eventService: EventService) {
             eventService.publish<TickEvent, Tick>(Event(EventType.TICK, TickEvent()))
             pulse = 0
             time++
-            if (time % TICKS_IN_DAY == 0) {
+            val dayElapsed = time % TICKS_IN_DAY == 0
+            println("tick occurred, hour ${time % TICKS_IN_DAY}${if (dayElapsed) ", day elapsed" else "" }")
+            if (dayElapsed) {
                 eventService.publish<DayEvent, Day>(Event(EventType.DAY, DayEvent()))
             }
         }

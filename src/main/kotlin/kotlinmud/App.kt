@@ -74,17 +74,18 @@ fun main() {
     val respawnService: RespawnService by container.instance()
     val weatherService: WeatherService by container.instance()
     val itemService: ItemService by container.instance()
+    val world: World by container.instance()
+    val worldSaver = WorldSaver(world)
     eventService.observers = createObservers(
         server,
         mobService,
         eventService,
         respawnService,
         weatherService,
-        itemService
+        itemService,
+        worldSaver
     )
     respawnService.respawn()
-    val world: World by container.instance()
-    WorldSaver(world).save()
     App(eventService, mobService, itemService, server).start()
 }
 

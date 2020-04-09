@@ -7,11 +7,7 @@ import kotlin.streams.toList
 import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
-import kotlinmud.event.Pulse
-import kotlinmud.event.Tick
 import kotlinmud.event.createClientConnectedEvent
-import kotlinmud.event.event.PulseEvent
-import kotlinmud.event.event.TickEvent
 import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
 import kotlinmud.service.TimeService
