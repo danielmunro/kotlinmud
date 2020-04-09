@@ -20,7 +20,10 @@ class ClientHandler(private val eventService: EventService, private val client: 
     fun run() {
         while (running) {
             try {
-                reader.nextLine().toLowerCase().let { captureInput(it) }
+                reader.nextLine().toLowerCase().let {
+                    println("received message from ${client.remoteSocketAddress}: $it")
+                    captureInput(it)
+                }
             } catch (ex: Exception) {
                 shutdown()
             }
