@@ -1,7 +1,7 @@
 package kotlinmud.loader.mapper
 
 import kotlinmud.loader.model.DoorModel
-import kotlinmud.room.exit.Door
+import kotlinmud.world.room.exit.Door
 
 class DoorMapper(private val doors: List<DoorModel>) {
     fun map(): List<Door> {

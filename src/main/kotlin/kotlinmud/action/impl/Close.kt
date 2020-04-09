@@ -8,8 +8,8 @@ import kotlinmud.io.IOStatus
 import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
-import kotlinmud.room.exit.Door
-import kotlinmud.room.exit.DoorDisposition
+import kotlinmud.world.room.exit.Door
+import kotlinmud.world.room.exit.DoorDisposition
 
 fun createCloseAction(): Action {
     return Action(

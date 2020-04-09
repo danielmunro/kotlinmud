@@ -49,6 +49,10 @@ data class Attributes(
             Attribute.AC_MAGIC -> acMagic
         }
     }
+
+    fun hasAC(): Boolean {
+        return acBash > 0 || acSlash > 0 || acPierce > 0 || acMagic > 0
+    }
 }
 
 fun setAttribute(builder: AttributesBuilder, attribute: Attribute, value: Int): AttributesBuilder {

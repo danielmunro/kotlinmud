@@ -2,8 +2,8 @@ package kotlinmud.event.observer
 
 import assertk.assertThat
 import assertk.assertions.isGreaterThan
-import kotlinmud.room.RegenLevel
 import kotlinmud.test.createTestService
+import kotlinmud.world.room.RegenLevel
 import org.junit.Test
 
 class RegenMobsObserverTest {

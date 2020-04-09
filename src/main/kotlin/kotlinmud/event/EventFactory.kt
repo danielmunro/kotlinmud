@@ -7,7 +7,7 @@ import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.ClientHandler
 import kotlinmud.io.Message
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
+import kotlinmud.world.room.Room
 
 fun createClientConnectedEvent(socket: Socket): Event<ClientConnectedEvent> {
     return Event(EventType.CLIENT_CONNECTED, ClientConnectedEvent(socket))

@@ -1,9 +1,9 @@
-package kotlinmud.room
+package kotlinmud.world.room
 
 import kotlinmud.data.Row
 import kotlinmud.item.HasInventory
-import kotlinmud.room.exit.DoorDisposition
-import kotlinmud.room.exit.Exit
+import kotlinmud.world.room.exit.DoorDisposition
+import kotlinmud.world.room.exit.Exit
 
 data class Room(
     override val id: Int,

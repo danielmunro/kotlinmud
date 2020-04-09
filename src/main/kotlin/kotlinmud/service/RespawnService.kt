@@ -2,12 +2,12 @@ package kotlinmud.service
 
 import kotlin.system.measureTimeMillis
 import kotlinmud.item.ItemOwner
-import kotlinmud.loader.World
 import kotlinmud.loader.model.reset.ItemMobReset
 import kotlinmud.loader.model.reset.ItemRoomReset
 import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
+import kotlinmud.world.World
+import kotlinmud.world.room.Room
 
 class RespawnService(
     private val world: World,

@@ -9,8 +9,8 @@ import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.mob.skill.Cost
 import kotlinmud.mob.skill.CostType
-import kotlinmud.room.Direction
-import kotlinmud.room.Room
+import kotlinmud.world.room.Direction
+import kotlinmud.world.room.Room
 
 private fun move(command: Command, direction: Direction): Action {
     return Action(

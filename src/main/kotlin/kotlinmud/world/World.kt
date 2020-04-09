@@ -1,4 +1,4 @@
-package kotlinmud.loader
+package kotlinmud.world
 
 import kotlinmud.data.Table
 import kotlinmud.item.Item
@@ -7,10 +7,12 @@ import kotlinmud.loader.model.reset.ItemMobReset
 import kotlinmud.loader.model.reset.ItemRoomReset
 import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
+import kotlinmud.world.room.Room
+import kotlinmud.world.room.exit.Door
 
-data class World(val areas: List<Area>) {
+data class World(private val areas: List<Area>) {
     var rooms: Table<Room>
+    var doors: Table<Door>
     var mobs: Table<Mob>
     var items: Table<Item>
     var mobResets: Table<MobReset>
@@ -21,6 +23,7 @@ data class World(val areas: List<Area>) {
         val allRoomModels = areas.flatMap { it.roomMapper.roomModels }
         val allDoors = areas.flatMap { it.roomMapper.doors }
         val allRoomsMapper = RoomMapper(allRoomModels, allDoors)
+        doors = Table(allDoors)
         rooms = Table(allRoomsMapper.map())
         mobs = Table(areas.flatMap { it.mobs })
         items = Table(areas.flatMap { it.items })

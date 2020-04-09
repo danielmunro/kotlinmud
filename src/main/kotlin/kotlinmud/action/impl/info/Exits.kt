@@ -8,7 +8,7 @@ import kotlinmud.io.Message
 import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
-import kotlinmud.room.exit.DoorDisposition
+import kotlinmud.world.room.exit.DoorDisposition
 
 fun createExitsAction(): Action {
     return Action(

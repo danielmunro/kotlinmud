@@ -1,12 +1,14 @@
-package kotlinmud.room.exit
+package kotlinmud.world.room.exit
+
+import kotlinmud.data.Row
 
 data class Door(
-    val id: Int,
+    override val id: Int,
     val name: String,
     val description: String,
     var disposition: DoorDisposition,
     val keyItemId: Int? = null
-) {
+) : Row {
     private val defaultDisposition = disposition
 
     fun reset() {

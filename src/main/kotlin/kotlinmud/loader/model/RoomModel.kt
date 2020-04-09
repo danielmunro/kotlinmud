@@ -1,6 +1,6 @@
 package kotlinmud.loader.model
 
-import kotlinmud.room.RegenLevel
+import kotlinmud.world.room.RegenLevel
 
 data class RoomModel(
     override val id: Int,

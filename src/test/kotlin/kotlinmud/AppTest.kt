@@ -7,10 +7,10 @@ import java.net.ServerSocket
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlinmud.io.Server
-import kotlinmud.loader.World
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
+import kotlinmud.world.World
 
 class AppTest {
     @Test

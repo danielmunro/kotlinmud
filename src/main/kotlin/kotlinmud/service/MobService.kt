@@ -12,7 +12,6 @@ import kotlinmud.io.Message
 import kotlinmud.item.Item
 import kotlinmud.item.ItemBuilder
 import kotlinmud.item.ItemOwner
-import kotlinmud.loader.World
 import kotlinmud.math.normalizeDouble
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
@@ -22,9 +21,10 @@ import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
-import kotlinmud.room.Direction
-import kotlinmud.room.RegenLevel
-import kotlinmud.room.Room
+import kotlinmud.world.World
+import kotlinmud.world.room.Direction
+import kotlinmud.world.room.RegenLevel
+import kotlinmud.world.room.Room
 
 class MobService(
     private val itemService: ItemService,

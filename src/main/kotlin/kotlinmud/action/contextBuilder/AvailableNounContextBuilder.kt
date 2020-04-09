@@ -5,10 +5,10 @@ import kotlinmud.action.Status
 import kotlinmud.affect.AffectType
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.string.matches
+import kotlinmud.world.room.Room
 
 class AvailableNounContextBuilder(
     private val mobService: MobService,

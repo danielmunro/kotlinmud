@@ -2,7 +2,7 @@ package kotlinmud.io
 
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
+import kotlinmud.world.room.Room
 
 data class Request(
     val mob: Mob,

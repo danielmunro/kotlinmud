@@ -1,4 +1,4 @@
-package kotlinmud.loader
+package kotlinmud.world
 
 import kotlinmud.item.Item
 import kotlinmud.loader.mapper.RoomMapper
@@ -8,7 +8,7 @@ import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
 
 data class Area(
-    val id: String,
+    val baseDir: String,
     val roomMapper: RoomMapper,
     val items: List<Item>,
     val mobs: List<Mob>,

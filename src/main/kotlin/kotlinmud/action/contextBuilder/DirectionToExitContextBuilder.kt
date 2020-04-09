@@ -3,8 +3,8 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.io.Syntax
-import kotlinmud.room.Room
-import kotlinmud.room.exit.DoorDisposition
+import kotlinmud.world.room.Room
+import kotlinmud.world.room.exit.DoorDisposition
 
 class DirectionToExitContextBuilder(private val room: Room) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

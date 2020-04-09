@@ -4,9 +4,9 @@ import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
 import kotlinmud.service.MobService
 import kotlinmud.string.matches
+import kotlinmud.world.room.Room
 
 class TargetMobContextBuilder(private val mobService: MobService, private val mob: Mob, private val room: Room) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

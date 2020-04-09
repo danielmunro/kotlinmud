@@ -9,8 +9,8 @@ import kotlinmud.io.Message
 import kotlinmud.io.Server
 import kotlinmud.io.SocialChannel
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
 import kotlinmud.service.MobService
+import kotlinmud.world.room.Room
 
 class SocialDistributorObserver(private val server: Server, private val mobService: MobService) :
     Observer {

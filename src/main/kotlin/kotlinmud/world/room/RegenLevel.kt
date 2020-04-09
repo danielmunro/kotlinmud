@@ -1,4 +1,4 @@
-package kotlinmud.room
+package kotlinmud.world.room
 
 enum class RegenLevel {
     NONE,

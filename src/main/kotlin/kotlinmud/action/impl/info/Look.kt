@@ -11,9 +11,9 @@ import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.item.Item
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
-import kotlinmud.room.exit.DoorDisposition
-import kotlinmud.room.exit.Exit
+import kotlinmud.world.room.Room
+import kotlinmud.world.room.exit.DoorDisposition
+import kotlinmud.world.room.exit.Exit
 
 fun createLookAction(): Action {
     return Action(

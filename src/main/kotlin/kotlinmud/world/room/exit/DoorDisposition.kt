@@ -1,4 +1,4 @@
-package kotlinmud.room.exit
+package kotlinmud.world.room.exit
 
 enum class DoorDisposition {
     CLOSED,

@@ -2,7 +2,7 @@ package kotlinmud.loader.loader
 
 import kotlinmud.loader.Tokenizer
 import kotlinmud.loader.model.RoomModel
-import kotlinmud.room.RegenLevel
+import kotlinmud.world.room.RegenLevel
 
 class RoomLoader(private val tokenizer: Tokenizer) : Loader {
     var id = 0

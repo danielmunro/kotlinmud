@@ -6,8 +6,8 @@ import kotlinmud.affect.AffectType
 import kotlinmud.io.Syntax
 import kotlinmud.item.Drink
 import kotlinmud.mob.Mob
-import kotlinmud.room.Room
 import kotlinmud.service.ItemService
+import kotlinmud.world.room.Room
 
 const val notFound = "you don't see anything like that here."
 

@@ -3,9 +3,9 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.io.Syntax
-import kotlinmud.room.Room
-import kotlinmud.room.exit.Exit
 import kotlinmud.string.matches
+import kotlinmud.world.room.Room
+import kotlinmud.world.room.exit.Exit
 
 class DoorInRoomContextBuilder(private val room: Room) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

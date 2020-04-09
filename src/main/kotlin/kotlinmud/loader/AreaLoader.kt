@@ -19,7 +19,8 @@ import kotlinmud.loader.model.reset.ItemMobReset
 import kotlinmud.loader.model.reset.ItemRoomReset
 import kotlinmud.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
-import kotlinmud.room.exit.Door
+import kotlinmud.world.Area
+import kotlinmud.world.room.exit.Door
 
 class AreaLoader(private val baseDir: String) {
     fun load(): Area {
