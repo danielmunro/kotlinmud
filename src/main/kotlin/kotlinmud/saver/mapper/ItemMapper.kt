@@ -37,7 +37,3 @@ fun generateProps(item: Item): String {
             optional(attr.constitution > 0, "con: ${attr.constitution}") +
             optional(attr.hasAC(), "ac: ${attr.acBash}-${attr.acSlash}-${attr.acPierce}-${attr.acMagic}")
 }
-
-fun optional(condition: Boolean, output: String): String {
-    return if (condition) "$output, " else ""
-}

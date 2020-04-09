@@ -1,13 +1,13 @@
 package kotlinmud.mob
 
-enum class JobType {
-    SHOPKEEPER,
-    SCAVENGER,
-    GUARD,
-    TRAINER,
-    PRACTITIONER,
-    FODDER,
-    PATROL,
-    HEALER,
-    NONE,
+enum class JobType(val value: String) {
+    SHOPKEEPER("shopkeeper"),
+    SCAVENGER("scavenger"),
+    GUARD("guard"),
+    TRAINER("trainer"),
+    PRACTITIONER("practitioner"),
+    FODDER("fodder"),
+    PATROL("patrol"),
+    HEALER("healer"),
+    NONE("none"),
 }

@@ -67,6 +67,8 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
             .specialization(specialization)
             .race(createRaceFromString(strAttr("race", "human")))
             .gold(Random.nextInt(goldMin, goldMax))
+            .goldMin(goldMin)
+            .goldMax(goldMax)
             .route(route)
             .isNpc(true)
             .affects(affects)

@@ -1,9 +1,9 @@
 package kotlinmud.mob
 
-enum class SpecializationType {
-    MAGE,
-    WARRIOR,
-    CLERIC,
-    THIEF,
-    NONE,
+enum class SpecializationType(val value: String) {
+    MAGE("mage"),
+    WARRIOR("warrior"),
+    CLERIC("cleric"),
+    THIEF("thief"),
+    NONE("none"),
 }
