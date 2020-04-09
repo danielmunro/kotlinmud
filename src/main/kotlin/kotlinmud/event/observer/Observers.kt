@@ -30,6 +30,8 @@ import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.WeatherService
 
+typealias Observers = List<Observer>
+
 fun createObservers(
     server: Server,
     mobService: MobService,
@@ -38,7 +40,7 @@ fun createObservers(
     weatherService: WeatherService,
     itemService: ItemService,
     worldSaver: WorldSaver
-): List<Observer> {
+): Observers {
     return listOf(
         // client/server observers
         ClientConnectedObserver(mobService),

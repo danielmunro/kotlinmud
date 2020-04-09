@@ -2,6 +2,7 @@ package kotlinmud
 
 import java.net.ServerSocket
 import kotlinmud.event.createSendMessageToRoomEvent
+import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
 import kotlinmud.io.ClientHandler
 import kotlinmud.io.Response
@@ -67,32 +68,26 @@ class App(
 }
 
 fun main() {
-    val container = createContainer()
+    val env = System.getenv("ENV")
+    println("env: $env")
+    val port = if (env == "ci") 0 else 9999
+    createApp(port).start()
+}
+
+fun createApp(port: Int): App {
+    val container = createContainer(port)
     val mobService: MobService by container.instance()
     val eventService: EventService by container.instance()
     val server: Server by container.instance()
     val respawnService: RespawnService by container.instance()
-    val weatherService: WeatherService by container.instance()
     val itemService: ItemService by container.instance()
-    val world: World by container.instance()
-    val worldSaver = WorldSaver(world)
-    eventService.observers = createObservers(
-        server,
-        mobService,
-        eventService,
-        respawnService,
-        weatherService,
-        itemService,
-        worldSaver
-    )
+    val observers: Observers by container.instance()
+    eventService.observers = observers
     respawnService.respawn()
-    App(eventService, mobService, itemService, server).start()
+    return App(eventService, mobService, itemService, server)
 }
 
-fun createContainer(): Kodein {
-    val env = System.getenv("ENV")
-    println("env: $env")
-    val port = if (env == "ci") 0 else 9999
+fun createContainer(port: Int): Kodein {
     return Kodein {
         bind<ServerSocket>() with singleton { ServerSocket(port) }
         bind<Server>() with singleton { Server(instance<EventService>(), instance<ServerSocket>(), instance<TimeService>()) }
@@ -125,6 +120,17 @@ fun createContainer(): Kodein {
                 instance<World>(),
                 instance<MobService>(),
                 instance<ItemService>()
+            )
+        }
+        bind<Observers>() with singleton {
+            createObservers(
+                instance<Server>(),
+                instance<MobService>(),
+                instance<EventService>(),
+                instance<RespawnService>(),
+                instance<WeatherService>(),
+                instance<ItemService>(),
+                WorldSaver(instance<World>())
             )
         }
     }
