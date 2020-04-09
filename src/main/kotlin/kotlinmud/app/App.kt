@@ -23,15 +23,18 @@ class App(
     fun start() {
         println("starting app on port ${server.getPort()}")
         server.start()
-        processClientBuffers()
+        mainLoop()
+    }
+
+    private fun mainLoop() {
+        while (true) {
+            processClientBuffers()
+        }
     }
 
     private fun processClientBuffers() {
-        while (true) {
-            server.getClientsWithBuffers().forEach {
-                processRequest(it)
-            }
-            server.pruneClients()
+        server.getClientsWithBuffers().forEach {
+            processRequest(it)
         }
     }
 

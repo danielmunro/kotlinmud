@@ -29,9 +29,7 @@ class Server(
     }
 
     fun getClientsWithBuffers(): List<ClientHandler> {
-        return clients.stream()
-            .filter { it.hasRequests() }
-            .toList()
+        return clients.stream().filter { it.hasRequests() }.collect(Collectors.toList())
     }
 
     fun getClientsFromMobs(mobs: List<Mob>): List<ClientHandler> {
@@ -50,14 +48,6 @@ class Server(
 
     fun getPort(): Int {
         return server.localPort
-    }
-
-    fun pruneClients() {
-        val toPrune = clients.stream().filter { !it.isRunning() }.collect(Collectors.toList())
-        toPrune.forEach {
-            eventService.publish<ClientHandler, ClientHandler>(Event(EventType.CLIENT_DISCONNECTED, it))
-        }
-        clients.removeAll(toPrune)
     }
 
     private fun timer() {
