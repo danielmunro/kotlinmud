@@ -5,6 +5,9 @@ import kotlinmud.saver.mapper.mapDoor
 import kotlinmud.saver.mapper.mapItem
 import kotlinmud.saver.mapper.mapMob
 import kotlinmud.saver.mapper.mapRoom
+import kotlinmud.saver.mapper.reset.mapItemMobReset
+import kotlinmud.saver.mapper.reset.mapItemRoomReset
+import kotlinmud.saver.mapper.reset.mapMobReset
 import kotlinmud.world.World
 
 class WorldSaver(private val world: World) {
@@ -13,6 +16,9 @@ class WorldSaver(private val world: World) {
         saveRooms()
         saveDoors()
         saveItems()
+        saveMobResets()
+        saveItemMobResets()
+        saveItemRoomResets()
     }
 
     private fun saveMobs() {
@@ -43,6 +49,30 @@ class WorldSaver(private val world: World) {
         val file = File("areas/items.txt")
         val buffer = world.items.toList().joinToString("") {
             mapItem(it)
+        }
+        file.writeText(buffer)
+    }
+
+    private fun saveMobResets() {
+        val file = File("areas/reset/mobs.txt")
+        val buffer = world.mobResets.toList().joinToString("\n") {
+            mapMobReset(it)
+        }
+        file.writeText(buffer)
+    }
+
+    private fun saveItemMobResets() {
+        val file = File("areas/reset/item_mobs.txt")
+        val buffer = world.itemMobResets.toList().joinToString("\n") {
+            mapItemMobReset(it)
+        }
+        file.writeText(buffer)
+    }
+
+    private fun saveItemRoomResets() {
+        val file = File("areas/reset/item_rooms.txt")
+        val buffer = world.itemRoomResets.toList().joinToString("\n") {
+            mapItemRoomReset(it)
         }
         file.writeText(buffer)
     }
