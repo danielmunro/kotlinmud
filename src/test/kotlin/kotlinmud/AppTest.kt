@@ -6,6 +6,7 @@ package kotlinmud
 import java.net.ServerSocket
 import kotlin.test.Test
 import kotlin.test.assertNotNull
+import kotlinmud.app.App
 import kotlinmud.io.Server
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
@@ -25,7 +26,12 @@ class AppTest {
         )
 
         // when
-        val app = App(eventService, mobService, ItemService(), Server(eventService, ServerSocket(), TimeService(eventService)))
+        val app = App(
+            eventService,
+            mobService,
+            ItemService(),
+            Server(eventService, ServerSocket(), TimeService(eventService))
+        )
 
         // then
         assertNotNull(app, "app should have a greeting")

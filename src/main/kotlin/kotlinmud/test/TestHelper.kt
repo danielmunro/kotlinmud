@@ -1,7 +1,7 @@
 package kotlinmud.test
 
 import kotlinmud.Noun
-import kotlinmud.createContainer
+import kotlinmud.app.createContainer
 import kotlinmud.event.observer.Observers
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
