@@ -11,6 +11,7 @@ import kotlinmud.service.FixtureService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
+import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
 import org.kodein.di.erased.instance
 
@@ -21,7 +22,7 @@ fun createTestService(): TestService {
     val item: ItemService by container.instance()
     val act: ActionService by container.instance()
     val evt: EventService by container.instance()
-    val server = Server(evt, ServerSocket())
+    val server = Server(evt, ServerSocket(), TimeService(evt))
     val respawnService: RespawnService by container.instance()
     val weatherService: WeatherService by container.instance()
     val itemService: ItemService by container.instance()

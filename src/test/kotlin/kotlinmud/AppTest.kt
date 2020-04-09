@@ -10,6 +10,7 @@ import kotlinmud.io.Server
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
+import kotlinmud.service.TimeService
 import kotlinmud.world.World
 
 class AppTest {
@@ -24,7 +25,7 @@ class AppTest {
         )
 
         // when
-        val app = App(eventService, mobService, ItemService(), Server(eventService, ServerSocket()))
+        val app = App(eventService, mobService, ItemService(), Server(eventService, ServerSocket(), TimeService(eventService)))
 
         // then
         assertNotNull(app, "app should have a greeting")

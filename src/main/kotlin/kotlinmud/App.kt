@@ -16,6 +16,7 @@ import kotlinmud.service.FixtureService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
+import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
 import kotlinmud.world.World
 import org.kodein.di.Kodein
@@ -93,11 +94,12 @@ fun createContainer(): Kodein {
     val port = if (env == "ci") 0 else 9999
     return Kodein {
         bind<ServerSocket>() with singleton { ServerSocket(port) }
-        bind<Server>() with singleton { Server(instance<EventService>(), instance<ServerSocket>()) }
+        bind<Server>() with singleton { Server(instance<EventService>(), instance<ServerSocket>(), instance<TimeService>()) }
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
         bind<ItemService>() with singleton { ItemService() }
         bind<WeatherService>() with singleton { WeatherService() }
+        bind<TimeService>() with singleton { TimeService(instance<EventService>()) }
         bind<ActionService>() with singleton {
             ActionService(instance<MobService>(), instance<ItemService>(), instance<EventService>(), instance<Server>())
         }

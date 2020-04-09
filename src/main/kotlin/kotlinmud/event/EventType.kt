@@ -8,6 +8,7 @@ enum class EventType {
     INPUT_RECEIVED,
     PULSE,
     TICK,
+    DAY,
     FIGHT_STARTED,
     FIGHT_ROUND,
     KILL,
