@@ -14,3 +14,7 @@ fun createClientConnectedEvent(client: NIOClient): Event<ClientConnectedEvent> {
 fun createSendMessageToRoomEvent(message: Message, room: Room, actionCreator: Mob, target: Mob? = null): Event<SendMessageToRoomEvent> {
     return Event(EventType.SEND_MESSAGE_TO_ROOM, SendMessageToRoomEvent(message, room, actionCreator, target))
 }
+
+fun createClientDisconnectedEvent(client: NIOClient): Event<NIOClient> {
+    return Event(EventType.CLIENT_DISCONNECTED, client)
+}

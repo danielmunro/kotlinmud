@@ -1,6 +1,5 @@
 package kotlinmud.io
 
-import kotlinmud.event.Event
 import java.net.InetSocketAddress
 import java.nio.ByteBuffer
 import java.nio.channels.SelectionKey
@@ -9,11 +8,13 @@ import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
 import java.util.stream.Collectors
 import kotlinmud.event.EventResponse
-import kotlinmud.event.EventType
 import kotlinmud.event.createClientConnectedEvent
+import kotlinmud.event.createClientDisconnectedEvent
 import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
+
+const val SELECT_TIMEOUT_MS: Long = 1
 
 class NIOServer(private val eventService: EventService, val port: Int = 0) {
     private val selector: Selector = Selector.open()
@@ -29,15 +30,17 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
     }
 
     fun removeDisconnectedClients() {
-        val lost = clients.stream().filter { !it.connected }.collect(Collectors.toList())
+        val lost = clients.stream()
+            .filter { !it.connected }
+            .collect(Collectors.toList())
         lost.forEach {
-            eventService.publish<NIOClient, NIOClient>(Event(EventType.CLIENT_DISCONNECTED, it))
+            eventService.publish<NIOClient, NIOClient>(createClientDisconnectedEvent(it))
         }
         clients.removeAll(lost)
     }
 
     fun readIntoBuffers() {
-        selector.select(1)
+        selector.select(SELECT_TIMEOUT_MS)
         val selectedKeys: MutableSet<SelectionKey> = selector.selectedKeys()
         val i = selectedKeys.iterator()
         while (i.hasNext()) {
