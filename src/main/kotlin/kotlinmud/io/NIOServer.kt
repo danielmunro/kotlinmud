@@ -15,6 +15,7 @@ import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
 
 const val SELECT_TIMEOUT_MS: Long = 1
+const val READ_BUFFER_SIZE_IN_BYTES = 1024
 
 class NIOServer(private val eventService: EventService, val port: Int = 0) {
     private val selector: Selector = Selector.open()
@@ -92,7 +93,7 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
         val socket = key.channel() as SocketChannel
 
         // Create buffer to read data
-        val buffer = ByteBuffer.allocate(1024)
+        val buffer = ByteBuffer.allocate(READ_BUFFER_SIZE_IN_BYTES)
         socket.read(buffer)
 
         // Parse data from buffer to String
