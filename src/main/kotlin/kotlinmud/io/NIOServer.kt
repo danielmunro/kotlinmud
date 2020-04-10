@@ -38,7 +38,7 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
             val key = i.next()
             if (key.isAcceptable) {
                 // New client has been accepted
-                handleAccept(socket, key)
+                handleAccept(socket)
             } else if (key.isReadable) {
                 // We can run non-blocking operation READ on our client
                 handleRead(key)
@@ -65,10 +65,7 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
         }
     }
 
-    private fun handleAccept(
-        mySocket: ServerSocketChannel,
-        key: SelectionKey
-    ) {
+    private fun handleAccept(mySocket: ServerSocketChannel) {
         // Accept the connection and set non-blocking mode
         val socket = mySocket.accept()
         socket.configureBlocking(false)

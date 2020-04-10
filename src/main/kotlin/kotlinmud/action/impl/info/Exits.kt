@@ -15,7 +15,7 @@ fun createExitsAction(): Action {
         Command.EXITS,
         mustBeAlert(),
         listOf(Syntax.COMMAND),
-        { svc: ActionContextService, request: Request ->
+        { _: ActionContextService, request: Request ->
             createResponseWithEmptyActionContext(
                 Message("Exits include:\n${request.room.exits.fold("") {
                     acc, it ->

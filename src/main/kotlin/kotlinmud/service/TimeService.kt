@@ -8,9 +8,9 @@ import kotlinmud.event.Tick
 import kotlinmud.event.event.DayEvent
 import kotlinmud.event.event.PulseEvent
 import kotlinmud.event.event.TickEvent
-import kotlinmud.io.TICK_LENGTH_IN_SECONDS
 
 const val TICKS_IN_DAY = 2
+const val TICK_LENGTH_IN_SECONDS = 20
 
 class TimeService(private val eventService: EventService, private var time: Int = 0) {
     private var pulse = 0

@@ -13,7 +13,7 @@ class ItemMobResetLoader(private val tokenizer: Tokenizer) : Loader {
     var maxInWorld = 0
     override var props: Map<String, String>
         get() = TODO("Not yet implemented")
-        set(value) {}
+        set(_) {}
 
     override fun load(): Model {
         id++

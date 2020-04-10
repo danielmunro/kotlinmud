@@ -11,7 +11,7 @@ class DoorLoader(private val tokenizer: Tokenizer) : Loader {
     var disposition = ""
     override var props: Map<String, String>
         get() = TODO("Not yet implemented")
-        set(value) {}
+        set(_) {}
 
     override fun load(): DoorModel {
         id = tokenizer.parseInt()
