@@ -1,5 +1,6 @@
 package kotlinmud.io
 
+import kotlinmud.event.Event
 import java.net.InetSocketAddress
 import java.nio.ByteBuffer
 import java.nio.channels.SelectionKey
@@ -8,6 +9,7 @@ import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
 import java.util.stream.Collectors
 import kotlinmud.event.EventResponse
+import kotlinmud.event.EventType
 import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.mob.Mob
@@ -27,7 +29,11 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
     }
 
     fun removeDisconnectedClients() {
-        clients.removeIf { !it.connected }
+        val lost = clients.stream().filter { !it.connected }.collect(Collectors.toList())
+        lost.forEach {
+            eventService.publish<NIOClient, NIOClient>(Event(EventType.CLIENT_DISCONNECTED, it))
+        }
+        clients.removeAll(lost)
     }
 
     fun readIntoBuffers() {
