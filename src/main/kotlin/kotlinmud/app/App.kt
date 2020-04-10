@@ -1,9 +1,10 @@
 package kotlinmud.app
 
 import kotlinmud.event.createSendMessageToRoomEvent
-import kotlinmud.io.ClientHandler
+import kotlinmud.io.NIOClient
+import kotlinmud.io.NIOServer
+import kotlinmud.io.Request
 import kotlinmud.io.Response
-import kotlinmud.io.Server
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
 import kotlinmud.service.ActionService
@@ -15,20 +16,23 @@ class App(
     private val eventService: EventService,
     private val mobService: MobService,
     itemService: ItemService,
-    private val server: Server
+    private val server: NIOServer
 ) {
     private val actionService: ActionService =
         ActionService(mobService, itemService, eventService, server)
 
     fun start() {
-        println("starting app on port ${server.getPort()}")
-        server.start()
+        println("starting app on port ${server.port}")
+        server.configure()
         mainLoop()
     }
 
     private fun mainLoop() {
+        println("starting main loop")
         while (true) {
+            server.readIntoBuffers()
             processClientBuffers()
+            server.removeDisconnectedClients()
         }
     }
 
@@ -38,11 +42,12 @@ class App(
         }
     }
 
-    private fun processRequest(client: ClientHandler) {
-        if (client.mob.delay > 0) {
+    private fun processRequest(client: NIOClient) {
+        if (client.mob!!.delay > 0) {
             return
         }
-        val request = client.shiftBuffer()
+        val input = client.buffers.removeAt(0)
+        val request = Request(client.mob!!, input, mobService.getRoomForMob(client.mob!!))
         val response = actionService.run(request)
         eventService.publishRoomMessage(
             createSendMessageToRoomEvent(

@@ -6,8 +6,6 @@ import java.net.SocketException
 import java.nio.charset.Charset
 import java.util.Scanner
 import kotlinmud.action.Command
-import kotlinmud.event.createInputReceivedEvent
-import kotlinmud.event.event.InputReceivedEvent
 import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
 
@@ -63,7 +61,7 @@ class ClientHandler(private val eventService: EventService, private val client: 
             shutdown()
             return
         }
-        eventService.publish<InputReceivedEvent, InputReceivedEvent>(createInputReceivedEvent(this, input))
+//        eventService.publish<InputReceivedEvent, InputReceivedEvent>(createInputReceivedEvent(this, input))
     }
 
     private fun shutdown() {

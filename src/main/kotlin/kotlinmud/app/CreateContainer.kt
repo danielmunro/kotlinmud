@@ -3,7 +3,7 @@ package kotlinmud.app
 import java.net.ServerSocket
 import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
-import kotlinmud.io.Server
+import kotlinmud.io.NIOServer
 import kotlinmud.loader.AreaLoader
 import kotlinmud.saver.WorldSaver
 import kotlinmud.service.ActionService
@@ -23,12 +23,8 @@ import org.kodein.di.erased.singleton
 fun createContainer(port: Int): Kodein {
     return Kodein {
         bind<ServerSocket>() with singleton { ServerSocket(port) }
-        bind<Server>() with singleton {
-            Server(
-                instance<EventService>(),
-                instance<ServerSocket>(),
-                instance<TimeService>()
-            )
+        bind<NIOServer>() with singleton {
+            NIOServer(instance<EventService>(), port)
         }
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
@@ -44,7 +40,7 @@ fun createContainer(port: Int): Kodein {
                 instance<MobService>(),
                 instance<ItemService>(),
                 instance<EventService>(),
-                instance<Server>()
+                instance<NIOServer>()
             )
         }
         bind<World>() with singleton {
@@ -72,7 +68,7 @@ fun createContainer(port: Int): Kodein {
         }
         bind<Observers>() with singleton {
             createObservers(
-                instance<Server>(),
+                instance<NIOServer>(),
                 instance<MobService>(),
                 instance<EventService>(),
                 instance<RespawnService>(),

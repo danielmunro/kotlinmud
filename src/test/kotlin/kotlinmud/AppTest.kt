@@ -3,15 +3,13 @@
  */
 package kotlinmud
 
-import java.net.ServerSocket
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlinmud.app.App
-import kotlinmud.io.Server
+import kotlinmud.io.NIOServer
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
-import kotlinmud.service.TimeService
 import kotlinmud.world.World
 
 class AppTest {
@@ -30,7 +28,7 @@ class AppTest {
             eventService,
             mobService,
             ItemService(),
-            Server(eventService, ServerSocket(), TimeService(eventService))
+            NIOServer(eventService)
         )
 
         // then

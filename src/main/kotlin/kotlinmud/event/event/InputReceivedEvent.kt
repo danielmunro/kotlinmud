@@ -1,5 +1,5 @@
 package kotlinmud.event.event
 
-import kotlinmud.io.ClientHandler
+import kotlinmud.io.NIOClient
 
-data class InputReceivedEvent(val client: ClientHandler, val input: String)
+data class InputReceivedEvent(val client: NIOClient, val input: String)

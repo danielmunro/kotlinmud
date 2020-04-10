@@ -1,5 +1,5 @@
 package kotlinmud.event.event
 
-import java.net.Socket
+import kotlinmud.io.NIOClient
 
-data class ClientConnectedEvent(val socket: Socket)
+data class ClientConnectedEvent(val client: NIOClient)

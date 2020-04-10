@@ -6,13 +6,13 @@ import kotlinmud.event.EventType
 import kotlinmud.event.event.SocialEvent
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.Message
-import kotlinmud.io.Server
+import kotlinmud.io.NIOServer
 import kotlinmud.io.SocialChannel
 import kotlinmud.mob.Mob
 import kotlinmud.service.MobService
 import kotlinmud.world.room.Room
 
-class SocialDistributorObserver(private val server: Server, private val mobService: MobService) :
+class SocialDistributorObserver(private val server: NIOServer, private val mobService: MobService) :
     Observer {
     override val eventTypes: List<EventType> = listOf(EventType.SOCIAL)
 
@@ -31,7 +31,7 @@ class SocialDistributorObserver(private val server: Server, private val mobServi
 
     private fun yellToArea(mob: Mob, room: Room, message: Message) {
         server.getClients().forEach {
-            val clientRoom = mobService.getRoomForMob(it.mob)
+            val clientRoom = mobService.getRoomForMob(it.mob!!)
             if (it.mob != mob && clientRoom.area == room.area) {
                 it.write(message.toObservers)
             }

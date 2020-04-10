@@ -4,10 +4,6 @@ import java.net.ServerSocket
 import java.net.Socket
 import java.util.stream.Collectors
 import kotlin.streams.toList
-import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
-import kotlinmud.event.EventType
-import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
 import kotlinmud.service.TimeService
@@ -67,10 +63,11 @@ class Server(
     }
 
     private fun receiveSocket(socket: Socket) {
-        val response: EventResponse<Mob> =
-            eventService.publish(createClientConnectedEvent(socket))
-        val handler = ClientHandler(eventService, socket, response.subject)
-        clients.add(handler)
-        GlobalScope.launch { handler.run() }
+        TODO()
+//        val response: EventResponse<Mob> =
+//            eventService.publish(createClientConnectedEvent(socket))
+//        val handler = ClientHandler(eventService, socket, response.subject)
+//        clients.add(handler)
+//        GlobalScope.launch { handler.run() }
     }
 }

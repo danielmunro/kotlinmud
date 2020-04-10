@@ -8,7 +8,6 @@ import kotlinmud.event.observer.impl.DecrementItemDecayTimerObserver
 import kotlinmud.event.observer.impl.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
 import kotlinmud.event.observer.impl.IncreaseThirstAndHungerObserver
-import kotlinmud.event.observer.impl.InputReceivedObserver
 import kotlinmud.event.observer.impl.LogTickObserver
 import kotlinmud.event.observer.impl.MoveMobsOnTickObserver
 import kotlinmud.event.observer.impl.ProceedFightsPulseObserver
@@ -22,7 +21,7 @@ import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
-import kotlinmud.io.Server
+import kotlinmud.io.NIOServer
 import kotlinmud.saver.WorldSaver
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
@@ -33,7 +32,7 @@ import kotlinmud.service.WeatherService
 typealias Observers = List<Observer>
 
 fun createObservers(
-    server: Server,
+    server: NIOServer,
     mobService: MobService,
     eventService: EventService,
     respawnService: RespawnService,
@@ -45,7 +44,6 @@ fun createObservers(
         // client/server observers
         ClientConnectedObserver(mobService),
         SendMessageToRoomObserver(server, mobService),
-        InputReceivedObserver(mobService),
         RemoveMobOnClientDisconnectObserver(mobService),
 
         // time

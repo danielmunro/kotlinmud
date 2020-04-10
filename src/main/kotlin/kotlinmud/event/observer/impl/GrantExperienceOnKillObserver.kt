@@ -4,10 +4,10 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
-import kotlinmud.io.Server
+import kotlinmud.io.NIOServer
 import kotlinmud.mob.fight.Fight
 
-class GrantExperienceOnKillObserver(private val server: Server) : Observer {
+class GrantExperienceOnKillObserver(private val server: NIOServer) : Observer {
     override val eventTypes: List<EventType> = listOf(EventType.KILL)
 
     override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
@@ -28,9 +28,9 @@ class GrantExperienceOnKillObserver(private val server: Server) : Observer {
         }
         val addExperience = winner.addExperience(experience)
         server.getClientForMob(winner)?.let {
-            it.write("you gain $experience experience.")
+            it.writePrompt("you gain $experience experience.")
             if (addExperience.levelGained) {
-                it.write("you gained a level!")
+                it.writePrompt("you gained a level!")
             }
         }
 

@@ -5,10 +5,10 @@ import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.event.observer.Observer
-import kotlinmud.io.Server
+import kotlinmud.io.NIOServer
 import kotlinmud.service.MobService
 
-class SendMessageToRoomObserver(private val server: Server, private val mobService: MobService) :
+class SendMessageToRoomObserver(private val server: NIOServer, private val mobService: MobService) :
     Observer {
     override val eventTypes: List<EventType> = listOf(EventType.SEND_MESSAGE_TO_ROOM)
 
@@ -17,12 +17,12 @@ class SendMessageToRoomObserver(private val server: Server, private val mobServi
         val mobs = mobService.getMobsForRoom(messageEvent.room)
         val message = messageEvent.message
         server.getClientsFromMobs(mobs)
-            .filter { !it.mob.isSleeping() && !it.mob.isIncapacitated() }
+            .filter { !it.mob!!.isSleeping() && !it.mob!!.isIncapacitated() }
             .forEach {
                 when (it.mob) {
-                    messageEvent.actionCreator -> it.write(message.toActionCreator)
-                    messageEvent.target -> it.write(message.toTarget)
-                    else -> it.write(message.toObservers)
+                    messageEvent.actionCreator -> it.writePrompt(message.toActionCreator)
+                    messageEvent.target -> it.writePrompt(message.toTarget)
+                    else -> it.writePrompt(message.toObservers)
                 }
             }
         @Suppress("UNCHECKED_CAST")

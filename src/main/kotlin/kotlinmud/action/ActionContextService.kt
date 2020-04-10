@@ -5,11 +5,11 @@ import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.event.SocialEvent
-import kotlinmud.io.ClientHandler
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Message
+import kotlinmud.io.NIOClient
+import kotlinmud.io.NIOServer
 import kotlinmud.io.Response
-import kotlinmud.io.Server
 import kotlinmud.io.Social
 import kotlinmud.io.Syntax
 import kotlinmud.item.HasInventory
@@ -27,7 +27,7 @@ class ActionContextService(
     private val itemService: ItemService,
     private val eventService: EventService,
     private val actionContextList: ActionContextList,
-    private val server: Server
+    private val server: NIOServer
 ) {
     fun getRecall(): Room {
         return mobService.getStartRoom()
@@ -70,7 +70,7 @@ class ActionContextService(
             Event(EventType.SOCIAL, SocialEvent(social)))
     }
 
-    fun getClients(): List<ClientHandler> {
+    fun getClients(): List<NIOClient> {
         return server.getClients()
     }
 

@@ -19,10 +19,10 @@ fun createWhoAction(): Action {
                     "MORTALS\n---------------\n" +
                     svc.getClients().fold("") { acc, it ->
                         acc +
-                                it.mob.level + " " +
-                                it.mob.race.type.toString().toLowerCase() + " " +
-                                it.mob.job.toString().toLowerCase() + " " +
-                                it.mob.name + "\n"
+                                it.mob!!.level + " " +
+                                it.mob!!.race.type.toString().toLowerCase() + " " +
+                                it.mob!!.job.toString().toLowerCase() + " " +
+                                it.mob!!.name + "\n"
                     }
                 )
             )

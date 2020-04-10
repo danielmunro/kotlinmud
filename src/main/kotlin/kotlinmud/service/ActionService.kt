@@ -31,9 +31,9 @@ import kotlinmud.action.createActionsList
 import kotlinmud.attributes.Attribute
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Message
+import kotlinmud.io.NIOServer
 import kotlinmud.io.Request
 import kotlinmud.io.Response
-import kotlinmud.io.Server
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.math.percentRoll
@@ -52,7 +52,7 @@ class ActionService(
     private val mobService: MobService,
     private val itemService: ItemService,
     private val eventService: EventService,
-    private val server: Server
+    private val server: NIOServer
 ) {
     private val actions: List<Action> = createActionsList()
     private val skills: List<Skill> = createSkillList()

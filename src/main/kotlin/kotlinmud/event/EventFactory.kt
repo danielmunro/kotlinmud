@@ -1,22 +1,16 @@
 package kotlinmud.event
 
-import java.net.Socket
 import kotlinmud.event.event.ClientConnectedEvent
-import kotlinmud.event.event.InputReceivedEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
-import kotlinmud.io.ClientHandler
 import kotlinmud.io.Message
+import kotlinmud.io.NIOClient
 import kotlinmud.mob.Mob
 import kotlinmud.world.room.Room
 
-fun createClientConnectedEvent(socket: Socket): Event<ClientConnectedEvent> {
-    return Event(EventType.CLIENT_CONNECTED, ClientConnectedEvent(socket))
+fun createClientConnectedEvent(client: NIOClient): Event<ClientConnectedEvent> {
+    return Event(EventType.CLIENT_CONNECTED, ClientConnectedEvent(client))
 }
 
 fun createSendMessageToRoomEvent(message: Message, room: Room, actionCreator: Mob, target: Mob? = null): Event<SendMessageToRoomEvent> {
     return Event(EventType.SEND_MESSAGE_TO_ROOM, SendMessageToRoomEvent(message, room, actionCreator, target))
-}
-
-fun createInputReceivedEvent(client: ClientHandler, input: String): Event<InputReceivedEvent> {
-    return Event(EventType.INPUT_RECEIVED, InputReceivedEvent(client, input))
 }
