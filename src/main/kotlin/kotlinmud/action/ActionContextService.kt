@@ -7,7 +7,7 @@ import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.event.SocialEvent
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Message
-import kotlinmud.io.NIOClient
+import kotlinmud.io.NIOClients
 import kotlinmud.io.NIOServer
 import kotlinmud.io.Response
 import kotlinmud.io.Social
@@ -70,7 +70,7 @@ class ActionContextService(
             Event(EventType.SOCIAL, SocialEvent(social)))
     }
 
-    fun getClients(): List<NIOClient> {
+    fun getClients(): NIOClients {
         return server.getClients()
     }
 

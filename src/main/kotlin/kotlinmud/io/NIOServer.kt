@@ -18,7 +18,7 @@ const val SELECT_TIMEOUT_MS: Long = 1
 
 class NIOServer(private val eventService: EventService, val port: Int = 0) {
     private val selector: Selector = Selector.open()
-    private val clients: MutableList<NIOClient> = mutableListOf()
+    private val clients: NIOClients = mutableListOf()
     private val socket = ServerSocketChannel.open()
 
     fun configure() {
@@ -56,11 +56,11 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
         }
     }
 
-    fun getClients(): List<NIOClient> {
+    fun getClients(): NIOClients {
         return clients
     }
 
-    fun getClientsWithBuffers(): List<NIOClient> {
+    fun getClientsWithBuffers(): NIOClients {
         return clients.stream().filter { it.buffers.isNotEmpty() }.collect(Collectors.toList())
     }
 
@@ -68,10 +68,10 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
         return clients.find { it.mob == mob }
     }
 
-    fun getClientsFromMobs(mobs: List<Mob>): List<NIOClient> {
+    fun getClientsFromMobs(mobs: List<Mob>): NIOClients {
         return mobs.mapNotNull { mob ->
             clients.find { it.mob == mob }
-        }
+        }.toMutableList()
     }
 
     private fun handleAccept(mySocket: ServerSocketChannel) {
@@ -84,6 +84,7 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
         val client = NIOClient(socket)
         eventService.publish<ClientConnectedEvent, EventResponse<Mob>>(createClientConnectedEvent(client))
         clients.add(client)
+        println("connection accepted :: ${socket.remoteAddress}")
     }
 
     private fun handleRead(key: SelectionKey) {
@@ -93,14 +94,16 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
         // Create buffer to read data
         val buffer = ByteBuffer.allocate(1024)
         socket.read(buffer)
+
         // Parse data from buffer to String
         val data: String = String(buffer.array()).trim { it <= ' ' }
+
         if (data.isNotEmpty()) {
             val client = getClientBySocket(socket)
             client.buffers.add(data)
             if (data.equals("exit", ignoreCase = true)) {
                 socket.close()
-                println("Connection closed...")
+                println("connection closed :: ${socket.remoteAddress}")
             }
         }
     }
