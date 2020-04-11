@@ -1,4 +1,4 @@
-package kotlinmud.io
+package kotlinmud.social
 
 enum class SocialChannel {
     SAY,

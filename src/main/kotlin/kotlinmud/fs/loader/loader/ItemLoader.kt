@@ -2,12 +2,12 @@ package kotlinmud.fs.loader.loader
 
 import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.AttributesBuilder
+import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.item.Drink
 import kotlinmud.item.Food
 import kotlinmud.item.Material
 import kotlinmud.item.Position
 import kotlinmud.item.itemBuilder
-import kotlinmud.fs.loader.Tokenizer
 
 class ItemLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
     var id = 0

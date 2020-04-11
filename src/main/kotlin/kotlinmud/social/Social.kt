@@ -1,5 +1,6 @@
-package kotlinmud.io
+package kotlinmud.social
 
+import kotlinmud.io.Message
 import kotlinmud.mob.Mob
 import kotlinmud.world.room.Room
 

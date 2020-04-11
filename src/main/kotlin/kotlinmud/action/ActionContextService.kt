@@ -10,7 +10,6 @@ import kotlinmud.io.Message
 import kotlinmud.io.NIOClients
 import kotlinmud.io.NIOServer
 import kotlinmud.io.Response
-import kotlinmud.io.Social
 import kotlinmud.io.Syntax
 import kotlinmud.item.HasInventory
 import kotlinmud.item.Item
@@ -19,6 +18,7 @@ import kotlinmud.mob.fight.Fight
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
+import kotlinmud.social.Social
 import kotlinmud.world.room.Direction
 import kotlinmud.world.room.Room
 

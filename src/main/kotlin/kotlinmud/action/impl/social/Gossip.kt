@@ -6,9 +6,9 @@ import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlive
 import kotlinmud.io.Message
 import kotlinmud.io.Request
-import kotlinmud.io.Social
-import kotlinmud.io.SocialChannel
 import kotlinmud.io.Syntax
+import kotlinmud.social.Social
+import kotlinmud.social.SocialChannel
 
 fun createGossipAction(): Action {
     return Action(

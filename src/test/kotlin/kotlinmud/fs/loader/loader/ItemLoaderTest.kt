@@ -6,9 +6,9 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotNull
 import kotlinmud.affect.AffectType
+import kotlinmud.fs.loader.AreaLoader
 import kotlinmud.item.Material
 import kotlinmud.item.Position
-import kotlinmud.fs.loader.AreaLoader
 import org.junit.Test
 
 class ItemLoaderTest {

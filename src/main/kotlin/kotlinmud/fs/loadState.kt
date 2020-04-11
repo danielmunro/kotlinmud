@@ -1,8 +1,8 @@
 package kotlinmud.fs
 
+import java.io.File
 import kotlinmud.fs.loader.AreaLoader
 import kotlinmud.world.Area
-import java.io.File
 
 fun getAreaResourcesFromFS(isTest: Boolean = false): List<Area> {
     return if (File("state").exists() && !isTest) {

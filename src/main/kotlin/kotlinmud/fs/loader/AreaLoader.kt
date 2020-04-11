@@ -2,7 +2,6 @@ package kotlinmud.fs.loader
 
 import java.io.EOFException
 import java.io.File
-import kotlinmud.item.Item
 import kotlinmud.fs.loader.loader.DoorLoader
 import kotlinmud.fs.loader.loader.ItemLoader
 import kotlinmud.fs.loader.loader.Loader
@@ -18,6 +17,7 @@ import kotlinmud.fs.loader.mapper.RoomMapper
 import kotlinmud.fs.loader.model.reset.ItemMobReset
 import kotlinmud.fs.loader.model.reset.ItemRoomReset
 import kotlinmud.fs.loader.model.reset.MobReset
+import kotlinmud.item.Item
 import kotlinmud.mob.Mob
 import kotlinmud.world.Area
 import kotlinmud.world.room.exit.Door
