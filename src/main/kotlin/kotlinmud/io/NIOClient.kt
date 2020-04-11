@@ -10,6 +10,10 @@ class NIOClient(val socket: SocketChannel) {
     var mob: Mob? = null
     var connected = true
 
+    fun addInput(input: String) {
+        buffers.add(input)
+    }
+
     fun writePrompt(message: String) {
         write(addPrompt(message))
     }

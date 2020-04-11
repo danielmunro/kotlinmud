@@ -47,10 +47,8 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
         while (i.hasNext()) {
             val key = i.next()
             if (key.isAcceptable) {
-                // New client has been accepted
                 handleAccept(socket)
             } else if (key.isReadable) {
-                // We can run non-blocking operation READ on our client
                 handleRead(key)
             }
             i.remove()
@@ -76,11 +74,8 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
     }
 
     private fun handleAccept(mySocket: ServerSocketChannel) {
-        // Accept the connection and set non-blocking mode
         val socket = mySocket.accept()
         socket.configureBlocking(false)
-
-        // Register that client is reading this channel
         socket.register(selector, SelectionKey.OP_READ)
         val client = NIOClient(socket)
         eventService.publish<ClientConnectedEvent, EventResponse<Mob>>(createClientConnectedEvent(client))
@@ -89,27 +84,31 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
     }
 
     private fun handleRead(key: SelectionKey) {
-        // create a ServerSocketChannel to read the request
-        val socket = key.channel() as SocketChannel
+        val socket = socketChannelFromKey(key)
+        readSocket(socket).let {
+            getClientBySocket(socket).addInput(it)
+            checkSocketForQuit(socket, it)
+        }
+    }
 
-        // Create buffer to read data
+    private fun checkSocketForQuit(socket: SocketChannel, data: String) {
+        if (data.equals("quit", ignoreCase = true)) {
+            socket.close()
+            println("connection closed :: ${socket.remoteAddress}")
+        }
+    }
+
+    private fun readSocket(socket: SocketChannel): String {
         val buffer = ByteBuffer.allocate(READ_BUFFER_SIZE_IN_BYTES)
         socket.read(buffer)
-
-        // Parse data from buffer to String
-        val data: String = String(buffer.array()).trim { it <= ' ' }
-
-        if (data.isNotEmpty()) {
-            val client = getClientBySocket(socket)
-            client.buffers.add(data)
-            if (data.equals("exit", ignoreCase = true)) {
-                socket.close()
-                println("connection closed :: ${socket.remoteAddress}")
-            }
-        }
+        return String(buffer.array()).trim { it <= ' ' }
     }
 
     private fun getClientBySocket(socket: SocketChannel): NIOClient {
         return clients.find { it.socket == socket }!!
     }
+}
+
+fun socketChannelFromKey(key: SelectionKey): SocketChannel {
+    return key.channel() as SocketChannel
 }
