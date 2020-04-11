@@ -4,7 +4,7 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
-import kotlinmud.saver.WorldSaver
+import kotlinmud.fs.saver.WorldSaver
 
 class SaveWorldObserver(private val worldSaver: WorldSaver) : Observer {
     override val eventTypes: List<EventType> = listOf(EventType.DAY)

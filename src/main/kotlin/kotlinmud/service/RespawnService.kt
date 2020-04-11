@@ -2,9 +2,9 @@ package kotlinmud.service
 
 import kotlin.system.measureTimeMillis
 import kotlinmud.item.ItemOwner
-import kotlinmud.loader.model.reset.ItemMobReset
-import kotlinmud.loader.model.reset.ItemRoomReset
-import kotlinmud.loader.model.reset.MobReset
+import kotlinmud.fs.loader.model.reset.ItemMobReset
+import kotlinmud.fs.loader.model.reset.ItemRoomReset
+import kotlinmud.fs.loader.model.reset.MobReset
 import kotlinmud.mob.Mob
 import kotlinmud.world.World
 import kotlinmud.world.room.Room

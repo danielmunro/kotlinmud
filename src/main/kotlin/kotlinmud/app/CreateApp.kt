@@ -2,7 +2,7 @@ package kotlinmud.app
 
 import kotlinmud.event.observer.Observers
 import kotlinmud.io.NIOServer
-import kotlinmud.saver.WorldSaver
+import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService

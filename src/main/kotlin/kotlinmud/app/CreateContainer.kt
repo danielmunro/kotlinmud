@@ -4,9 +4,10 @@ import java.io.File
 import java.net.ServerSocket
 import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
+import kotlinmud.fs.getAreaResourcesFromFS
 import kotlinmud.io.NIOServer
-import kotlinmud.loader.AreaLoader
-import kotlinmud.saver.WorldSaver
+import kotlinmud.fs.loader.AreaLoader
+import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
@@ -45,24 +46,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
             )
         }
         bind<World>() with singleton {
-            val areas = if (File("state").exists() && !isTest) {
-                println("state exists, loading")
-                listOf(AreaLoader("state/bootstrap_world").load())
-            } else if (isTest) {
-                listOf(
-                    AreaLoader("test_areas/midgard").load(),
-                    AreaLoader("test_areas/midgard_castle").load(),
-                    AreaLoader("test_areas/woods").load()
-                )
-            } else {
-                println("no state found, starting new")
-                listOf(
-                    AreaLoader("bootstrap_world/midgard").load(),
-                    AreaLoader("bootstrap_world/midgard_castle").load(),
-                    AreaLoader("bootstrap_world/woods").load()
-                )
-            }
-            World(areas)
+            World(getAreaResourcesFromFS(isTest))
         }
         bind<MobService>() with singleton {
             MobService(
