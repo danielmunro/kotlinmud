@@ -20,8 +20,8 @@ fun getAffects(item: Item): String {
 
 fun generateProps(item: Item): String {
     val attr = item.attributes
-    return "material: ${item.material.value}, weight: ${item.weight}, value: ${item.worth}, level: ${item.level}, " +
-            optional(item.position != Position.NONE, "position: ${item.position.value}") +
+    val required = "material: ${item.material.value}, weight: ${item.weight}, value: ${item.worth}, level: ${item.level}"
+    val optional = optional(item.position != Position.NONE, "position: ${item.position.value}") +
             optional(item.drink != Drink.NONE, "drink: ${item.drink}") +
             optional(item.food != Food.NONE, "food: ${item.food}") +
             optional(item.quantity > 0, "quantity: ${item.quantity}") +
@@ -36,4 +36,5 @@ fun generateProps(item: Item): String {
             optional(attr.dexterity > 0, "dex: ${attr.dexterity}") +
             optional(attr.constitution > 0, "con: ${attr.constitution}") +
             optional(attr.hasAC(), "ac: ${attr.acBash}-${attr.acSlash}-${attr.acPierce}-${attr.acMagic}")
+    return required + if (optional != "") ", ${optional.substring(0, optional.length - 2)}" else ""
 }

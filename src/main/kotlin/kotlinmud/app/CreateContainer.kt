@@ -1,5 +1,6 @@
 package kotlinmud.app
 
+import java.io.File
 import java.net.ServerSocket
 import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
@@ -20,7 +21,7 @@ import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.singleton
 
-fun createContainer(port: Int): Kodein {
+fun createContainer(port: Int, isTest: Boolean = false): Kodein {
     return Kodein {
         bind<ServerSocket>() with singleton { ServerSocket(port) }
         bind<NIOServer>() with singleton {
@@ -44,13 +45,24 @@ fun createContainer(port: Int): Kodein {
             )
         }
         bind<World>() with singleton {
-            World(
+            val areas = if (File("state").exists() && !isTest) {
+                println("state exists, loading")
+                listOf(AreaLoader("state/bootstrap_world").load())
+            } else if (isTest) {
                 listOf(
-                    AreaLoader("areas/midgard").load(),
-                    AreaLoader("areas/midgard_castle").load(),
-                    AreaLoader("areas/woods").load()
+                    AreaLoader("test_areas/midgard").load(),
+                    AreaLoader("test_areas/midgard_castle").load(),
+                    AreaLoader("test_areas/woods").load()
                 )
-            )
+            } else {
+                println("no state found, starting new")
+                listOf(
+                    AreaLoader("bootstrap_world/midgard").load(),
+                    AreaLoader("bootstrap_world/midgard_castle").load(),
+                    AreaLoader("bootstrap_world/woods").load()
+                )
+            }
+            World(areas)
         }
         bind<MobService>() with singleton {
             MobService(

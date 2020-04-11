@@ -24,3 +24,6 @@ out/
 *.zip
 *.tar.gz
 *.rar
+
+# App specific
+state/

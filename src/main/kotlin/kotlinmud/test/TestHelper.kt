@@ -12,7 +12,7 @@ import kotlinmud.service.RespawnService
 import org.kodein.di.erased.instance
 
 fun createTestService(): TestService {
-    val container = createContainer(0)
+    val container = createContainer(0, true)
     val fix: FixtureService by container.instance()
     val mob: MobService by container.instance()
     val item: ItemService by container.instance()

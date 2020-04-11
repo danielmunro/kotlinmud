@@ -35,6 +35,9 @@ class RoomMapper(val roomModels: List<RoomModel>, val doors: List<Door>) {
         if (id == null || id == "") {
             return
         }
+        room.exits.find { it.direction == direction }?.let {
+            return
+        }
         if (id.contains("-")) {
             val parts = id.split("-")
             addExit(room, roomMap, direction, parts[2], doors.find {

@@ -73,8 +73,8 @@ class AreaLoader(private val baseDir: String) {
     }
 
     private fun createTokenizer(filename: String): Tokenizer {
-        val classLoader = ClassLoader.getSystemClassLoader()
-        return Tokenizer(File(classLoader.getResource(filename)!!.file).readText())
+
+        return Tokenizer(File(filename).readText())
     }
 }
 
