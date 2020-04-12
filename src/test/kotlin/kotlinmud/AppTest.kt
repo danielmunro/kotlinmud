@@ -10,6 +10,7 @@ import kotlinmud.io.NIOServer
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
+import kotlinmud.service.TimeService
 import kotlinmud.world.World
 
 class AppTest {
@@ -27,6 +28,7 @@ class AppTest {
         val app = App(
             eventService,
             mobService,
+            TimeService(eventService),
             ItemService(),
             NIOServer(eventService)
         )

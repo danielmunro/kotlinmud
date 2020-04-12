@@ -1,5 +1,7 @@
 package kotlinmud.service
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlinmud.event.Day
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
@@ -14,8 +16,17 @@ const val TICK_LENGTH_IN_SECONDS = 20
 
 class TimeService(private val eventService: EventService, private var time: Int = 0) {
     private var pulse = 0
+    private var lastSecond = 0
 
-    fun pulse() {
+    fun loop() {
+        val time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("ss")).toInt()
+        if (time != lastSecond) {
+            lastSecond = time
+            pulse()
+        }
+    }
+
+    private fun pulse() {
         pulse++
         eventService.publish<PulseEvent, Pulse>(Event(EventType.PULSE, PulseEvent()))
         if (pulse * 2 > TICK_LENGTH_IN_SECONDS) {
