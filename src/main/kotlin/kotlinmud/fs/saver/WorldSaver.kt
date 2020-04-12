@@ -10,7 +10,8 @@ import kotlinmud.fs.saver.mapper.reset.mapItemRoomReset
 import kotlinmud.fs.saver.mapper.reset.mapMobReset
 import kotlinmud.world.World
 
-const val BASE_DIR = "state/bootstrap_world"
+const val BASE_DIR = "state"
+const val BASE_AREAS_DIR = "$BASE_DIR/bootstrap_world"
 
 class WorldSaver(private val world: World) {
     fun save() {
@@ -25,14 +26,14 @@ class WorldSaver(private val world: World) {
     }
 
     private fun checkDirectoryExistence() {
-        val base = File("$BASE_DIR/reset")
+        val base = File("$BASE_AREAS_DIR/reset")
         if (!base.exists()) {
             base.mkdirs()
         }
     }
 
     private fun saveMobs() {
-        val file = File("state/bootstrap_world/mobs.txt")
+        val file = File("$BASE_AREAS_DIR/mobs.txt")
         val buffer = world.mobs.toList().joinToString("\n") {
             mapMob(it)
         }
@@ -40,7 +41,7 @@ class WorldSaver(private val world: World) {
     }
 
     private fun saveRooms() {
-        val file = File("state/bootstrap_world/rooms.txt")
+        val file = File("$BASE_AREAS_DIR/rooms.txt")
         val buffer = world.rooms.toList().joinToString("\n") {
             mapRoom(it)
         }
@@ -48,7 +49,7 @@ class WorldSaver(private val world: World) {
     }
 
     private fun saveDoors() {
-        val file = File("state/bootstrap_world/doors.txt")
+        val file = File("$BASE_AREAS_DIR/doors.txt")
         val buffer = world.doors.toList().joinToString("") {
             mapDoor(it)
         }
@@ -56,7 +57,7 @@ class WorldSaver(private val world: World) {
     }
 
     private fun saveItems() {
-        val file = File("state/bootstrap_world/items.txt")
+        val file = File("$BASE_AREAS_DIR/items.txt")
         val buffer = world.items.toList().joinToString("") {
             mapItem(it)
         }
@@ -64,7 +65,7 @@ class WorldSaver(private val world: World) {
     }
 
     private fun saveMobResets() {
-        val file = File("state/bootstrap_world/reset/mobs.txt")
+        val file = File("$BASE_AREAS_DIR/reset/mobs.txt")
         val buffer = world.mobResets.toList().joinToString("\n") {
             mapMobReset(it)
         }
@@ -72,7 +73,7 @@ class WorldSaver(private val world: World) {
     }
 
     private fun saveItemMobResets() {
-        val file = File("state/bootstrap_world/reset/item_mobs.txt")
+        val file = File("$BASE_AREAS_DIR/reset/item_mobs.txt")
         val buffer = world.itemMobResets.toList().joinToString("\n") {
             mapItemMobReset(it)
         }
@@ -80,7 +81,7 @@ class WorldSaver(private val world: World) {
     }
 
     private fun saveItemRoomResets() {
-        val file = File("state/bootstrap_world/reset/item_rooms.txt")
+        val file = File("$BASE_AREAS_DIR/reset/item_rooms.txt")
         val buffer = world.itemRoomResets.toList().joinToString("\n") {
             mapItemRoomReset(it)
         }

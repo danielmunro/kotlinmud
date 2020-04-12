@@ -18,12 +18,20 @@ class TimeService(private val eventService: EventService, private var time: Int 
     private var pulse = 0
     private var lastSecond = 0
 
+    init {
+        println("initialized with time $time")
+    }
+
     fun loop() {
         val time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("ss")).toInt()
         if (time != lastSecond) {
             lastSecond = time
             pulse()
         }
+    }
+
+    fun getTime(): Int {
+        return time
     }
 
     private fun pulse() {
@@ -39,7 +47,7 @@ class TimeService(private val eventService: EventService, private var time: Int 
         time++
         eventService.publish<TickEvent, Tick>(Event(EventType.TICK, TickEvent()))
         val dayElapsed = time % TICKS_IN_DAY == 0
-        println("tick occurred, hour ${time % TICKS_IN_DAY}${if (dayElapsed) ", day elapsed" else "" }")
+        println("tick occurred, hour ${time % TICKS_IN_DAY}${if (dayElapsed) ", day elapsed" else "" }, tick $time")
         if (dayElapsed) {
             eventService.publish<DayEvent, Day>(Event(EventType.DAY, DayEvent()))
         }

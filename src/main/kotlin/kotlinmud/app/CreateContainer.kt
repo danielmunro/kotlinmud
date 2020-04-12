@@ -4,6 +4,7 @@ import java.net.ServerSocket
 import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
 import kotlinmud.fs.getAreaResourcesFromFS
+import kotlinmud.fs.loadTimeState
 import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.NIOServer
 import kotlinmud.service.ActionService
@@ -32,7 +33,8 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         bind<WeatherService>() with singleton { WeatherService() }
         bind<TimeService>() with singleton {
             TimeService(
-                instance<EventService>()
+                instance<EventService>(),
+                loadTimeState(isTest)
             )
         }
         bind<ActionService>() with singleton {
@@ -68,7 +70,8 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 instance<RespawnService>(),
                 instance<WeatherService>(),
                 instance<ItemService>(),
-                WorldSaver(instance<World>())
+                WorldSaver(instance<World>()),
+                instance<TimeService>()
             )
         }
     }

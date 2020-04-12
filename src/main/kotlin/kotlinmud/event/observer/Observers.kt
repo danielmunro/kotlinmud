@@ -15,6 +15,7 @@ import kotlinmud.event.observer.impl.PruneDeadMobsPulseObserver
 import kotlinmud.event.observer.impl.RegenMobsObserver
 import kotlinmud.event.observer.impl.RemoveMobOnClientDisconnectObserver
 import kotlinmud.event.observer.impl.RespawnTickObserver
+import kotlinmud.event.observer.impl.SaveTimeObserver
 import kotlinmud.event.observer.impl.SaveWorldObserver
 import kotlinmud.event.observer.impl.ScavengerCollectsItemsObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
@@ -27,6 +28,7 @@ import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
+import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
 
 typealias Observers = List<Observer>
@@ -38,7 +40,8 @@ fun createObservers(
     respawnService: RespawnService,
     weatherService: WeatherService,
     itemService: ItemService,
-    worldSaver: WorldSaver
+    worldSaver: WorldSaver,
+    timeService: TimeService
 ): Observers {
     return listOf(
         // client/server observers
@@ -52,6 +55,7 @@ fun createObservers(
         DecrementDelayObserver(mobService),
         DecrementItemDecayTimerObserver(itemService),
         SaveWorldObserver(worldSaver),
+        SaveTimeObserver(timeService),
 
         // game logic
         LogTickObserver(mobService, server),
