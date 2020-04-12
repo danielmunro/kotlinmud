@@ -11,7 +11,7 @@ class PadTest {
         val pad = leftPad("1", 3)
 
         // expect
-        assertThat(pad).isEqualTo("  1")
+        assertThat(pad).isEqualTo("   1")
     }
 
     @Test
@@ -21,5 +21,14 @@ class PadTest {
 
         // expect
         assertThat(pad).isEqualTo("hello world")
+    }
+
+    @Test
+    fun testPadSanity3() {
+        // given
+        val pad = leftPad("8", 5)
+
+        // expect
+        assertThat(pad).isEqualTo("     8")
     }
 }

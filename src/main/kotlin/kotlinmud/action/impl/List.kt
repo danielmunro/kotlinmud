@@ -24,12 +24,10 @@ fun createListAction(): Action {
                             svc.getItemGroupsFor(shopkeeper).map {
                                 val level = it.value[0].level.toString()
                                 val cost = it.value[0].worth.toString()
-                                leftPad(level, 5 - level.length) +
-                                        " " + leftPad(cost, 6 - cost.length) +
+                                leftPad(level, 3) +
+                                        " " + leftPad(cost, 3) +
                                         " " + it.value[0].name
-                            }.fold("") {
-                                acc: String, it: String -> "$acc\n$it"
-                            }
+                            }.joinToString("\n")
                     )
                 )
         }
