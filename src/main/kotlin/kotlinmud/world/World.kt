@@ -22,10 +22,10 @@ data class World(private val areas: List<Area>) {
     init {
         val allRoomModels = areas.flatMap { it.roomMapper.roomModels }
         val allDoors = areas.flatMap { it.roomMapper.doors }
-        val allRoomsMapper = RoomMapper(allRoomModels, allDoors)
+        mobs = Table(areas.flatMap { it.mobs })
+        val allRoomsMapper = RoomMapper(mobs.toList(), allRoomModels, allDoors)
         doors = Table(allDoors)
         rooms = Table(allRoomsMapper.map())
-        mobs = Table(areas.flatMap { it.mobs })
         items = Table(areas.flatMap { it.items })
         mobResets = Table(areas.flatMap { it.mobResets })
         itemMobResets = Table(areas.flatMap { it.itemMobResets })

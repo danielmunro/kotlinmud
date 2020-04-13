@@ -14,5 +14,6 @@ data class RoomModel(
     val west: String,
     val up: String,
     val down: String,
-    val area: String
+    val area: String,
+    val ownerId: Int
 ) : Model
