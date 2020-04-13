@@ -35,7 +35,7 @@ class Tokenizer(value: String) {
         var buf = getNext()
         var toReturn = ""
         while (!buf.contains("~")) {
-            toReturn += if (buf == "") "\n\n" else "$buf "
+            toReturn += if (buf == "") "\n" else "$buf "
             buf = getNext()
         }
         toReturn += buf.substring(0, buf.length - 1)
