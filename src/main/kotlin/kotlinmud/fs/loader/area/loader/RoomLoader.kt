@@ -1,7 +1,7 @@
-package kotlinmud.fs.loader.loader
+package kotlinmud.fs.loader.area.loader
 
 import kotlinmud.fs.loader.Tokenizer
-import kotlinmud.fs.loader.model.RoomModel
+import kotlinmud.fs.loader.area.model.RoomModel
 import kotlinmud.world.room.RegenLevel
 
 class RoomLoader(private val tokenizer: Tokenizer) : Loader {

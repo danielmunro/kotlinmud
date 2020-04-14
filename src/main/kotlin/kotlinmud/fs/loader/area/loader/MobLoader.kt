@@ -1,4 +1,4 @@
-package kotlinmud.fs.loader.loader
+package kotlinmud.fs.loader.area.loader
 
 import kotlin.random.Random
 import kotlinmud.affect.AffectInstance

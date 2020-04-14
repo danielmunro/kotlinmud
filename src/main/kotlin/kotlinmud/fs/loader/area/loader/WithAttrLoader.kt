@@ -1,4 +1,4 @@
-package kotlinmud.fs.loader.loader
+package kotlinmud.fs.loader.area.loader
 
 import kotlinmud.affect.AffectType
 import kotlinmud.fs.loader.Tokenizer

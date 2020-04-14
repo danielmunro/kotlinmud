@@ -1,9 +1,9 @@
 package kotlinmud.world
 
-import kotlinmud.fs.loader.mapper.RoomMapper
-import kotlinmud.fs.loader.model.reset.ItemMobReset
-import kotlinmud.fs.loader.model.reset.ItemRoomReset
-import kotlinmud.fs.loader.model.reset.MobReset
+import kotlinmud.fs.loader.area.mapper.RoomMapper
+import kotlinmud.fs.loader.area.model.reset.ItemMobReset
+import kotlinmud.fs.loader.area.model.reset.ItemRoomReset
+import kotlinmud.fs.loader.area.model.reset.MobReset
 import kotlinmud.item.Item
 import kotlinmud.mob.Mob
 

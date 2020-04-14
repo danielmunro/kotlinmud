@@ -1,6 +1,6 @@
-package kotlinmud.fs.loader.mapper
+package kotlinmud.fs.loader.area.mapper
 
-import kotlinmud.fs.loader.model.DoorModel
+import kotlinmud.fs.loader.area.model.DoorModel
 import kotlinmud.world.room.exit.Door
 
 class DoorMapper(private val doors: List<DoorModel>) {

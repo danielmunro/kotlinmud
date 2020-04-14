@@ -1,4 +1,4 @@
-package kotlinmud.fs.loader.model
+package kotlinmud.fs.loader.area.model
 
 import kotlinmud.world.room.exit.DoorDisposition
 

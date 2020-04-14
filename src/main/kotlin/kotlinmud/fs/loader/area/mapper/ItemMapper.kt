@@ -1,4 +1,4 @@
-package kotlinmud.fs.loader.mapper
+package kotlinmud.fs.loader.area.mapper
 
 import kotlinmud.item.Item
 import kotlinmud.item.ItemBuilder

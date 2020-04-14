@@ -1,7 +1,7 @@
-package kotlinmud.fs.loader.loader
+package kotlinmud.fs.loader.area.loader
 
 import kotlinmud.fs.loader.Tokenizer
-import kotlinmud.fs.loader.model.DoorModel
+import kotlinmud.fs.loader.area.model.DoorModel
 import kotlinmud.world.room.exit.getDoorDispositionFromString
 
 class DoorLoader(private val tokenizer: Tokenizer) : Loader {

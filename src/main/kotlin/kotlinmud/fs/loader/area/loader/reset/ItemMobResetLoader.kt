@@ -1,9 +1,9 @@
-package kotlinmud.fs.loader.loader.reset
+package kotlinmud.fs.loader.area.loader.reset
 
 import kotlinmud.fs.loader.Tokenizer
-import kotlinmud.fs.loader.loader.Loader
-import kotlinmud.fs.loader.model.Model
-import kotlinmud.fs.loader.model.reset.ItemMobReset
+import kotlinmud.fs.loader.area.loader.Loader
+import kotlinmud.fs.loader.area.model.Model
+import kotlinmud.fs.loader.area.model.reset.ItemMobReset
 
 class ItemMobResetLoader(private val tokenizer: Tokenizer) : Loader {
     var id = 0

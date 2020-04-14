@@ -1,4 +1,4 @@
-package kotlinmud.fs.loader.loader
+package kotlinmud.fs.loader.area.loader
 
 interface Loader {
     var props: Map<String, String>
