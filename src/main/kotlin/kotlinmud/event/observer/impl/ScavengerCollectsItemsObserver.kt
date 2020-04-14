@@ -1,7 +1,6 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.mob.JobType
@@ -16,9 +15,9 @@ class ScavengerCollectsItemsObserver(
     private val itemService: ItemService,
     private val eventService: EventService
 ) : Observer {
-    override val eventTypes: List<EventType> = listOf(EventType.TICK)
+    override val eventType: EventType = EventType.TICK
 
-    override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
+    override fun <T> processEvent(event: Event<T>) {
         mobService.getMobRooms().filter {
             it.mob.job == JobType.SCAVENGER
         }.forEach {
@@ -26,7 +25,5 @@ class ScavengerCollectsItemsObserver(
                 MobController(mobService, itemService, eventService, it.mob).pickUpAnyItem()
             }
         }
-        @Suppress("UNCHECKED_CAST")
-        return EventResponse(event as A)
     }
 }

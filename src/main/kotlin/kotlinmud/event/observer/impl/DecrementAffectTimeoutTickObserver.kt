@@ -1,18 +1,14 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.service.MobService
 
-class DecrementAffectTimeoutTickObserver(private val mobService: MobService) :
-    Observer {
-    override val eventTypes: List<EventType> = listOf(EventType.TICK)
+class DecrementAffectTimeoutTickObserver(private val mobService: MobService) : Observer {
+    override val eventType: EventType = EventType.TICK
 
-    override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
+    override fun <T> processEvent(event: Event<T>) {
         mobService.decrementAffects()
-        @Suppress("UNCHECKED_CAST")
-        return EventResponse(event as A)
     }
 }

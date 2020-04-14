@@ -1,7 +1,6 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.SocialEvent
 import kotlinmud.event.observer.Observer
@@ -14,9 +13,9 @@ import kotlinmud.world.room.Room
 
 class SocialDistributorObserver(private val server: NIOServer, private val mobService: MobService) :
     Observer {
-    override val eventTypes: List<EventType> = listOf(EventType.SOCIAL)
+    override val eventType: EventType = EventType.SOCIAL
 
-    override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
+    override fun <T> processEvent(event: Event<T>) {
         val socialEvent = event.subject as SocialEvent
         val soc = socialEvent.social
         when (soc.channel) {
@@ -25,8 +24,6 @@ class SocialDistributorObserver(private val server: NIOServer, private val mobSe
             SocialChannel.YELL -> yellToArea(soc.mob, soc.room, soc.message)
             SocialChannel.GOSSIP -> gossipToClients(soc.mob, soc.message)
         }
-        @Suppress("UNCHECKED_CAST")
-        return EventResponse(event as A)
     }
 
     private fun yellToArea(mob: Mob, room: Room, message: Message) {

@@ -2,11 +2,8 @@ package kotlinmud.service
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlinmud.event.Day
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
-import kotlinmud.event.Pulse
-import kotlinmud.event.Tick
 import kotlinmud.event.event.DayEvent
 import kotlinmud.event.event.PulseEvent
 import kotlinmud.event.event.TickEvent
@@ -36,7 +33,7 @@ class TimeService(private val eventService: EventService, private var time: Int 
 
     private fun pulse() {
         pulse++
-        eventService.publish<PulseEvent, Pulse>(Event(EventType.PULSE, PulseEvent()))
+        eventService.publish(Event(EventType.PULSE, PulseEvent()))
         if (pulse * 2 > TICK_LENGTH_IN_SECONDS) {
             pulse = 0
             tick()
@@ -45,11 +42,11 @@ class TimeService(private val eventService: EventService, private var time: Int 
 
     private fun tick() {
         time++
-        eventService.publish<TickEvent, Tick>(Event(EventType.TICK, TickEvent()))
+        eventService.publish(Event(EventType.TICK, TickEvent()))
         val dayElapsed = time % TICKS_IN_DAY == 0
         println("tick occurred, hour ${time % TICKS_IN_DAY}${if (dayElapsed) ", day elapsed" else "" }, tick $time")
         if (dayElapsed) {
-            eventService.publish<DayEvent, Day>(Event(EventType.DAY, DayEvent()))
+            eventService.publish(Event(EventType.DAY, DayEvent()))
         }
     }
 }

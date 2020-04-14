@@ -2,7 +2,6 @@ package kotlinmud.test
 
 import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Request
 import kotlinmud.io.Response
@@ -38,8 +37,8 @@ class TestService(
         createItem(mobService.getStartRoom())
     }
 
-    fun <T, A> publish(event: Event<T>): EventResponse<A> {
-        return eventService.publish(event)
+    fun <T> publish(event: Event<T>) {
+        eventService.publish(event)
     }
 
     fun createMobController(mob: Mob): MobController {

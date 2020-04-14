@@ -1,7 +1,6 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.event.observer.Observer
@@ -10,10 +9,10 @@ import kotlinmud.service.MobService
 
 class ClientConnectedObserver(private val mobService: MobService) :
     Observer {
-    override val eventTypes: List<EventType> = listOf(EventType.CLIENT_CONNECTED)
+    override val eventType: EventType = EventType.CLIENT_CONNECTED
     private val fixtureService = FixtureService()
 
-    override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
+    override fun <T> processEvent(event: Event<T>) {
         val mob = fixtureService.createMobBuilder()
             .isNpc(false)
             .trains(5)
@@ -24,7 +23,5 @@ class ClientConnectedObserver(private val mobService: MobService) :
         val connectedEvent = event.subject as ClientConnectedEvent
         val client = connectedEvent.client
         client.mob = mob
-        @Suppress("UNCHECKED_CAST")
-        return EventResponse(mob as A)
     }
 }

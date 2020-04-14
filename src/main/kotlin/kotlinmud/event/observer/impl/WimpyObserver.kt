@@ -1,7 +1,6 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.Message
@@ -10,17 +9,14 @@ import kotlinmud.mob.fight.Round
 import kotlinmud.service.MobService
 
 class WimpyObserver(private val mobService: MobService) : Observer {
-    override val eventTypes: List<EventType> = listOf(EventType.FIGHT_ROUND)
+    override val eventType: EventType = EventType.FIGHT_ROUND
 
-    override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
+    override fun <T> processEvent(event: Event<T>) {
         val round = event.subject as Round
 
         if (!checkWimpy(round.defender)) {
             checkWimpy(round.attacker)
         }
-
-        @Suppress("UNCHECKED_CAST")
-        return EventResponse(event.subject as A)
     }
 
     private fun checkWimpy(mob: Mob): Boolean {

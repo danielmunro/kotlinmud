@@ -1,7 +1,6 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.mob.MobController
@@ -12,15 +11,13 @@ import kotlinmud.time.eventually
 
 class MoveMobsOnTickObserver(private val mobService: MobService, private val itemService: ItemService, private val eventService: EventService) :
     Observer {
-    override val eventTypes: List<EventType> = listOf(EventType.TICK)
+    override val eventType: EventType = EventType.TICK
 
-    override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
+    override fun <T> processEvent(event: Event<T>) {
         mobService.getMobRooms().filter { it.mob.wantsToMove() }.forEach {
             eventually {
                 MobController(mobService, itemService, eventService, it.mob).move()
             }
         }
-        @Suppress("UNCHECKED_CAST")
-        return EventResponse(event as A)
     }
 }

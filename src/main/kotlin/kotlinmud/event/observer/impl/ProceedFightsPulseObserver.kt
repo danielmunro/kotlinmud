@@ -1,22 +1,17 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
-import kotlinmud.event.Pulse
 import kotlinmud.event.observer.Observer
 import kotlinmud.service.MobService
 
-class ProceedFightsPulseObserver(private val mobService: MobService) :
-    Observer {
-    override val eventTypes: List<EventType> = listOf(EventType.PULSE)
+class ProceedFightsPulseObserver(private val mobService: MobService) : Observer {
+    override val eventType: EventType = EventType.PULSE
 
-    override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
+    override fun <T> processEvent(event: Event<T>) {
         val rounds = mobService.proceedFights()
         if (rounds.isNotEmpty()) {
             println("pulse has ${rounds.size} fight rounds")
         }
-        @Suppress("UNCHECKED_CAST")
-        return EventResponse(Pulse() as A)
     }
 }

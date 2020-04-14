@@ -1,7 +1,6 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOServer
@@ -9,9 +8,9 @@ import kotlinmud.service.MobService
 
 class IncreaseThirstAndHungerObserver(private val mobService: MobService, private val server: NIOServer) :
     Observer {
-    override val eventTypes: List<EventType> = listOf(EventType.TICK)
+    override val eventType: EventType = EventType.TICK
 
-    override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
+    override fun <T> processEvent(event: Event<T>) {
         val mobs = mobService.getMobRooms().filter { !it.mob.isNpc }.map { it.mob }
         val clients = server.getClientsFromMobs(mobs)
         clients.forEach {
@@ -25,8 +24,5 @@ class IncreaseThirstAndHungerObserver(private val mobService: MobService, privat
                 }
             }
         }
-
-        @Suppress("UNCHECKED_CAST")
-        return EventResponse(event.subject as A)
     }
 }

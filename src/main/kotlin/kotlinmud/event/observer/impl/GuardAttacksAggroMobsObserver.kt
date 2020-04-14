@@ -1,7 +1,6 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.observer.Observer
@@ -10,11 +9,10 @@ import kotlinmud.mob.JobType
 import kotlinmud.mob.fight.Fight
 import kotlinmud.service.MobService
 
-class GuardAttacksAggroMobsObserver(private val mobService: MobService) :
-    Observer {
-    override val eventTypes: List<EventType> = listOf(EventType.FIGHT_STARTED)
+class GuardAttacksAggroMobsObserver(private val mobService: MobService) : Observer {
+    override val eventType: EventType = EventType.FIGHT_STARTED
 
-    override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
+    override fun <T> processEvent(event: Event<T>) {
         val fight = event.subject as FightStartedEvent
         val room = mobService.getRoomForMob(fight.aggressor)
         mobService.getMobsForRoom(room).filter {
@@ -35,8 +33,5 @@ class GuardAttacksAggroMobsObserver(private val mobService: MobService) :
                     fight.aggressor
                 )
             }
-
-        @Suppress("UNCHECKED_CAST")
-        return EventResponse(event as A)
     }
 }

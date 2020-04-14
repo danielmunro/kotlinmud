@@ -7,10 +7,8 @@ import java.nio.channels.Selector
 import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
 import java.util.stream.Collectors
-import kotlinmud.event.EventResponse
 import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.createClientDisconnectedEvent
-import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
 
@@ -35,7 +33,7 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
             .filter { !it.connected }
             .collect(Collectors.toList())
         lost.forEach {
-            eventService.publish<NIOClient, NIOClient>(createClientDisconnectedEvent(it))
+            eventService.publish(createClientDisconnectedEvent(it))
         }
         clients.removeAll(lost)
     }
@@ -78,7 +76,7 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
         socket.configureBlocking(false)
         socket.register(selector, SelectionKey.OP_READ)
         val client = NIOClient(socket)
-        eventService.publish<ClientConnectedEvent, EventResponse<Mob>>(createClientConnectedEvent(client))
+        eventService.publish(createClientConnectedEvent(client))
         clients.add(client)
         println("connection accepted :: ${socket.remoteAddress}")
     }

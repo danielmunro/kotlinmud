@@ -4,10 +4,8 @@ import com.cesarferreira.pluralize.pluralize
 import java.util.stream.Collectors
 import kotlinmud.attributes.Attribute
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
-import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Message
 import kotlinmud.item.Item
 import kotlinmud.item.ItemBuilder
@@ -96,11 +94,11 @@ class MobService(
             proceedFightRound(it.createRound())
         }
         rounds.forEach {
-            eventService.publish<Round, EventResponse<Round>>(Event(EventType.FIGHT_ROUND, it))
+            eventService.publish(Event(EventType.FIGHT_ROUND, it))
         }
         fights.forEach {
             if (it.hasFatality()) {
-                eventService.publish<Fight, EventResponse<Fight>>(Event(EventType.KILL, it))
+                eventService.publish(Event(EventType.KILL, it))
             }
         }
         fights.removeIf {
@@ -142,8 +140,7 @@ class MobService(
     }
 
     fun sendMessageToRoom(message: Message, room: Room, actionCreator: Mob, target: Mob? = null) {
-        eventService.publish<SendMessageToRoomEvent, EventResponse<SendMessageToRoomEvent>>(
-            createSendMessageToRoomEvent(message, room, actionCreator, target))
+        eventService.publish(createSendMessageToRoomEvent(message, room, actionCreator, target))
     }
 
     fun putMobInRoom(mob: Mob, room: Room) {

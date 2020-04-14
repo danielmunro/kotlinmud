@@ -1,20 +1,18 @@
 package kotlinmud.service
 
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.event.observer.Observer
 
 class EventService {
     var observers: List<Observer> = listOf()
 
-    fun <T, A> publish(event: Event<T>): EventResponse<A> {
-        return observers.filter { it.eventTypes.contains(event.eventType) }
-            .map { it.processEvent<T, A>(event) }
-            .last()
+    fun <T> publish(event: Event<T>) {
+        observers.filter { it.eventType == event.eventType }
+            .forEach { it.processEvent(event) }
     }
 
     fun publishRoomMessage(event: Event<SendMessageToRoomEvent>) {
-        publish<SendMessageToRoomEvent, EventResponse<SendMessageToRoomEvent>>(event)
+        publish(event)
     }
 }

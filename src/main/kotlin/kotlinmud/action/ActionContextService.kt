@@ -1,7 +1,6 @@
 package kotlinmud.action
 
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.event.SocialEvent
@@ -57,8 +56,7 @@ class ActionContextService(
         val target: Mob = get(Syntax.MOB_IN_ROOM)
         val fight = Fight(mob, target)
         mobService.addFight(fight)
-        eventService.publish<FightStartedEvent, FightStartedEvent>(
-            Event(EventType.FIGHT_STARTED, FightStartedEvent(fight, mob, target)))
+        eventService.publish(Event(EventType.FIGHT_STARTED, FightStartedEvent(fight, mob, target)))
     }
 
     fun endFightFor(mob: Mob) {
@@ -66,8 +64,7 @@ class ActionContextService(
     }
 
     fun publishSocial(social: Social) {
-        eventService.publish<SocialEvent, EventResponse<SocialEvent>>(
-            Event(EventType.SOCIAL, SocialEvent(social)))
+        eventService.publish(Event(EventType.SOCIAL, SocialEvent(social)))
     }
 
     fun getClients(): NIOClients {

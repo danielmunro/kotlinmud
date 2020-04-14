@@ -24,7 +24,7 @@ class GrantExperienceOnKillObserverTest {
         mob2.disposition = Disposition.DEAD
 
         // when
-        testService.publish<Fight, Fight>(Event(EventType.KILL, fight))
+        testService.publish(Event(EventType.KILL, fight))
 
         // then
         assertThat(mob1.experience).isGreaterThan(0)
@@ -45,7 +45,7 @@ class GrantExperienceOnKillObserverTest {
         mob1.experience = 2000
 
         // when
-        testService.publish<Fight, Fight>(Event(EventType.KILL, fight))
+        testService.publish(Event(EventType.KILL, fight))
 
         // then
         assertThat(mob1.level).isEqualTo(2)

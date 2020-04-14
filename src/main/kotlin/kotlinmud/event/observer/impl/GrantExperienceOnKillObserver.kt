@@ -1,22 +1,20 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
-import kotlinmud.event.EventResponse
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOServer
 import kotlinmud.mob.fight.Fight
 
 class GrantExperienceOnKillObserver(private val server: NIOServer) : Observer {
-    override val eventTypes: List<EventType> = listOf(EventType.KILL)
+    override val eventType: EventType = EventType.KILL
 
-    override fun <T, A> processEvent(event: Event<T>): EventResponse<A> {
+    override fun <T> processEvent(event: Event<T>) {
         val fight = event.subject as Fight
         val winner = fight.getWinner()!!
         val killed = fight.getOpponentFor(winner)!!
         if (winner.isNpc) {
-            @Suppress("UNCHECKED_CAST")
-            return EventResponse(event.subject as A)
+            return
         }
         val experience = getBaseExperience(killed.level - winner.level)
             .let {
@@ -33,9 +31,6 @@ class GrantExperienceOnKillObserver(private val server: NIOServer) : Observer {
                 it.writePrompt("you gained a level!")
             }
         }
-
-        @Suppress("UNCHECKED_CAST")
-        return EventResponse(event.subject as A)
     }
 }
 
