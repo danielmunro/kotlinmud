@@ -9,7 +9,6 @@ import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
-import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.TimeService
 
@@ -17,12 +16,9 @@ class App(
     private val eventService: EventService,
     private val mobService: MobService,
     private val timeService: TimeService,
-    itemService: ItemService,
-    private val server: NIOServer
+    private val server: NIOServer,
+    private val actionService: ActionService
 ) {
-    private val actionService: ActionService =
-        ActionService(mobService, itemService, eventService, server)
-
     fun start() {
         println("starting app on port ${server.port}")
         server.configure()

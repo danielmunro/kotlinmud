@@ -1,6 +1,7 @@
 package kotlinmud.app
 
 import java.net.ServerSocket
+import kotlinmud.action.createActionsList
 import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
 import kotlinmud.fs.getAreaResourcesFromFS
@@ -37,16 +38,20 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 loadTimeState(isTest)
             )
         }
+        bind<World>() with singleton {
+            World(getAreaResourcesFromFS(isTest))
+        }
+        bind<WorldSaver>() with singleton {
+            WorldSaver(instance<World>())
+        }
         bind<ActionService>() with singleton {
             ActionService(
                 instance<MobService>(),
                 instance<ItemService>(),
                 instance<EventService>(),
-                instance<NIOServer>()
+                instance<NIOServer>(),
+                createActionsList(instance<WorldSaver>())
             )
-        }
-        bind<World>() with singleton {
-            World(getAreaResourcesFromFS(isTest))
         }
         bind<MobService>() with singleton {
             MobService(

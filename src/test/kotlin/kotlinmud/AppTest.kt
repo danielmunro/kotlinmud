@@ -5,8 +5,11 @@ package kotlinmud
 
 import kotlin.test.Test
 import kotlin.test.assertNotNull
+import kotlinmud.action.createActionsList
 import kotlinmud.app.App
+import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.NIOServer
+import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
@@ -17,11 +20,13 @@ class AppTest {
     @Test
     fun testAppSanityCheck() {
         // setup
+        val world = World(listOf())
         val eventService = EventService()
+        val server = NIOServer(eventService)
         val mobService = MobService(
             ItemService(),
             eventService,
-            World(listOf())
+            world
         )
 
         // when
@@ -29,8 +34,8 @@ class AppTest {
             eventService,
             mobService,
             TimeService(eventService),
-            ItemService(),
-            NIOServer(eventService)
+            server,
+            ActionService(mobService, ItemService(), eventService, server, createActionsList(WorldSaver(world)))
         )
 
         // then

@@ -27,7 +27,6 @@ import kotlinmud.action.contextBuilder.SpellContextBuilder
 import kotlinmud.action.contextBuilder.SpellFromHealerContextBuilder
 import kotlinmud.action.contextBuilder.TargetMobContextBuilder
 import kotlinmud.action.contextBuilder.TrainableContextBuilder
-import kotlinmud.action.createActionsList
 import kotlinmud.attributes.Attribute
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Message
@@ -52,9 +51,9 @@ class ActionService(
     private val mobService: MobService,
     private val itemService: ItemService,
     private val eventService: EventService,
-    private val server: NIOServer
+    private val server: NIOServer,
+    private val actions: List<Action>
 ) {
-    private val actions: List<Action> = createActionsList()
     private val skills: List<Skill> = createSkillList()
 
     fun run(request: Request): Response {
@@ -166,6 +165,7 @@ class ActionService(
         return when (syntax) {
             Syntax.DIRECTION_TO_EXIT -> DirectionToExitContextBuilder(request.room).build(syntax, word)
             Syntax.COMMAND -> CommandContextBuilder().build(syntax, word)
+            Syntax.SUBCOMMAND -> CommandContextBuilder().build(syntax, word)
             Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(itemService, request.mob).build(syntax, word)
             Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(itemService, request.room).build(syntax, word)
             Syntax.EQUIPMENT_IN_INVENTORY -> EquipmentInInventoryContextBuilder(itemService, request.mob).build(syntax, word)

@@ -13,7 +13,7 @@ data class Room(
     val description: String,
     val regen: RegenLevel,
     val isIndoor: Boolean,
-    val owner: Mob?
+    var owner: Mob?
 ) : Row, HasInventory {
     val exits: MutableList<Exit> = mutableListOf()
 

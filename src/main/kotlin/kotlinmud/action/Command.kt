@@ -18,6 +18,13 @@ enum class Command(val value: String) {
     DRINK("drink"),
     EAT("eat"),
 
+    // rooms
+    OWNER_INFO("owner info"),
+    OWNER_SET("owner set"),
+
+    // world state
+    SAVE_WORLD("save world"),
+
     // shops
     LIST("list"),
     BUY("buy"),
