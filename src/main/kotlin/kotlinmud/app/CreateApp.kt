@@ -6,6 +6,7 @@ import kotlinmud.io.NIOServer
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
+import kotlinmud.service.PlayerService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import kotlinmud.world.World
@@ -23,6 +24,7 @@ fun createApp(port: Int): App {
     eventService.observers = observers
     respawnService.respawn()
     val world: World by container.instance()
+    val playerService: PlayerService by container.instance()
     WorldSaver(world).save()
-    return App(eventService, mobService, timeService, server, actionService)
+    return App(eventService, mobService, timeService, server, actionService, playerService)
 }

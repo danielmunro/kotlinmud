@@ -3,6 +3,7 @@ package kotlinmud.app
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.io.NIOClient
 import kotlinmud.io.NIOServer
+import kotlinmud.io.PreAuthRequest
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
@@ -10,6 +11,7 @@ import kotlinmud.mob.Mob
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
+import kotlinmud.service.PlayerService
 import kotlinmud.service.TimeService
 
 class App(
@@ -17,7 +19,8 @@ class App(
     private val mobService: MobService,
     private val timeService: TimeService,
     private val server: NIOServer,
-    private val actionService: ActionService
+    private val actionService: ActionService,
+    private val playerService: PlayerService
 ) {
     fun start() {
         println("starting app on port ${server.port}")
@@ -46,6 +49,10 @@ class App(
             return
         }
         val input = client.buffers.removeAt(0)
+        if (client.mob == null) {
+            playerService.handlePreAuthRequest(PreAuthRequest(client, input))
+            return
+        }
         val request = Request(client.mob!!, input, mobService.getRoomForMob(client.mob!!))
         val response = actionService.run(request)
         eventService.publishRoomMessage(
