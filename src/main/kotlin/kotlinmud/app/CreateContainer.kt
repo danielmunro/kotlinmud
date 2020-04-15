@@ -13,6 +13,7 @@ import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
+import kotlinmud.service.PlayerService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
@@ -32,6 +33,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         bind<EventService>() with singleton { EventService() }
         bind<ItemService>() with singleton { ItemService() }
         bind<WeatherService>() with singleton { WeatherService() }
+        bind<PlayerService>() with singleton { PlayerService() }
         bind<TimeService>() with singleton {
             TimeService(
                 instance<EventService>(),

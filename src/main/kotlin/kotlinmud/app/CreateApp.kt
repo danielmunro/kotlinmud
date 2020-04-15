@@ -14,17 +14,15 @@ import org.kodein.di.erased.instance
 
 fun createApp(port: Int): App {
     val container = createContainer(port)
-    val mobService: MobService by container.instance()
-    val eventService: EventService by container.instance()
-    val server: NIOServer by container.instance()
-    val respawnService: RespawnService by container.instance()
-    val timeService: TimeService by container.instance()
-    val observers: Observers by container.instance()
-    val actionService: ActionService by container.instance()
+    val mobService by container.instance<MobService>()
+    val eventService by container.instance<EventService>()
+    val server by container.instance<NIOServer>()
+    val respawnService by container.instance<RespawnService>()
+    val timeService by container.instance<TimeService>()
+    val observers by container.instance<Observers>()
+    val actionService by container.instance<ActionService>()
     eventService.observers = observers
     respawnService.respawn()
-    val world: World by container.instance()
-    val playerService: PlayerService by container.instance()
-    WorldSaver(world).save()
+    val playerService by container.instance<PlayerService>()
     return App(eventService, mobService, timeService, server, actionService, playerService)
 }
