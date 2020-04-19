@@ -24,6 +24,7 @@ import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
 import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.NIOServer
+import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
@@ -41,11 +42,12 @@ fun createObservers(
     weatherService: WeatherService,
     itemService: ItemService,
     worldSaver: WorldSaver,
-    timeService: TimeService
+    timeService: TimeService,
+    actionService: ActionService
 ): Observers {
     return listOf(
         // client/server observers
-        ClientConnectedObserver(mobService),
+        ClientConnectedObserver(mobService, actionService),
         SendMessageToRoomObserver(server, mobService),
         RemoveMobOnClientDisconnectObserver(mobService),
 

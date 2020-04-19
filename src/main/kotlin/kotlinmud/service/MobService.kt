@@ -79,7 +79,7 @@ class MobService(
     }
 
     fun addMob(mob: Mob) {
-        putMobInRoom(mob, world.rooms.get(1))
+        putMobInRoom(mob, getStartRoom())
     }
 
     fun moveMob(mob: Mob, room: Room, direction: Direction) {
