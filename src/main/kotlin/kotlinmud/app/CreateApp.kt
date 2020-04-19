@@ -1,7 +1,6 @@
 package kotlinmud.app
 
 import kotlinmud.event.observer.Observers
-import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.NIOServer
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
@@ -9,7 +8,6 @@ import kotlinmud.service.MobService
 import kotlinmud.service.PlayerService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
-import kotlinmud.world.World
 import org.kodein.di.erased.instance
 
 fun createApp(port: Int): App {
@@ -24,5 +22,6 @@ fun createApp(port: Int): App {
     eventService.observers = observers
     respawnService.respawn()
     val playerService by container.instance<PlayerService>()
+
     return App(eventService, mobService, timeService, server, actionService, playerService)
 }

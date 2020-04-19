@@ -1,18 +1,26 @@
 package kotlinmud.player.authStep
 
+import java.lang.IllegalStateException
+import kotlinmud.io.IOStatus
 import kotlinmud.io.PreAuthRequest
 import kotlinmud.io.PreAuthResponse
+import kotlinmud.player.AuthService
 
-class EmailAuthStep : AuthStep {
+class EmailAuthStep(private val authService: AuthService) : AuthStep {
     override val authorizationStep: AuthorizationStep = AuthorizationStep.EMAIL
     override val promptMessage: String = "email address:"
     override val errorMessage: String = "sorry, try again."
 
     override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
-        TODO("Not yet implemented")
+        return try {
+            authService.sendOTP(request.input)
+            PreAuthResponse(request, IOStatus.OK, "check your email for a password, and enter it here: ")
+        } catch (e: IllegalStateException) {
+            PreAuthResponse(request, IOStatus.ERROR, e.message ?: "an error happened")
+        }
     }
 
     override fun getNextAuthStep(): AuthStep {
-        return PasswordAuthStep()
+        return PasswordAuthStep(authService)
     }
 }
