@@ -51,4 +51,8 @@ class PlayerService(private val emailService: EmailService) {
     fun loginClientAsPlayer(client: NIOClient, player: Player) {
         loggedInPlayers.plus(Pair(client, player))
     }
+
+    fun addPreAuthClient(client: NIOClient) {
+        preAuthClients.plus(Pair(client, EmailAuthStep(AuthService(this))))
+    }
 }

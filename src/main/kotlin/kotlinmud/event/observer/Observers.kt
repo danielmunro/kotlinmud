@@ -28,6 +28,7 @@ import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
+import kotlinmud.service.PlayerService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
@@ -43,11 +44,12 @@ fun createObservers(
     itemService: ItemService,
     worldSaver: WorldSaver,
     timeService: TimeService,
-    actionService: ActionService
+    actionService: ActionService,
+    playerService: PlayerService
 ): Observers {
     return listOf(
         // client/server observers
-        ClientConnectedObserver(mobService, actionService),
+        ClientConnectedObserver(playerService, mobService, actionService),
         SendMessageToRoomObserver(server, mobService),
         RemoveMobOnClientDisconnectObserver(mobService),
 

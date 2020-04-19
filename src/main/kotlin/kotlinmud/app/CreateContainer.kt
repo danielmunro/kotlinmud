@@ -88,7 +88,8 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 instance<ItemService>(),
                 WorldSaver(instance<World>()),
                 instance<TimeService>(),
-                instance<ActionService>()
+                instance<ActionService>(),
+                instance<PlayerService>()
             )
         }
     }
