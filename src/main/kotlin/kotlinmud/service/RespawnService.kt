@@ -77,8 +77,7 @@ class RespawnService(
     }
 
     private fun itemRoomCanRespawn(reset: ItemRoomReset, room: Room): Boolean {
-        val roomItems = itemService.findAllByOwner(room)
-        return reset.maxInInventory > roomItems.filter { it.id == reset.itemId }.size &&
+        return reset.maxInInventory > itemService.findAllByOwner(room).filter { it.id == reset.itemId }.size &&
                 reset.maxInWorld > itemService.countItemsById(reset.itemId)
     }
 
