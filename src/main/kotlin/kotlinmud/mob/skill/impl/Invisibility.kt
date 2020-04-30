@@ -2,6 +2,7 @@ package kotlinmud.mob.skill.impl
 
 import kotlinmud.Noun
 import kotlinmud.action.ActionContextService
+import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
 import kotlinmud.affect.impl.InvisibilityAffect
 import kotlinmud.io.Request
@@ -19,6 +20,7 @@ import kotlinmud.mob.skill.SpellAction
 
 class Invisibility : SpellAction {
     override val type: SkillType = SkillType.INVISIBILITY
+    override val command: Command = Command.INVISIBILITY
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
         Pair(SpecializationType.MAGE, 5),
         Pair(SpecializationType.CLERIC, 35)

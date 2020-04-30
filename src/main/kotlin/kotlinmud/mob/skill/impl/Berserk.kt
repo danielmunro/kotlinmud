@@ -1,6 +1,7 @@
 package kotlinmud.mob.skill.impl
 
 import kotlinmud.action.ActionContextService
+import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
@@ -21,6 +22,7 @@ import kotlinmud.mob.skill.SkillType
 
 class Berserk : SkillAction {
     override val type: SkillType = SkillType.BERSERK
+    override val command: Command = Command.BERSERK
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
         Pair(SpecializationType.WARRIOR, 1),
         Pair(SpecializationType.THIEF, 45)

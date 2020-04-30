@@ -20,6 +20,7 @@ import kotlinmud.service.MobService
 import kotlinmud.social.Social
 import kotlinmud.world.room.Direction
 import kotlinmud.world.room.Room
+import kotlinmud.world.room.RoomBuilder
 
 class ActionContextService(
     private val mobService: MobService,
@@ -85,5 +86,15 @@ class ActionContextService(
 
     fun destroy(item: Item) {
         itemService.destroy(item)
+    }
+
+    fun createRoomBuilder(mob: Mob, srcRoom: Room, name: String, direction: Direction): RoomBuilder {
+        val roomBuilder = mobService.createRoomBuilder(mob, srcRoom, direction)
+        roomBuilder.name(name)
+        return roomBuilder
+    }
+
+    fun buildRoom(mob: Mob): Room {
+        return mobService.buildRoom(mob)
     }
 }

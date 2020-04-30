@@ -12,7 +12,7 @@ class RoomMapper(val mobs: List<Mob>, val roomModels: List<RoomModel>, val doors
     fun map(): List<Room> {
         val rooms = roomModels.map {
             val mob = if (it.ownerId > 0) mobs.find { mob -> it.ownerId == mob.id } else null
-            Room(it.id, it.area, it.name, it.description, it.regen, it.isIndoor, mob)
+            Room(it.id, it.area, it.name, it.description, it.regen, it.isIndoor, mutableListOf(), mob)
         }
         val modelMap = mutableMapOf<Int, RoomModel>()
         val roomMap = mutableMapOf<Int, Room>()

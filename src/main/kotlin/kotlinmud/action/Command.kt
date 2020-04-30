@@ -18,9 +18,13 @@ enum class Command(val value: String) {
     DRINK("drink"),
     EAT("eat"),
 
-    // rooms
+    // room owner actions
     OWNER_INFO("owner info"),
     OWNER_SET("owner set"),
+
+    // room creation/manipulation
+    ROOM_NEW("room new"),
+    ROOM_BUILD("room build"),
 
     // world state
     SAVE_WORLD("save world"),
@@ -73,5 +77,15 @@ enum class Command(val value: String) {
     // other
     EXIT("exit"),
     QUIT("quit"),
-    RECALL("recall");
+    RECALL("recall"),
+
+    // skills
+    BASH("bash"),
+    BERSERK("berserk"),
+    BITE("bite"),
+    DODGE("dodge"),
+    PARRY("parry"),
+    SHIELD_BLOCK("shield block"),
+    INVISIBILITY("invisibility"),
+    ;
 }

@@ -2,6 +2,7 @@ package kotlinmud.mob.skill.impl
 
 import kotlin.random.Random
 import kotlinmud.action.ActionContextService
+import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
 import kotlinmud.affect.Affect
 import kotlinmud.io.Message
@@ -22,6 +23,7 @@ import kotlinmud.mob.skill.SkillType
 
 class Bite : SkillAction {
     override val type: SkillType = SkillType.BITE
+    override val command: Command = Command.BITE
     override val levelObtained: Map<SpecializationType, Int> = mapOf()
     override val difficulty: Map<SpecializationType, LearningDifficulty> = mapOf()
     override val dispositions: List<Disposition> = mustBeAlert()

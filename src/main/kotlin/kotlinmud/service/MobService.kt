@@ -21,8 +21,12 @@ import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.world.World
 import kotlinmud.world.room.Direction
+import kotlinmud.world.room.NewRoom
 import kotlinmud.world.room.RegenLevel
 import kotlinmud.world.room.Room
+import kotlinmud.world.room.RoomBuilder
+import kotlinmud.world.room.exit.Exit
+import kotlinmud.world.room.oppositeDirection
 
 class MobService(
     private val itemService: ItemService,
@@ -30,6 +34,7 @@ class MobService(
     private val world: World
 ) {
     private val mobRooms: MutableList<MobRoom> = mutableListOf()
+    private val newRooms: MutableList<NewRoom> = mutableListOf()
     private val fights: MutableList<Fight> = mutableListOf()
 
     fun regenMobs() {
@@ -44,6 +49,26 @@ class MobService(
             it.mob.increaseMana((regen * it.mob.calc(Attribute.MANA)).toInt())
             it.mob.increaseMv((regen * it.mob.calc(Attribute.MV)).toInt())
         }
+    }
+
+    fun createRoomBuilder(mob: Mob, srcRoom: Room, direction: Direction): RoomBuilder {
+        val roomBuilder = world.createRoomBuilder()
+        roomBuilder.exits(mutableListOf(Exit(srcRoom, oppositeDirection(direction))))
+        newRooms.add(NewRoom(mobRooms.find { it.mob == mob }!!, roomBuilder))
+        return roomBuilder
+    }
+
+    fun buildRoom(mob: Mob): Room {
+        val mobRoom = mobRooms.find { it.mob == mob }!!
+        val newRoom = newRooms.find { it.mobRoom == mobRoom }!!
+        val roomBuilder = newRoom.roomBuilder
+        val destRoom = roomBuilder.build()
+        val destExit = destRoom.exits.first()
+        val srcExit = Exit(destRoom, oppositeDirection(destExit.direction))
+        val srcRoom = destExit.destination
+        srcRoom.exits.add(srcExit)
+        newRooms.remove(newRoom)
+        return destRoom
     }
 
     fun getRooms(): List<Room> {

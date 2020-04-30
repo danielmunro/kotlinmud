@@ -2,6 +2,7 @@ package kotlinmud.mob.skill.impl
 
 import kotlin.random.Random
 import kotlinmud.action.ActionContextService
+import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
@@ -25,6 +26,7 @@ import kotlinmud.mob.skill.SkillType
 
 class Bash : SkillAction {
     override val type: SkillType = SkillType.BASH
+    override val command: Command = Command.BASH
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
         Pair(SpecializationType.WARRIOR, 1),
         Pair(SpecializationType.THIEF, 30),

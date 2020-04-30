@@ -5,6 +5,7 @@ enum class Syntax(val syntax: String) {
     SUBCOMMAND("subcommand"),
     CAST("cast"),
     DIRECTION_TO_EXIT("direction to exit"),
+    DIRECTION_WITH_NO_EXIT("direction with no exit"),
     ITEM_IN_ROOM("item in room"),
     ITEM_IN_INVENTORY("item in inventory"),
     EQUIPPED_ITEM("equipped item"),

@@ -10,7 +10,7 @@ import kotlinmud.mob.RequiresDisposition
 import kotlinmud.mob.skill.Cost
 
 class Action(
-    val command: Command,
+    override val command: Command,
     override val dispositions: List<Disposition>,
     override val syntax: List<Syntax>,
     val mutator: (ActionContextService, Request) -> Response,

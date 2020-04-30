@@ -3,6 +3,7 @@ package kotlinmud.service
 import kotlinmud.action.Action
 import kotlinmud.action.ActionContextList
 import kotlinmud.action.ActionContextService
+import kotlinmud.action.Command
 import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.action.contextBuilder.AvailableDrinkContextBuilder
@@ -11,6 +12,7 @@ import kotlinmud.action.contextBuilder.AvailableNounContextBuilder
 import kotlinmud.action.contextBuilder.CastContextBuilder
 import kotlinmud.action.contextBuilder.CommandContextBuilder
 import kotlinmud.action.contextBuilder.DirectionToExitContextBuilder
+import kotlinmud.action.contextBuilder.DirectionWithNoExitContextBuilder
 import kotlinmud.action.contextBuilder.DoorInRoomContextBuilder
 import kotlinmud.action.contextBuilder.EquipmentInInventoryContextBuilder
 import kotlinmud.action.contextBuilder.EquippedItemContextBuilder
@@ -46,6 +48,18 @@ import kotlinmud.mob.skill.CostType
 import kotlinmud.mob.skill.Skill
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.createSkillList
+
+fun commandMatches(command: Command, input: String): Boolean {
+    return command.value.startsWith(input)
+}
+
+fun argumentLengthMatches(syntax: List<Syntax>, arguments: List<String>): Boolean {
+    return syntax.size == arguments.size || syntax.contains(Syntax.FREE_FORM)
+}
+
+fun subCommandMatches(syntax: Syntax, subCommand: String, input: String): Boolean {
+    return syntax != Syntax.SUBCOMMAND || subCommand.startsWith(input)
+}
 
 class ActionService(
     private val mobService: MobService,
@@ -84,8 +98,12 @@ class ActionService(
 
     private fun runAction(request: Request): Response? {
         return actions.find {
-            it.command.value.startsWith(request.getCommand()) &&
-                    (it.syntax.size == request.args.size || it.syntax.contains(Syntax.FREE_FORM))
+            val parts = it.command.value.split(" ")
+            val subPart = if (parts.size > 1) parts[1] else ""
+            val syntax = if (it.syntax.size > 1) it.syntax[1] else Syntax.NOOP
+            commandMatches(it.command, request.getCommand()) &&
+                    argumentLengthMatches(it.syntax, request.args) &&
+                    subCommandMatches(syntax, subPart, request.getSubject())
         }?.let {
             dispositionCheck(request, it)
                 ?: deductCosts(request.mob, it)
@@ -157,6 +175,7 @@ class ActionService(
     }
 
     private fun buildActionContextList(request: Request, invokable: Invokable): ActionContextList {
+        println("building context for: ${invokable.command}, ${invokable.syntax}")
         var i = 0
         return ActionContextList(invokable.syntax.map { createContext(request, it, if (request.args.size > i) request.args[i++] else "") } as MutableList<Context<Any>>)
     }
@@ -164,6 +183,7 @@ class ActionService(
     private fun createContext(request: Request, syntax: Syntax, word: String): Context<Any> {
         return when (syntax) {
             Syntax.DIRECTION_TO_EXIT -> DirectionToExitContextBuilder(request.room).build(syntax, word)
+            Syntax.DIRECTION_WITH_NO_EXIT -> DirectionWithNoExitContextBuilder(request.room).build(syntax, word)
             Syntax.COMMAND -> CommandContextBuilder().build(syntax, word)
             Syntax.SUBCOMMAND -> CommandContextBuilder().build(syntax, word)
             Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(itemService, request.mob).build(syntax, word)

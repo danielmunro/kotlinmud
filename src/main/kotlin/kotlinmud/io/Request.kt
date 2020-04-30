@@ -16,7 +16,7 @@ data class Request(
     }
 
     fun getSubject(): String {
-        return args[1]
+        return if (args.size > 1) args[1] else ""
     }
 
     fun getDisposition(): Disposition {
