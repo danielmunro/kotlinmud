@@ -25,6 +25,7 @@ enum class Command(val value: String) {
     // room creation/manipulation
     ROOM_NEW("room new"),
     ROOM_BUILD("room build"),
+    ROOM_DESCRIPTION("room description"),
 
     // world state
     SAVE_WORLD("save world"),

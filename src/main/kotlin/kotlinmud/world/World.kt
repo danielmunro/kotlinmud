@@ -39,5 +39,6 @@ data class World(private val areas: List<Area>) {
         nextRoomID++
         return RoomBuilder()
             .id(nextRoomID)
+            .exits(mutableListOf())
     }
 }

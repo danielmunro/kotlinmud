@@ -1,4 +1,4 @@
-package kotlinmud.action.impl.room
+package kotlinmud.action.impl.room.owner
 
 import kotlinmud.action.Action
 import kotlinmud.action.ActionContextService

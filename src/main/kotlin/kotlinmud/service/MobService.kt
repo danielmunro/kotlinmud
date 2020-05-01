@@ -51,24 +51,38 @@ class MobService(
         }
     }
 
-    fun createRoomBuilder(mob: Mob, srcRoom: Room, direction: Direction): RoomBuilder {
+    fun createRoomBuilder(mob: Mob): RoomBuilder {
         val roomBuilder = world.createRoomBuilder()
-        roomBuilder.exits(mutableListOf(Exit(srcRoom, oppositeDirection(direction))))
-        newRooms.add(NewRoom(mobRooms.find { it.mob == mob }!!, roomBuilder))
+        val mobRoom = mobRooms.find { it.mob == mob }!!
+        newRooms.add(NewRoom(mobRoom, roomBuilder))
         return roomBuilder
     }
 
-    fun buildRoom(mob: Mob): Room {
+    fun buildRoom(mob: Mob, direction: Direction): Room {
+        // setup
         val mobRoom = mobRooms.find { it.mob == mob }!!
         val newRoom = newRooms.find { it.mobRoom == mobRoom }!!
         val roomBuilder = newRoom.roomBuilder
         val destRoom = roomBuilder.build()
-        val destExit = destRoom.exits.first()
-        val srcExit = Exit(destRoom, oppositeDirection(destExit.direction))
-        val srcRoom = destExit.destination
+
+        // destination room exit hook up
+        val destExit = Exit(mobRoom.room, oppositeDirection(direction))
+        destRoom.exits.add(destExit)
+
+        // source room exit hook up
+        val srcExit = Exit(destRoom, direction)
+        val srcRoom = mobRoom.room
         srcRoom.exits.add(srcExit)
-        newRooms.remove(newRoom)
+
+        // add to world
+        world.rooms.add(destRoom)
+
         return destRoom
+    }
+
+    fun getNewRoom(mob: Mob): NewRoom? {
+        val mobRoom = mobRooms.find { it.mob == mob }
+        return newRooms.find { mobRoom == it.mobRoom }
     }
 
     fun getRooms(): List<Room> {
