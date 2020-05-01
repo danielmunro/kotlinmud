@@ -2,12 +2,13 @@ package kotlinmud.fs
 
 import java.io.File
 import kotlinmud.fs.loader.AreaLoader
+import kotlinmud.service.PersistenceService
 import kotlinmud.world.Area
 
-fun getAreaResourcesFromFS(isTest: Boolean = false): List<Area> {
+fun getAreaResourcesFromFS(persistenceService: PersistenceService, isTest: Boolean = false): List<Area> {
     return if (File("state").exists() && !isTest) {
         println("state exists and not in test environment, loading")
-        listOf(AreaLoader("state/bootstrap_world").load())
+        persistenceService.loadAreas()
     } else if (isTest) {
         listOf(
             AreaLoader("test_areas/midgard").load(),

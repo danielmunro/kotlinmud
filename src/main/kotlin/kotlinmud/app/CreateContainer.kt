@@ -56,7 +56,8 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
             )
         }
         bind<World>() with singleton {
-            World(getAreaResourcesFromFS(isTest))
+            val persistenceService = instance<PersistenceService>()
+            World(getAreaResourcesFromFS(persistenceService, isTest))
         }
         bind<WorldSaver>() with singleton {
             WorldSaver(instance<World>())
@@ -92,11 +93,11 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 instance<RespawnService>(),
                 instance<WeatherService>(),
                 instance<ItemService>(),
-                WorldSaver(instance<World>()),
                 instance<TimeService>(),
                 instance<ActionService>(),
                 instance<PlayerService>(),
-                instance<PersistenceService>()
+                instance<PersistenceService>(),
+                instance<World>()
             )
         }
     }

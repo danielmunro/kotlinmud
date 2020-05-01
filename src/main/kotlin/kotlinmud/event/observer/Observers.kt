@@ -23,7 +23,6 @@ import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
-import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.NIOServer
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
@@ -34,6 +33,7 @@ import kotlinmud.service.PlayerService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
+import kotlinmud.world.World
 
 typealias Observers = List<Observer>
 
@@ -44,11 +44,11 @@ fun createObservers(
     respawnService: RespawnService,
     weatherService: WeatherService,
     itemService: ItemService,
-    worldSaver: WorldSaver,
     timeService: TimeService,
     actionService: ActionService,
     playerService: PlayerService,
-    persistenceService: PersistenceService
+    persistenceService: PersistenceService,
+    world: World
 ): Observers {
     return listOf(
         // client/server observers
@@ -61,7 +61,7 @@ fun createObservers(
         DecrementAffectTimeoutTickObserver(mobService),
         DecrementDelayObserver(mobService),
         DecrementItemDecayTimerObserver(itemService),
-        SaveWorldObserver(worldSaver),
+        SaveWorldObserver(persistenceService, world),
         SaveTimeObserver(timeService, persistenceService),
 
         // game logic

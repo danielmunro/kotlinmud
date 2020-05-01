@@ -1,6 +1,9 @@
 package kotlinmud.app
 
+import kotlinmud.event.Event
+import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
+import kotlinmud.event.event.DayEvent
 import kotlinmud.io.NIOClient
 import kotlinmud.io.NIOServer
 import kotlinmud.io.PreAuthRequest
@@ -25,6 +28,7 @@ class App(
     fun start() {
         println("starting app on port ${server.port}")
         server.configure()
+        eventService.publish(Event(EventType.DAY, DayEvent()))
         mainLoop()
     }
 
