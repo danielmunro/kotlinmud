@@ -22,7 +22,7 @@ import kotlinmud.mob.Mob
 import kotlinmud.world.Area
 import kotlinmud.world.room.exit.Door
 
-class AreaLoader(private val baseDir: String) {
+class AreaLoader(private val baseDir: String, private val loadSchemaVersion: Int) {
     val mobs = loadMobs()
     fun load(): Area {
         return Area(
@@ -39,7 +39,7 @@ class AreaLoader(private val baseDir: String) {
     private fun createRoomMapper(mobs: List<Mob>): RoomMapper {
         return RoomMapper(
             mobs,
-            createModelList(RoomLoader(createTokenizer("$baseDir/rooms.txt"))),
+            createModelList(RoomLoader(createTokenizer("$baseDir/rooms.txt"), loadSchemaVersion)),
             loadDoors()
         )
     }

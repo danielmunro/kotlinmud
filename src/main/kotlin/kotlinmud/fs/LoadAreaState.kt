@@ -11,16 +11,16 @@ fun getAreaResourcesFromFS(persistenceService: PersistenceService, isTest: Boole
         persistenceService.loadAreas()
     } else if (isTest) {
         listOf(
-            AreaLoader("test_areas/midgard").load(),
-            AreaLoader("test_areas/midgard_castle").load(),
-            AreaLoader("test_areas/woods").load()
+            AreaLoader("test_areas/midgard", persistenceService.loadSchemaVersion).load(),
+            AreaLoader("test_areas/midgard_castle", persistenceService.loadSchemaVersion).load(),
+            AreaLoader("test_areas/woods", persistenceService.loadSchemaVersion).load()
         )
     } else {
         println("no state found, starting new")
         listOf(
-            AreaLoader("bootstrap_world/midgard").load(),
-            AreaLoader("bootstrap_world/midgard_castle").load(),
-            AreaLoader("bootstrap_world/woods").load()
+            AreaLoader("bootstrap_world/midgard", persistenceService.loadSchemaVersion).load(),
+            AreaLoader("bootstrap_world/midgard_castle", persistenceService.loadSchemaVersion).load(),
+            AreaLoader("bootstrap_world/woods", persistenceService.loadSchemaVersion).load()
         )
     }
 }

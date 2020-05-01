@@ -15,7 +15,7 @@ class ItemLoaderTest {
     @Test
     fun testLoadPropsMaterialAndPositionForItem() {
         // setup
-        val area = AreaLoader("test_areas/midgard").load()
+        val area = AreaLoader("test_areas/midgard", 1).load()
 
         // given
         val item = area.items.first()
@@ -28,7 +28,7 @@ class ItemLoaderTest {
     @Test
     fun testLoadPropsHitAndDam() {
         // setup
-        val area = AreaLoader("test_areas/midgard").load()
+        val area = AreaLoader("test_areas/midgard", 1).load()
 
         // given
         val item = area.items.find { it.id == 3 }!!
@@ -41,7 +41,7 @@ class ItemLoaderTest {
     @Test
     fun testLoadAffects() {
         // setup
-        val area = AreaLoader("test_areas/midgard").load()
+        val area = AreaLoader("test_areas/midgard", 1).load()
 
         // given
         val item = area.items.find { it.id == 50 }!!

@@ -9,7 +9,7 @@ import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.world.Area
 import kotlinmud.world.World
 
-class PersistenceService(private val loadSchemaVersion: Int, private val writeSchemaVersion: Int = loadSchemaVersion) {
+class PersistenceService(val loadSchemaVersion: Int, private val writeSchemaVersion: Int = loadSchemaVersion) {
     init {
         println("persistence service, load schema version: $loadSchemaVersion, write schema version: $writeSchemaVersion")
     }
@@ -34,6 +34,6 @@ class PersistenceService(private val loadSchemaVersion: Int, private val writeSc
     }
 
     fun loadAreas(): List<Area> {
-        return listOf(AreaLoader("state/bootstrap_world").load())
+        return listOf(AreaLoader("state/bootstrap_world", loadSchemaVersion).load())
     }
 }

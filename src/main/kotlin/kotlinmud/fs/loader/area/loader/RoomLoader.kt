@@ -4,7 +4,7 @@ import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.model.RoomModel
 import kotlinmud.world.room.RegenLevel
 
-class RoomLoader(private val tokenizer: Tokenizer) : Loader {
+class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion: Int) : Loader {
     var id = 0
     var name = ""
     var description = ""
@@ -24,8 +24,11 @@ class RoomLoader(private val tokenizer: Tokenizer) : Loader {
         id = tokenizer.parseInt()
         name = tokenizer.parseString()
         description = tokenizer.parseString()
-        area = tokenizer.parseString()
+        area = if (loadSchemaVersion <= 1) "any" else tokenizer.parseString()
         props = tokenizer.parseProperties()
+        if (loadSchemaVersion == 1) {
+            area = strAttr("area", "any")
+        }
         regen = RegenLevel.valueOf(strAttr("regen", "normal").toUpperCase())
         isIndoor = strAttr("isIndoor", "true").toBoolean()
         north = props["n"] ?: ""

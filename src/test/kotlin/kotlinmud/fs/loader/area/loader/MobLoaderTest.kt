@@ -10,7 +10,7 @@ class MobLoaderTest {
     @Test
     fun testMobLoaderLoadsRandomGold() {
         // setup
-        val area = AreaLoader("test_areas/midgard").load()
+        val area = AreaLoader("test_areas/midgard", 1).load()
 
         // given
         val mob = area.mobs.find { it.id == 9 }!!
