@@ -7,7 +7,7 @@ import kotlinmud.action.createActionsList
 import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
 import kotlinmud.fs.getAreaResourcesFromFS
-import kotlinmud.fs.loadTimeState
+import kotlinmud.fs.loadVersionState
 import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.NIOServer
 import kotlinmud.service.ActionService
@@ -16,6 +16,7 @@ import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
+import kotlinmud.service.PersistenceService
 import kotlinmud.service.PlayerService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
@@ -33,6 +34,10 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         bind<NIOServer>() with singleton {
             NIOServer(instance<EventService>(), port)
         }
+        bind<PersistenceService>() with singleton {
+            val versions = loadVersionState(isTest)
+            PersistenceService(versions[0], versions[1])
+        }
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
         bind<ItemService>() with singleton { ItemService() }
@@ -44,9 +49,10 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         }
         bind<PlayerService>() with singleton { PlayerService(instance<EmailService>()) }
         bind<TimeService>() with singleton {
+            val persistenceService = instance<PersistenceService>()
             TimeService(
                 instance<EventService>(),
-                loadTimeState(isTest)
+                if (isTest) 0 else persistenceService.loadTimeFile()
             )
         }
         bind<World>() with singleton {
@@ -89,7 +95,8 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 WorldSaver(instance<World>()),
                 instance<TimeService>(),
                 instance<ActionService>(),
-                instance<PlayerService>()
+                instance<PlayerService>(),
+                instance<PersistenceService>()
             )
         }
     }

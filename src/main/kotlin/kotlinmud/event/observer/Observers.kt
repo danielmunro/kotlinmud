@@ -16,6 +16,7 @@ import kotlinmud.event.observer.impl.RegenMobsObserver
 import kotlinmud.event.observer.impl.RemoveMobOnClientDisconnectObserver
 import kotlinmud.event.observer.impl.RespawnTickObserver
 import kotlinmud.event.observer.impl.SaveTimeObserver
+import kotlinmud.event.observer.impl.SaveVersionsObserver
 import kotlinmud.event.observer.impl.SaveWorldObserver
 import kotlinmud.event.observer.impl.ScavengerCollectsItemsObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
@@ -28,6 +29,7 @@ import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
+import kotlinmud.service.PersistenceService
 import kotlinmud.service.PlayerService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
@@ -45,7 +47,8 @@ fun createObservers(
     worldSaver: WorldSaver,
     timeService: TimeService,
     actionService: ActionService,
-    playerService: PlayerService
+    playerService: PlayerService,
+    persistenceService: PersistenceService
 ): Observers {
     return listOf(
         // client/server observers
@@ -59,7 +62,7 @@ fun createObservers(
         DecrementDelayObserver(mobService),
         DecrementItemDecayTimerObserver(itemService),
         SaveWorldObserver(worldSaver),
-        SaveTimeObserver(timeService),
+        SaveTimeObserver(timeService, persistenceService),
 
         // game logic
         LogTickObserver(mobService, server),
@@ -67,6 +70,7 @@ fun createObservers(
         RespawnTickObserver(respawnService),
         SocialDistributorObserver(server, mobService),
         ChangeWeatherObserver(weatherService),
+        SaveVersionsObserver(persistenceService),
 
         // mobs
         WimpyObserver(mobService),
