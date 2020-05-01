@@ -9,15 +9,18 @@ import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.world.Area
 import kotlinmud.world.World
 
-class PersistenceService(val loadSchemaVersion: Int, private val writeSchemaVersion: Int = loadSchemaVersion) {
+const val CURRENT_LOAD_SCHEMA_VERSION = 1
+const val CURRENT_WRITE_SCHEMA_VERSION = 2
+
+class PersistenceService(private val loadSchemaVersion: Int, private val writeSchemaVersion: Int = loadSchemaVersion) {
     init {
         println("persistence service, load schema version: $loadSchemaVersion, write schema version: $writeSchemaVersion")
     }
 
     fun writeVersionFile() {
         val file = File(VERSION_FILE)
-        file.writeText("""#$loadSchemaVersion
-#$writeSchemaVersion""")
+        file.writeText("""#$CURRENT_LOAD_SCHEMA_VERSION
+#$CURRENT_WRITE_SCHEMA_VERSION""")
     }
 
     fun writeTimeFile(timeService: TimeService) {
@@ -34,6 +37,6 @@ class PersistenceService(val loadSchemaVersion: Int, private val writeSchemaVers
     }
 
     fun loadAreas(): List<Area> {
-        return listOf(AreaLoader("state/bootstrap_world", loadSchemaVersion).load())
+        return listOf(AreaLoader("state/bootstrap_world", CURRENT_LOAD_SCHEMA_VERSION).load())
     }
 }

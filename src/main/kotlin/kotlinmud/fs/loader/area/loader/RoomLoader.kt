@@ -27,7 +27,7 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
         area = if (loadSchemaVersion <= 1) "any" else tokenizer.parseString()
         props = tokenizer.parseProperties()
         if (loadSchemaVersion == 1) {
-            area = strAttr("area", "any")
+            area = strAttr("area", area)
         }
         regen = RegenLevel.valueOf(strAttr("regen", "normal").toUpperCase())
         isIndoor = strAttr("isIndoor", "true").toBoolean()
