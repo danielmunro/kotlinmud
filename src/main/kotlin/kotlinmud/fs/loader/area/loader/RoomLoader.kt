@@ -24,6 +24,7 @@ class RoomLoader(private val tokenizer: Tokenizer) : Loader {
         id = tokenizer.parseInt()
         name = tokenizer.parseString()
         description = tokenizer.parseString()
+        area = tokenizer.parseString()
         props = tokenizer.parseProperties()
         regen = RegenLevel.valueOf(strAttr("regen", "normal").toUpperCase())
         isIndoor = strAttr("isIndoor", "true").toBoolean()
@@ -33,7 +34,6 @@ class RoomLoader(private val tokenizer: Tokenizer) : Loader {
         west = props["w"] ?: ""
         up = props["u"] ?: ""
         down = props["d"] ?: ""
-        area = strAttr("area", "any")
         ownerId = intAttr("ownerId", 0)
 
         return RoomModel(id, name, description, regen, isIndoor, north, south, east, west, up, down, area, ownerId)

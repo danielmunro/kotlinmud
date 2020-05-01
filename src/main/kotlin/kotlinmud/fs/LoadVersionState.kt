@@ -3,8 +3,8 @@ package kotlinmud.fs
 import java.io.File
 import kotlinmud.fs.loader.Tokenizer
 
-const val BUMP_LOAD_VERSION = false
-const val BUMP_WRITE_VERSION = true
+const val BUMP_LOAD_VERSION = true
+const val BUMP_WRITE_VERSION = false
 
 fun loadVersionState(isTest: Boolean = false): List<Int> {
     return if (File(VERSION_FILE).exists() && !isTest) {
