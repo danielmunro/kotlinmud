@@ -1,6 +1,7 @@
 package kotlinmud.app
 
 import com.commit451.mailgun.Mailgun
+import io.github.cdimascio.dotenv.Dotenv
 import io.github.cdimascio.dotenv.dotenv
 import java.net.ServerSocket
 import kotlinmud.action.createActionsList
@@ -42,7 +43,9 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         bind<ItemService>() with singleton { ItemService() }
         bind<WeatherService>() with singleton { WeatherService() }
         bind<EmailService>() with singleton {
-            val dotenv = dotenv()
+            val dotenv = Dotenv.configure()
+                .ignoreIfMissing()
+                .load()
             val domain = dotenv["MAILGUN_DOMAIN"]!!
             val apiKey = dotenv["MAILGUN_API_KEY"]!!
             EmailService(Mailgun.Builder(domain, apiKey).build())
