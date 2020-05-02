@@ -12,7 +12,7 @@ jobs:
         env:
           ENV: ci
         with:
-          arguments: clean test
+          arguments: clean test --info
       - name: Publish to Quay
         uses: HurricanKai/Publish-Docker-Github-Action@master
         with:
