@@ -6,7 +6,6 @@ fun mapRoom(room: Room): String {
     return """#${room.id}
 ${room.name}~
 ${room.description}~
-${room.area}~
 ownerId: ${room.owner?.id ?: 0}, ${room.exits.joinToString(", ") {
         it.direction.value[0] + ": " + (if (it.door != null) "door-${it.door.id}-" else "") + it.destination.id
     }}~
