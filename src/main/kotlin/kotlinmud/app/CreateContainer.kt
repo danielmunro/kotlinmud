@@ -46,8 +46,8 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
             val dotenv = Dotenv.configure()
                 .ignoreIfMissing()
                 .load()
-            val domain = dotenv["MAILGUN_DOMAIN"]!!
-            val apiKey = dotenv["MAILGUN_API_KEY"]!!
+            val domain = dotenv["MAILGUN_DOMAIN"] ?: ""
+            val apiKey = dotenv["MAILGUN_API_KEY"] ?: ""
             EmailService(Mailgun.Builder(domain, apiKey).build())
         }
         bind<PlayerService>() with singleton { PlayerService(instance<EmailService>()) }
