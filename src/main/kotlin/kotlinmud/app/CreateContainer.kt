@@ -28,7 +28,6 @@ import org.kodein.di.erased.instance
 import org.kodein.di.erased.singleton
 
 fun createContainer(port: Int, isTest: Boolean = false): Kodein {
-    val dotenv = dotenv()
     return Kodein {
         bind<ServerSocket>() with singleton { ServerSocket(port) }
         bind<NIOServer>() with singleton {
@@ -43,6 +42,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         bind<ItemService>() with singleton { ItemService() }
         bind<WeatherService>() with singleton { WeatherService() }
         bind<EmailService>() with singleton {
+            val dotenv = dotenv()
             val domain = dotenv["MAILGUN_DOMAIN"]!!
             val apiKey = dotenv["MAILGUN_API_KEY"]!!
             EmailService(Mailgun.Builder(domain, apiKey).build())
