@@ -9,8 +9,8 @@ import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.world.Area
 import kotlinmud.world.World
 
-const val CURRENT_LOAD_SCHEMA_VERSION = 2
-const val CURRENT_WRITE_SCHEMA_VERSION = 2
+const val CURRENT_LOAD_SCHEMA_VERSION = 1
+const val CURRENT_WRITE_SCHEMA_VERSION = 1
 
 class PersistenceService(private val loadSchemaVersion: Int, private val writeSchemaVersion: Int = loadSchemaVersion) {
     init {
