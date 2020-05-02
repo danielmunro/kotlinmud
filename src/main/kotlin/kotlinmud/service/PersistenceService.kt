@@ -33,7 +33,8 @@ class PersistenceService(private val loadSchemaVersion: Int, private val writeSc
     }
 
     fun loadTimeFile(): Int {
-        return Tokenizer(File(TIME_FILE).readText()).parseInt()
+        val file = File(TIME_FILE)
+        return if (file.exists()) Tokenizer(file.readText()).parseInt() else 0
     }
 
     fun loadAreas(): List<Area> {
