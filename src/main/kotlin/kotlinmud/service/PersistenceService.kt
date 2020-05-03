@@ -10,11 +10,12 @@ import kotlinmud.world.Area
 import kotlinmud.world.World
 
 const val CURRENT_LOAD_SCHEMA_VERSION = 1
-const val CURRENT_WRITE_SCHEMA_VERSION = 1
+const val CURRENT_WRITE_SCHEMA_VERSION = 2
 
 class PersistenceService(private val loadSchemaVersion: Int, private val writeSchemaVersion: Int = loadSchemaVersion) {
     init {
-        println("persistence service, load schema version: $loadSchemaVersion, write schema version: $writeSchemaVersion")
+        println("from file, load schema version: $loadSchemaVersion, write schema version: $writeSchemaVersion")
+        println("hardcoded overwrite: $CURRENT_LOAD_SCHEMA_VERSION, $CURRENT_WRITE_SCHEMA_VERSION")
     }
 
     fun writeVersionFile() {
