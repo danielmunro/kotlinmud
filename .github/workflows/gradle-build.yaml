@@ -24,6 +24,7 @@ jobs:
           tagging: true
       - name: Restart service
         uses: appleboy/ssh-action@master
+        if: contains(github.ref, 'refs/tags/v')
         with:
           host: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
