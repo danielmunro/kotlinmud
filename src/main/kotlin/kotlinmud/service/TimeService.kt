@@ -43,10 +43,11 @@ class TimeService(private val eventService: EventService, private var time: Int 
     private fun tick() {
         time++
         eventService.publish(Event(EventType.TICK, TickEvent()))
-        val dayElapsed = time % TICKS_IN_DAY == 0
-        println("tick occurred, hour ${time % TICKS_IN_DAY}${if (dayElapsed) ", day elapsed" else "" }, tick $time")
-        if (dayElapsed) {
+        val hour = time % TICKS_IN_DAY
+        println("tick occurred. hour: $hour, time: $time")
+        if (hour == 0) {
             eventService.publish(Event(EventType.DAY, DayEvent()))
+            println("a new day has started")
         }
     }
 }
