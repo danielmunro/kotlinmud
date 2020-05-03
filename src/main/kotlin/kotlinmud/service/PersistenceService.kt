@@ -30,6 +30,7 @@ class PersistenceService(private val loadSchemaVersion: Int, private val writeSc
     }
 
     fun writeAreas(world: World) {
+        println("write areas with write schema v$CURRENT_WRITE_SCHEMA_VERSION ")
         WorldSaver(world).save()
     }
 
