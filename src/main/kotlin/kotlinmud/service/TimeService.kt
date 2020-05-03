@@ -9,7 +9,7 @@ import kotlinmud.event.event.PulseEvent
 import kotlinmud.event.event.TickEvent
 
 const val TICKS_IN_DAY = 20
-const val TICK_LENGTH_IN_SECONDS = 20
+const val TICK_LENGTH_IN_SECONDS = 40
 
 class TimeService(private val eventService: EventService, private var time: Int = 0) {
     private var pulse = 0
@@ -34,7 +34,7 @@ class TimeService(private val eventService: EventService, private var time: Int 
     private fun pulse() {
         pulse++
         eventService.publish(Event(EventType.PULSE, PulseEvent()))
-        if (pulse * 2 > TICK_LENGTH_IN_SECONDS) {
+        if (pulse > TICK_LENGTH_IN_SECONDS) {
             pulse = 0
             tick()
         }
