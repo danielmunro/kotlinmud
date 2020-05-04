@@ -15,7 +15,7 @@ fun createRoomBuildAction(): Action {
         { svc ->
             val direction = svc.get<Direction>(Syntax.DIRECTION_WITH_NO_EXIT)
             val room = svc.buildRoom(svc.getMob(), direction)
-            val exit = svc.getRoom().exits.find { it.destination == room }!!
+            val exit = svc.getExits().find { it.destination == room }!!
             svc.createResponse(Message("you have built ${room.name} to the ${exit.direction.value}."))
         }
     )

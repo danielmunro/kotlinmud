@@ -23,6 +23,7 @@ import kotlinmud.world.room.Direction
 import kotlinmud.world.room.RegenLevel
 import kotlinmud.world.room.Room
 import kotlinmud.world.room.RoomBuilder
+import kotlinmud.world.room.exit.Exit
 
 class ActionContextService(
     private val mobService: MobService,
@@ -38,6 +39,10 @@ class ActionContextService(
 
     fun getRoom(): Room {
         return request.room
+    }
+
+    fun getExits(): List<Exit> {
+        return request.room.exits
     }
 
     fun getRecall(): Room {
