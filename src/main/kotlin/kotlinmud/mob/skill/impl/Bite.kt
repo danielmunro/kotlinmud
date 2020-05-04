@@ -37,7 +37,7 @@ class Bite : SkillAction {
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val target: Mob = actionContextService.get(Syntax.TARGET_MOB)
-        val limit = (actionContextService.getMob().level / 10).coerceAtLeast(2)
+        val limit = (actionContextService.getLevel() / 10).coerceAtLeast(2)
         target.hp -= Random.nextInt(1, limit) +
                 if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)
         return actionContextService.createResponse(

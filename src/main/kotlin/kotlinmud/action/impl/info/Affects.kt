@@ -14,7 +14,7 @@ fun createAffectsAction(): Action {
         listOf(Syntax.COMMAND)) { svc ->
             createResponseWithEmptyActionContext(
                 Message(
-                    "You are affected by:\n${svc.getMob().affects.fold("") { acc, it ->
+                    "You are affected by:\n${svc.getAffects().fold("") { acc, it ->
                         acc + "${it.affectType.value}: ${it.timeout} tick${if (it.timeout == 1) "" else "s"}\n" }}"
                 )
             )

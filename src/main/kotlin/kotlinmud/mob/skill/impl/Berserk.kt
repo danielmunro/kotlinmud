@@ -41,7 +41,7 @@ class Berserk : SkillAction {
 
     override fun invoke(actionContextService: ActionContextService): Response {
         actionContextService.getMob().affects().add(
-            AffectInstance(AffectType.BERSERK, actionContextService.getMob().level / 8))
+            AffectInstance(AffectType.BERSERK, actionContextService.getLevel() / 8))
         return actionContextService.createResponse(Message(
             "Your pulse speeds up as you are consumed by rage!",
             "${actionContextService.getMob()}'s pulse speeds up as they are consumed by rage!"))

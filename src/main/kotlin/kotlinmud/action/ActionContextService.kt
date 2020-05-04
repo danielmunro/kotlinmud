@@ -1,5 +1,6 @@
 package kotlinmud.action
 
+import kotlinmud.affect.AffectInstance
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
@@ -35,6 +36,14 @@ class ActionContextService(
 ) {
     fun getMob(): Mob {
         return request.mob
+    }
+
+    fun getAffects(): List<AffectInstance> {
+        return getMob().affects
+    }
+
+    fun getLevel(): Int {
+        return getMob().level
     }
 
     fun getRoom(): Room {
