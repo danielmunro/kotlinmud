@@ -14,7 +14,7 @@ fun createRecallAction(): Action {
         mustBeAlert(),
         listOf(Syntax.COMMAND),
         {
-            it.putMobInRoom(it.getMob(), it.getRecall())
+            it.putMobInRoom(it.getRecall())
             EmptyResponse()
         },
         listOf(

@@ -15,7 +15,7 @@ fun createBuyAction(): Action {
         listOf(Syntax.COMMAND, Syntax.ITEM_FROM_MERCHANT),
         {
             val item: Item = it.get(Syntax.ITEM_FROM_MERCHANT)
-            val shopkeeper = it.getMobsInRoom(it.getRoom()).find { it.job == JobType.SHOPKEEPER }!!
+            val shopkeeper = it.getMobsInRoom().find { mob -> mob.job == JobType.SHOPKEEPER }!!
             it.changeItemOwner(item, it.getMob())
             it.getMob().gold -= item.worth
             shopkeeper.gold += item.worth

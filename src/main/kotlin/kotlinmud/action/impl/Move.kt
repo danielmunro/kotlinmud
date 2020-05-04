@@ -17,7 +17,7 @@ private fun move(command: Command, direction: Direction): Action {
         listOf(Syntax.DIRECTION_TO_EXIT),
         {
             val destination = it.get<Room>(Syntax.DIRECTION_TO_EXIT)
-            it.moveMob(it.getMob(), destination, direction)
+            it.moveMob(destination, direction)
             EmptyResponse()
         },
         listOf(

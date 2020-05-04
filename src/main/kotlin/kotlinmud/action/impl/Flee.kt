@@ -14,10 +14,9 @@ fun createFleeAction(): Action {
         mustBeFighting(),
         listOf(Syntax.COMMAND),
         {
-            it.endFightFor(it.getMob())
+            it.endFight()
             val exit = it.getRoom().exits.random()
             it.moveMob(
-                it.getMob(),
                 exit.destination,
                 exit.direction)
             it.createResponse(

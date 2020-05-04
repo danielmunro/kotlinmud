@@ -25,7 +25,7 @@ fun createLookAction(): Action {
                     describeRoom(
                         room,
                         it.getMob(),
-                        it.getMobsInRoom(room),
+                        it.getMobsInRoom(),
                         it.getItemsFor(room)
                     )
                 ))

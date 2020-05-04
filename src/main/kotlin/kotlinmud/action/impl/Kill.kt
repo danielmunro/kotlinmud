@@ -14,7 +14,7 @@ fun createKillAction(): Action {
         listOf(Syntax.COMMAND, Syntax.MOB_IN_ROOM),
         {
             val target = it.get<Mob>(Syntax.MOB_IN_ROOM)
-            it.createFightFor(it.getMob())
+            it.createFight()
             it.createResponse(Message(
                     "you scream and attack $target!",
                     "${it.getMob()} screams and attacks you!",

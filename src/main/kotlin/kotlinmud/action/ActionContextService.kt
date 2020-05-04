@@ -48,31 +48,31 @@ class ActionContextService(
         return actionContextList.getResultBySyntax(syntax)
     }
 
-    fun getMobsInRoom(room: Room): List<Mob> {
-        return mobService.getMobsForRoom(room)
+    fun getMobsInRoom(): List<Mob> {
+        return mobService.getMobsForRoom(getRoom())
     }
 
-    fun moveMob(mob: Mob, room: Room, direction: Direction) {
-        mobService.moveMob(mob, room, direction)
+    fun moveMob(room: Room, direction: Direction) {
+        mobService.moveMob(getMob(), room, direction)
     }
 
-    fun putMobInRoom(mob: Mob, room: Room) {
-        mobService.putMobInRoom(mob, room)
+    fun putMobInRoom(room: Room) {
+        mobService.putMobInRoom(getMob(), room)
     }
 
     fun createResponse(message: Message, status: IOStatus = IOStatus.OK): Response {
         return Response(status, actionContextList, message)
     }
 
-    fun createFightFor(mob: Mob) {
+    fun createFight() {
         val target: Mob = get(Syntax.MOB_IN_ROOM)
-        val fight = Fight(mob, target)
+        val fight = Fight(getMob(), target)
         mobService.addFight(fight)
-        eventService.publish(Event(EventType.FIGHT_STARTED, FightStartedEvent(fight, mob, target)))
+        eventService.publish(Event(EventType.FIGHT_STARTED, FightStartedEvent(fight, getMob(), target)))
     }
 
-    fun endFightFor(mob: Mob) {
-        mobService.endFightFor(mob)
+    fun endFight() {
+        mobService.endFightFor(getMob())
     }
 
     fun publishSocial(social: Social) {
