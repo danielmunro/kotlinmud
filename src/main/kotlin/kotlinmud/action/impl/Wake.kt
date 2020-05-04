@@ -10,10 +10,9 @@ fun createWakeAction(): Action {
     return Action(
         Command.WAKE,
         listOf(Disposition.SLEEPING, Disposition.SITTING),
-        listOf(Syntax.COMMAND),
-        {
+        listOf(Syntax.COMMAND)) {
             it.getMob().disposition = Disposition.STANDING
             it.createResponse(
                 Message("you stand up.", "${it.getMob()} stands up."))
-        })
+        }
 }

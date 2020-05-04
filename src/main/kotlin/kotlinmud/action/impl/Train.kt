@@ -14,8 +14,7 @@ fun createTrainAction(): Action {
     return Action(
         Command.TRAIN,
         mustBeStanding(),
-        listOf(Syntax.COMMAND, Syntax.TRAINABLE),
-        {
+        listOf(Syntax.COMMAND, Syntax.TRAINABLE)) {
             val attribute: Attribute = it.get(Syntax.TRAINABLE)
             it.getMob().trains -= 1
             it.getMob().trainedAttributes.add(
@@ -27,7 +26,7 @@ fun createTrainAction(): Action {
                     "${it.getMob()} trains their ${getImprove(attribute)}."
                 )
             )
-        })
+        }
 }
 
 fun getImprove(attribute: Attribute): String {

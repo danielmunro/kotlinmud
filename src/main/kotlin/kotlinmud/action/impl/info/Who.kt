@@ -10,19 +10,18 @@ fun createWhoAction(): Action {
     return Action(
         Command.WHO,
         mustBeAlive(),
-        listOf(Syntax.COMMAND),
-        { svc ->
+        listOf(Syntax.COMMAND)) { svc ->
             svc.createResponse(
                 Message(
                     "MORTALS\n---------------\n" +
-                    svc.getClients().fold("") { acc, it ->
-                        acc +
-                                it.mob!!.level + " " +
-                                it.mob!!.race.type.toString().toLowerCase() + " " +
-                                it.mob!!.job.toString().toLowerCase() + " " +
-                                it.mob!!.name + "\n"
-                    }
+                            svc.getClients().fold("") { acc, it ->
+                                acc +
+                                        it.mob!!.level + " " +
+                                        it.mob!!.race.type.toString().toLowerCase() + " " +
+                                        it.mob!!.job.toString().toLowerCase() + " " +
+                                        it.mob!!.name + "\n"
+                            }
                 )
             )
-        })
+        }
 }

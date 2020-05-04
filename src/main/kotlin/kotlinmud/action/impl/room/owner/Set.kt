@@ -11,8 +11,7 @@ fun createOwnerSetAction(): Action {
     return Action(
         Command.OWNER_SET,
         mustBeAlert(),
-        listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.PLAYER_MOB),
-        {
+        listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.PLAYER_MOB)) {
             val mob = it.get<Mob>(Syntax.PLAYER_MOB)
             it.getRoom().owner = mob
             it.createResponse(
@@ -22,5 +21,4 @@ fun createOwnerSetAction(): Action {
                 )
             )
         }
-    )
 }

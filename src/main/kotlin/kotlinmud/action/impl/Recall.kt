@@ -13,13 +13,11 @@ fun createRecallAction(): Action {
         Command.RECALL,
         mustBeAlert(),
         listOf(Syntax.COMMAND),
-        {
-            it.putMobInRoom(it.getRecall())
-            EmptyResponse()
-        },
         listOf(
             Cost(CostType.MV_PERCENT, 50)
         ),
-        Command.LOOK
-    )
+        Command.LOOK) {
+            it.putMobInRoom(it.getRecall())
+            EmptyResponse()
+        }
 }

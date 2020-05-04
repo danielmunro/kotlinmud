@@ -13,7 +13,10 @@ fun createFleeAction(): Action {
         Command.FLEE,
         mustBeFighting(),
         listOf(Syntax.COMMAND),
-        {
+        listOf(
+            Cost(CostType.MV_PERCENT, 25)
+        ),
+        Command.LOOK) {
             it.endFight()
             val exit = it.getExits().random()
             it.moveMob(
@@ -24,10 +27,5 @@ fun createFleeAction(): Action {
                     "you flee!",
                     "${it.getMob()} flees!")
             )
-        },
-        listOf(
-            Cost(CostType.MV_PERCENT, 25)
-        ),
-        Command.LOOK
-    )
+        }
 }

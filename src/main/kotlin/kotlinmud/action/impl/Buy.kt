@@ -12,8 +12,7 @@ fun createBuyAction(): Action {
     return Action(
         Command.BUY,
         mustBeAlert(),
-        listOf(Syntax.COMMAND, Syntax.ITEM_FROM_MERCHANT),
-        {
+        listOf(Syntax.COMMAND, Syntax.ITEM_FROM_MERCHANT)) {
             val item: Item = it.get(Syntax.ITEM_FROM_MERCHANT)
             val shopkeeper = it.getMobsInRoom().find { mob -> mob.job == JobType.SHOPKEEPER }!!
             it.changeItemOwner(item, it.getMob())
@@ -27,5 +26,4 @@ fun createBuyAction(): Action {
                 )
             )
         }
-    )
 }

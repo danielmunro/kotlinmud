@@ -12,8 +12,7 @@ fun createScoreAction(): Action {
     return Action(
         Command.SCORE,
         mustBeAlive(),
-        listOf(Syntax.COMMAND),
-        { svc ->
+        listOf(Syntax.COMMAND)) { svc ->
             val mob = svc.getMob()
             val items = svc.getItemsFor(mob)
             createResponseWithEmptyActionContext(
@@ -46,5 +45,4 @@ fun createScoreAction(): Action {
                 )
             )
         }
-    )
 }

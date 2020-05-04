@@ -12,9 +12,8 @@ fun createLookAtAction(): Action {
     return Action(
         Command.LOOK,
         mustBeAwake(),
-        listOf(Syntax.COMMAND, Syntax.AVAILABLE_NOUN),
-        {
+        listOf(Syntax.COMMAND, Syntax.AVAILABLE_NOUN)) {
             createResponseWithEmptyActionContext(
                 Message(it.get<Noun>(Syntax.AVAILABLE_NOUN).description))
-        })
+        }
 }

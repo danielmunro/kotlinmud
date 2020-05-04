@@ -17,8 +17,7 @@ fun createLookAction(): Action {
     return Action(
         Command.LOOK,
         mustBeAwake(),
-        listOf(Syntax.COMMAND),
-        {
+        listOf(Syntax.COMMAND)) {
             val room = it.getRoom()
             createResponseWithEmptyActionContext(
                 Message(
@@ -29,7 +28,7 @@ fun createLookAction(): Action {
                         it.getItemsFor(room)
                     )
                 ))
-        })
+        }
 }
 
 fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>, roomItems: List<Item>): String {

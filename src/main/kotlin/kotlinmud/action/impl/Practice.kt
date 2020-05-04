@@ -11,8 +11,7 @@ fun createPracticeAction(): Action {
     return Action(
         Command.PRACTICE,
         mustBeStanding(),
-        listOf(Syntax.COMMAND, Syntax.SKILL_TO_PRACTICE),
-        {
+        listOf(Syntax.COMMAND, Syntax.SKILL_TO_PRACTICE)) {
             val skillType: SkillType = it.get(Syntax.SKILL_TO_PRACTICE)
             it.getMob().practices -= 1
             it.getMob().skills[skillType] = it.getMob().skills[skillType]!!.plus(1)
@@ -22,5 +21,5 @@ fun createPracticeAction(): Action {
                     "${it.getMob()} practices $skillType."
                 )
             )
-        })
+        }
 }

@@ -15,15 +15,14 @@ private fun move(command: Command, direction: Direction): Action {
         command,
         mustBeStanding(),
         listOf(Syntax.DIRECTION_TO_EXIT),
-        {
-            val destination = it.get<Room>(Syntax.DIRECTION_TO_EXIT)
-            it.moveMob(destination, direction)
-            EmptyResponse()
-        },
         listOf(
             Cost(CostType.MV_AMOUNT, 1)
         ),
-        Command.LOOK)
+        Command.LOOK) {
+            val destination = it.get<Room>(Syntax.DIRECTION_TO_EXIT)
+            it.moveMob(destination, direction)
+            EmptyResponse()
+        }
 }
 
 fun createNorthAction(): Action {

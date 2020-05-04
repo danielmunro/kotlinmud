@@ -12,13 +12,12 @@ fun createEquipmentAction(): Action {
     return Action(
         Command.EQUIPMENT,
         mustBeAlert(),
-        listOf(Syntax.COMMAND),
-        {
+        listOf(Syntax.COMMAND)) {
             val items = it.getMob().equipped.toList()
             createResponseWithEmptyActionContext(
                 Message("Your equipment:\n\n${describeEquipment(items)}")
             )
-        })
+        }
 }
 
 fun describeEquipment(items: List<Item>): String {

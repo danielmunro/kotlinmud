@@ -10,11 +10,10 @@ fun createSleepAction(): Action {
     return Action(
         Command.SLEEP,
         listOf(Disposition.STANDING, Disposition.SITTING),
-        listOf(Syntax.COMMAND),
-        {
+        listOf(Syntax.COMMAND)) {
             it.getMob().disposition = Disposition.SLEEPING
             it.createResponse(
                 Message("you lay down and go to sleep.", "${it.getMob()} lays down and goes to sleep.")
             )
-        })
+        }
 }

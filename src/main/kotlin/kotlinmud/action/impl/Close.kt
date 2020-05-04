@@ -13,8 +13,7 @@ fun createCloseAction(): Action {
     return Action(
         Command.CLOSE,
         mustBeAlert(),
-        listOf(Syntax.COMMAND, Syntax.DOOR_IN_ROOM),
-        {
+        listOf(Syntax.COMMAND, Syntax.DOOR_IN_ROOM)) {
             val door: Door = it.get(Syntax.DOOR_IN_ROOM)
             if (door.disposition != DoorDisposition.OPEN) {
                 return@Action it.createResponse(Message("it is already closed."), IOStatus.ERROR)
@@ -23,5 +22,5 @@ fun createCloseAction(): Action {
             it.createResponse(
                 Message("you close $door.", "${it.getMob()} closes $door.")
             )
-        })
+        }
 }

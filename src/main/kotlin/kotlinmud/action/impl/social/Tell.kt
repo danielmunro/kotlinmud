@@ -13,8 +13,7 @@ fun createTellAction(): Action {
     return Action(
         Command.TELL,
         mustBeAlive(),
-        listOf(Syntax.COMMAND, Syntax.PLAYER_MOB, Syntax.FREE_FORM),
-        {
+        listOf(Syntax.COMMAND, Syntax.PLAYER_MOB, Syntax.FREE_FORM)) {
             val text = it.get<String>(Syntax.FREE_FORM)
             val target = it.get<Mob>(Syntax.PLAYER_MOB)
             it.publishSocial(
@@ -30,5 +29,5 @@ fun createTellAction(): Action {
                 )
             )
             it.createResponse(Message("you tell $target, \"$text\""))
-        })
+        }
 }

@@ -12,8 +12,7 @@ fun createDrinkAction(): Action {
     return Action(
         Command.DRINK,
         mustBeAwake(),
-        listOf(Syntax.COMMAND, Syntax.AVAILABLE_DRINK),
-        {
+        listOf(Syntax.COMMAND, Syntax.AVAILABLE_DRINK)) {
             val item = it.get<Item>(Syntax.AVAILABLE_DRINK)
 
             if (it.getMob().appetite.isFull()) {
@@ -32,5 +31,5 @@ fun createDrinkAction(): Action {
             it.createResponse(
                 Message("you drink ${item.drink.toString().toLowerCase()} from $item.$empty")
             )
-        })
+        }
 }

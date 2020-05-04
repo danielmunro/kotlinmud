@@ -12,8 +12,7 @@ fun createGossipAction(): Action {
     return Action(
         Command.GOSSIP,
         mustBeAlive(),
-        listOf(Syntax.COMMAND, Syntax.FREE_FORM),
-        {
+        listOf(Syntax.COMMAND, Syntax.FREE_FORM)) {
             val text = it.get<String>(Syntax.FREE_FORM)
             it.publishSocial(
                 Social(
@@ -27,5 +26,5 @@ fun createGossipAction(): Action {
                 )
             )
             it.createResponse(Message("you gossip, \"$text\""))
-        })
+        }
 }

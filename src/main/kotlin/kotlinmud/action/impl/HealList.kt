@@ -10,8 +10,7 @@ fun createHealListAction(): Action {
     return Action(
         Command.HEAL,
         mustBeStanding(),
-        listOf(Syntax.COMMAND),
-        {
+        listOf(Syntax.COMMAND)) {
             it.createResponse(Message("success, healer"))
-        })
+        }
 }

@@ -12,12 +12,11 @@ fun createInventoryAction(): Action {
     return Action(
         Command.INVENTORY,
         mustBeAwake(),
-        listOf(Syntax.COMMAND),
-        {
+        listOf(Syntax.COMMAND)) {
             val items = it.getItemsFor(it.getMob())
             createResponseWithEmptyActionContext(
                 Message("Your inventory:\n\n${describeItems(items)}"))
-        })
+        }
 }
 
 fun describeItems(items: List<Item>): String {

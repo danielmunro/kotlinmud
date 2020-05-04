@@ -12,8 +12,7 @@ fun createSayAction(): Action {
     return Action(
         Command.SAY,
         mustBeAwake(),
-        listOf(Syntax.COMMAND, Syntax.FREE_FORM),
-        {
+        listOf(Syntax.COMMAND, Syntax.FREE_FORM)) {
             val text = it.get<String>(Syntax.FREE_FORM)
             it.publishSocial(
                 Social(
@@ -27,5 +26,5 @@ fun createSayAction(): Action {
                 )
             )
             it.createResponse(Message("you say, \"$text\""))
-        })
+        }
 }

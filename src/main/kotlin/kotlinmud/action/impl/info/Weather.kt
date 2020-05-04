@@ -11,8 +11,7 @@ fun createWeatherAction(): Action {
     return Action(
         Command.WEATHER,
         mustBeAlert(),
-        listOf(Syntax.COMMAND),
-        {
+        listOf(Syntax.COMMAND)) {
             if (it.getRoom().isIndoor) {
                 return@Action createResponseWithEmptyActionContext(
                     Message("You can't see the weather indoors.")
@@ -22,5 +21,5 @@ fun createWeatherAction(): Action {
                 Message(
                     "")
             )
-        })
+        }
 }

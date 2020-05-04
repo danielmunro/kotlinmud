@@ -13,8 +13,7 @@ fun createOpenAction(): Action {
     return Action(
         Command.OPEN,
         mustBeAlert(),
-        listOf(Syntax.COMMAND, Syntax.DOOR_IN_ROOM),
-        {
+        listOf(Syntax.COMMAND, Syntax.DOOR_IN_ROOM)) {
             val door: Door = it.get(Syntax.DOOR_IN_ROOM)
             when (door.disposition) {
                 DoorDisposition.LOCKED -> it.createResponse(Message("it is locked."), IOStatus.ERROR)
@@ -25,5 +24,5 @@ fun createOpenAction(): Action {
                         Message("you open $door.", "${it.getMob()} opens $door."))
                 }
             }
-        })
+        }
 }

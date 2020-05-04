@@ -12,13 +12,12 @@ fun createListAction(): Action {
     return Action(
         Command.LIST,
         mustBeAlert(),
-        listOf(Syntax.COMMAND),
-        { svc ->
+        listOf(Syntax.COMMAND)) { svc ->
             val shopkeeper = svc.getMobsInRoom().find { it.job == JobType.SHOPKEEPER }
                 ?: return@Action svc.createResponse(Message("There are no shopkeepers here."))
-                svc.createResponse(
-                    Message(
-                        "[lvl cost name]\n" +
+            svc.createResponse(
+                Message(
+                    "[lvl cost name]\n" +
                             svc.getItemGroupsFor(shopkeeper).map {
                                 val level = it.value[0].level.toString()
                                 val cost = it.value[0].worth.toString()
@@ -26,8 +25,7 @@ fun createListAction(): Action {
                                         " " + leftPad(cost, 3) +
                                         " " + it.value[0].name
                             }.joinToString("\n")
-                    )
                 )
+            )
         }
-    )
 }

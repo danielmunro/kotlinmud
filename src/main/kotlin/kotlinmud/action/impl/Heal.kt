@@ -11,13 +11,12 @@ fun createHealAction(): Action {
     return Action(
         Command.HEAL,
         mustBeStanding(),
-        listOf(Syntax.COMMAND, Syntax.SPELL_FROM_HEALER),
-        {
+        listOf(Syntax.COMMAND, Syntax.SPELL_FROM_HEALER)) {
             val skillType = it.get<Mob>(Syntax.SPELL_FROM_HEALER)
             it.createResponse(
                 Message(
                     "success: $skillType"
                 )
             )
-        })
+        }
 }

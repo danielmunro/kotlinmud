@@ -11,10 +11,8 @@ fun createSaveWorldAction(worldSaver: WorldSaver): Action {
     return Action(
         Command.SAVE_WORLD,
         mustBeAlert(),
-        listOf(Syntax.COMMAND),
-        {
+        listOf(Syntax.COMMAND)) {
             worldSaver.save()
             it.createResponse(Message("world saved"))
         }
-    )
 }

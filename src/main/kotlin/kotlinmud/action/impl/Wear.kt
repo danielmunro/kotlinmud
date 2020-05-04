@@ -11,8 +11,7 @@ fun createWearAction(): Action {
     return Action(
         Command.WEAR,
         mustBeAlert(),
-        listOf(Syntax.COMMAND, Syntax.EQUIPMENT_IN_INVENTORY),
-        { svc ->
+        listOf(Syntax.COMMAND, Syntax.EQUIPMENT_IN_INVENTORY)) { svc ->
             val item = svc.get<Item>(Syntax.EQUIPMENT_IN_INVENTORY)
             val removed = svc.getMob().equipped.find {
                 it.position == item.position
@@ -27,5 +26,5 @@ fun createWearAction(): Action {
                     "${svc.getMob()} ${if (removed != null) "removes $removed and " else "" }wears $item."
                 )
             )
-        })
+        }
 }

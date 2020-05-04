@@ -12,8 +12,7 @@ fun createEatAction(): Action {
     return Action(
         Command.EAT,
         mustBeAwake(),
-        listOf(Syntax.COMMAND, Syntax.AVAILABLE_FOOD),
-        {
+        listOf(Syntax.COMMAND, Syntax.AVAILABLE_FOOD)) {
             val item = it.get<Item>(Syntax.AVAILABLE_FOOD)
 
             if (it.getMob().appetite.isFull()) {
@@ -27,5 +26,5 @@ fun createEatAction(): Action {
             it.createResponse(
                 Message("you eat $item.")
             )
-        })
+        }
 }
