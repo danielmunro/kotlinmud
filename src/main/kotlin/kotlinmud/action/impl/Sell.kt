@@ -16,7 +16,7 @@ fun createSellAction(): Action {
             val item: Item = it.get(Syntax.ITEM_IN_INVENTORY)
             val shopkeeper = it.getMobsInRoom().find { mob -> mob.job == JobType.SHOPKEEPER }!!
             it.changeItemOwner(item, shopkeeper)
-            it.getMob().gold += item.worth
+            it.addGold(item.worth)
             shopkeeper.gold -= item.worth
             it.createResponse(
                 Message(

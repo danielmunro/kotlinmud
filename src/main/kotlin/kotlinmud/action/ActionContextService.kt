@@ -53,6 +53,14 @@ class ActionContextService(
         return getMob().level
     }
 
+    fun addGold(amount: Int) {
+        getMob().gold += amount
+    }
+
+    fun deductGold(amount: Int) {
+        getMob().gold -= amount
+    }
+
     fun getRoom(): Room {
         return request.room
     }
