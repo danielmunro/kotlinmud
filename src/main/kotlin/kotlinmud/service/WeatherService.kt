@@ -10,4 +10,8 @@ class WeatherService {
         val next = if (plusOne == Weather.values().size) 0 else plusOne
         weather = Weather.values()[next]
     }
+
+    fun getWeather(): Weather {
+        return weather
+    }
 }

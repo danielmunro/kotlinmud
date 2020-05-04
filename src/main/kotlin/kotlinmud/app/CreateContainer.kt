@@ -70,6 +70,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 instance<MobService>(),
                 instance<ItemService>(),
                 instance<EventService>(),
+                instance<WeatherService>(),
                 instance<NIOServer>(),
                 createActionsList(instance<WorldSaver>())
             )

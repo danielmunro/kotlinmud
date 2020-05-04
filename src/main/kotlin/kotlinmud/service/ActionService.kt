@@ -65,6 +65,7 @@ class ActionService(
     private val mobService: MobService,
     private val itemService: ItemService,
     private val eventService: EventService,
+    private val weatherService: WeatherService,
     private val server: NIOServer,
     private val actions: List<Action>
 ) {
@@ -162,7 +163,7 @@ class ActionService(
     private fun callInvokable(request: Request, invokable: Invokable, list: ActionContextList): Response {
         return list.getBadResult()?.let {
             createResponseWithEmptyActionContext(Message(it.result as String), IOStatus.ERROR)
-        } ?: with(invokable.invoke(ActionContextService(mobService, itemService, eventService, list, server, request))) {
+        } ?: with(invokable.invoke(ActionContextService(mobService, itemService, eventService, weatherService, list, server, request))) {
             if (invokable is Action && invokable.isChained())
                 run(createChainToRequest(request.mob, invokable))
             else

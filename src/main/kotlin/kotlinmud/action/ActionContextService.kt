@@ -19,7 +19,9 @@ import kotlinmud.mob.fight.Fight
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
+import kotlinmud.service.WeatherService
 import kotlinmud.social.Social
+import kotlinmud.weather.Weather
 import kotlinmud.world.room.Direction
 import kotlinmud.world.room.RegenLevel
 import kotlinmud.world.room.Room
@@ -30,10 +32,15 @@ class ActionContextService(
     private val mobService: MobService,
     private val itemService: ItemService,
     private val eventService: EventService,
+    private val weatherService: WeatherService,
     private val actionContextList: ActionContextList,
     private val server: NIOServer,
     private val request: Request
 ) {
+    fun getWeather(): Weather {
+        return weatherService.getWeather()
+    }
+
     fun getMob(): Mob {
         return request.mob
     }

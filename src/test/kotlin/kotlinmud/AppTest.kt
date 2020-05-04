@@ -17,6 +17,7 @@ import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.PlayerService
 import kotlinmud.service.TimeService
+import kotlinmud.service.WeatherService
 import kotlinmud.world.World
 
 class AppTest {
@@ -38,7 +39,7 @@ class AppTest {
             mobService,
             TimeService(eventService),
             server,
-            ActionService(mobService, ItemService(), eventService, server, createActionsList(WorldSaver(world))),
+            ActionService(mobService, ItemService(), eventService, WeatherService(), server, createActionsList(WorldSaver(world))),
             PlayerService(EmailService(Mailgun.Builder("", "").build()))
         )
 
