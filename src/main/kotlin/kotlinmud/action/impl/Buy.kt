@@ -1,11 +1,9 @@
 package kotlinmud.action.impl
 
 import kotlinmud.action.Action
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
 import kotlinmud.io.Message
-import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.item.Item
 import kotlinmud.mob.JobType
@@ -15,17 +13,17 @@ fun createBuyAction(): Action {
         Command.BUY,
         mustBeAlert(),
         listOf(Syntax.COMMAND, Syntax.ITEM_FROM_MERCHANT),
-        { svc: ActionContextService, request: Request ->
-            val item: Item = svc.get(Syntax.ITEM_FROM_MERCHANT)
-            val shopkeeper = svc.getMobsInRoom(request.room).find { it.job == JobType.SHOPKEEPER }!!
-            svc.changeItemOwner(item, request.mob)
-            request.mob.gold -= item.worth
+        {
+            val item: Item = it.get(Syntax.ITEM_FROM_MERCHANT)
+            val shopkeeper = it.getMobsInRoom(it.getRoom()).find { it.job == JobType.SHOPKEEPER }!!
+            it.changeItemOwner(item, it.getMob())
+            it.getMob().gold -= item.worth
             shopkeeper.gold += item.worth
-            svc.createResponse(
+            it.createResponse(
                 Message(
                     "you buy $item from $shopkeeper for ${item.worth} gold.",
-                    "${request.mob} buys $item from you.",
-                    "${request.mob} buys $item from $shopkeeper."
+                    "${it.getMob()} buys $item from you.",
+                    "${it.getMob()} buys $item from $shopkeeper."
                 )
             )
         }

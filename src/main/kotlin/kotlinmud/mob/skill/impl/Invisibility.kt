@@ -5,7 +5,6 @@ import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
 import kotlinmud.affect.impl.InvisibilityAffect
-import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
@@ -39,11 +38,11 @@ class Invisibility : SpellAction {
     override val affect = InvisibilityAffect()
     override val syntax: List<Syntax> = listOf(Syntax.CAST, Syntax.SPELL, Syntax.OPTIONAL_TARGET)
 
-    override fun invoke(actionContextService: ActionContextService, request: Request): Response {
+    override fun invoke(actionContextService: ActionContextService): Response {
         val target = actionContextService.get<Noun>(Syntax.OPTIONAL_TARGET)
-        target.affects().add(affect.createInstance(request.mob.level))
+        target.affects().add(affect.createInstance(actionContextService.getMob().level))
         return actionContextService.createResponse(
-            affect.messageFromInstantiation(request.mob, target)
+            affect.messageFromInstantiation(actionContextService.getMob(), target)
         )
     }
 }

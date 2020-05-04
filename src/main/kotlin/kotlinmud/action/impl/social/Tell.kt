@@ -1,11 +1,9 @@
 package kotlinmud.action.impl.social
 
 import kotlinmud.action.Action
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlive
 import kotlinmud.io.Message
-import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
 import kotlinmud.social.Social
@@ -16,21 +14,21 @@ fun createTellAction(): Action {
         Command.TELL,
         mustBeAlive(),
         listOf(Syntax.COMMAND, Syntax.PLAYER_MOB, Syntax.FREE_FORM),
-        { svc: ActionContextService, request: Request ->
-            val text = svc.get<String>(Syntax.FREE_FORM)
-            val target = svc.get<Mob>(Syntax.PLAYER_MOB)
-            svc.publishSocial(
+        {
+            val text = it.get<String>(Syntax.FREE_FORM)
+            val target = it.get<Mob>(Syntax.PLAYER_MOB)
+            it.publishSocial(
                 Social(
                     SocialChannel.TELL,
-                    request.mob,
-                    request.room,
+                    it.getMob(),
+                    it.getRoom(),
                     Message(
                         "you tell $target, \"$text\"",
-                        "${request.mob} tells you, \"$text\""
+                        "${it.getMob()} tells you, \"$text\""
                     ),
                     target
                 )
             )
-            svc.createResponse(Message("you tell $target, \"$text\""))
+            it.createResponse(Message("you tell $target, \"$text\""))
         })
 }

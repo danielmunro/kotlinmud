@@ -1,11 +1,9 @@
 package kotlinmud.action.impl
 
 import kotlinmud.action.Action
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeStanding
 import kotlinmud.io.EmptyResponse
-import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.mob.skill.Cost
 import kotlinmud.mob.skill.CostType
@@ -17,9 +15,9 @@ private fun move(command: Command, direction: Direction): Action {
         command,
         mustBeStanding(),
         listOf(Syntax.DIRECTION_TO_EXIT),
-        { svc: ActionContextService, request: Request ->
-            val destination = svc.get<Room>(Syntax.DIRECTION_TO_EXIT)
-            svc.moveMob(request.mob, destination, direction)
+        {
+            val destination = it.get<Room>(Syntax.DIRECTION_TO_EXIT)
+            it.moveMob(it.getMob(), destination, direction)
             EmptyResponse()
         },
         listOf(

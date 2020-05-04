@@ -7,7 +7,6 @@ import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
 import kotlinmud.affect.impl.BerserkAffect
 import kotlinmud.io.Message
-import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
@@ -40,10 +39,11 @@ class Berserk : SkillAction {
     override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
     override val affect = BerserkAffect()
 
-    override fun invoke(actionContextService: ActionContextService, request: Request): Response {
-        request.mob.affects().add(AffectInstance(AffectType.BERSERK, request.mob.level / 8))
+    override fun invoke(actionContextService: ActionContextService): Response {
+        actionContextService.getMob().affects().add(
+            AffectInstance(AffectType.BERSERK, actionContextService.getMob().level / 8))
         return actionContextService.createResponse(Message(
             "Your pulse speeds up as you are consumed by rage!",
-            "${request.mob}'s pulse speeds up as they are consumed by rage!"))
+            "${actionContextService.getMob()}'s pulse speeds up as they are consumed by rage!"))
     }
 }

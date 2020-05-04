@@ -9,7 +9,6 @@ import kotlinmud.affect.AffectType
 import kotlinmud.affect.impl.StunnedAffect
 import kotlinmud.attributes.Attributes
 import kotlinmud.io.Message
-import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
@@ -47,9 +46,9 @@ class Bash : SkillAction {
     override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
     override val affect = StunnedAffect()
 
-    override fun invoke(actionContextService: ActionContextService, request: Request): Response {
+    override fun invoke(actionContextService: ActionContextService): Response {
         val target: Mob = actionContextService.get(Syntax.TARGET_MOB)
-        val limit = (request.mob.level / 10).coerceAtLeast(2)
+        val limit = (actionContextService.getMob().level / 10).coerceAtLeast(2)
         val modifier = Random.nextInt(1, limit) +
                 if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)
         target.hp -= modifier
@@ -57,8 +56,8 @@ class Bash : SkillAction {
             AffectType.STUNNED, modifier / 5, Attributes(0, 0, 0, 0, -1)))
         return actionContextService.createResponse(Message(
             "you slam into $target and send them flying!",
-            "${request.mob} slams into you and sends you flying!",
-            "${request.mob} slams into $target and sends them flying!"
+            "${actionContextService.getMob()} slams into you and sends you flying!",
+            "${actionContextService.getMob()} slams into $target and sends them flying!"
         ))
     }
 }

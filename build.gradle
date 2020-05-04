@@ -32,7 +32,6 @@ subprojects {
     test.useTestNG()
 }
 
-
 task codeCoverageReport(type: JacocoReport) {
     executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
 

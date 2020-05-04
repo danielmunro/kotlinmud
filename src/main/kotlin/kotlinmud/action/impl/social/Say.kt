@@ -1,11 +1,9 @@
 package kotlinmud.action.impl.social
 
 import kotlinmud.action.Action
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
 import kotlinmud.io.Message
-import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.social.Social
 import kotlinmud.social.SocialChannel
@@ -15,19 +13,19 @@ fun createSayAction(): Action {
         Command.SAY,
         mustBeAwake(),
         listOf(Syntax.COMMAND, Syntax.FREE_FORM),
-        { svc: ActionContextService, request: Request ->
-            val text = svc.get<String>(Syntax.FREE_FORM)
-            svc.publishSocial(
+        {
+            val text = it.get<String>(Syntax.FREE_FORM)
+            it.publishSocial(
                 Social(
                     SocialChannel.SAY,
-                    request.mob,
-                    request.room,
+                    it.getMob(),
+                    it.getRoom(),
                     Message(
                         "you say, \"$text\"",
-                        "${request.mob} says, \"$text\""
+                        "${it.getMob()} says, \"$text\""
                     )
                 )
             )
-            svc.createResponse(Message("you say, \"$text\""))
+            it.createResponse(Message("you say, \"$text\""))
         })
 }

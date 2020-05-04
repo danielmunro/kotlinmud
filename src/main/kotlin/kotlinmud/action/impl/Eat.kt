@@ -1,12 +1,10 @@
 package kotlinmud.action.impl
 
 import kotlinmud.action.Action
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Message
-import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.item.Item
 
@@ -15,18 +13,18 @@ fun createEatAction(): Action {
         Command.EAT,
         mustBeAwake(),
         listOf(Syntax.COMMAND, Syntax.AVAILABLE_FOOD),
-        { svc: ActionContextService, request: Request ->
-            val item = svc.get<Item>(Syntax.AVAILABLE_FOOD)
+        {
+            val item = it.get<Item>(Syntax.AVAILABLE_FOOD)
 
-            if (request.mob.appetite.isFull()) {
-                return@Action svc.createResponse(Message("you are full."), IOStatus.ERROR)
+            if (it.getMob().appetite.isFull()) {
+                return@Action it.createResponse(Message("you are full."), IOStatus.ERROR)
             }
 
-            request.mob.appetite.nourishHunger(item.quantity)
-            request.mob.affects().copyFrom(item)
-            svc.destroy(item)
+            it.getMob().appetite.nourishHunger(item.quantity)
+            it.getMob().affects().copyFrom(item)
+            it.destroy(item)
 
-            svc.createResponse(
+            it.createResponse(
                 Message("you eat $item.")
             )
         })

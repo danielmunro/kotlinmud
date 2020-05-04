@@ -1,11 +1,9 @@
 package kotlinmud.action.impl.info
 
 import kotlinmud.action.Action
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
 import kotlinmud.io.Message
-import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.item.Item
@@ -15,8 +13,8 @@ fun createInventoryAction(): Action {
         Command.INVENTORY,
         mustBeAwake(),
         listOf(Syntax.COMMAND),
-        { svc: ActionContextService, request: Request ->
-            val items = svc.getItemsFor(request.mob)
+        {
+            val items = it.getItemsFor(it.getMob())
             createResponseWithEmptyActionContext(
                 Message("Your inventory:\n\n${describeItems(items)}"))
         })

@@ -1,12 +1,10 @@
 package kotlinmud.action.impl.info
 
 import kotlinmud.action.Action
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlive
 import kotlinmud.attributes.Attribute
 import kotlinmud.io.Message
-import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
 
@@ -15,8 +13,8 @@ fun createScoreAction(): Action {
         Command.SCORE,
         mustBeAlive(),
         listOf(Syntax.COMMAND),
-        { svc: ActionContextService, request: Request ->
-            val mob = request.mob
+        { svc ->
+            val mob = svc.getMob()
             val items = svc.getItemsFor(mob)
             createResponseWithEmptyActionContext(
                 Message(

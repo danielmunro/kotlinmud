@@ -8,6 +8,7 @@ import kotlinmud.io.IOStatus
 import kotlinmud.io.Message
 import kotlinmud.io.NIOClients
 import kotlinmud.io.NIOServer
+import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.item.HasInventory
@@ -28,8 +29,17 @@ class ActionContextService(
     private val itemService: ItemService,
     private val eventService: EventService,
     private val actionContextList: ActionContextList,
-    private val server: NIOServer
+    private val server: NIOServer,
+    private val request: Request
 ) {
+    fun getMob(): Mob {
+        return request.mob
+    }
+
+    fun getRoom(): Room {
+        return request.room
+    }
+
     fun getRecall(): Room {
         return mobService.getStartRoom()
     }

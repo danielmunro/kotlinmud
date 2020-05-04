@@ -1,11 +1,9 @@
 package kotlinmud.action.impl
 
 import kotlinmud.action.Action
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeFighting
 import kotlinmud.io.Message
-import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.mob.skill.Cost
 import kotlinmud.mob.skill.CostType
@@ -15,17 +13,17 @@ fun createFleeAction(): Action {
         Command.FLEE,
         mustBeFighting(),
         listOf(Syntax.COMMAND),
-        { svc: ActionContextService, request: Request ->
-            svc.endFightFor(request.mob)
-            val exit = request.room.exits.random()
-            svc.moveMob(
-                request.mob,
+        {
+            it.endFightFor(it.getMob())
+            val exit = it.getRoom().exits.random()
+            it.moveMob(
+                it.getMob(),
                 exit.destination,
                 exit.direction)
-            svc.createResponse(
+            it.createResponse(
                 Message(
                     "you flee!",
-                    "${request.mob.name} flees!")
+                    "${it.getMob()} flees!")
             )
         },
         listOf(

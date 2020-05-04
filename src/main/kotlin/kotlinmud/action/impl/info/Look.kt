@@ -1,12 +1,10 @@
 package kotlinmud.action.impl.info
 
 import kotlinmud.action.Action
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
 import kotlinmud.affect.AffectType
 import kotlinmud.io.Message
-import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.item.Item
@@ -20,14 +18,15 @@ fun createLookAction(): Action {
         Command.LOOK,
         mustBeAwake(),
         listOf(Syntax.COMMAND),
-        { svc: ActionContextService, request: Request ->
+        {
+            val room = it.getRoom()
             createResponseWithEmptyActionContext(
                 Message(
                     describeRoom(
-                        request.room,
-                        request.mob,
-                        svc.getMobsInRoom(request.room),
-                        svc.getItemsFor(request.room)
+                        room,
+                        it.getMob(),
+                        it.getMobsInRoom(room),
+                        it.getItemsFor(room)
                     )
                 ))
         })

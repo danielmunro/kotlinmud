@@ -162,7 +162,7 @@ class ActionService(
     private fun callInvokable(request: Request, invokable: Invokable, list: ActionContextList): Response {
         return list.getBadResult()?.let {
             createResponseWithEmptyActionContext(Message(it.result as String), IOStatus.ERROR)
-        } ?: with(invokable.invoke(ActionContextService(mobService, itemService, eventService, list, server), request)) {
+        } ?: with(invokable.invoke(ActionContextService(mobService, itemService, eventService, list, server, request))) {
             if (invokable is Action && invokable.isChained())
                 run(createChainToRequest(request.mob, invokable))
             else

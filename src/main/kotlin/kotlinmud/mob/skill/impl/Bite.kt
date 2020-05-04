@@ -6,7 +6,6 @@ import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
 import kotlinmud.affect.Affect
 import kotlinmud.io.Message
-import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
@@ -36,15 +35,15 @@ class Bite : SkillAction {
     override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
     override val affect: Affect? = null
 
-    override fun invoke(actionContextService: ActionContextService, request: Request): Response {
+    override fun invoke(actionContextService: ActionContextService): Response {
         val target: Mob = actionContextService.get(Syntax.TARGET_MOB)
-        val limit = (request.mob.level / 10).coerceAtLeast(2)
+        val limit = (actionContextService.getMob().level / 10).coerceAtLeast(2)
         target.hp -= Random.nextInt(1, limit) +
                 if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)
         return actionContextService.createResponse(
             Message(
             "You bite $target.",
-                "${request.mob} bites you.",
-                "${request.mob} bites $target."))
+                "${actionContextService.getMob()} bites you.",
+                "${actionContextService.getMob()} bites $target."))
     }
 }

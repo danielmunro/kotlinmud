@@ -1,11 +1,9 @@
 package kotlinmud.action.impl.info
 
 import kotlinmud.action.Action
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlive
 import kotlinmud.io.Message
-import kotlinmud.io.Request
 import kotlinmud.io.Syntax
 
 fun createWhoAction(): Action {
@@ -13,7 +11,7 @@ fun createWhoAction(): Action {
         Command.WHO,
         mustBeAlive(),
         listOf(Syntax.COMMAND),
-        { svc: ActionContextService, _: Request ->
+        { svc ->
             svc.createResponse(
                 Message(
                     "MORTALS\n---------------\n" +
