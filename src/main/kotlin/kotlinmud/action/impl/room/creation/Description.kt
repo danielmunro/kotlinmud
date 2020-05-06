@@ -12,7 +12,8 @@ fun createRoomDescriptionAction(): Action {
         mustBeAlert(),
         listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.FREE_FORM)) { svc ->
             val description = svc.get<String>(Syntax.FREE_FORM)
-            svc.withRoomBuilding(svc.getMob()) { it.description(description) }
+            val newRoom = svc.getNewRoom() ?: return@Action svc.createResponse(Message("which room?"))
+            newRoom.roomBuilder.description(description)
             svc.createResponse(Message("the room builder description is now $description."))
         }
 }

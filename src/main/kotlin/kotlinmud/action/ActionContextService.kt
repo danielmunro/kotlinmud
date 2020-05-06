@@ -23,6 +23,7 @@ import kotlinmud.service.WeatherService
 import kotlinmud.social.Social
 import kotlinmud.weather.Weather
 import kotlinmud.world.room.Direction
+import kotlinmud.world.room.NewRoom
 import kotlinmud.world.room.RegenLevel
 import kotlinmud.world.room.Room
 import kotlinmud.world.room.RoomBuilder
@@ -128,13 +129,13 @@ class ActionContextService(
         itemService.destroy(item)
     }
 
-    fun createRoomBuilder(mob: Mob, srcRoom: Room, name: String): RoomBuilder {
-        return mobService.createRoomBuilder(mob)
+    fun createRoomBuilder(name: String): RoomBuilder {
+        return mobService.createRoomBuilder(getMob())
             .name(name)
-            .area(srcRoom.area)
+            .area(getRoom().area)
             .description("A new room has been created")
-            .isIndoor(srcRoom.isIndoor)
-            .owner(srcRoom.owner)
+            .isIndoor(getRoom().isIndoor)
+            .owner(getRoom().owner)
             .regen(RegenLevel.NORMAL)
     }
 
@@ -142,7 +143,7 @@ class ActionContextService(
         return mobService.buildRoom(mob, direction)
     }
 
-    fun withRoomBuilding(mob: Mob, withRoom: (roomBuilder: RoomBuilder) -> Unit) {
-        mobService.getNewRoom(mob)?.let { withRoom(it.roomBuilder) }
+    fun getNewRoom(): NewRoom? {
+        return mobService.getNewRoom(getMob())
     }
 }
