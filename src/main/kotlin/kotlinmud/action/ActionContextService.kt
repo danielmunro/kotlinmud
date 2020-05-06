@@ -26,7 +26,6 @@ import kotlinmud.world.room.Direction
 import kotlinmud.world.room.NewRoom
 import kotlinmud.world.room.RegenLevel
 import kotlinmud.world.room.Room
-import kotlinmud.world.room.RoomBuilder
 import kotlinmud.world.room.exit.Exit
 
 class ActionContextService(
@@ -129,14 +128,16 @@ class ActionContextService(
         itemService.destroy(item)
     }
 
-    fun createRoomBuilder(name: String): RoomBuilder {
-        return mobService.createRoomBuilder(getMob())
+    fun createNewRoom(name: String): NewRoom {
+        val newRoom = mobService.createNewRoom(getMob())
+        newRoom.roomBuilder
             .name(name)
             .area(getRoom().area)
             .description("A new room has been created")
             .isIndoor(getRoom().isIndoor)
             .owner(getRoom().owner)
             .regen(RegenLevel.NORMAL)
+        return newRoom
     }
 
     fun buildRoom(mob: Mob, direction: Direction): Room {

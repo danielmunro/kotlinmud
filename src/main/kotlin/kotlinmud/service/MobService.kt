@@ -24,7 +24,6 @@ import kotlinmud.world.room.Direction
 import kotlinmud.world.room.NewRoom
 import kotlinmud.world.room.RegenLevel
 import kotlinmud.world.room.Room
-import kotlinmud.world.room.RoomBuilder
 import kotlinmud.world.room.exit.Exit
 import kotlinmud.world.room.oppositeDirection
 
@@ -51,11 +50,11 @@ class MobService(
         }
     }
 
-    fun createRoomBuilder(mob: Mob): RoomBuilder {
+    fun createNewRoom(mob: Mob): NewRoom {
         val roomBuilder = world.createRoomBuilder()
         val mobRoom = mobRooms.find { it.mob == mob }!!
         newRooms.add(NewRoom(mobRoom, roomBuilder))
-        return roomBuilder
+        return NewRoom(mobRoom, roomBuilder)
     }
 
     fun buildRoom(mob: Mob, direction: Direction): Room {

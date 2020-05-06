@@ -39,6 +39,7 @@ import kotlinmud.action.impl.info.createWeatherAction
 import kotlinmud.action.impl.info.createWhoAction
 import kotlinmud.action.impl.room.creation.createRoomBuildAction
 import kotlinmud.action.impl.room.creation.createRoomDescriptionAction
+import kotlinmud.action.impl.room.creation.createRoomInfoAction
 import kotlinmud.action.impl.room.creation.createRoomNewAction
 import kotlinmud.action.impl.room.owner.createOwnerInfoAction
 import kotlinmud.action.impl.room.owner.createOwnerSetAction
@@ -95,6 +96,7 @@ fun createActionsList(worldSaver: WorldSaver): List<Action> {
         createSaveWorldAction(worldSaver),
         createRoomNewAction(),
         createRoomBuildAction(),
-        createRoomDescriptionAction()
+        createRoomDescriptionAction(),
+        createRoomInfoAction()
     )
 }
