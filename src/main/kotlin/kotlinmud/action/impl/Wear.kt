@@ -5,26 +5,24 @@ import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
 import kotlinmud.io.Message
 import kotlinmud.io.Syntax
+import kotlinmud.io.equipmentInInventory
 import kotlinmud.item.Item
 
 fun createWearAction(): Action {
-    return Action(
-        Command.WEAR,
-        mustBeAlert(),
-        listOf(Syntax.COMMAND, Syntax.EQUIPMENT_IN_INVENTORY)) { svc ->
-            val item = svc.get<Item>(Syntax.EQUIPMENT_IN_INVENTORY)
-            val removed = svc.getMob().equipped.find {
-                it.position == item.position
-            }?.let {
-                svc.getMob().equipped.remove(it)
-                it
-            }
-            svc.getMob().equipped.add(item)
-            svc.createResponse(
-                Message(
-                    "you ${if (removed != null) "remove $removed and " else ""}wear $item.",
-                    "${svc.getMob()} ${if (removed != null) "removes $removed and " else "" }wears $item."
-                )
-            )
+    return Action(Command.WEAR, mustBeAlert(), equipmentInInventory()) { svc ->
+        val item = svc.get<Item>(Syntax.EQUIPMENT_IN_INVENTORY)
+        val removed = svc.getMob().equipped.find {
+            it.position == item.position
+        }?.let {
+            svc.getMob().equipped.remove(it)
+            it
         }
+        svc.getMob().equipped.add(item)
+        svc.createResponse(
+            Message(
+                "you ${if (removed != null) "remove $removed and " else ""}wear $item.",
+                "${svc.getMob()} ${if (removed != null) "removes $removed and " else "" }wears $item."
+            )
+        )
+    }
 }

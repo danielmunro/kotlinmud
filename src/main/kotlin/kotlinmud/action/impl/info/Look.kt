@@ -5,7 +5,6 @@ import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
 import kotlinmud.affect.AffectType
 import kotlinmud.io.Message
-import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.item.Item
 import kotlinmud.mob.Mob
@@ -14,21 +13,19 @@ import kotlinmud.world.room.exit.DoorDisposition
 import kotlinmud.world.room.exit.Exit
 
 fun createLookAction(): Action {
-    return Action(
-        Command.LOOK,
-        mustBeAwake(),
-        listOf(Syntax.COMMAND)) {
-            val room = it.getRoom()
-            createResponseWithEmptyActionContext(
-                Message(
-                    describeRoom(
-                        room,
-                        it.getMob(),
-                        it.getMobsInRoom(),
-                        it.getItemsFor(room)
-                    )
-                ))
-        }
+    return Action(Command.LOOK, mustBeAwake()) {
+        val room = it.getRoom()
+        createResponseWithEmptyActionContext(
+            Message(
+                describeRoom(
+                    room,
+                    it.getMob(),
+                    it.getMobsInRoom(),
+                    it.getItemsFor(room)
+                )
+            )
+        )
+    }
 }
 
 fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>, roomItems: List<Item>): String {

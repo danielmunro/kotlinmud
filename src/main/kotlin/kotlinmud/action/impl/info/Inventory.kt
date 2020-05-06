@@ -4,19 +4,15 @@ import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
 import kotlinmud.io.Message
-import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.item.Item
 
 fun createInventoryAction(): Action {
-    return Action(
-        Command.INVENTORY,
-        mustBeAwake(),
-        listOf(Syntax.COMMAND)) {
-            val items = it.getItemsFor(it.getMob())
-            createResponseWithEmptyActionContext(
-                Message("Your inventory:\n\n${describeItems(items)}"))
-        }
+    return Action(Command.INVENTORY, mustBeAwake()) {
+        val items = it.getItemsFor(it.getMob())
+        createResponseWithEmptyActionContext(
+            Message("Your inventory:\n\n${describeItems(items)}"))
+    }
 }
 
 fun describeItems(items: List<Item>): String {

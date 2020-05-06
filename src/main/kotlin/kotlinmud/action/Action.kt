@@ -11,7 +11,7 @@ import kotlinmud.mob.skill.Cost
 class Action(
     override val command: Command,
     override val dispositions: List<Disposition>,
-    override val syntax: List<Syntax>,
+    override val syntax: List<Syntax> = kotlinmud.io.command(),
     override val costs: List<Cost> = listOf(),
     val chainTo: Command = Command.NOOP,
     val mutator: (ActionContextService) -> Response

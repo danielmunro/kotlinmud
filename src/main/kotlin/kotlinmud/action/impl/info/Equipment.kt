@@ -4,20 +4,16 @@ import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
 import kotlinmud.io.Message
-import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.item.Item
 
 fun createEquipmentAction(): Action {
-    return Action(
-        Command.EQUIPMENT,
-        mustBeAlert(),
-        listOf(Syntax.COMMAND)) {
-            val items = it.getMob().equipped.toList()
-            createResponseWithEmptyActionContext(
-                Message("Your equipment:\n\n${describeEquipment(items)}")
-            )
-        }
+    return Action(Command.EQUIPMENT, mustBeAlert()) {
+        val items = it.getMob().equipped.toList()
+        createResponseWithEmptyActionContext(
+            Message("Your equipment:\n\n${describeEquipment(items)}")
+        )
+    }
 }
 
 fun describeEquipment(items: List<Item>): String {

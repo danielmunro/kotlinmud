@@ -5,24 +5,18 @@ import kotlinmud.action.Command
 import kotlinmud.action.mustBeStanding
 import kotlinmud.io.EmptyResponse
 import kotlinmud.io.Syntax
+import kotlinmud.io.directionToExit
 import kotlinmud.mob.skill.Cost
 import kotlinmud.mob.skill.CostType
 import kotlinmud.world.room.Direction
 import kotlinmud.world.room.Room
 
 private fun move(command: Command, direction: Direction): Action {
-    return Action(
-        command,
-        mustBeStanding(),
-        listOf(Syntax.DIRECTION_TO_EXIT),
-        listOf(
-            Cost(CostType.MV_AMOUNT, 1)
-        ),
-        Command.LOOK) {
-            val destination = it.get<Room>(Syntax.DIRECTION_TO_EXIT)
-            it.moveMob(destination, direction)
-            EmptyResponse()
-        }
+    return Action(command, mustBeStanding(), directionToExit(), listOf(Cost(CostType.MV_AMOUNT, 1)), Command.LOOK) {
+        val destination = it.get<Room>(Syntax.DIRECTION_TO_EXIT)
+        it.moveMob(destination, direction)
+        EmptyResponse()
+    }
 }
 
 fun createNorthAction(): Action {
