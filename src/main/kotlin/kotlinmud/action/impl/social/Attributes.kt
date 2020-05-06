@@ -2,14 +2,12 @@ package kotlinmud.action.impl.social
 
 import kotlinmud.action.Action
 import kotlinmud.action.Command
-import kotlinmud.action.mustBeAlert
 import kotlinmud.attributes.Attribute
 import kotlinmud.io.Message
-import kotlinmud.io.command
 import kotlinmud.io.createResponseWithEmptyActionContext
 
 fun createAttributesAction(): Action {
-    return Action(Command.ATTRIBUTES, mustBeAlert(), command()) {
+    return Action(Command.ATTRIBUTES) {
         val mob = it.getMob()
         createResponseWithEmptyActionContext(
             Message(
