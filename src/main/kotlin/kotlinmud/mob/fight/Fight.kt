@@ -8,9 +8,11 @@ import kotlinmud.math.percentRoll
 import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
 import kotlinmud.mob.skill.SkillType
+import org.slf4j.LoggerFactory
 
 class Fight(private val mob1: Mob, private val mob2: Mob) {
     private var status: FightStatus = FightStatus.FIGHTING
+    private val logger = LoggerFactory.getLogger(Fight::class.java)
 
     init {
         mob1.disposition = Disposition.FIGHTING
@@ -141,7 +143,7 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
         val roll = d20()
         val hit = attacker.calc(Attribute.HIT)
         val ac = getAc(defender, attacker.getDamageType())
-        println("ac check with roll: $roll, hit: $hit, ac: $ac, final value: ${roll - hit + ac}")
+        logger.debug("ac check :: roll: {}, hit: {}, ac: {}, final value: {}", roll, hit, ac, roll - hit + ac)
         return roll - hit + ac < 0
     }
 

@@ -8,19 +8,21 @@ import kotlinmud.item.ItemOwner
 import kotlinmud.mob.Mob
 import kotlinmud.world.World
 import kotlinmud.world.room.Room
+import org.slf4j.LoggerFactory
 
 class RespawnService(
     private val world: World,
     private val mobService: MobService,
     private val itemService: ItemService
 ) {
+    private val logger = LoggerFactory.getLogger(RespawnService::class.java)
 
     fun respawn() {
         val time = measureTimeMillis {
             respawnFromResets()
             resetDoors()
         }
-        println("respawn took $time ms.")
+        logger.info("respawn occurred :: {} ms elapsed", time)
     }
 
     private fun resetDoors() {
@@ -42,7 +44,7 @@ class RespawnService(
                     mobs += 1
                 }
             } catch (e: Exception) {
-                println("wiring problem with reset: $reset")
+                logger.error("wiring problem with reset: $reset")
                 throw e
             }
         }
@@ -55,7 +57,7 @@ class RespawnService(
                 items += 1
             }
         }
-        println("respawn complete :: $mobs mobs, $items items")
+        logger.info("respawn stats :: $mobs mobs, $items items spawned")
     }
 
     private fun addItemsToMob(mob: Mob): Int {

@@ -48,6 +48,7 @@ import kotlinmud.mob.skill.CostType
 import kotlinmud.mob.skill.Skill
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.createSkillList
+import org.slf4j.LoggerFactory
 
 fun commandMatches(command: Command, input: String): Boolean {
     return command.value.startsWith(input)
@@ -70,6 +71,7 @@ class ActionService(
     private val actions: List<Action>
 ) {
     private val skills: List<Skill> = createSkillList()
+    private val logger = LoggerFactory.getLogger(ActionService::class.java)
 
     fun run(request: Request): Response {
         if (request.input == "") {
@@ -176,7 +178,7 @@ class ActionService(
     }
 
     private fun buildActionContextList(request: Request, invokable: Invokable): ActionContextList {
-        println("building context for: ${invokable.command}, ${invokable.syntax}")
+        logger.debug("${request.mob} building action context :: {}, {}", invokable.command, invokable.syntax)
         var i = 0
         return ActionContextList(invokable.syntax.map { createContext(request, it, if (request.args.size > i) request.args[i++] else "") } as MutableList<Context<Any>>)
     }

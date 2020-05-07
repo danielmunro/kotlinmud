@@ -5,10 +5,13 @@ import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOServer
 import kotlinmud.service.MobService
+import org.slf4j.LoggerFactory
 
 class LogTickObserver(private val mobService: MobService, private val server: NIOServer) : Observer {
+    private val logger = LoggerFactory.getLogger(LogTickObserver::class.java)
     override val eventType: EventType = EventType.TICK
+
     override fun <T> processEvent(event: Event<T>) {
-        println("${server.getClients().size} connected clients.\n${mobService.getMobRooms().size} mobs in realm.")
+        logger.info("tick :: {} clients, {} mobs", server.getClients().size, mobService.getMobRooms().size)
     }
 }

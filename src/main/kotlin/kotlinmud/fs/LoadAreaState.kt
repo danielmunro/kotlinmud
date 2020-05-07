@@ -8,7 +8,6 @@ import kotlinmud.world.Area
 
 fun getAreaResourcesFromFS(persistenceService: PersistenceService, isTest: Boolean = false): List<Area> {
     return if (File("state").exists() && !isTest) {
-        println("state exists and not in test environment, loading")
         persistenceService.loadAreas()
     } else if (isTest) {
         listOf(
@@ -17,7 +16,6 @@ fun getAreaResourcesFromFS(persistenceService: PersistenceService, isTest: Boole
             AreaLoader("test_areas/woods", CURRENT_LOAD_SCHEMA_VERSION).load()
         )
     } else {
-        println("no state found, starting new")
         listOf(
             AreaLoader("bootstrap_world/midgard", CURRENT_LOAD_SCHEMA_VERSION).load(),
             AreaLoader("bootstrap_world/midgard_castle", CURRENT_LOAD_SCHEMA_VERSION).load(),

@@ -96,8 +96,8 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
 
     private fun checkSocketForQuit(socket: SocketChannel, data: String) {
         if (data.equals("quit", ignoreCase = true)) {
-            socket.close()
             logger.info("connection closed :: ${socket.remoteAddress}")
+            socket.close()
         }
     }
 
