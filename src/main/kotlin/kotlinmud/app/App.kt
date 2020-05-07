@@ -16,6 +16,7 @@ import kotlinmud.service.EventService
 import kotlinmud.service.MobService
 import kotlinmud.service.PlayerService
 import kotlinmud.service.TimeService
+import org.slf4j.LoggerFactory
 
 class App(
     private val eventService: EventService,
@@ -25,15 +26,17 @@ class App(
     private val actionService: ActionService,
     private val playerService: PlayerService
 ) {
+    private val logger = LoggerFactory.getLogger(App::class.java)
+
     fun start() {
-        println("starting app on port ${server.port}")
+        logger.info("starting app on port ${server.port}")
         server.configure()
         eventService.publish(Event(EventType.DAY, DayEvent()))
         mainLoop()
     }
 
     private fun mainLoop() {
-        println("starting main loop")
+        logger.info("starting main loop")
         while (true) {
             server.readIntoBuffers()
             processClientBuffers()

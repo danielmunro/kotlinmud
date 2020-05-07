@@ -11,6 +11,7 @@ import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.createClientDisconnectedEvent
 import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
+import org.slf4j.LoggerFactory
 
 const val SELECT_TIMEOUT_MS: Long = 1
 const val READ_BUFFER_SIZE_IN_BYTES = 1024
@@ -19,6 +20,7 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
     private val selector: Selector = Selector.open()
     private val clients: NIOClients = mutableListOf()
     private val socket = ServerSocketChannel.open()
+    private val logger = LoggerFactory.getLogger(NIOServer::class.java)
 
     fun configure() {
         val serverSocket = socket.socket()
@@ -34,6 +36,9 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
             .collect(Collectors.toList())
         lost.forEach {
             eventService.publish(createClientDisconnectedEvent(it))
+        }
+        if (lost.size > 0) {
+            logger.info("removing {} disconnected clients", lost.size)
         }
         clients.removeAll(lost)
     }
@@ -78,7 +83,7 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
         val client = NIOClient(socket)
         eventService.publish(createClientConnectedEvent(client))
         clients.add(client)
-        println("connection accepted :: ${socket.remoteAddress}")
+        logger.info("connection accepted :: {}", socket.remoteAddress)
     }
 
     private fun handleRead(key: SelectionKey) {
@@ -92,7 +97,7 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
     private fun checkSocketForQuit(socket: SocketChannel, data: String) {
         if (data.equals("quit", ignoreCase = true)) {
             socket.close()
-            println("connection closed :: ${socket.remoteAddress}")
+            logger.info("connection closed :: ${socket.remoteAddress}")
         }
     }
 

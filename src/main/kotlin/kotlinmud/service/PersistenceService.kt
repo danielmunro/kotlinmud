@@ -8,14 +8,17 @@ import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.world.Area
 import kotlinmud.world.World
+import org.slf4j.LoggerFactory
 
 const val CURRENT_LOAD_SCHEMA_VERSION = 2
 const val CURRENT_WRITE_SCHEMA_VERSION = 2
 
 class PersistenceService(private val loadSchemaVersion: Int, private val writeSchemaVersion: Int = loadSchemaVersion) {
+    private val logger = LoggerFactory.getLogger(PersistenceService::class.java)
+
     init {
-        println("from file, load schema version: $loadSchemaVersion, write schema version: $writeSchemaVersion")
-        println("hardcoded overwrite: $CURRENT_LOAD_SCHEMA_VERSION, $CURRENT_WRITE_SCHEMA_VERSION")
+        logger.info("load schema from file: {}, write: {}", loadSchemaVersion, writeSchemaVersion)
+        logger.info("hardcoded overwrite: load: {}, write: {}", CURRENT_LOAD_SCHEMA_VERSION, CURRENT_WRITE_SCHEMA_VERSION)
     }
 
     fun writeVersionFile() {
@@ -25,12 +28,13 @@ class PersistenceService(private val loadSchemaVersion: Int, private val writeSc
     }
 
     fun writeTimeFile(timeService: TimeService) {
+        logger.info("write time at {}", timeService.getTime())
         val file = File(TIME_FILE)
         file.writeText("#${timeService.getTime()}")
     }
 
     fun writeAreas(world: World) {
-        println("write areas with write schema v$CURRENT_WRITE_SCHEMA_VERSION ")
+        logger.info("write areas :: write schema {}", CURRENT_WRITE_SCHEMA_VERSION)
         WorldSaver(world).save()
     }
 

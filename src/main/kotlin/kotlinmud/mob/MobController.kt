@@ -9,6 +9,7 @@ import kotlinmud.service.MobService
 import kotlinmud.world.room.Room
 import kotlinmud.world.room.exit.DoorDisposition
 import kotlinmud.world.room.exit.Exit
+import org.slf4j.LoggerFactory
 
 class MobController(
     private val mobService: MobService,
@@ -16,6 +17,8 @@ class MobController(
     private val eventService: EventService,
     private val mob: Mob
 ) {
+    private val logger = LoggerFactory.getLogger(MobController::class.java)
+
     fun move() {
         when (mob.job) {
             JobType.FODDER, JobType.SCAVENGER -> wander()
@@ -29,6 +32,7 @@ class MobController(
         val items = itemService.findAllByOwner(room)
         if (mob.isStanding() && items.isNotEmpty()) {
             val item = items.random()
+            logger.debug("$mob picks up $item")
             itemService.changeItemOwner(item, mob)
             eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
@@ -54,7 +58,7 @@ class MobController(
             }
             return proceedRoute()
         }
-        println("mob $mob moving on route")
+        logger.debug("mob $mob moving on route, index: ${mob.lastRoute}")
         val path = Pathfinder(currentRoom, nextRoom)
         val rooms = path.find()
         val nextMove = currentRoom.exits.find { it.destination == rooms[1] }!!
@@ -64,7 +68,7 @@ class MobController(
     }
 
     private fun wander() {
-        println("mob $mob moving via random choice")
+        logger.debug("mob $mob moving via random choice")
         val room = mobService.getRoomForMob(mob)
         room.openExits().filter { it.destination.area == room.area }.random().let {
             mobService.moveMob(mob, it.destination, it.direction)
@@ -75,6 +79,7 @@ class MobController(
         if (exit.door != null && exit.door.disposition == DoorDisposition.LOCKED) {
             return false
         } else if (exit.door != null && exit.door.disposition == DoorDisposition.CLOSED) {
+            logger.debug("$mob opens ${exit.door} [${exit.direction}]")
             exit.door.disposition = DoorDisposition.OPEN
             eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
