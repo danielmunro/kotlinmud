@@ -1,5 +1,5 @@
 package kotlinmud.event.event
 
-import kotlinmud.social.Social
+import kotlinmud.player.social.Social
 
 data class SocialEvent(val social: Social)

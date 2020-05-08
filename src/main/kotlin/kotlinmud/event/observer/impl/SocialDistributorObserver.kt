@@ -8,7 +8,7 @@ import kotlinmud.io.Message
 import kotlinmud.io.NIOServer
 import kotlinmud.mob.Mob
 import kotlinmud.service.MobService
-import kotlinmud.social.SocialChannel
+import kotlinmud.player.social.SocialChannel
 import kotlinmud.world.room.Room
 
 class SocialDistributorObserver(private val server: NIOServer, private val mobService: MobService) :

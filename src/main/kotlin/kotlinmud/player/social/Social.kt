@@ -1,4 +1,4 @@
-package kotlinmud.social
+package kotlinmud.player.social
 
 import kotlinmud.io.Message
 import kotlinmud.mob.Mob

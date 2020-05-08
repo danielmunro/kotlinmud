@@ -6,8 +6,8 @@ import kotlinmud.action.mustBeAwake
 import kotlinmud.io.Message
 import kotlinmud.io.Syntax
 import kotlinmud.io.freeForm
-import kotlinmud.social.Social
-import kotlinmud.social.SocialChannel
+import kotlinmud.player.social.Social
+import kotlinmud.player.social.SocialChannel
 
 fun createSayAction(): Action {
     return Action(Command.SAY, mustBeAwake(), freeForm()) {

@@ -7,8 +7,8 @@ import kotlinmud.io.Message
 import kotlinmud.io.Syntax
 import kotlinmud.io.playerFreeForm
 import kotlinmud.mob.Mob
-import kotlinmud.social.Social
-import kotlinmud.social.SocialChannel
+import kotlinmud.player.social.Social
+import kotlinmud.player.social.SocialChannel
 
 fun createTellAction(): Action {
     return Action(Command.TELL, mustBeAlive(), playerFreeForm()) {

@@ -20,7 +20,7 @@ import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.WeatherService
-import kotlinmud.social.Social
+import kotlinmud.player.social.Social
 import kotlinmud.weather.Weather
 import kotlinmud.world.room.Direction
 import kotlinmud.world.room.NewRoom
