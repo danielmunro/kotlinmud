@@ -4,7 +4,6 @@ import java.net.ServerSocket
 import kotlinmud.action.createActionsList
 import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
-import kotlinmud.fs.getAreaResourcesFromFS
 import kotlinmud.fs.loadVersionState
 import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.NIOServer
@@ -55,7 +54,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         }
         bind<World>() with singleton {
             val persistenceService = instance<PersistenceService>()
-            World(getAreaResourcesFromFS(persistenceService, isTest))
+            World(persistenceService.loadAreas(isTest))
         }
         bind<WorldSaver>() with singleton {
             WorldSaver(instance<World>())

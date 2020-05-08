@@ -43,7 +43,33 @@ class PersistenceService(private val loadSchemaVersion: Int, private val writeSc
         return if (file.exists()) Tokenizer(file.readText()).parseInt() else 0
     }
 
-    fun loadAreas(): List<Area> {
+    fun loadAreas(isTest: Boolean): List<Area> {
+        return if (File("state").exists() && !isTest) {
+            getLiveAreaData()
+        } else if (isTest) {
+            getTestAreaData()
+        } else {
+            getBootstrapAreaData()
+        }
+    }
+
+    private fun getLiveAreaData(): List<Area> {
         return listOf(AreaLoader("state/bootstrap_world", CURRENT_LOAD_SCHEMA_VERSION).load())
+    }
+
+    private fun getTestAreaData(): List<Area> {
+        return listOf(
+            AreaLoader("test_areas/midgard", CURRENT_LOAD_SCHEMA_VERSION).load(),
+            AreaLoader("test_areas/midgard_castle", CURRENT_LOAD_SCHEMA_VERSION).load(),
+            AreaLoader("test_areas/woods", CURRENT_LOAD_SCHEMA_VERSION).load()
+        )
+    }
+
+    private fun getBootstrapAreaData(): List<Area> {
+        return listOf(
+            AreaLoader("bootstrap_world/midgard", CURRENT_LOAD_SCHEMA_VERSION).load(),
+            AreaLoader("bootstrap_world/midgard_castle", CURRENT_LOAD_SCHEMA_VERSION).load(),
+            AreaLoader("bootstrap_world/woods", CURRENT_LOAD_SCHEMA_VERSION).load()
+        )
     }
 }
