@@ -16,11 +16,11 @@ import kotlinmud.item.HasInventory
 import kotlinmud.item.Item
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight
+import kotlinmud.player.social.Social
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.WeatherService
-import kotlinmud.player.social.Social
 import kotlinmud.weather.Weather
 import kotlinmud.world.room.Direction
 import kotlinmud.world.room.NewRoom
