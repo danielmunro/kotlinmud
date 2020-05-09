@@ -24,6 +24,7 @@ import kotlinmud.action.contextBuilder.ItemToSellContextBuilder
 import kotlinmud.action.contextBuilder.MobInRoomContextBuilder
 import kotlinmud.action.contextBuilder.OptionalTargetContextBuilder
 import kotlinmud.action.contextBuilder.PlayerMobContextBuilder
+import kotlinmud.action.contextBuilder.RecipeContextBuilder
 import kotlinmud.action.contextBuilder.SkillToPracticeContextBuilder
 import kotlinmud.action.contextBuilder.SpellContextBuilder
 import kotlinmud.action.contextBuilder.SpellFromHealerContextBuilder
@@ -37,6 +38,7 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
+import kotlinmud.item.createRecipeList
 import kotlinmud.math.percentRoll
 import kotlinmud.mob.HasCosts
 import kotlinmud.mob.Intent
@@ -209,6 +211,7 @@ class ActionService(
             Syntax.AVAILABLE_FOOD -> AvailableFoodContextBuilder(itemService, request.mob).build(syntax, word)
             Syntax.TRAINABLE -> TrainableContextBuilder(mobService, request.mob).build(syntax, word)
             Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(request.mob).build(syntax, word)
+            Syntax.RECIPE -> RecipeContextBuilder(createRecipeList()).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

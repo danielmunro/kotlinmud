@@ -15,7 +15,8 @@ const val CURRENT_WRITE_SCHEMA_VERSION = 2
 
 class PersistenceService(
     private val previousLoadSchemaVersion: Int,
-    private val previousWriteSchemaVersion: Int) {
+    private val previousWriteSchemaVersion: Int
+) {
     private val logger = LoggerFactory.getLogger(PersistenceService::class.java)
 
     init {

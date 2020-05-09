@@ -1,5 +1,6 @@
 package kotlinmud.action
 
+import kotlinmud.action.impl.createBuildAction
 import kotlinmud.action.impl.createBuyAction
 import kotlinmud.action.impl.createCloseAction
 import kotlinmud.action.impl.createDownAction
@@ -97,6 +98,7 @@ fun createActionsList(worldSaver: WorldSaver): List<Action> {
         createRoomNewAction(),
         createRoomBuildAction(),
         createRoomDescriptionAction(),
-        createRoomInfoAction()
+        createRoomInfoAction(),
+        createBuildAction()
     )
 }

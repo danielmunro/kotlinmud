@@ -16,6 +16,10 @@ fun drink(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.AVAILABLE_DRINK)
 }
 
+fun recipe(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.RECIPE)
+}
+
 fun itemFromMerchant(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.ITEM_FROM_MERCHANT)
 }

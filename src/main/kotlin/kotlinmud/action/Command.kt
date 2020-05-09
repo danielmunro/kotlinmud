@@ -48,6 +48,9 @@ enum class Command(val value: String) {
     WEATHER("weather"),
     EXITS("exits"),
 
+    // crafting
+    BUILD("build"),
+
     // mobs
     FOLLOW("follow"),
     GROUP("group"),

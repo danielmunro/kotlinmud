@@ -4,6 +4,7 @@ enum class Syntax(val syntax: String) {
     COMMAND("command"),
     SUBCOMMAND("subcommand"),
     CAST("cast"),
+    RECIPE("recipe"),
     DIRECTION_TO_EXIT("direction to exit"),
     DIRECTION_WITH_NO_EXIT("direction with no exit"),
     ITEM_IN_ROOM("item in room"),
