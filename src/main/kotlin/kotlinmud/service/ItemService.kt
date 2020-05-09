@@ -35,7 +35,7 @@ class ItemService(private val items: MutableList<ItemOwner> = mutableListOf()) {
     fun changeItemOwner(item: Item, hasInventory: HasInventory) {
         items.find { it.item == item }?.let {
             it.owner = hasInventory
-        }
+        } ?: items.add(ItemOwner(item, hasInventory))
     }
 
     fun decrementDecayTimer() {

@@ -49,7 +49,7 @@ enum class Command(val value: String) {
     EXITS("exits"),
 
     // crafting
-    BUILD("build"),
+    CRAFT("craft"),
 
     // mobs
     FOLLOW("follow"),
