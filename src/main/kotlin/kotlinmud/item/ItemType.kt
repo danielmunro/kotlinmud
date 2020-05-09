@@ -3,7 +3,15 @@ package kotlinmud.item
 enum class ItemType {
     FOOD,
     DRINK,
-    LAND_GRANT,
     EQUIPMENT,
+
+    LAND_GRANT,
+
+    CRAFTING_TABLE,
+    LUMBER,
+    STICKS,
+    DIRT,
+    COBBLESTONE,
+
     OTHER,
 }

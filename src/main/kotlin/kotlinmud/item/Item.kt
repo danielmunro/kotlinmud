@@ -15,6 +15,7 @@ class Item(
     override val id: Int,
     override val name: String,
     override val description: String,
+    @DefaultValue("ItemType.OTHER") val type: ItemType,
     @DefaultValue("0") val worth: Int,
     val level: Int,
     val weight: Double = 1.0,
@@ -29,6 +30,7 @@ class Item(
     @DefaultValue("0") var quantity: Int,
     @DefaultValue("-1") var decayTimer: Int
 ) : HasAttributes, Noun, Row, HasInventory {
+
     override fun toString(): String {
         return name
     }
@@ -38,23 +40,6 @@ class Item(
     }
 
     fun copy(): Item {
-        return Item(
-            id,
-            name,
-            description,
-            worth,
-            level,
-            weight,
-            attributes.copy(),
-            material,
-            position,
-            attackVerb,
-            mutableListOf(),
-            if (inventory != null) mutableListOf() else null,
-            drink,
-            food,
-            quantity,
-            decayTimer
-        )
+        return ItemBuilder(this).build()
     }
 }

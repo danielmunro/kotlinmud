@@ -52,7 +52,7 @@ class Mob(
     val experiencePerLevel: Int,
     var savingThrows: Int,
     @Mutable val equipped: MutableList<Item>,
-    val isNpc: Boolean,
+    @DefaultValue("true") val isNpc: Boolean,
     var trains: Int,
     var practices: Int,
     val route: List<Int>,
@@ -160,38 +160,7 @@ class Mob(
     }
 
     fun copy(): Mob {
-        return Mob(
-            id,
-            name,
-            brief,
-            description,
-            disposition,
-            hp,
-            mana,
-            mv,
-            level,
-            race,
-            specialization,
-            attributes.copy(),
-            trainedAttributes.toMutableList(),
-            job,
-            gender,
-            gold,
-            goldMin,
-            goldMax,
-            skills.toMutableMap(),
-            affects.toMutableList(),
-            wimpy,
-            experiencePerLevel,
-            savingThrows,
-            mutableListOf(),
-            isNpc,
-            trains,
-            practices,
-            route,
-            maxItems,
-            maxWeight
-        )
+        return MobBuilder(this).build()
     }
 
     fun savesAgainst(damageType: DamageType): Boolean {
