@@ -20,6 +20,7 @@ import kotlinmud.action.contextBuilder.FreeFormContextBuilder
 import kotlinmud.action.contextBuilder.ItemFromMerchantContextBuilder
 import kotlinmud.action.contextBuilder.ItemInInventoryContextBuilder
 import kotlinmud.action.contextBuilder.ItemInRoomContextBuilder
+import kotlinmud.action.contextBuilder.ItemToHarvestContextBuilder
 import kotlinmud.action.contextBuilder.ItemToSellContextBuilder
 import kotlinmud.action.contextBuilder.MobInRoomContextBuilder
 import kotlinmud.action.contextBuilder.OptionalTargetContextBuilder
@@ -47,7 +48,6 @@ import kotlinmud.mob.Mob
 import kotlinmud.mob.RequiresDisposition
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.skill.CostType
-import kotlinmud.mob.skill.Skill
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.createSkillList
 import org.slf4j.LoggerFactory
@@ -72,7 +72,8 @@ class ActionService(
     private val server: NIOServer,
     private val actions: List<Action>
 ) {
-    private val skills: List<Skill> = createSkillList()
+    private val skills = createSkillList()
+    private val recipes = createRecipeList()
     private val logger = LoggerFactory.getLogger(ActionService::class.java)
 
     fun run(request: Request): Response {
@@ -211,7 +212,8 @@ class ActionService(
             Syntax.AVAILABLE_FOOD -> AvailableFoodContextBuilder(itemService, request.mob).build(syntax, word)
             Syntax.TRAINABLE -> TrainableContextBuilder(mobService, request.mob).build(syntax, word)
             Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(request.mob).build(syntax, word)
-            Syntax.RECIPE -> RecipeContextBuilder(createRecipeList()).build(syntax, word)
+            Syntax.RECIPE -> RecipeContextBuilder(recipes).build(syntax, word)
+            Syntax.ITEM_TO_HARVEST -> ItemToHarvestContextBuilder(itemService.findAllByOwner(request.room), recipes).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

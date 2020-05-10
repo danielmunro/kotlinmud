@@ -3,7 +3,6 @@ package kotlinmud.action.impl
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
-import kotlinmud.item.ItemType
 import kotlinmud.test.createTestService
 import org.junit.Test
 
@@ -15,9 +14,9 @@ class CraftTest {
         val mob = test.createMob()
 
         // given
-        test.buildItem(test.itemBuilder().type(ItemType.LUMBER), mob)
-        test.buildItem(test.itemBuilder().type(ItemType.LUMBER), mob)
-        test.buildItem(test.itemBuilder().type(ItemType.LUMBER), mob)
+        test.make(3)
+            .lumber()
+            .andGiveTo(mob)
         val itemCount = test.getItemsFor(mob).size
 
         // when

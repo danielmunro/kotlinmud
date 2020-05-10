@@ -16,20 +16,16 @@ fun createCraftAction(): Action {
         val items = svc.getItemsFor(mob)
         val toDestroy: MutableList<Item> = mutableListOf()
         recipe.getComponents().forEach { component ->
-            println("0 to value: ${component.value}")
             for (i: Int in 2..component.value) {
                 items.find { it.type == component.key && !toDestroy.contains(it) }?.let {
                     toDestroy.add(it)
                 } ?: return@Action svc.createResponse(Message("you don't have all the necessary components."))
             }
         }
-        println("to destroy: ${toDestroy.size}")
-        println(svc.getItemsFor(mob))
         toDestroy.forEach {
             println(it)
             svc.destroy(it)
         }
-        println(svc.getItemsFor(mob))
         recipe.getProducts().forEach {
             svc.changeItemOwner(it.copy(), mob)
         }

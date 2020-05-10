@@ -8,6 +8,7 @@ enum class ItemType {
     LAND_GRANT,
 
     BUILDER_TABLE,
+    WOOD,
     LUMBER,
     STICKS,
     DIRT,

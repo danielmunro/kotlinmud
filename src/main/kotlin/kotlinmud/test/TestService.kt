@@ -109,6 +109,10 @@ class TestService(
         }
     }
 
+    fun make(amount: Int): MakeItemService {
+        return MakeItemService(this, amount)
+    }
+
     fun getMobRooms(): List<MobRoom> {
         return mobService.getMobRooms()
     }

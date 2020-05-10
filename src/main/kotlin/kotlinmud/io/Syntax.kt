@@ -5,6 +5,7 @@ enum class Syntax(val syntax: String) {
     SUBCOMMAND("subcommand"),
     CAST("cast"),
     RECIPE("recipe"),
+    ITEM_TO_HARVEST("item to harvest"),
     DIRECTION_TO_EXIT("direction to exit"),
     DIRECTION_WITH_NO_EXIT("direction with no exit"),
     ITEM_IN_ROOM("item in room"),

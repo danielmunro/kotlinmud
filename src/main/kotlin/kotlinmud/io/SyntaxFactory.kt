@@ -20,6 +20,10 @@ fun recipe(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.RECIPE)
 }
 
+fun itemToHarvest(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.ITEM_TO_HARVEST)
+}
+
 fun itemFromMerchant(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.ITEM_FROM_MERCHANT)
 }
