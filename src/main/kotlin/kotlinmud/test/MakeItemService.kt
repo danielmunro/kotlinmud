@@ -8,7 +8,9 @@ class MakeItemService(private val testService: TestService, private val amount: 
     private val itemTemplate: ItemBuilder = testService.itemBuilder()
 
     fun lumber(): MakeItemService {
-        itemTemplate.type(ItemType.LUMBER)
+        itemTemplate.name("lumber")
+            .description("Fine pine lumber is here.")
+            .type(ItemType.LUMBER)
         return this
     }
 
