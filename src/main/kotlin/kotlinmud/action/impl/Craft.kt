@@ -15,7 +15,7 @@ fun createCraftAction(): Action {
         val mob = svc.getMob()
 
         try {
-            svc.craft(recipe, mob)
+            svc.craft(recipe)
         } catch (craftException: CraftException) {
             return@Action svc.createResponse(Message("you don't have all the necessary components."))
         }

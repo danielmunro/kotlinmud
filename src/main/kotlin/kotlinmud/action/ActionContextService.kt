@@ -42,8 +42,12 @@ class ActionContextService(
 ) {
     private val craftingService = CraftingService(itemService, createRecipeList())
 
-    fun craft(recipe: Recipe, mob: Mob): List<Item> {
-        return craftingService.craftProductsWith(recipe, mob)
+    fun craft(recipe: Recipe): List<Item> {
+        return craftingService.craft(recipe, request.mob)
+    }
+
+    fun harvest(recipe: Recipe): List<Item> {
+        return craftingService.harvest(recipe, request.room, request.mob)
     }
 
     fun getWeather(): Weather {

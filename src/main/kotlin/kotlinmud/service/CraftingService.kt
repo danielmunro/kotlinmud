@@ -2,11 +2,14 @@ package kotlinmud.service
 
 import kotlin.streams.toList
 import kotlinmud.exception.CraftException
+import kotlinmud.exception.HarvestException
 import kotlinmud.item.HasInventory
 import kotlinmud.item.Item
 import kotlinmud.item.ItemOwner
 import kotlinmud.item.ItemType
 import kotlinmud.item.Recipe
+import kotlinmud.mob.Mob
+import kotlinmud.world.room.Room
 
 class CraftingService(private val itemService: ItemService, private val recipeList: List<Recipe>) {
     companion object {
@@ -33,7 +36,7 @@ class CraftingService(private val itemService: ItemService, private val recipeLi
         }
     }
 
-    fun craftProductsWith(recipe: Recipe, hasInventory: HasInventory): List<Item> {
+    fun craft(recipe: Recipe, hasInventory: HasInventory): List<Item> {
         val componentsList = createListOfItemTypesFromMap(recipe.getComponents())
         val toDestroy = createListOfItemsToDestroy(
             itemService.findAllByOwner(hasInventory).sortedBy { it.type }, componentsList)
@@ -49,5 +52,18 @@ class CraftingService(private val itemService: ItemService, private val recipeLi
             itemService.add(ItemOwner(newItem, hasInventory))
             newItem
         }.toList()
+    }
+
+    fun harvest(recipe: Recipe, room: Room, mob: Mob): List<Item> {
+        itemService.findAllByOwner(room).find {
+            it.type == recipe.getComponents().keys.first()
+        }?.let {
+            itemService.destroy(it)
+            return recipe.getProducts().stream().map { product ->
+                val newItem = product.copy()
+                itemService.changeItemOwner(newItem, mob)
+                newItem
+            }.toList()
+        } ?: throw HarvestException()
     }
 }
