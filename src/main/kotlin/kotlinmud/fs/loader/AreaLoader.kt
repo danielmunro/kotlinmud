@@ -20,10 +20,12 @@ import kotlinmud.fs.loader.area.model.reset.MobReset
 import kotlinmud.item.Item
 import kotlinmud.mob.Mob
 import kotlinmud.world.Area
+import kotlinmud.world.createBiomes
 import kotlinmud.world.room.exit.Door
 
 class AreaLoader(private val baseDir: String, private val loadSchemaVersion: Int) {
     val mobs = loadMobs()
+    val biomes = createBiomes()
     fun load(): Area {
         return Area(
             baseDir,
@@ -38,6 +40,7 @@ class AreaLoader(private val baseDir: String, private val loadSchemaVersion: Int
 
     private fun createRoomMapper(mobs: List<Mob>): RoomMapper {
         return RoomMapper(
+            biomes,
             mobs,
             createModelList(RoomLoader(createTokenizer("$baseDir/rooms.txt"), loadSchemaVersion)),
             loadDoors()
