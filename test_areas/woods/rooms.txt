@@ -2,6 +2,7 @@
 A trail head cuts through a dense forest~
 A trail leads into the woods to the west. To the east is Midgaard.~
 woods~
+#0
 w: 1001~
 
 #1001
@@ -9,28 +10,33 @@ Entering the woods~
 The tree canopy filters a small amount of ambient light, while providing
 a habitat for forest critters.~
 woods~
+#0
 w: 1002~
 
 #1002
 Deep in the woods~
 A well worn trail winds through a grove of old growth trees.~
 woods~
+#0
 n: 1003~
 
 #1003
 Deep in the woods~
 A well worn trail winds through a grove of old growth trees.~
 woods~
+#0
 w: 1004, n: 1005~
 
 #1004
 Deep in the woods~
 A well worn trail winds through a grove of old growth trees.~
 woods~
+#0
 ~
 
 #1005
 Deep in the woods~
 A well worn trail winds through a grove of old growth trees.~
 woods~
+#0
 ~

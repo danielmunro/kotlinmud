@@ -7,6 +7,7 @@ place for the people of Midgard, as well as travellers passing through.
 A row of flowers wrap around the stone structure and line the roads going in
 all directions.~
 town~
+#0
 n: 2, s: 100, e: door-1-20, w:1000~
 
 #2
@@ -15,24 +16,28 @@ Mature oak trees line a wide and busy road. Sitting back from the hustle and
 bustle of Noble Way, stately town homes stretch up and down the worn brick
 path.~
 town~
+#0
 n: 3, regen: low~
 
 #3
 Noble Way~
 Starting the historic business district.~
 town~
+#0
 n: 6, w: 4, e: 5~
 
 #4
 Jeweler~
 A jewelery shop is here.~
 town~
+#0
 ~
 
 #5
 Midgard Bank~
 A bank is here.~
 town~
+#0
 regen: full~
 
 #6
@@ -41,172 +46,201 @@ Mature oak trees line a wide and busy road. Sitting back from the hustle and
 bustle of Noble Way, stately town homes stretch up and down the worn brick
 path.~
 town~
+#0
 n: 8, regen: none~
 
 #7
 A quiet barroom in a tavern~
 Light flickering from a lantern illuminates a cozy bar.~
 town~
+#0
 regen: high~
 
 #8
 Outside the Castle Gates~
 You are outside the Midgard castle gates.~
 town~
+#0
 w: 9, e: 10, n: 2000~
 
 #9
 Outside the Castle Walls~
 You are outside the castle walls.~
 town~
+#0
 ~
 
 #10
 Outside the Castle Walls~
 You are outside the castle walls.~
 town~
+#0
 ~
 
 #20
 Road on the concourse~
 You are on a road through a concourse.~
 town~
+#0
 e: 21, n: 7~
 
 #21
 Inside the town walls~
 The walls extends north and south.~
 town~
+#0
 e: 22~
 
 #22
 Outside the town walls~
 You are outside the Midgard town walls.~
 town~
+#0
 ~
 
 #100
 Market Ave~
 Shops and businesses.~
 town~
+#0
 s: 103, w: 101, e: 102~
 
 #101
 Blacksmith~
 Town blacksmith.~
 town~
+#0
 ~
 
 #102
 Bakery~
 Town bakery.~
 town~
+#0
 ~
 
 #103
 Market Ave~
 Shops and businesses.~
 town~
+#0
 w: 104, e: 105, s: 106~
 
 #104
 Potions~
 Town potion shop.~
 town~
+#0
 ~
 
 #105
 Scrolls~
 Scroll shop.~
 town~
+#0
 ~
 
 #106
 Common Square~
 Traders and towns folk mingle in the heart of Midgard.~
 town~
+#0
 s: 107~
 
 #107
 South Market Ave~
 The smell of ocean salt fills the air as you get closer to the docks.~
 town~
+#0
 w: 108, e: 109~
 
 #108
 The Ramshackle Tavern~
 A bar is here.~
 town~
+#0
 ~
 
 #109
 A Back Alley~
 A stinky back alley is here.~
 town~
+#0
 n: 110, e: 111~
 
 #110
 An Abandoned Warehouse~
 An abandoned harbor warehouse is here.~
 warehouse~
+#0
 ~
 
 #111
 End Of The Alley~
 The alley ends here, with cramped dock buildings all around you.~
 warehouse~
+#0
 e: door-2-112~
 
 #112
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
 warehouse~
+#0
 e: 113, n: 115, area: warehouse~
 
 #113
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
 warehouse~
+#0
 e: 114, n: 116, area: warehouse~
 
 #114
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
 warehouse~
+#0
 n: 117, area: warehouse~
 
 #115
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
 warehouse~
+#0
 e: 116, n: 118, area: warehouse~
 
 #116
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
 warehouse~
+#0
 e: 117, n: 119, area: warehouse~
 
 #117
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
 warehouse~
+#0
 n: 120, area: warehouse~
 
 #118
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
 warehouse~
+#0
 e: 119, area: warehouse~
 
 #119
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
 warehouse~
+#0
 e: 120, area: warehouse~
 
 #120
 A Warehouse Complex~
 A sprawling warehouse complex spans almost as far as you can see.~
 warehouse~
+#0
 area: warehouse~
