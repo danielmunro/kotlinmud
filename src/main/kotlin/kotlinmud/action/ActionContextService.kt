@@ -14,9 +14,12 @@ import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.item.HasInventory
 import kotlinmud.item.Item
+import kotlinmud.item.Recipe
+import kotlinmud.item.createRecipeList
 import kotlinmud.mob.Mob
 import kotlinmud.mob.fight.Fight
 import kotlinmud.player.social.Social
+import kotlinmud.service.CraftingService
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
@@ -37,6 +40,12 @@ class ActionContextService(
     private val server: NIOServer,
     private val request: Request
 ) {
+    private val craftingService = CraftingService(itemService, createRecipeList())
+
+    fun craft(recipe: Recipe, mob: Mob): List<Item> {
+        return craftingService.craftProductsWith(recipe, mob)
+    }
+
     fun getWeather(): Weather {
         return weatherService.getWeather()
     }
