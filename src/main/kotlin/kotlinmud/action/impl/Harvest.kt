@@ -18,7 +18,7 @@ fun createHarvestAction(): Action {
             svc.harvest(recipe)
             svc.createResponse(Message("you successfully harvest $item into ${recipe.name}."))
         } catch (exception: HarvestException) {
-            return@Action svc.createResponse(Message("you can't find it anywhere."))
+            svc.createResponse(Message("you can't find it anywhere."))
         }
     }
 }
