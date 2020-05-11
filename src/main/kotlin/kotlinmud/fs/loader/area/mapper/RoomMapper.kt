@@ -2,6 +2,7 @@ package kotlinmud.fs.loader.area.mapper
 
 import kotlinmud.fs.loader.area.model.RoomModel
 import kotlinmud.mob.Mob
+import kotlinmud.world.BiomeType
 import kotlinmud.world.room.Direction
 import kotlinmud.world.room.Room
 import kotlinmud.world.room.exit.Door
@@ -12,7 +13,7 @@ class RoomMapper(val mobs: List<Mob>, val roomModels: List<RoomModel>, val doors
     fun map(): List<Room> {
         val rooms = roomModels.map {
             val mob = if (it.ownerId > 0) mobs.find { mob -> it.ownerId == mob.id } else null
-            Room(it.id, it.area, it.name, it.description, it.regen, it.isIndoor, mutableListOf(), mob)
+            Room(it.id, it.area, it.name, it.description, it.regen, it.isIndoor, BiomeType.fromString(it.biome), mutableListOf(), mob)
         }
         val modelMap = mutableMapOf<Int, RoomModel>()
         val roomMap = mutableMapOf<Int, Room>()

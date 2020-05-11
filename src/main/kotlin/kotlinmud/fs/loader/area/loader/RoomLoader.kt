@@ -18,6 +18,7 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
     var up = ""
     var down = ""
     var area = ""
+    var biome = ""
     override var props: Map<String, String> = mapOf()
 
     override fun load(): RoomModel {
@@ -25,6 +26,7 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
         name = tokenizer.parseString()
         description = tokenizer.parseString()
         area = tokenizer.parseString()
+        biome = if (loadSchemaVersion > 2) tokenizer.parseString() else "none"
         props = tokenizer.parseProperties()
         regen = RegenLevel.valueOf(strAttr("regen", "normal").toUpperCase())
         isIndoor = strAttr("isIndoor", "true").toBoolean()
@@ -36,6 +38,6 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
         down = props["d"] ?: ""
         ownerId = intAttr("ownerId", 0)
 
-        return RoomModel(id, name, description, regen, isIndoor, north, south, east, west, up, down, area, ownerId)
+        return RoomModel(id, name, description, regen, isIndoor, north, south, east, west, up, down, area, biome, ownerId)
     }
 }

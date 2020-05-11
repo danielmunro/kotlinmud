@@ -11,13 +11,14 @@ import kotlinmud.world.World
 import org.slf4j.LoggerFactory
 
 const val CURRENT_LOAD_SCHEMA_VERSION = 2
-const val CURRENT_WRITE_SCHEMA_VERSION = 2
+const val CURRENT_WRITE_SCHEMA_VERSION = 3
 
 class PersistenceService(
     private val previousLoadSchemaVersion: Int,
     private val previousWriteSchemaVersion: Int
 ) {
     private val logger = LoggerFactory.getLogger(PersistenceService::class.java)
+    private val loadSchemaToUse = CURRENT_LOAD_SCHEMA_VERSION.coerceAtLeast(previousWriteSchemaVersion)
 
     init {
         logger.info("previous load schema: {}, write schema: {}", previousLoadSchemaVersion, previousWriteSchemaVersion)
@@ -58,22 +59,22 @@ class PersistenceService(
     }
 
     private fun getLiveAreaData(): List<Area> {
-        return listOf(AreaLoader("state/bootstrap_world", CURRENT_LOAD_SCHEMA_VERSION).load())
+        return listOf(AreaLoader("state/bootstrap_world", loadSchemaToUse).load())
     }
 
     private fun getTestAreaData(): List<Area> {
         return listOf(
-            AreaLoader("test_areas/midgard", CURRENT_LOAD_SCHEMA_VERSION).load(),
-            AreaLoader("test_areas/midgard_castle", CURRENT_LOAD_SCHEMA_VERSION).load(),
-            AreaLoader("test_areas/woods", CURRENT_LOAD_SCHEMA_VERSION).load()
+            AreaLoader("test_areas/midgard", loadSchemaToUse).load(),
+            AreaLoader("test_areas/midgard_castle", loadSchemaToUse).load(),
+            AreaLoader("test_areas/woods", loadSchemaToUse).load()
         )
     }
 
     private fun getBootstrapAreaData(): List<Area> {
         return listOf(
-            AreaLoader("bootstrap_world/midgard", CURRENT_LOAD_SCHEMA_VERSION).load(),
-            AreaLoader("bootstrap_world/midgard_castle", CURRENT_LOAD_SCHEMA_VERSION).load(),
-            AreaLoader("bootstrap_world/woods", CURRENT_LOAD_SCHEMA_VERSION).load()
+            AreaLoader("bootstrap_world/midgard", loadSchemaToUse).load(),
+            AreaLoader("bootstrap_world/midgard_castle", loadSchemaToUse).load(),
+            AreaLoader("bootstrap_world/woods", loadSchemaToUse).load()
         )
     }
 }
