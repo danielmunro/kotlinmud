@@ -13,7 +13,7 @@ class RoomMapper(private val biomes: List<Biome>, val mobs: List<Mob>, val roomM
     fun map(): List<Room> {
         val rooms = roomModels.map {
             val mob = if (it.ownerId > 0) mobs.find { mob -> it.ownerId == mob.id } else null
-            Room(it.id, it.area, it.name, it.description, it.regen, it.isIndoor, biomes.find { biome -> biome.id == it.biome }!!, mutableListOf(), mob)
+            Room(it.id, it.area, it.name, it.description, it.regen, it.isIndoor, biomes.find { biome -> biome.biomeType == it.biomeType }!!, mutableListOf(), mob)
         }
         val modelMap = mutableMapOf<Int, RoomModel>()
         val roomMap = mutableMapOf<Int, Room>()

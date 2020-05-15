@@ -13,6 +13,8 @@ enum class ItemType {
     STICKS,
     DIRT,
     COBBLESTONE,
+    COAL,
+    GRASS_SEED,
 
     OTHER,
 }

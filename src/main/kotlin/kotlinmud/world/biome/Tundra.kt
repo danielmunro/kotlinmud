@@ -2,7 +2,7 @@ package kotlinmud.world.biome
 
 import kotlinmud.world.resource.Resource
 
-class DefaultBiome : Biome {
-    override val biomeType: BiomeType = BiomeType.NONE
+class Tundra : Biome {
+    override val biomeType: BiomeType = BiomeType.TUNDRA
     override val resources: Map<Resource, Double> = mapOf()
 }

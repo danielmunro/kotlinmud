@@ -1,6 +1,6 @@
 package kotlinmud.world.biome
 
-enum class BiomeType(private val value: String) {
+enum class BiomeType(val value: String) {
     TUNDRA("tundra"),
     PLAINS("plains"),
     ARBOREAL("arboreal"),
