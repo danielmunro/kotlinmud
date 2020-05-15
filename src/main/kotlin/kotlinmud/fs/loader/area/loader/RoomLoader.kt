@@ -27,11 +27,11 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
         id = tokenizer.parseInt()
         name = tokenizer.parseString()
         description = tokenizer.parseString()
-        area = tokenizer.parseString()
+        area = if (loadSchemaVersion < 2) "none" else tokenizer.parseString()
         if (loadSchemaVersion == 3) {
             biomeId = tokenizer.parseInt()
             biomeType = BiomeType.NONE
-        } else {
+        } else if (loadSchemaVersion > 3) {
             biomeId = 0
             biomeType = BiomeType.fromString(tokenizer.parseString())
         }
