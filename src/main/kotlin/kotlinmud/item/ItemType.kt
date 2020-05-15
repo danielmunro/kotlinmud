@@ -15,6 +15,8 @@ enum class ItemType {
     COBBLESTONE,
     COAL,
     GRASS_SEED,
+    TAR,
+    ICE,
 
     OTHER,
 }

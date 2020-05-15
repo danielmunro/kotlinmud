@@ -1,9 +1,10 @@
 package kotlinmud.world.resource
 
-import kotlinmud.item.ItemType
+import kotlinmud.item.Item
+import kotlinmud.service.ItemBuilderBuilder
 
 interface Resource {
     val growable: Boolean
     val toughness: Int
-    val producesItemType: ItemType
+    fun produces(builder: ItemBuilderBuilder): Item
 }

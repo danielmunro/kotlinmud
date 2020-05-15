@@ -4,10 +4,28 @@ import kotlin.streams.toList
 import kotlinmud.affect.AffectType
 import kotlinmud.item.HasInventory
 import kotlinmud.item.Item
+import kotlinmud.item.ItemBuilder
 import kotlinmud.item.ItemOwner
 import kotlinmud.string.matches
 
+typealias ItemBuilderBuilder = () -> ItemBuilder
+
 class ItemService(private val items: MutableList<ItemOwner> = mutableListOf()) {
+    private var autoId: Int
+
+    init {
+        items.sortBy { it.item.id }
+        autoId = if (items.isNotEmpty()) items.last().item.id else 0
+    }
+
+    fun createItemBuilderBuilder(): ItemBuilderBuilder {
+        return {
+            autoId++
+            ItemBuilder()
+                .id(autoId)
+        }
+    }
+
     fun countItemsById(id: Int): Int {
         return items.filter { it.item.id == id }.size
     }

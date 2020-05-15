@@ -23,7 +23,10 @@ import kotlinmud.world.Area
 import kotlinmud.world.createBiomes
 import kotlinmud.world.room.exit.Door
 
-class AreaLoader(private val baseDir: String, private val loadSchemaVersion: Int) {
+class AreaLoader(
+    private val baseDir: String,
+    private val loadSchemaVersion: Int
+) {
     val mobs = loadMobs()
     val biomes = createBiomes()
     fun load(): Area {

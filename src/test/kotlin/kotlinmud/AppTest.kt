@@ -3,6 +3,8 @@
  */
 package kotlinmud
 
+import assertk.assertThat
+import assertk.assertions.isEqualTo
 import com.commit451.mailgun.Mailgun
 import kotlin.test.Test
 import kotlin.test.assertNotNull
@@ -10,6 +12,7 @@ import kotlinmud.action.createActionsList
 import kotlinmud.app.App
 import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.NIOServer
+import kotlinmud.item.ItemOwner
 import kotlinmud.service.ActionService
 import kotlinmud.service.EmailService
 import kotlinmud.service.EventService
@@ -18,17 +21,19 @@ import kotlinmud.service.MobService
 import kotlinmud.service.PlayerService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
+import kotlinmud.test.createTestService
 import kotlinmud.world.World
 
 class AppTest {
     @Test
     fun testAppSanityCheck() {
         // setup
+        val itemService = ItemService()
         val world = World(listOf())
         val eventService = EventService()
         val server = NIOServer(eventService)
         val mobService = MobService(
-            ItemService(),
+            itemService,
             eventService,
             world
         )
@@ -45,5 +50,20 @@ class AppTest {
 
         // then
         assertNotNull(app, "app should have a greeting")
+    }
+
+    @Test
+    fun testItemServiceAutoId() {
+        val test = createTestService()
+        val mob = test.createMob()
+        val item = test.createItem(mob)
+        val itemService = ItemService(mutableListOf(ItemOwner(item, mob)))
+        val itemBuilder = itemService.createItemBuilderBuilder()()
+            .name("foo")
+            .description("foo")
+            .level(1)
+            .weight(0.0)
+            .build()
+        assertThat(itemBuilder.id).isEqualTo(4)
     }
 }
