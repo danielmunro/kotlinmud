@@ -16,7 +16,6 @@ data class RoomModel(
     val up: String,
     val down: String,
     val area: String,
-    val biomeId: Int,
     val biomeType: BiomeType,
     val ownerId: Int
 ) : Model
