@@ -1,8 +1,13 @@
 package kotlinmud.world.biome
 
+import kotlinmud.world.resource.CoalOre
+import kotlinmud.world.resource.IronOre
 import kotlinmud.world.resource.Resource
 
 class Mountain : Biome {
     override val biomeType: BiomeType = BiomeType.MOUNTAIN
-    override val resources: Map<Resource, Double> = mapOf()
+    override val resources: Map<Resource, Double> = mapOf(
+        Pair(IronOre(), 0.03),
+        Pair(CoalOre(), 0.06)
+    )
 }

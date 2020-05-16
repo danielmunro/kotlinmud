@@ -18,11 +18,15 @@ class ItemService(private val items: MutableList<ItemOwner> = mutableListOf()) {
         autoId = if (items.isNotEmpty()) items.last().item.id else 0
     }
 
+    fun createItemBuilder(): ItemBuilder {
+        autoId++
+        return ItemBuilder()
+            .id(autoId)
+    }
+
     fun createItemBuilderBuilder(): ItemBuilderBuilder {
         return {
-            autoId++
-            ItemBuilder()
-                .id(autoId)
+            createItemBuilder()
         }
     }
 

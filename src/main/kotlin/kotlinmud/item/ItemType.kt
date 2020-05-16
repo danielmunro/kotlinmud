@@ -5,6 +5,8 @@ enum class ItemType {
     DRINK,
     EQUIPMENT,
 
+    FURNACE,
+
     LAND_GRANT,
 
     BUILDER_TABLE,
@@ -13,7 +15,12 @@ enum class ItemType {
     STICKS,
     DIRT,
     COBBLESTONE,
-    COAL,
+    COAL_LUMP,
+    COAL_ORE,
+    IRON_INGOT,
+    IRON_ORE,
+    GOLD_ORE,
+    GOLD_INGOT,
     GRASS_SEED,
     TAR,
     ICE,

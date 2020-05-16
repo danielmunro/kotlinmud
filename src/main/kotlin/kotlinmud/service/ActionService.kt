@@ -8,6 +8,7 @@ import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.action.contextBuilder.AvailableDrinkContextBuilder
 import kotlinmud.action.contextBuilder.AvailableFoodContextBuilder
+import kotlinmud.action.contextBuilder.AvailableItemInventoryContextBuilder
 import kotlinmud.action.contextBuilder.AvailableNounContextBuilder
 import kotlinmud.action.contextBuilder.CastContextBuilder
 import kotlinmud.action.contextBuilder.CommandContextBuilder
@@ -214,6 +215,7 @@ class ActionService(
             Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(request.mob).build(syntax, word)
             Syntax.RECIPE -> RecipeContextBuilder(recipes).build(syntax, word)
             Syntax.ITEM_TO_HARVEST -> ItemToHarvestContextBuilder(itemService.findAllByOwner(request.room), recipes).build(syntax, word)
+            Syntax.AVAILABLE_ITEM_INVENTORY -> AvailableItemInventoryContextBuilder(request.mob, request.room, itemService).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

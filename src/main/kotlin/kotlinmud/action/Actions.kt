@@ -18,6 +18,7 @@ import kotlinmud.action.impl.createListAction
 import kotlinmud.action.impl.createNorthAction
 import kotlinmud.action.impl.createOpenAction
 import kotlinmud.action.impl.createPracticeAction
+import kotlinmud.action.impl.createPutAction
 import kotlinmud.action.impl.createRecallAction
 import kotlinmud.action.impl.createRemoveAction
 import kotlinmud.action.impl.createSaveWorldAction
@@ -62,6 +63,7 @@ fun createActionsList(worldSaver: WorldSaver): List<Action> {
         createUpAction(),
         createDownAction(),
         createGetAction(),
+        createPutAction(),
         createDropAction(),
         createInventoryAction(),
         createEquipmentAction(),

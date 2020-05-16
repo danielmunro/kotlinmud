@@ -24,11 +24,11 @@ class Item(
     @DefaultValue("Position.NONE") val position: Position,
     @DefaultValue("") val attackVerb: String,
     @DefaultValue("mutableListOf()") @Mutable override val affects: MutableList<AffectInstance>,
-    @Mutable val inventory: MutableList<Item>?,
     @DefaultValue("Drink.NONE") val drink: Drink,
     @DefaultValue("Food.NONE") val food: Food,
     @DefaultValue("0") var quantity: Int,
-    @DefaultValue("-1") var decayTimer: Int
+    @DefaultValue("-1") var decayTimer: Int,
+    @DefaultValue("false") val hasInventory: Boolean
 ) : HasAttributes, Noun, Row, HasInventory {
 
     override fun toString(): String {

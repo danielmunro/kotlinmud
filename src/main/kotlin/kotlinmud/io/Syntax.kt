@@ -10,6 +10,7 @@ enum class Syntax(val syntax: String) {
     DIRECTION_WITH_NO_EXIT("direction with no exit"),
     ITEM_IN_ROOM("item in room"),
     ITEM_IN_INVENTORY("item in inventory"),
+    AVAILABLE_ITEM_INVENTORY("available item inventory"),
     EQUIPPED_ITEM("equipped item"),
     EQUIPMENT_IN_INVENTORY("equipment in inventory"),
     SPELL_FROM_HEALER("spell from healer"),

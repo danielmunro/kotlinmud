@@ -32,6 +32,10 @@ fun itemInInventory(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.ITEM_IN_INVENTORY)
 }
 
+fun itemInInventoryToAvailableInventory(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.ITEM_IN_INVENTORY, Syntax.AVAILABLE_ITEM_INVENTORY)
+}
+
 fun itemInRoom(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.ITEM_IN_ROOM)
 }

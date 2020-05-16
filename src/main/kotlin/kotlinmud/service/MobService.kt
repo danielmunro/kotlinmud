@@ -8,7 +8,6 @@ import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.io.Message
 import kotlinmud.item.Item
-import kotlinmud.item.ItemBuilder
 import kotlinmud.item.ItemOwner
 import kotlinmud.math.normalizeDouble
 import kotlinmud.mob.Disposition
@@ -188,13 +187,11 @@ class MobService(
     }
 
     fun createCorpseFrom(mob: Mob): Item {
-        val corpse = ItemBuilder()
-            .id(0)
+        val corpse = itemService.createItemBuilder()
             .name("a corpse of ${mob.name}")
             .description("a corpse of ${mob.name} is here.")
             .level(mob.level)
             .weight(corpseWeight)
-            .inventory(mutableListOf())
             .decayTimer(20)
             .build()
 
