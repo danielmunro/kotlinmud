@@ -19,6 +19,7 @@ import kotlinmud.action.contextBuilder.EquipmentInInventoryContextBuilder
 import kotlinmud.action.contextBuilder.EquippedItemContextBuilder
 import kotlinmud.action.contextBuilder.FreeFormContextBuilder
 import kotlinmud.action.contextBuilder.ItemFromMerchantContextBuilder
+import kotlinmud.action.contextBuilder.ItemInAvailableItemInventoryContextBuilder
 import kotlinmud.action.contextBuilder.ItemInInventoryContextBuilder
 import kotlinmud.action.contextBuilder.ItemInRoomContextBuilder
 import kotlinmud.action.contextBuilder.ItemToHarvestContextBuilder
@@ -40,6 +41,7 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
+import kotlinmud.item.HasInventory
 import kotlinmud.item.createRecipeList
 import kotlinmud.math.percentRoll
 import kotlinmud.mob.HasCosts
@@ -184,10 +186,15 @@ class ActionService(
     private fun buildActionContextList(request: Request, invokable: Invokable): ActionContextList {
         logger.debug("${request.mob} building action context :: {}, {}", invokable.command, invokable.syntax)
         var i = 0
-        return ActionContextList(invokable.syntax.map { createContext(request, it, if (request.args.size > i) request.args[i++] else "") } as MutableList<Context<Any>>)
+        var previous: Context<Any> = Context(Syntax.NOOP, Status.OK, request)
+        return ActionContextList(invokable.syntax.map {
+            val current = createContext(request, it, if (request.args.size > i) request.args[i++] else "", previous)
+            previous = current
+            current
+        } as MutableList<Context<Any>>)
     }
 
-    private fun createContext(request: Request, syntax: Syntax, word: String): Context<Any> {
+    private fun createContext(request: Request, syntax: Syntax, word: String, previous: Context<Any>): Context<Any> {
         return when (syntax) {
             Syntax.DIRECTION_TO_EXIT -> DirectionToExitContextBuilder(request.room).build(syntax, word)
             Syntax.DIRECTION_WITH_NO_EXIT -> DirectionWithNoExitContextBuilder(request.room).build(syntax, word)
@@ -216,6 +223,7 @@ class ActionService(
             Syntax.RECIPE -> RecipeContextBuilder(recipes).build(syntax, word)
             Syntax.ITEM_TO_HARVEST -> ItemToHarvestContextBuilder(itemService.findAllByOwner(request.room), recipes).build(syntax, word)
             Syntax.AVAILABLE_ITEM_INVENTORY -> AvailableItemInventoryContextBuilder(request.mob, request.room, itemService).build(syntax, word)
+            Syntax.ITEM_IN_AVAILABLE_INVENTORY -> ItemInAvailableItemInventoryContextBuilder(itemService, previous.result as HasInventory).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

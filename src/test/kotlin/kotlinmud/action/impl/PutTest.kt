@@ -21,7 +21,7 @@ class PutTest {
             .hasInventory(true), room)
 
         // when
-        val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
+        val response = test.runAction(mob, "put ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(itemToPut)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you put $itemToPut into $itemWithInventory.")
@@ -34,7 +34,6 @@ class PutTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val room = test.getStartRoom()
 
         // given
         val itemToPut = test.createItem(mob)
@@ -42,7 +41,7 @@ class PutTest {
             .hasInventory(true), mob)
 
         // when
-        val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
+        val response = test.runAction(mob, "put ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(itemToPut)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you put $itemToPut into $itemWithInventory.")
@@ -62,7 +61,7 @@ class PutTest {
             .hasInventory(false), mob)
 
         // when
-        val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
+        val response = test.runAction(mob, "put ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(itemToPut)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you don't see anywhere to put that.")

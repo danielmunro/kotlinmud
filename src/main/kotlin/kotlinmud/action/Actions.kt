@@ -10,6 +10,7 @@ import kotlinmud.action.impl.createEastAction
 import kotlinmud.action.impl.createEatAction
 import kotlinmud.action.impl.createFleeAction
 import kotlinmud.action.impl.createGetAction
+import kotlinmud.action.impl.createGetFromItemAction
 import kotlinmud.action.impl.createHarvestAction
 import kotlinmud.action.impl.createHealAction
 import kotlinmud.action.impl.createHealListAction
@@ -63,6 +64,7 @@ fun createActionsList(worldSaver: WorldSaver): List<Action> {
         createUpAction(),
         createDownAction(),
         createGetAction(),
+        createGetFromItemAction(),
         createPutAction(),
         createDropAction(),
         createInventoryAction(),
