@@ -2,18 +2,17 @@ package kotlinmud.fs.loader.area.mapper
 
 import kotlinmud.fs.loader.area.model.RoomModel
 import kotlinmud.mob.Mob
-import kotlinmud.world.biome.Biome
 import kotlinmud.world.room.Direction
 import kotlinmud.world.room.Room
 import kotlinmud.world.room.exit.Door
 import kotlinmud.world.room.exit.Exit
 import kotlinmud.world.room.oppositeDirection
 
-class RoomMapper(private val biomes: List<Biome>, val mobs: List<Mob>, val roomModels: List<RoomModel>, val doors: List<Door>) {
+class RoomMapper(val mobs: List<Mob>, val roomModels: List<RoomModel>, val doors: List<Door>) {
     fun map(): List<Room> {
         val rooms = roomModels.map {
             val mob = if (it.ownerId > 0) mobs.find { mob -> it.ownerId == mob.id } else null
-            Room(it.id, it.area, it.name, it.description, it.regen, it.isIndoor, biomes.find { biome -> biome.biomeType == it.biomeType }!!, mutableListOf(), mob)
+            Room(it.id, it.area, it.name, it.description, it.regen, it.isIndoor, it.biomeType, mutableListOf(), mob)
         }
         val modelMap = mutableMapOf<Int, RoomModel>()
         val roomMap = mutableMapOf<Int, Room>()

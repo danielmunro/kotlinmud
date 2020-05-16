@@ -1,6 +1,6 @@
 package kotlinmud.fs.loader.area.model
 
-import kotlinmud.world.biome.BiomeType
+import kotlinmud.world.BiomeType
 import kotlinmud.world.room.RegenLevel
 
 data class RoomModel(

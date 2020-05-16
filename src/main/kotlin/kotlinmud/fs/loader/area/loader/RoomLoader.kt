@@ -2,7 +2,7 @@ package kotlinmud.fs.loader.area.loader
 
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.model.RoomModel
-import kotlinmud.world.biome.BiomeType
+import kotlinmud.world.BiomeType
 import kotlinmud.world.room.RegenLevel
 
 class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion: Int) : Loader {

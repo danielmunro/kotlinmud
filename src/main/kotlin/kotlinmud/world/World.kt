@@ -26,7 +26,7 @@ data class World(private val areas: List<Area>) {
         val allRoomModels = areas.flatMap { it.roomMapper.roomModels }
         val allDoors = areas.flatMap { it.roomMapper.doors }
         mobs = Table(areas.flatMap { it.mobs }.toMutableList())
-        val allRoomsMapper = RoomMapper(biomes, mobs.toList(), allRoomModels, allDoors)
+        val allRoomsMapper = RoomMapper(mobs.toList(), allRoomModels, allDoors)
         doors = Table(allDoors.toMutableList())
         rooms = Table(allRoomsMapper.map().toMutableList())
         items = Table(areas.flatMap { it.items }.toMutableList())

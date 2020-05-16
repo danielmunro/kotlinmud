@@ -1,4 +1,4 @@
-package kotlinmud.world.biome
+package kotlinmud.world
 
 enum class BiomeType(val value: String) {
     TUNDRA("tundra"),
