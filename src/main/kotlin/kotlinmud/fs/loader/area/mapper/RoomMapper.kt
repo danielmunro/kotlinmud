@@ -4,6 +4,7 @@ import kotlinmud.fs.loader.area.model.RoomModel
 import kotlinmud.mob.Mob
 import kotlinmud.world.room.Direction
 import kotlinmud.world.room.Room
+import kotlinmud.world.room.RoomBuilder
 import kotlinmud.world.room.exit.Door
 import kotlinmud.world.room.exit.Exit
 import kotlinmud.world.room.oppositeDirection
@@ -12,7 +13,16 @@ class RoomMapper(val mobs: List<Mob>, val roomModels: List<RoomModel>, val doors
     fun map(): List<Room> {
         val rooms = roomModels.map {
             val mob = if (it.ownerId > 0) mobs.find { mob -> it.ownerId == mob.id } else null
-            Room(it.id, it.area, it.name, it.description, it.regen, it.isIndoor, it.biomeType, mutableListOf(), mob)
+            RoomBuilder()
+                .id(it.id)
+                .area(it.area)
+                .name(it.name)
+                .description(it.description)
+                .regen(it.regen)
+                .isIndoor(it.isIndoor)
+                .biome(it.biomeType)
+                .owner(mob)
+                .build()
         }
         val modelMap = mutableMapOf<Int, RoomModel>()
         val roomMap = mutableMapOf<Int, Room>()

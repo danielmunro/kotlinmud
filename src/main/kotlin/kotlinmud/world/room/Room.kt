@@ -1,11 +1,13 @@
 package kotlinmud.world.room
 
 import com.thinkinglogic.builder.annotation.Builder
+import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.data.Row
 import kotlinmud.item.HasInventory
 import kotlinmud.mob.Mob
 import kotlinmud.world.BiomeType
+import kotlinmud.world.resource.Resource
 import kotlinmud.world.room.exit.DoorDisposition
 import kotlinmud.world.room.exit.Exit
 
@@ -18,7 +20,8 @@ data class Room(
     val regen: RegenLevel,
     val isIndoor: Boolean,
     val biome: BiomeType,
-    @Mutable val exits: MutableList<Exit> = mutableListOf(),
+    @DefaultValue("mutableListOf()") @Mutable val resources: MutableList<Resource>,
+    @DefaultValue("mutableListOf()") @Mutable val exits: MutableList<Exit>,
     var owner: Mob?
 ) : Row, HasInventory {
 
