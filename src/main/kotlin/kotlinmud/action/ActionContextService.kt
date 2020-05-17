@@ -25,6 +25,7 @@ import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.WeatherService
 import kotlinmud.weather.Weather
+import kotlinmud.world.ResourceType
 import kotlinmud.world.room.Direction
 import kotlinmud.world.room.NewRoom
 import kotlinmud.world.room.RegenLevel
@@ -46,8 +47,8 @@ class ActionContextService(
         return craftingService.craft(recipe, request.mob)
     }
 
-    fun harvest(recipe: Recipe): List<Item> {
-        return craftingService.harvest(recipe, request.room, request.mob)
+    fun harvest(resourceType: ResourceType): Item {
+        return craftingService.harvest(resourceType, request.room, request.mob)
     }
 
     fun getWeather(): Weather {

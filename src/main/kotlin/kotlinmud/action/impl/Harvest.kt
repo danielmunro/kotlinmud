@@ -6,21 +6,28 @@ import kotlinmud.action.mustBeStanding
 import kotlinmud.exception.HarvestException
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
-import kotlinmud.io.itemInRoom
 import kotlinmud.io.messageToActionCreator
-import kotlinmud.item.Item
-import kotlinmud.item.Recipe
+import kotlinmud.io.resourceInRoom
+import kotlinmud.mob.skill.Cost
+import kotlinmud.mob.skill.CostType
+import kotlinmud.world.ResourceType
 
 fun createHarvestAction(): Action {
-    return Action(Command.HARVEST, mustBeStanding(), itemInRoom()) { svc ->
-        val recipe = svc.get<Recipe>(Syntax.ITEM_TO_HARVEST)
-        val item = svc.get<Item>(Syntax.ITEM_TO_HARVEST)
+    return Action(
+        Command.HARVEST,
+        mustBeStanding(),
+        resourceInRoom(),
+        listOf(
+            Cost(CostType.DELAY, 1),
+            Cost(CostType.MV_PERCENT, 1)
+        )) { svc ->
+        val resourceType = svc.get<ResourceType>(Syntax.RESOURCE_IN_ROOM)
         try {
-            svc.harvest(recipe)
+            svc.harvest(resourceType)
             svc.createResponse(
                 MessageBuilder()
-                    .toActionCreator("you successfully harvest $item into ${recipe.name}.")
-                    .toObservers("${svc.getMob()} harvests $item into ${recipe.name}.")
+                    .toActionCreator("you successfully harvest ${resourceType.value}.")
+                    .toObservers("${svc.getMob()} harvests ${resourceType.value}.")
                     .build()
             )
         } catch (exception: HarvestException) {

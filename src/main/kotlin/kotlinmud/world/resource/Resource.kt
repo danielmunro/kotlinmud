@@ -8,5 +8,5 @@ interface Resource {
     val resourceType: ResourceType
     val growable: Boolean
     val toughness: Int
-    fun produces(builder: ItemBuilderBuilder): Item
+    fun createProduct(builder: ItemBuilderBuilder): Item
 }

@@ -10,7 +10,7 @@ class GoldOre : Resource {
     override val growable: Boolean = false
     override val toughness: Int = 3
 
-    override fun produces(builder: ItemBuilderBuilder): Item {
+    override fun createProduct(builder: ItemBuilderBuilder): Item {
         return builder()
             .name("a chunk of rock with hints of gold")
             .description("gold ore rock is here")

@@ -22,12 +22,12 @@ import kotlinmud.action.contextBuilder.ItemFromMerchantContextBuilder
 import kotlinmud.action.contextBuilder.ItemInAvailableItemInventoryContextBuilder
 import kotlinmud.action.contextBuilder.ItemInInventoryContextBuilder
 import kotlinmud.action.contextBuilder.ItemInRoomContextBuilder
-import kotlinmud.action.contextBuilder.ItemToHarvestContextBuilder
 import kotlinmud.action.contextBuilder.ItemToSellContextBuilder
 import kotlinmud.action.contextBuilder.MobInRoomContextBuilder
 import kotlinmud.action.contextBuilder.OptionalTargetContextBuilder
 import kotlinmud.action.contextBuilder.PlayerMobContextBuilder
 import kotlinmud.action.contextBuilder.RecipeContextBuilder
+import kotlinmud.action.contextBuilder.ResourceInRoomContextBuilder
 import kotlinmud.action.contextBuilder.SkillToPracticeContextBuilder
 import kotlinmud.action.contextBuilder.SpellContextBuilder
 import kotlinmud.action.contextBuilder.SpellFromHealerContextBuilder
@@ -116,9 +116,11 @@ class ActionService(
                     argumentLengthMatches(it.syntax, request.args) &&
                     subCommandMatches(syntax, subPart, request.getSubject())
         }?.let {
+            val contextList = buildActionContextList(request, it)
             dispositionCheck(request, it)
+                ?: checkForBadContext(contextList)
                 ?: deductCosts(request.mob, it)
-                ?: callInvokable(request, it, buildActionContextList(request, it))
+                ?: callInvokable(request, it, contextList)
         }
     }
 
@@ -177,16 +179,20 @@ class ActionService(
     }
 
     private fun callInvokable(request: Request, invokable: Invokable, list: ActionContextList): Response {
-        return list.getBadResult()?.let {
-            createResponseWithEmptyActionContext(
-                messageToActionCreator(it.result as String),
-                IOStatus.ERROR
-            )
-        } ?: with(invokable.invoke(ActionContextService(mobService, itemService, eventService, weatherService, list, server, request))) {
+        return checkForBadContext(list) ?: with(invokable.invoke(ActionContextService(mobService, itemService, eventService, weatherService, list, server, request))) {
             if (invokable is Action && invokable.isChained())
                 run(createChainToRequest(request.mob, invokable))
             else
                 this
+        }
+    }
+
+    private fun checkForBadContext(contextList: ActionContextList): Response? {
+        return contextList.getBadResult()?.let {
+            createResponseWithEmptyActionContext(
+                messageToActionCreator(it.result as String),
+                IOStatus.ERROR
+            )
         }
     }
 
@@ -232,7 +238,7 @@ class ActionService(
             Syntax.TRAINABLE -> TrainableContextBuilder(mobService, request.mob).build(syntax, word)
             Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(request.mob).build(syntax, word)
             Syntax.RECIPE -> RecipeContextBuilder(recipes).build(syntax, word)
-            Syntax.ITEM_TO_HARVEST -> ItemToHarvestContextBuilder(itemService.findAllByOwner(request.room), recipes).build(syntax, word)
+            Syntax.RESOURCE_IN_ROOM -> ResourceInRoomContextBuilder(request.room).build(syntax, word)
             Syntax.AVAILABLE_ITEM_INVENTORY -> AvailableItemInventoryContextBuilder(request.mob, request.room, itemService).build(syntax, word)
             Syntax.ITEM_IN_AVAILABLE_INVENTORY -> ItemInAvailableItemInventoryContextBuilder(itemService, previous.result as HasInventory).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")

@@ -9,7 +9,7 @@ class PineTree : Resource {
     override val resourceType: ResourceType = ResourceType.PINE_TREE
     override val growable: Boolean = true
     override val toughness: Int = 2
-    override fun produces(builder: ItemBuilderBuilder): Item {
+    override fun createProduct(builder: ItemBuilderBuilder): Item {
         return builder()
             .name("a lump of coal")
             .description("a lump of coal is here")

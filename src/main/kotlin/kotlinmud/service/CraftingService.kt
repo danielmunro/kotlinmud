@@ -9,9 +9,16 @@ import kotlinmud.item.ItemOwner
 import kotlinmud.item.ItemType
 import kotlinmud.item.Recipe
 import kotlinmud.mob.Mob
+import kotlinmud.world.ResourceType
+import kotlinmud.world.createResourceList
+import kotlinmud.world.resource.Resource
 import kotlinmud.world.room.Room
 
-class CraftingService(private val itemService: ItemService, private val recipeList: List<Recipe>) {
+class CraftingService(
+    private val itemService: ItemService,
+    private val recipeList: List<Recipe>
+) {
+    private val resources: List<Resource> = createResourceList()
     companion object {
         fun createListOfItemTypesFromMap(components: Map<ItemType, Int>): List<ItemType> {
             val componentsList: MutableList<ItemType> = mutableListOf()
@@ -54,16 +61,12 @@ class CraftingService(private val itemService: ItemService, private val recipeLi
         }.toList()
     }
 
-    fun harvest(recipe: Recipe, room: Room, mob: Mob): List<Item> {
-        itemService.findAllByOwner(room).find {
-            it.type == recipe.getComponents().keys.first()
-        }?.let {
-            itemService.destroy(it)
-            return recipe.getProducts().stream().map { product ->
-                val newItem = product.copy()
-                itemService.changeItemOwner(newItem, mob)
-                newItem
-            }.toList()
+    fun harvest(resourceType: ResourceType, room: Room, mob: Mob): Item {
+        room.resources.remove(resourceType)
+        resources.find { it.resourceType == resourceType }?.let {
+            val item = it.createProduct(itemService.createItemBuilderBuilder())
+            itemService.add(ItemOwner(item, mob))
+            return item
         } ?: throw HarvestException()
     }
 }

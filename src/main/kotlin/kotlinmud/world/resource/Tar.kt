@@ -9,7 +9,7 @@ class Tar : Resource {
     override val resourceType: ResourceType = ResourceType.TAR
     override val growable: Boolean = false
     override val toughness: Int = 2
-    override fun produces(builder: ItemBuilderBuilder): Item {
+    override fun createProduct(builder: ItemBuilderBuilder): Item {
         return builder()
             .name("a lump of tar")
             .description("a lump of tar is here")

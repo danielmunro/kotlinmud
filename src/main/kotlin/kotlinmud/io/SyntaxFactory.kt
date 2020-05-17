@@ -20,10 +20,6 @@ fun recipe(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.RECIPE)
 }
 
-fun itemToHarvest(): List<Syntax> {
-    return listOf(Syntax.COMMAND, Syntax.ITEM_TO_HARVEST)
-}
-
 fun itemFromMerchant(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.ITEM_FROM_MERCHANT)
 }
@@ -42,6 +38,14 @@ fun itemInInventoryAndAvailableInventory(): List<Syntax> {
 
 fun itemInRoom(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.ITEM_IN_ROOM)
+}
+
+fun resourceInRoom(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.RESOURCE_IN_ROOM)
+}
+
+fun resource(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.RESOURCE_IN_ROOM)
 }
 
 fun foodInInventory(): List<Syntax> {
