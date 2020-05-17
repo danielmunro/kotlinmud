@@ -21,6 +21,7 @@ class RoomMapper(val mobs: List<Mob>, val roomModels: List<RoomModel>, val doors
                 .regen(it.regen)
                 .isIndoor(it.isIndoor)
                 .biome(it.biomeType)
+                .resources(it.resources.toMutableList())
                 .owner(mob)
                 .build()
         }

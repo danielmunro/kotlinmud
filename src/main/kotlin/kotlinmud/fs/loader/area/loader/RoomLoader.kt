@@ -3,6 +3,7 @@ package kotlinmud.fs.loader.area.loader
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.model.RoomModel
 import kotlinmud.world.BiomeType
+import kotlinmud.world.ResourceType
 import kotlinmud.world.room.RegenLevel
 
 class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion: Int) : Loader {
@@ -20,6 +21,7 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
     var down = ""
     var area = ""
     var biomeType = BiomeType.NONE
+    var resources = listOf<ResourceType>()
     override var props: Map<String, String> = mapOf()
 
     override fun load(): RoomModel {
@@ -28,6 +30,12 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
         description = tokenizer.parseString()
         area = tokenizer.parseString()
         biomeType = BiomeType.fromString(tokenizer.parseString())
+        resources = if (loadSchemaVersion <= 4) listOf() else {
+            tokenizer.parseString().trim().split(",").mapNotNull {
+                val trimmed = it.trim()
+                if (trimmed != "") ResourceType.fromString(trimmed) else null
+            }.toList()
+        }
         props = tokenizer.parseProperties()
         regen = RegenLevel.valueOf(strAttr("regen", "normal").toUpperCase())
         isIndoor = strAttr("isIndoor", "true").toBoolean()
@@ -39,6 +47,6 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
         down = props["d"] ?: ""
         ownerId = intAttr("ownerId", 0)
 
-        return RoomModel(id, name, description, regen, isIndoor, north, south, east, west, up, down, area, biomeType, ownerId)
+        return RoomModel(id, name, description, regen, isIndoor, north, south, east, west, up, down, area, biomeType, resources, ownerId)
     }
 }

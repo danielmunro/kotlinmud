@@ -3,8 +3,10 @@ package kotlinmud.world.resource
 import kotlinmud.item.Item
 import kotlinmud.item.ItemType
 import kotlinmud.service.ItemBuilderBuilder
+import kotlinmud.world.ResourceType
 
 class GoldOre : Resource {
+    override val resourceType: ResourceType = ResourceType.GOLD_ORE
     override val growable: Boolean = false
     override val toughness: Int = 3
 

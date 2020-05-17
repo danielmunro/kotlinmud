@@ -3,8 +3,10 @@ package kotlinmud.world.resource
 import kotlinmud.item.Item
 import kotlinmud.item.ItemType
 import kotlinmud.service.ItemBuilderBuilder
+import kotlinmud.world.ResourceType
 
 class Brush : Resource {
+    override val resourceType: ResourceType = ResourceType.BRUSH
     override val growable: Boolean = false
     override val toughness: Int = 1
     override fun produces(builder: ItemBuilderBuilder): Item {

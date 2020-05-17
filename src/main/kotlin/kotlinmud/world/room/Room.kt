@@ -7,6 +7,7 @@ import kotlinmud.data.Row
 import kotlinmud.item.HasInventory
 import kotlinmud.mob.Mob
 import kotlinmud.world.BiomeType
+import kotlinmud.world.ResourceType
 import kotlinmud.world.resource.Resource
 import kotlinmud.world.room.exit.DoorDisposition
 import kotlinmud.world.room.exit.Exit
@@ -20,7 +21,7 @@ data class Room(
     val regen: RegenLevel,
     val isIndoor: Boolean,
     val biome: BiomeType,
-    @DefaultValue("mutableListOf()") @Mutable val resources: MutableList<Resource>,
+    @DefaultValue("mutableListOf()") @Mutable val resources: MutableList<ResourceType>,
     @DefaultValue("mutableListOf()") @Mutable val exits: MutableList<Exit>,
     var owner: Mob?
 ) : Row, HasInventory {

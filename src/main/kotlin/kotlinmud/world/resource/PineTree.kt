@@ -3,8 +3,10 @@ package kotlinmud.world.resource
 import kotlinmud.item.Item
 import kotlinmud.item.ItemType
 import kotlinmud.service.ItemBuilderBuilder
+import kotlinmud.world.ResourceType
 
 class PineTree : Resource {
+    override val resourceType: ResourceType = ResourceType.PINE_TREE
     override val growable: Boolean = true
     override val toughness: Int = 2
     override fun produces(builder: ItemBuilderBuilder): Item {

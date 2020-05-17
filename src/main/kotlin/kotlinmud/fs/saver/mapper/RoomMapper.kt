@@ -8,6 +8,7 @@ ${room.name}~
 ${room.description}~
 ${room.area}~
 ${room.biome.value}~
+${room.resources.joinToString(", ") { it.value }}~
 ownerId: ${room.owner?.id ?: 0}, ${room.exits.joinToString(", ") {
         it.direction.value[0] + ": " + (if (it.door != null) "door-${it.door.id}-" else "") + it.destination.id
     }}~
