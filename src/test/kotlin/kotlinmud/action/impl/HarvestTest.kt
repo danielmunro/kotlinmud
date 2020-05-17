@@ -1,6 +1,7 @@
 package kotlinmud.action.impl
 
 import assertk.assertThat
+import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
@@ -16,6 +17,7 @@ class HarvestTest {
         val test = createTestService()
         val mob = test.createMob()
         val room = test.getStartRoom()
+        val itemCount = test.getItemsFor(mob).size
 
         // given
         room.resources.add(ResourceType.IRON_ORE)
@@ -28,6 +30,8 @@ class HarvestTest {
         assertThat(response.message.toObservers).isEqualTo("$mob harvests iron ore.")
         assertThat(mob.delay).isGreaterThan(0)
         assertThat(mob.mv).isLessThan(mob.calc(Attribute.MV))
+        assertThat(test.getItemsFor(mob)).hasSize(itemCount + 1)
+        assertThat(room.resources).hasSize(0)
     }
 
     @Test
