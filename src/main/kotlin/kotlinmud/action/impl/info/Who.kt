@@ -3,12 +3,12 @@ package kotlinmud.action.impl.info
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlive
-import kotlinmud.io.Message
+import kotlinmud.io.messageToActionCreator
 
 fun createWhoAction(): Action {
     return Action(Command.WHO, mustBeAlive()) { svc ->
         svc.createResponse(
-            Message(
+            messageToActionCreator(
                 "MORTALS\n---------------\n" +
                         svc.getClients().fold("") { acc, it ->
                             acc +

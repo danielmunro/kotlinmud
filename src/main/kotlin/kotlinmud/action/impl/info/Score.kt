@@ -4,15 +4,15 @@ import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlive
 import kotlinmud.attributes.Attribute
-import kotlinmud.io.Message
 import kotlinmud.io.createResponseWithEmptyActionContext
+import kotlinmud.io.messageToActionCreator
 
 fun createScoreAction(): Action {
     return Action(Command.SCORE, mustBeAlive()) { svc ->
         val mob = svc.getMob()
         val items = svc.getItemsFor(mob)
         createResponseWithEmptyActionContext(
-            Message(
+            messageToActionCreator(
                 "You are $mob, unknown years old.\n" +
                         "hp, mana, mv status lines.\n" +
                         "You have ${mob.hp} of ${mob.calc(Attribute.HP)} hit points," +

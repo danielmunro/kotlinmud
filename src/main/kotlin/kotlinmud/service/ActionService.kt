@@ -35,12 +35,12 @@ import kotlinmud.action.contextBuilder.TargetMobContextBuilder
 import kotlinmud.action.contextBuilder.TrainableContextBuilder
 import kotlinmud.attributes.Attribute
 import kotlinmud.io.IOStatus
-import kotlinmud.io.Message
 import kotlinmud.io.NIOServer
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.io.createResponseWithEmptyActionContext
+import kotlinmud.io.messageToActionCreator
 import kotlinmud.item.HasInventory
 import kotlinmud.item.createRecipeList
 import kotlinmud.math.percentRoll
@@ -81,12 +81,14 @@ class ActionService(
 
     fun run(request: Request): Response {
         if (request.input == "") {
-            return createResponseWithEmptyActionContext(Message(""))
+            return createResponseWithEmptyActionContext(messageToActionCreator(""))
         }
         return runSkill(request)
             ?: runAction(request)
             ?: createResponseWithEmptyActionContext(
-                Message("what was that?"), IOStatus.ERROR)
+                messageToActionCreator("what was that?"),
+                IOStatus.ERROR
+            )
     }
 
     private fun runSkill(request: Request): Response? {
@@ -138,7 +140,9 @@ class ActionService(
             }
         }
         if (cost != null) {
-            return createResponseWithEmptyActionContext(Message("You are too tired"))
+            return createResponseWithEmptyActionContext(
+                messageToActionCreator("You are too tired")
+            )
         }
         hasCosts.costs.forEach {
             when (it.type) {
@@ -158,19 +162,26 @@ class ActionService(
 
     private fun skillRoll(level: Int): Response? {
         return if (percentRoll() < level) null else createResponseWithEmptyActionContext(
-            Message("You lost your concentration."), IOStatus.FAILED)
+            messageToActionCreator("You lost your concentration."),
+            IOStatus.FAILED
+        )
     }
 
     private fun dispositionCheck(request: Request, requiresDisposition: RequiresDisposition): Response? {
         return if (!requiresDisposition.dispositions.contains(request.getDisposition()))
-                createResponseWithEmptyActionContext(Message("you are ${request.getDisposition().value} and cannot do that."))
+                createResponseWithEmptyActionContext(
+                    messageToActionCreator("you are ${request.getDisposition().value} and cannot do that.")
+                )
             else
                 null
     }
 
     private fun callInvokable(request: Request, invokable: Invokable, list: ActionContextList): Response {
         return list.getBadResult()?.let {
-            createResponseWithEmptyActionContext(Message(it.result as String), IOStatus.ERROR)
+            createResponseWithEmptyActionContext(
+                messageToActionCreator(it.result as String),
+                IOStatus.ERROR
+            )
         } ?: with(invokable.invoke(ActionContextService(mobService, itemService, eventService, weatherService, list, server, request))) {
             if (invokable is Action && invokable.isChained())
                 run(createChainToRequest(request.mob, invokable))

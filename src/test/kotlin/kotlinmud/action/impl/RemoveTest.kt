@@ -26,7 +26,6 @@ class RemoveTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you remove a shield and put it in your inventory.")
-        assertThat(response.message.toTarget).isEqualTo("$mob removes a shield and puts it in their inventory.")
         assertThat(response.message.toObservers).isEqualTo("$mob removes a shield and puts it in their inventory.")
 
         // and

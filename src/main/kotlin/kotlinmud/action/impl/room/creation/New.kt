@@ -3,8 +3,8 @@ package kotlinmud.action.impl.room.creation
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
-import kotlinmud.io.Message
 import kotlinmud.io.Syntax
+import kotlinmud.io.messageToActionCreator
 import kotlinmud.io.subcommandWithFreeForm
 
 fun createRoomNewAction(): Action {
@@ -12,6 +12,7 @@ fun createRoomNewAction(): Action {
         val name = it.get<String>(Syntax.FREE_FORM)
         it.createNewRoom(name)
         it.createResponse(
-            Message("you are starting to create a room. Finalize your room and then type 'room build <direction>'."))
+            messageToActionCreator("you are starting to create a room. Finalize your room and then type 'room build <direction>'.")
+        )
     }
 }

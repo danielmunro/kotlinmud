@@ -5,7 +5,7 @@ import kotlinmud.action.ActionContextService
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
 import kotlinmud.affect.Affect
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
@@ -41,9 +41,11 @@ class Bite : SkillAction {
         target.hp -= Random.nextInt(1, limit) +
                 if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)
         return actionContextService.createResponse(
-            Message(
-            "You bite $target.",
-                "${actionContextService.getMob()} bites you.",
-                "${actionContextService.getMob()} bites $target."))
+            MessageBuilder()
+                .toActionCreator("You bite $target.")
+                .toTarget("${actionContextService.getMob()} bites you.")
+                .toObservers("${actionContextService.getMob()} bites $target.")
+                .build()
+        )
     }
 }

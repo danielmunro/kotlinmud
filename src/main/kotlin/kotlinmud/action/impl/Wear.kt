@@ -3,7 +3,7 @@ package kotlinmud.action.impl
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.equipmentInInventory
 import kotlinmud.item.Item
@@ -19,10 +19,10 @@ fun createWearAction(): Action {
         }
         svc.getMob().equipped.add(item)
         svc.createResponse(
-            Message(
-                "you ${if (removed != null) "remove $removed and " else ""}wear $item.",
-                "${svc.getMob()} ${if (removed != null) "removes $removed and " else "" }wears $item."
-            )
+            MessageBuilder()
+                .toActionCreator("you ${if (removed != null) "remove $removed and " else ""}wear $item.")
+                .toObservers("${svc.getMob()} ${if (removed != null) "removes $removed and " else "" }wears $item.")
+                .build()
         )
     }
 }

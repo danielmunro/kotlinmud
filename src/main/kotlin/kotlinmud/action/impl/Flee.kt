@@ -3,7 +3,7 @@ package kotlinmud.action.impl
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeFighting
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.command
 import kotlinmud.mob.skill.Cost
 import kotlinmud.mob.skill.CostType
@@ -16,9 +16,10 @@ fun createFleeAction(): Action {
             exit.destination,
             exit.direction)
         it.createResponse(
-            Message(
-                "you flee!",
-                "${it.getMob()} flees!")
+            MessageBuilder()
+                .toActionCreator("you flee!")
+                .toObservers("${it.getMob()} flees!")
+                .build()
         )
     }
 }

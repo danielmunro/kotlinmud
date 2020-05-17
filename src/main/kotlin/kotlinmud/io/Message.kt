@@ -1,7 +1,12 @@
 package kotlinmud.io
 
+import com.thinkinglogic.builder.annotation.Builder
+import com.thinkinglogic.builder.annotation.DefaultValue
+
+@Builder
 data class Message(
-    val toActionCreator: String,
-    val toTarget: String = "",
-    val toObservers: String = toTarget
+    @DefaultValue("\"\"") val toActionCreator: String,
+    @DefaultValue("\"\"") val toTarget: String,
+    @DefaultValue("toTarget") val toObservers: String,
+    @DefaultValue("true") val sendPrompt: Boolean
 )

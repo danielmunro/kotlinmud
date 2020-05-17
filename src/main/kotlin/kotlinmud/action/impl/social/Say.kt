@@ -3,9 +3,10 @@ package kotlinmud.action.impl.social
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.freeForm
+import kotlinmud.io.messageToActionCreator
 import kotlinmud.player.social.Social
 import kotlinmud.player.social.SocialChannel
 
@@ -17,12 +18,11 @@ fun createSayAction(): Action {
                 SocialChannel.SAY,
                 it.getMob(),
                 it.getRoom(),
-                Message(
-                    "you say, \"$text\"",
-                    "${it.getMob()} says, \"$text\""
-                )
+                MessageBuilder()
+                    .toTarget("${it.getMob()} says, \"$text\"")
+                    .build()
             )
         )
-        it.createResponse(Message("you say, \"$text\""))
+        it.createResponse(messageToActionCreator("you say, \"$text\""))
     }
 }

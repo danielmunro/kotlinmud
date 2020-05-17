@@ -3,7 +3,7 @@ package kotlinmud.action.impl
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.itemFromMerchant
 import kotlinmud.item.Item
@@ -17,11 +17,11 @@ fun createBuyAction(): Action {
         it.deductGold(item.worth)
         shopkeeper.gold += item.worth
         it.createResponse(
-            Message(
-                "you buy $item from $shopkeeper for ${item.worth} gold.",
-                "${it.getMob()} buys $item from you.",
-                "${it.getMob()} buys $item from $shopkeeper."
-            )
+            MessageBuilder()
+                .toActionCreator("you buy $item from $shopkeeper for ${item.worth} gold.")
+                .toTarget("${it.getMob()} buys $item from you.")
+                .toObservers("${it.getMob()} buys $item from $shopkeeper.")
+                .build()
         )
     }
 }

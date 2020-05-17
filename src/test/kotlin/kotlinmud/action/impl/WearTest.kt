@@ -25,7 +25,6 @@ class WearTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you wear a shield.")
-        assertThat(response.message.toTarget).isEqualTo("$mob wears a shield.")
         assertThat(response.message.toObservers).isEqualTo("$mob wears a shield.")
 
         // and

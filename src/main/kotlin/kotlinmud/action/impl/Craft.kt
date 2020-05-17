@@ -4,8 +4,9 @@ import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeStanding
 import kotlinmud.exception.CraftException
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
+import kotlinmud.io.messageToActionCreator
 import kotlinmud.io.recipe
 import kotlinmud.item.Recipe
 
@@ -17,14 +18,16 @@ fun createCraftAction(): Action {
         try {
             svc.craft(recipe)
         } catch (craftException: CraftException) {
-            return@Action svc.createResponse(Message("you don't have all the necessary components."))
+            return@Action svc.createResponse(
+                messageToActionCreator("you don't have all the necessary components.")
+            )
         }
 
         svc.createResponse(
-            Message(
-                "you craft ${recipe.name}.",
-                "$mob crafts ${recipe.name}."
-            )
+            MessageBuilder()
+                .toActionCreator("you craft ${recipe.name}.")
+                .toObservers("$mob crafts ${recipe.name}.")
+                .build()
         )
     }
 }

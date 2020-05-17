@@ -2,16 +2,16 @@ package kotlinmud.action.impl.info
 
 import kotlinmud.action.Action
 import kotlinmud.action.Command
-import kotlinmud.io.Message
 import kotlinmud.io.createResponseWithEmptyActionContext
+import kotlinmud.io.messageToActionCreator
 import kotlinmud.weather.Weather
 
 fun createWeatherAction(): Action {
     return Action(Command.WEATHER) {
         if (it.getRoom().isIndoor)
-            createResponseWithEmptyActionContext(Message("You can't see the weather indoors."))
+            createResponseWithEmptyActionContext(messageToActionCreator("You can't see the weather indoors."))
         else createResponseWithEmptyActionContext(
-            Message(
+            messageToActionCreator(
                 when (it.getWeather()) {
                     Weather.BLIZZARD -> "A blizzard blows fiercely."
                     Weather.BLUSTERY -> "A strong wind blows from the west."

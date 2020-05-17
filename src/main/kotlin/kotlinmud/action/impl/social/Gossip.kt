@@ -3,9 +3,10 @@ package kotlinmud.action.impl.social
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlive
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.freeForm
+import kotlinmud.io.messageToActionCreator
 import kotlinmud.player.social.Social
 import kotlinmud.player.social.SocialChannel
 
@@ -17,12 +18,11 @@ fun createGossipAction(): Action {
                 SocialChannel.GOSSIP,
                 it.getMob(),
                 it.getRoom(),
-                Message(
-                    "you gossip, \"$text\"",
-                    "${it.getMob()} gossips, \"$text\""
-                )
+                MessageBuilder()
+                    .toTarget("${it.getMob()} gossips, \"$text\"")
+                    .build()
             )
         )
-        it.createResponse(Message("you gossip, \"$text\""))
+        it.createResponse(messageToActionCreator("you gossip, \"$text\""))
     }
 }

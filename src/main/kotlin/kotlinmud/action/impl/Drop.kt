@@ -3,7 +3,7 @@ package kotlinmud.action.impl
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.itemInInventory
 import kotlinmud.item.Item
@@ -13,6 +13,10 @@ fun createDropAction(): Action {
         val item = it.get<Item>(Syntax.ITEM_IN_INVENTORY)
         it.changeItemOwner(item, it.getRoom())
         it.createResponse(
-            Message("you drop ${item.name}.", "${it.getMob()} drops ${item.name}."))
+            MessageBuilder()
+                .toActionCreator("you drop ${item.name}.")
+                .toObservers("${it.getMob()} drops ${item.name}.")
+                .build()
+        )
     }
 }

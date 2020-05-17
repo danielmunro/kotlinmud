@@ -1,7 +1,7 @@
 package kotlinmud.mob
 
 import kotlinmud.event.createSendMessageToRoomEvent
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.path.Pathfinder
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
@@ -36,10 +36,10 @@ class MobController(
             itemService.changeItemOwner(item, mob)
             eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
-                    Message(
-                        "you pick up $item.",
-                        "$mob picks up $item."
-                    ),
+                    MessageBuilder()
+                        .toActionCreator("you pick up $item.")
+                        .toObservers("$mob picks up $item.")
+                        .build(),
                     room,
                     mob
                 )
@@ -83,10 +83,10 @@ class MobController(
             exit.door.disposition = DoorDisposition.OPEN
             eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
-                    Message(
-                        "you open ${exit.door}.",
-                        "$mob opens ${exit.door}."
-                    ),
+                    MessageBuilder()
+                        .toActionCreator("you open ${exit.door}.")
+                        .toObservers("$mob opens ${exit.door}.")
+                        .build(),
                     room,
                     mob
                 )

@@ -7,7 +7,7 @@ import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.attributes.isVitals
 import kotlinmud.attributes.setAttribute
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.trainable
 
@@ -19,10 +19,10 @@ fun createTrainAction(): Action {
             setAttribute(AttributesBuilder(), attribute, if (isVitals(attribute)) 10 else 1).build()
         )
         it.createResponse(
-            Message(
-                "you train your ${getImprove(attribute)}.",
-                "${it.getMob()} trains their ${getImprove(attribute)}."
-            )
+            MessageBuilder()
+                .toActionCreator("you train your ${getImprove(attribute)}.")
+                .toObservers("${it.getMob()} trains their ${getImprove(attribute)}.")
+                .build()
         )
     }
 }

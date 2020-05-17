@@ -3,7 +3,7 @@ package kotlinmud.action.impl
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.availableInventoryAndItem
 import kotlinmud.item.Item
@@ -14,10 +14,10 @@ fun createPutAction(): Action {
         val availableItemInventory = it.get<Item>(Syntax.AVAILABLE_ITEM_INVENTORY)
         it.changeItemOwner(item, availableItemInventory)
         it.createResponse(
-            Message(
-                "you put $item into $availableItemInventory.",
-                "${it.getMob()} puts $item into $availableItemInventory."
-            )
+            MessageBuilder()
+                .toActionCreator("you put $item into $availableItemInventory.")
+                .toObservers("${it.getMob()} puts $item into $availableItemInventory.")
+                .build()
         )
     }
 }

@@ -4,9 +4,10 @@ import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeStanding
 import kotlinmud.exception.HarvestException
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.itemInRoom
+import kotlinmud.io.messageToActionCreator
 import kotlinmud.item.Item
 import kotlinmud.item.Recipe
 
@@ -16,9 +17,14 @@ fun createHarvestAction(): Action {
         val item = svc.get<Item>(Syntax.ITEM_TO_HARVEST)
         try {
             svc.harvest(recipe)
-            svc.createResponse(Message("you successfully harvest $item into ${recipe.name}."))
+            svc.createResponse(
+                MessageBuilder()
+                    .toActionCreator("you successfully harvest $item into ${recipe.name}.")
+                    .toObservers("${svc.getMob()} harvests $item into ${recipe.name}.")
+                    .build()
+            )
         } catch (exception: HarvestException) {
-            svc.createResponse(Message("you can't find it anywhere."))
+            svc.createResponse(messageToActionCreator("you can't find it anywhere."))
         }
     }
 }

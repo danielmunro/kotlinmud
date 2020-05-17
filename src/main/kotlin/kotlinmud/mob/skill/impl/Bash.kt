@@ -8,7 +8,7 @@ import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
 import kotlinmud.affect.impl.StunnedAffect
 import kotlinmud.attributes.Attributes
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
@@ -54,10 +54,11 @@ class Bash : SkillAction {
         target.hp -= modifier
         target.affects().add(AffectInstance(
             AffectType.STUNNED, modifier / 5, Attributes(0, 0, 0, 0, -1)))
-        return actionContextService.createResponse(Message(
-            "you slam into $target and send them flying!",
-            "${actionContextService.getMob()} slams into you and sends you flying!",
-            "${actionContextService.getMob()} slams into $target and sends them flying!"
-        ))
+        return actionContextService.createResponse(MessageBuilder()
+            .toActionCreator("you slam into $target and send them flying!")
+            .toTarget("${actionContextService.getMob()} slams into you and sends you flying!")
+            .toObservers("${actionContextService.getMob()} slams into $target and sends them flying!")
+            .build()
+        )
     }
 }

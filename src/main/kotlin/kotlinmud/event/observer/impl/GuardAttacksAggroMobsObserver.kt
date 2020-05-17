@@ -4,7 +4,7 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.observer.Observer
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.mob.JobType
 import kotlinmud.mob.fight.Fight
 import kotlinmud.service.MobService
@@ -23,11 +23,11 @@ class GuardAttacksAggroMobsObserver(private val mobService: MobService) : Observ
             }.forEach {
                 mobService.addFight(Fight(it, fight.aggressor))
                 mobService.sendMessageToRoom(
-                    Message(
-                        "You scream and attack ${fight.aggressor}!",
-                        "$it screams and attacks you!",
-                        "$it screams and attacks ${fight.aggressor}"
-                    ),
+                    MessageBuilder()
+                        .toActionCreator("You scream and attack ${fight.aggressor}!")
+                        .toTarget("$it screams and attacks you!")
+                        .toObservers("$it screams and attacks ${fight.aggressor}")
+                        .build(),
                     room,
                     it,
                     fight.aggressor

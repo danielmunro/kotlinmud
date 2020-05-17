@@ -2,16 +2,16 @@ package kotlinmud.action.impl
 
 import kotlinmud.action.Action
 import kotlinmud.action.Command
-import kotlinmud.io.Message
+import kotlinmud.io.messageToActionCreator
 import kotlinmud.mob.JobType
 import kotlinmud.string.leftPad
 
 fun createListAction(): Action {
     return Action(Command.LIST) { svc ->
         val shopkeeper = svc.getMobsInRoom().find { it.job == JobType.SHOPKEEPER }
-            ?: return@Action svc.createResponse(Message("There are no shopkeepers here."))
+            ?: return@Action svc.createResponse(messageToActionCreator("There are no shopkeepers here."))
         svc.createResponse(
-            Message(
+            messageToActionCreator(
                 "[lvl cost name]\n" +
                         svc.getItemGroupsFor(shopkeeper).map {
                             val level = it.value[0].level.toString()

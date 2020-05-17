@@ -7,6 +7,8 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
+import kotlinmud.io.messageToActionCreator
 import kotlinmud.item.Item
 import kotlinmud.item.ItemOwner
 import kotlinmud.math.normalizeDouble
@@ -163,7 +165,11 @@ class MobService(
             if (it.mob.isIncapacitated()) {
                 itemService.add(ItemOwner(createCorpseFrom(it.mob), it.room))
                 eventService.publishRoomMessage(createSendMessageToRoomEvent(
-                    Message("you are DEAD!", "${it.mob} has died!"),
+                    MessageBuilder()
+                        .toActionCreator("you are DEAD!")
+                        .toObservers("${it.mob} has died!")
+                        .sendPrompt(false)
+                        .build(),
                     it.room,
                     it.mob
                 ))
@@ -210,14 +216,14 @@ class MobService(
         sendRoundMessage(round.defenderAttacks, room, round.defender, round.attacker)
         eventService.publishRoomMessage(
             createSendMessageToRoomEvent(
-                Message(getHealthIndication(round.defender)),
+                messageToActionCreator(getHealthIndication(round.defender)),
                 room,
                 round.attacker
             )
         )
         eventService.publishRoomMessage(
             createSendMessageToRoomEvent(
-                Message(getHealthIndication(round.attacker)),
+                messageToActionCreator(getHealthIndication(round.attacker)),
                 room,
                 round.defender
             )
@@ -231,11 +237,12 @@ class MobService(
             val verbPlural = if (it.attackResult == AttackResult.HIT) it.attackVerb.pluralize() else "misses"
             eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
-                    Message(
-                        "you $verb $defender.",
-                        "$attacker $verbPlural you.",
-                        "$attacker $verbPlural $defender."
-                    ),
+                    MessageBuilder()
+                        .toActionCreator("you $verb $defender.")
+                        .toTarget("$attacker $verbPlural you.")
+                        .toObservers("$attacker $verbPlural $defender.")
+                        .sendPrompt(false)
+                        .build(),
                     room,
                     attacker,
                     defender
@@ -259,15 +266,18 @@ fun getHealthIndication(mob: Mob): String {
 }
 
 fun createLeaveMessage(mob: Mob, direction: Direction): Message {
-    return Message(
-        "you leave heading ${direction.value}.",
-        "${mob.name} leaves heading ${direction.value}.")
+    return MessageBuilder()
+        .toActionCreator("you leave heading ${direction.value}.")
+        .toObservers("${mob.name} leaves heading ${direction.value}.")
+        .sendPrompt(false)
+        .build()
 }
 
 fun createArriveMessage(mob: Mob): Message {
-    return Message(
-        "",
-        "${mob.name} arrives.")
+    return MessageBuilder()
+        .toObservers("${mob.name} arrives.")
+        .sendPrompt(false)
+        .build()
 }
 
 fun getRegenRate(regenLevel: RegenLevel): Double {

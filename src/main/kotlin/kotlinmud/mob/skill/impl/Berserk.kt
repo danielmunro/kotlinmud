@@ -6,7 +6,7 @@ import kotlinmud.action.mustBeAlert
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
 import kotlinmud.affect.impl.BerserkAffect
-import kotlinmud.io.Message
+import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Disposition
@@ -41,9 +41,16 @@ class Berserk : SkillAction {
 
     override fun invoke(actionContextService: ActionContextService): Response {
         actionContextService.getMob().affects().add(
-            AffectInstance(AffectType.BERSERK, actionContextService.getLevel() / 8))
-        return actionContextService.createResponse(Message(
-            "Your pulse speeds up as you are consumed by rage!",
-            "${actionContextService.getMob()}'s pulse speeds up as they are consumed by rage!"))
+            AffectInstance(
+                AffectType.BERSERK,
+                actionContextService.getLevel() / 8
+            )
+        )
+        return actionContextService.createResponse(
+            MessageBuilder()
+                .toActionCreator("Your pulse speeds up as you are consumed by rage!")
+                .toObservers("${actionContextService.getMob()}'s pulse speeds up as they are consumed by rage!")
+                .build()
+        )
     }
 }

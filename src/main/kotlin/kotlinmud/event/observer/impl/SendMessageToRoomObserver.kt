@@ -19,9 +19,9 @@ class SendMessageToRoomObserver(private val server: NIOServer, private val mobSe
             .filter { !it.mob!!.isSleeping() && !it.mob!!.isIncapacitated() }
             .forEach {
                 when (it.mob) {
-                    messageEvent.actionCreator -> it.writePrompt(message.toActionCreator)
-                    messageEvent.target -> it.writePrompt(message.toTarget)
-                    else -> it.writePrompt(message.toObservers)
+                    messageEvent.actionCreator -> if (message.sendPrompt) it.writePrompt(message.toActionCreator) else it.write(message.toActionCreator + "\n")
+                    messageEvent.target -> it.write(message.toTarget + "\n")
+                    else -> it.write(message.toObservers + "\n")
                 }
             }
     }

@@ -3,15 +3,16 @@ package kotlinmud.action.impl.info
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
-import kotlinmud.io.Message
 import kotlinmud.io.createResponseWithEmptyActionContext
+import kotlinmud.io.messageToActionCreator
 import kotlinmud.item.Item
 
 fun createInventoryAction(): Action {
     return Action(Command.INVENTORY, mustBeAwake()) {
         val items = it.getItemsFor(it.getMob())
         createResponseWithEmptyActionContext(
-            Message("Your inventory:\n\n${describeItems(items)}"))
+            messageToActionCreator("Your inventory:\n\n${describeItems(items)}")
+        )
     }
 }
 
