@@ -8,7 +8,6 @@ import kotlinmud.item.HasInventory
 import kotlinmud.mob.Mob
 import kotlinmud.world.BiomeType
 import kotlinmud.world.ResourceType
-import kotlinmud.world.resource.Resource
 import kotlinmud.world.room.exit.DoorDisposition
 import kotlinmud.world.room.exit.Exit
 
