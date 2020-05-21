@@ -11,7 +11,9 @@ import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.createClientDisconnectedEvent
 import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
+import okhttp3.internal.closeQuietly
 import org.slf4j.LoggerFactory
+import java.io.IOException
 
 const val SELECT_TIMEOUT_MS: Long = 1
 const val READ_BUFFER_SIZE_IN_BYTES = 1024
@@ -88,9 +90,14 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
 
     private fun handleRead(key: SelectionKey) {
         val socket = socketChannelFromKey(key)
-        readSocket(socket).let {
-            getClientBySocket(socket).addInput(it)
-            checkSocketForQuit(socket, it)
+        try {
+            readSocket(socket).let {
+                getClientBySocket(socket).addInput(it)
+                checkSocketForQuit(socket, it)
+            }
+        } catch (e: IOException) {
+            logger.debug("socket io exception, closing :: {}", socket.remoteAddress)
+            socket.closeQuietly()
         }
     }
 
