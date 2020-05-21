@@ -13,7 +13,6 @@ import kotlinmud.item.Recipe
 fun createCraftAction(): Action {
     return Action(Command.CRAFT, mustBeStanding(), recipe()) { svc ->
         val recipe: Recipe = svc.get(Syntax.RECIPE)
-        val mob = svc.getMob()
 
         try {
             svc.craft(recipe)
@@ -26,7 +25,7 @@ fun createCraftAction(): Action {
         svc.createResponse(
             MessageBuilder()
                 .toActionCreator("you craft ${recipe.name}.")
-                .toObservers("$mob crafts ${recipe.name}.")
+                .toObservers("${svc.getMob()} crafts ${recipe.name}.")
                 .build()
         )
     }
