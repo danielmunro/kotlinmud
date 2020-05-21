@@ -24,6 +24,7 @@ import kotlinmud.action.contextBuilder.ItemInInventoryContextBuilder
 import kotlinmud.action.contextBuilder.ItemInRoomContextBuilder
 import kotlinmud.action.contextBuilder.ItemToSellContextBuilder
 import kotlinmud.action.contextBuilder.MobInRoomContextBuilder
+import kotlinmud.action.contextBuilder.OptionalFurnitureContextBuilder
 import kotlinmud.action.contextBuilder.OptionalTargetContextBuilder
 import kotlinmud.action.contextBuilder.PlayerMobContextBuilder
 import kotlinmud.action.contextBuilder.RecipeContextBuilder
@@ -241,6 +242,7 @@ class ActionService(
             Syntax.RESOURCE_IN_ROOM -> ResourceInRoomContextBuilder(request.room).build(syntax, word)
             Syntax.AVAILABLE_ITEM_INVENTORY -> AvailableItemInventoryContextBuilder(request.mob, request.room, itemService).build(syntax, word)
             Syntax.ITEM_IN_AVAILABLE_INVENTORY -> ItemInAvailableItemInventoryContextBuilder(itemService, previous.result as HasInventory).build(syntax, word)
+            Syntax.OPTIONAL_FURNITURE -> OptionalFurnitureContextBuilder(itemService.findAllByOwner(request.room)).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
     }

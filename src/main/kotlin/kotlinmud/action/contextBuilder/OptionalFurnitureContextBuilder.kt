@@ -10,7 +10,7 @@ class OptionalFurnitureContextBuilder(private val itemsInRoom: List<Item>) : Con
         return itemsInRoom.find {
             kotlinmud.string.matches(it.name, word)
         }?.let {
-            Context(syntax, Status.OK, it)
-        } ?: Context(syntax, Status.FAILED, "you can't find that anywhere.")
+            Context<Any>(syntax, Status.OK, it)
+        } ?: Context<Any>(syntax, Status.FAILED, "you can't find that anywhere.")
     }
 }
