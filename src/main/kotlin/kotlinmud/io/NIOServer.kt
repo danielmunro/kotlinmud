@@ -19,6 +19,12 @@ const val SELECT_TIMEOUT_MS: Long = 1
 const val READ_BUFFER_SIZE_IN_BYTES = 1024
 
 class NIOServer(private val eventService: EventService, val port: Int = 0) {
+    companion object {
+        fun socketChannelFromKey(key: SelectionKey): SocketChannel {
+            return key.channel() as SocketChannel
+        }
+    }
+
     private val selector: Selector = Selector.open()
     private val clients: NIOClients = mutableListOf()
     private val socket = ServerSocketChannel.open()
@@ -40,7 +46,7 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
             eventService.publish(createClientDisconnectedEvent(it))
         }
         if (lost.size > 0) {
-            logger.info("removing {} disconnected clients", lost.size)
+            logger.info("remove disconnected clients :: {}", lost.size)
         }
         clients.removeAll(lost)
     }
@@ -78,26 +84,35 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
         }.toMutableList()
     }
 
-    private fun handleAccept(mySocket: ServerSocketChannel) {
-        val socket = mySocket.accept()
-        socket.configureBlocking(false)
-        socket.register(selector, SelectionKey.OP_READ)
+    private fun handleAccept(newSocket: ServerSocketChannel) {
+        val socket = configureAndAcceptSocket(newSocket)
         val client = NIOClient(socket)
         eventService.publish(createClientConnectedEvent(client))
         clients.add(client)
         logger.info("connection accepted :: {}", socket.remoteAddress)
     }
 
+    private fun configureAndAcceptSocket(mySocket: ServerSocketChannel): SocketChannel {
+        val socket = mySocket.accept()
+        socket.configureBlocking(false)
+        socket.register(selector, SelectionKey.OP_READ)
+        return socket
+    }
+
     private fun handleRead(key: SelectionKey) {
         val socket = socketChannelFromKey(key)
         try {
-            readSocket(socket).let {
-                getClientBySocket(socket).addInput(it)
-                checkSocketForQuit(socket, it)
-            }
+            readSocketIntoClient(socket)
         } catch (e: IOException) {
             logger.debug("socket io exception, closing :: {}", socket.remoteAddress)
             socket.closeQuietly()
+        }
+    }
+
+    private fun readSocketIntoClient(socket: SocketChannel) {
+        readSocket(socket).let {
+            getClientBySocket(socket).addInput(it)
+            checkSocketForQuit(socket, it)
         }
     }
 
@@ -117,8 +132,4 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
     private fun getClientBySocket(socket: SocketChannel): NIOClient {
         return clients.find { it.socket == socket }!!
     }
-}
-
-fun socketChannelFromKey(key: SelectionKey): SocketChannel {
-    return key.channel() as SocketChannel
 }
