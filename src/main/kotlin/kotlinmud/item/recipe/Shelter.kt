@@ -6,24 +6,24 @@ import kotlinmud.item.ItemType
 import kotlinmud.item.Material
 import kotlinmud.item.Recipe
 
-class BuilderTable : Recipe {
-    override val name: String = "a builder's table"
+class Shelter : Recipe {
+    override val name: String = "shelter"
 
     override fun getComponents(): Map<ItemType, Int> {
-        return mapOf(Pair(ItemType.LUMBER, 4))
+        return mapOf(
+            Pair(ItemType.LUMBER, 8)
+        )
     }
 
     override fun getProducts(): List<Item> {
         return listOf(
             ItemBuilder()
                 .id(0)
-                .type(ItemType.BUILDER_TABLE)
-                .name("a builder's table")
-                .description("A sturdy builder's table is here, crafted from fine wood with care.")
+                .type(ItemType.FURNITURE)
+                .name("a lean-to shelter")
+                .description("a lean-to has been constructed hastily here.")
                 .material(Material.WOOD)
-                .weight(20.0)
-                .level(1)
-                .worth(1)
+                .canOwn(false)
                 .build()
         )
     }

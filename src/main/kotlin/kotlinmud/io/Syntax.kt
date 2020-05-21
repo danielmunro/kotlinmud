@@ -29,5 +29,6 @@ enum class Syntax(val syntax: String) {
     AVAILABLE_FOOD("available food"),
     TRAINABLE("trainable"),
     SKILL_TO_PRACTICE("skill to practice"),
+    OPTIONAL_FURNITURE("optional furniture"),
     NOOP("noop"),
 }

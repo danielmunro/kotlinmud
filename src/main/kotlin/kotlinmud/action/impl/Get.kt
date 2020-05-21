@@ -11,6 +11,13 @@ import kotlinmud.item.Item
 fun createGetAction(): Action {
     return Action(Command.GET, mustBeAwake(), itemInRoom()) {
         val item = it.get<Item>(Syntax.ITEM_IN_ROOM)
+        if (!item.canOwn) {
+            return@Action it.createResponse(
+                MessageBuilder()
+                    .toActionCreator("you cannot pick that up.")
+                    .build()
+            )
+        }
         it.changeItemOwner(item, it.getMob())
         it.createResponse(
             MessageBuilder()

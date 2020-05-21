@@ -28,7 +28,8 @@ class Item(
     @DefaultValue("Food.NONE") val food: Food,
     @DefaultValue("0") var quantity: Int,
     @DefaultValue("-1") var decayTimer: Int,
-    @DefaultValue("false") val hasInventory: Boolean
+    @DefaultValue("false") val hasInventory: Boolean,
+    @DefaultValue("true") val canOwn: Boolean
 ) : HasAttributes, Noun, Row, HasInventory {
 
     override fun toString(): String {

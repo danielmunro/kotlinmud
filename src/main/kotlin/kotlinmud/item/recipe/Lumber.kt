@@ -16,7 +16,7 @@ class Lumber : Recipe {
     override fun getProducts(): List<Item> {
         return listOf(
             ItemBuilder()
-                .id(2)
+                .id(0)
                 .type(ItemType.LUMBER)
                 .name("lumber")
                 .description("Lumber has been processed and ready to use.")
