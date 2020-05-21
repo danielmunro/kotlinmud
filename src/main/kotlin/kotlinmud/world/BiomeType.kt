@@ -8,13 +8,23 @@ enum class BiomeType(val value: String) {
     DESERT("desert"),
     MOUNTAIN("mountain"),
     BADLANDS("badlands"),
-    UPPER_CRUST("upper_crust"),
-    LOWER_CRUST("lower_crust"),
     NONE("none");
 
     companion object {
         fun fromString(value: String): BiomeType {
             return valueOf(value.toUpperCase())
+        }
+
+        fun getAll(): List<BiomeType> {
+            return listOf(
+                TUNDRA,
+                PLAINS,
+                ARBOREAL,
+                JUNGLE,
+                DESERT,
+                MOUNTAIN,
+                BADLANDS
+            )
         }
     }
 }
