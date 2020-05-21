@@ -8,7 +8,6 @@ import kotlinmud.item.Item
 import kotlinmud.mob.Mob
 
 data class Area(
-    val baseDir: String,
     val roomMapper: RoomMapper,
     val items: List<Item>,
     val mobs: List<Mob>,

@@ -29,7 +29,6 @@ class AreaLoader(
     val mobs = loadMobs()
     fun load(): Area {
         return Area(
-            baseDir,
             createRoomMapper(mobs),
             loadItems(),
             mobs,
