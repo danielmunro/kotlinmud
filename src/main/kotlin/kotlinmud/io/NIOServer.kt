@@ -1,5 +1,6 @@
 package kotlinmud.io
 
+import java.io.IOException
 import java.net.InetSocketAddress
 import java.nio.ByteBuffer
 import java.nio.channels.SelectionKey
@@ -13,7 +14,6 @@ import kotlinmud.mob.Mob
 import kotlinmud.service.EventService
 import okhttp3.internal.closeQuietly
 import org.slf4j.LoggerFactory
-import java.io.IOException
 
 const val SELECT_TIMEOUT_MS: Long = 1
 const val READ_BUFFER_SIZE_IN_BYTES = 1024

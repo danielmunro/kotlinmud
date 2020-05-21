@@ -1,10 +1,10 @@
 package kotlinmud.world.generation
 
+import java.util.*
+import kotlin.random.Random.Default.nextInt
 import kotlinmud.world.BiomeType
 import kotlinmud.world.room.RegenLevel
 import kotlinmud.world.room.Room
-import java.util.*
-import kotlin.random.Random.Default.nextInt
 
 typealias Blocks = Array<Array<IntArray>>
 
@@ -57,7 +57,6 @@ class Generator(private val width: Int, private val length: Int) {
 
         biomeLayer.forEach { row ->
             row.forEach {
-
             }
         }
     }
