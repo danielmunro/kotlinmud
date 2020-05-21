@@ -3,9 +3,7 @@ package kotlinmud.action.impl
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Syntax
 import kotlinmud.io.optionalFurniture
-import kotlinmud.item.Item
 import kotlinmud.mob.Disposition
 
 fun createSleepAction(): Action {
