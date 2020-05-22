@@ -3,10 +3,9 @@ package kotlinmud.player.authStep
 import kotlinmud.io.IOStatus
 import kotlinmud.io.PreAuthRequest
 import kotlinmud.io.PreAuthResponse
-import kotlinmud.player.AuthService
 import org.slf4j.LoggerFactory
 
-class PasswordAuthStep(private val authService: AuthService) : AuthStep {
+class PasswordAuthStep(private val authService: AuthStepService) : AuthStep {
     override val authorizationStep: AuthorizationStep = AuthorizationStep.PASSWORD
     override val promptMessage: String = "enter OTP:"
     override val errorMessage: String = "sorry, there was an error."

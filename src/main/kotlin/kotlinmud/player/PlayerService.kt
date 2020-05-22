@@ -9,9 +9,11 @@ import kotlinmud.io.NIOClient
 import kotlinmud.io.PreAuthRequest
 import kotlinmud.io.PreAuthResponse
 import kotlinmud.player.authStep.AuthStep
+import kotlinmud.player.authStep.AuthStepService
 import kotlinmud.player.authStep.EmailAuthStep
 import kotlinmud.player.mapper.mapPlayer
 import kotlinmud.player.model.Player
+import kotlinmud.player.model.PlayerBuilder
 import kotlinmud.random.generateOTP
 import kotlinmud.service.EmailService
 
@@ -23,7 +25,11 @@ class PlayerService(
     private val loggedInPlayers: MutableMap<NIOClient, Player> = mutableMapOf()
 
     fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
-        val authStep = preAuthClients[request.client] ?: EmailAuthStep(AuthService(this))
+        val authStep = preAuthClients[request.client] ?: EmailAuthStep(
+            AuthStepService(
+                this
+            )
+        )
         val response = authStep.handlePreAuthRequest(request)
         if (response.status == IOStatus.OK) {
             val nextAuthStep = authStep.getNextAuthStep()
@@ -41,8 +47,12 @@ class PlayerService(
         return players.find { it.lastOTP == otp }
     }
 
-    fun addPlayer(player: Player) {
+    fun createNewPlayerWithEmailAddress(emailAddress: String): Player {
+        val player = PlayerBuilder()
+            .email(emailAddress)
+            .build()
         players.add(player)
+        return player
     }
 
     fun sendOTP(player: Player) {
@@ -64,7 +74,7 @@ class PlayerService(
     }
 
     fun addPreAuthClient(client: NIOClient) {
-        preAuthClients[client] = EmailAuthStep(AuthService(this))
+        preAuthClients[client] = EmailAuthStep(AuthStepService(this))
     }
 
     fun writePlayersFile() {
