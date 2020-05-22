@@ -3,8 +3,8 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.io.Syntax
-import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
+import kotlinmud.mob.type.JobType
 
 class SpellFromHealerContextBuilder(private val mobs: List<Mob>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

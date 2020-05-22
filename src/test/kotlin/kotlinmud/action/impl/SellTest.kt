@@ -2,7 +2,7 @@ package kotlinmud.action.impl
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.mob.JobType
+import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 import org.junit.Test

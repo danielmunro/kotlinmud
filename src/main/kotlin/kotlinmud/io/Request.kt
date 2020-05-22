@@ -1,7 +1,7 @@
 package kotlinmud.io
 
-import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
+import kotlinmud.mob.type.Disposition
 import kotlinmud.world.room.Room
 
 data class Request(

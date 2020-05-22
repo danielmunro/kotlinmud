@@ -1,8 +1,8 @@
 package kotlinmud.fs.saver.mapper
 
-import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
-import kotlinmud.mob.SpecializationType
+import kotlinmud.mob.type.JobType
+import kotlinmud.mob.type.SpecializationType
 
 fun mapMob(mob: Mob): String {
     val optional = optional(mob.job != JobType.NONE, "job: ${mob.job.value}") +

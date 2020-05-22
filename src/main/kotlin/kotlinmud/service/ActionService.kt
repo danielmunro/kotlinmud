@@ -46,7 +46,6 @@ import kotlinmud.item.HasInventory
 import kotlinmud.item.createRecipeList
 import kotlinmud.math.percentRoll
 import kotlinmud.mob.HasCosts
-import kotlinmud.mob.Intent
 import kotlinmud.mob.Invokable
 import kotlinmud.mob.Mob
 import kotlinmud.mob.RequiresDisposition
@@ -54,6 +53,7 @@ import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.skill.CostType
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.createSkillList
+import kotlinmud.mob.type.Intent
 import org.slf4j.LoggerFactory
 
 fun commandMatches(command: Command, input: String): Boolean {

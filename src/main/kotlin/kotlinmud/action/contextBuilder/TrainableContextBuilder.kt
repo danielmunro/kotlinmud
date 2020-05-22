@@ -5,8 +5,8 @@ import kotlinmud.action.Status
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.isVitals
 import kotlinmud.io.Syntax
-import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
+import kotlinmud.mob.type.JobType
 import kotlinmud.service.MobService
 
 class TrainableContextBuilder(private val mobService: MobService, private val mob: Mob) : ContextBuilder {

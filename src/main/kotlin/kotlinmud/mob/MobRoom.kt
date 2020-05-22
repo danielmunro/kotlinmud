@@ -1,6 +1,7 @@
 package kotlinmud.mob
 
 import kotlinmud.item.Item
+import kotlinmud.mob.type.Disposition
 import kotlinmud.world.room.Room
 
 data class MobRoom(

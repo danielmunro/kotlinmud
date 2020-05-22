@@ -7,7 +7,7 @@ import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.itemInInventory
 import kotlinmud.item.Item
-import kotlinmud.mob.JobType
+import kotlinmud.mob.type.JobType
 
 fun createSellAction(): Action {
     return Action(Command.SELL, mustBeAlert(), itemInInventory()) {

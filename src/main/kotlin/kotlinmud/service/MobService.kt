@@ -12,7 +12,6 @@ import kotlinmud.io.messageToActionCreator
 import kotlinmud.item.Item
 import kotlinmud.item.ItemOwner
 import kotlinmud.math.normalizeDouble
-import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobRoom
 import kotlinmud.mob.corpseWeight
@@ -20,6 +19,7 @@ import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.type.Disposition
 import kotlinmud.world.World
 import kotlinmud.world.room.Direction
 import kotlinmud.world.room.NewRoom

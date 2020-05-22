@@ -17,6 +17,8 @@ import kotlinmud.mob.race.impl.Elf
 import kotlinmud.mob.race.impl.Faerie
 import kotlinmud.mob.race.impl.Goblin
 import kotlinmud.mob.race.impl.Ogre
+import kotlinmud.mob.type.Disposition
+import kotlinmud.mob.type.SpecializationType
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
 import org.junit.Test

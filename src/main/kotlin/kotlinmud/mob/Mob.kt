@@ -21,6 +21,10 @@ import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
 import kotlinmud.mob.race.RaceType
 import kotlinmud.mob.skill.SkillType
+import kotlinmud.mob.type.Disposition
+import kotlinmud.mob.type.Gender
+import kotlinmud.mob.type.JobType
+import kotlinmud.mob.type.SpecializationType
 import kotlinmud.service.AffectService
 
 const val corpseWeight = 20.0
@@ -40,7 +44,7 @@ class Mob(
     val race: Race,
     @DefaultValue("SpecializationType.NONE") val specialization: SpecializationType,
     val attributes: Attributes,
-    @Mutable val trainedAttributes: MutableList<Attributes>,
+    @DefaultValue("mutableListOf()") @Mutable val trainedAttributes: MutableList<Attributes>,
     @DefaultValue("JobType.NONE") val job: JobType,
     @DefaultValue("Gender.NONE") var gender: Gender,
     @DefaultValue("0") var gold: Int,

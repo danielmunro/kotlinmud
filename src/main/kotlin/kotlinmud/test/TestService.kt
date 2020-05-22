@@ -10,13 +10,13 @@ import kotlinmud.item.Item
 import kotlinmud.item.ItemBuilder
 import kotlinmud.item.ItemOwner
 import kotlinmud.item.Position
-import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobBuilder
 import kotlinmud.mob.MobController
 import kotlinmud.mob.MobRoom
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.type.JobType
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.FixtureService

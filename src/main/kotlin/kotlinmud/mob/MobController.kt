@@ -2,6 +2,7 @@ package kotlinmud.mob
 
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.io.MessageBuilder
+import kotlinmud.mob.type.JobType
 import kotlinmud.path.Pathfinder
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService

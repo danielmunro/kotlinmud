@@ -7,8 +7,8 @@ import assertk.assertions.isNotNull
 import kotlin.test.Test
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
-import kotlinmud.mob.Disposition
-import kotlinmud.mob.JobType
+import kotlinmud.mob.type.Disposition
+import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 

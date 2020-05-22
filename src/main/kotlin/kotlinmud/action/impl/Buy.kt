@@ -7,7 +7,7 @@ import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.itemFromMerchant
 import kotlinmud.item.Item
-import kotlinmud.mob.JobType
+import kotlinmud.mob.type.JobType
 
 fun createBuyAction(): Action {
     return Action(Command.BUY, mustBeAlert(), itemFromMerchant()) {

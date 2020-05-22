@@ -1,6 +1,6 @@
 package kotlinmud.action
 
-import kotlinmud.mob.Disposition
+import kotlinmud.mob.type.Disposition
 
 fun mustBeAlive(): List<Disposition> {
     return listOf(

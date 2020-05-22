@@ -1,9 +1,9 @@
 package kotlinmud.mob.race
 
 import kotlinmud.attributes.Attributes
-import kotlinmud.mob.Form
-import kotlinmud.mob.Size
 import kotlinmud.mob.fight.DamageType
+import kotlinmud.mob.type.Form
+import kotlinmud.mob.type.Size
 
 interface Race {
     val type: RaceType

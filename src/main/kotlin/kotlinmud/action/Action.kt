@@ -2,11 +2,11 @@ package kotlinmud.action
 
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
-import kotlinmud.mob.Disposition
 import kotlinmud.mob.HasCosts
 import kotlinmud.mob.Invokable
 import kotlinmud.mob.RequiresDisposition
 import kotlinmud.mob.skill.Cost
+import kotlinmud.mob.type.Disposition
 
 class Action(
     override val command: Command,

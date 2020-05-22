@@ -5,9 +5,9 @@ import kotlinmud.item.Position
 import kotlinmud.math.d20
 import kotlinmud.math.dN
 import kotlinmud.math.percentRoll
-import kotlinmud.mob.Disposition
 import kotlinmud.mob.Mob
 import kotlinmud.mob.skill.SkillType
+import kotlinmud.mob.type.Disposition
 import org.slf4j.LoggerFactory
 
 class Fight(private val mob1: Mob, private val mob2: Mob) {

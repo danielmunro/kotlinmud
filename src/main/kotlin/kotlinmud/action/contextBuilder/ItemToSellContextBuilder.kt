@@ -3,8 +3,8 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.io.Syntax
-import kotlinmud.mob.JobType
 import kotlinmud.mob.Mob
+import kotlinmud.mob.type.JobType
 import kotlinmud.service.ItemService
 
 class ItemToSellContextBuilder(

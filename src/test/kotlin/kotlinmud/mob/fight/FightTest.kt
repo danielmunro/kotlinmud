@@ -5,8 +5,8 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotEqualTo
 import kotlinmud.item.Position
-import kotlinmud.mob.Disposition
 import kotlinmud.mob.skill.SkillType
+import kotlinmud.mob.type.Disposition
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
 import org.junit.Test

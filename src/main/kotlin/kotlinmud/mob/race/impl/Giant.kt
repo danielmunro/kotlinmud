@@ -2,11 +2,11 @@ package kotlinmud.mob.race.impl
 
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.createStats
-import kotlinmud.mob.Form
-import kotlinmud.mob.Size
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
 import kotlinmud.mob.race.RaceType
+import kotlinmud.mob.type.Form
+import kotlinmud.mob.type.Size
 
 class Giant : Race {
     override val type: RaceType = RaceType.GIANT

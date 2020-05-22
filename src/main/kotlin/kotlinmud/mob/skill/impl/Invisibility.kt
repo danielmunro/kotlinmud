@@ -7,15 +7,15 @@ import kotlinmud.action.mustBeAlert
 import kotlinmud.affect.impl.InvisibilityAffect
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
-import kotlinmud.mob.Disposition
-import kotlinmud.mob.Intent
-import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.skill.Cost
 import kotlinmud.mob.skill.CostType
 import kotlinmud.mob.skill.LearningDifficulty
 import kotlinmud.mob.skill.SkillInvokesOn
 import kotlinmud.mob.skill.SkillType
 import kotlinmud.mob.skill.SpellAction
+import kotlinmud.mob.type.Disposition
+import kotlinmud.mob.type.Intent
+import kotlinmud.mob.type.SpecializationType
 
 class Invisibility : SpellAction {
     override val type: SkillType = SkillType.INVISIBILITY

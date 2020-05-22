@@ -4,7 +4,7 @@ import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.optionalFurniture
-import kotlinmud.mob.Disposition
+import kotlinmud.mob.type.Disposition
 
 fun createSleepAction(): Action {
     return Action(Command.SLEEP, listOf(Disposition.STANDING, Disposition.SITTING), optionalFurniture()) {

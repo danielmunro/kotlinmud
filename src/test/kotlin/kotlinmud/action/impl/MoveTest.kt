@@ -3,7 +3,7 @@ package kotlinmud.action.impl
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.action.impl.info.describeRoom
-import kotlinmud.mob.Disposition
+import kotlinmud.mob.type.Disposition
 import kotlinmud.test.createTestService
 import org.junit.Test
 

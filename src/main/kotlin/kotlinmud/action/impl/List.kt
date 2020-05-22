@@ -3,7 +3,7 @@ package kotlinmud.action.impl
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.io.messageToActionCreator
-import kotlinmud.mob.JobType
+import kotlinmud.mob.type.JobType
 import kotlinmud.string.leftPad
 
 fun createListAction(): Action {

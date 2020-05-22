@@ -1,4 +1,4 @@
-package kotlinmud.mob
+package kotlinmud.mob.type
 
 enum class Intent {
     OFFENSIVE,

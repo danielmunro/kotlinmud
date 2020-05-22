@@ -6,12 +6,12 @@ import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.AttributeSetter
 import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.fs.loader.Tokenizer
-import kotlinmud.mob.Disposition
-import kotlinmud.mob.JobType
 import kotlinmud.mob.MobBuilder
-import kotlinmud.mob.SpecializationType
 import kotlinmud.mob.mobBuilder
 import kotlinmud.mob.race.createRaceFromString
+import kotlinmud.mob.type.Disposition
+import kotlinmud.mob.type.JobType
+import kotlinmud.mob.type.SpecializationType
 
 class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
     var id = 0

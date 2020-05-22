@@ -3,8 +3,8 @@ package kotlinmud.action.impl
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.io.IOStatus
-import kotlinmud.mob.Disposition
 import kotlinmud.mob.fight.Fight
+import kotlinmud.mob.type.Disposition
 import kotlinmud.test.createTestService
 import org.junit.Test
 
