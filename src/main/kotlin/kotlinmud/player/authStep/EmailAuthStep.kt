@@ -14,7 +14,7 @@ class EmailAuthStep(private val authService: AuthService) : AuthStep {
     override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
         return try {
             authService.sendOTP(request.input)
-            PreAuthResponse(request, IOStatus.OK, "check your email for a password, and enter it here: ")
+            PreAuthResponse(request, IOStatus.OK, "ok")
         } catch (e: IllegalStateException) {
             PreAuthResponse(request, IOStatus.ERROR, e.message ?: "an error happened")
         }

@@ -10,6 +10,7 @@ import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
 import kotlinmud.event.observer.impl.IncreaseThirstAndHungerObserver
 import kotlinmud.event.observer.impl.LogTickObserver
 import kotlinmud.event.observer.impl.MoveMobsOnTickObserver
+import kotlinmud.event.observer.impl.PersistPlayersObserver
 import kotlinmud.event.observer.impl.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.PruneDeadMobsPulseObserver
 import kotlinmud.event.observer.impl.RegenMobsObserver
@@ -24,12 +25,12 @@ import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
 import kotlinmud.io.NIOServer
+import kotlinmud.player.PlayerService
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
 import kotlinmud.service.PersistenceService
-import kotlinmud.service.PlayerService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
@@ -71,6 +72,7 @@ fun createObservers(
         SocialDistributorObserver(server, mobService),
         ChangeWeatherObserver(weatherService),
         SaveVersionsObserver(persistenceService),
+        PersistPlayersObserver(playerService),
 
         // mobs
         WimpyObserver(mobService),

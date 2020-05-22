@@ -11,10 +11,10 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
+import kotlinmud.player.PlayerService
 import kotlinmud.service.ActionService
 import kotlinmud.service.EventService
 import kotlinmud.service.MobService
-import kotlinmud.service.PlayerService
 import kotlinmud.service.TimeService
 import org.slf4j.LoggerFactory
 
@@ -52,11 +52,12 @@ class App(
     }
 
     private fun processRequest(client: NIOClient) {
-        if (client.mob!!.delay > 0) {
+        if (client.mob != null && client.mob!!.delay > 0) {
             return
         }
         val input = client.buffers.removeAt(0)
         if (client.mob == null) {
+            logger.debug("pre-auth request :: {} : {}", client.socket.remoteAddress, input)
             playerService.handlePreAuthRequest(PreAuthRequest(client, input))
             return
         }

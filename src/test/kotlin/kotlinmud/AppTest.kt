@@ -13,12 +13,12 @@ import kotlinmud.app.App
 import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.NIOServer
 import kotlinmud.item.ItemOwner
+import kotlinmud.player.PlayerService
 import kotlinmud.service.ActionService
 import kotlinmud.service.EmailService
 import kotlinmud.service.EventService
 import kotlinmud.service.ItemService
 import kotlinmud.service.MobService
-import kotlinmud.service.PlayerService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
 import kotlinmud.test.createTestService
@@ -45,7 +45,10 @@ class AppTest {
             TimeService(eventService),
             server,
             ActionService(mobService, ItemService(), eventService, WeatherService(), server, createActionsList(WorldSaver(world))),
-            PlayerService(EmailService(Mailgun.Builder("", "").build()))
+            PlayerService(
+                EmailService(Mailgun.Builder("", "").build()),
+                mutableListOf()
+            )
         )
 
         // then

@@ -1,27 +1,34 @@
-package kotlinmud.service
+package kotlinmud.player
 
 import com.commit451.mailgun.Contact
 import com.commit451.mailgun.SendMessageRequest
+import java.io.File
+import kotlinmud.fs.PLAYER_FILE
 import kotlinmud.io.IOStatus
 import kotlinmud.io.NIOClient
 import kotlinmud.io.PreAuthRequest
 import kotlinmud.io.PreAuthResponse
-import kotlinmud.player.AuthService
-import kotlinmud.player.Player
 import kotlinmud.player.authStep.AuthStep
 import kotlinmud.player.authStep.EmailAuthStep
+import kotlinmud.player.mapper.mapPlayer
+import kotlinmud.player.model.Player
 import kotlinmud.random.generateOTP
+import kotlinmud.service.EmailService
 
-class PlayerService(private val emailService: EmailService) {
+class PlayerService(
+    private val emailService: EmailService,
     private val players: MutableList<Player> = mutableListOf()
-    private val preAuthClients: Map<NIOClient, AuthStep> = mutableMapOf()
-    private val loggedInPlayers: Map<NIOClient, Player> = mutableMapOf()
+) {
+    private val preAuthClients: MutableMap<NIOClient, AuthStep> = mutableMapOf()
+    private val loggedInPlayers: MutableMap<NIOClient, Player> = mutableMapOf()
 
     fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
         val authStep = preAuthClients[request.client] ?: EmailAuthStep(AuthService(this))
         val response = authStep.handlePreAuthRequest(request)
         if (response.status == IOStatus.OK) {
-            preAuthClients.plus(Pair(request.client, authStep.getNextAuthStep()))
+            val nextAuthStep = authStep.getNextAuthStep()
+            preAuthClients[request.client] = nextAuthStep
+            request.client.write(nextAuthStep.promptMessage)
         }
         return response
     }
@@ -34,6 +41,10 @@ class PlayerService(private val emailService: EmailService) {
         return players.find { it.lastOTP == otp }
     }
 
+    fun addPlayer(player: Player) {
+        players.add(player)
+    }
+
     fun sendOTP(player: Player) {
         val from = Contact("floodle@danmunro.com", "Floodle")
         val to = mutableListOf(Contact(player.email, "Login OTP"))
@@ -42,17 +53,22 @@ class PlayerService(private val emailService: EmailService) {
             SendMessageRequest.Builder(from)
                 .to(to)
                 .subject("Your OTP mud login")
-                .text("Hi,\n\n Here is your OTP login: $otp\n\nIt will expire five minutes from now.")
+                .text("Hi,\n\n Here is your OTP login: \"$otp\"\n\nIt will expire five minutes from now.")
                 .build()
         )
         player.lastOTP = otp
     }
 
     fun loginClientAsPlayer(client: NIOClient, player: Player) {
-        loggedInPlayers.plus(Pair(client, player))
+        loggedInPlayers[client] = player
     }
 
     fun addPreAuthClient(client: NIOClient) {
-        preAuthClients.plus(Pair(client, EmailAuthStep(AuthService(this))))
+        preAuthClients[client] = EmailAuthStep(AuthService(this))
+    }
+
+    fun writePlayersFile() {
+        val file = File(PLAYER_FILE)
+        file.writeText(players.joinToString { mapPlayer(it) })
     }
 }

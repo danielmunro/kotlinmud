@@ -6,10 +6,10 @@ import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOClient
 import kotlinmud.io.Request
+import kotlinmud.player.PlayerService
 import kotlinmud.service.ActionService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.MobService
-import kotlinmud.service.PlayerService
 
 class ClientConnectedObserver(
     private val playerService: PlayerService,
@@ -23,7 +23,8 @@ class ClientConnectedObserver(
         val connectedEvent = event.subject as ClientConnectedEvent
         val client = connectedEvent.client
         loginDummyMob(client)
-        addPreAuthClient(client)
+//        addPreAuthClient(client)
+//        client.write("email: ")
     }
 
     private fun loginDummyMob(client: NIOClient) {

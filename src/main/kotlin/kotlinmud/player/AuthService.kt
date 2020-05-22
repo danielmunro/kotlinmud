@@ -1,7 +1,8 @@
 package kotlinmud.player
 
 import kotlinmud.io.NIOClient
-import kotlinmud.service.PlayerService
+import kotlinmud.player.model.Player
+import kotlinmud.player.model.PlayerBuilder
 
 class AuthService(private val playerService: PlayerService) {
     fun findPlayerByOTP(otp: String): Player? {
@@ -11,7 +12,13 @@ class AuthService(private val playerService: PlayerService) {
     fun sendOTP(emailAddress: String) {
         playerService.findPlayerByEmailAddress(emailAddress)?.let {
             playerService.sendOTP(it)
-        } ?: error("no player to send OTP to")
+        } ?: run {
+            val player = PlayerBuilder()
+                .email(emailAddress)
+                .build()
+            playerService.addPlayer(player)
+            playerService.sendOTP(player)
+        }
     }
 
     fun loginClientAsPlayer(client: NIOClient, player: Player) {

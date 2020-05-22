@@ -4,10 +4,12 @@ import java.nio.ByteBuffer
 import java.nio.channels.ClosedChannelException
 import java.nio.channels.SocketChannel
 import kotlinmud.mob.Mob
+import kotlinmud.player.model.Player
 
 class NIOClient(val socket: SocketChannel) {
     val buffers: MutableList<String> = mutableListOf()
     var mob: Mob? = null
+    var player: Player? = null
     var connected = true
 
     fun addInput(input: String) {
