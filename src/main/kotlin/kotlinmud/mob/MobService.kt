@@ -1,12 +1,15 @@
 package kotlinmud.mob
 
 import com.cesarferreira.pluralize.pluralize
+import java.io.File
 import java.util.stream.Collectors
 import kotlinmud.attributes.Attribute
 import kotlinmud.event.Event
 import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
+import kotlinmud.fs.PLAYER_MOBS_FILE
+import kotlinmud.fs.saver.mapper.mapMob
 import kotlinmud.io.Message
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.messageToActionCreator
@@ -49,10 +52,6 @@ class MobService(
             it.mob.increaseMana((regen * it.mob.calc(Attribute.MANA)).toInt())
             it.mob.increaseMv((regen * it.mob.calc(Attribute.MV)).toInt())
         }
-    }
-
-    fun findPlayerMobByName(name: String): Mob? {
-        return playerMobs.find { it.name == name }
     }
 
     fun createNewRoom(mob: Mob): NewRoom {
@@ -123,6 +122,10 @@ class MobService(
 
     fun addMob(mob: Mob) {
         putMobInRoom(mob, getStartRoom())
+    }
+
+    fun addPlayerMob(mob: Mob) {
+        playerMobs.add(mob)
     }
 
     fun moveMob(mob: Mob, room: Room, direction: Direction) {
@@ -204,6 +207,11 @@ class MobService(
         itemService.transferAllItems(mob, corpse)
 
         return corpse
+    }
+
+    fun persistPlayerMobs() {
+        val file = File(PLAYER_MOBS_FILE)
+        file.writeText(playerMobs.joinToString("\n") { mapMob(it) })
     }
 
     private fun proceedFightRound(round: Round): Round {

@@ -12,7 +12,6 @@ import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
 import kotlinmud.event.observer.impl.IncreaseThirstAndHungerObserver
 import kotlinmud.event.observer.impl.LogTickObserver
 import kotlinmud.event.observer.impl.MoveMobsOnTickObserver
-import kotlinmud.event.observer.impl.PersistPlayersObserver
 import kotlinmud.event.observer.impl.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.PruneDeadMobsPulseObserver
 import kotlinmud.event.observer.impl.RegenMobsObserver
@@ -64,7 +63,7 @@ fun createObservers(
         DecrementAffectTimeoutTickObserver(mobService),
         DecrementDelayObserver(clientService),
         DecrementItemDecayTimerObserver(itemService),
-        SaveWorldObserver(persistenceService, world),
+        SaveWorldObserver(persistenceService, playerService, mobService, world),
         SaveTimeObserver(timeService, persistenceService),
 
         // game logic
@@ -74,7 +73,6 @@ fun createObservers(
         SocialDistributorObserver(server, mobService),
         ChangeWeatherObserver(weatherService),
         SaveVersionsObserver(persistenceService),
-        PersistPlayersObserver(playerService),
 
         // mobs
         WimpyObserver(mobService),

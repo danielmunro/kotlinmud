@@ -7,7 +7,7 @@ import kotlinmud.fs.PLAYER_FILE
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.player.model.Player
 import kotlinmud.player.model.PlayerBuilder
-import org.joda.time.LocalDateTime
+import org.joda.time.LocalDate
 
 class PlayerLoader(private val tokenizer: Tokenizer) {
     companion object {
@@ -34,7 +34,7 @@ class PlayerLoader(private val tokenizer: Tokenizer) {
         return PlayerBuilder()
             .email(tokenizer.parseString())
             .name(tokenizer.parseString())
-            .created(LocalDateTime.parse(tokenizer.parseString()))
+            .created(LocalDate.parse(tokenizer.parseString()))
             .mobs(tokenizer.parseString().split(",").toMutableList())
             .build()
     }

@@ -7,8 +7,10 @@ import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOClient
 import kotlinmud.io.Request
+import kotlinmud.mob.Appetite
 import kotlinmud.mob.MobService
 import kotlinmud.player.PlayerService
+import kotlinmud.player.model.MobCardBuilder
 import kotlinmud.service.FixtureService
 
 class ClientConnectedObserver(
@@ -29,12 +31,27 @@ class ClientConnectedObserver(
 
     private fun loginDummyMob(client: NIOClient) {
         val mob = fixtureService.createMobBuilder()
+            .name("foo")
             .isNpc(false)
             .trains(5)
             .practices(10)
             .gold(100)
             .build()
+        mobService.addPlayerMob(mob)
         mobService.addMob(mob)
+        playerService.createNewPlayerWithEmailAddress("foo@bar.com")
+        playerService.addMobCard(
+            MobCardBuilder()
+                .playerEmail("foo@bar.com")
+                .mobName("foo")
+                .trains(5)
+                .practices(5)
+                .appetite(Appetite(mob.race.maxAppetite, mob.race.maxThirst))
+                .experiencePerLevel(1000)
+                .build()
+        )
+        mobService.persistPlayerMobs()
+        playerService.persist()
         client.mob = mob
         actionService.run(Request(client.mob!!, "look", mobService.getStartRoom())).let {
             client.writePrompt(it.message.toActionCreator)
