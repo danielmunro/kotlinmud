@@ -1,7 +1,7 @@
 package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.Context
-import kotlinmud.action.Status
+import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 import kotlinmud.mob.MobService
 import kotlinmud.string.matches

@@ -1,7 +1,7 @@
 package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.Context
-import kotlinmud.action.Status
+import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 
 class FreeFormContextBuilder(private val input: List<String>) : ContextBuilder {

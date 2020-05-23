@@ -1,8 +1,8 @@
 package kotlinmud.action.impl
 
 import kotlinmud.action.Action
-import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
+import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.foodInInventory

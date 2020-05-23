@@ -2,7 +2,7 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.Noun
 import kotlinmud.action.Context
-import kotlinmud.action.Status
+import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
 import kotlinmud.string.matches

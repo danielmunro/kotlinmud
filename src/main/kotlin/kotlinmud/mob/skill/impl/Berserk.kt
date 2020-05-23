@@ -1,8 +1,8 @@
 package kotlinmud.mob.skill.impl
 
 import kotlinmud.action.ActionContextService
-import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
+import kotlinmud.action.type.Command
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
 import kotlinmud.affect.impl.BerserkAffect

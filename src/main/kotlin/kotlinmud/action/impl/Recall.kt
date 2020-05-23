@@ -1,8 +1,8 @@
 package kotlinmud.action.impl
 
 import kotlinmud.action.Action
-import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
+import kotlinmud.action.type.Command
 import kotlinmud.io.EmptyResponse
 import kotlinmud.io.command
 import kotlinmud.mob.skill.Cost

@@ -1,8 +1,8 @@
 package kotlinmud.action.impl.info
 
 import kotlinmud.action.Action
-import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlive
+import kotlinmud.action.type.Command
 import kotlinmud.io.messageToActionCreator
 
 fun createWhoAction(): Action {

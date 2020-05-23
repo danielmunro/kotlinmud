@@ -1,4 +1,4 @@
-package kotlinmud.action
+package kotlinmud.action.type
 
 enum class Command(val value: String) {
     // move

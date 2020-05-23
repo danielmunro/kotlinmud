@@ -1,5 +1,6 @@
 package kotlinmud.action
 
+import kotlinmud.action.type.Command
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.HasCosts

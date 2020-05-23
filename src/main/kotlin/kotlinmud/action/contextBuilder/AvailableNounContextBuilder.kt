@@ -1,7 +1,7 @@
 package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.Context
-import kotlinmud.action.Status
+import kotlinmud.action.type.Status
 import kotlinmud.affect.AffectType
 import kotlinmud.io.Syntax
 import kotlinmud.item.ItemService

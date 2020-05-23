@@ -1,8 +1,8 @@
 package kotlinmud.action.impl.room.owner
 
 import kotlinmud.action.Action
-import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
+import kotlinmud.action.type.Command
 import kotlinmud.io.messageToActionCreator
 import kotlinmud.io.subcommand
 

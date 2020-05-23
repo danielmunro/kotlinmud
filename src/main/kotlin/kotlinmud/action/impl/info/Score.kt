@@ -1,8 +1,8 @@
 package kotlinmud.action.impl.info
 
 import kotlinmud.action.Action
-import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlive
+import kotlinmud.action.type.Command
 import kotlinmud.attributes.Attribute
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.io.messageToActionCreator

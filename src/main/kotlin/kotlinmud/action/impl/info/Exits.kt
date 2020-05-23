@@ -1,7 +1,7 @@
 package kotlinmud.action.impl.info
 
 import kotlinmud.action.Action
-import kotlinmud.action.Command
+import kotlinmud.action.type.Command
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.io.messageToActionCreator
 import kotlinmud.world.room.exit.DoorDisposition

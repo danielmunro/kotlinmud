@@ -1,8 +1,8 @@
 package kotlinmud.action.impl
 
 import kotlinmud.action.Action
-import kotlinmud.action.Command
 import kotlinmud.action.mustBeStanding
+import kotlinmud.action.type.Command
 import kotlinmud.io.command
 import kotlinmud.io.messageToActionCreator
 

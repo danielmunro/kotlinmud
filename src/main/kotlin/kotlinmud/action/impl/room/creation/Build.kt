@@ -1,8 +1,8 @@
 package kotlinmud.action.impl.room.creation
 
 import kotlinmud.action.Action
-import kotlinmud.action.Command
 import kotlinmud.action.mustBeAlert
+import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.subcommandDirectionNoExit

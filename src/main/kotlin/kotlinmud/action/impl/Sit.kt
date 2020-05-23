@@ -1,7 +1,7 @@
 package kotlinmud.action.impl
 
 import kotlinmud.action.Action
-import kotlinmud.action.Command
+import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
 import kotlinmud.mob.type.Disposition
 

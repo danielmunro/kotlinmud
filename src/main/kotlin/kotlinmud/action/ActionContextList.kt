@@ -1,5 +1,6 @@
 package kotlinmud.action
 
+import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 
 data class ActionContextList(private val contexts: MutableList<Context<Any>>) {

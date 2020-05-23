@@ -1,7 +1,7 @@
 package kotlinmud.action.impl.social
 
 import kotlinmud.action.Action
-import kotlinmud.action.Command
+import kotlinmud.action.type.Command
 import kotlinmud.attributes.Attribute
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.createResponseWithEmptyActionContext
