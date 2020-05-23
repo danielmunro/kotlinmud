@@ -12,6 +12,7 @@ import kotlinmud.player.authStep.AuthStep
 import kotlinmud.player.authStep.AuthStepService
 import kotlinmud.player.authStep.EmailAuthStep
 import kotlinmud.player.mapper.mapPlayer
+import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.Player
 import kotlinmud.player.model.PlayerBuilder
 import kotlinmud.random.generateOTP
@@ -19,7 +20,8 @@ import kotlinmud.service.EmailService
 
 class PlayerService(
     private val emailService: EmailService,
-    private val players: MutableList<Player> = mutableListOf()
+    private val players: MutableList<Player>,
+    private val mobCards: MutableList<MobCard>
 ) {
     private val preAuthClients: MutableMap<NIOClient, AuthStep> = mutableMapOf()
     private val loggedInPlayers: MutableMap<NIOClient, Player> = mutableMapOf()
@@ -39,10 +41,6 @@ class PlayerService(
         return response
     }
 
-    fun findPlayerByEmailAddress(emailAddress: String): Player? {
-        return players.find { it.email == emailAddress }
-    }
-
     fun findPlayerByOTP(otp: String): Player? {
         return players.find { it.lastOTP == otp }
     }
@@ -52,6 +50,7 @@ class PlayerService(
             .email(emailAddress)
             .build()
         players.add(player)
+        writePlayersFile()
         return player
     }
 

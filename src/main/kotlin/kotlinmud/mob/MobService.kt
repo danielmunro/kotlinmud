@@ -30,7 +30,8 @@ import kotlinmud.world.room.oppositeDirection
 class MobService(
     private val itemService: ItemService,
     private val eventService: EventService,
-    private val world: World
+    private val world: World,
+    private val playerMobs: MutableList<Mob>
 ) {
     private val mobRooms: MutableList<MobRoom> = mutableListOf()
     private val newRooms: MutableList<NewRoom> = mutableListOf()
@@ -48,6 +49,10 @@ class MobService(
             it.mob.increaseMana((regen * it.mob.calc(Attribute.MANA)).toInt())
             it.mob.increaseMv((regen * it.mob.calc(Attribute.MV)).toInt())
         }
+    }
+
+    fun findPlayerMobByName(name: String): Mob? {
+        return playerMobs.find { it.name == name }
     }
 
     fun createNewRoom(mob: Mob): NewRoom {

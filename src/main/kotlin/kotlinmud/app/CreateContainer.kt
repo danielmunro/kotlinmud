@@ -1,19 +1,28 @@
 package kotlinmud.app
 
+import java.io.EOFException
+import java.io.File
 import java.net.ServerSocket
 import kotlinmud.action.ActionService
 import kotlinmud.action.createActionsList
 import kotlinmud.event.EventService
 import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
+import kotlinmud.fs.MOB_CARD_FILE
+import kotlinmud.fs.PLAYER_MOBS_FILE
 import kotlinmud.fs.loadVersionState
+import kotlinmud.fs.loader.Tokenizer
+import kotlinmud.fs.loader.area.loader.MobLoader
 import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.ClientService
 import kotlinmud.io.NIOServer
 import kotlinmud.item.ItemService
+import kotlinmud.mob.Mob
 import kotlinmud.mob.MobService
 import kotlinmud.player.PlayerService
+import kotlinmud.player.loader.MobCardLoader
 import kotlinmud.player.loader.PlayerLoader
+import kotlinmud.player.model.MobCard
 import kotlinmud.service.EmailService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.PersistenceService
@@ -54,7 +63,21 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         bind<PlayerService>() with singleton {
             PlayerService(
                 instance<EmailService>(),
-                PlayerLoader.loadAllPlayers().toMutableList()
+                PlayerLoader.loadAllPlayers().toMutableList(),
+                run {
+                    val file = File(MOB_CARD_FILE)
+                    val tokenizer = Tokenizer(if (file.exists()) file.readText() else "")
+                    val mobCardLoader = MobCardLoader(tokenizer)
+                    val mobCards = mutableListOf<MobCard>()
+                    while (true) {
+                        try {
+                            mobCards.add(mobCardLoader.load())
+                        } catch (e: EOFException) {
+                            break
+                        }
+                    }
+                    return@run mobCards
+                }
             )
         }
         bind<TimeService>() with singleton {
@@ -85,7 +108,21 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
             MobService(
                 instance<ItemService>(),
                 instance<EventService>(),
-                instance<World>()
+                instance<World>(),
+                run {
+                    val file = File(PLAYER_MOBS_FILE)
+                    val tokenizer = Tokenizer(if (file.exists()) file.readText() else "")
+                    val mobLoader = MobLoader(tokenizer)
+                    val mobs = mutableListOf<Mob>()
+                    while (true) {
+                        try {
+                            mobs.add(mobLoader.load().build())
+                        } catch (e: EOFException) {
+                            break
+                        }
+                    }
+                    return@run mobs
+                }
             )
         }
         bind<RespawnService>() with singleton {

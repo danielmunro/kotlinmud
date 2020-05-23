@@ -68,7 +68,7 @@ class Mob(
     var experience = 0
     var sacPoints = 0
     var lastRoute = 0
-    val appetite: Appetite = Appetite(race)
+    val appetite: Appetite = Appetite(race.maxAppetite, race.maxThirst)
 
     override fun affects(): AffectService {
         return AffectService(this)

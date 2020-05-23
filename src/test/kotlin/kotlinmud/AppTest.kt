@@ -36,7 +36,8 @@ class AppTest {
         val mobService = MobService(
             itemService,
             eventService,
-            world
+            world,
+            mutableListOf()
         )
 
         // when
@@ -55,6 +56,7 @@ class AppTest {
             ),
             PlayerService(
                 EmailService(Mailgun.Builder("", "").build()),
+                mutableListOf(),
                 mutableListOf()
             )
         )
