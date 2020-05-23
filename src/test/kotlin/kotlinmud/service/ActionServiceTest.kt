@@ -55,10 +55,10 @@ class ActionServiceTest {
         }
 
         // when
-        testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)
+        val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)
 
         // then
-        assertThat(mob.delay).isGreaterThan(0)
+        assertThat(response.delay).isGreaterThan(0)
     }
 
     @Test

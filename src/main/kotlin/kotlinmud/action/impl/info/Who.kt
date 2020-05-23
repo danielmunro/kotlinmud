@@ -7,7 +7,7 @@ import kotlinmud.io.messageToActionCreator
 
 fun createWhoAction(): Action {
     return Action(Command.WHO, mustBeAlive()) { svc ->
-        svc.createResponse(
+        svc.createOkResponse(
             messageToActionCreator(
                 "MORTALS\n---------------\n" +
                         svc.getClients().fold("") { acc, it ->

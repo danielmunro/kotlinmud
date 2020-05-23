@@ -8,6 +8,6 @@ import kotlinmud.io.messageToActionCreator
 
 fun createHealListAction(): Action {
     return Action(Command.HEAL, mustBeStanding(), command()) {
-        it.createResponse(messageToActionCreator("success, healer"))
+        it.createOkResponse(messageToActionCreator("success, healer"))
     }
 }

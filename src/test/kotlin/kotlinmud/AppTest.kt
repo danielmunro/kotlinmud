@@ -11,6 +11,7 @@ import kotlin.test.assertNotNull
 import kotlinmud.action.createActionsList
 import kotlinmud.app.App
 import kotlinmud.fs.saver.WorldSaver
+import kotlinmud.io.ClientService
 import kotlinmud.io.NIOServer
 import kotlinmud.item.ItemOwner
 import kotlinmud.player.PlayerService
@@ -31,7 +32,7 @@ class AppTest {
         val itemService = ItemService()
         val world = World(listOf())
         val eventService = EventService()
-        val server = NIOServer(eventService)
+        val server = NIOServer(ClientService(), eventService)
         val mobService = MobService(
             itemService,
             eventService,

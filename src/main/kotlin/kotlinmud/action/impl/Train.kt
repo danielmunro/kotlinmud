@@ -18,7 +18,7 @@ fun createTrainAction(): Action {
         it.getMob().trainedAttributes.add(
             setAttribute(AttributesBuilder(), attribute, if (isVitals(attribute)) 10 else 1).build()
         )
-        it.createResponse(
+        it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you train your ${getImprove(attribute)}.")
                 .toObservers("${it.getMob()} trains their ${getImprove(attribute)}.")

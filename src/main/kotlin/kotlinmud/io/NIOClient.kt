@@ -11,6 +11,7 @@ class NIOClient(val socket: SocketChannel) {
     var mob: Mob? = null
     var player: Player? = null
     var connected = true
+    var delay = 0
 
     fun addInput(input: String) {
         buffers.add(input)

@@ -28,7 +28,7 @@ class HarvestTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you successfully harvest iron ore.")
         assertThat(response.message.toObservers).isEqualTo("$mob harvests iron ore.")
-        assertThat(mob.delay).isGreaterThan(0)
+        assertThat(response.delay).isGreaterThan(0)
         assertThat(mob.mv).isLessThan(mob.calc(Attribute.MV))
         assertThat(test.getItemsFor(mob)).hasSize(itemCount + 1)
         assertThat(room.resources).hasSize(0)
@@ -45,7 +45,7 @@ class HarvestTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you don't see that anywhere.")
-        assertThat(mob.delay).isEqualTo(0)
+        assertThat(response.delay).isEqualTo(0)
         assertThat(mob.mv).isEqualTo(mob.calc(Attribute.MV))
     }
 }

@@ -103,8 +103,12 @@ class ActionContextService(
         mobService.putMobInRoom(getMob(), room)
     }
 
-    fun createResponse(message: Message, status: IOStatus = IOStatus.OK): Response {
-        return Response(status, actionContextList, message)
+    fun createOkResponse(message: Message, delay: Int = 0): Response {
+        return Response(IOStatus.OK, actionContextList, message, delay)
+    }
+
+    fun createErrorResponse(message: Message, delay: Int = 0): Response {
+        return Response(IOStatus.ERROR, actionContextList, message, delay)
     }
 
     fun createFight() {

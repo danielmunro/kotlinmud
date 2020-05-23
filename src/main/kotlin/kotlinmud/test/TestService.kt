@@ -1,8 +1,11 @@
 package kotlinmud.test
 
+import java.nio.channels.SocketChannel
 import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.event.Event
+import kotlinmud.io.ClientService
 import kotlinmud.io.IOStatus
+import kotlinmud.io.NIOClient
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.item.HasInventory
@@ -33,12 +36,20 @@ class TestService(
     private val respawnService: RespawnService,
     private val eventService: EventService
 ) {
+    private val clientService = ClientService()
+
     init {
         createItem(mobService.getStartRoom())
     }
 
     fun <T> publish(event: Event<T>) {
         eventService.publish(event)
+    }
+
+    fun createClient(): NIOClient {
+        val client = NIOClient(SocketChannel.open())
+        clientService.addClient(client)
+        return client
     }
 
     fun createMobController(mob: Mob): MobController {
@@ -129,8 +140,12 @@ class TestService(
         mobService.pruneDeadMobs()
     }
 
+    fun addClient(client: NIOClient) {
+        clientService.addClient(client)
+    }
+
     fun decrementDelays() {
-        mobService.decrementDelays()
+        clientService.decrementDelays()
     }
 
     fun decrementAffects() {

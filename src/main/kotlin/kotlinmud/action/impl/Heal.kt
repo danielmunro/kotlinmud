@@ -11,6 +11,6 @@ import kotlinmud.mob.Mob
 fun createHealAction(): Action {
     return Action(Command.HEAL, mustBeStanding(), spellFromHealer()) {
         val skillType = it.get<Mob>(Syntax.SPELL_FROM_HEALER)
-        it.createResponse(messageToActionCreator("success: $skillType"))
+        it.createOkResponse(messageToActionCreator("success: $skillType"))
     }
 }

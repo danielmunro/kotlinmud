@@ -27,7 +27,6 @@ class Bite : SkillAction {
     override val difficulty: Map<SpecializationType, LearningDifficulty> = mapOf()
     override val dispositions: List<Disposition> = mustBeAlert()
     override val costs: List<Cost> = listOf(
-        Cost(CostType.DELAY, 1),
         Cost(CostType.MV_AMOUNT, 20)
     )
     override val intent: Intent = Intent.OFFENSIVE
@@ -40,12 +39,13 @@ class Bite : SkillAction {
         val limit = (actionContextService.getLevel() / 10).coerceAtLeast(2)
         target.hp -= Random.nextInt(1, limit) +
                 if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)
-        return actionContextService.createResponse(
+        return actionContextService.createOkResponse(
             MessageBuilder()
                 .toActionCreator("You bite $target.")
                 .toTarget("${actionContextService.getMob()} bites you.")
                 .toObservers("${actionContextService.getMob()} bites $target.")
-                .build()
+                .build(),
+            1
         )
     }
 }

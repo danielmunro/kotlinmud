@@ -18,7 +18,11 @@ import org.slf4j.LoggerFactory
 const val SELECT_TIMEOUT_MS: Long = 1
 const val READ_BUFFER_SIZE_IN_BYTES = 1024
 
-class NIOServer(private val eventService: EventService, val port: Int = 0) {
+class NIOServer(
+    private val clientService: ClientService,
+    private val eventService: EventService,
+    val port: Int = 0
+) {
     companion object {
         fun socketChannelFromKey(key: SelectionKey): SocketChannel {
             return key.channel() as SocketChannel
@@ -89,6 +93,7 @@ class NIOServer(private val eventService: EventService, val port: Int = 0) {
         val client = NIOClient(socket)
         eventService.publish(createClientConnectedEvent(client))
         clients.add(client)
+        clientService.addClient(client)
         logger.info("connection accepted :: {}", socket.remoteAddress)
     }
 

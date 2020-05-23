@@ -16,7 +16,7 @@ fun createSellAction(): Action {
         it.changeItemOwner(item, shopkeeper)
         it.addGold(item.worth)
         shopkeeper.gold -= item.worth
-        it.createResponse(
+        it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you sell $item to $shopkeeper for ${item.worth} gold.")
                 .toTarget("${it.getMob()} sells $item to you.")

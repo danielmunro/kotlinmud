@@ -149,7 +149,7 @@ class ActionService(
         }
         hasCosts.costs.forEach {
             when (it.type) {
-                CostType.DELAY -> mob.delay += it.amount
+                CostType.DELAY -> return@forEach
                 CostType.MV_AMOUNT -> mob.mv -= it.amount
                 CostType.MV_PERCENT -> mob.mv -= (mob.calc(Attribute.MV) * (it.amount.toDouble() / 100)).toInt()
                 CostType.MANA_AMOUNT -> mob.mana -= it.amount

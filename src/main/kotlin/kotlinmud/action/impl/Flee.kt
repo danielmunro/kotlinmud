@@ -15,7 +15,7 @@ fun createFleeAction(): Action {
         it.moveMob(
             exit.destination,
             exit.direction)
-        it.createResponse(
+        it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you flee!")
                 .toObservers("${it.getMob()} flees!")

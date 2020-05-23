@@ -66,22 +66,22 @@ class MobServiceTest {
     fun testDecrementDelayForMobs() {
         // setup
         val testService = createTestService()
-        val mob1 = testService.createMob()
-        val mob2 = testService.createMob()
-        val mob3 = testService.createMob()
+        val client1 = testService.createClient()
+        val client2 = testService.createClient()
+        val client3 = testService.createClient()
 
         // given
-        mob1.delay = 0
-        mob2.delay = 3
-        mob3.delay = 1
+        client1.delay = 0
+        client2.delay = 3
+        client3.delay = 1
 
         // when
         testService.decrementDelays()
 
         // then
-        assertThat(mob1.delay).isEqualTo(0)
-        assertThat(mob2.delay).isEqualTo(2)
-        assertThat(mob3.delay).isEqualTo(0)
+        assertThat(client1.delay).isEqualTo(0)
+        assertThat(client2.delay).isEqualTo(2)
+        assertThat(client3.delay).isEqualTo(0)
     }
 
     @Test

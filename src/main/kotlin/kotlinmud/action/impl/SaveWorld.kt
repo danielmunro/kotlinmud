@@ -8,6 +8,6 @@ import kotlinmud.io.messageToActionCreator
 fun createSaveWorldAction(worldSaver: WorldSaver): Action {
     return Action(Command.SAVE_WORLD) {
         worldSaver.save()
-        it.createResponse(messageToActionCreator("world saved"))
+        it.createOkResponse(messageToActionCreator("world saved"))
     }
 }

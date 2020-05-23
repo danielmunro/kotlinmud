@@ -3,7 +3,6 @@ package kotlinmud.action.impl
 import kotlinmud.action.Action
 import kotlinmud.action.Command
 import kotlinmud.action.mustBeAwake
-import kotlinmud.io.IOStatus
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.drink
@@ -15,10 +14,7 @@ fun createDrinkAction(): Action {
         val item = it.get<Item>(Syntax.AVAILABLE_DRINK)
 
         if (it.getMob().appetite.isFull()) {
-            return@Action it.createResponse(
-                messageToActionCreator("you are full."),
-                IOStatus.ERROR
-            )
+            return@Action it.createErrorResponse(messageToActionCreator("you are full."))
         }
 
         if (item.quantity > 0) {
@@ -30,7 +26,7 @@ fun createDrinkAction(): Action {
 
         val empty = if (item.quantity == 0) " $item is now empty." else ""
 
-        it.createResponse(
+        it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you drink ${item.drink.toString().toLowerCase()} from $item.$empty")
                 .toObservers("you drink ${item.drink.toString().toLowerCase()} from $item.")

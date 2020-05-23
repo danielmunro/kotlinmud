@@ -2,7 +2,12 @@ package kotlinmud.io
 
 import kotlinmud.action.ActionContextList
 
-open class Response(val status: IOStatus, val actionContextList: ActionContextList, val message: Message) {
+open class Response(
+    val status: IOStatus,
+    val actionContextList: ActionContextList,
+    val message: Message,
+    val delay: Int = 0
+) {
     override fun toString(): String {
         return "message: toActionCreator: '${message.toActionCreator}', toTarget: '${message.toTarget}', toObservers: '${message.toObservers}'"
     }

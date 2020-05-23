@@ -23,6 +23,6 @@ fun createSayAction(): Action {
                     .build()
             )
         )
-        it.createResponse(messageToActionCreator("you say, \"$text\""))
+        it.createOkResponse(messageToActionCreator("you say, \"$text\""))
     }
 }

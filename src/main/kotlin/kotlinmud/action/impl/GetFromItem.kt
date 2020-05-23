@@ -13,7 +13,7 @@ fun createGetFromItemAction(): Action {
         val item = it.get<Item>(Syntax.ITEM_IN_AVAILABLE_INVENTORY)
         val itemWithInventory = it.get<Item>(Syntax.AVAILABLE_ITEM_INVENTORY)
         it.changeItemOwner(item, it.getMob())
-        it.createResponse(
+        it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you get $item from $itemWithInventory.")
                 .toObservers("${it.getMob()} gets $item from $itemWithInventory.")

@@ -12,7 +12,7 @@ fun createDropAction(): Action {
     return Action(Command.DROP, mustBeAwake(), itemInInventory()) {
         val item = it.get<Item>(Syntax.ITEM_IN_INVENTORY)
         it.changeItemOwner(item, it.getRoom())
-        it.createResponse(
+        it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you drop ${item.name}.")
                 .toObservers("${it.getMob()} drops ${item.name}.")

@@ -30,7 +30,6 @@ class Invisibility : SpellAction {
     )
     override val dispositions: List<Disposition> = mustBeAlert()
     override val costs: List<Cost> = listOf(
-        Cost(CostType.DELAY, 1),
         Cost(CostType.MANA_AMOUNT, 80)
     )
     override val intent: Intent = Intent.PROTECTIVE
@@ -41,8 +40,9 @@ class Invisibility : SpellAction {
     override fun invoke(actionContextService: ActionContextService): Response {
         val target = actionContextService.get<Noun>(Syntax.OPTIONAL_TARGET)
         target.affects().add(affect.createInstance(actionContextService.getLevel()))
-        return actionContextService.createResponse(
-            affect.messageFromInstantiation(actionContextService.getMob(), target)
+        return actionContextService.createOkResponse(
+            affect.messageFromInstantiation(actionContextService.getMob(), target),
+            1
         )
     }
 }

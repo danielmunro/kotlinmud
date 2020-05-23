@@ -8,6 +8,6 @@ import kotlinmud.io.subcommand
 
 fun createOwnerInfoAction(): Action {
     return Action(Command.OWNER_INFO, mustBeAlert(), subcommand()) {
-        it.createResponse(messageToActionCreator("this room is owned by ${it.getRoom().owner ?: "no one"}."))
+        it.createOkResponse(messageToActionCreator("this room is owned by ${it.getRoom().owner ?: "no one"}."))
     }
 }

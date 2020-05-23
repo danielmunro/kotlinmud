@@ -26,6 +26,6 @@ fun createTellAction(): Action {
                 target
             )
         )
-        it.createResponse(messageToActionCreator("you tell $target, \"$text\""))
+        it.createOkResponse(messageToActionCreator("you tell $target, \"$text\""))
     }
 }

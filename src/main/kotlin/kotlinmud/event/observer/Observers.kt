@@ -24,6 +24,7 @@ import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
+import kotlinmud.io.ClientService
 import kotlinmud.io.NIOServer
 import kotlinmud.player.PlayerService
 import kotlinmud.service.ActionService
@@ -48,6 +49,7 @@ fun createObservers(
     timeService: TimeService,
     actionService: ActionService,
     playerService: PlayerService,
+    clientService: ClientService,
     persistenceService: PersistenceService,
     world: World
 ): Observers {
@@ -60,7 +62,7 @@ fun createObservers(
         // time
         ProceedFightsPulseObserver(mobService),
         DecrementAffectTimeoutTickObserver(mobService),
-        DecrementDelayObserver(mobService),
+        DecrementDelayObserver(clientService),
         DecrementItemDecayTimerObserver(itemService),
         SaveWorldObserver(persistenceService, world),
         SaveTimeObserver(timeService, persistenceService),

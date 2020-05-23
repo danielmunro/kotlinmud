@@ -12,7 +12,7 @@ fun createRoomDescriptionAction(): Action {
         val newRoom = it.getNewRoom() ?: it.createNewRoom("a new room")
         val description = it.get<String>(Syntax.FREE_FORM)
         newRoom.roomBuilder.description(description)
-        it.createResponse(
+        it.createOkResponse(
             messageToActionCreator("the room builder description is now $description.")
         )
     }

@@ -12,14 +12,14 @@ fun createGetAction(): Action {
     return Action(Command.GET, mustBeAwake(), itemInRoom()) {
         val item = it.get<Item>(Syntax.ITEM_IN_ROOM)
         if (!item.canOwn) {
-            return@Action it.createResponse(
+            return@Action it.createOkResponse(
                 MessageBuilder()
                     .toActionCreator("you cannot pick that up.")
                     .build()
             )
         }
         it.changeItemOwner(item, it.getMob())
-        it.createResponse(
+        it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you pick up ${item.name}.")
                 .toObservers("${it.getMob()} picks up ${item.name}.")

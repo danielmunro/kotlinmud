@@ -9,8 +9,8 @@ import kotlinmud.string.leftPad
 fun createListAction(): Action {
     return Action(Command.LIST) { svc ->
         val shopkeeper = svc.getMobsInRoom().find { it.job == JobType.SHOPKEEPER }
-            ?: return@Action svc.createResponse(messageToActionCreator("There are no shopkeepers here."))
-        svc.createResponse(
+            ?: return@Action svc.createOkResponse(messageToActionCreator("There are no shopkeepers here."))
+        svc.createOkResponse(
             messageToActionCreator(
                 "[lvl cost name]\n" +
                         svc.getItemGroupsFor(shopkeeper).map {

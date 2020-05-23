@@ -11,7 +11,7 @@ fun createSleepAction(): Action {
         it.getMob().disposition = Disposition.SLEEPING
 //        val furniture = it.get<Item>(Syntax.OPTIONAL_FURNITURE) @todo sleeping in/on furniture
 
-        it.createResponse(
+        it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you lay down and go to sleep.")
                 .toObservers("${it.getMob()} lays down and goes to sleep.")

@@ -8,7 +8,7 @@ import kotlinmud.io.subcommand
 
 fun createRoomInfoAction(): Action {
     return Action(Command.ROOM_INFO, mustBeAlert(), subcommand()) {
-        val newRoom = it.getNewRoom() ?: return@Action it.createResponse(messageToActionCreator("You need to start creating a room first. Try 'room new'."))
-        it.createResponse(messageToActionCreator("your room: ${newRoom.roomBuilder}"))
+        val newRoom = it.getNewRoom() ?: return@Action it.createOkResponse(messageToActionCreator("You need to start creating a room first. Try 'room new'."))
+        it.createOkResponse(messageToActionCreator("your room: ${newRoom.roomBuilder}"))
     }
 }

@@ -23,6 +23,6 @@ fun createGossipAction(): Action {
                     .build()
             )
         )
-        it.createResponse(messageToActionCreator("you gossip, \"$text\""))
+        it.createOkResponse(messageToActionCreator("you gossip, \"$text\""))
     }
 }

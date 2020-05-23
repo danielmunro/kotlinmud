@@ -12,7 +12,7 @@ fun createKillAction(): Action {
     return Action(Command.KILL, mustBeStanding(), mobInRoom()) {
         val target = it.get<Mob>(Syntax.MOB_IN_ROOM)
         it.createFight()
-        it.createResponse(
+        it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you scream and attack $target!")
                 .toTarget("${it.getMob()} screams and attacks you!")

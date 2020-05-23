@@ -38,7 +38,6 @@ class Bash : SkillAction {
     )
     override val dispositions: List<Disposition> = mustBeAlert()
     override val costs: List<Cost> = listOf(
-        Cost(CostType.DELAY, 1),
         Cost(CostType.MV_AMOUNT, 20)
     )
     override val intent: Intent = Intent.OFFENSIVE
@@ -54,11 +53,12 @@ class Bash : SkillAction {
         target.hp -= modifier
         target.affects().add(AffectInstance(
             AffectType.STUNNED, modifier / 5, Attributes(0, 0, 0, 0, -1)))
-        return actionContextService.createResponse(MessageBuilder()
+        return actionContextService.createOkResponse(MessageBuilder()
             .toActionCreator("you slam into $target and send them flying!")
             .toTarget("${actionContextService.getMob()} slams into you and sends you flying!")
             .toObservers("${actionContextService.getMob()} slams into $target and sends them flying!")
-            .build()
+            .build(),
+            1
         )
     }
 }

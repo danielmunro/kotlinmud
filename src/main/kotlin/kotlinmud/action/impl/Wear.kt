@@ -18,7 +18,7 @@ fun createWearAction(): Action {
             it
         }
         svc.getMob().equipped.add(item)
-        svc.createResponse(
+        svc.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you ${if (removed != null) "remove $removed and " else ""}wear $item.")
                 .toObservers("${svc.getMob()} ${if (removed != null) "removes $removed and " else "" }wears $item.")

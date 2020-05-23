@@ -63,7 +63,6 @@ class Mob(
     @DefaultValue("50") val maxItems: Int,
     @DefaultValue("100") val maxWeight: Int
 ) : Noun, Row, HasInventory {
-    var delay = 0
     var skillPoints = 0
     var bounty = 0
     var experience = 0

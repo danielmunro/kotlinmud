@@ -52,7 +52,7 @@ class App(
     }
 
     private fun processRequest(client: NIOClient) {
-        if (client.mob != null && client.mob!!.delay > 0) {
+        if (client.delay > 0) {
             return
         }
         val input = client.buffers.removeAt(0)

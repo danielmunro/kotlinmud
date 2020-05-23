@@ -32,8 +32,8 @@ class Berserk : SkillAction {
     )
     override val dispositions: List<Disposition> = mustBeAlert()
     override val costs: List<Cost> = listOf(
-        Cost(CostType.MV_PERCENT, 20),
-        Cost(CostType.DELAY, 2))
+        Cost(CostType.MV_PERCENT, 20)
+    )
     override val intent: Intent = Intent.NEUTRAL
     override val syntax: List<Syntax> = listOf(Syntax.COMMAND)
     override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
@@ -46,11 +46,12 @@ class Berserk : SkillAction {
                 actionContextService.getLevel() / 8
             )
         )
-        return actionContextService.createResponse(
+        return actionContextService.createOkResponse(
             MessageBuilder()
                 .toActionCreator("Your pulse speeds up as you are consumed by rage!")
                 .toObservers("${actionContextService.getMob()}'s pulse speeds up as they are consumed by rage!")
-                .build()
+                .build(),
+            2
         )
     }
 }

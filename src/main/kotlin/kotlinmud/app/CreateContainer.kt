@@ -6,6 +6,7 @@ import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
 import kotlinmud.fs.loadVersionState
 import kotlinmud.fs.saver.WorldSaver
+import kotlinmud.io.ClientService
 import kotlinmud.io.NIOServer
 import kotlinmud.player.PlayerService
 import kotlinmud.player.loader.PlayerLoader
@@ -28,8 +29,13 @@ import org.kodein.di.erased.singleton
 fun createContainer(port: Int, isTest: Boolean = false): Kodein {
     return Kodein {
         bind<ServerSocket>() with singleton { ServerSocket(port) }
+        bind<ClientService>() with singleton { ClientService() }
         bind<NIOServer>() with singleton {
-            NIOServer(instance<EventService>(), port)
+            NIOServer(
+                instance< ClientService>(),
+                instance<EventService>(),
+                port
+            )
         }
         bind<PersistenceService>() with singleton {
             val versions = loadVersionState(isTest)
@@ -100,6 +106,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 instance<TimeService>(),
                 instance<ActionService>(),
                 instance<PlayerService>(),
+                instance<ClientService>(),
                 instance<PersistenceService>(),
                 instance<World>()
             )

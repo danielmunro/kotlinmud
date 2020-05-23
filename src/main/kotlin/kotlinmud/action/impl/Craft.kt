@@ -17,16 +17,17 @@ fun createCraftAction(): Action {
         try {
             svc.craft(recipe)
         } catch (craftException: CraftException) {
-            return@Action svc.createResponse(
+            return@Action svc.createOkResponse(
                 messageToActionCreator("you don't have all the necessary components.")
             )
         }
 
-        svc.createResponse(
+        svc.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you craft ${recipe.name}.")
                 .toObservers("${svc.getMob()} crafts ${recipe.name}.")
-                .build()
+                .build(),
+            2
         )
     }
 }
