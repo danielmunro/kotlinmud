@@ -10,7 +10,6 @@ ${mobCard.mobName}~
 #${mobCard.sacPoints}
 #${mobCard.trains}
 #${mobCard.practices}
-#${mobCard.trains}
 #${mobCard.appetite.maxHunger}
 #${mobCard.appetite.maxThirst}
 #${mobCard.appetite.getHunger()}

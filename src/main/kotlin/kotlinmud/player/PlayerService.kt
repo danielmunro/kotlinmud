@@ -45,6 +45,7 @@ class PlayerService(
             AuthStepService(this)
         )
         val response = authStep.handlePreAuthRequest(request)
+        logger.debug("pre-auth request :: {}, {}, {}", authStep.authorizationStep, request.input, response.status)
         if (response.status == IOStatus.OK) {
             val nextAuthStep = authStep.getNextAuthStep()
             if (nextAuthStep is CompleteAuthStep) {

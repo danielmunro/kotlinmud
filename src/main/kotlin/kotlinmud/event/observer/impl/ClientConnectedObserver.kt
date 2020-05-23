@@ -24,9 +24,9 @@ class ClientConnectedObserver(
     override fun <T> processEvent(event: Event<T>) {
         val connectedEvent = event.subject as ClientConnectedEvent
         val client = connectedEvent.client
-        loginDummyMob(client)
-//        addPreAuthClient(client)
-//        client.write("email: ")
+//        loginDummyMob(client)
+        addPreAuthClient(client)
+        client.write("email: ")
     }
 
     private fun loginDummyMob(client: NIOClient) {
@@ -39,10 +39,10 @@ class ClientConnectedObserver(
             .build()
         mobService.addPlayerMob(mob)
         mobService.addMob(mob)
-        playerService.createNewPlayerWithEmailAddress("foo@bar.com")
+        playerService.createNewPlayerWithEmailAddress("dan@danmunro.com")
         playerService.addMobCard(
             MobCardBuilder()
-                .playerEmail("foo@bar.com")
+                .playerEmail("dan@danmunro.com")
                 .mobName("foo")
                 .trains(5)
                 .practices(5)

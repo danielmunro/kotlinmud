@@ -24,7 +24,10 @@ class PasswordAuthStep(private val authService: AuthStepService) :
             logger.debug("success logging in :: {} as {}", request.client.socket.remoteAddress, it.email)
             authService.loginClientAsPlayer(request.client, it)
             PreAuthResponse(request, IOStatus.OK, "Success. Please do something")
-        } ?: PreAuthResponse(request, IOStatus.FAILED, "Player not found")
+        } ?: run {
+            logger.debug("player with supplied OTP not found")
+            PreAuthResponse(request, IOStatus.FAILED, "Player not found")
+        }
     }
 
     override fun getNextAuthStep(): AuthStep {

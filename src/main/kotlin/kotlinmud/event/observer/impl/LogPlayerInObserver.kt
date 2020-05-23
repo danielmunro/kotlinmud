@@ -11,7 +11,8 @@ class LogPlayerInObserver(private val mobService: MobService) : Observer {
 
     override fun <T> processEvent(event: Event<T>) {
         val playerLoggedInEvent = event.subject as PlayerLoggedInEvent
-        val mob = mobService.findPlayerMob(playerLoggedInEvent.mobCard.mobName)
+        val mob = mobService.findPlayerMob(playerLoggedInEvent.mobCard.mobName)!!
         playerLoggedInEvent.client.mob = mob
+        mobService.addMob(mob)
     }
 }
