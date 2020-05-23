@@ -5,8 +5,8 @@ import kotlinmud.action.Status
 import kotlinmud.affect.AffectType
 import kotlinmud.io.Syntax
 import kotlinmud.item.Food
+import kotlinmud.item.ItemService
 import kotlinmud.mob.Mob
-import kotlinmud.service.ItemService
 
 class AvailableFoodContextBuilder(private val itemService: ItemService, private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

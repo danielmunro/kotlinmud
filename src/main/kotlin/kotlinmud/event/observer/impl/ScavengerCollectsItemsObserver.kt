@@ -1,13 +1,13 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.Event
+import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
+import kotlinmud.item.ItemService
 import kotlinmud.mob.MobController
+import kotlinmud.mob.MobService
 import kotlinmud.mob.type.JobType
-import kotlinmud.service.EventService
-import kotlinmud.service.ItemService
-import kotlinmud.service.MobService
 import kotlinmud.time.eventually
 
 class ScavengerCollectsItemsObserver(

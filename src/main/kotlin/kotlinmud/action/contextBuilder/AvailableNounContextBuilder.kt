@@ -4,9 +4,9 @@ import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.affect.AffectType
 import kotlinmud.io.Syntax
+import kotlinmud.item.ItemService
 import kotlinmud.mob.Mob
-import kotlinmud.service.ItemService
-import kotlinmud.service.MobService
+import kotlinmud.mob.MobService
 import kotlinmud.string.matches
 import kotlinmud.world.room.Room
 

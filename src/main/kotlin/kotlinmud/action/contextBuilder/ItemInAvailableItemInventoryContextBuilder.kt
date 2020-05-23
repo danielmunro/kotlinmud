@@ -4,7 +4,7 @@ import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.io.Syntax
 import kotlinmud.item.HasInventory
-import kotlinmud.service.ItemService
+import kotlinmud.item.ItemService
 import kotlinmud.string.matches
 
 class ItemInAvailableItemInventoryContextBuilder(

@@ -4,7 +4,7 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOServer
-import kotlinmud.service.MobService
+import kotlinmud.mob.MobService
 
 class IncreaseThirstAndHungerObserver(private val mobService: MobService, private val server: NIOServer) :
     Observer {

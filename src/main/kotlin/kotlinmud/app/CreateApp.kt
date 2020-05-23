@@ -1,11 +1,11 @@
 package kotlinmud.app
 
+import kotlinmud.action.ActionService
+import kotlinmud.event.EventService
 import kotlinmud.event.observer.Observers
 import kotlinmud.io.NIOServer
+import kotlinmud.mob.MobService
 import kotlinmud.player.PlayerService
-import kotlinmud.service.ActionService
-import kotlinmud.service.EventService
-import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import org.kodein.di.erased.instance

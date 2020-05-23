@@ -3,7 +3,7 @@ package kotlinmud.event.observer.impl
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
-import kotlinmud.service.ItemService
+import kotlinmud.item.ItemService
 
 class DecrementItemDecayTimerObserver(private val itemService: ItemService) : Observer {
     override val eventType: EventType = EventType.TICK

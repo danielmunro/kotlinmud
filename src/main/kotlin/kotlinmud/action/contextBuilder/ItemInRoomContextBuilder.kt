@@ -3,7 +3,7 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.io.Syntax
-import kotlinmud.service.ItemService
+import kotlinmud.item.ItemService
 import kotlinmud.world.room.Room
 
 class ItemInRoomContextBuilder(private val itemService: ItemService, private val room: Room) : ContextBuilder {

@@ -1,13 +1,13 @@
 package kotlinmud.test
 
 import kotlinmud.Noun
+import kotlinmud.action.ActionService
 import kotlinmud.app.createContainer
+import kotlinmud.event.EventService
 import kotlinmud.event.observer.Observers
-import kotlinmud.service.ActionService
-import kotlinmud.service.EventService
+import kotlinmud.item.ItemService
+import kotlinmud.mob.MobService
 import kotlinmud.service.FixtureService
-import kotlinmud.service.ItemService
-import kotlinmud.service.MobService
 import kotlinmud.service.RespawnService
 import org.kodein.di.erased.instance
 

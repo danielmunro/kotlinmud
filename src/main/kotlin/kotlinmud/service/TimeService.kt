@@ -3,6 +3,7 @@ package kotlinmud.service
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlinmud.event.Event
+import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.event.DayEvent
 import kotlinmud.event.event.PulseEvent

@@ -4,7 +4,7 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOClient
-import kotlinmud.service.MobService
+import kotlinmud.mob.MobService
 import org.slf4j.LoggerFactory
 
 class RemoveMobOnClientDisconnectObserver(private val mobService: MobService) : Observer {

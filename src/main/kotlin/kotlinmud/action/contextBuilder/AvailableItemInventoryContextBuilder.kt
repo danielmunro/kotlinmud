@@ -4,8 +4,8 @@ import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.io.Syntax
 import kotlinmud.item.Item
+import kotlinmud.item.ItemService
 import kotlinmud.mob.Mob
-import kotlinmud.service.ItemService
 import kotlinmud.world.room.Room
 
 class AvailableItemInventoryContextBuilder(private val mob: Mob, private val room: Room, private val itemService: ItemService) : ContextBuilder {

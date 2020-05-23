@@ -1,15 +1,15 @@
 package kotlinmud.event.observer.impl
 
+import kotlinmud.action.ActionService
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOClient
 import kotlinmud.io.Request
+import kotlinmud.mob.MobService
 import kotlinmud.player.PlayerService
-import kotlinmud.service.ActionService
 import kotlinmud.service.FixtureService
-import kotlinmud.service.MobService
 
 class ClientConnectedObserver(
     private val playerService: PlayerService,

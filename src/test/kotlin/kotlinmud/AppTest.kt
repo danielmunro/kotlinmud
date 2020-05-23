@@ -8,18 +8,18 @@ import assertk.assertions.isEqualTo
 import com.commit451.mailgun.Mailgun
 import kotlin.test.Test
 import kotlin.test.assertNotNull
+import kotlinmud.action.ActionService
 import kotlinmud.action.createActionsList
 import kotlinmud.app.App
+import kotlinmud.event.EventService
 import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.ClientService
 import kotlinmud.io.NIOServer
 import kotlinmud.item.ItemOwner
+import kotlinmud.item.ItemService
+import kotlinmud.mob.MobService
 import kotlinmud.player.PlayerService
-import kotlinmud.service.ActionService
 import kotlinmud.service.EmailService
-import kotlinmud.service.EventService
-import kotlinmud.service.ItemService
-import kotlinmud.service.MobService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
 import kotlinmud.test.createTestService
@@ -45,7 +45,14 @@ class AppTest {
             mobService,
             TimeService(eventService),
             server,
-            ActionService(mobService, ItemService(), eventService, WeatherService(), server, createActionsList(WorldSaver(world))),
+            ActionService(
+                mobService,
+                ItemService(),
+                eventService,
+                WeatherService(),
+                server,
+                createActionsList(WorldSaver(world))
+            ),
             PlayerService(
                 EmailService(Mailgun.Builder("", "").build()),
                 mutableListOf()

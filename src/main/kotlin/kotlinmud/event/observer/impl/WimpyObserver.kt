@@ -5,8 +5,8 @@ import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.MessageBuilder
 import kotlinmud.mob.Mob
+import kotlinmud.mob.MobService
 import kotlinmud.mob.fight.Round
-import kotlinmud.service.MobService
 
 class WimpyObserver(private val mobService: MobService) : Observer {
     override val eventType: EventType = EventType.FIGHT_ROUND

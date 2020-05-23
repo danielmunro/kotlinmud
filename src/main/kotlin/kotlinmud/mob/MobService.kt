@@ -1,9 +1,10 @@
-package kotlinmud.service
+package kotlinmud.mob
 
 import com.cesarferreira.pluralize.pluralize
 import java.util.stream.Collectors
 import kotlinmud.attributes.Attribute
 import kotlinmud.event.Event
+import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.io.Message
@@ -11,10 +12,8 @@ import kotlinmud.io.MessageBuilder
 import kotlinmud.io.messageToActionCreator
 import kotlinmud.item.Item
 import kotlinmud.item.ItemOwner
+import kotlinmud.item.ItemService
 import kotlinmud.math.normalizeDouble
-import kotlinmud.mob.Mob
-import kotlinmud.mob.MobRoom
-import kotlinmud.mob.corpseWeight
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight

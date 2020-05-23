@@ -1,8 +1,8 @@
 package kotlinmud.world.resource
 
 import kotlinmud.item.Item
+import kotlinmud.item.ItemBuilderBuilder
 import kotlinmud.item.ItemType
-import kotlinmud.service.ItemBuilderBuilder
 import kotlinmud.world.ResourceType
 
 class GoldOre : Resource {

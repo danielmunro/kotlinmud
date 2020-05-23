@@ -3,7 +3,7 @@ package kotlinmud.event.observer.impl
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
-import kotlinmud.service.MobService
+import kotlinmud.mob.MobService
 import org.slf4j.LoggerFactory
 
 class ProceedFightsPulseObserver(private val mobService: MobService) : Observer {

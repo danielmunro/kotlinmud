@@ -4,7 +4,7 @@ import kotlinmud.action.Context
 import kotlinmud.action.Status
 import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
-import kotlinmud.service.MobService
+import kotlinmud.mob.MobService
 import kotlinmud.string.matches
 import kotlinmud.world.room.Room
 

@@ -3,7 +3,7 @@ package kotlinmud.event.observer.impl
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
-import kotlinmud.service.MobService
+import kotlinmud.mob.MobService
 
 class DecrementAffectTimeoutTickObserver(private val mobService: MobService) : Observer {
     override val eventType: EventType = EventType.TICK
