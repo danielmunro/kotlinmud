@@ -3,6 +3,10 @@ package kotlinmud.player
 import com.commit451.mailgun.Contact
 import com.commit451.mailgun.SendMessageRequest
 import java.io.File
+import kotlinmud.event.Event
+import kotlinmud.event.EventService
+import kotlinmud.event.EventType
+import kotlinmud.event.event.PlayerLoggedInEvent
 import kotlinmud.fs.MOB_CARD_FILE
 import kotlinmud.fs.PLAYER_FILE
 import kotlinmud.io.IOStatus
@@ -11,7 +15,8 @@ import kotlinmud.io.PreAuthRequest
 import kotlinmud.io.PreAuthResponse
 import kotlinmud.player.authStep.AuthStep
 import kotlinmud.player.authStep.AuthStepService
-import kotlinmud.player.authStep.EmailAuthStep
+import kotlinmud.player.authStep.impl.CompleteAuthStep
+import kotlinmud.player.authStep.impl.EmailAuthStep
 import kotlinmud.player.mapper.mapMobCard
 import kotlinmud.player.mapper.mapPlayer
 import kotlinmud.player.model.MobCard
@@ -24,7 +29,8 @@ import org.slf4j.LoggerFactory
 class PlayerService(
     private val emailService: EmailService,
     private val players: MutableList<Player>,
-    private val mobCards: MutableList<MobCard>
+    private val mobCards: MutableList<MobCard>,
+    private val eventService: EventService
 ) {
     private val preAuthClients: MutableMap<NIOClient, AuthStep> = mutableMapOf()
     private val loggedInPlayers: MutableMap<NIOClient, Player> = mutableMapOf()
@@ -35,14 +41,23 @@ class PlayerService(
     }
 
     fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
-        val authStep = preAuthClients[request.client] ?: EmailAuthStep(AuthStepService(this))
+        val authStep = preAuthClients[request.client] ?: EmailAuthStep(
+            AuthStepService(this)
+        )
         val response = authStep.handlePreAuthRequest(request)
         if (response.status == IOStatus.OK) {
             val nextAuthStep = authStep.getNextAuthStep()
+            if (nextAuthStep is CompleteAuthStep) {
+                loginMob(request.client, nextAuthStep.mobCard)
+            }
             preAuthClients[request.client] = nextAuthStep
             request.client.write(nextAuthStep.promptMessage)
         }
         return response
+    }
+
+    fun findMobCardByName(name: String): MobCard? {
+        return mobCards.find { it.mobName == name }
     }
 
     fun findPlayerByOTP(otp: String): Player? {
@@ -97,5 +112,9 @@ class PlayerService(
     private fun writeMobCardsFile() {
         val file = File(MOB_CARD_FILE)
         file.writeText(mobCards.joinToString("\n") { mapMobCard(it) })
+    }
+
+    private fun loginMob(client: NIOClient, mobCard: MobCard) {
+        eventService.publish(Event(EventType.CLIENT_LOGGED_IN, PlayerLoggedInEvent(client, mobCard)))
     }
 }

@@ -57,7 +57,8 @@ class AppTest {
             PlayerService(
                 EmailService(Mailgun.Builder("", "").build()),
                 mutableListOf(),
-                mutableListOf()
+                mutableListOf(),
+                eventService
             )
         )
 

@@ -13,4 +13,5 @@ enum class EventType {
     FIGHT_ROUND,
     KILL,
     SOCIAL,
+    CLIENT_LOGGED_IN,
 }

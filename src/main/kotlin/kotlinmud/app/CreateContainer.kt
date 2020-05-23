@@ -57,7 +57,8 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
             PlayerService(
                 instance<EmailService>(),
                 PlayerLoader.loadAllPlayers().toMutableList(),
-                loadMobCards()
+                loadMobCards(),
+                instance<EventService>()
             )
         }
         bind<TimeService>() with singleton {

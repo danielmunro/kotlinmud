@@ -1,11 +1,16 @@
-package kotlinmud.player.authStep
+package kotlinmud.player.authStep.impl
 
 import kotlinmud.io.IOStatus
 import kotlinmud.io.PreAuthRequest
 import kotlinmud.io.PreAuthResponse
+import kotlinmud.player.authStep.AuthStep
+import kotlinmud.player.authStep.AuthStepService
+import kotlinmud.player.authStep.AuthorizationStep
 
-class EmailAuthStep(private val authService: AuthStepService) : AuthStep {
-    override val authorizationStep: AuthorizationStep = AuthorizationStep.EMAIL
+class EmailAuthStep(private val authService: AuthStepService) :
+    AuthStep {
+    override val authorizationStep: AuthorizationStep =
+        AuthorizationStep.EMAIL
     override val promptMessage: String = "email address:"
     override val errorMessage: String = "sorry, try again."
 

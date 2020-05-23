@@ -128,6 +128,10 @@ class MobService(
         playerMobs.add(mob)
     }
 
+    fun findPlayerMob(name: String): Mob? {
+        return playerMobs.find { it.name == name }
+    }
+
     fun moveMob(mob: Mob, room: Room, direction: Direction) {
         sendMessageToRoom(createLeaveMessage(mob, direction), getRoomForMob(mob), mob)
         putMobInRoom(mob, room)

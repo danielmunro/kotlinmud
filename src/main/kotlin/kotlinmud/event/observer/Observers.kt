@@ -10,6 +10,7 @@ import kotlinmud.event.observer.impl.DecrementItemDecayTimerObserver
 import kotlinmud.event.observer.impl.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
 import kotlinmud.event.observer.impl.IncreaseThirstAndHungerObserver
+import kotlinmud.event.observer.impl.LogPlayerInObserver
 import kotlinmud.event.observer.impl.LogTickObserver
 import kotlinmud.event.observer.impl.MoveMobsOnTickObserver
 import kotlinmud.event.observer.impl.ProceedFightsPulseObserver
@@ -57,6 +58,7 @@ fun createObservers(
         ClientConnectedObserver(playerService, mobService, actionService),
         SendMessageToRoomObserver(server, mobService),
         RemoveMobOnClientDisconnectObserver(mobService),
+        LogPlayerInObserver(mobService),
 
         // time
         ProceedFightsPulseObserver(mobService),
