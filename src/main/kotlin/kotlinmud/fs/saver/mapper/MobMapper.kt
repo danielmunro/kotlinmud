@@ -1,5 +1,7 @@
 package kotlinmud.fs.saver.mapper
 
+import kotlinmud.fs.int
+import kotlinmud.fs.str
 import kotlinmud.mob.Mob
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
@@ -10,11 +12,11 @@ fun mapMob(mob: Mob): String {
             optional(mob.route.isNotEmpty(), "route: ${mob.route.joinToString("-")}") +
             optional(mob.goldMin > 0, "goldMin: ${mob.goldMin}") +
             optional(mob.goldMax > 0, "goldMax: ${mob.goldMax}")
-    return """#${mob.id}
-${mob.name}~
-${mob.brief}~
-${mob.description}~
-${mob.disposition.value}~
-""" + (if (optional != "") optional.substring(0, optional.length - 2) else "") + "~\n" +
-            mob.affects.joinToString { it.affectType.value } + "~"
+    return """${int(mob.id)}
+${str(mob.name)}
+${str(mob.brief)}
+${str(mob.description)}
+${str(mob.disposition.value)}
+""" + str((if (optional != "") optional.substring(0, optional.length - 2) else "")) + "\n" +
+            str(mob.affects.joinToString { it.affectType.value })
 }
