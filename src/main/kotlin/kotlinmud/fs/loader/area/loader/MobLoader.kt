@@ -13,20 +13,22 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
 
-class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
-    var id = 0
-    var name = ""
-    var brief = ""
-    var description = ""
-    var disposition = Disposition.STANDING
+class MobLoader(private val tokenizer: Tokenizer, private val isNpc: Boolean = true) : WithAttrLoader() {
     override var props: Map<String, String> = mapOf()
 
     override fun load(): MobBuilder {
-        id = tokenizer.parseInt()
-        name = tokenizer.parseString()
-        brief = tokenizer.parseString()
-        description = tokenizer.parseString()
-        disposition = Disposition.valueOf(tokenizer.parseString().toUpperCase())
+        val id = tokenizer.parseInt()
+        val name = tokenizer.parseString()
+        val brief = tokenizer.parseString()
+        val description = tokenizer.parseString()
+        val disposition = Disposition.valueOf(tokenizer.parseString().toUpperCase())
+        val hp = tokenizer.parseInt()
+        val mana = tokenizer.parseInt()
+        val mv = tokenizer.parseInt()
+        val level = tokenizer.parseInt()
+        val maxItems = tokenizer.parseInt()
+        val maxWeight = tokenizer.parseInt()
+        val wimpy = tokenizer.parseInt()
         props = tokenizer.parseProperties()
         val job = JobType.valueOf(strAttr("job", "none").toUpperCase())
         val specialization = SpecializationType.valueOf(strAttr("specialization", "none").toUpperCase())
@@ -63,6 +65,10 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
             .hp(hp)
             .mana(mana)
             .mv(mv)
+            .level(level)
+            .maxItems(maxItems)
+            .maxWeight(maxWeight)
+            .wimpy(wimpy)
             .job(job)
             .specialization(specialization)
             .race(createRaceFromString(strAttr("race", "human")))
@@ -70,7 +76,7 @@ class MobLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {
             .goldMin(goldMin)
             .goldMax(goldMax)
             .route(route)
-            .isNpc(true)
+            .isNpc(isNpc)
             .affects(affects)
             .attributes(attributes)
     }

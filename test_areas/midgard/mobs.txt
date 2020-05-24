@@ -3,94 +3,250 @@ Hassan~
 Hassan is here, waiting to dispense some justice.~
 At over 12 feet tall, Hassan stands like a mountain above even the other giants.~
 standing~
-hp: 100, mana: 100, mv: 100,
-specialization: warrior, level: 51, race: giant~
+#53000
+#12000
+#23000
+#38
+#100
+#1000
+#0
+specialization: warrior, goldMax: 1~
 bless, haste~
-
 #2
 a jeweler~
 a jeweler is here.~
 a description for a jeweler.~
 sitting~
-job: shopkeeper, race: dwarf~
+#1
+#1
+#1
+#10
+#9999
+#9999
+#0
+job: shopkeeper, goldMax: 1~
 ~
-
 #3
 a beastly fido~
 a beastly fido is here, looking for scraps.~
 a beastly fido description.~
 standing~
-level: 5, race: canid, job: scavenger~
+#20
+#0
+#100
+#3
+#50
+#100
+#0
+job: scavenger, goldMax: 1~
 ~
-
 #4
 a wandering vagabond~
 a wandering vagabond is here.~
 a wandering vagabond description.~
 standing~
-level: 5, hp: 8, goldMin: 1, goldMax: 2~
+#40
+#0
+#100
+#5
+#50
+#100
+#10
+goldMin: 1, goldMax: 2~
 ~
-
 #5
 a baker~
 a baker stands here, wiping flour from his hands.~
 a baker is here description.~
 standing~
-job: shopkeeper~
+#1
+#1
+#1
+#5
+#9999
+#9999
+#0
+job: shopkeeper, goldMax: 1~
 ~
-
 #6
 a blacksmith~
-a strong blacksmith sits here, examining a blade.~
+a strong blacksmith sits here, examining a shield.~
 a blacksmith description.~
 sitting~
-job: shopkeeper~
+#1
+#1
+#1
+#5
+#9999
+#9999
+#0
+job: shopkeeper, goldMax: 1~
 ~
-
 #7
 a potion brewer~
 a potion brewer is here, running inventory.~
 a potion brewer is here.~
 standing~
-job: shopkeeper~
+#1
+#1
+#1
+#1
+#9999
+#9999
+#0
+job: shopkeeper, goldMax: 1~
 ~
-
 #8
 a scribe~
 a scribe sits here, deep in focus.~
 a scribe is here.~
 sitting~
-job: shopkeeper~
+#1
+#1
+#1
+#10
+#9999
+#9999
+#0
+job: shopkeeper, goldMax: 1~
 ~
-
 #9
 an alley cat~
 a mangy alley cat is here, sniffing around the garbage.~
 A mangy alley cat.~
 standing~
-race: felid, level: 3, goldMin: 1, goldMax: 3, hp: 4, job: fodder~
+#25
+#0
+#100
+#4
+#50
+#100
+#0
+job: fodder, goldMin: 1, goldMax: 3~
 ~
-
 #10
 a city guard~
 a Midgard city guard is here, keeping watch on things.~
 A city guard is here.~
 standing~
-job: guard, level: 20, hp: 400, mv: 1000, goldMin: 5, goldMax: 15~
+#1300
+#0
+#500
+#15
+#50
+#100
+#0
+job: guard, goldMin: 5, goldMax: 15~
 ~
-
 #11
 a city guard~
 a Midgard city guard is here, keeping watch on things.~
 A city guard is here.~
 standing~
-job: patrol, route: 1-2-100, level: 20, hp: 400, mv: 1000, goldMin: 5, goldMax: 15~
+#1800
+#0
+#500
+#20
+#50
+#100
+#0
+job: patrol, route: 1-2-100, goldMin: 5, goldMax: 15~
 ~
-
 #12
-Bob the trainer~
-Bob the trainer is here, ready to help you.~
-Bob~
+a blacksmith~
+a strong blacksmith sits here, examining a blade.~
+a blacksmith description.~
+sitting~
+#1
+#1
+#1
+#10
+#9999
+#9999
+#0
+job: shopkeeper, goldMax: 1~
+~
+#15
+the innkeeper~
+the innkeeper sits here, keeping an eye on things.~
+a stout man is here, he doesn't look too happy.~
+sitting~
+#1
+#1
+#1
+#10
+#50
+#100
+#0
+job: shopkeeper, goldMax: 1~
+~
+#20
+a bar patron~
+a bar patron is here, imbibing their grog.~
+a bar patron is here.~
+sitting~
+#30
+#0
+#100
+#4
+#50
+#100
+#0
+goldMax: 1~
+drunk~
+#25
+the barkeeper~
+the barkeeper is standing here, ready to serve you.~
+the barkeeper is here.~
 standing~
-job: trainer~
+#1
+#1
+#1
+#10
+#9999
+#9999
+#0
+job: shopkeeper, goldMax: 1~
+~
+#30
+a healer~
+the Midgard healer is here, waiting to sell you some spells.~
+a wise old human, the Midgard healer is here to sell you spells.~
+standing~
+#1
+#1
+#1
+#10
+#50
+#100
+#0
+job: healer, goldMax: 1~
+~
+#50
+a fox~
+a fox is here, darting in and out of sight.~
+a fox is here.~
+standing~
+#5
+#0
+#20
+#3
+#50
+#100
+#0
+job: fodder, goldMin: 1, goldMax: 2~
+haste~
+#51
+a lizard~
+a lizard is here, bathing in the sun.~
+a lizard is here.~
+standing~
+#4
+#0
+#20
+#2
+#50
+#100
+#0
+job: fodder, goldMin: 1, goldMax: 2~
 ~
