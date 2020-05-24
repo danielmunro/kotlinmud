@@ -17,6 +17,13 @@ ${str(mob.name)}
 ${str(mob.brief)}
 ${str(mob.description)}
 ${str(mob.disposition.value)}
+${int(mob.hp)}
+${int(mob.mana)}
+${int(mob.mv)}
+${int(mob.level)}
+${int(mob.maxItems)}
+${int(mob.maxWeight)}
+${int(mob.wimpy)}
 """ + str((if (optional != "") optional.substring(0, optional.length - 2) else "")) + "\n" +
             str(mob.affects.joinToString { it.affectType.value })
 }
