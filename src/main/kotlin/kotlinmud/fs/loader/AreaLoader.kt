@@ -72,7 +72,7 @@ class AreaLoader(
 
     private fun loadMobs(): List<Mob> {
         return MobMapper(
-            createModelList(MobLoader(createTokenizer("$baseDir/mobs.txt")))
+            createModelList(MobLoader(createTokenizer("$baseDir/mobs.txt"), loadSchemaVersion))
         ).map()
     }
 

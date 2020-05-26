@@ -2,9 +2,7 @@ package kotlinmud.fs.loader.area.loader
 
 import kotlin.random.Random
 import kotlinmud.affect.AffectInstance
-import kotlinmud.attributes.Attribute
-import kotlinmud.attributes.AttributeSetter
-import kotlinmud.attributes.AttributesBuilder
+import kotlinmud.attributes.Attributes
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.mob.MobBuilder
 import kotlinmud.mob.mobBuilder
@@ -12,8 +10,13 @@ import kotlinmud.mob.race.createRaceFromString
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
+import kotlinmud.service.CURRENT_LOAD_SCHEMA_VERSION
 
-class MobLoader(private val tokenizer: Tokenizer, private val isNpc: Boolean = true) : WithAttrLoader() {
+class MobLoader(
+    private val tokenizer: Tokenizer,
+    private val loadSchemaVersion: Int = CURRENT_LOAD_SCHEMA_VERSION,
+    private val isNpc: Boolean = true
+) : WithAttrLoader() {
     override var props: Map<String, String> = mapOf()
 
     override fun load(): MobBuilder {
@@ -29,6 +32,12 @@ class MobLoader(private val tokenizer: Tokenizer, private val isNpc: Boolean = t
         val maxItems = tokenizer.parseInt()
         val maxWeight = tokenizer.parseInt()
         val wimpy = tokenizer.parseInt()
+        val attributesLoader = AttributesLoader(tokenizer)
+        val attributes = if (loadSchemaVersion >= 7) attributesLoader.load() else Attributes()
+        val trainedAttributes = if (loadSchemaVersion >= 7) loadTrainedAttributes(attributesLoader) else mutableListOf()
+        if (loadSchemaVersion >= 7) {
+            tokenizer.parseString() // end
+        }
         props = tokenizer.parseProperties()
         val job = JobType.valueOf(strAttr("job", "none").toUpperCase())
         val specialization = SpecializationType.valueOf(strAttr("specialization", "none").toUpperCase())
@@ -42,19 +51,6 @@ class MobLoader(private val tokenizer: Tokenizer, private val isNpc: Boolean = t
         }
         val strRoute = strAttr("route")
         val route = if (strRoute != "") strRoute.split("-").map { it.toInt() } else listOf()
-        val attributes = AttributeSetter(AttributesBuilder())
-            .set(Attribute.HIT, hit)
-            .set(Attribute.DAM, dam)
-            .set(Attribute.STR, str)
-            .set(Attribute.INT, int)
-            .set(Attribute.WIS, wis)
-            .set(Attribute.DEX, dex)
-            .set(Attribute.CON, con)
-            .set(Attribute.AC_SLASH, acSlash)
-            .set(Attribute.AC_PIERCE, acPierce)
-            .set(Attribute.AC_BASH, acBash)
-            .set(Attribute.AC_MAGIC, acMagic)
-            .build()
 
         return builder
             .id(id)
@@ -79,5 +75,14 @@ class MobLoader(private val tokenizer: Tokenizer, private val isNpc: Boolean = t
             .isNpc(isNpc)
             .affects(affects)
             .attributes(attributes)
+            .trainedAttributes(trainedAttributes)
+    }
+
+    private fun loadTrainedAttributes(attributesLoader: AttributesLoader): MutableList<Attributes> {
+        val trainedAttributes = mutableListOf<Attributes>()
+        while (tokenizer.peek() != "end") {
+            trainedAttributes.add(attributesLoader.load())
+        }
+        return trainedAttributes
     }
 }

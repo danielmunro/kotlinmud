@@ -10,15 +10,15 @@ import kotlinmud.world.Area
 import kotlinmud.world.World
 import org.slf4j.LoggerFactory
 
-const val CURRENT_LOAD_SCHEMA_VERSION = 6
-const val CURRENT_WRITE_SCHEMA_VERSION = 6
+const val CURRENT_LOAD_SCHEMA_VERSION = 7
+const val CURRENT_WRITE_SCHEMA_VERSION = 7
 
 class PersistenceService(
     private val previousLoadSchemaVersion: Int,
     private val previousWriteSchemaVersion: Int
 ) {
     private val logger = LoggerFactory.getLogger(PersistenceService::class.java)
-    private val loadSchemaToUse = CURRENT_LOAD_SCHEMA_VERSION.coerceAtLeast(previousWriteSchemaVersion)
+    val loadSchemaToUse = CURRENT_LOAD_SCHEMA_VERSION.coerceAtLeast(previousWriteSchemaVersion)
 
     init {
         logger.info("previous load schema: {}, write schema: {}", previousLoadSchemaVersion, previousWriteSchemaVersion)

@@ -86,11 +86,12 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
             )
         }
         bind<MobService>() with singleton {
+            val persistenceService = instance<PersistenceService>()
             MobService(
                 instance<ItemService>(),
                 instance<EventService>(),
                 instance<World>(),
-                loadMobs()
+                loadMobs(persistenceService.loadSchemaToUse)
             )
         }
         bind<RespawnService>() with singleton {

@@ -23,6 +23,13 @@ class Tokenizer(value: String) {
         return next
     }
 
+    fun peek(): String {
+        val currentI = i
+        val next = parseString()
+        i = currentI
+        return next
+    }
+
     fun parseInt(): Int {
         val next = getNext()
         if (next == "") {
@@ -39,7 +46,7 @@ class Tokenizer(value: String) {
             buf = getNext()
         }
         toReturn += buf.substring(0, buf.length - 1)
-        return toReturn
+        return toReturn.trim()
     }
 
     fun parseProperties(): Map<String, String> {
