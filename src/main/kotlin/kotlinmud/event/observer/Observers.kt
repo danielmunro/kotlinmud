@@ -78,7 +78,7 @@ fun createObservers(
 
         // mobs
         WimpyObserver(mobService),
-        GrantExperienceOnKillObserver(server),
+        GrantExperienceOnKillObserver(playerService, server),
         TransferGoldOnKillObserver(),
         IncreaseThirstAndHungerObserver(mobService, server),
         RegenMobsObserver(mobService),

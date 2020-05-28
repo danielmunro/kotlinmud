@@ -1,11 +1,20 @@
 package kotlinmud.mob
 
+import kotlinmud.mob.race.Race
+
 class Appetite(
     val maxHunger: Int,
     val maxThirst: Int,
     hunger: Int? = null,
     thirst: Int? = null
-) { private var hunger = hunger ?: maxHunger
+) {
+    companion object {
+        fun fromRace(race: Race): Appetite {
+            return Appetite(race.maxAppetite, race.maxThirst)
+        }
+    }
+
+    private var hunger = hunger ?: maxHunger
     private var thirst = thirst ?: maxThirst
 
     fun getThirst(): Int {

@@ -31,9 +31,7 @@ import kotlinmud.action.contextBuilder.TrainableContextBuilder
 import kotlinmud.action.type.Command
 import kotlinmud.action.type.Status
 import kotlinmud.attributes.Attribute
-import kotlinmud.event.EventService
 import kotlinmud.io.IOStatus
-import kotlinmud.io.NIOServer
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
@@ -53,7 +51,7 @@ import kotlinmud.mob.skill.CostType
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.createSkillList
 import kotlinmud.mob.type.Intent
-import kotlinmud.service.WeatherService
+import kotlinmud.player.PlayerService
 import org.slf4j.LoggerFactory
 
 fun commandMatches(command: Command, input: String): Boolean {
@@ -70,10 +68,9 @@ fun subCommandMatches(syntax: Syntax, subCommand: String, input: String): Boolea
 
 class ActionService(
     private val mobService: MobService,
+    private val playerService: PlayerService,
     private val itemService: ItemService,
-    private val eventService: EventService,
-    private val weatherService: WeatherService,
-    private val server: NIOServer,
+    private val actionContextBuilder: (request: Request, actionContextList: ActionContextList) -> ActionContextService,
     private val actions: List<Action>
 ) {
     private val skills = createSkillList()
@@ -180,7 +177,7 @@ class ActionService(
     }
 
     private fun callInvokable(request: Request, invokable: Invokable, list: ActionContextList): Response {
-        return checkForBadContext(list) ?: with(invokable.invoke(ActionContextService(mobService, itemService, eventService, weatherService, list, server, request))) {
+        return checkForBadContext(list) ?: with(invokable.invoke(actionContextBuilder(request, list))) {
             if (invokable is Action && invokable.isChained())
                 run(createChainToRequest(request.mob, invokable))
             else
@@ -236,7 +233,7 @@ class ActionService(
             Syntax.PLAYER_MOB -> PlayerMobContextBuilder(mobService).build(syntax, word)
             Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(itemService, request.mob, request.room).build(syntax, word)
             Syntax.AVAILABLE_FOOD -> AvailableFoodContextBuilder(itemService, request.mob).build(syntax, word)
-            Syntax.TRAINABLE -> TrainableContextBuilder(mobService, request.mob).build(syntax, word)
+            Syntax.TRAINABLE -> TrainableContextBuilder(mobService, playerService, request.mob).build(syntax, word)
             Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(request.mob).build(syntax, word)
             Syntax.RECIPE -> RecipeContextBuilder(recipes).build(syntax, word)
             Syntax.RESOURCE_IN_ROOM -> ResourceInRoomContextBuilder(request.room).build(syntax, word)

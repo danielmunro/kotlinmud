@@ -16,6 +16,7 @@ import kotlinmud.item.ItemBuilder
 import kotlinmud.item.ItemOwner
 import kotlinmud.item.ItemService
 import kotlinmud.item.Position
+import kotlinmud.mob.Appetite
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobBuilder
 import kotlinmud.mob.MobController
@@ -23,7 +24,11 @@ import kotlinmud.mob.MobRoom
 import kotlinmud.mob.MobService
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.JobType
+import kotlinmud.player.PlayerService
+import kotlinmud.player.model.MobCard
+import kotlinmud.player.model.MobCardBuilder
 import kotlinmud.service.FixtureService
 import kotlinmud.service.RespawnService
 import kotlinmud.world.room.Room
@@ -34,7 +39,8 @@ class TestService(
     private val itemService: ItemService,
     private val actionService: ActionService,
     private val respawnService: RespawnService,
-    private val eventService: EventService
+    private val eventService: EventService,
+    private val playerService: PlayerService
 ) {
     private val clientService = ClientService()
 
@@ -98,11 +104,26 @@ class TestService(
     }
 
     fun createPlayerMobBuilder(): MobBuilder {
-        return fixtureService.createMobBuilder().isNpc(false)
+        val mob = fixtureService.createMobBuilder().isNpc(false)
+        val name = fixtureService.faker.name.name()
+        mob.name(name)
+        playerService.addMobCard(
+            MobCardBuilder()
+                .mobName(name)
+                .playerEmail("foo@bar.com")
+                .experiencePerLevel(1000)
+                .appetite(Appetite.fromRace(Human()))
+                .build()
+        )
+        return mob
     }
 
     fun withMob(builder: (MobBuilder) -> MobBuilder): Mob {
         return buildMob(builder(fixtureService.createMobBuilder()))
+    }
+
+    fun findMobCardByName(name: String): MobCard? {
+        return playerService.findMobCardByName(name)
     }
 
     fun createItem(hasInventory: HasInventory): Item {
@@ -138,10 +159,6 @@ class TestService(
 
     fun pruneDeadMobs() {
         mobService.pruneDeadMobs()
-    }
-
-    fun addClient(client: NIOClient) {
-        clientService.addClient(client)
     }
 
     fun decrementDelays() {

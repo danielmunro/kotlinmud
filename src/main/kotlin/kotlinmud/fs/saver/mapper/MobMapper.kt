@@ -25,8 +25,6 @@ ${int(mob.maxItems)}
 ${int(mob.maxWeight)}
 ${int(mob.wimpy)}
 ${mapAttributes(mob.attributes)}
-${mob.trainedAttributes.joinToString("\n") { mapAttributes(it) }}
-${str("end")}
 """ + str((if (optional != "") optional.substring(0, optional.length - 2) else "")) + "\n" +
             str(mob.affects.joinToString { it.affectType.value })
 }

@@ -34,7 +34,6 @@ class MobLoader(
         val wimpy = tokenizer.parseInt()
         val attributesLoader = AttributesLoader(tokenizer)
         val attributes = if (loadSchemaVersion >= 7) attributesLoader.load() else Attributes()
-        val trainedAttributes = if (loadSchemaVersion >= 7) loadTrainedAttributes(attributesLoader) else mutableListOf()
         if (loadSchemaVersion >= 7) {
             tokenizer.parseString() // end
         }
@@ -75,7 +74,6 @@ class MobLoader(
             .isNpc(isNpc)
             .affects(affects)
             .attributes(attributes)
-            .trainedAttributes(trainedAttributes)
     }
 
     private fun loadTrainedAttributes(attributesLoader: AttributesLoader): MutableList<Attributes> {

@@ -1,6 +1,5 @@
 package kotlinmud.player.loader
 
-import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.mob.Appetite
 import kotlinmud.player.model.MobCard
@@ -32,24 +31,24 @@ class MobCardLoader(private val tokenizer: Tokenizer) {
             )
             .bounty(tokenizer.parseInt())
         val attr = tokenizer.parseProperties()
-        builder.attributes(
-            AttributesBuilder()
-                .strength(intVal(attr["str"]))
-                .intelligence(intVal(attr["int"]))
-                .wisdom(intVal(attr["wis"]))
-                .dexterity(intVal(attr["dex"]))
-                .constitution(intVal(attr["con"]))
-                .hp(intVal(attr["hp"]))
-                .mana(intVal(attr["mana"]))
-                .mv(intVal(attr["mv"]))
-                .hit(intVal(attr["hit"]))
-                .dam(intVal(attr["dam"]))
-                .acSlash(intVal(attr["acSlash"]))
-                .acBash(intVal(attr["acBash"]))
-                .acPierce(intVal(attr["acPierce"]))
-                .acMagic(intVal(attr["acMagic"]))
-                .build()
-        )
+//        builder.attributes(
+//            AttributesBuilder()
+//                .strength(intVal(attr["str"]))
+//                .intelligence(intVal(attr["int"]))
+//                .wisdom(intVal(attr["wis"]))
+//                .dexterity(intVal(attr["dex"]))
+//                .constitution(intVal(attr["con"]))
+//                .hp(intVal(attr["hp"]))
+//                .mana(intVal(attr["mana"]))
+//                .mv(intVal(attr["mv"]))
+//                .hit(intVal(attr["hit"]))
+//                .dam(intVal(attr["dam"]))
+//                .acSlash(intVal(attr["acSlash"]))
+//                .acBash(intVal(attr["acBash"]))
+//                .acPierce(intVal(attr["acPierce"]))
+//                .acMagic(intVal(attr["acMagic"]))
+//                .build()
+//        )
         return builder.build()
     }
 }

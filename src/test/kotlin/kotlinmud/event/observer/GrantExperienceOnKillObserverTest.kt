@@ -3,6 +3,7 @@ package kotlinmud.event.observer
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
+import assertk.assertions.isTrue
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.mob.fight.Fight
@@ -19,6 +20,7 @@ class GrantExperienceOnKillObserverTest {
         val mob2 = testService.createPlayerMobBuilder().build()
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
+        val mobCard1 = testService.findMobCardByName(mob1.name)!!
 
         // given
         mob2.disposition = Disposition.DEAD
@@ -27,7 +29,7 @@ class GrantExperienceOnKillObserverTest {
         testService.publish(Event(EventType.KILL, fight))
 
         // then
-        assertThat(mob1.experience).isGreaterThan(0)
+        assertThat(mobCard1.experience).isGreaterThan(0)
         assertThat(mob1.level).isEqualTo(1)
     }
 
@@ -40,14 +42,14 @@ class GrantExperienceOnKillObserverTest {
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
         mob2.disposition = Disposition.DEAD
+        val mobCard1 = testService.findMobCardByName(mob1.name)!!
 
         // given
-        mob1.experience = 2000
-
-        // when
+        mobCard1.experience = 2000
         testService.publish(Event(EventType.KILL, fight))
+        val addExperience = mobCard1.addExperience(mob1.level, 1)
 
         // then
-        assertThat(mob1.level).isEqualTo(2)
+        assertThat(addExperience.levelGained).isTrue()
     }
 }

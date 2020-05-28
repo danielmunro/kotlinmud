@@ -8,8 +8,9 @@ import kotlinmud.io.Syntax
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobService
 import kotlinmud.mob.type.JobType
+import kotlinmud.player.PlayerService
 
-class TrainableContextBuilder(private val mobService: MobService, private val mob: Mob) : ContextBuilder {
+class TrainableContextBuilder(private val mobService: MobService, private val playerService: PlayerService, private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         if (mob.trains == 0) {
             return Context(syntax, Status.ERROR, "you have no trains.")
@@ -31,7 +32,7 @@ class TrainableContextBuilder(private val mobService: MobService, private val mo
             "mv" -> Attribute.MV
             else -> return Context(syntax, Status.ERROR, "you cannot train that")
         }
-        val amount = mob.calcTrained(attribute)
+        val amount = playerService.findMobCardByName(mob.name)!!.calcTrained(attribute)
         val maxAmount = if (isVitals(attribute)) 10 else 4
         if (amount == maxAmount) {
             return Context(syntax, Status.ERROR, "you cannot train that anymore.")

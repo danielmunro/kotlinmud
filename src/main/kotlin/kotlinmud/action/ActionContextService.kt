@@ -21,6 +21,8 @@ import kotlinmud.item.createRecipeList
 import kotlinmud.mob.Mob
 import kotlinmud.mob.MobService
 import kotlinmud.mob.fight.Fight
+import kotlinmud.player.PlayerService
+import kotlinmud.player.model.MobCard
 import kotlinmud.player.social.Social
 import kotlinmud.service.CraftingService
 import kotlinmud.service.WeatherService
@@ -34,6 +36,7 @@ import kotlinmud.world.room.exit.Exit
 
 class ActionContextService(
     private val mobService: MobService,
+    private val playerService: PlayerService,
     private val itemService: ItemService,
     private val eventService: EventService,
     private val weatherService: WeatherService,
@@ -57,6 +60,10 @@ class ActionContextService(
 
     fun getMob(): Mob {
         return request.mob
+    }
+
+    fun getMobCard(): MobCard {
+        return playerService.findMobCardByName(getMob().name)!!
     }
 
     fun getAffects(): List<AffectInstance> {

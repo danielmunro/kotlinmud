@@ -5,8 +5,12 @@ import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOServer
 import kotlinmud.mob.fight.Fight
+import kotlinmud.player.PlayerService
 
-class GrantExperienceOnKillObserver(private val server: NIOServer) : Observer {
+class GrantExperienceOnKillObserver(
+    private val playerService: PlayerService,
+    private val server: NIOServer
+) : Observer {
     override val eventType: EventType = EventType.KILL
 
     override fun <T> processEvent(event: Event<T>) {
@@ -24,11 +28,13 @@ class GrantExperienceOnKillObserver(private val server: NIOServer) : Observer {
                 else -> it
             }
         }
-        val addExperience = winner.addExperience(experience)
-        server.getClientForMob(winner)?.let {
-            it.writePrompt("you gain $experience experience.")
-            if (addExperience.levelGained) {
-                it.writePrompt("you gained a level!")
+        playerService.findMobCardByName(winner.name)?.let {
+            val addExperience = it.addExperience(winner.level, experience)
+            server.getClientForMob(winner)?.let { client ->
+                client.writePrompt("you gain $experience experience.")
+                if (addExperience.levelGained) {
+                    client.writePrompt("you gained a level!")
+                }
             }
         }
     }

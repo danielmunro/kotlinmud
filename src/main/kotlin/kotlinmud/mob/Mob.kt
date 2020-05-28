@@ -44,7 +44,6 @@ class Mob(
     val race: Race,
     @DefaultValue("SpecializationType.NONE") val specialization: SpecializationType,
     val attributes: Attributes,
-    @DefaultValue("mutableListOf()") @Mutable val trainedAttributes: MutableList<Attributes>,
     @DefaultValue("JobType.NONE") val job: JobType,
     @DefaultValue("Gender.NONE") var gender: Gender,
     @DefaultValue("0") var gold: Int,
@@ -63,7 +62,6 @@ class Mob(
     @DefaultValue("50") val maxItems: Int,
     @DefaultValue("100") val maxWeight: Int
 ) : Noun, Row, HasInventory {
-    var skillPoints = 0
     var bounty = 0
     var experience = 0
     var sacPoints = 0
@@ -104,24 +102,19 @@ class Mob(
         return when (attribute) {
             Attribute.STR -> baseStat +
                     attributes.strength +
-                    race.attributes.strength +
-                    calcTrained(Attribute.STR)
+                    race.attributes.strength
             Attribute.INT -> baseStat +
                     attributes.intelligence +
-                    race.attributes.intelligence +
-                    calcTrained(Attribute.INT)
+                    race.attributes.intelligence
             Attribute.WIS -> baseStat +
                     attributes.wisdom +
-                    race.attributes.wisdom +
-                    calcTrained(Attribute.WIS)
+                    race.attributes.wisdom
             Attribute.DEX -> baseStat +
                     attributes.dexterity +
-                    race.attributes.dexterity +
-                    calcTrained(Attribute.DEX)
+                    race.attributes.dexterity
             Attribute.CON -> baseStat +
                     attributes.constitution +
-                    race.attributes.constitution +
-                    calcTrained(Attribute.CON)
+                    race.attributes.constitution
             else -> 0
         }
     }
@@ -129,14 +122,11 @@ class Mob(
     fun calc(attribute: Attribute): Int {
         return when (attribute) {
             Attribute.HP -> attributes.hp +
-                    accumulate { it.attributes.hp } +
-                    calcTrained(Attribute.HP)
+                    accumulate { it.attributes.hp }
             Attribute.MANA -> attributes.mana +
-                    accumulate { it.attributes.mana } +
-                    calcTrained(Attribute.MANA)
+                    accumulate { it.attributes.mana }
             Attribute.MV -> attributes.mv +
-                    accumulate { it.attributes.mv } +
-                    calcTrained(Attribute.MV)
+                    accumulate { it.attributes.mv }
             Attribute.STR -> base(attribute) + accumulate { it.attributes.strength }
             Attribute.INT -> base(attribute) + accumulate { it.attributes.intelligence }
             Attribute.WIS -> base(attribute) + accumulate { it.attributes.wisdom }
@@ -149,17 +139,6 @@ class Mob(
             Attribute.AC_SLASH -> attributes.acSlash + accumulate { it.attributes.acSlash }
             Attribute.AC_MAGIC -> attributes.acMagic + accumulate { it.attributes.acMagic }
         }
-    }
-
-    fun addExperience(value: Int): AddExperience {
-        experience += value
-        var didLevel = false
-        val toLevel = getExperienceToLevel()
-        if (toLevel < 0) {
-            level++
-            didLevel = true
-        }
-        return AddExperience(experience, didLevel)
     }
 
     fun copy(): Mob {
@@ -232,10 +211,6 @@ class Mob(
 
     override fun toString(): String {
         return name
-    }
-
-    fun calcTrained(attribute: Attribute): Int {
-        return trainedAttributes.fold(0) { acc, it -> acc + it.getAttribute(attribute) }
     }
 
     fun wantsToMove(): Boolean {

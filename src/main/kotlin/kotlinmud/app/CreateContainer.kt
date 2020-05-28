@@ -2,6 +2,7 @@ package kotlinmud.app
 
 import java.net.ServerSocket
 import kotlinmud.action.ActionService
+import kotlinmud.action.createActionContextBuilder
 import kotlinmud.action.createActionsList
 import kotlinmud.event.EventService
 import kotlinmud.event.observer.Observers
@@ -78,10 +79,16 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         bind<ActionService>() with singleton {
             ActionService(
                 instance<MobService>(),
+                instance<PlayerService>(),
                 instance<ItemService>(),
-                instance<EventService>(),
-                instance<WeatherService>(),
-                instance<NIOServer>(),
+                createActionContextBuilder(
+                    instance<MobService>(),
+                    instance<PlayerService>(),
+                    instance<ItemService>(),
+                    instance<EventService>(),
+                    instance<WeatherService>(),
+                    instance<NIOServer>()
+                ),
                 createActionsList(instance<WorldSaver>())
             )
         }

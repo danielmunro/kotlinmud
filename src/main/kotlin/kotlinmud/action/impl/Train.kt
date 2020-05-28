@@ -15,7 +15,7 @@ fun createTrainAction(): Action {
     return Action(Command.TRAIN, mustBeStanding(), trainable()) {
         val attribute: Attribute = it.get(Syntax.TRAINABLE)
         it.getMob().trains -= 1
-        it.getMob().trainedAttributes.add(
+        it.getMobCard().trainedAttributes.add(
             setAttribute(AttributesBuilder(), attribute, if (isVitals(attribute)) 10 else 1).build()
         )
         it.createOkResponse(

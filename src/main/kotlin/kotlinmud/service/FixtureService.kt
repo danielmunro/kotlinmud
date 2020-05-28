@@ -14,7 +14,7 @@ import kotlinmud.mob.type.SpecializationType
 class FixtureService {
     private var mobs = 0
     private var items = 0
-    private val faker = Faker()
+    val faker = Faker()
 
     fun createMobBuilder(): MobBuilder {
         mobs++
