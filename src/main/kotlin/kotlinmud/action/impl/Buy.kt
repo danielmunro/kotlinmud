@@ -6,7 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.itemFromMerchant
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 import kotlinmud.mob.type.JobType
 
 fun createBuyAction(): Action {

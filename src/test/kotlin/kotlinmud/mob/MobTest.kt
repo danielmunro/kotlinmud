@@ -10,7 +10,7 @@ import kotlinmud.affect.AffectType
 import kotlinmud.affect.affects
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.AttributesBuilder
-import kotlinmud.item.Position
+import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.race.impl.Elf

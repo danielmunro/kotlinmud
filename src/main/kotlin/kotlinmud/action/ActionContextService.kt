@@ -15,7 +15,7 @@ import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.item.HasInventory
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 import kotlinmud.item.ItemService
 import kotlinmud.item.Recipe
 import kotlinmud.item.createRecipeList

@@ -1,7 +1,7 @@
 package kotlinmud.mob.fight
 
 import kotlinmud.attributes.Attribute
-import kotlinmud.item.Position
+import kotlinmud.item.type.Position
 import kotlinmud.math.d20
 import kotlinmud.math.dN
 import kotlinmud.math.percentRoll

@@ -3,7 +3,7 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 import kotlinmud.item.ItemService
 import kotlinmud.mob.model.Mob
 import kotlinmud.world.room.Room

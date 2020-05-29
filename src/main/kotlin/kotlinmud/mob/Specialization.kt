@@ -1,7 +1,7 @@
 package kotlinmud.mob
 
 import kotlinmud.attributes.Attribute
-import kotlinmud.item.Weapon
+import kotlinmud.item.type.Weapon
 
 interface Specialization {
     val name: String

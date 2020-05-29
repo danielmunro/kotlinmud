@@ -9,7 +9,7 @@ import kotlin.test.Test
 import kotlin.test.assertNotNull
 import kotlinmud.app.App
 import kotlinmud.app.createContainer
-import kotlinmud.item.ItemOwner
+import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.ItemService
 import kotlinmud.test.createTestService
 import org.kodein.di.erased.instance

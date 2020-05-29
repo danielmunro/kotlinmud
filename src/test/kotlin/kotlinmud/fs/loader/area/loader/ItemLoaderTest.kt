@@ -7,8 +7,8 @@ import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotNull
 import kotlinmud.affect.AffectType
 import kotlinmud.fs.loader.AreaLoader
-import kotlinmud.item.Material
-import kotlinmud.item.Position
+import kotlinmud.item.type.Material
+import kotlinmud.item.type.Position
 import kotlinmud.service.CURRENT_LOAD_SCHEMA_VERSION
 import org.junit.Test
 

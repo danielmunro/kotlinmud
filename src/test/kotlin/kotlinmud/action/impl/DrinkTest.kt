@@ -6,7 +6,7 @@ import assertk.assertions.isEqualTo
 import kotlinmud.affect.AffectType
 import kotlinmud.affect.impl.DrunkAffect
 import kotlinmud.io.IOStatus
-import kotlinmud.item.Drink
+import kotlinmud.item.type.Drink
 import kotlinmud.test.createTestService
 import org.junit.Test
 

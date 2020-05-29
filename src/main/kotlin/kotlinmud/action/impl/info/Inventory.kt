@@ -5,7 +5,7 @@ import kotlinmud.action.mustBeAwake
 import kotlinmud.action.type.Command
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.io.messageToActionCreator
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 
 fun createInventoryAction(): Action {
     return Action(Command.INVENTORY, mustBeAwake()) {

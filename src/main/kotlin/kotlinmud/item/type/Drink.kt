@@ -1,4 +1,4 @@
-package kotlinmud.item
+package kotlinmud.item.type
 
 enum class Drink(private val value: String) {
     WATER("water"),

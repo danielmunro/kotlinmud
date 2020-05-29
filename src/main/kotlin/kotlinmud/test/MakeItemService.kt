@@ -1,8 +1,8 @@
 package kotlinmud.test
 
 import kotlinmud.item.HasInventory
-import kotlinmud.item.ItemBuilder
-import kotlinmud.item.ItemType
+import kotlinmud.item.model.ItemBuilder
+import kotlinmud.item.type.ItemType
 
 class MakeItemService(private val testService: TestService, private val amount: Int) {
     private val itemTemplate: ItemBuilder = testService.itemBuilder()

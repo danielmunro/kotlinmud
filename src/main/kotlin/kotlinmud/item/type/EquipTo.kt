@@ -1,4 +1,4 @@
-package kotlinmud.item
+package kotlinmud.item.type
 
 enum class EquipTo {
     HEAD,

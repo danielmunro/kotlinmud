@@ -13,8 +13,8 @@ import kotlinmud.fs.saver.mapper.mapMob
 import kotlinmud.io.Message
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.messageToActionCreator
-import kotlinmud.item.Item
-import kotlinmud.item.ItemOwner
+import kotlinmud.item.model.Item
+import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.ItemService
 import kotlinmud.math.normalizeDouble
 import kotlinmud.mob.fight.Attack

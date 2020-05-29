@@ -3,7 +3,7 @@ package kotlinmud.action.impl
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
-import kotlinmud.item.Position
+import kotlinmud.item.type.Position
 import kotlinmud.test.createTestService
 import org.junit.Test
 

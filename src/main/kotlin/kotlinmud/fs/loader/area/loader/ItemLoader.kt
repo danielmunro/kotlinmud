@@ -3,10 +3,10 @@ package kotlinmud.fs.loader.area.loader
 import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.fs.loader.Tokenizer
-import kotlinmud.item.Drink
-import kotlinmud.item.Food
-import kotlinmud.item.Material
-import kotlinmud.item.Position
+import kotlinmud.item.type.Drink
+import kotlinmud.item.type.Food
+import kotlinmud.item.type.Material
+import kotlinmud.item.type.Position
 import kotlinmud.item.itemBuilder
 
 class ItemLoader(private val tokenizer: Tokenizer) : WithAttrLoader() {

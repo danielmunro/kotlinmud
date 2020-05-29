@@ -7,7 +7,7 @@ import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.drink
 import kotlinmud.io.messageToActionCreator
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 
 fun createDrinkAction(): Action {
     return Action(Command.DRINK, mustBeAwake(), drink()) {

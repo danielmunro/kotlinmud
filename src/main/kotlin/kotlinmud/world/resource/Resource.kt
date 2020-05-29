@@ -1,6 +1,6 @@
 package kotlinmud.world.resource
 
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 import kotlinmud.item.ItemBuilderBuilder
 import kotlinmud.world.ResourceType
 

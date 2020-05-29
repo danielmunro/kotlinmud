@@ -4,7 +4,7 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 import kotlinmud.item.ItemService
-import kotlinmud.item.Position
+import kotlinmud.item.type.Position
 import kotlinmud.mob.model.Mob
 
 class EquipmentInInventoryContextBuilder(private val itemService: ItemService, private val mob: Mob) : ContextBuilder {

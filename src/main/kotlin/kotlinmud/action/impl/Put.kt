@@ -6,7 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.availableInventoryAndItem
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 
 fun createPutAction(): Action {
     return Action(Command.PUT, mustBeAwake(), availableInventoryAndItem()) {

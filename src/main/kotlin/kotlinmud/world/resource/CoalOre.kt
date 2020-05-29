@@ -1,8 +1,8 @@
 package kotlinmud.world.resource
 
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 import kotlinmud.item.ItemBuilderBuilder
-import kotlinmud.item.ItemType
+import kotlinmud.item.type.ItemType
 import kotlinmud.world.ResourceType
 
 class CoalOre : Resource {

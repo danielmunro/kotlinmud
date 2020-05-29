@@ -6,7 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.equippedItem
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 
 fun createRemoveAction(): Action {
     return Action(Command.REMOVE, mustBeAlert(), equippedItem()) {

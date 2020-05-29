@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotEqualTo
-import kotlinmud.item.Position
+import kotlinmud.item.type.Position
 import kotlinmud.mob.skill.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.ProbabilityTest

@@ -6,7 +6,7 @@ import assertk.assertions.isEqualTo
 import kotlinmud.affect.AffectType
 import kotlinmud.affect.impl.StunnedAffect
 import kotlinmud.io.IOStatus
-import kotlinmud.item.Food
+import kotlinmud.item.type.Food
 import kotlinmud.test.createTestService
 import org.junit.Test
 

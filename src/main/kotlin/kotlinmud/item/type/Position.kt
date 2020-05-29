@@ -1,4 +1,4 @@
-package kotlinmud.item
+package kotlinmud.item.type
 
 enum class Position(val value: String) {
     HEAD("head"),

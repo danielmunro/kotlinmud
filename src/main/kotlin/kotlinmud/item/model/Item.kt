@@ -1,4 +1,4 @@
-package kotlinmud.item
+package kotlinmud.item.model
 
 import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue
@@ -8,6 +8,12 @@ import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
 import kotlinmud.data.Row
+import kotlinmud.item.type.Drink
+import kotlinmud.item.type.Food
+import kotlinmud.item.HasInventory
+import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
+import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.service.AffectService
 

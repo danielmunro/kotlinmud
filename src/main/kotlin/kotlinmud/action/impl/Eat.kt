@@ -7,7 +7,7 @@ import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.foodInInventory
 import kotlinmud.io.messageToActionCreator
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 
 fun createEatAction(): Action {
     return Action(Command.EAT, mustBeAwake(), foodInInventory()) {

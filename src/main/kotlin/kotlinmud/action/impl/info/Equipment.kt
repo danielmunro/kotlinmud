@@ -4,7 +4,7 @@ import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.io.messageToActionCreator
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 
 fun createEquipmentAction(): Action {
     return Action(Command.EQUIPMENT) {

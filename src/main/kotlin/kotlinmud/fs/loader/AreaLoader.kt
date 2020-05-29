@@ -17,7 +17,7 @@ import kotlinmud.fs.loader.area.mapper.RoomMapper
 import kotlinmud.fs.loader.area.model.reset.ItemMobReset
 import kotlinmud.fs.loader.area.model.reset.ItemRoomReset
 import kotlinmud.fs.loader.area.model.reset.MobReset
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
 import kotlinmud.world.Area
 import kotlinmud.world.room.exit.Door

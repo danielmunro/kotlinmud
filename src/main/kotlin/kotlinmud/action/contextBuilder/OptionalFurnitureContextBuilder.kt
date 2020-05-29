@@ -3,7 +3,7 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 
 class OptionalFurnitureContextBuilder(private val itemsInRoom: List<Item>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

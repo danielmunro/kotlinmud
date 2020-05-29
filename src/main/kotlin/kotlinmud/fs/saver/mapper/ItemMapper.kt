@@ -1,9 +1,9 @@
 package kotlinmud.fs.saver.mapper
 
-import kotlinmud.item.Drink
-import kotlinmud.item.Food
-import kotlinmud.item.Item
-import kotlinmud.item.Position
+import kotlinmud.item.type.Drink
+import kotlinmud.item.type.Food
+import kotlinmud.item.model.Item
+import kotlinmud.item.type.Position
 
 fun mapItem(item: Item): String {
     return """#${item.id}

@@ -6,7 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.itemInRoom
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 
 fun createGetAction(): Action {
     return Action(Command.GET, mustBeAwake(), itemInRoom()) {

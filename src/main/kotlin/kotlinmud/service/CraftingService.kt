@@ -4,10 +4,10 @@ import kotlin.streams.toList
 import kotlinmud.exception.CraftException
 import kotlinmud.exception.HarvestException
 import kotlinmud.item.HasInventory
-import kotlinmud.item.Item
-import kotlinmud.item.ItemOwner
+import kotlinmud.item.model.Item
+import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.ItemService
-import kotlinmud.item.ItemType
+import kotlinmud.item.type.ItemType
 import kotlinmud.item.Recipe
 import kotlinmud.mob.model.Mob
 import kotlinmud.world.ResourceType

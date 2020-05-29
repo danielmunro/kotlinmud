@@ -1,6 +1,11 @@
 package kotlinmud.item
 
 import kotlinmud.attributes.Attributes
+import kotlinmud.item.model.ItemBuilder
+import kotlinmud.item.type.Drink
+import kotlinmud.item.type.Food
+import kotlinmud.item.type.Material
+import kotlinmud.item.type.Position
 
 fun itemBuilder(id: Int, name: String): ItemBuilder {
     return ItemBuilder()

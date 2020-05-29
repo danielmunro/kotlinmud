@@ -11,8 +11,8 @@ import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
 import kotlinmud.data.Row
 import kotlinmud.item.HasInventory
-import kotlinmud.item.Item
-import kotlinmud.item.Position
+import kotlinmud.item.model.Item
+import kotlinmud.item.type.Position
 import kotlinmud.math.dN
 import kotlinmud.math.normalizeInt
 import kotlinmud.math.percentRoll

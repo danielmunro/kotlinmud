@@ -1,9 +1,9 @@
 package kotlinmud.item.recipe
 
-import kotlinmud.item.Item
-import kotlinmud.item.ItemBuilder
-import kotlinmud.item.ItemType
-import kotlinmud.item.Material
+import kotlinmud.item.model.Item
+import kotlinmud.item.model.ItemBuilder
+import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.item.Recipe
 
 class BuilderTable : Recipe {

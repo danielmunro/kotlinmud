@@ -6,7 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.affect.AffectType
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.io.messageToActionCreator
-import kotlinmud.item.Item
+import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
 import kotlinmud.world.room.Room
 import kotlinmud.world.room.exit.DoorDisposition

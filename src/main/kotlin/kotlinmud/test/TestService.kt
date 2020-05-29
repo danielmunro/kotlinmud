@@ -11,11 +11,11 @@ import kotlinmud.io.NIOClient
 import kotlinmud.io.Request
 import kotlinmud.io.Response
 import kotlinmud.item.HasInventory
-import kotlinmud.item.Item
-import kotlinmud.item.ItemBuilder
-import kotlinmud.item.ItemOwner
+import kotlinmud.item.model.Item
+import kotlinmud.item.model.ItemBuilder
+import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.ItemService
-import kotlinmud.item.Position
+import kotlinmud.item.type.Position
 import kotlinmud.mob.MobController
 import kotlinmud.mob.MobService
 import kotlinmud.mob.fight.Fight

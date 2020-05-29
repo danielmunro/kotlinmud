@@ -4,7 +4,7 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.affect.AffectType
 import kotlinmud.io.Syntax
-import kotlinmud.item.Food
+import kotlinmud.item.type.Food
 import kotlinmud.item.ItemService
 import kotlinmud.mob.model.Mob
 
