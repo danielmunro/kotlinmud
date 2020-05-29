@@ -1,6 +1,8 @@
 package kotlinmud.player.loader
 
+import kotlinmud.attributes.Attributes
 import kotlinmud.fs.loader.Tokenizer
+import kotlinmud.fs.loader.area.loader.AttributesLoader
 import kotlinmud.mob.Appetite
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.MobCardBuilder
@@ -30,25 +32,13 @@ class MobCardLoader(private val tokenizer: Tokenizer) {
                 )
             )
             .bounty(tokenizer.parseInt())
-        val attr = tokenizer.parseProperties()
-//        builder.attributes(
-//            AttributesBuilder()
-//                .strength(intVal(attr["str"]))
-//                .intelligence(intVal(attr["int"]))
-//                .wisdom(intVal(attr["wis"]))
-//                .dexterity(intVal(attr["dex"]))
-//                .constitution(intVal(attr["con"]))
-//                .hp(intVal(attr["hp"]))
-//                .mana(intVal(attr["mana"]))
-//                .mv(intVal(attr["mv"]))
-//                .hit(intVal(attr["hit"]))
-//                .dam(intVal(attr["dam"]))
-//                .acSlash(intVal(attr["acSlash"]))
-//                .acBash(intVal(attr["acBash"]))
-//                .acPierce(intVal(attr["acPierce"]))
-//                .acMagic(intVal(attr["acMagic"]))
-//                .build()
-//        )
+            .skillPoints(tokenizer.parseInt())
+        val trainedAttributes = mutableListOf<Attributes>()
+        val attributesLoader = AttributesLoader(tokenizer)
+        while (tokenizer.peek() != "end") {
+            trainedAttributes.add(attributesLoader.load())
+        }
+        builder.trainedAttributes(trainedAttributes)
         return builder.build()
     }
 }

@@ -12,8 +12,9 @@ import kotlinmud.item.Item
 fun createDrinkAction(): Action {
     return Action(Command.DRINK, mustBeAwake(), drink()) {
         val item = it.get<Item>(Syntax.AVAILABLE_DRINK)
+        val appetite = it.getMobCard().appetite
 
-        if (it.getMob().appetite.isFull()) {
+        if (appetite.isFull()) {
             return@Action it.createErrorResponse(messageToActionCreator("you are full."))
         }
 
@@ -21,7 +22,7 @@ fun createDrinkAction(): Action {
             item.quantity--
         }
 
-        it.getMob().appetite.nourishThirst()
+        appetite.nourishThirst()
         it.getMob().affects().copyFrom(item)
 
         val empty = if (item.quantity == 0) " $item is now empty." else ""

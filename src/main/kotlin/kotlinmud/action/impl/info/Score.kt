@@ -21,7 +21,7 @@ fun createScoreAction(): Action {
                         "${mob.mv} of ${mob.calc(Attribute.MV)} moves.\n" +
                         "Race: ${mob.race.type.toString().toLowerCase()} Gender: ${mob.gender.toString().toLowerCase()} " +
                         "Class: ${mob.specialization.toString().toLowerCase()} Kit: none\n" +
-                        "Trains: ${mob.trains}  Practices: ${mob.practices}  Skill Points: ${mobCard.skillPoints}  Bounty: ${mob.bounty} " +
+                        "Trains: ${mob.trains}  Practices: ${mob.practices}  Skill Points: ${mobCard.skillPoints}  Bounty: ${mobCard.bounty} " +
                         "You are carrying ${items.size}/${mob.maxItems} items, ${items.map{ it.weight }.fold(0.0) { acc: Double, value: Double -> acc + value}}/${mob.maxWeight} weight capacity.\n" +
                         "Str: ${mob.base(Attribute.STR)}/${mob.calc(Attribute.STR)} " +
                         "Int: ${mob.base(Attribute.INT)}/${mob.calc(Attribute.INT)} " +
@@ -38,7 +38,7 @@ fun createScoreAction(): Action {
                         "You are hopelessly vulnerable to slashing.\n" +
                         "You are hopelessly vulnerable to magic.\n" +
                         "You are a neutral follower of yourself.\n" +
-                        "Sac Points: ${mob.sacPoints}"
+                        "Sac Points: ${mobCard.sacPoints}"
             )
         )
     }

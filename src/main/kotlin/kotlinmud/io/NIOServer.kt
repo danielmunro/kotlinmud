@@ -12,6 +12,7 @@ import kotlinmud.event.EventService
 import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.createClientDisconnectedEvent
 import kotlinmud.mob.Mob
+import kotlinmud.player.model.MobCard
 import okhttp3.internal.closeQuietly
 import org.slf4j.LoggerFactory
 
@@ -80,6 +81,10 @@ class NIOServer(
 
     fun getClientForMob(mob: Mob): NIOClient? {
         return clients.find { it.mob == mob }
+    }
+
+    fun getClientForMobCard(mobCard: MobCard): NIOClient? {
+        return clients.find { it.mob!!.name == mobCard.mobName }
     }
 
     fun getClientsFromMobs(mobs: List<Mob>): NIOClients {

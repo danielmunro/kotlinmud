@@ -12,12 +12,13 @@ import kotlinmud.item.Item
 fun createEatAction(): Action {
     return Action(Command.EAT, mustBeAwake(), foodInInventory()) {
         val item = it.get<Item>(Syntax.AVAILABLE_FOOD)
+        val appetite = it.getMobCard().appetite
 
-        if (it.getMob().appetite.isFull()) {
+        if (appetite.isFull()) {
             return@Action it.createErrorResponse(messageToActionCreator("you are full."))
         }
 
-        it.getMob().appetite.nourishHunger(item.quantity)
+        appetite.nourishHunger(item.quantity)
         it.getMob().affects().copyFrom(item)
         it.destroy(item)
 

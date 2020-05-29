@@ -80,7 +80,7 @@ fun createObservers(
         WimpyObserver(mobService),
         GrantExperienceOnKillObserver(playerService, server),
         TransferGoldOnKillObserver(),
-        IncreaseThirstAndHungerObserver(mobService, server),
+        IncreaseThirstAndHungerObserver(playerService, server),
         RegenMobsObserver(mobService),
 
         // job behaviors

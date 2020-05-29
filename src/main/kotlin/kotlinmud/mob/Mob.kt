@@ -52,7 +52,6 @@ class Mob(
     @DefaultValue("mutableMapOf()") @Mutable val skills: MutableMap<SkillType, Int>,
     @DefaultValue("mutableListOf()") @Mutable override val affects: MutableList<AffectInstance>,
     @DefaultValue("0") var wimpy: Int,
-    @DefaultValue("0") val experiencePerLevel: Int,
     @DefaultValue("0") var savingThrows: Int,
     @DefaultValue("mutableListOf()") @Mutable val equipped: MutableList<Item>,
     @DefaultValue("true") val isNpc: Boolean,
@@ -62,11 +61,7 @@ class Mob(
     @DefaultValue("50") val maxItems: Int,
     @DefaultValue("100") val maxWeight: Int
 ) : Noun, Row, HasInventory {
-    var bounty = 0
-    var experience = 0
-    var sacPoints = 0
     var lastRoute = 0
-    val appetite: Appetite = Appetite(race.maxAppetite, race.maxThirst)
 
     override fun affects(): AffectService {
         return AffectService(this)
@@ -225,10 +220,6 @@ class Mob(
         }
 
         return dN(1, 2) == 1
-    }
-
-    private fun getExperienceToLevel(): Int {
-        return experiencePerLevel - experience + (experiencePerLevel * level)
     }
 
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {

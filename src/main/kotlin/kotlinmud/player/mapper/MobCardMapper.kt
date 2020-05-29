@@ -18,6 +18,7 @@ ${int(mobCard.appetite.maxThirst)}
 ${int(mobCard.appetite.getHunger())}
 ${int(mobCard.appetite.getThirst())}
 ${int(mobCard.bounty)}
+${int(mobCard.skillPoints)}
 ${mobCard.trainedAttributes.joinToString("\n") { mapAttributes(it) }}
 """
 }

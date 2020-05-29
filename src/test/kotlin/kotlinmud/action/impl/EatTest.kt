@@ -18,13 +18,15 @@ class EatTest {
 
         // given
         val timeout = 2
-        val mob = test.createMob()
+        val mob = test.createPlayerMobBuilder().build()
+        test.putMobInRoom(mob, test.getStartRoom())
+        val mobCard = test.findMobCardByName(mob.name)!!
         test.buildItem(
             test.itemBuilder()
                 .food(Food.MEAT_PIE)
                 .name("a big meat pie")
                 .affects(mutableListOf(StunnedAffect().createInstance(timeout))), mob)
-        mob.appetite.decrement()
+        mobCard.appetite.decrement()
 
         // when
         val response = test.runAction(mob, "eat pie")

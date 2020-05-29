@@ -18,13 +18,15 @@ class DrinkTest {
 
         // given
         val timeout = 2
-        val mob = test.createMob()
+        val mob = test.createPlayerMobBuilder().build()
+        test.putMobInRoom(mob, test.getStartRoom())
+        val mobCard = test.findMobCardByName(mob.name)!!
         test.buildItem(test.itemBuilder()
             .drink(Drink.BEER)
             .name("a glass of beer")
             .quantity(1)
             .affects(mutableListOf(DrunkAffect().createInstance(timeout))), mob)
-        mob.appetite.decrement()
+        mobCard.appetite.decrement()
 
         // when
         val response = test.runAction(mob, "drink beer")

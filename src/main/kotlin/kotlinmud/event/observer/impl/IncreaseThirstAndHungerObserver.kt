@@ -4,23 +4,25 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOServer
-import kotlinmud.mob.MobService
+import kotlinmud.player.PlayerService
 
-class IncreaseThirstAndHungerObserver(private val mobService: MobService, private val server: NIOServer) :
-    Observer {
+class IncreaseThirstAndHungerObserver(
+    private val playerService: PlayerService,
+    private val server: NIOServer
+) : Observer {
     override val eventType: EventType = EventType.TICK
 
     override fun <T> processEvent(event: Event<T>) {
-        val mobs = mobService.getMobRooms().filter { !it.mob.isNpc }.map { it.mob }
-        val clients = server.getClientsFromMobs(mobs)
-        clients.forEach {
-            with(it.mob!!) {
+        val mobCards = playerService.getMobCards()
+        server.getClients().forEach { client ->
+            mobCards.find { it.mobName == client.mob!!.name }?.let {
+                val appetite = it.appetite
                 appetite.decrement()
                 if (appetite.isHungry()) {
-                    it.writePrompt("You are hungry.")
+                    client.writePrompt("You are hungry.")
                 }
                 if (appetite.isThirsty()) {
-                    it.writePrompt("You are thirsty.")
+                    client.writePrompt("You are thirsty.")
                 }
             }
         }

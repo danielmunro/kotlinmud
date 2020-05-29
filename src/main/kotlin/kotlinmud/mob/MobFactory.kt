@@ -15,7 +15,6 @@ fun mobBuilder(id: Int, name: String): MobBuilder {
         .mv(startingMv)
         .race(Human())
         .level(1)
-        .experiencePerLevel(1000)
         .attributes(
             AttributesBuilder()
                 .hp(startingHp)

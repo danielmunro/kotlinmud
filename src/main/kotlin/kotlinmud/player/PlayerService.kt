@@ -87,6 +87,10 @@ class PlayerService(
         player.lastOTP = otp
     }
 
+    fun getMobCards(): List<MobCard> {
+        return mobCards
+    }
+
     fun loginClientAsPlayer(client: NIOClient, player: Player) {
         loggedInPlayers[client] = player
     }
