@@ -55,8 +55,6 @@ class Mob(
     @DefaultValue("0") var savingThrows: Int,
     @DefaultValue("mutableListOf()") @Mutable val equipped: MutableList<Item>,
     @DefaultValue("true") val isNpc: Boolean,
-    @DefaultValue("0") var trains: Int,
-    @DefaultValue("0") var practices: Int,
     @DefaultValue("listOf()") val route: List<Int>,
     @DefaultValue("50") val maxItems: Int,
     @DefaultValue("100") val maxWeight: Int

@@ -11,7 +11,8 @@ import kotlinmud.mob.skill.SkillType
 fun createPracticeAction(): Action {
     return Action(Command.PRACTICE, mustBeStanding(), skillToPractice()) {
         val skillType: SkillType = it.get(Syntax.SKILL_TO_PRACTICE)
-        it.getMob().practices -= 1
+        val card = it.getMobCard()
+        card.practices -= 1
         it.getMob().skills[skillType] = it.getMob().skills[skillType]!!.plus(1)
         it.createOkResponse(
             MessageBuilder()

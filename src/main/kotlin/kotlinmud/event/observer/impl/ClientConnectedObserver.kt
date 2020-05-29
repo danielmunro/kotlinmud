@@ -33,8 +33,6 @@ class ClientConnectedObserver(
         val mob = fixtureService.createMobBuilder()
             .name("foo")
             .isNpc(false)
-            .trains(5)
-            .practices(10)
             .gold(100)
             .build()
         mobService.addPlayerMob(mob)

@@ -4,11 +4,13 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 import kotlinmud.mob.model.Mob
+import kotlinmud.player.PlayerService
 import kotlinmud.string.matches
 
-class SkillToPracticeContextBuilder(private val mob: Mob) : ContextBuilder {
+class SkillToPracticeContextBuilder(private val playerService: PlayerService, private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        if (mob.practices == 0) {
+        val mobCard = playerService.findMobCardByName(mob.name)!!
+        if (mobCard.practices == 0) {
             return Context(
                 syntax,
                 Status.ERROR,

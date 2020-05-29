@@ -12,7 +12,8 @@ import kotlinmud.player.PlayerService
 
 class TrainableContextBuilder(private val mobService: MobService, private val playerService: PlayerService, private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        if (mob.trains == 0) {
+        val mobCard = playerService.findMobCardByName(mob.name)!!
+        if (mobCard.trains == 0) {
             return Context(syntax, Status.ERROR, "you have no trains.")
         }
         val room = mobService.getRoomForMob(mob)
