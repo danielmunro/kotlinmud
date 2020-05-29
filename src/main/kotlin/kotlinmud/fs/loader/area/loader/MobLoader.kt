@@ -34,7 +34,7 @@ class MobLoader(
         val wimpy = tokenizer.parseInt()
         val attributesLoader = AttributesLoader(tokenizer)
         val attributes = if (loadSchemaVersion >= 7) attributesLoader.load() else Attributes()
-        if (loadSchemaVersion >= 7) {
+        if (loadSchemaVersion == 7) {
             tokenizer.parseString() // end
         }
         props = tokenizer.parseProperties()
