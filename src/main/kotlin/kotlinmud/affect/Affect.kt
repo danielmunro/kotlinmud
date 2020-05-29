@@ -2,7 +2,7 @@ package kotlinmud.affect
 
 import kotlinmud.Noun
 import kotlinmud.io.Message
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 
 interface Affect {
     val type: AffectType

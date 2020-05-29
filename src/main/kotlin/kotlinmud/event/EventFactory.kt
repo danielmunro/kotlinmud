@@ -4,7 +4,7 @@ import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.io.Message
 import kotlinmud.io.NIOClient
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.world.room.Room
 
 fun createClientConnectedEvent(client: NIOClient): Event<ClientConnectedEvent> {

@@ -5,8 +5,8 @@ import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.Attributes
-import kotlinmud.mob.AddExperience
-import kotlinmud.mob.Appetite
+import kotlinmud.mob.model.AddExperience
+import kotlinmud.mob.model.Appetite
 
 @Builder
 class MobCard(

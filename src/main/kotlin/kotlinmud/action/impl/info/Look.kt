@@ -1,13 +1,13 @@
 package kotlinmud.action.impl.info
 
-import kotlinmud.action.Action
+import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAwake
 import kotlinmud.action.type.Command
 import kotlinmud.affect.AffectType
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.io.messageToActionCreator
 import kotlinmud.item.Item
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.world.room.Room
 import kotlinmud.world.room.exit.DoorDisposition
 import kotlinmud.world.room.exit.Exit
@@ -16,12 +16,14 @@ fun createLookAction(): Action {
     return Action(Command.LOOK, mustBeAwake()) {
         val room = it.getRoom()
         createResponseWithEmptyActionContext(
-            messageToActionCreator(describeRoom(
-                room,
-                it.getMob(),
-                it.getMobsInRoom(),
-                it.getItemsFor(room)
-            ))
+            messageToActionCreator(
+                describeRoom(
+                    room,
+                    it.getMob(),
+                    it.getMobsInRoom(),
+                    it.getItemsFor(room)
+                )
+            )
         )
     }
 }

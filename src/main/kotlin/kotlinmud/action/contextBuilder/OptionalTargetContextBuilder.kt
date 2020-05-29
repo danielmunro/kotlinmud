@@ -1,10 +1,10 @@
 package kotlinmud.action.contextBuilder
 
 import kotlinmud.Noun
-import kotlinmud.action.Context
+import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.string.matches
 
 class OptionalTargetContextBuilder(

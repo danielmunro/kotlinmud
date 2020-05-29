@@ -1,6 +1,6 @@
 package kotlinmud.action.impl.info
 
-import kotlinmud.action.Action
+import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlive
 import kotlinmud.action.type.Command
 import kotlinmud.attributes.Attribute
@@ -19,10 +19,12 @@ fun createScoreAction(): Action {
                         "You have ${mob.hp} of ${mob.calc(Attribute.HP)} hit points," +
                         "${mob.mana} of ${mob.calc(Attribute.MANA)} mana, " +
                         "${mob.mv} of ${mob.calc(Attribute.MV)} moves.\n" +
-                        "Race: ${mob.race.type.toString().toLowerCase()} Gender: ${mob.gender.toString().toLowerCase()} " +
+                        "Race: ${mob.race.type.toString().toLowerCase()} Gender: ${mob.gender.toString()
+                            .toLowerCase()} " +
                         "Class: ${mob.specialization.toString().toLowerCase()} Kit: none\n" +
                         "Trains: ${mob.trains}  Practices: ${mob.practices}  Skill Points: ${mobCard.skillPoints}  Bounty: ${mobCard.bounty} " +
-                        "You are carrying ${items.size}/${mob.maxItems} items, ${items.map{ it.weight }.fold(0.0) { acc: Double, value: Double -> acc + value}}/${mob.maxWeight} weight capacity.\n" +
+                        "You are carrying ${items.size}/${mob.maxItems} items, ${items.map { it.weight }
+                            .fold(0.0) { acc: Double, value: Double -> acc + value }}/${mob.maxWeight} weight capacity.\n" +
                         "Str: ${mob.base(Attribute.STR)}/${mob.calc(Attribute.STR)} " +
                         "Int: ${mob.base(Attribute.INT)}/${mob.calc(Attribute.INT)} " +
                         "Wis: ${mob.base(Attribute.WIS)}/${mob.calc(Attribute.WIS)} " +

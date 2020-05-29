@@ -1,6 +1,6 @@
 package kotlinmud.action.contextBuilder
 
-import kotlinmud.action.Context
+import kotlinmud.action.model.Context
 import kotlinmud.io.Syntax
 
 interface ContextBuilder {

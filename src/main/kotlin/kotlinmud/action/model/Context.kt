@@ -1,4 +1,4 @@
-package kotlinmud.action
+package kotlinmud.action.model
 
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax

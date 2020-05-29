@@ -1,10 +1,10 @@
 package kotlinmud.action.contextBuilder
 
-import kotlinmud.action.Context
+import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 import kotlinmud.item.ItemService
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.JobType
 
 class ItemFromMerchantContextBuilder(
@@ -14,11 +14,23 @@ class ItemFromMerchantContextBuilder(
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val shopkeeper = mobsInRoom.find { it.job == JobType.SHOPKEEPER }
-            ?: return Context(Syntax.ITEM_FROM_MERCHANT, Status.ERROR, "no merchant is here.")
+            ?: return Context(
+                Syntax.ITEM_FROM_MERCHANT,
+                Status.ERROR,
+                "no merchant is here."
+            )
         val item = itemService.findByOwner(shopkeeper, word)
-            ?: return Context(Syntax.ITEM_FROM_MERCHANT, Status.ERROR, "they don't have anything like that.")
+            ?: return Context(
+                Syntax.ITEM_FROM_MERCHANT,
+                Status.ERROR,
+                "they don't have anything like that."
+            )
         if (item.worth > mob.gold) {
-            return Context(Syntax.ITEM_FROM_MERCHANT, Status.ERROR, "you can't afford that.")
+            return Context(
+                Syntax.ITEM_FROM_MERCHANT,
+                Status.ERROR,
+                "you can't afford that."
+            )
         }
         return Context(Syntax.ITEM_FROM_MERCHANT, Status.OK, item)
     }

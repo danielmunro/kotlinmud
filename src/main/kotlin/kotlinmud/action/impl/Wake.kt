@@ -1,12 +1,15 @@
 package kotlinmud.action.impl
 
-import kotlinmud.action.Action
+import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
 import kotlinmud.mob.type.Disposition
 
 fun createWakeAction(): Action {
-    return Action(Command.WAKE, listOf(Disposition.SLEEPING, Disposition.SITTING)) {
+    return Action(
+        Command.WAKE,
+        listOf(Disposition.SLEEPING, Disposition.SITTING)
+    ) {
         it.getMob().disposition = Disposition.STANDING
         it.createOkResponse(
             MessageBuilder()

@@ -1,10 +1,10 @@
 package kotlinmud.action.contextBuilder
 
-import kotlinmud.action.Context
+import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 import kotlinmud.item.ItemService
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 
 class ItemInInventoryContextBuilder(private val itemService: ItemService, private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

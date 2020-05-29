@@ -1,6 +1,5 @@
-package kotlinmud.mob
+package kotlinmud.action
 
-import kotlinmud.action.ActionContextService
 import kotlinmud.action.type.Command
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax

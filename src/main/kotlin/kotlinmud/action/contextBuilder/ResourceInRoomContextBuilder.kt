@@ -1,6 +1,6 @@
 package kotlinmud.action.contextBuilder
 
-import kotlinmud.action.Context
+import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 import kotlinmud.string.matches
@@ -12,6 +12,10 @@ class ResourceInRoomContextBuilder(private val room: Room) : ContextBuilder {
             matches(it.value, word)
         }?.let {
             Context<Any>(syntax, Status.OK, it)
-        } ?: Context<Any>(syntax, Status.ERROR, "you don't see that anywhere.")
+        } ?: Context<Any>(
+            syntax,
+            Status.ERROR,
+            "you don't see that anywhere."
+        )
     }
 }

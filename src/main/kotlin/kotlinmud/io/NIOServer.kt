@@ -11,7 +11,7 @@ import java.util.stream.Collectors
 import kotlinmud.event.EventService
 import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.createClientDisconnectedEvent
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.player.model.MobCard
 import okhttp3.internal.closeQuietly
 import org.slf4j.LoggerFactory

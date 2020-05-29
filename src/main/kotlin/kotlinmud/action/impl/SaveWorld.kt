@@ -1,6 +1,6 @@
 package kotlinmud.action.impl
 
-import kotlinmud.action.Action
+import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.messageToActionCreator

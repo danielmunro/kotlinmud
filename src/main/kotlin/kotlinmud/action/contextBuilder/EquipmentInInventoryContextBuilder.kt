@@ -1,16 +1,20 @@
 package kotlinmud.action.contextBuilder
 
-import kotlinmud.action.Context
+import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 import kotlinmud.item.ItemService
 import kotlinmud.item.Position
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 
 class EquipmentInInventoryContextBuilder(private val itemService: ItemService, private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val item = itemService.findByOwner(mob, word)
-            ?: return Context<Any>(syntax, Status.ERROR, "you don't have that.")
+            ?: return Context<Any>(
+                syntax,
+                Status.ERROR,
+                "you don't have that."
+            )
         if (item.position == Position.NONE) {
             return Context<Any>(syntax, Status.ERROR, "you can't equip that.")
         }

@@ -1,7 +1,7 @@
 package kotlinmud.fs.loader.area.mapper
 
 import kotlinmud.fs.loader.area.model.RoomModel
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.world.room.Direction
 import kotlinmud.world.room.Room
 import kotlinmud.world.room.RoomBuilder

@@ -4,6 +4,7 @@ import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.attributes.startingHp
 import kotlinmud.attributes.startingMana
 import kotlinmud.attributes.startingMv
+import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.race.impl.Human
 
 fun mobBuilder(id: Int, name: String): MobBuilder {

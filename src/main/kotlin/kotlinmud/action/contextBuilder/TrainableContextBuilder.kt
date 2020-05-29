@@ -1,12 +1,12 @@
 package kotlinmud.action.contextBuilder
 
-import kotlinmud.action.Context
+import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.attributes.Attribute
 import kotlinmud.attributes.isVitals
 import kotlinmud.io.Syntax
-import kotlinmud.mob.Mob
 import kotlinmud.mob.MobService
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.JobType
 import kotlinmud.player.PlayerService
 
@@ -18,7 +18,11 @@ class TrainableContextBuilder(private val mobService: MobService, private val pl
         val room = mobService.getRoomForMob(mob)
         mobService.getMobsForRoom(room).filter { it.job == JobType.TRAINER }.let {
             if (it.isEmpty()) {
-                return Context(syntax, Status.ERROR, "there is no trainer here.")
+                return Context(
+                    syntax,
+                    Status.ERROR,
+                    "there is no trainer here."
+                )
             }
         }
         val attribute = when (word) {
@@ -30,12 +34,20 @@ class TrainableContextBuilder(private val mobService: MobService, private val pl
             "hp" -> Attribute.HP
             "mana" -> Attribute.MANA
             "mv" -> Attribute.MV
-            else -> return Context(syntax, Status.ERROR, "you cannot train that")
+            else -> return Context(
+                syntax,
+                Status.ERROR,
+                "you cannot train that"
+            )
         }
         val amount = playerService.findMobCardByName(mob.name)!!.calcTrained(attribute)
         val maxAmount = if (isVitals(attribute)) 10 else 4
         if (amount == maxAmount) {
-            return Context(syntax, Status.ERROR, "you cannot train that anymore.")
+            return Context(
+                syntax,
+                Status.ERROR,
+                "you cannot train that anymore."
+            )
         }
         return Context(syntax, Status.OK, attribute)
     }

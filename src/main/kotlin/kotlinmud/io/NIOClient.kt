@@ -3,7 +3,7 @@ package kotlinmud.io
 import java.nio.ByteBuffer
 import java.nio.channels.ClosedChannelException
 import java.nio.channels.SocketChannel
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.player.model.Player
 
 class NIOClient(val socket: SocketChannel) {

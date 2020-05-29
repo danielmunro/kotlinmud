@@ -1,7 +1,7 @@
 package kotlinmud.action.impl.info
 
 import kotlinmud.Noun
-import kotlinmud.action.Action
+import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAwake
 import kotlinmud.action.type.Command
 import kotlinmud.io.Syntax

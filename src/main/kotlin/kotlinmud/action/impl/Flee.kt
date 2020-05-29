@@ -1,6 +1,6 @@
 package kotlinmud.action.impl
 
-import kotlinmud.action.Action
+import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeFighting
 import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
@@ -9,12 +9,19 @@ import kotlinmud.mob.skill.Cost
 import kotlinmud.mob.skill.CostType
 
 fun createFleeAction(): Action {
-    return Action(Command.FLEE, mustBeFighting(), command(), listOf(Cost(CostType.MV_PERCENT, 25)), Command.LOOK) {
+    return Action(
+        Command.FLEE,
+        mustBeFighting(),
+        command(),
+        listOf(Cost(CostType.MV_PERCENT, 25)),
+        Command.LOOK
+    ) {
         it.endFight()
         val exit = it.getExits().random()
         it.moveMob(
             exit.destination,
-            exit.direction)
+            exit.direction
+        )
         it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you flee!")

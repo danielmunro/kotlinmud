@@ -1,6 +1,6 @@
 package kotlinmud.action.impl
 
-import kotlinmud.action.Action
+import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
@@ -9,7 +9,11 @@ import kotlinmud.io.equipmentInInventory
 import kotlinmud.item.Item
 
 fun createWearAction(): Action {
-    return Action(Command.WEAR, mustBeAlert(), equipmentInInventory()) { svc ->
+    return Action(
+        Command.WEAR,
+        mustBeAlert(),
+        equipmentInInventory()
+    ) { svc ->
         val item = svc.get<Item>(Syntax.EQUIPMENT_IN_INVENTORY)
         val removed = svc.getMob().equipped.find {
             it.position == item.position
@@ -21,7 +25,7 @@ fun createWearAction(): Action {
         svc.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you ${if (removed != null) "remove $removed and " else ""}wear $item.")
-                .toObservers("${svc.getMob()} ${if (removed != null) "removes $removed and " else "" }wears $item.")
+                .toObservers("${svc.getMob()} ${if (removed != null) "removes $removed and " else ""}wears $item.")
                 .build()
         )
     }

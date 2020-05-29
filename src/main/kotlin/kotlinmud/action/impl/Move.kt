@@ -1,6 +1,6 @@
 package kotlinmud.action.impl
 
-import kotlinmud.action.Action
+import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeStanding
 import kotlinmud.action.type.Command
 import kotlinmud.io.EmptyResponse
@@ -12,7 +12,13 @@ import kotlinmud.world.room.Direction
 import kotlinmud.world.room.Room
 
 private fun move(command: Command, direction: Direction): Action {
-    return Action(command, mustBeStanding(), directionToExit(), listOf(Cost(CostType.MV_AMOUNT, 1)), Command.LOOK) {
+    return Action(
+        command,
+        mustBeStanding(),
+        directionToExit(),
+        listOf(Cost(CostType.MV_AMOUNT, 1)),
+        Command.LOOK
+    ) {
         val destination = it.get<Room>(Syntax.DIRECTION_TO_EXIT)
         it.moveMob(destination, direction)
         EmptyResponse()

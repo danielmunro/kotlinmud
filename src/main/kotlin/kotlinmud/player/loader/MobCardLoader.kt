@@ -3,7 +3,7 @@ package kotlinmud.player.loader
 import kotlinmud.attributes.Attributes
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.loader.AttributesLoader
-import kotlinmud.mob.Appetite
+import kotlinmud.mob.model.Appetite
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.MobCardBuilder
 

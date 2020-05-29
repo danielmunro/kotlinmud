@@ -16,14 +16,14 @@ import kotlinmud.item.ItemBuilder
 import kotlinmud.item.ItemOwner
 import kotlinmud.item.ItemService
 import kotlinmud.item.Position
-import kotlinmud.mob.Appetite
-import kotlinmud.mob.Mob
-import kotlinmud.mob.MobBuilder
+import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.MobController
-import kotlinmud.mob.MobRoom
 import kotlinmud.mob.MobService
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.model.Appetite
+import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.JobType
 import kotlinmud.player.PlayerService
@@ -92,11 +92,10 @@ class TestService(
 
     fun createMob(job: JobType = JobType.NONE): Mob {
         val mobBuilder = fixtureService.createMobBuilder()
-        mobBuilder.job(job).build().let {
-            it.equipped.add(weapon(it))
-            mobService.addMob(it)
-            return it
-        }
+        val mob = mobBuilder.job(job).build()
+        mob.equipped.add(weapon(mob))
+        mobService.addMob(mob)
+        return mob
     }
 
     fun createCorpseFrom(mob: Mob): Item {

@@ -1,11 +1,11 @@
 package kotlinmud.action.contextBuilder
 
-import kotlinmud.action.Context
+import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 import kotlinmud.item.Item
 import kotlinmud.item.ItemService
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.world.room.Room
 
 class AvailableItemInventoryContextBuilder(private val mob: Mob, private val room: Room, private val itemService: ItemService) : ContextBuilder {
@@ -24,6 +24,10 @@ class AvailableItemInventoryContextBuilder(private val mob: Mob, private val roo
             isMatch(it, word)
         }?.let {
             Context<Any>(syntax, Status.OK, it)
-        } ?: Context<Any>(syntax, Status.ERROR, "you don't see anywhere to put that.")
+        } ?: Context<Any>(
+            syntax,
+            Status.ERROR,
+            "you don't see anywhere to put that."
+        )
     }
 }

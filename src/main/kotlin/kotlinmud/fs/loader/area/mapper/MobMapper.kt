@@ -1,7 +1,7 @@
 package kotlinmud.fs.loader.area.mapper
 
-import kotlinmud.mob.Mob
-import kotlinmud.mob.MobBuilder
+import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.MobBuilder
 
 class MobMapper(private val mobs: List<MobBuilder>) {
     fun map(): List<Mob> {

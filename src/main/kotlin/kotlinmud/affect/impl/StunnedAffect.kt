@@ -6,7 +6,7 @@ import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
 import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.io.Message
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 
 class StunnedAffect : Affect {
     override val type: AffectType = AffectType.STUNNED

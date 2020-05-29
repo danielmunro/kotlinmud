@@ -1,4 +1,4 @@
-package kotlinmud.mob
+package kotlinmud.mob.model
 
 import kotlinmud.mob.race.Race
 

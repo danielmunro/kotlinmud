@@ -1,6 +1,6 @@
 package kotlinmud.action.impl
 
-import kotlinmud.action.Action
+import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAwake
 import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
@@ -9,7 +9,11 @@ import kotlinmud.io.itemInInventoryAndAvailableInventory
 import kotlinmud.item.Item
 
 fun createGetFromItemAction(): Action {
-    return Action(Command.GET, mustBeAwake(), itemInInventoryAndAvailableInventory()) {
+    return Action(
+        Command.GET,
+        mustBeAwake(),
+        itemInInventoryAndAvailableInventory()
+    ) {
         val item = it.get<Item>(Syntax.ITEM_IN_AVAILABLE_INVENTORY)
         val itemWithInventory = it.get<Item>(Syntax.AVAILABLE_ITEM_INVENTORY)
         it.changeItemOwner(item, it.getMob())

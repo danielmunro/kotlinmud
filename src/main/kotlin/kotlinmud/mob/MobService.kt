@@ -21,6 +21,9 @@ import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.MobRoom
+import kotlinmud.mob.model.corpseWeight
 import kotlinmud.mob.type.Disposition
 import kotlinmud.world.World
 import kotlinmud.world.room.Direction

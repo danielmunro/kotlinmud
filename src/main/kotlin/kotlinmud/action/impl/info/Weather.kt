@@ -1,6 +1,6 @@
 package kotlinmud.action.impl.info
 
-import kotlinmud.action.Action
+import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.io.messageToActionCreator

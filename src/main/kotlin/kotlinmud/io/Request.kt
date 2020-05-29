@@ -1,6 +1,6 @@
 package kotlinmud.io
 
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.Disposition
 import kotlinmud.world.room.Room
 

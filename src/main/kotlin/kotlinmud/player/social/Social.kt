@@ -1,7 +1,7 @@
 package kotlinmud.player.social
 
 import kotlinmud.io.Message
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.world.room.Room
 
 data class Social(

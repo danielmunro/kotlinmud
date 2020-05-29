@@ -9,7 +9,7 @@ import kotlinmud.item.ItemOwner
 import kotlinmud.item.ItemService
 import kotlinmud.item.ItemType
 import kotlinmud.item.Recipe
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.world.ResourceType
 import kotlinmud.world.createResourceList
 import kotlinmud.world.resource.Resource

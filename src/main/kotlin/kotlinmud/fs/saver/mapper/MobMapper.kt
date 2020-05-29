@@ -2,7 +2,7 @@ package kotlinmud.fs.saver.mapper
 
 import kotlinmud.fs.int
 import kotlinmud.fs.str
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
 

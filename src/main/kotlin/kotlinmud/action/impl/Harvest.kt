@@ -1,6 +1,6 @@
 package kotlinmud.action.impl
 
-import kotlinmud.action.Action
+import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeStanding
 import kotlinmud.action.type.Command
 import kotlinmud.exception.HarvestException
@@ -19,7 +19,8 @@ fun createHarvestAction(): Action {
         resourceInRoom(),
         listOf(
             Cost(CostType.MV_PERCENT, 1)
-        )) { svc ->
+        )
+    ) { svc ->
         val resourceType = svc.get<ResourceType>(Syntax.RESOURCE_IN_ROOM)
         try {
             svc.harvest(resourceType)

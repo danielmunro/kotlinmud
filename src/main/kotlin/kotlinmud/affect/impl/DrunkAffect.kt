@@ -7,7 +7,7 @@ import kotlinmud.affect.AffectType
 import kotlinmud.attributes.AttributesBuilder
 import kotlinmud.io.Message
 import kotlinmud.io.MessageBuilder
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 
 class DrunkAffect : Affect {
     override val type: AffectType = AffectType.DRUNK

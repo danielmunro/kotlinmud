@@ -1,10 +1,12 @@
-package kotlinmud.action
+package kotlinmud.action.model
 
+import kotlinmud.action.ActionContextService
+import kotlinmud.action.Invokable
+import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.HasCosts
-import kotlinmud.mob.Invokable
 import kotlinmud.mob.RequiresDisposition
 import kotlinmud.mob.skill.Cost
 import kotlinmud.mob.type.Disposition

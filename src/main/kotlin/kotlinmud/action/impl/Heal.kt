@@ -1,12 +1,12 @@
 package kotlinmud.action.impl
 
-import kotlinmud.action.Action
+import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeStanding
 import kotlinmud.action.type.Command
 import kotlinmud.io.Syntax
 import kotlinmud.io.messageToActionCreator
 import kotlinmud.io.spellFromHealer
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 
 fun createHealAction(): Action {
     return Action(Command.HEAL, mustBeStanding(), spellFromHealer()) {

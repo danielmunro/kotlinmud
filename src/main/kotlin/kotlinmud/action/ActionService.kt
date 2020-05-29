@@ -28,6 +28,9 @@ import kotlinmud.action.contextBuilder.SpellContextBuilder
 import kotlinmud.action.contextBuilder.SpellFromHealerContextBuilder
 import kotlinmud.action.contextBuilder.TargetMobContextBuilder
 import kotlinmud.action.contextBuilder.TrainableContextBuilder
+import kotlinmud.action.model.Action
+import kotlinmud.action.model.ActionContextList
+import kotlinmud.action.model.Context
 import kotlinmud.action.type.Command
 import kotlinmud.action.type.Status
 import kotlinmud.attributes.Attribute
@@ -42,11 +45,10 @@ import kotlinmud.item.ItemService
 import kotlinmud.item.createRecipeList
 import kotlinmud.math.percentRoll
 import kotlinmud.mob.HasCosts
-import kotlinmud.mob.Invokable
-import kotlinmud.mob.Mob
 import kotlinmud.mob.MobService
 import kotlinmud.mob.RequiresDisposition
 import kotlinmud.mob.fight.Fight
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.CostType
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.createSkillList
@@ -201,7 +203,8 @@ class ActionService(
     private fun buildActionContextList(request: Request, invokable: Invokable): ActionContextList {
         logger.debug("${request.mob} building action context :: {}, {}", invokable.command, invokable.syntax)
         var i = 0
-        var previous: Context<Any> = Context(Syntax.NOOP, Status.OK, request)
+        var previous: Context<Any> =
+            Context(Syntax.NOOP, Status.OK, request)
         return ActionContextList(invokable.syntax.map {
             val current = createContext(request, it, if (request.args.size > i) request.args[i++] else "", previous)
             previous = current

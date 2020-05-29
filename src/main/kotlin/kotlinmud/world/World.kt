@@ -6,7 +6,7 @@ import kotlinmud.fs.loader.area.model.reset.ItemMobReset
 import kotlinmud.fs.loader.area.model.reset.ItemRoomReset
 import kotlinmud.fs.loader.area.model.reset.MobReset
 import kotlinmud.item.Item
-import kotlinmud.mob.Mob
+import kotlinmud.mob.model.Mob
 import kotlinmud.world.room.Room
 import kotlinmud.world.room.RoomBuilder
 import kotlinmud.world.room.exit.Door
