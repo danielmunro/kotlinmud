@@ -15,6 +15,7 @@ class Elf : Race {
     override val resist: List<DamageType> = listOf(DamageType.MENTAL)
     override val vulnerableTo: List<DamageType> = listOf(DamageType.FIRE, DamageType.COLD)
     override val unarmedAttackVerb: String = "scratch"
+    override val unarmedDamageType: DamageType = DamageType.SLASH
     override val form: Form = Form.MAMMAL
     override val attributes: Attributes = createStats(-2, 1, 2, 1, -2)
     override val size: Size = Size.SMALL

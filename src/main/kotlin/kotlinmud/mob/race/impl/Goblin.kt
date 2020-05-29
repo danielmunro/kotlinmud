@@ -15,6 +15,7 @@ class Goblin : Race {
     override val resist: List<DamageType> = listOf(DamageType.DISEASE)
     override val vulnerableTo: List<DamageType> = listOf(DamageType.LIGHTNING)
     override val unarmedAttackVerb: String = "bite"
+    override val unarmedDamageType: DamageType = DamageType.PIERCE
     override val form: Form = Form.MAMMAL
     override val attributes: Attributes = createStats(0, -1, -1, 1, 2, 0, 1)
     override val size: Size = Size.LARGE

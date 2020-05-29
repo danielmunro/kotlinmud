@@ -15,6 +15,7 @@ class Dwarf : Race {
     override val resist: List<DamageType> = listOf(DamageType.POUND)
     override val vulnerableTo: List<DamageType> = listOf(DamageType.DROWNING)
     override val unarmedAttackVerb: String = "punch"
+    override val unarmedDamageType: DamageType = DamageType.POUND
     override val form: Form = Form.MAMMAL
     override val attributes: Attributes = createStats(2, -2, 0, -1, 1, 0, 1)
     override val size: Size = Size.SMALL

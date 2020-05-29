@@ -15,6 +15,7 @@ class Giant : Race {
     override val resist: List<DamageType> = listOf(DamageType.FIRE, DamageType.COLD)
     override val vulnerableTo: List<DamageType> = listOf(DamageType.ENERGY, DamageType.MENTAL)
     override val unarmedAttackVerb: String = "punch"
+    override val unarmedDamageType: DamageType = DamageType.POUND
     override val form: Form = Form.MAMMAL
     override val attributes: Attributes = createStats(3, -2, -2, -2, 3, 0, 1)
     override val size: Size = Size.HUGE

@@ -82,13 +82,11 @@ class Mob(
     }
 
     fun getDamageType(): DamageType {
-        return DamageType.POUND
+        return getWeapon()?.damageType ?: race.unarmedDamageType
     }
 
     fun getAttackVerb(): String {
-        return equipped.find {
-                it.position == Position.WEAPON
-            }?.attackVerb ?: race.unarmedAttackVerb
+        return getWeapon()?.attackVerb ?: race.unarmedAttackVerb
     }
 
     fun base(attribute: Attribute): Int {
@@ -132,10 +130,6 @@ class Mob(
             Attribute.AC_SLASH -> attributes.acSlash + accumulate { it.attributes.acSlash }
             Attribute.AC_MAGIC -> attributes.acMagic + accumulate { it.attributes.acMagic }
         }
-    }
-
-    fun copy(): Mob {
-        return MobBuilder(this).build()
     }
 
     fun savesAgainst(damageType: DamageType): Boolean {
@@ -218,6 +212,10 @@ class Mob(
         }
 
         return dN(1, 2) == 1
+    }
+
+    private fun getWeapon(): Item? {
+        return equipped.find { it.position == Position.WEAPON }
     }
 
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {

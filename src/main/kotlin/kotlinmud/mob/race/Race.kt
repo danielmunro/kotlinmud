@@ -12,6 +12,7 @@ interface Race {
     val resist: List<DamageType>
     val vulnerableTo: List<DamageType>
     val unarmedAttackVerb: String
+    val unarmedDamageType: DamageType
     val form: Form
     val attributes: Attributes
     val size: Size

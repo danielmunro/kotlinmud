@@ -14,6 +14,7 @@ class Human : Race {
     override val resist: List<DamageType> = listOf()
     override val vulnerableTo: List<DamageType> = listOf()
     override val unarmedAttackVerb: String = "punch"
+    override val unarmedDamageType: DamageType = DamageType.POUND
     override val form: Form = Form.MAMMAL
     override val attributes: Attributes = Attributes()
     override val size: Size = Size.MEDIUM

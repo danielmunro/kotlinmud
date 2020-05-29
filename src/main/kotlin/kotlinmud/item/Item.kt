@@ -8,6 +8,7 @@ import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
 import kotlinmud.data.Row
+import kotlinmud.mob.fight.DamageType
 import kotlinmud.service.AffectService
 
 @Builder
@@ -23,6 +24,7 @@ class Item(
     @DefaultValue("Material.ORGANIC") val material: Material,
     @DefaultValue("Position.NONE") val position: Position,
     @DefaultValue("") val attackVerb: String,
+    @DefaultValue("DamageType.NONE") val damageType: DamageType,
     @DefaultValue("mutableListOf()") @Mutable override val affects: MutableList<AffectInstance>,
     @DefaultValue("Drink.NONE") val drink: Drink,
     @DefaultValue("Food.NONE") val food: Food,

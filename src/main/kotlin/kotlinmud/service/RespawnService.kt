@@ -8,6 +8,7 @@ import kotlinmud.item.ItemOwner
 import kotlinmud.item.ItemService
 import kotlinmud.mob.MobService
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.MobBuilder
 import kotlinmud.world.World
 import kotlinmud.world.room.Room
 import org.slf4j.LoggerFactory
@@ -40,7 +41,8 @@ class RespawnService(
             try {
                 val room = world.rooms.get(reset.roomId)
                 while (mobCanRespawn(reset, room)) {
-                    val mob = world.mobs.get(reset.mobId).copy()
+                    val origin = world.mobs.get(reset.mobId)
+                    val mob = copy(origin)
                     items += addItemsToMob(mob)
                     mobService.putMobInRoom(mob, room)
                     mobs += 1
@@ -60,6 +62,12 @@ class RespawnService(
             }
         }
         logger.info("respawn stats :: $mobs mobs, $items items spawned")
+    }
+
+    private fun copy(mob: Mob): Mob {
+        return MobBuilder(mob)
+            .gold((mob.goldMin..mob.goldMax).random())
+            .build()
     }
 
     private fun addItemsToMob(mob: Mob): Int {

@@ -15,6 +15,7 @@ class Reptile : Race {
     override val resist: List<DamageType> = listOf(DamageType.FIRE, DamageType.SLASH)
     override val vulnerableTo: List<DamageType> = listOf(DamageType.COLD, DamageType.PIERCE)
     override val unarmedAttackVerb: String = "bite"
+    override val unarmedDamageType: DamageType = DamageType.PIERCE
     override val form: Form = Form.REPTILE
     override val attributes: Attributes = createStats(0, 0, 0, 0, 0, 0, 1)
     override val size: Size = Size.SMALL
