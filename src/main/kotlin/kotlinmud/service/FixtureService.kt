@@ -3,9 +3,9 @@ package kotlinmud.service
 import io.github.serpro69.kfaker.Faker
 import kotlinmud.item.ItemBuilder
 import kotlinmud.item.itemBuilder
-import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.mobBuilder
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.race.Race
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.JobType

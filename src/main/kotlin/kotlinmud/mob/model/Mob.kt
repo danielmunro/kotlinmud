@@ -16,7 +16,6 @@ import kotlinmud.item.Position
 import kotlinmud.math.dN
 import kotlinmud.math.normalizeInt
 import kotlinmud.math.percentRoll
-import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race

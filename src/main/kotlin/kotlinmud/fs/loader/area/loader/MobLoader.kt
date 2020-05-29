@@ -4,8 +4,8 @@ import kotlin.random.Random
 import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.Attributes
 import kotlinmud.fs.loader.Tokenizer
-import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.mobBuilder
+import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.race.createRaceFromString
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType

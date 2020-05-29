@@ -16,13 +16,13 @@ import kotlinmud.item.ItemBuilder
 import kotlinmud.item.ItemOwner
 import kotlinmud.item.ItemService
 import kotlinmud.item.Position
-import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.MobController
 import kotlinmud.mob.MobService
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.model.Appetite
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.JobType
