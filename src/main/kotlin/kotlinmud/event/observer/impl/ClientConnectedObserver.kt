@@ -24,9 +24,9 @@ class ClientConnectedObserver(
     override fun <T> processEvent(event: Event<T>) {
         val connectedEvent = event.subject as ClientConnectedEvent
         val client = connectedEvent.client
-//        loginDummyMob(client)
-        addPreAuthClient(client)
-        client.write("email: ")
+        loginDummyMob(client)
+//        addPreAuthClient(client)
+//        client.write("email: ")
     }
 
     private fun loginDummyMob(client: NIOClient) {
