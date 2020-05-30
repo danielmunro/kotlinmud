@@ -28,9 +28,9 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.room.model.Exit
 import kotlinmud.room.model.NewRoom
 import kotlinmud.room.model.Room
+import kotlinmud.room.oppositeDirection
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.RegenLevel
-import kotlinmud.room.type.oppositeDirection
 import kotlinmud.world.World
 
 class MobService(

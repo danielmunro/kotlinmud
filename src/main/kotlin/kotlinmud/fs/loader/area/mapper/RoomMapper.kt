@@ -6,8 +6,8 @@ import kotlinmud.room.model.Door
 import kotlinmud.room.model.Exit
 import kotlinmud.room.model.Room
 import kotlinmud.room.model.RoomBuilder
+import kotlinmud.room.oppositeDirection
 import kotlinmud.room.type.Direction
-import kotlinmud.room.type.oppositeDirection
 
 class RoomMapper(val mobs: List<Mob>, val roomModels: List<RoomModel>, val doors: List<Door>) {
     fun map(): List<Room> {
