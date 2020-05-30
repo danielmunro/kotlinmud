@@ -22,8 +22,8 @@ import kotlinmud.item.model.Item
 import kotlinmud.mob.MobService
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.model.Mob
-import kotlinmud.player.PlayerService
 import kotlinmud.player.model.MobCard
+import kotlinmud.player.service.PlayerService
 import kotlinmud.player.social.Social
 import kotlinmud.room.model.Exit
 import kotlinmud.room.model.NewRoom

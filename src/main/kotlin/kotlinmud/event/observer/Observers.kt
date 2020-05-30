@@ -30,7 +30,7 @@ import kotlinmud.io.ClientService
 import kotlinmud.io.NIOServer
 import kotlinmud.item.ItemService
 import kotlinmud.mob.MobService
-import kotlinmud.player.PlayerService
+import kotlinmud.player.service.PlayerService
 import kotlinmud.service.PersistenceService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService

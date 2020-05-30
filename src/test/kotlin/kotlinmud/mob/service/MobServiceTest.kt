@@ -1,4 +1,4 @@
-package kotlinmud.service
+package kotlinmud.mob.service
 
 import assertk.assertThat
 import assertk.assertions.hasSize

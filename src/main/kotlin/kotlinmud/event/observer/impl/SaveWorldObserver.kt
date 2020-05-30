@@ -4,7 +4,7 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.mob.MobService
-import kotlinmud.player.PlayerService
+import kotlinmud.player.service.PlayerService
 import kotlinmud.service.PersistenceService
 import kotlinmud.world.World
 

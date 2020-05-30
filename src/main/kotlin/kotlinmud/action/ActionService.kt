@@ -53,7 +53,7 @@ import kotlinmud.mob.skill.CostType
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.createSkillList
 import kotlinmud.mob.type.Intent
-import kotlinmud.player.PlayerService
+import kotlinmud.player.service.PlayerService
 import org.slf4j.LoggerFactory
 
 fun commandMatches(command: Command, input: String): Boolean {

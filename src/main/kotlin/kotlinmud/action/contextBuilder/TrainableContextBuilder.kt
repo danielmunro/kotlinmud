@@ -8,7 +8,7 @@ import kotlinmud.io.Syntax
 import kotlinmud.mob.MobService
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.JobType
-import kotlinmud.player.PlayerService
+import kotlinmud.player.service.PlayerService
 
 class TrainableContextBuilder(private val mobService: MobService, private val playerService: PlayerService, private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

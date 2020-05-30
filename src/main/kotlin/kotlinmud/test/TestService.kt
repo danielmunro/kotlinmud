@@ -26,9 +26,10 @@ import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.JobType
-import kotlinmud.player.PlayerService
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.MobCardBuilder
+import kotlinmud.player.model.Player
+import kotlinmud.player.service.PlayerService
 import kotlinmud.room.model.Room
 import kotlinmud.service.FixtureService
 import kotlinmud.service.RespawnService
@@ -102,6 +103,10 @@ class TestService(
         return mobService.createCorpseFrom(mob)
     }
 
+    fun createPlayer(): Player {
+        return playerService.createNewPlayerWithEmailAddress(fixtureService.faker.breakingBad.character() + "@hotmail.com")
+    }
+
     fun createPlayerMobBuilder(): MobBuilder {
         val mob = fixtureService.createMobBuilder().isNpc(false)
         val name = fixtureService.faker.name.name()
@@ -119,6 +124,10 @@ class TestService(
 
     fun withMob(builder: (MobBuilder) -> MobBuilder): Mob {
         return buildMob(builder(fixtureService.createMobBuilder()))
+    }
+
+    fun findPlayerByOTP(otp: String): Player? {
+        return playerService.findPlayerByOTP(otp)
     }
 
     fun findMobCardByName(name: String): MobCard? {

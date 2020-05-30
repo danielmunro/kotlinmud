@@ -5,7 +5,7 @@ import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOServer
 import kotlinmud.mob.fight.Fight
-import kotlinmud.player.PlayerService
+import kotlinmud.player.service.PlayerService
 
 class GrantExperienceOnKillObserver(
     private val playerService: PlayerService,

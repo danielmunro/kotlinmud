@@ -1,4 +1,4 @@
-package kotlinmud.player
+package kotlinmud.player.service
 
 import com.commit451.mailgun.Contact
 import com.commit451.mailgun.SendMessageRequest

@@ -9,8 +9,8 @@ import kotlinmud.io.NIOClient
 import kotlinmud.io.Request
 import kotlinmud.mob.MobService
 import kotlinmud.mob.model.Appetite
-import kotlinmud.player.PlayerService
 import kotlinmud.player.model.MobCardBuilder
+import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
 
 class ClientConnectedObserver(

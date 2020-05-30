@@ -14,7 +14,7 @@ import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.MobService
 import kotlinmud.mob.model.Mob
-import kotlinmud.player.PlayerService
+import kotlinmud.player.service.PlayerService
 import kotlinmud.service.TimeService
 import org.slf4j.LoggerFactory
 

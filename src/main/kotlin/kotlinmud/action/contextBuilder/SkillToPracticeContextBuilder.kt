@@ -4,7 +4,7 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 import kotlinmud.mob.model.Mob
-import kotlinmud.player.PlayerService
+import kotlinmud.player.service.PlayerService
 import kotlinmud.string.matches
 
 class SkillToPracticeContextBuilder(private val playerService: PlayerService, private val mob: Mob) : ContextBuilder {
