@@ -14,7 +14,7 @@ jobs:
           ENV: ci
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          arguments: clean test codeCoverageReport sonarqube -Dsonar.login=${{ secrets.GITHUB_TOKEN }}
+          arguments: clean test codeCoverageReport sonarqube -Dsonar.login=${{ secrets.SONARCLOUD }}
       - name: Publish to Quay
         uses: HurricanKai/Publish-Docker-Github-Action@master
         if: contains(github.ref, 'refs/tags/v')
