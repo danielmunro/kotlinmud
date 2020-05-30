@@ -12,6 +12,7 @@ jobs:
         uses: eskatos/gradle-command-action@v1
         env:
           ENV: ci
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           arguments: clean test codeCoverageReport sonarqube
       - name: Publish to Quay
