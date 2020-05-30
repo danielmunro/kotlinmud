@@ -8,11 +8,17 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 11
-      - uses: eskatos/gradle-command-action@v1
+      - name: Gradle Tests
+        uses: eskatos/gradle-command-action@v1
         env:
           ENV: ci
         with:
-          arguments: clean test sonarqube
+          arguments: clean test
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONARCLOUD }}
       - name: Publish to Quay
         uses: HurricanKai/Publish-Docker-Github-Action@master
         if: contains(github.ref, 'refs/tags/v')
