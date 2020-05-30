@@ -8,8 +8,8 @@ import kotlinmud.io.Syntax
 import kotlinmud.io.directionToExit
 import kotlinmud.mob.skill.Cost
 import kotlinmud.mob.skill.CostType
-import kotlinmud.world.room.Direction
-import kotlinmud.world.room.Room
+import kotlinmud.room.model.Room
+import kotlinmud.room.type.Direction
 
 private fun move(command: Command, direction: Direction): Action {
     return Action(

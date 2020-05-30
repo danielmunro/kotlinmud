@@ -2,7 +2,7 @@ package kotlinmud.mob.model
 
 import kotlinmud.item.model.Item
 import kotlinmud.mob.type.Disposition
-import kotlinmud.world.room.Room
+import kotlinmud.room.model.Room
 
 data class MobRoom(
     val mob: Mob,

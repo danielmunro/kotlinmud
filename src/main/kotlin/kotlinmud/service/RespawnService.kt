@@ -9,8 +9,8 @@ import kotlinmud.item.model.ItemOwner
 import kotlinmud.mob.MobService
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobBuilder
+import kotlinmud.room.model.Room
 import kotlinmud.world.World
-import kotlinmud.world.room.Room
 import org.slf4j.LoggerFactory
 
 class RespawnService(

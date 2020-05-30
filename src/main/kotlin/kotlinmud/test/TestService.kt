@@ -29,9 +29,9 @@ import kotlinmud.mob.type.JobType
 import kotlinmud.player.PlayerService
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.MobCardBuilder
+import kotlinmud.room.model.Room
 import kotlinmud.service.FixtureService
 import kotlinmud.service.RespawnService
-import kotlinmud.world.room.Room
 
 class TestService(
     private val fixtureService: FixtureService,

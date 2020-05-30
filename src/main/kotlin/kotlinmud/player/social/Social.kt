@@ -2,7 +2,7 @@ package kotlinmud.player.social
 
 import kotlinmud.io.Message
 import kotlinmud.mob.model.Mob
-import kotlinmud.world.room.Room
+import kotlinmud.room.model.Room
 
 data class Social(
     val channel: SocialChannel,

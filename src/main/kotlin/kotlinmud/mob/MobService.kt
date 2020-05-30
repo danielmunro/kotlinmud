@@ -25,13 +25,13 @@ import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.model.corpseWeight
 import kotlinmud.mob.type.Disposition
+import kotlinmud.room.model.Exit
+import kotlinmud.room.model.NewRoom
+import kotlinmud.room.model.Room
+import kotlinmud.room.type.Direction
+import kotlinmud.room.type.RegenLevel
+import kotlinmud.room.type.oppositeDirection
 import kotlinmud.world.World
-import kotlinmud.world.room.Direction
-import kotlinmud.world.room.NewRoom
-import kotlinmud.world.room.RegenLevel
-import kotlinmud.world.room.Room
-import kotlinmud.world.room.exit.Exit
-import kotlinmud.world.room.oppositeDirection
 
 class MobService(
     private val itemService: ItemService,

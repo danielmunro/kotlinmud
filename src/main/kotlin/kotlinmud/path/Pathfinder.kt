@@ -1,6 +1,6 @@
 package kotlinmud.path
 
-import kotlinmud.world.room.Room
+import kotlinmud.room.model.Room
 
 class Pathfinder(private val src: Room, private val dest: Room) {
     private val explored: MutableList<Explored> = mutableListOf()

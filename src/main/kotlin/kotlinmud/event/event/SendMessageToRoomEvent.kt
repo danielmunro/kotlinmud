@@ -2,7 +2,7 @@ package kotlinmud.event.event
 
 import kotlinmud.io.Message
 import kotlinmud.mob.model.Mob
-import kotlinmud.world.room.Room
+import kotlinmud.room.model.Room
 
 data class SendMessageToRoomEvent(
     val message: Message,

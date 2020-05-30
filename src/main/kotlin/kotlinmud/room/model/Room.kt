@@ -1,4 +1,4 @@
-package kotlinmud.world.room
+package kotlinmud.room.model
 
 import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue
@@ -6,10 +6,10 @@ import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.data.Row
 import kotlinmud.item.HasInventory
 import kotlinmud.mob.model.Mob
+import kotlinmud.room.type.DoorDisposition
+import kotlinmud.room.type.RegenLevel
 import kotlinmud.world.BiomeType
 import kotlinmud.world.ResourceType
-import kotlinmud.world.room.exit.DoorDisposition
-import kotlinmud.world.room.exit.Exit
 
 @Builder
 data class Room(

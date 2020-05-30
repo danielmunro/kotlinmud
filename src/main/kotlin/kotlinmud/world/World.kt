@@ -7,9 +7,9 @@ import kotlinmud.fs.loader.area.model.reset.ItemRoomReset
 import kotlinmud.fs.loader.area.model.reset.MobReset
 import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
-import kotlinmud.world.room.Room
-import kotlinmud.world.room.RoomBuilder
-import kotlinmud.world.room.exit.Door
+import kotlinmud.room.model.Door
+import kotlinmud.room.model.Room
+import kotlinmud.room.model.RoomBuilder
 
 data class World(private val areas: List<Area>) {
     var rooms: Table<Room>

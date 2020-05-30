@@ -2,12 +2,12 @@ package kotlinmud.fs.loader.area.mapper
 
 import kotlinmud.fs.loader.area.model.RoomModel
 import kotlinmud.mob.model.Mob
-import kotlinmud.world.room.Direction
-import kotlinmud.world.room.Room
-import kotlinmud.world.room.RoomBuilder
-import kotlinmud.world.room.exit.Door
-import kotlinmud.world.room.exit.Exit
-import kotlinmud.world.room.oppositeDirection
+import kotlinmud.room.model.Door
+import kotlinmud.room.model.Exit
+import kotlinmud.room.model.Room
+import kotlinmud.room.model.RoomBuilder
+import kotlinmud.room.type.Direction
+import kotlinmud.room.type.oppositeDirection
 
 class RoomMapper(val mobs: List<Mob>, val roomModels: List<RoomModel>, val doors: List<Door>) {
     fun map(): List<Room> {

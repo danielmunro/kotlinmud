@@ -1,7 +1,6 @@
 package kotlinmud.item.loader
 
 import kotlinmud.affect.AffectInstance
-import kotlinmud.attributes.Attributes
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.loader.AttributesLoader
 import kotlinmud.fs.loader.area.loader.Loader
@@ -20,12 +19,8 @@ class ItemLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
         val id = tokenizer.parseInt()
         val name = tokenizer.parseString()
         val description = tokenizer.parseString()
-        val attributes = if (loadSchemaVersion > 8) {
-            val attributesLoader = AttributesLoader(tokenizer)
-            attributesLoader.load()
-        } else {
-            Attributes()
-        }
+        val attributesLoader = AttributesLoader(tokenizer)
+        val attributes = attributesLoader.load()
         val props = tokenizer.parseProperties()
         val drink = Drink.valueOf(strAttr(props["drink"], "none").toUpperCase())
         val food = Food.valueOf(strAttr(props["food"], "none").toUpperCase())

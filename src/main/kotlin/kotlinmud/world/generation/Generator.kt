@@ -1,10 +1,9 @@
 package kotlinmud.world.generation
 
-import java.util.*
 import kotlin.random.Random.Default.nextInt
+import kotlinmud.room.model.Room
+import kotlinmud.room.type.RegenLevel
 import kotlinmud.world.BiomeType
-import kotlinmud.world.room.RegenLevel
-import kotlinmud.world.room.Room
 
 typealias Blocks = Array<Array<IntArray>>
 
@@ -31,18 +30,20 @@ class Generator(private val width: Int, private val length: Int) {
         return World(rooms, Array(DEPTH) {
             Array(length) {
                 IntArray(width) {
-                    rooms.add(Room(
-                        id,
-                        "area",
-                        "name",
-                        "description",
-                        RegenLevel.NORMAL,
-                        true,
-                        BiomeType.ARBOREAL,
-                        mutableListOf(),
-                        mutableListOf(),
-                        null
-                    ))
+                    rooms.add(
+                        Room(
+                            id,
+                            "area",
+                            "name",
+                            "description",
+                            RegenLevel.NORMAL,
+                            true,
+                            BiomeType.ARBOREAL,
+                            mutableListOf(),
+                            mutableListOf(),
+                            null
+                        )
+                    )
                     id++
                 }
             }

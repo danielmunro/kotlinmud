@@ -1,8 +1,8 @@
 package kotlinmud.fs.loader.area.model
 
+import kotlinmud.room.type.RegenLevel
 import kotlinmud.world.BiomeType
 import kotlinmud.world.ResourceType
-import kotlinmud.world.room.RegenLevel
 
 data class RoomModel(
     override val id: Int,

@@ -4,7 +4,7 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
 import kotlinmud.item.ItemService
-import kotlinmud.world.room.Room
+import kotlinmud.room.model.Room
 
 class ItemInRoomContextBuilder(private val itemService: ItemService, private val room: Room) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

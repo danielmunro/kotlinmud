@@ -6,7 +6,7 @@ import kotlinmud.io.Syntax
 import kotlinmud.item.ItemService
 import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
-import kotlinmud.world.room.Room
+import kotlinmud.room.model.Room
 
 class AvailableItemInventoryContextBuilder(private val mob: Mob, private val room: Room, private val itemService: ItemService) : ContextBuilder {
     companion object {

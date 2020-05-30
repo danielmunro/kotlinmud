@@ -7,9 +7,9 @@ import kotlinmud.item.ItemService
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.JobType
 import kotlinmud.path.Pathfinder
-import kotlinmud.world.room.Room
-import kotlinmud.world.room.exit.DoorDisposition
-import kotlinmud.world.room.exit.Exit
+import kotlinmud.room.model.Exit
+import kotlinmud.room.model.Room
+import kotlinmud.room.type.DoorDisposition
 import org.slf4j.LoggerFactory
 
 class MobController(

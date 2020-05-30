@@ -10,10 +10,10 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.type.ItemType
 import kotlinmud.mob.model.Mob
+import kotlinmud.room.model.Room
 import kotlinmud.world.ResourceType
 import kotlinmud.world.createResourceList
 import kotlinmud.world.resource.Resource
-import kotlinmud.world.room.Room
 
 class CraftingService(
     private val itemService: ItemService,

@@ -7,8 +7,8 @@ import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.doorInRoom
 import kotlinmud.io.messageToActionCreator
-import kotlinmud.world.room.exit.Door
-import kotlinmud.world.room.exit.DoorDisposition
+import kotlinmud.room.model.Door
+import kotlinmud.room.type.DoorDisposition
 
 fun createOpenAction(): Action {
     return Action(Command.OPEN, mustBeAlert(), doorInRoom()) {

@@ -6,7 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.subcommandDirectionNoExit
-import kotlinmud.world.room.Direction
+import kotlinmud.room.type.Direction
 
 fun createRoomBuildAction(): Action {
     return Action(

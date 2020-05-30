@@ -7,7 +7,7 @@ import kotlinmud.io.Syntax
 import kotlinmud.item.ItemService
 import kotlinmud.item.type.Drink
 import kotlinmud.mob.model.Mob
-import kotlinmud.world.room.Room
+import kotlinmud.room.model.Room
 
 const val notFound = "you don't see anything like that here."
 

@@ -1,4 +1,4 @@
-package kotlinmud.world.room
+package kotlinmud.room.model
 
 import kotlinmud.mob.model.MobRoom
 

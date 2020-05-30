@@ -4,7 +4,7 @@ import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.io.messageToActionCreator
-import kotlinmud.world.room.exit.DoorDisposition
+import kotlinmud.room.type.DoorDisposition
 
 fun createExitsAction(): Action {
     return Action(Command.EXITS) { svc ->

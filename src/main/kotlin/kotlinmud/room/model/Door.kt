@@ -1,6 +1,7 @@
-package kotlinmud.world.room.exit
+package kotlinmud.room.model
 
 import kotlinmud.data.Row
+import kotlinmud.room.type.DoorDisposition
 
 data class Door(
     override val id: Int,

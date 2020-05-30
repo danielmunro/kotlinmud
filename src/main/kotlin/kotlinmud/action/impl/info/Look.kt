@@ -8,9 +8,9 @@ import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.io.messageToActionCreator
 import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
-import kotlinmud.world.room.Room
-import kotlinmud.world.room.exit.DoorDisposition
-import kotlinmud.world.room.exit.Exit
+import kotlinmud.room.model.Exit
+import kotlinmud.room.model.Room
+import kotlinmud.room.type.DoorDisposition
 
 fun createLookAction(): Action {
     return Action(Command.LOOK, mustBeAwake()) {

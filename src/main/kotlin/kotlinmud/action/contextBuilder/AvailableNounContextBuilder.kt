@@ -7,8 +7,8 @@ import kotlinmud.io.Syntax
 import kotlinmud.item.ItemService
 import kotlinmud.mob.MobService
 import kotlinmud.mob.model.Mob
+import kotlinmud.room.model.Room
 import kotlinmud.string.matches
-import kotlinmud.world.room.Room
 
 class AvailableNounContextBuilder(
     private val mobService: MobService,

@@ -1,13 +1,13 @@
 package kotlinmud.fs.saver
 
 import java.io.File
-import kotlinmud.fs.saver.mapper.mapDoor
 import kotlinmud.fs.saver.mapper.mapMob
-import kotlinmud.fs.saver.mapper.mapRoom
 import kotlinmud.fs.saver.mapper.reset.mapItemMobReset
 import kotlinmud.fs.saver.mapper.reset.mapItemRoomReset
 import kotlinmud.fs.saver.mapper.reset.mapMobReset
 import kotlinmud.item.mapper.mapItem
+import kotlinmud.room.mapper.mapDoor
+import kotlinmud.room.mapper.mapRoom
 import kotlinmud.world.World
 
 const val BASE_DIR = "state"

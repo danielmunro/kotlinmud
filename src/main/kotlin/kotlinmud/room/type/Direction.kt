@@ -1,4 +1,4 @@
-package kotlinmud.world.room
+package kotlinmud.room.type
 
 enum class Direction(val value: String) {
     NORTH("north"),
