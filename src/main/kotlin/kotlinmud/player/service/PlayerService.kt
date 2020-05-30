@@ -9,6 +9,7 @@ import kotlinmud.event.EventType
 import kotlinmud.event.event.PlayerLoggedInEvent
 import kotlinmud.fs.MOB_CARD_FILE
 import kotlinmud.fs.PLAYER_FILE
+import kotlinmud.helper.logger
 import kotlinmud.io.IOStatus
 import kotlinmud.io.NIOClient
 import kotlinmud.io.PreAuthRequest
@@ -24,7 +25,6 @@ import kotlinmud.player.model.Player
 import kotlinmud.player.model.PlayerBuilder
 import kotlinmud.random.generateOTP
 import kotlinmud.service.EmailService
-import org.slf4j.LoggerFactory
 
 class PlayerService(
     private val emailService: EmailService,
@@ -34,7 +34,7 @@ class PlayerService(
 ) {
     private val preAuthClients: MutableMap<NIOClient, AuthStep> = mutableMapOf()
     private val loggedInPlayers: MutableMap<NIOClient, Player> = mutableMapOf()
-    private val logger = LoggerFactory.getLogger(PlayerService::class.java)
+    private val logger = logger(this)
 
     init {
         logger.debug("player service with {} players and {} mob cards", players.size, mobCards.size)

@@ -2,6 +2,7 @@ package kotlinmud.mob
 
 import com.cesarferreira.pluralize.pluralize
 import java.io.File
+import java.lang.RuntimeException
 import java.util.stream.Collectors
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.Event
@@ -9,6 +10,7 @@ import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.fs.PLAYER_MOBS_FILE
+import kotlinmud.helper.logger
 import kotlinmud.io.Message
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.messageToActionCreator
@@ -42,8 +44,10 @@ class MobService(
     private val mobRooms: MutableList<MobRoom> = mutableListOf()
     private val newRooms: MutableList<NewRoom> = mutableListOf()
     private val fights: MutableList<Fight> = mutableListOf()
+    private val logger = logger(this)
 
     fun regenMobs() {
+        logger.debug("regen mobs :: ${mobRooms.size} mobs")
         mobRooms.filter { !it.mob.isIncapacitated() }.forEach {
             val regen = normalizeDouble(
                 0.0,
@@ -58,10 +62,12 @@ class MobService(
     }
 
     fun createNewRoom(mob: Mob): NewRoom {
+        logger.debug("create new room :: $mob")
         val roomBuilder = world.createRoomBuilder()
-        val mobRoom = mobRooms.find { it.mob == mob }!!
-        newRooms.add(NewRoom(mobRoom, roomBuilder))
-        return NewRoom(mobRoom, roomBuilder)
+        return mobRooms.find { it.mob == mob }?.let {
+            newRooms.add(NewRoom(it, roomBuilder))
+            NewRoom(it, roomBuilder)
+        } ?: throw RuntimeException("mob must be in a room to add a room")
     }
 
     fun buildRoom(mob: Mob, direction: Direction): Room {
