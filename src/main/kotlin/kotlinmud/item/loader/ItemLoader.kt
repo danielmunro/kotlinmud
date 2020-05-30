@@ -4,8 +4,8 @@ import kotlinmud.affect.AffectInstance
 import kotlinmud.attributes.loader.AttributesLoader
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.loader.Loader
-import kotlinmud.fs.loader.area.loader.WithAttrLoader
 import kotlinmud.fs.loader.area.loader.intAttr
+import kotlinmud.fs.loader.area.loader.parseAffects
 import kotlinmud.fs.loader.area.loader.strAttr
 import kotlinmud.item.itemBuilder
 import kotlinmud.item.type.Drink
@@ -28,7 +28,7 @@ class ItemLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
         val damageType = DamageType.valueOf(strAttr(props["damageType"], "none").toUpperCase())
         val quantity = intAttr(props["quantity"], 0)
         val builder = itemBuilder(id, name)
-        val affects = WithAttrLoader.parseAffects(tokenizer).map {
+        val affects = parseAffects(tokenizer).map {
             AffectInstance(it, -1)
         }
 

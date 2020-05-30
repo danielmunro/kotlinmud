@@ -1,7 +1,16 @@
 package kotlinmud.fs.loader.area.loader
 
+import kotlinmud.affect.AffectType
+import kotlinmud.fs.loader.Tokenizer
+
 interface Loader {
     fun load(): Any
+}
+
+fun parseAffects(tokenizer: Tokenizer): List<AffectType> {
+    return tokenizer.parseString().split(",").filter { it != "" }.map {
+        AffectType.valueOf(it.trim().toUpperCase())
+    }
 }
 
 fun intAttr(value: String?, default: Int = 0): Int {

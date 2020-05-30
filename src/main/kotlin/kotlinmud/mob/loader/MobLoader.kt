@@ -6,8 +6,8 @@ import kotlinmud.attributes.loader.AttributesLoader
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.loader.Loader
-import kotlinmud.fs.loader.area.loader.WithAttrLoader
 import kotlinmud.fs.loader.area.loader.intAttr
+import kotlinmud.fs.loader.area.loader.parseAffects
 import kotlinmud.fs.loader.area.loader.strAttr
 import kotlinmud.mob.mobBuilder
 import kotlinmud.mob.model.MobBuilder
@@ -48,7 +48,7 @@ class MobLoader(
         val goldMax = intAttr(props["goldMax"], 1)
         val builder = mobBuilder(id, name)
         val affects: MutableList<AffectInstance> = mutableListOf()
-        WithAttrLoader.parseAffects(tokenizer).forEach {
+        parseAffects(tokenizer).forEach {
             affects.add(AffectInstance(it, 0))
         }
         val strRoute = strAttr(props["route"])
