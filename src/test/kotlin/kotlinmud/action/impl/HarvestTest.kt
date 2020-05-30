@@ -5,7 +5,7 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
-import kotlinmud.attributes.Attribute
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.test.createTestService
 import kotlinmud.world.ResourceType
 import org.junit.Test

@@ -1,7 +1,7 @@
 package kotlinmud.player.mapper
 
+import kotlinmud.attributes.mapper.mapAttributes
 import kotlinmud.fs.int
-import kotlinmud.fs.saver.mapper.mapAttributes
 import kotlinmud.fs.str
 import kotlinmud.player.model.MobCard
 

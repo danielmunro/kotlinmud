@@ -1,7 +1,7 @@
 package kotlinmud.item.mapper
 
+import kotlinmud.attributes.mapper.mapAttributes
 import kotlinmud.fs.int
-import kotlinmud.fs.saver.mapper.mapAttributes
 import kotlinmud.fs.saver.mapper.optional
 import kotlinmud.fs.str
 import kotlinmud.item.model.Item

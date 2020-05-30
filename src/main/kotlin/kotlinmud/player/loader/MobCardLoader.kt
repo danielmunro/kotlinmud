@@ -1,8 +1,8 @@
 package kotlinmud.player.loader
 
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.loader.AttributesLoader
+import kotlinmud.attributes.model.Attributes
 import kotlinmud.fs.loader.Tokenizer
-import kotlinmud.fs.loader.area.loader.AttributesLoader
 import kotlinmud.mob.model.Appetite
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.MobCardBuilder

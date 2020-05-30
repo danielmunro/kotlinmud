@@ -1,8 +1,8 @@
 package kotlinmud.item.loader
 
 import kotlinmud.affect.AffectInstance
+import kotlinmud.attributes.loader.AttributesLoader
 import kotlinmud.fs.loader.Tokenizer
-import kotlinmud.fs.loader.area.loader.AttributesLoader
 import kotlinmud.fs.loader.area.loader.Loader
 import kotlinmud.fs.loader.area.loader.WithAttrLoader
 import kotlinmud.fs.loader.area.loader.intAttr

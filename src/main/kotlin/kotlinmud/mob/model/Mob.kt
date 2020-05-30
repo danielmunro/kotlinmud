@@ -6,9 +6,9 @@ import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.Noun
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
-import kotlinmud.attributes.Attribute
-import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
+import kotlinmud.attributes.model.Attributes
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.data.Row
 import kotlinmud.item.HasInventory
 import kotlinmud.item.model.Item
@@ -139,7 +139,8 @@ class Mob(
             saves -= 5
         }
 
-        var base = 80 + (level / 6) + saves - calc(Attribute.WIS) - calc(Attribute.INT)
+        var base = 80 + (level / 6) + saves - calc(Attribute.WIS) - calc(
+            Attribute.INT)
 
         if (affects().findByType(AffectType.CURSE) != null) {
             base += 5

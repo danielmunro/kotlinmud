@@ -2,7 +2,7 @@ package kotlinmud.test
 
 import java.nio.channels.SocketChannel
 import kotlinmud.action.ActionService
-import kotlinmud.attributes.AttributesBuilder
+import kotlinmud.attributes.model.AttributesBuilder
 import kotlinmud.event.Event
 import kotlinmud.event.EventService
 import kotlinmud.io.ClientService

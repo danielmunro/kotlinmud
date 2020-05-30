@@ -1,6 +1,6 @@
 package kotlinmud.mob
 
-import kotlinmud.attributes.Attribute
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.type.Weapon
 
 interface Specialization {

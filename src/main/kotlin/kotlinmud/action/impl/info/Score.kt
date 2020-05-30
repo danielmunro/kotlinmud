@@ -3,7 +3,7 @@ package kotlinmud.action.impl.info
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlive
 import kotlinmud.action.type.Command
-import kotlinmud.attributes.Attribute
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.createResponseWithEmptyActionContext
 import kotlinmud.io.messageToActionCreator
 
@@ -25,11 +25,16 @@ fun createScoreAction(): Action {
                         "Trains: ${mobCard.trains}  Practices: ${mobCard.practices}  Skill Points: ${mobCard.skillPoints}  Bounty: ${mobCard.bounty} " +
                         "You are carrying ${items.size}/${mob.maxItems} items, ${items.map { it.weight }
                             .fold(0.0) { acc: Double, value: Double -> acc + value }}/${mob.maxWeight} weight capacity.\n" +
-                        "Str: ${mob.base(Attribute.STR)}/${mob.calc(Attribute.STR)} " +
-                        "Int: ${mob.base(Attribute.INT)}/${mob.calc(Attribute.INT)} " +
-                        "Wis: ${mob.base(Attribute.WIS)}/${mob.calc(Attribute.WIS)} " +
-                        "Dex: ${mob.base(Attribute.DEX)}/${mob.calc(Attribute.DEX)} " +
-                        "Con: ${mob.base(Attribute.CON)}/${mob.calc(Attribute.CON)}\n" +
+                        "Str: ${mob.base(Attribute.STR)}/${mob.calc(
+                            Attribute.STR)} " +
+                        "Int: ${mob.base(Attribute.INT)}/${mob.calc(
+                            Attribute.INT)} " +
+                        "Wis: ${mob.base(Attribute.WIS)}/${mob.calc(
+                            Attribute.WIS)} " +
+                        "Dex: ${mob.base(Attribute.DEX)}/${mob.calc(
+                            Attribute.DEX)} " +
+                        "Con: ${mob.base(Attribute.CON)}/${mob.calc(
+                            Attribute.CON)}\n" +
                         "You have ${mobCard.experience} exp, ${mob.gold} gold, 0 silver.\n" +
                         "You need 0 exp to level.\n" +
                         "Wimpy set to ${mob.wimpy}.\n" +

@@ -1,6 +1,6 @@
 package kotlinmud.mob.fight
 
-import kotlinmud.attributes.Attribute
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.type.Position
 import kotlinmud.math.d20
 import kotlinmud.math.dN

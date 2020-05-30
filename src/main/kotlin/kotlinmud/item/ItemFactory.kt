@@ -1,6 +1,6 @@
 package kotlinmud.item
 
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.model.Attributes
 import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.Food

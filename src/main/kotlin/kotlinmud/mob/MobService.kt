@@ -3,13 +3,12 @@ package kotlinmud.mob
 import com.cesarferreira.pluralize.pluralize
 import java.io.File
 import java.util.stream.Collectors
-import kotlinmud.attributes.Attribute
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.Event
 import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.fs.PLAYER_MOBS_FILE
-import kotlinmud.fs.saver.mapper.mapMob
 import kotlinmud.io.Message
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.messageToActionCreator
@@ -21,6 +20,7 @@ import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.mapper.mapMob
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.model.corpseWeight

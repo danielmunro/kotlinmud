@@ -1,6 +1,6 @@
 package kotlinmud.mob.race
 
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.model.Attributes
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size

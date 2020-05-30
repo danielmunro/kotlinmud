@@ -1,7 +1,7 @@
 package kotlinmud.affect
 
-import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
+import kotlinmud.attributes.model.Attributes
 
 data class AffectInstance(
     val affectType: AffectType,

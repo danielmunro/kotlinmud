@@ -4,7 +4,7 @@ import java.io.EOFException
 import java.io.File
 import kotlinmud.fs.PLAYER_MOBS_FILE
 import kotlinmud.fs.loader.Tokenizer
-import kotlinmud.fs.loader.area.loader.MobLoader
+import kotlinmud.mob.loader.MobLoader
 import kotlinmud.mob.model.Mob
 
 fun loadMobs(loadSchemaToUse: Int): MutableList<Mob> {

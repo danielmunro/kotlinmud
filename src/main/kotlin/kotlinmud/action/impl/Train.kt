@@ -3,10 +3,10 @@ package kotlinmud.action.impl
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeStanding
 import kotlinmud.action.type.Command
-import kotlinmud.attributes.Attribute
-import kotlinmud.attributes.AttributesBuilder
-import kotlinmud.attributes.isVitals
-import kotlinmud.attributes.setAttribute
+import kotlinmud.attributes.model.AttributesBuilder
+import kotlinmud.attributes.model.isVitals
+import kotlinmud.attributes.model.setAttribute
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.trainable
@@ -17,7 +17,11 @@ fun createTrainAction(): Action {
         val card = it.getMobCard()
         card.trains -= 1
         card.trainedAttributes.add(
-            setAttribute(AttributesBuilder(), attribute, if (isVitals(attribute)) 10 else 1).build()
+            setAttribute(
+                AttributesBuilder(),
+                attribute,
+                if (isVitals(attribute)) 10 else 1
+            ).build()
         )
         it.createOkResponse(
             MessageBuilder()

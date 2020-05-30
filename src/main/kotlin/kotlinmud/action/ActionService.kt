@@ -33,7 +33,7 @@ import kotlinmud.action.model.ActionContextList
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Command
 import kotlinmud.action.type.Status
-import kotlinmud.attributes.Attribute
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.IOStatus
 import kotlinmud.io.Request
 import kotlinmud.io.Response

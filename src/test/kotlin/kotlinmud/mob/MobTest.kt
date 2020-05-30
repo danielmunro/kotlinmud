@@ -8,8 +8,8 @@ import assertk.assertions.isLessThan
 import kotlin.test.assertEquals
 import kotlinmud.affect.AffectType
 import kotlinmud.affect.affects
-import kotlinmud.attributes.Attribute
-import kotlinmud.attributes.AttributesBuilder
+import kotlinmud.attributes.model.AttributesBuilder
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.fight.Fight

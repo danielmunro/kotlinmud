@@ -1,6 +1,6 @@
-package kotlinmud.fs.saver.mapper
+package kotlinmud.attributes.mapper
 
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.model.Attributes
 
 fun mapAttributes(attributes: Attributes): String {
     return """${attributes.strength} ${attributes.intelligence} ${attributes.wisdom} ${attributes.dexterity} ${attributes.constitution}~

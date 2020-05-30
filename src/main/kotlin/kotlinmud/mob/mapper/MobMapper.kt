@@ -1,15 +1,26 @@
-package kotlinmud.fs.saver.mapper
+package kotlinmud.mob.mapper
 
+import kotlinmud.attributes.mapper.mapAttributes
 import kotlinmud.fs.int
+import kotlinmud.fs.saver.mapper.optional
 import kotlinmud.fs.str
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
 
 fun mapMob(mob: Mob): String {
-    val optional = optional(mob.job != JobType.NONE, "job: ${mob.job.value}") +
-            optional(mob.specialization != SpecializationType.NONE, "specialization: ${mob.specialization.value}") +
-            optional(mob.route.isNotEmpty(), "route: ${mob.route.joinToString("-")}") +
+    val optional = optional(
+        mob.job != JobType.NONE,
+        "job: ${mob.job.value}"
+    ) +
+            optional(
+                mob.specialization != SpecializationType.NONE,
+                "specialization: ${mob.specialization.value}"
+            ) +
+            optional(
+                mob.route.isNotEmpty(),
+                "route: ${mob.route.joinToString("-")}"
+            ) +
             optional(mob.goldMin > 0, "goldMin: ${mob.goldMin}") +
             optional(mob.goldMax > 0, "goldMax: ${mob.goldMax}")
     return """${int(mob.id)}

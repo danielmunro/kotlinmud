@@ -1,9 +1,9 @@
 package kotlinmud.mob
 
-import kotlinmud.attributes.AttributesBuilder
-import kotlinmud.attributes.startingHp
-import kotlinmud.attributes.startingMana
-import kotlinmud.attributes.startingMv
+import kotlinmud.attributes.model.AttributesBuilder
+import kotlinmud.attributes.model.startingHp
+import kotlinmud.attributes.model.startingMana
+import kotlinmud.attributes.model.startingMv
 import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.race.impl.Human
 

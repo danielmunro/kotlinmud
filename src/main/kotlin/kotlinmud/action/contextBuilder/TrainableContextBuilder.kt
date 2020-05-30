@@ -2,8 +2,8 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.attributes.Attribute
-import kotlinmud.attributes.isVitals
+import kotlinmud.attributes.model.isVitals
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.Syntax
 import kotlinmud.mob.MobService
 import kotlinmud.mob.model.Mob

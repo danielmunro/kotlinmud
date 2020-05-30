@@ -1,9 +1,14 @@
-package kotlinmud.fs.loader.area.loader
+package kotlinmud.mob.loader
 
 import kotlin.random.Random
 import kotlinmud.affect.AffectInstance
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.loader.AttributesLoader
+import kotlinmud.attributes.model.Attributes
 import kotlinmud.fs.loader.Tokenizer
+import kotlinmud.fs.loader.area.loader.Loader
+import kotlinmud.fs.loader.area.loader.WithAttrLoader
+import kotlinmud.fs.loader.area.loader.intAttr
+import kotlinmud.fs.loader.area.loader.strAttr
 import kotlinmud.mob.mobBuilder
 import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.race.createRaceFromString
@@ -16,9 +21,7 @@ class MobLoader(
     private val tokenizer: Tokenizer,
     private val loadSchemaVersion: Int = CURRENT_LOAD_SCHEMA_VERSION,
     private val isNpc: Boolean = true
-) : WithAttrLoader() {
-    var props: Map<String, String> = mapOf()
-
+) : Loader {
     override fun load(): MobBuilder {
         val id = tokenizer.parseInt()
         val name = tokenizer.parseString()
@@ -34,17 +37,18 @@ class MobLoader(
         val wimpy = tokenizer.parseInt()
         val attributesLoader = AttributesLoader(tokenizer)
         val attributes = if (loadSchemaVersion >= 7) attributesLoader.load() else Attributes()
-        if (loadSchemaVersion == 7) {
-            tokenizer.parseString() // end
-        }
-        props = tokenizer.parseProperties()
+        val props = tokenizer.parseProperties()
         val job = JobType.valueOf(strAttr(props["job"], "none").toUpperCase())
-        val specialization = SpecializationType.valueOf(strAttr(props["specialization"], "none").toUpperCase())
+        val specialization = SpecializationType.valueOf(
+            strAttr(
+                props["specialization"],
+                "none"
+            ).toUpperCase())
         val goldMin = intAttr(props["goldMin"], 0)
         val goldMax = intAttr(props["goldMax"], 1)
         val builder = mobBuilder(id, name)
         val affects: MutableList<AffectInstance> = mutableListOf()
-        parseAffectTypes(tokenizer).forEach {
+        WithAttrLoader.parseAffects(tokenizer).forEach {
             affects.add(AffectInstance(it, 0))
         }
         val strRoute = strAttr(props["route"])
@@ -65,7 +69,12 @@ class MobLoader(
             .wimpy(wimpy)
             .job(job)
             .specialization(specialization)
-            .race(createRaceFromString(strAttr(props["race"], "human")))
+            .race(createRaceFromString(
+                strAttr(
+                    props["race"],
+                    "human"
+                )
+            ))
             .gold(Random.nextInt(goldMin, goldMax))
             .goldMin(goldMin)
             .goldMax(goldMax)
@@ -73,13 +82,5 @@ class MobLoader(
             .isNpc(isNpc)
             .affects(affects)
             .attributes(attributes)
-    }
-
-    private fun loadTrainedAttributes(attributesLoader: AttributesLoader): MutableList<Attributes> {
-        val trainedAttributes = mutableListOf<Attributes>()
-        while (tokenizer.peek() != "end") {
-            trainedAttributes.add(attributesLoader.load())
-        }
-        return trainedAttributes
     }
 }

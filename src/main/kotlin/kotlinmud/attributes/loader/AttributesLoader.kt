@@ -1,7 +1,7 @@
-package kotlinmud.fs.loader.area.loader
+package kotlinmud.attributes.loader
 
-import kotlinmud.attributes.Attributes
-import kotlinmud.attributes.AttributesBuilder
+import kotlinmud.attributes.model.AttributesBuilder
+import kotlinmud.attributes.model.Attributes
 import kotlinmud.fs.loader.Tokenizer
 
 class AttributesLoader(private val tokenizer: Tokenizer) {

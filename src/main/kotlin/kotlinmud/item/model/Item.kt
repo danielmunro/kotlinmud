@@ -5,8 +5,8 @@ import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.Noun
 import kotlinmud.affect.AffectInstance
-import kotlinmud.attributes.Attributes
 import kotlinmud.attributes.HasAttributes
+import kotlinmud.attributes.model.Attributes
 import kotlinmud.data.Row
 import kotlinmud.item.HasInventory
 import kotlinmud.item.type.Drink

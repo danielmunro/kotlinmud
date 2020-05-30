@@ -3,8 +3,8 @@ package kotlinmud.player.model
 import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
-import kotlinmud.attributes.Attribute
-import kotlinmud.attributes.Attributes
+import kotlinmud.attributes.model.Attributes
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.model.AddExperience
 import kotlinmud.mob.model.Appetite
 

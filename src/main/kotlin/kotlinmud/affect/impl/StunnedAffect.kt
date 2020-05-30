@@ -4,7 +4,7 @@ import kotlinmud.Noun
 import kotlinmud.affect.Affect
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
-import kotlinmud.attributes.AttributesBuilder
+import kotlinmud.attributes.model.AttributesBuilder
 import kotlinmud.io.Message
 import kotlinmud.mob.model.Mob
 
