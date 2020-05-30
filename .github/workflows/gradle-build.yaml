@@ -13,12 +13,7 @@ jobs:
         env:
           ENV: ci
         with:
-          arguments: clean test
-      - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONARCLOUD }}
+          arguments: clean test codeCoverageReport sonarqube
       - name: Publish to Quay
         uses: HurricanKai/Publish-Docker-Github-Action@master
         if: contains(github.ref, 'refs/tags/v')
