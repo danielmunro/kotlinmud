@@ -19,6 +19,7 @@ plugins {
 }
 
 apply plugin: 'kotlin-kapt'
+apply plugin: 'jacoco'
 
 jacoco {
     toolVersion = "0.8.5"
@@ -34,17 +35,9 @@ subprojects {
     test.useTestNG()
 }
 
-task codeCoverageReport(type: JacocoReport) {
-    executionData fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
-
-    subprojects.each {
-        sourceSets it.sourceSets.main
-    }
-
+jacocoTestReport {
     reports {
-        xml.enabled true
-        html.enabled false
-        csv.enabled false
+        xml.enabled = true
     }
 }
 
@@ -56,10 +49,18 @@ sonarqube {
         property "sonar.organization", "danielmunro-github"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.login", env["SONARCLOUD"]
+        property "sonar.java.coveragePlugin", "jacoco"
+//        property "sonar.jacoco.reportPaths", file("${rootProject.projectDir}/build/jacoco/test.exec")
+//        property "sonar.tests", "src/test"
+//        property "sonar.sources", "src/main"
+//        property "sonar.kotlin.binaries", "./build/kotlin/compileKotlin"
+//        property "sonar.kotlin.test.binaries", "./build/kotlin/compileTestKotlin"
+        property "sonar.coverage.jacoco.xmlReportPaths", file("${rootProject.projectDir}/build/reports/jacoco/test/jacocoTestReport.xml")
+//        property "sonar.junit.reportPaths", file("${rootProject.projectDir}/build/reports/jacoco/codeCoverageReport/codeCoverageReport.xml")
     }
 }
 
-codeCoverageReport.dependsOn {
+jacocoTestReport.dependsOn {
     subprojects*.test
 }
 
