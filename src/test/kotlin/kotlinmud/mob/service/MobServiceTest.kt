@@ -1,12 +1,16 @@
 package kotlinmud.mob.service
 
 import assertk.assertThat
+import assertk.assertions.hasMessage
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
+import assertk.assertions.isFailure
 import assertk.assertions.isNotNull
 import kotlin.test.Test
 import kotlinmud.affect.AffectInstance
 import kotlinmud.affect.AffectType
+import kotlinmud.mob.model.MobBuilder
+import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
@@ -116,5 +120,24 @@ class MobServiceTest {
 
         // then
         assertThat(testService.findFightForMob(guard)).isNotNull()
+    }
+
+    @Test
+    fun testMobMustBeInRoomToCreateNewRoom() {
+        // setup
+        val test = createTestService()
+
+        // when
+        val mob = MobBuilder()
+            .id(0)
+            .name("foo")
+            .hp(0)
+            .mana(0)
+            .mv(0)
+            .race(Human())
+            .build()
+
+        // then
+        assertThat { test.addNewRoom(mob) }.isFailure().hasMessage("mob must be in a room to add a room")
     }
 }

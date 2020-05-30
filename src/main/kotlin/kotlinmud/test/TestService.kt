@@ -83,6 +83,10 @@ class TestService(
         respawnService.respawn()
     }
 
+    fun addNewRoom(mob: Mob) {
+        mobService.createNewRoom(mob)
+    }
+
     fun getRooms(): List<Room> {
         return mobService.getRooms()
     }
