@@ -2,6 +2,7 @@ package kotlinmud.player.service
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isNull
 import kotlinmud.test.createTestService
 import org.junit.Test
 
@@ -17,10 +18,23 @@ class PlayerServiceTest {
         test.createPlayerMobBuilder().build()
 
         // when
-        val result = test.findMobCardByName(mob.name)
+        val mobCard = test.findMobCardByName(mob.name)
 
         // then
-        assertThat(result!!.mobName).isEqualTo(mob.name)
+        assertThat(mobCard!!.mobName).isEqualTo(mob.name)
+    }
+
+    @Test
+    fun testDoesNotFindMobCardThatDoesNotExist() {
+        // setup
+        val test = createTestService()
+        test.createPlayerMobBuilder().build()
+
+        // when
+        val mobCard = test.findMobCardByName("foo")
+
+        // then
+        assertThat(mobCard).isNull()
     }
 
     @Test
@@ -37,6 +51,20 @@ class PlayerServiceTest {
         // when
         val result = test.findPlayerByOTP("foo")
 
+        // then
         assertThat(result!!.email).isEqualTo(player.email)
+    }
+
+    @Test
+    fun testDoesNotFindPlayerByOTPThatDoesNotExist() {
+        // setup
+        val test = createTestService()
+        test.createPlayer()
+
+        // when
+        val mobCard = test.findPlayerByOTP("foo")
+
+        // then
+        assertThat(mobCard).isNull()
     }
 }
