@@ -3,7 +3,6 @@ package kotlinmud.fs.loader
 import java.io.EOFException
 import java.io.File
 import kotlinmud.fs.loader.area.loader.DoorLoader
-import kotlinmud.fs.loader.area.loader.ItemLoader
 import kotlinmud.fs.loader.area.loader.Loader
 import kotlinmud.fs.loader.area.loader.MobLoader
 import kotlinmud.fs.loader.area.loader.RoomLoader
@@ -17,6 +16,7 @@ import kotlinmud.fs.loader.area.mapper.RoomMapper
 import kotlinmud.fs.loader.area.model.reset.ItemMobReset
 import kotlinmud.fs.loader.area.model.reset.ItemRoomReset
 import kotlinmud.fs.loader.area.model.reset.MobReset
+import kotlinmud.item.loader.ItemLoader
 import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
 import kotlinmud.world.Area
@@ -66,7 +66,7 @@ class AreaLoader(
 
     private fun loadItems(): List<Item> {
         return ItemMapper(
-            createModelList(ItemLoader(createTokenizer("$baseDir/items.txt")))
+            createModelList(ItemLoader(createTokenizer("$baseDir/items.txt"), loadSchemaVersion))
         ).map()
     }
 

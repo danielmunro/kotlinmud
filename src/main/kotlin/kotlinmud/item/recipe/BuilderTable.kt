@@ -1,10 +1,10 @@
 package kotlinmud.item.recipe
 
+import kotlinmud.item.Recipe
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
-import kotlinmud.item.Recipe
 
 class BuilderTable : Recipe {
     override val name: String = "a builder's table"

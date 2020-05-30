@@ -1,15 +1,13 @@
 package kotlinmud.fs.loader.area.loader
 
 interface Loader {
-    var props: Map<String, String>
-
     fun load(): Any
+}
 
-    fun intAttr(name: String, default: Int = 0): Int {
-        return props[name]?.toInt() ?: default
-    }
+fun intAttr(value: String?, default: Int = 0): Int {
+    return value?.toInt() ?: default
+}
 
-    fun strAttr(name: String, default: String = ""): String {
-        return props[name] ?: default
-    }
+fun strAttr(value: String?, default: String = ""): String {
+    return value ?: default
 }

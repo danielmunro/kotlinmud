@@ -17,7 +17,7 @@ class MobLoader(
     private val loadSchemaVersion: Int = CURRENT_LOAD_SCHEMA_VERSION,
     private val isNpc: Boolean = true
 ) : WithAttrLoader() {
-    override var props: Map<String, String> = mapOf()
+    var props: Map<String, String> = mapOf()
 
     override fun load(): MobBuilder {
         val id = tokenizer.parseInt()
@@ -38,17 +38,16 @@ class MobLoader(
             tokenizer.parseString() // end
         }
         props = tokenizer.parseProperties()
-        val job = JobType.valueOf(strAttr("job", "none").toUpperCase())
-        val specialization = SpecializationType.valueOf(strAttr("specialization", "none").toUpperCase())
-        val goldMin = intAttr("goldMin", 0)
-        val goldMax = intAttr("goldMax", 1)
-        parseAttributes()
+        val job = JobType.valueOf(strAttr(props["job"], "none").toUpperCase())
+        val specialization = SpecializationType.valueOf(strAttr(props["specialization"], "none").toUpperCase())
+        val goldMin = intAttr(props["goldMin"], 0)
+        val goldMax = intAttr(props["goldMax"], 1)
         val builder = mobBuilder(id, name)
         val affects: MutableList<AffectInstance> = mutableListOf()
         parseAffectTypes(tokenizer).forEach {
             affects.add(AffectInstance(it, 0))
         }
-        val strRoute = strAttr("route")
+        val strRoute = strAttr(props["route"])
         val route = if (strRoute != "") strRoute.split("-").map { it.toInt() } else listOf()
 
         return builder
@@ -66,7 +65,7 @@ class MobLoader(
             .wimpy(wimpy)
             .job(job)
             .specialization(specialization)
-            .race(createRaceFromString(strAttr("race", "human")))
+            .race(createRaceFromString(strAttr(props["race"], "human")))
             .gold(Random.nextInt(goldMin, goldMax))
             .goldMin(goldMin)
             .goldMax(goldMax)

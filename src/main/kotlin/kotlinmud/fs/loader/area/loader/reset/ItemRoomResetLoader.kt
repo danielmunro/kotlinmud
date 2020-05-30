@@ -12,10 +12,6 @@ class ItemRoomResetLoader(private val tokenizer: Tokenizer) : Loader {
     var maxInRoom = 0
     var maxInWorld = 0
 
-    override var props: Map<String, String>
-        get() = TODO("Not yet implemented")
-        set(_) {}
-
     override fun load(): Model {
         id++
         val props = tokenizer.parseProperties()

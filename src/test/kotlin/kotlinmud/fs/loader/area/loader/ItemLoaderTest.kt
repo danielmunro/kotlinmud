@@ -3,7 +3,6 @@ package kotlinmud.fs.loader.area.loader
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
-import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotNull
 import kotlinmud.affect.AffectType
 import kotlinmud.fs.loader.AreaLoader
@@ -24,19 +23,6 @@ class ItemLoaderTest {
         // expect
         assertThat(item.material).isEqualTo(Material.ORGANIC)
         assertThat(item.position).isEqualTo(Position.NONE)
-    }
-
-    @Test
-    fun testLoadPropsHitAndDam() {
-        // setup
-        val area = AreaLoader("test_areas/midgard", CURRENT_LOAD_SCHEMA_VERSION).load()
-
-        // given
-        val item = area.items.find { it.id == 3 }!!
-
-        // expect
-        assertThat(item.attributes.hit).isGreaterThan(0)
-        assertThat(item.attributes.dam).isGreaterThan(0)
     }
 
     @Test

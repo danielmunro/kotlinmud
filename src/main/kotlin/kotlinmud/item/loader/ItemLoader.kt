@@ -1,0 +1,55 @@
+package kotlinmud.item.loader
+
+import kotlinmud.affect.AffectInstance
+import kotlinmud.attributes.Attributes
+import kotlinmud.fs.loader.Tokenizer
+import kotlinmud.fs.loader.area.loader.AttributesLoader
+import kotlinmud.fs.loader.area.loader.Loader
+import kotlinmud.fs.loader.area.loader.WithAttrLoader
+import kotlinmud.fs.loader.area.loader.intAttr
+import kotlinmud.fs.loader.area.loader.strAttr
+import kotlinmud.item.itemBuilder
+import kotlinmud.item.type.Drink
+import kotlinmud.item.type.Food
+import kotlinmud.item.type.Material
+import kotlinmud.item.type.Position
+import kotlinmud.mob.fight.DamageType
+
+class ItemLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion: Int) : Loader {
+    override fun load(): Any {
+        val id = tokenizer.parseInt()
+        val name = tokenizer.parseString()
+        val description = tokenizer.parseString()
+        val attributes = if (loadSchemaVersion > 8) {
+            val attributesLoader = AttributesLoader(tokenizer)
+            attributesLoader.load()
+        } else {
+            Attributes()
+        }
+        val props = tokenizer.parseProperties()
+        val drink = Drink.valueOf(strAttr(props["drink"], "none").toUpperCase())
+        val food = Food.valueOf(strAttr(props["food"], "none").toUpperCase())
+        val attackVerb = strAttr(props["attackVerb"], "")
+        val damageType = DamageType.valueOf(strAttr(props["damageType"], "none").toUpperCase())
+        val quantity = intAttr(props["quantity"], 0)
+        val builder = itemBuilder(id, name)
+        val affects = WithAttrLoader.parseAffects(tokenizer).map {
+            AffectInstance(it, -1)
+        }
+
+        return builder
+            .description(description)
+            .worth(props["value"]?.toInt() ?: 1)
+            .level(props["level"]?.toInt() ?: 1)
+            .weight(props["weight"]?.toDouble() ?: 1.0)
+            .drink(drink)
+            .food(food)
+            .quantity(quantity)
+            .material(Material.valueOf(strAttr(props["material"], "organic").toUpperCase()))
+            .position(Position.valueOf(strAttr(props["position"], "none").toUpperCase()))
+            .affects(affects.toMutableList())
+            .attackVerb(attackVerb)
+            .damageType(damageType)
+            .attributes(attributes)
+    }
+}
