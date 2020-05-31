@@ -3,8 +3,8 @@ package kotlinmud.action.impl.info
 import assertk.assertThat
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
-import kotlinmud.affect.AffectType
-import kotlinmud.affect.affects
+import kotlinmud.affect.type.AffectType
+import kotlinmud.affect.factory.affects
 import kotlinmud.io.IOStatus
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord

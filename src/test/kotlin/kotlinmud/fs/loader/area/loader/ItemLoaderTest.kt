@@ -5,7 +5,7 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotNull
-import kotlinmud.affect.AffectType
+import kotlinmud.affect.type.AffectType
 import kotlinmud.fs.loader.AreaLoader
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position

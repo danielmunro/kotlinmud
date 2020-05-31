@@ -1,6 +1,6 @@
 package kotlinmud.fs.loader.area.loader
 
-import kotlinmud.affect.AffectType
+import kotlinmud.affect.type.AffectType
 import kotlinmud.fs.loader.Tokenizer
 
 interface Loader {

@@ -1,7 +1,7 @@
 package kotlinmud.action
 
 import kotlinmud.action.model.ActionContextList
-import kotlinmud.affect.AffectInstance
+import kotlinmud.affect.model.AffectInstance
 import kotlinmud.event.Event
 import kotlinmud.event.EventService
 import kotlinmud.event.EventType

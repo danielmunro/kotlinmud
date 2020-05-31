@@ -1,7 +1,7 @@
 package kotlinmud.item
 
 import kotlin.streams.toList
-import kotlinmud.affect.AffectType
+import kotlinmud.affect.type.AffectType
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.model.ItemOwner

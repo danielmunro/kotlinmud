@@ -6,8 +6,8 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
 import kotlin.test.assertEquals
-import kotlinmud.affect.AffectType
-import kotlinmud.affect.affects
+import kotlinmud.affect.type.AffectType
+import kotlinmud.affect.factory.affects
 import kotlinmud.attributes.model.AttributesBuilder
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.type.Position

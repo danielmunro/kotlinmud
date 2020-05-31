@@ -1,4 +1,7 @@
-package kotlinmud.affect
+package kotlinmud.affect.factory
+
+import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.type.AffectType
 
 fun affect(affectType: AffectType): AffectInstance {
     return AffectInstance(affectType)

@@ -4,9 +4,9 @@ import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
-import kotlinmud.affect.AffectType
-import kotlinmud.affect.affect
-import kotlinmud.affect.affects
+import kotlinmud.affect.type.AffectType
+import kotlinmud.affect.factory.affect
+import kotlinmud.affect.factory.affects
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 import org.junit.Test

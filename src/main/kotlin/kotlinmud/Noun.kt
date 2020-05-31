@@ -1,7 +1,7 @@
 package kotlinmud
 
-import kotlinmud.affect.AffectInstance
-import kotlinmud.service.AffectService
+import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.service.AffectService
 
 interface Noun {
     val name: String

@@ -1,6 +1,8 @@
 package kotlinmud.affect
 
 import kotlinmud.Noun
+import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.type.AffectType
 import kotlinmud.io.Message
 import kotlinmud.mob.model.Mob
 

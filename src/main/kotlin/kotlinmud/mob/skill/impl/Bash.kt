@@ -4,8 +4,8 @@ import kotlin.random.Random
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
-import kotlinmud.affect.AffectInstance
-import kotlinmud.affect.AffectType
+import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.type.AffectType
 import kotlinmud.affect.impl.StunnedAffect
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.io.MessageBuilder
@@ -51,9 +51,11 @@ class Bash : SkillAction {
         val modifier = Random.nextInt(1, limit) +
                 if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)
         target.hp -= modifier
-        target.affects().add(AffectInstance(
-            AffectType.STUNNED, modifier / 5, Attributes(0, 0, 0, 0, -1)
-        ))
+        target.affects().add(
+            AffectInstance(
+                AffectType.STUNNED, modifier / 5, Attributes(0, 0, 0, 0, -1)
+            )
+        )
         return actionContextService.createOkResponse(MessageBuilder()
             .toActionCreator("you slam into $target and send them flying!")
             .toTarget("${actionContextService.getMob()} slams into you and sends you flying!")

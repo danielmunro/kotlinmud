@@ -1,7 +1,7 @@
 package kotlinmud.mob.loader
 
 import kotlin.random.Random
-import kotlinmud.affect.AffectInstance
+import kotlinmud.affect.model.AffectInstance
 import kotlinmud.attributes.loader.AttributesLoader
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.fs.loader.Tokenizer

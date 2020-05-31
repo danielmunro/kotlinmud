@@ -2,8 +2,8 @@ package kotlinmud.affect.impl
 
 import kotlinmud.Noun
 import kotlinmud.affect.Affect
-import kotlinmud.affect.AffectInstance
-import kotlinmud.affect.AffectType
+import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.model.AttributesBuilder
 import kotlinmud.io.Message
 import kotlinmud.mob.model.Mob
@@ -20,8 +20,10 @@ class StunnedAffect : Affect {
     }
 
     override fun createInstance(timeout: Int): AffectInstance {
-        return AffectInstance(type, timeout, AttributesBuilder()
-            .intelligence(-1)
-            .build())
+        return AffectInstance(
+            type, timeout, AttributesBuilder()
+                .intelligence(-1)
+                .build()
+        )
     }
 }

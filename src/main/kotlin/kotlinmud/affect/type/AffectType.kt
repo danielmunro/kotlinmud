@@ -1,4 +1,4 @@
-package kotlinmud.affect
+package kotlinmud.affect.type
 
 enum class AffectType(val value: String) {
     BLESS("bless"),

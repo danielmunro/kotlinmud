@@ -2,7 +2,7 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.affect.AffectType
+import kotlinmud.affect.type.AffectType
 import kotlinmud.io.Syntax
 import kotlinmud.item.ItemService
 import kotlinmud.item.type.Drink

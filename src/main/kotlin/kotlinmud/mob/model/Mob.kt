@@ -4,8 +4,8 @@ import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.Noun
-import kotlinmud.affect.AffectInstance
-import kotlinmud.affect.AffectType
+import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.HasAttributes
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.attributes.type.Attribute
@@ -25,7 +25,7 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
-import kotlinmud.service.AffectService
+import kotlinmud.affect.service.AffectService
 
 const val corpseWeight = 20.0
 const val baseStat = 15
