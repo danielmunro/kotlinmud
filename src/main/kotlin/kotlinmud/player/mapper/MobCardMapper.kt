@@ -1,6 +1,6 @@
 package kotlinmud.player.mapper
 
-import kotlinmud.attributes.mapper.mapAttributes
+import kotlinmud.attributes.mapper.mapAttributeList
 import kotlinmud.fs.int
 import kotlinmud.fs.str
 import kotlinmud.player.model.MobCard
@@ -19,7 +19,6 @@ ${int(mobCard.appetite.getHunger())}
 ${int(mobCard.appetite.getThirst())}
 ${int(mobCard.bounty)}
 ${int(mobCard.skillPoints)}
-${mobCard.trainedAttributes.joinToString("\n") { mapAttributes(it) }}
-end~
+${mapAttributeList(mobCard.trainedAttributes)}
 """
 }
