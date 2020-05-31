@@ -35,7 +35,7 @@ class MobCardLoader(private val tokenizer: Tokenizer) {
             .skillPoints(tokenizer.parseInt())
         val trainedAttributes = mutableListOf<Attributes>()
         val attributesLoader = AttributesLoader(tokenizer)
-        while (tokenizer.peek() != "end~") {
+        while (tokenizer.peek() != "end") {
             trainedAttributes.add(attributesLoader.load())
         }
         tokenizer.parseString()
