@@ -5,6 +5,7 @@ import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.Noun
 import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.service.AffectService
 import kotlinmud.attributes.HasAttributes
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.data.Row
@@ -15,7 +16,6 @@ import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.DamageType
-import kotlinmud.affect.service.AffectService
 
 @Builder
 class Item(

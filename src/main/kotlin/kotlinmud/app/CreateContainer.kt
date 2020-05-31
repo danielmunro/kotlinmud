@@ -16,8 +16,8 @@ import kotlinmud.mob.MobService
 import kotlinmud.mob.provider.loadMobs
 import kotlinmud.player.loader.PlayerLoader
 import kotlinmud.player.provider.loadMobCards
+import kotlinmud.player.service.EmailService
 import kotlinmud.player.service.PlayerService
-import kotlinmud.service.EmailService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.PersistenceService
 import kotlinmud.service.RespawnService

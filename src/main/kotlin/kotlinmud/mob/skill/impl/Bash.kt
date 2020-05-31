@@ -4,9 +4,9 @@ import kotlin.random.Random
 import kotlinmud.action.ActionContextService
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
+import kotlinmud.affect.impl.StunnedAffect
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.type.AffectType
-import kotlinmud.affect.impl.StunnedAffect
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Response

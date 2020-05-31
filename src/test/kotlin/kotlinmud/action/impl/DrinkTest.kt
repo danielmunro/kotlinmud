@@ -3,8 +3,8 @@ package kotlinmud.action.impl
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
-import kotlinmud.affect.type.AffectType
 import kotlinmud.affect.impl.DrunkAffect
+import kotlinmud.affect.type.AffectType
 import kotlinmud.io.IOStatus
 import kotlinmud.item.type.Drink
 import kotlinmud.test.createTestService

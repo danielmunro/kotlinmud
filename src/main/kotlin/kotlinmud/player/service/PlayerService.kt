@@ -24,7 +24,6 @@ import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.Player
 import kotlinmud.player.model.PlayerBuilder
 import kotlinmud.random.generateOTP
-import kotlinmud.service.EmailService
 
 class PlayerService(
     private val emailService: EmailService,
