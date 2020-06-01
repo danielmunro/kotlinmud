@@ -388,7 +388,6 @@ class MobTest {
 
         // when
         val data = mapMob(mob)
-        println(data)
         val model = MobLoader(Tokenizer(data), 10)
             .load()
             .build()
@@ -398,8 +397,6 @@ class MobTest {
         pp(mob, 2, buf1, 80)
         val buf2 = StringBuilder()
         pp(model, 2, buf2, 80)
-        println(buf1)
-        println(buf2)
         assertThat(buf2.toString()).isEqualTo(buf1.toString())
     }
 }
