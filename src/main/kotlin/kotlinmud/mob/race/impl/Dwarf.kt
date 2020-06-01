@@ -8,8 +8,7 @@ import kotlinmud.mob.race.RaceType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size
 
-class Dwarf : Race {
-    override val type: RaceType = RaceType.DWARF
+data class Dwarf(override val type: RaceType = RaceType.DWARF) : Race {
     override val playable: Boolean = true
     override val immuneTo: List<DamageType> = listOf()
     override val resist: List<DamageType> = listOf(DamageType.POUND)

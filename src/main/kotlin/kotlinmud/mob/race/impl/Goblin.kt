@@ -8,8 +8,7 @@ import kotlinmud.mob.race.RaceType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size
 
-class Goblin : Race {
-    override val type: RaceType = RaceType.GOBLIN
+data class Goblin(override val type: RaceType = RaceType.GOBLIN) : Race {
     override val playable: Boolean = true
     override val immuneTo: List<DamageType> = listOf(DamageType.POISON)
     override val resist: List<DamageType> = listOf(DamageType.DISEASE)

@@ -1,9 +1,10 @@
 package kotlinmud.mob.loader
 
-import kotlin.random.Random
+import java.util.Random
+import kotlin.random.Random.Default.nextInt
+import kotlinmud.affect.loader.AffectLoader
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.attributes.loader.AttributesLoader
-import kotlinmud.attributes.model.Attributes
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.loader.Loader
 import kotlinmud.fs.loader.area.loader.intAttr
@@ -12,7 +13,9 @@ import kotlinmud.fs.loader.area.loader.strAttr
 import kotlinmud.mob.mobBuilder
 import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.race.createRaceFromString
+import kotlinmud.mob.skill.loader.SkillLoader
 import kotlinmud.mob.type.Disposition
+import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
 import kotlinmud.service.CURRENT_LOAD_SCHEMA_VERSION
@@ -35,8 +38,13 @@ class MobLoader(
         val maxItems = tokenizer.parseInt()
         val maxWeight = tokenizer.parseInt()
         val wimpy = tokenizer.parseInt()
-        val attributesLoader = AttributesLoader(tokenizer)
-        val attributes = if (loadSchemaVersion >= 7) attributesLoader.load() else Attributes()
+        val savingThrows = if (loadSchemaVersion >= 10) tokenizer.parseInt() else 0
+        val gold = if (loadSchemaVersion >= 10) tokenizer.parseInt() else 0
+        val race = createRaceFromString(if (loadSchemaVersion >= 10) tokenizer.parseString() else "human")
+        val gender = Gender.valueOf(if (loadSchemaVersion >= 10) tokenizer.parseString() else "NONE")
+        val skills = if (loadSchemaVersion >= 10) SkillLoader(tokenizer).load() else mutableMapOf()
+        val attributes = AttributesLoader(tokenizer).load()
+        val affects = if (loadSchemaVersion >= 10) AffectLoader(tokenizer).load().toMutableList() else mutableListOf()
         val props = tokenizer.parseProperties()
         val job = JobType.valueOf(strAttr(props["job"], "none").toUpperCase())
         val specialization = SpecializationType.valueOf(
@@ -47,9 +55,10 @@ class MobLoader(
         val goldMin = intAttr(props["goldMin"], 0)
         val goldMax = intAttr(props["goldMax"], 1)
         val builder = mobBuilder(id, name)
-        val affects: MutableList<AffectInstance> = mutableListOf()
-        parseAffects(tokenizer).forEach {
-            affects.add(AffectInstance(it, 0))
+        if (loadSchemaVersion < 10) {
+            parseAffects(tokenizer).forEach {
+                affects.add(AffectInstance(it, 0))
+            }
         }
         val strRoute = strAttr(props["route"])
         val route = if (strRoute != "") strRoute.split("-").map { it.toInt() } else listOf()
@@ -69,17 +78,15 @@ class MobLoader(
             .wimpy(wimpy)
             .job(job)
             .specialization(specialization)
-            .race(createRaceFromString(
-                strAttr(
-                    props["race"],
-                    "human"
-                )
-            ))
-            .gold(Random.nextInt(goldMin, goldMax))
+            .race(race)
+            .gender(gender)
+            .savingThrows(savingThrows)
+            .gold(if (isNpc) Random().nextInt(goldMax - goldMin) + goldMin else gold)
             .goldMin(goldMin)
             .goldMax(goldMax)
             .route(route)
             .isNpc(isNpc)
+            .skills(skills.toMutableMap())
             .affects(affects)
             .attributes(attributes)
     }

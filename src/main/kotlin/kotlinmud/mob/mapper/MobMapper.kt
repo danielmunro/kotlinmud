@@ -1,10 +1,12 @@
 package kotlinmud.mob.mapper
 
+import kotlinmud.affect.mapper.mapAffects
 import kotlinmud.attributes.mapper.mapAttributes
 import kotlinmud.fs.int
 import kotlinmud.fs.saver.mapper.optional
 import kotlinmud.fs.str
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.skill.mapper.mapSkills
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
 
@@ -35,7 +37,12 @@ ${int(mob.level)}
 ${int(mob.maxItems)}
 ${int(mob.maxWeight)}
 ${int(mob.wimpy)}
+${int(mob.savingThrows)}
+${int(mob.gold)}
+${str(mob.race.type.toString().toLowerCase())}
+${str(mob.gender.toString())}
+${mapSkills(mob.skills)}
 ${mapAttributes(mob.attributes)}
-""" + str((if (optional != "") optional.substring(0, optional.length - 2) else "")) + "\n" +
-            str(mob.affects.joinToString { it.affectType.value })
+${mapAffects(mob.affects)}
+""" + str((if (optional != "") optional.substring(0, optional.length - 2) else "")) + "\n"
 }

@@ -5,19 +5,29 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
+import com.tylerthrailkill.helpers.prettyprint.pp
+import java.lang.StringBuilder
 import kotlin.test.assertEquals
 import kotlinmud.affect.factory.affects
+import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.model.AttributesBuilder
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.fight.Fight
+import kotlinmud.mob.loader.MobLoader
+import kotlinmud.mob.mapper.mapMob
 import kotlinmud.mob.race.impl.Elf
 import kotlinmud.mob.race.impl.Faerie
+import kotlinmud.mob.race.impl.Felid
 import kotlinmud.mob.race.impl.Goblin
 import kotlinmud.mob.race.impl.Ogre
+import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
+import kotlinmud.mob.type.Gender
+import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
@@ -326,5 +336,70 @@ class MobTest {
         assertThat(test.countItemsFor(corpse)).isEqualTo(inventoryAmount)
         assertThat(mob.equipped).hasSize(0)
         assertThat(test.countItemsFor(mob)).isEqualTo(0)
+    }
+
+    @Test
+    fun testCanMapAndLoadMob() {
+        // setup
+        val test = createTestService()
+
+        // given
+        val mob = test.createPlayerMobBuilder()
+            .description("a mob of great refinement is here")
+            .brief("a mob of great refinement")
+            .disposition(Disposition.SITTING)
+            .gender(Gender.ANY)
+            .gold(2)
+            .goldMin(1)
+            .goldMax(3)
+            .hp(100)
+            .mana(101)
+            .mv(102)
+            .isNpc(true)
+            .race(Felid())
+            .job(JobType.SCAVENGER)
+            .specialization(SpecializationType.MAGE)
+            .id(1)
+            .level(8)
+            .savingThrows(13)
+            .wimpy(14)
+            .maxItems(21)
+            .maxWeight(22)
+            .skills(mutableMapOf(Pair(SkillType.ALCHEMY, 51)))
+            .affects(mutableListOf(AffectInstance(AffectType.BERSERK, 12)))
+            .attributes(AttributesBuilder()
+                .strength(1)
+                .intelligence(2)
+                .wisdom(3)
+                .dexterity(4)
+                .constitution(5)
+                .hit(6)
+                .dam(7)
+                .hp(8)
+                .mana(9)
+                .mv(10)
+                .acBash(11)
+                .acSlash(12)
+                .acPierce(13)
+                .acMagic(14)
+                .build()
+            )
+            .build()
+
+        // when
+        val data = mapMob(mob)
+        println(data)
+        val model = MobLoader(Tokenizer(data), 10)
+            .load()
+            .build()
+
+        // then
+        val buf1 = StringBuilder()
+        pp(mob, 2, buf1, 80)
+        val buf2 = StringBuilder()
+        pp(model, 2, buf2, 80)
+        println(buf1)
+        println(buf2)
+        assertThat(buf2.toString()).isEqualTo(buf1.toString())
     }
 }

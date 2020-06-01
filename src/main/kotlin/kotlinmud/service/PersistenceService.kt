@@ -11,7 +11,7 @@ import kotlinmud.world.World
 import org.slf4j.LoggerFactory
 
 const val CURRENT_LOAD_SCHEMA_VERSION = 9
-const val CURRENT_WRITE_SCHEMA_VERSION = 9
+const val CURRENT_WRITE_SCHEMA_VERSION = 10
 
 class PersistenceService(
     private val previousLoadSchemaVersion: Int,

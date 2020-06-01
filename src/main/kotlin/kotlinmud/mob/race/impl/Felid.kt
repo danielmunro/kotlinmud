@@ -7,8 +7,7 @@ import kotlinmud.mob.race.RaceType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size
 
-class Felid : Race {
-    override val type: RaceType = RaceType.FELID
+data class Felid(override val type: RaceType = RaceType.FELID) : Race {
     override val playable: Boolean = false
     override val immuneTo: List<DamageType> = listOf()
     override val resist: List<DamageType> = listOf(DamageType.DISEASE)

@@ -8,8 +8,7 @@ import kotlinmud.mob.race.RaceType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size
 
-class Lasher : Race {
-    override val type: RaceType = RaceType.LASHER
+data class Lasher(override val type: RaceType = RaceType.LASHER) : Race {
     override val playable: Boolean = true
     override val immuneTo: List<DamageType> = listOf()
     override val resist: List<DamageType> = listOf(DamageType.LIGHTNING, DamageType.LIGHT, DamageType.SOUND)

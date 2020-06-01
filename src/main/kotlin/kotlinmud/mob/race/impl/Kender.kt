@@ -8,8 +8,7 @@ import kotlinmud.mob.race.RaceType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size
 
-class Kender : Race {
-    override val type: RaceType = RaceType.KENDER
+data class Kender(override val type: RaceType = RaceType.KENDER) : Race {
     override val playable: Boolean = true
     override val immuneTo: List<DamageType> = listOf()
     override val resist: List<DamageType> = listOf()

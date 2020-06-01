@@ -4,6 +4,7 @@ import kotlin.system.measureTimeMillis
 import kotlinmud.fs.loader.area.model.reset.ItemMobReset
 import kotlinmud.fs.loader.area.model.reset.ItemRoomReset
 import kotlinmud.fs.loader.area.model.reset.MobReset
+import kotlinmud.helper.logger
 import kotlinmud.item.ItemService
 import kotlinmud.item.model.ItemOwner
 import kotlinmud.mob.MobService
@@ -11,16 +12,17 @@ import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobBuilder
 import kotlinmud.room.model.Room
 import kotlinmud.world.World
-import org.slf4j.LoggerFactory
 
 class RespawnService(
     private val world: World,
     private val mobService: MobService,
     private val itemService: ItemService
 ) {
-    private val logger = LoggerFactory.getLogger(RespawnService::class.java)
+    private val logger = logger(this)
+    private var mobIdAutoIncrementer = 0
 
     fun respawn() {
+        logger.debug("respawn started")
         val time = measureTimeMillis {
             respawnFromResets()
             resetDoors()

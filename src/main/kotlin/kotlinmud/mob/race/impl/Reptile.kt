@@ -8,8 +8,7 @@ import kotlinmud.mob.race.RaceType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size
 
-class Reptile : Race {
-    override val type: RaceType = RaceType.REPTILE
+data class Reptile(override val type: RaceType = RaceType.REPTILE) : Race {
     override val playable: Boolean = false
     override val immuneTo: List<DamageType> = listOf()
     override val resist: List<DamageType> = listOf(DamageType.FIRE, DamageType.SLASH)

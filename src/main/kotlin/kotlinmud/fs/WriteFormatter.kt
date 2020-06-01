@@ -7,3 +7,7 @@ fun str(value: String): String {
 fun int(value: Int): String {
     return "#$value"
 }
+
+fun end(): String {
+    return str("\nend")
+}
