@@ -5,8 +5,8 @@ import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
 import kotlinmud.io.EmptyResponse
 import kotlinmud.io.command
-import kotlinmud.mob.skill.Cost
-import kotlinmud.mob.skill.CostType
+import kotlinmud.mob.skill.model.Cost
+import kotlinmud.mob.skill.type.CostType
 
 fun createRecallAction(): Action {
     return Action(

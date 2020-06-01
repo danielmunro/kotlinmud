@@ -49,9 +49,9 @@ import kotlinmud.mob.MobService
 import kotlinmud.mob.RequiresDisposition
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.model.Mob
-import kotlinmud.mob.skill.CostType
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.createSkillList
+import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.type.Intent
 import kotlinmud.player.service.PlayerService
 import org.slf4j.LoggerFactory

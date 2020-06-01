@@ -21,7 +21,7 @@ import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
 import kotlinmud.mob.race.RaceType
-import kotlinmud.mob.skill.SkillType
+import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType

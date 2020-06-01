@@ -3,7 +3,7 @@ package kotlinmud.mob.skill.impl
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.io.IOStatus
-import kotlinmud.mob.skill.SkillType
+import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.createTestService
 import org.junit.Test
 

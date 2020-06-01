@@ -9,12 +9,12 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Response
 import kotlinmud.io.Syntax
-import kotlinmud.mob.skill.Cost
-import kotlinmud.mob.skill.CostType
-import kotlinmud.mob.skill.LearningDifficulty
 import kotlinmud.mob.skill.SkillAction
-import kotlinmud.mob.skill.SkillInvokesOn
-import kotlinmud.mob.skill.SkillType
+import kotlinmud.mob.skill.model.Cost
+import kotlinmud.mob.skill.type.CostType
+import kotlinmud.mob.skill.type.LearningDifficulty
+import kotlinmud.mob.skill.type.SkillInvokesOn
+import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.SpecializationType

@@ -8,7 +8,7 @@ import kotlinmud.io.Response
 import kotlinmud.io.Syntax
 import kotlinmud.mob.HasCosts
 import kotlinmud.mob.RequiresDisposition
-import kotlinmud.mob.skill.Cost
+import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.type.Disposition
 
 class Action(

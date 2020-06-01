@@ -6,8 +6,8 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.EmptyResponse
 import kotlinmud.io.Syntax
 import kotlinmud.io.directionToExit
-import kotlinmud.mob.skill.Cost
-import kotlinmud.mob.skill.CostType
+import kotlinmud.mob.skill.model.Cost
+import kotlinmud.mob.skill.type.CostType
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 

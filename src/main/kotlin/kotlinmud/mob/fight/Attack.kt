@@ -1,6 +1,6 @@
 package kotlinmud.mob.fight
 
-import kotlinmud.mob.skill.SkillType
+import kotlinmud.mob.skill.type.SkillType
 
 class Attack(
     val attackResult: AttackResult,

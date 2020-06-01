@@ -1,4 +1,4 @@
-package kotlinmud.mob.skill
+package kotlinmud.mob.skill.type
 
 enum class SkillType {
     BASH,

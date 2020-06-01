@@ -8,8 +8,8 @@ import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.messageToActionCreator
 import kotlinmud.io.resourceInRoom
-import kotlinmud.mob.skill.Cost
-import kotlinmud.mob.skill.CostType
+import kotlinmud.mob.skill.model.Cost
+import kotlinmud.mob.skill.type.CostType
 import kotlinmud.world.ResourceType
 
 fun createHarvestAction(): Action {

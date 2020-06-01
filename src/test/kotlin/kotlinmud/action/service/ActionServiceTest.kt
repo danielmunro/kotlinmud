@@ -8,7 +8,7 @@ import assertk.assertions.isNotNull
 import kotlin.test.Test
 import kotlinmud.io.IOStatus
 import kotlinmud.mob.fight.Fight
-import kotlinmud.mob.skill.SkillType
+import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 

@@ -6,7 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.MessageBuilder
 import kotlinmud.io.Syntax
 import kotlinmud.io.skillToPractice
-import kotlinmud.mob.skill.SkillType
+import kotlinmud.mob.skill.type.SkillType
 
 fun createPracticeAction(): Action {
     return Action(Command.PRACTICE, mustBeStanding(), skillToPractice()) {
