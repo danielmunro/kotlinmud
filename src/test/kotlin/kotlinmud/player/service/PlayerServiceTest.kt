@@ -31,7 +31,7 @@ class PlayerServiceTest {
         test.createPlayerMobBuilder().build()
 
         // when
-        val mobCard = test.findMobCardByName("foo")
+        val mobCard = test.findMobCardByName("foo12344567")
 
         // then
         assertThat(mobCard).isNull()
