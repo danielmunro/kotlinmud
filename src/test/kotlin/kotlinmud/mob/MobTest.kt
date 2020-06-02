@@ -355,7 +355,7 @@ class MobTest {
             .hp(100)
             .mana(101)
             .mv(102)
-            .isNpc(true)
+            .isNpc(false)
             .race(Felid())
             .job(JobType.SCAVENGER)
             .specialization(SpecializationType.MAGE)
