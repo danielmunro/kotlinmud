@@ -69,17 +69,6 @@ fun setAttribute(builder: AttributesBuilder, attribute: Attribute, value: Int): 
     return builder
 }
 
-class AttributeSetter(private val builder: AttributesBuilder) {
-    fun set(attribute: Attribute, value: Int): AttributeSetter {
-        setAttribute(builder, attribute, value)
-        return this
-    }
-
-    fun build(): Attributes {
-        return builder.build()
-    }
-}
-
 fun isVitals(attribute: Attribute): Boolean {
     return attribute == Attribute.HP || attribute == Attribute.MANA || attribute == Attribute.MV
 }
