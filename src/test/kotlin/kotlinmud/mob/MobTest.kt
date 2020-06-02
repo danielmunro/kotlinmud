@@ -388,7 +388,7 @@ class MobTest {
 
         // when
         val data = mapMob(mob)
-        val model = MobLoader(Tokenizer(data), 10)
+        val model = MobLoader(Tokenizer(data), 10, false)
             .load()
             .build()
 
