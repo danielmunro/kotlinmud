@@ -3,9 +3,9 @@ package kotlinmud.action.impl.room.creation
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
-import kotlinmud.io.Syntax
-import kotlinmud.io.messageToActionCreator
-import kotlinmud.io.subcommandWithFreeForm
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.factory.subcommandWithFreeForm
+import kotlinmud.io.type.Syntax
 
 fun createRoomDescriptionAction(): Action {
     return Action(

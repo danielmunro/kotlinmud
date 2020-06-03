@@ -3,8 +3,8 @@ package kotlinmud.action.impl.room.owner
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
-import kotlinmud.io.messageToActionCreator
-import kotlinmud.io.subcommand
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.factory.subcommand
 
 fun createOwnerInfoAction(): Action {
     return Action(Command.OWNER_INFO, mustBeAlert(), subcommand()) {

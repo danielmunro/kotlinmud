@@ -6,9 +6,9 @@ import kotlinmud.action.type.Command
 import kotlinmud.affect.impl.BerserkAffect
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.type.AffectType
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Response
-import kotlinmud.io.Syntax
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.model.Response
+import kotlinmud.io.type.Syntax
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType

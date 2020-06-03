@@ -8,9 +8,9 @@ import kotlinmud.affect.impl.StunnedAffect
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.model.Attributes
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Response
-import kotlinmud.io.Syntax
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.model.Response
+import kotlinmud.io.type.Syntax
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.SkillAction

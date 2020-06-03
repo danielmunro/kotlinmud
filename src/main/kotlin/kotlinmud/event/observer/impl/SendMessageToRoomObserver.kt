@@ -4,10 +4,10 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.event.observer.Observer
-import kotlinmud.io.NIOServer
+import kotlinmud.io.service.NIOServerService
 import kotlinmud.mob.service.MobService
 
-class SendMessageToRoomObserver(private val server: NIOServer, private val mobService: MobService) :
+class SendMessageToRoomObserver(private val serverService: NIOServerService, private val mobService: MobService) :
     Observer {
     override val eventType: EventType = EventType.SEND_MESSAGE_TO_ROOM
 
@@ -15,7 +15,7 @@ class SendMessageToRoomObserver(private val server: NIOServer, private val mobSe
         val messageEvent = event.subject as SendMessageToRoomEvent
         val mobs = mobService.getMobsForRoom(messageEvent.room)
         val message = messageEvent.message
-        server.getClientsFromMobs(mobs)
+        serverService.getClientsFromMobs(mobs)
             .filter { !it.mob!!.isSleeping() && !it.mob!!.isIncapacitated() }
             .forEach {
                 when (it.mob) {

@@ -2,7 +2,7 @@ package kotlinmud.action.impl
 
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
-import kotlinmud.io.messageToActionCreator
+import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.mob.type.JobType
 import kotlinmud.string.leftPad
 

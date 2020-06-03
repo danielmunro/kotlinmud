@@ -2,8 +2,8 @@ package kotlinmud.action.impl.info
 
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
-import kotlinmud.io.createResponseWithEmptyActionContext
-import kotlinmud.io.messageToActionCreator
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.weather.Weather
 
 fun createWeatherAction(): Action {

@@ -3,7 +3,7 @@ package kotlinmud.event.observer.impl
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
-import kotlinmud.io.MessageBuilder
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService

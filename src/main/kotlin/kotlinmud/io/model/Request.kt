@@ -1,4 +1,4 @@
-package kotlinmud.io
+package kotlinmud.io.model
 
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.Disposition

@@ -26,9 +26,9 @@ import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
-import kotlinmud.io.ClientService
-import kotlinmud.io.NIOServer
-import kotlinmud.item.ItemService
+import kotlinmud.io.service.ClientService
+import kotlinmud.io.service.NIOServerService
+import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.PersistenceService
@@ -40,7 +40,7 @@ import kotlinmud.world.World
 typealias Observers = List<Observer>
 
 fun createObservers(
-    server: NIOServer,
+    serverService: NIOServerService,
     mobService: MobService,
     eventService: EventService,
     respawnService: RespawnService,
@@ -56,7 +56,7 @@ fun createObservers(
     return listOf(
         // client/server observers
         ClientConnectedObserver(playerService, mobService, actionService),
-        SendMessageToRoomObserver(server, mobService),
+        SendMessageToRoomObserver(serverService, mobService),
         RemoveMobOnClientDisconnectObserver(mobService),
         LogPlayerInObserver(mobService),
 
@@ -69,18 +69,18 @@ fun createObservers(
         SaveTimeObserver(timeService, persistenceService),
 
         // game logic
-        LogTickObserver(mobService, server),
+        LogTickObserver(mobService, serverService),
         PruneDeadMobsPulseObserver(mobService),
         RespawnTickObserver(respawnService),
-        SocialDistributorObserver(server, mobService),
+        SocialDistributorObserver(serverService, mobService),
         ChangeWeatherObserver(weatherService),
         SaveVersionsObserver(persistenceService),
 
         // mobs
         WimpyObserver(mobService),
-        GrantExperienceOnKillObserver(playerService, server),
+        GrantExperienceOnKillObserver(playerService, serverService),
         TransferGoldOnKillObserver(),
-        IncreaseThirstAndHungerObserver(playerService, server),
+        IncreaseThirstAndHungerObserver(playerService, serverService),
         RegenMobsObserver(mobService),
 
         // job behaviors

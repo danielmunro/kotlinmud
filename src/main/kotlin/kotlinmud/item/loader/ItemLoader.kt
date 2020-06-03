@@ -7,7 +7,7 @@ import kotlinmud.fs.loader.area.loader.Loader
 import kotlinmud.fs.loader.area.loader.intAttr
 import kotlinmud.fs.loader.area.loader.parseAffects
 import kotlinmud.fs.loader.area.loader.strAttr
-import kotlinmud.item.itemBuilder
+import kotlinmud.item.factory.itemBuilder
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.Material

@@ -5,7 +5,7 @@ import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import kotlinmud.affect.factory.affects
 import kotlinmud.affect.type.AffectType
-import kotlinmud.io.IOStatus
+import kotlinmud.io.type.IOStatus
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 import org.junit.Test

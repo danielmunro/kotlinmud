@@ -3,9 +3,9 @@ package kotlinmud.action.impl
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeStanding
 import kotlinmud.action.type.Command
-import kotlinmud.io.EmptyResponse
-import kotlinmud.io.Syntax
-import kotlinmud.io.directionToExit
+import kotlinmud.io.factory.directionToExit
+import kotlinmud.io.model.EmptyResponse
+import kotlinmud.io.type.Syntax
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.room.model.Room

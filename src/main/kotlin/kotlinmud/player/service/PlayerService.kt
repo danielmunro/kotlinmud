@@ -10,10 +10,10 @@ import kotlinmud.event.event.PlayerLoggedInEvent
 import kotlinmud.fs.MOB_CARD_FILE
 import kotlinmud.fs.PLAYER_FILE
 import kotlinmud.helper.logger
-import kotlinmud.io.IOStatus
-import kotlinmud.io.NIOClient
-import kotlinmud.io.PreAuthRequest
-import kotlinmud.io.PreAuthResponse
+import kotlinmud.io.model.NIOClient
+import kotlinmud.io.model.PreAuthRequest
+import kotlinmud.io.model.PreAuthResponse
+import kotlinmud.io.type.IOStatus
 import kotlinmud.player.authStep.AuthStep
 import kotlinmud.player.authStep.AuthStepService
 import kotlinmud.player.authStep.impl.CompleteAuthStep

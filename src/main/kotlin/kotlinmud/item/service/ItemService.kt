@@ -1,10 +1,11 @@
-package kotlinmud.item
+package kotlinmud.item.service
 
 import kotlin.streams.toList
 import kotlinmud.affect.type.AffectType
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.model.ItemOwner
+import kotlinmud.item.type.HasInventory
 import kotlinmud.string.matches
 
 typealias ItemBuilderBuilder = () -> ItemBuilder

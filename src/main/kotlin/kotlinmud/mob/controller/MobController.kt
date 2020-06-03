@@ -2,8 +2,8 @@ package kotlinmud.mob.controller
 
 import kotlinmud.event.EventService
 import kotlinmud.event.createSendMessageToRoomEvent
-import kotlinmud.io.MessageBuilder
-import kotlinmud.item.ItemService
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.item.service.ItemService
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType

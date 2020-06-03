@@ -1,4 +1,4 @@
-package kotlinmud.io
+package kotlinmud.io.type
 
 enum class Syntax(val syntax: String) {
     COMMAND("command"),

@@ -2,7 +2,7 @@ package kotlinmud.mob.skill
 
 import kotlinmud.action.Invokable
 import kotlinmud.affect.Affect
-import kotlinmud.io.Request
+import kotlinmud.io.model.Request
 import kotlinmud.string.matches
 
 interface SkillAction : Skill, Invokable {

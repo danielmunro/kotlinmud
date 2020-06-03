@@ -34,15 +34,15 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Command
 import kotlinmud.action.type.Status
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.io.IOStatus
-import kotlinmud.io.Request
-import kotlinmud.io.Response
-import kotlinmud.io.Syntax
-import kotlinmud.io.createResponseWithEmptyActionContext
-import kotlinmud.io.messageToActionCreator
-import kotlinmud.item.HasInventory
-import kotlinmud.item.ItemService
-import kotlinmud.item.createRecipeList
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.model.Request
+import kotlinmud.io.model.Response
+import kotlinmud.io.model.createResponseWithEmptyActionContext
+import kotlinmud.io.type.IOStatus
+import kotlinmud.io.type.Syntax
+import kotlinmud.item.helper.createRecipeList
+import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.HasInventory
 import kotlinmud.math.percentRoll
 import kotlinmud.mob.HasCosts
 import kotlinmud.mob.RequiresDisposition
@@ -171,9 +171,9 @@ class ActionService(
 
     private fun dispositionCheck(request: Request, requiresDisposition: RequiresDisposition): Response? {
         return if (!requiresDisposition.dispositions.contains(request.getDisposition()))
-                createResponseWithEmptyActionContext(
-                    messageToActionCreator("you are ${request.getDisposition().value} and cannot do that.")
-                )
+            createResponseWithEmptyActionContext(
+                messageToActionCreator("you are ${request.getDisposition().value} and cannot do that.")
+            )
             else
                 null
     }
@@ -197,7 +197,11 @@ class ActionService(
     }
 
     private fun createChainToRequest(mob: Mob, action: Action): Request {
-        return Request(mob, action.chainTo.toString(), mobService.getRoomForMob(mob))
+        return Request(
+            mob,
+            action.chainTo.toString(),
+            mobService.getRoomForMob(mob)
+        )
     }
 
     private fun buildActionContextList(request: Request, invokable: Invokable): ActionContextList {

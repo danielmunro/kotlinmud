@@ -5,8 +5,8 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.event.observer.Observer
-import kotlinmud.io.NIOClient
-import kotlinmud.io.Request
+import kotlinmud.io.model.NIOClient
+import kotlinmud.io.model.Request
 import kotlinmud.mob.model.Appetite
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.model.MobCardBuilder
@@ -51,7 +51,13 @@ class ClientConnectedObserver(
         mobService.persistPlayerMobs()
         playerService.persist()
         client.mob = mob
-        actionService.run(Request(client.mob!!, "look", mobService.getStartRoom())).let {
+        actionService.run(
+            Request(
+                client.mob!!,
+                "look",
+                mobService.getStartRoom()
+            )
+        ).let {
             client.writePrompt(it.message.toActionCreator)
         }
     }

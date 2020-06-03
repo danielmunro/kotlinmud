@@ -5,9 +5,9 @@ import kotlinmud.action.ActionContextService
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
 import kotlinmud.affect.Affect
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Response
-import kotlinmud.io.Syntax
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.model.Response
+import kotlinmud.io.type.Syntax
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.SkillAction

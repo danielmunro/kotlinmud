@@ -1,8 +1,8 @@
 package kotlinmud.player.authStep.impl
 
-import kotlinmud.io.IOStatus
-import kotlinmud.io.PreAuthRequest
-import kotlinmud.io.PreAuthResponse
+import kotlinmud.io.model.PreAuthRequest
+import kotlinmud.io.model.PreAuthResponse
+import kotlinmud.io.type.IOStatus
 import kotlinmud.player.authStep.AuthStep
 import kotlinmud.player.authStep.AuthStepService
 import kotlinmud.player.authStep.AuthorizationStep
@@ -25,7 +25,11 @@ class MobSelectAuthStep(
                 mobCard = it
                 PreAuthResponse(request, IOStatus.OK, "ok")
             } else {
-                PreAuthResponse(request, IOStatus.ERROR, "that name is not available")
+                PreAuthResponse(
+                    request,
+                    IOStatus.ERROR,
+                    "that name is not available"
+                )
             }
         } ?: run {
             newMob = true

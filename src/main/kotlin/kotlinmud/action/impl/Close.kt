@@ -3,10 +3,10 @@ package kotlinmud.action.impl
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Syntax
-import kotlinmud.io.doorInRoom
-import kotlinmud.io.messageToActionCreator
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.factory.doorInRoom
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.type.Syntax
 import kotlinmud.room.model.Door
 import kotlinmud.room.type.DoorDisposition
 

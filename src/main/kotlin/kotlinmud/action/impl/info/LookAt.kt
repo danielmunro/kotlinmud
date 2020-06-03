@@ -4,10 +4,10 @@ import kotlinmud.Noun
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAwake
 import kotlinmud.action.type.Command
-import kotlinmud.io.Syntax
-import kotlinmud.io.availableNoun
-import kotlinmud.io.createResponseWithEmptyActionContext
-import kotlinmud.io.messageToActionCreator
+import kotlinmud.io.factory.availableNoun
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.model.createResponseWithEmptyActionContext
+import kotlinmud.io.type.Syntax
 
 fun createLookAtAction(): Action {
     return Action(Command.LOOK, mustBeAwake(), availableNoun()) {

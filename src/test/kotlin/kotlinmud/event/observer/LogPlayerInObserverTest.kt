@@ -8,7 +8,7 @@ import io.mockk.mockk
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.PlayerLoggedInEvent
-import kotlinmud.io.NIOClient
+import kotlinmud.io.model.NIOClient
 import kotlinmud.test.createTestService
 import org.junit.Test
 

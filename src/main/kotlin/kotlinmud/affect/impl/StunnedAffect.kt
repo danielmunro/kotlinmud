@@ -5,7 +5,7 @@ import kotlinmud.affect.Affect
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.model.AttributesBuilder
-import kotlinmud.io.Message
+import kotlinmud.io.model.Message
 import kotlinmud.mob.model.Mob
 
 class StunnedAffect : Affect {

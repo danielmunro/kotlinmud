@@ -4,8 +4,8 @@ import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlive
 import kotlinmud.action.type.Command
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.io.createResponseWithEmptyActionContext
-import kotlinmud.io.messageToActionCreator
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.model.createResponseWithEmptyActionContext
 
 fun createScoreAction(): Action {
     return Action(Command.SCORE, mustBeAlive()) { svc ->
@@ -26,15 +26,20 @@ fun createScoreAction(): Action {
                         "You are carrying ${items.size}/${mob.maxItems} items, ${items.map { it.weight }
                             .fold(0.0) { acc: Double, value: Double -> acc + value }}/${mob.maxWeight} weight capacity.\n" +
                         "Str: ${mob.base(Attribute.STR)}/${mob.calc(
-                            Attribute.STR)} " +
+                            Attribute.STR
+                        )} " +
                         "Int: ${mob.base(Attribute.INT)}/${mob.calc(
-                            Attribute.INT)} " +
+                            Attribute.INT
+                        )} " +
                         "Wis: ${mob.base(Attribute.WIS)}/${mob.calc(
-                            Attribute.WIS)} " +
+                            Attribute.WIS
+                        )} " +
                         "Dex: ${mob.base(Attribute.DEX)}/${mob.calc(
-                            Attribute.DEX)} " +
+                            Attribute.DEX
+                        )} " +
                         "Con: ${mob.base(Attribute.CON)}/${mob.calc(
-                            Attribute.CON)}\n" +
+                            Attribute.CON
+                        )}\n" +
                         "You have ${mobCard.experience} exp, ${mob.gold} gold, 0 silver.\n" +
                         "You need 0 exp to level.\n" +
                         "Wimpy set to ${mob.wimpy}.\n" +

@@ -1,4 +1,6 @@
-package kotlinmud.io
+package kotlinmud.io.factory
+
+import kotlinmud.io.type.Syntax
 
 fun command(): List<Syntax> {
     return listOf(Syntax.COMMAND)

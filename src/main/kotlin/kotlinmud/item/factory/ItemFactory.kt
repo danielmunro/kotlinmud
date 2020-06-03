@@ -1,4 +1,4 @@
-package kotlinmud.item
+package kotlinmud.item.factory
 
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.item.model.ItemBuilder

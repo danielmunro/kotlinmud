@@ -1,6 +1,6 @@
 package kotlinmud.player.authStep
 
-import kotlinmud.io.NIOClient
+import kotlinmud.io.model.NIOClient
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.Player
 import kotlinmud.player.service.PlayerService

@@ -9,9 +9,9 @@ import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
 import kotlinmud.fs.loadVersionState
 import kotlinmud.fs.saver.WorldSaver
-import kotlinmud.io.ClientService
-import kotlinmud.io.NIOServer
-import kotlinmud.item.ItemService
+import kotlinmud.io.service.ClientService
+import kotlinmud.io.service.NIOServerService
+import kotlinmud.item.service.ItemService
 import kotlinmud.mob.provider.loadMobs
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.loader.PlayerLoader
@@ -33,9 +33,9 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
     return Kodein {
         bind<ServerSocket>() with singleton { ServerSocket(port) }
         bind<ClientService>() with singleton { ClientService() }
-        bind<NIOServer>() with singleton {
-            NIOServer(
-                instance< ClientService>(),
+        bind<NIOServerService>() with singleton {
+            NIOServerService(
+                instance<ClientService>(),
                 instance<EventService>(),
                 port
             )
@@ -87,7 +87,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                     instance<ItemService>(),
                     instance<EventService>(),
                     instance<WeatherService>(),
-                    instance<NIOServer>()
+                    instance<NIOServerService>()
                 ),
                 createActionsList(instance<WorldSaver>())
             )
@@ -110,7 +110,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         }
         bind<Observers>() with singleton {
             createObservers(
-                instance<NIOServer>(),
+                instance<NIOServerService>(),
                 instance<MobService>(),
                 instance<EventService>(),
                 instance<RespawnService>(),

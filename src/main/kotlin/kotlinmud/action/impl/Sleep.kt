@@ -2,8 +2,8 @@ package kotlinmud.action.impl
 
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.optionalFurniture
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.factory.optionalFurniture
 import kotlinmud.mob.type.Disposition
 
 fun createSleepAction(): Action {

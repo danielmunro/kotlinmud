@@ -11,8 +11,8 @@ import kotlinmud.attributes.HasAttributes
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.data.Row
-import kotlinmud.item.HasInventory
 import kotlinmud.item.model.Item
+import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
 import kotlinmud.math.dN
 import kotlinmud.math.normalizeInt

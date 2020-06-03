@@ -1,8 +1,8 @@
 package kotlinmud.player.authStep.impl
 
-import kotlinmud.io.IOStatus
-import kotlinmud.io.PreAuthRequest
-import kotlinmud.io.PreAuthResponse
+import kotlinmud.io.model.PreAuthRequest
+import kotlinmud.io.model.PreAuthResponse
+import kotlinmud.io.type.IOStatus
 import kotlinmud.player.authStep.AuthStep
 import kotlinmud.player.authStep.AuthStepService
 import kotlinmud.player.authStep.AuthorizationStep

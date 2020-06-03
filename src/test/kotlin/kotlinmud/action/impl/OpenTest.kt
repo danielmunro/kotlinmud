@@ -2,7 +2,7 @@ package kotlinmud.action.impl
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.io.IOStatus
+import kotlinmud.io.type.IOStatus
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.createTestService
 import org.junit.Test

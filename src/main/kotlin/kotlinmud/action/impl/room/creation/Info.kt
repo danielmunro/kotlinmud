@@ -3,8 +3,8 @@ package kotlinmud.action.impl.room.creation
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
-import kotlinmud.io.messageToActionCreator
-import kotlinmud.io.subcommand
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.factory.subcommand
 
 fun createRoomInfoAction(): Action {
     return Action(Command.ROOM_INFO, mustBeAlert(), subcommand()) {

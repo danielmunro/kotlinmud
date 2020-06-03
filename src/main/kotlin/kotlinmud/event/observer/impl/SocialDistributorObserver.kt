@@ -4,14 +4,14 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.SocialEvent
 import kotlinmud.event.observer.Observer
-import kotlinmud.io.Message
-import kotlinmud.io.NIOServer
+import kotlinmud.io.model.Message
+import kotlinmud.io.service.NIOServerService
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.social.SocialChannel
 import kotlinmud.room.model.Room
 
-class SocialDistributorObserver(private val server: NIOServer, private val mobService: MobService) :
+class SocialDistributorObserver(private val serverService: NIOServerService, private val mobService: MobService) :
     Observer {
     override val eventType: EventType = EventType.SOCIAL
 
@@ -27,7 +27,7 @@ class SocialDistributorObserver(private val server: NIOServer, private val mobSe
     }
 
     private fun yellToArea(mob: Mob, room: Room, message: Message) {
-        server.getClients().forEach {
+        serverService.getClients().forEach {
             val clientRoom = mobService.getRoomForMob(it.mob!!)
             if (it.mob != mob && clientRoom.area == room.area) {
                 it.write(message.toObservers)
@@ -36,7 +36,7 @@ class SocialDistributorObserver(private val server: NIOServer, private val mobSe
     }
 
     private fun gossipToClients(mob: Mob, message: Message) {
-        server.getClients().forEach {
+        serverService.getClients().forEach {
             if (it.mob != mob) {
                 it.write(message.toObservers)
             }
@@ -44,7 +44,7 @@ class SocialDistributorObserver(private val server: NIOServer, private val mobSe
     }
 
     private fun tellMob(target: Mob, message: Message) {
-        val clients = server.getClientsFromMobs(listOf(target))
+        val clients = serverService.getClientsFromMobs(listOf(target))
         if (clients.isNotEmpty()) {
             clients[0].write(message.toTarget)
         }
@@ -52,7 +52,7 @@ class SocialDistributorObserver(private val server: NIOServer, private val mobSe
 
     private fun sayToRoom(mob: Mob, room: Room, message: Message) {
         val mobs = mobService.getMobsForRoom(room)
-        server.getClientsFromMobs(mobs).forEach {
+        serverService.getClientsFromMobs(mobs).forEach {
             if (it.mob != mob) {
                 it.write(message.toObservers)
             }

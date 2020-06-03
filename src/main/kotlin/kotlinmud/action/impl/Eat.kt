@@ -3,10 +3,10 @@ package kotlinmud.action.impl
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAwake
 import kotlinmud.action.type.Command
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Syntax
-import kotlinmud.io.foodInInventory
-import kotlinmud.io.messageToActionCreator
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.factory.foodInInventory
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.type.Syntax
 import kotlinmud.item.model.Item
 
 fun createEatAction(): Action {

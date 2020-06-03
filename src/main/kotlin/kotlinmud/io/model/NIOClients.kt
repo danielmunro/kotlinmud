@@ -1,3 +1,3 @@
-package kotlinmud.io
+package kotlinmud.io.model
 
 typealias NIOClients = MutableList<NIOClient>

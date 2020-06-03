@@ -3,8 +3,8 @@ package kotlinmud.action.impl
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
-import kotlinmud.io.EmptyResponse
-import kotlinmud.io.command
+import kotlinmud.io.factory.command
+import kotlinmud.io.model.EmptyResponse
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 

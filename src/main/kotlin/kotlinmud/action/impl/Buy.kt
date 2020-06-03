@@ -3,9 +3,9 @@ package kotlinmud.action.impl
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Syntax
-import kotlinmud.io.itemFromMerchant
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.factory.itemFromMerchant
+import kotlinmud.io.type.Syntax
 import kotlinmud.item.model.Item
 import kotlinmud.mob.type.JobType
 

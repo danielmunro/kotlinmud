@@ -1,4 +1,4 @@
-package kotlinmud.io
+package kotlinmud.io.service
 
 import java.io.IOException
 import java.net.InetSocketAddress
@@ -12,13 +12,15 @@ import kotlinmud.event.EventService
 import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.createClientDisconnectedEvent
 import kotlinmud.helper.logger
+import kotlinmud.io.model.NIOClient
+import kotlinmud.io.model.NIOClients
 import kotlinmud.mob.model.Mob
 import okhttp3.internal.closeQuietly
 
 const val SELECT_TIMEOUT_MS: Long = 1
 const val READ_BUFFER_SIZE_IN_BYTES = 1024
 
-class NIOServer(
+class NIOServerService(
     private val clientService: ClientService,
     private val eventService: EventService,
     val port: Int = 0

@@ -1,4 +1,4 @@
-package kotlinmud.io
+package kotlinmud.io.model
 
 import java.nio.ByteBuffer
 import java.nio.channels.ClosedChannelException

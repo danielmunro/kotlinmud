@@ -3,7 +3,7 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.Noun
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.io.Syntax
+import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
 import kotlinmud.string.matches
 

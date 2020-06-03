@@ -5,8 +5,8 @@ import kotlinmud.fs.loader.area.model.reset.ItemMobReset
 import kotlinmud.fs.loader.area.model.reset.ItemRoomReset
 import kotlinmud.fs.loader.area.model.reset.MobReset
 import kotlinmud.helper.logger
-import kotlinmud.item.ItemService
 import kotlinmud.item.model.ItemOwner
+import kotlinmud.item.service.ItemService
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.service.MobService

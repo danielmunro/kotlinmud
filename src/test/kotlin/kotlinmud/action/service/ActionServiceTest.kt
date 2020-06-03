@@ -6,7 +6,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotNull
 import kotlin.test.Test
-import kotlinmud.io.IOStatus
+import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.createTestService

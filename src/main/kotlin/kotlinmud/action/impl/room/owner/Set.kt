@@ -3,9 +3,9 @@ package kotlinmud.action.impl.room.owner
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Syntax
-import kotlinmud.io.subcommandPlayerMob
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.factory.subcommandPlayerMob
+import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
 
 fun createOwnerSetAction(): Action {

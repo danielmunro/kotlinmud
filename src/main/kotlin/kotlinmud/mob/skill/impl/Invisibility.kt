@@ -5,8 +5,8 @@ import kotlinmud.action.ActionContextService
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
 import kotlinmud.affect.impl.InvisibilityAffect
-import kotlinmud.io.Response
-import kotlinmud.io.Syntax
+import kotlinmud.io.model.Response
+import kotlinmud.io.type.Syntax
 import kotlinmud.mob.skill.SpellAction
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType

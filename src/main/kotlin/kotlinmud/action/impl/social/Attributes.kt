@@ -3,8 +3,8 @@ package kotlinmud.action.impl.social
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.createResponseWithEmptyActionContext
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.model.createResponseWithEmptyActionContext
 
 fun createAttributesAction(): Action {
     return Action(Command.ATTRIBUTES) {

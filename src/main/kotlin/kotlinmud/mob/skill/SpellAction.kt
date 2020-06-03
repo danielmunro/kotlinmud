@@ -1,6 +1,6 @@
 package kotlinmud.mob.skill
 
-import kotlinmud.io.Request
+import kotlinmud.io.model.Request
 
 interface SpellAction : SkillAction {
     override fun matchesRequest(request: Request): Boolean {

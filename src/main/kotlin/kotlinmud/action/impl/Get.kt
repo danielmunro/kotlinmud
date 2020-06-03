@@ -3,9 +3,9 @@ package kotlinmud.action.impl
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAwake
 import kotlinmud.action.type.Command
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Syntax
-import kotlinmud.io.itemInRoom
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.factory.itemInRoom
+import kotlinmud.io.type.Syntax
 import kotlinmud.item.model.Item
 
 fun createGetAction(): Action {

@@ -1,7 +1,7 @@
 package kotlinmud.action.model
 
 import kotlinmud.action.type.Status
-import kotlinmud.io.Syntax
+import kotlinmud.io.type.Syntax
 
 data class ActionContextList(private val contexts: MutableList<Context<Any>>) {
     fun <T> getResultBySyntax(syntax: Syntax): T {

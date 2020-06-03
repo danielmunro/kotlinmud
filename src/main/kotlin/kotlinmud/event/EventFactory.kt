@@ -2,8 +2,8 @@ package kotlinmud.event
 
 import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
-import kotlinmud.io.Message
-import kotlinmud.io.NIOClient
+import kotlinmud.io.model.Message
+import kotlinmud.io.model.NIOClient
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.model.Room
 

@@ -1,7 +1,6 @@
-package kotlinmud.item
+package kotlinmud.item.type
 
 import kotlinmud.item.model.Item
-import kotlinmud.item.type.ItemType
 
 interface Recipe {
     val name: String

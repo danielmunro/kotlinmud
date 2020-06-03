@@ -6,12 +6,12 @@ import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.DayEvent
-import kotlinmud.io.NIOClient
-import kotlinmud.io.NIOServer
-import kotlinmud.io.PreAuthRequest
-import kotlinmud.io.Request
-import kotlinmud.io.Response
-import kotlinmud.io.Syntax
+import kotlinmud.io.model.NIOClient
+import kotlinmud.io.model.PreAuthRequest
+import kotlinmud.io.model.Request
+import kotlinmud.io.model.Response
+import kotlinmud.io.service.NIOServerService
+import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
@@ -22,15 +22,15 @@ class App(
     private val eventService: EventService,
     private val mobService: MobService,
     private val timeService: TimeService,
-    private val server: NIOServer,
+    private val serverService: NIOServerService,
     private val actionService: ActionService,
     private val playerService: PlayerService
 ) {
     private val logger = LoggerFactory.getLogger(App::class.java)
 
     fun start() {
-        logger.info("starting app on port ${server.port}")
-        server.configure()
+        logger.info("starting app on port ${serverService.port}")
+        serverService.configure()
         eventService.publish(Event(EventType.DAY, DayEvent()))
         mainLoop()
     }
@@ -38,15 +38,15 @@ class App(
     private fun mainLoop() {
         logger.info("starting main loop")
         while (true) {
-            server.readIntoBuffers()
+            serverService.readIntoBuffers()
             processClientBuffers()
-            server.removeDisconnectedClients()
+            serverService.removeDisconnectedClients()
             timeService.loop()
         }
     }
 
     private fun processClientBuffers() {
-        server.getClientsWithBuffers().forEach {
+        serverService.getClientsWithBuffers().forEach {
             processRequest(it)
         }
     }
@@ -61,7 +61,8 @@ class App(
             playerService.handlePreAuthRequest(PreAuthRequest(client, input))
             return
         }
-        val request = Request(client.mob!!, input, mobService.getRoomForMob(client.mob!!))
+        val request =
+            Request(client.mob!!, input, mobService.getRoomForMob(client.mob!!))
         val response = actionService.run(request)
         eventService.publishRoomMessage(
             createSendMessageToRoomEvent(

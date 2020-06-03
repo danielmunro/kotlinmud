@@ -11,12 +11,12 @@ import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.fs.PLAYER_MOBS_FILE
 import kotlinmud.helper.logger
-import kotlinmud.io.Message
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.messageToActionCreator
-import kotlinmud.item.ItemService
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.model.Message
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemOwner
+import kotlinmud.item.service.ItemService
 import kotlinmud.math.normalizeDouble
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult

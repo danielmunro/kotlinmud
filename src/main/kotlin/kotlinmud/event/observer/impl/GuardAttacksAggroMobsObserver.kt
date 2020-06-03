@@ -4,7 +4,7 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.observer.Observer
-import kotlinmud.io.MessageBuilder
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType

@@ -7,18 +7,18 @@ import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.event.SocialEvent
-import kotlinmud.io.IOStatus
-import kotlinmud.io.Message
-import kotlinmud.io.NIOClients
-import kotlinmud.io.NIOServer
-import kotlinmud.io.Request
-import kotlinmud.io.Response
-import kotlinmud.io.Syntax
-import kotlinmud.item.HasInventory
-import kotlinmud.item.ItemService
-import kotlinmud.item.Recipe
-import kotlinmud.item.createRecipeList
+import kotlinmud.io.model.Message
+import kotlinmud.io.model.NIOClients
+import kotlinmud.io.model.Request
+import kotlinmud.io.model.Response
+import kotlinmud.io.service.NIOServerService
+import kotlinmud.io.type.IOStatus
+import kotlinmud.io.type.Syntax
+import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.model.Item
+import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.HasInventory
+import kotlinmud.item.type.Recipe
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
@@ -42,10 +42,12 @@ class ActionContextService(
     private val eventService: EventService,
     private val weatherService: WeatherService,
     private val actionContextList: ActionContextList,
-    private val server: NIOServer,
+    private val serverService: NIOServerService,
     private val request: Request
 ) {
-    private val craftingService = CraftingService(itemService, createRecipeList())
+    private val craftingService = CraftingService(itemService,
+        createRecipeList()
+    )
 
     fun craft(recipe: Recipe): List<Item> {
         return craftingService.craft(recipe, request.mob)
@@ -135,7 +137,7 @@ class ActionContextService(
     }
 
     fun getClients(): NIOClients {
-        return server.getClients()
+        return serverService.getClients()
     }
 
     fun getItemsFor(hasInventory: HasInventory): List<Item> {

@@ -2,9 +2,9 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.io.Syntax
-import kotlinmud.item.HasInventory
-import kotlinmud.item.ItemService
+import kotlinmud.io.type.Syntax
+import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.HasInventory
 import kotlinmud.string.matches
 
 class ItemInAvailableItemInventoryContextBuilder(

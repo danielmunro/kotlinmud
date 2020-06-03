@@ -4,7 +4,7 @@ import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.data.Row
-import kotlinmud.item.HasInventory
+import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel

@@ -4,11 +4,11 @@ import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeStanding
 import kotlinmud.action.type.Command
 import kotlinmud.exception.CraftException
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Syntax
-import kotlinmud.io.messageToActionCreator
-import kotlinmud.io.recipe
-import kotlinmud.item.Recipe
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.factory.recipe
+import kotlinmud.io.type.Syntax
+import kotlinmud.item.type.Recipe
 
 fun createCraftAction(): Action {
     return Action(Command.CRAFT, mustBeStanding(), recipe()) { svc ->

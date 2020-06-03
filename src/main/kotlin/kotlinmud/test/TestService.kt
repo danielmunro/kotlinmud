@@ -5,16 +5,16 @@ import kotlinmud.action.ActionService
 import kotlinmud.attributes.model.AttributesBuilder
 import kotlinmud.event.Event
 import kotlinmud.event.EventService
-import kotlinmud.io.ClientService
-import kotlinmud.io.IOStatus
-import kotlinmud.io.NIOClient
-import kotlinmud.io.Request
-import kotlinmud.io.Response
-import kotlinmud.item.HasInventory
-import kotlinmud.item.ItemService
+import kotlinmud.io.model.NIOClient
+import kotlinmud.io.model.Request
+import kotlinmud.io.model.Response
+import kotlinmud.io.service.ClientService
+import kotlinmud.io.type.IOStatus
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.model.ItemOwner
+import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
 import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.fight.Fight
@@ -186,7 +186,13 @@ class TestService(
     }
 
     fun runAction(mob: Mob, input: String): Response {
-        return actionService.run(Request(mob, input, mobService.getRoomForMob(mob)))
+        return actionService.run(
+            Request(
+                mob,
+                input,
+                mobService.getRoomForMob(mob)
+            )
+        )
     }
 
     fun runActionForIOStatus(mob: Mob, input: String, status: IOStatus): Response {

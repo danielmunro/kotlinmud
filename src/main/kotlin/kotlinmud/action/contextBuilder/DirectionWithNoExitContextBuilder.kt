@@ -2,7 +2,7 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.io.Syntax
+import kotlinmud.io.type.Syntax
 import kotlinmud.room.matchDirectionString
 import kotlinmud.room.model.Room
 

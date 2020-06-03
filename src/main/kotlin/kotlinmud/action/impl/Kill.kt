@@ -3,9 +3,9 @@ package kotlinmud.action.impl
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeStanding
 import kotlinmud.action.type.Command
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Syntax
-import kotlinmud.io.mobInRoom
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.factory.mobInRoom
+import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
 
 fun createKillAction(): Action {

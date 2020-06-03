@@ -9,9 +9,9 @@ import kotlinmud.affect.service.AffectService
 import kotlinmud.attributes.HasAttributes
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.data.Row
-import kotlinmud.item.HasInventory
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.Food
+import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position

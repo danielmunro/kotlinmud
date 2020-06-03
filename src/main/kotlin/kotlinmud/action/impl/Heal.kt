@@ -3,9 +3,9 @@ package kotlinmud.action.impl
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeStanding
 import kotlinmud.action.type.Command
-import kotlinmud.io.Syntax
-import kotlinmud.io.messageToActionCreator
-import kotlinmud.io.spellFromHealer
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.factory.spellFromHealer
+import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
 
 fun createHealAction(): Action {

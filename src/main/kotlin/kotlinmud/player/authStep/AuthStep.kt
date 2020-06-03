@@ -1,7 +1,7 @@
 package kotlinmud.player.authStep
 
-import kotlinmud.io.PreAuthRequest
-import kotlinmud.io.PreAuthResponse
+import kotlinmud.io.model.PreAuthRequest
+import kotlinmud.io.model.PreAuthResponse
 
 interface AuthStep {
     val authorizationStep: AuthorizationStep

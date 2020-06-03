@@ -3,10 +3,10 @@ package kotlinmud.action.impl.social
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlive
 import kotlinmud.action.type.Command
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Syntax
-import kotlinmud.io.messageToActionCreator
-import kotlinmud.io.playerFreeForm
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.factory.playerFreeForm
+import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
 import kotlinmud.player.social.Social
 import kotlinmud.player.social.SocialChannel

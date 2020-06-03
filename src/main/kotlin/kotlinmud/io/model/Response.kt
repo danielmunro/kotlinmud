@@ -1,6 +1,7 @@
-package kotlinmud.io
+package kotlinmud.io.model
 
 import kotlinmud.action.model.ActionContextList
+import kotlinmud.io.type.IOStatus
 
 open class Response(
     val status: IOStatus,

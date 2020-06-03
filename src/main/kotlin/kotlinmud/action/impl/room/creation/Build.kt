@@ -3,9 +3,9 @@ package kotlinmud.action.impl.room.creation
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAlert
 import kotlinmud.action.type.Command
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.Syntax
-import kotlinmud.io.subcommandDirectionNoExit
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.factory.subcommandDirectionNoExit
+import kotlinmud.io.type.Syntax
 import kotlinmud.room.type.Direction
 
 fun createRoomBuildAction(): Action {

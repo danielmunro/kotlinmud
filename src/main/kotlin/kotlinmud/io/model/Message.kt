@@ -1,4 +1,4 @@
-package kotlinmud.io
+package kotlinmud.io.model
 
 import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue

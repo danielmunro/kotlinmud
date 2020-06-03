@@ -1,4 +1,6 @@
-package kotlinmud.io
+package kotlinmud.io.service
+
+import kotlinmud.io.model.NIOClient
 
 class ClientService {
     private val clients: MutableList<NIOClient> = mutableListOf()

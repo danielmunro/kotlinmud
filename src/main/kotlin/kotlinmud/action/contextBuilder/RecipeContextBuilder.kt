@@ -2,8 +2,8 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.io.Syntax
-import kotlinmud.item.Recipe
+import kotlinmud.io.type.Syntax
+import kotlinmud.item.type.Recipe
 import kotlinmud.string.matches
 
 class RecipeContextBuilder(private val recipeList: List<Recipe>) : ContextBuilder {

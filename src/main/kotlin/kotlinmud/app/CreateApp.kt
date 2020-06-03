@@ -3,7 +3,7 @@ package kotlinmud.app
 import kotlinmud.action.ActionService
 import kotlinmud.event.EventService
 import kotlinmud.event.observer.Observers
-import kotlinmud.io.NIOServer
+import kotlinmud.io.service.NIOServerService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.RespawnService
@@ -14,7 +14,7 @@ fun createApp(port: Int): App {
     val container = createContainer(port)
     val mobService by container.instance<MobService>()
     val eventService by container.instance<EventService>()
-    val server by container.instance<NIOServer>()
+    val server by container.instance<NIOServerService>()
     val respawnService by container.instance<RespawnService>()
     val timeService by container.instance<TimeService>()
     val observers by container.instance<Observers>()

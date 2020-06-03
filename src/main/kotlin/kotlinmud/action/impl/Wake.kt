@@ -2,7 +2,7 @@ package kotlinmud.action.impl
 
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
-import kotlinmud.io.MessageBuilder
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.type.Disposition
 
 fun createWakeAction(): Action {

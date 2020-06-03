@@ -3,8 +3,8 @@ package kotlinmud.action.impl
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeFighting
 import kotlinmud.action.type.Command
-import kotlinmud.io.MessageBuilder
-import kotlinmud.io.command
+import kotlinmud.io.model.MessageBuilder
+import kotlinmud.io.factory.command
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 

@@ -1,6 +1,6 @@
 package kotlinmud.event.event
 
-import kotlinmud.io.Message
+import kotlinmud.io.model.Message
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.model.Room
 
