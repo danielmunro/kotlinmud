@@ -126,6 +126,10 @@ class TestService(
         return mob
     }
 
+    fun addBuiltPlayerMob(mob: Mob) {
+        mobService.addPlayerMob(mob)
+    }
+
     fun withMob(builder: (MobBuilder) -> MobBuilder): Mob {
         return buildMob(builder(fixtureService.createMobBuilder()))
     }

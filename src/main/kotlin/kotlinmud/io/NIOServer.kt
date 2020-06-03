@@ -13,9 +13,7 @@ import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.createClientDisconnectedEvent
 import kotlinmud.helper.logger
 import kotlinmud.mob.model.Mob
-import kotlinmud.player.model.MobCard
 import okhttp3.internal.closeQuietly
-import org.slf4j.LoggerFactory
 
 const val SELECT_TIMEOUT_MS: Long = 1
 const val READ_BUFFER_SIZE_IN_BYTES = 1024

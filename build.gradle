@@ -103,6 +103,8 @@ dependencies {
     testImplementation 'com.willowtreeapps.assertk:assertk-jvm:0.21'
 
     implementation "com.tylerthrailkill.helpers:pretty-print:2.0.2"
+
+    implementation "io.mockk:mockk:1.10.0"
 }
 
 application {
