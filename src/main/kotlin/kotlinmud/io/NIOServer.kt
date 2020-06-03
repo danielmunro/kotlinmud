@@ -11,6 +11,7 @@ import java.util.stream.Collectors
 import kotlinmud.event.EventService
 import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.createClientDisconnectedEvent
+import kotlinmud.helper.logger
 import kotlinmud.mob.model.Mob
 import kotlinmud.player.model.MobCard
 import okhttp3.internal.closeQuietly
@@ -33,7 +34,7 @@ class NIOServer(
     private val selector: Selector = Selector.open()
     private val clients: NIOClients = mutableListOf()
     private val socket = ServerSocketChannel.open()
-    private val logger = LoggerFactory.getLogger(NIOServer::class.java)
+    private val logger = logger(this)
 
     fun configure() {
         val serverSocket = socket.socket()
@@ -81,10 +82,6 @@ class NIOServer(
 
     fun getClientForMob(mob: Mob): NIOClient? {
         return clients.find { it.mob == mob }
-    }
-
-    fun getClientForMobCard(mobCard: MobCard): NIOClient? {
-        return clients.find { it.mob!!.name == mobCard.mobName }
     }
 
     fun getClientsFromMobs(mobs: List<Mob>): NIOClients {
