@@ -5,7 +5,7 @@ import kotlinmud.event.EventType
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOServer
-import kotlinmud.mob.MobService
+import kotlinmud.mob.service.MobService
 
 class SendMessageToRoomObserver(private val server: NIOServer, private val mobService: MobService) :
     Observer {

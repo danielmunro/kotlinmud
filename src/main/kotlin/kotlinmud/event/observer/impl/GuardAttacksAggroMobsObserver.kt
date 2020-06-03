@@ -5,8 +5,8 @@ import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.MessageBuilder
-import kotlinmud.mob.MobService
 import kotlinmud.mob.fight.Fight
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 
 class GuardAttacksAggroMobsObserver(private val mobService: MobService) : Observer {

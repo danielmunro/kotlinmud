@@ -1,7 +1,6 @@
 package kotlinmud.mob.loader
 
 import java.util.Random
-import kotlin.random.Random.Default.nextInt
 import kotlinmud.affect.loader.AffectLoader
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.attributes.loader.AttributesLoader
@@ -10,7 +9,7 @@ import kotlinmud.fs.loader.area.loader.Loader
 import kotlinmud.fs.loader.area.loader.intAttr
 import kotlinmud.fs.loader.area.loader.parseAffects
 import kotlinmud.fs.loader.area.loader.strAttr
-import kotlinmud.mob.mobBuilder
+import kotlinmud.mob.factory.mobBuilder
 import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.race.createRaceFromString
 import kotlinmud.mob.skill.loader.SkillLoader

@@ -29,7 +29,7 @@ import kotlinmud.event.observer.impl.WimpyObserver
 import kotlinmud.io.ClientService
 import kotlinmud.io.NIOServer
 import kotlinmud.item.ItemService
-import kotlinmud.mob.MobService
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.PersistenceService
 import kotlinmud.service.RespawnService

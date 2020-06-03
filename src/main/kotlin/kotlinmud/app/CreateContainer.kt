@@ -12,8 +12,8 @@ import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.ClientService
 import kotlinmud.io.NIOServer
 import kotlinmud.item.ItemService
-import kotlinmud.mob.MobService
 import kotlinmud.mob.provider.loadMobs
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.loader.PlayerLoader
 import kotlinmud.player.provider.loadMobCards
 import kotlinmud.player.service.EmailService

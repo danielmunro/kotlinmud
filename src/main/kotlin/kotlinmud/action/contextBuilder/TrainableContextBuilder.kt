@@ -5,8 +5,8 @@ import kotlinmud.action.type.Status
 import kotlinmud.attributes.model.isVitals
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.Syntax
-import kotlinmud.mob.MobService
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.player.service.PlayerService
 

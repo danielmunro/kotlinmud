@@ -16,8 +16,7 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.type.Position
-import kotlinmud.mob.MobController
-import kotlinmud.mob.MobService
+import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.model.Appetite
@@ -25,6 +24,7 @@ import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.MobCardBuilder

@@ -6,7 +6,7 @@ import kotlinmud.app.createContainer
 import kotlinmud.event.EventService
 import kotlinmud.event.observer.Observers
 import kotlinmud.item.ItemService
-import kotlinmud.mob.MobService
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.RespawnService

@@ -5,7 +5,7 @@ import kotlinmud.event.EventService
 import kotlinmud.io.NIOServer
 import kotlinmud.io.Request
 import kotlinmud.item.ItemService
-import kotlinmud.mob.MobService
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.WeatherService
 

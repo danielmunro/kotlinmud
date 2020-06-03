@@ -1,4 +1,4 @@
-package kotlinmud.mob
+package kotlinmud.mob.factory
 
 import kotlinmud.attributes.model.AttributesBuilder
 import kotlinmud.attributes.model.startingHp

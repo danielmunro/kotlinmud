@@ -19,9 +19,9 @@ import kotlinmud.item.ItemService
 import kotlinmud.item.Recipe
 import kotlinmud.item.createRecipeList
 import kotlinmud.item.model.Item
-import kotlinmud.mob.MobService
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.service.PlayerService
 import kotlinmud.player.social.Social

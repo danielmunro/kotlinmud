@@ -3,8 +3,8 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.Syntax
-import kotlinmud.mob.MobService
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.service.MobService
 import kotlinmud.room.model.Room
 import kotlinmud.string.matches
 

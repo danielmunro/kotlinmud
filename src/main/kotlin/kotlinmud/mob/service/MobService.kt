@@ -1,4 +1,4 @@
-package kotlinmud.mob
+package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
 import java.io.File

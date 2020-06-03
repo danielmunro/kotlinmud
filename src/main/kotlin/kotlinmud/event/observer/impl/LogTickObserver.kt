@@ -4,7 +4,7 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOServer
-import kotlinmud.mob.MobService
+import kotlinmud.mob.service.MobService
 import org.slf4j.LoggerFactory
 
 class LogTickObserver(private val mobService: MobService, private val server: NIOServer) : Observer {

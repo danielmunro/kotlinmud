@@ -5,8 +5,8 @@ import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.item.ItemService
-import kotlinmud.mob.MobController
-import kotlinmud.mob.MobService
+import kotlinmud.mob.controller.MobController
+import kotlinmud.mob.service.MobService
 import kotlinmud.time.eventually
 
 class MoveMobsOnTickObserver(private val mobService: MobService, private val itemService: ItemService, private val eventService: EventService) :
@@ -16,7 +16,8 @@ class MoveMobsOnTickObserver(private val mobService: MobService, private val ite
     override fun <T> processEvent(event: Event<T>) {
         mobService.getMobRooms().filter { it.mob.wantsToMove() }.forEach {
             eventually {
-                MobController(mobService, itemService, eventService, it.mob).move()
+                MobController(mobService, itemService, eventService, it.mob)
+                    .move()
             }
         }
     }

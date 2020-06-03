@@ -4,7 +4,7 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.PlayerLoggedInEvent
 import kotlinmud.event.observer.Observer
-import kotlinmud.mob.MobService
+import kotlinmud.mob.service.MobService
 
 class LogPlayerInObserver(private val mobService: MobService) : Observer {
     override val eventType: EventType = EventType.CLIENT_LOGGED_IN

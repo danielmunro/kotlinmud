@@ -4,7 +4,7 @@ import kotlinmud.action.ActionService
 import kotlinmud.event.EventService
 import kotlinmud.event.observer.Observers
 import kotlinmud.io.NIOServer
-import kotlinmud.mob.MobService
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService

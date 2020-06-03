@@ -45,10 +45,10 @@ import kotlinmud.item.ItemService
 import kotlinmud.item.createRecipeList
 import kotlinmud.math.percentRoll
 import kotlinmud.mob.HasCosts
-import kotlinmud.mob.MobService
 import kotlinmud.mob.RequiresDisposition
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.createSkillList
 import kotlinmud.mob.skill.type.CostType

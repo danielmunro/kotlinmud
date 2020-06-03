@@ -7,8 +7,8 @@ import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.NIOClient
 import kotlinmud.io.Request
-import kotlinmud.mob.MobService
 import kotlinmud.mob.model.Appetite
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.model.MobCardBuilder
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService

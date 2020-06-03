@@ -5,8 +5,8 @@ import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
 import kotlinmud.item.ItemService
-import kotlinmud.mob.MobController
-import kotlinmud.mob.MobService
+import kotlinmud.mob.controller.MobController
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.time.eventually
 
@@ -22,7 +22,8 @@ class ScavengerCollectsItemsObserver(
             it.mob.job == JobType.SCAVENGER
         }.forEach {
             eventually {
-                MobController(mobService, itemService, eventService, it.mob).pickUpAnyItem()
+                MobController(mobService, itemService, eventService, it.mob)
+                    .pickUpAnyItem()
             }
         }
     }

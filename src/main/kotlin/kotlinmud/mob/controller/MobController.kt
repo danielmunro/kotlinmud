@@ -1,10 +1,11 @@
-package kotlinmud.mob
+package kotlinmud.mob.controller
 
 import kotlinmud.event.EventService
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.io.MessageBuilder
 import kotlinmud.item.ItemService
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.path.Pathfinder
 import kotlinmud.room.model.Exit

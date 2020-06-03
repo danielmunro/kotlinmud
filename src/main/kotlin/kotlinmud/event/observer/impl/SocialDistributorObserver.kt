@@ -6,8 +6,8 @@ import kotlinmud.event.event.SocialEvent
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.Message
 import kotlinmud.io.NIOServer
-import kotlinmud.mob.MobService
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.social.SocialChannel
 import kotlinmud.room.model.Room
 
