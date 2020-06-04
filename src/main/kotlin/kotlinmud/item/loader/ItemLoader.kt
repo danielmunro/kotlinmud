@@ -1,12 +1,10 @@
 package kotlinmud.item.loader
 
 import kotlinmud.affect.loader.AffectLoader
-import kotlinmud.affect.model.AffectInstance
 import kotlinmud.attributes.loader.AttributesLoader
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.loader.Loader
 import kotlinmud.fs.loader.area.loader.intAttr
-import kotlinmud.fs.loader.area.loader.parseAffects
 import kotlinmud.fs.loader.area.loader.strAttr
 import kotlinmud.item.factory.itemBuilder
 import kotlinmud.item.model.ItemBuilder
@@ -26,11 +24,11 @@ class ItemLoader(
         val id = tokenizer.parseInt()
         val name = tokenizer.parseString()
         val description = tokenizer.parseString()
-        val type = if (loadSchemaVersion >= 11) ItemType.valueOf(tokenizer.parseString()) else null
-        val worth = if (loadSchemaVersion >= 11) tokenizer.parseInt() else null
-        val level = if (loadSchemaVersion >= 11) tokenizer.parseInt() else null
-        val material = if (loadSchemaVersion >= 11) Material.valueOf(tokenizer.parseString()) else null
-        val weight = if (loadSchemaVersion >= 11) tokenizer.parseString().toDouble() else null
+        val type = ItemType.valueOf(tokenizer.parseString())
+        val worth = tokenizer.parseInt()
+        val level = tokenizer.parseInt()
+        val material = Material.valueOf(tokenizer.parseString())
+        val weight = tokenizer.parseString().toDouble()
         val attributesLoader = AttributesLoader(tokenizer)
         val attributes = attributesLoader.load()
         val props = tokenizer.parseProperties()
@@ -40,24 +38,18 @@ class ItemLoader(
         val damageType = DamageType.valueOf(strAttr(props["damageType"], "none").toUpperCase())
         val quantity = intAttr(props["quantity"], 0)
         val builder = itemBuilder(id, name)
-        val affects = if (loadSchemaVersion < 11) {
-            parseAffects(tokenizer).map {
-                AffectInstance(it, -1)
-            }
-        } else {
-            AffectLoader(tokenizer).load()
-        }
+        val affects = AffectLoader(tokenizer).load()
 
         return builder
             .description(description)
-            .worth(props["value"]?.toInt() ?: worth ?: 1)
-            .level(props["level"]?.toInt() ?: level ?: 1)
-            .weight(props["weight"]?.toDouble() ?: weight ?: 1.0)
+            .worth(worth)
+            .level(level)
+            .weight(weight)
             .drink(drink)
             .food(food)
-            .type(type ?: ItemType.OTHER)
+            .type(type)
             .quantity(quantity)
-            .material(if (loadSchemaVersion < 11) Material.valueOf(strAttr(props["material"], "organic").toUpperCase()) else material ?: Material.ORGANIC)
+            .material(material)
             .position(Position.valueOf(strAttr(props["position"], "none").toUpperCase()))
             .affects(affects.toMutableList())
             .attackVerb(attackVerb)
