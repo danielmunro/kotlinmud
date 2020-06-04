@@ -4,9 +4,9 @@ import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeStanding
 import kotlinmud.action.type.Command
 import kotlinmud.exception.CraftException
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.factory.recipe
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.type.Recipe
 

@@ -4,8 +4,8 @@ import kotlinmud.Noun
 import kotlinmud.affect.Affect
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.type.AffectType
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Message
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.model.Mob
 
 class BerserkAffect : Affect {

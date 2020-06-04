@@ -1,5 +1,7 @@
 package kotlinmud.test
 
+import com.tylerthrailkill.helpers.prettyprint.pp
+import java.lang.StringBuilder
 import kotlinmud.Noun
 import kotlinmud.action.ActionService
 import kotlinmud.app.createContainer
@@ -36,4 +38,10 @@ fun createTestService(): TestService {
 
 fun getIdentifyingWord(noun: Noun): String {
     return noun.name.split(" ").first { it.length > 3 }
+}
+
+fun buf(toDump: Any): String {
+    val buffer = StringBuilder()
+    pp(toDump, 2, buffer, 80)
+    return buffer.toString()
 }

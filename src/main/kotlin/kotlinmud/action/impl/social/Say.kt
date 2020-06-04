@@ -3,9 +3,9 @@ package kotlinmud.action.impl.social
 import kotlinmud.action.model.Action
 import kotlinmud.action.mustBeAwake
 import kotlinmud.action.type.Command
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.factory.freeForm
 import kotlinmud.io.factory.messageToActionCreator
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.player.social.Social
 import kotlinmud.player.social.SocialChannel

@@ -7,8 +7,8 @@ import kotlinmud.attributes.model.AttributesBuilder
 import kotlinmud.attributes.model.isVitals
 import kotlinmud.attributes.model.setAttribute
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.factory.trainable
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 
 fun createTrainAction(): Action {

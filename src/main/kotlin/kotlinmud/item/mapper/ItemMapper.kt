@@ -1,5 +1,6 @@
 package kotlinmud.item.mapper
 
+import kotlinmud.affect.mapper.mapAffects
 import kotlinmud.attributes.mapper.mapAttributes
 import kotlinmud.fs.int
 import kotlinmud.fs.saver.mapper.optional
@@ -14,19 +15,19 @@ fun mapItem(item: Item): String {
     return """${int(item.id)}
 ${str(item.name)}
 ${str(item.description)}
+${str(item.type.toString())}
+${int(item.worth)}
+${int(item.level)}
+${str(item.material.toString())}
+${str(item.weight.toString())}
 ${mapAttributes(item.attributes)}
 ${str(generateProps(item))}
-${str(getAffects(item))}
+${mapAffects(item.affects)}
 """
-}
-
-fun getAffects(item: Item): String {
-    return item.affects.joinToString { it.affectType.value }
 }
 
 fun generateProps(item: Item): String {
     val attr = item.attributes
-    val required = "material: ${item.material.value}, weight: ${item.weight}, value: ${item.worth}, level: ${item.level}"
     val optional = optional(
         item.position != Position.NONE,
         "position: ${item.position.value}"
@@ -36,9 +37,12 @@ fun generateProps(item: Item): String {
             optional(item.quantity > 0, "quantity: ${item.quantity}") +
             optional(item.attackVerb != "", "attackVerb: ${item.attackVerb}") +
             optional(item.damageType != DamageType.NONE, "damageType: ${item.damageType}") +
+            optional(item.decayTimer > 0, "decayTimer: ${item.decayTimer}") +
+            optional(item.hasInventory, "hasInventory: true") +
+            optional(!item.canOwn, "canOwn: false") +
             optional(
                 attr.hasAC(),
                 "ac: ${attr.acBash}-${attr.acSlash}-${attr.acPierce}-${attr.acMagic}"
             )
-    return required + if (optional != "") ", ${optional.substring(0, optional.length - 2)}" else ""
+    return if (optional != "") optional.substring(0, optional.length - 2) else ""
 }

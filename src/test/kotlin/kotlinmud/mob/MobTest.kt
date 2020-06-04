@@ -5,8 +5,6 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
-import com.tylerthrailkill.helpers.prettyprint.pp
-import java.lang.StringBuilder
 import kotlin.test.assertEquals
 import kotlinmud.affect.factory.affects
 import kotlinmud.affect.model.AffectInstance
@@ -30,6 +28,7 @@ import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
 import kotlinmud.test.ProbabilityTest
+import kotlinmud.test.buf
 import kotlinmud.test.createTestService
 import org.junit.Test
 
@@ -393,10 +392,8 @@ class MobTest {
             .build()
 
         // then
-        val buf1 = StringBuilder()
-        pp(mob, 2, buf1, 80)
-        val buf2 = StringBuilder()
-        pp(model, 2, buf2, 80)
-        assertThat(buf2.toString()).isEqualTo(buf1.toString())
+        val buf1 = buf(mob)
+        val buf2 = buf(model)
+        assertThat(buf2).isEqualTo(buf1)
     }
 }
