@@ -20,16 +20,17 @@ class Generator(private val width: Int, private val length: Int) {
     companion object {
         fun randomBiome(): Int {
             val biomeType = BiomeType.getAll().random()
-            return BiomeType.values().indexOf(biomeType) + 1
+            return BiomeType.values().indexOf(biomeType)
         }
     }
 
     fun generate(): World {
         var id = 0
         val rooms = mutableListOf<Room>()
-        return World(rooms, Array(DEPTH) {
-            Array(length) {
-                IntArray(width) {
+        val biomeLayer = createBiomeLayer((width * length) / (width * length / 10))
+        return World(rooms, Array(DEPTH) { z ->
+            Array(length) { y ->
+                IntArray(width) { x ->
                     rooms.add(
                         Room(
                             id,
@@ -38,7 +39,11 @@ class Generator(private val width: Int, private val length: Int) {
                             "description",
                             RegenLevel.NORMAL,
                             true,
-                            BiomeType.ARBOREAL,
+                            when {
+                                z < 40 -> BiomeType.UNDERGROUND
+                                z < 60 -> BiomeType.fromIndex(biomeLayer[y][x])
+                                else -> BiomeType.SKY
+                            },
                             mutableListOf(),
                             mutableListOf(),
                             null
@@ -68,8 +73,8 @@ class Generator(private val width: Int, private val length: Int) {
             val w = nextInt(0, width)
             val l = nextInt(0, length)
             val biome = randomBiome()
-            biomeLayer[w][l] = biome
-            coordinates.add(Pair(w, l))
+            biomeLayer[l][w] = biome
+            coordinates.add(Pair(l, w))
         }
         var filling = true
         var iteration = 0
@@ -88,7 +93,7 @@ class Generator(private val width: Int, private val length: Int) {
             var unfilled = 0
             for (l in 0 until length) {
                 for (w in 0 until width) {
-                    if (biomeLayer[w][l] == 0) {
+                    if (biomeLayer[l][w] == 0) {
                         filling = true
                         unfilled += 1
                     }
@@ -102,11 +107,11 @@ class Generator(private val width: Int, private val length: Int) {
     private fun drawAround(c1: Pair<Int, Int>, c2: Pair<Int, Int>, value: Int): Int {
 //        println("drawAround: $c1, $c2, $value")
         var drawn = 0
-        for (w in c1.first - 1..c2.first + 1) {
-            for (l in c1.second - 1..c2.second + 1) {
-                if (isInBounds(l, w) && ((w <= c1.first || w >= c2.first) || (l <= c1.second || l >= c2.second)) && biomeLayer[w][l] == 0) {
+        for (w in c1.first - 1..c2.first) {
+            for (l in c1.second - 1..c2.second) {
+                if (isInBounds(l, w) && ((w <= c1.first || w >= c2.first) || (l <= c1.second || l >= c2.second)) && biomeLayer[l][w] == 0) {
 //                    println("filling w: $w, l: $l, value: $value")
-                    biomeLayer[w][l] = value
+                    biomeLayer[l][w] = value
                     drawn++
                 }
             }
