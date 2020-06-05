@@ -16,14 +16,14 @@ import org.kodein.di.erased.instance
 
 fun createTestService(): TestService {
     val container = createContainer(0, true)
-    val fix: FixtureService by container.instance()
-    val mob: MobService by container.instance()
-    val item: ItemService by container.instance()
-    val act: ActionService by container.instance()
-    val evt: EventService by container.instance()
-    val respawnService: RespawnService by container.instance()
-    val observers: Observers by container.instance()
-    val playerService: PlayerService by container.instance()
+    val fix: FixtureService by container.instance<FixtureService>()
+    val mob: MobService by container.instance<MobService>()
+    val item: ItemService by container.instance<ItemService>()
+    val act: ActionService by container.instance<ActionService>()
+    val evt: EventService by container.instance<EventService>()
+    val respawnService: RespawnService by container.instance<RespawnService>()
+    val observers: Observers by container.instance<Observers>()
+    val playerService: PlayerService by container.instance<PlayerService>()
     evt.observers = observers
     return TestService(
         fix,
