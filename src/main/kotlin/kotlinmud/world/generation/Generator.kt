@@ -1,8 +1,11 @@
 package kotlinmud.world.generation
 
+import java.util.*
 import kotlin.random.Random.Default.nextInt
+import kotlinmud.room.model.Exit
 import kotlinmud.room.model.Room
-import kotlinmud.room.type.RegenLevel
+import kotlinmud.room.model.RoomBuilder
+import kotlinmud.room.type.Direction
 import kotlinmud.world.BiomeType
 
 typealias Blocks = Array<Array<IntArray>>
@@ -19,6 +22,9 @@ class Generator(private val width: Int, private val length: Int) {
             0
         }
     }
+
+    private var id = 0
+
     companion object {
         fun randomBiome(): Int {
             val biomeType = BiomeType.getAll().random()
@@ -27,47 +33,65 @@ class Generator(private val width: Int, private val length: Int) {
     }
 
     fun generate(): World {
-        var id = 0
         val rooms = mutableListOf<Room>()
         val biomeLayer = createBiomeLayer((width * length) / (width * length / 10))
-        return World(rooms, Array(DEPTH) { z ->
+        var index = 0
+        val world = World(rooms, Array(DEPTH) { z ->
             Array(length) { y ->
                 IntArray(width) { x ->
-                    rooms.add(
-                        Room(
-                            id,
-                            "area",
-                            "name",
-                            "description",
-                            RegenLevel.NORMAL,
-                            false,
-                            when {
-                                z < DEPTH_UNDERGROUND -> BiomeType.UNDERGROUND
-                                z < DEPTH_SKY -> BiomeType.fromIndex(biomeLayer[y][x])
-                                else -> BiomeType.SKY
-                            },
-                            mutableListOf(),
-                            mutableListOf(),
-                            null
-                        )
-                    )
-                    // todo hook up exits
-                    id++
+                    rooms.add(buildRoom(z, BiomeType.fromIndex(biomeLayer[y][x])))
+                    val thisIndex = index
+                    index++
+                    thisIndex
                 }
             }
         })
+        hookUpRoomExits(world)
+        return world
     }
 
-//    private fun generateLayerRooms(layer: Int, x: Int, y: Int, z: Int):  {
-//
-//    }
-
-    fun createElevationLayer(biomeLayer: Layer) {
-
-        biomeLayer.forEach { row ->
-            row.forEach {
+    private fun hookUpRoomExits(world: World) {
+        for (z in world.blocks.indices) {
+            for (y in world.blocks[z].indices) {
+                for (x in world.blocks[z][y].indices) {
+                    val id = world.blocks[z][y][x]
+                    val room = world.rooms[id]
+                    if (world.blocks[z][y].size > x + 1) {
+                        val destId = world.blocks[z][y][x + 1]
+                        val dest = world.rooms[destId]
+                        room.exits.add(Exit(dest, Direction.EAST))
+                        dest.exits.add(Exit(room, Direction.WEST))
+                    }
+                    if (world.blocks[z].size > y + 1) {
+                        val destId = world.blocks[z][y + 1][x]
+                        val dest = world.rooms[destId]
+                        room.exits.add(Exit(dest, Direction.SOUTH))
+                        dest.exits.add(Exit(room, Direction.NORTH))
+                    }
+                    if (z + 1 < DEPTH) {
+                        val destId = world.blocks[z + 1][y][x]
+                        val dest = world.rooms[destId]
+                        room.exits.add(Exit(dest, Direction.DOWN))
+                        dest.exits.add(Exit(room, Direction.UP))
+                    }
+                }
             }
         }
+    }
+
+    private fun buildRoom(z: Int, biomeType: BiomeType): Room {
+        val entityId = id
+        id++
+        return RoomBuilder()
+            .id(entityId)
+            .name("todo")
+            .description("todo")
+            .biome(when {
+                z < DEPTH_UNDERGROUND -> BiomeType.UNDERGROUND
+                z < DEPTH_SKY -> biomeType
+                else -> BiomeType.SKY
+            })
+            .build()
     }
 
     private fun createBiomeLayer(biomeCount: Int): Layer {
@@ -95,8 +119,8 @@ class Generator(private val width: Int, private val length: Int) {
 
     private fun drawAround(c1: Pair<Int, Int>, c2: Pair<Int, Int>, value: Int): Boolean {
         var drawn = false
-        for (w in c1.first - 1..c2.first) {
-            for (l in c1.second - 1..c2.second) {
+        for (l in c1.first - 1..c2.first) {
+            for (w in c1.second - 1..c2.second) {
                 if (isInBounds(l, w) && ((w <= c1.first || w >= c2.first) || (l <= c1.second || l >= c2.second)) && biomeLayer[l][w] == 0) {
                     biomeLayer[l][w] = value
                     drawn = true
@@ -106,7 +130,7 @@ class Generator(private val width: Int, private val length: Int) {
         return drawn
     }
 
-    private fun isInBounds(l: Int, w: Int): Boolean {
-        return l in 0 until length && w in 0 until width
+    private fun isInBounds(x: Int, y: Int): Boolean {
+        return x in 0 until length && y in 0 until width
     }
 }

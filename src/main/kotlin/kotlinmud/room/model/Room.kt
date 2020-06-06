@@ -14,15 +14,15 @@ import kotlinmud.world.ResourceType
 @Builder
 data class Room(
     override val id: Int,
-    val area: String,
+    @DefaultValue("none") val area: String,
     val name: String,
     val description: String,
-    val regen: RegenLevel,
-    val isIndoor: Boolean,
-    val biome: BiomeType,
+    @DefaultValue("RegenLevel.NORMAL") val regen: RegenLevel,
+    @DefaultValue("false") val isIndoor: Boolean,
+    @DefaultValue("BiomeType.NONE") val biome: BiomeType,
     @DefaultValue("mutableListOf()") @Mutable val resources: MutableList<ResourceType>,
     @DefaultValue("mutableListOf()") @Mutable val exits: MutableList<Exit>,
-    var owner: Mob?
+    @DefaultValue("null") var owner: Mob?
 ) : Row, HasInventory {
 
     fun openExits(): List<Exit> {

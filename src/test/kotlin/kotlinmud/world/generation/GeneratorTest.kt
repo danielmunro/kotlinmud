@@ -6,8 +6,8 @@ import assertk.assertions.isTrue
 import kotlinmud.world.BiomeType
 import org.junit.Test
 
-const val length = 96
-const val width = 128
+const val length = 10
+const val width = 12
 
 class GeneratorTest {
     @Test

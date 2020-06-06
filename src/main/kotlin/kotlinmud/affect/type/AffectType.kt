@@ -13,4 +13,5 @@ enum class AffectType(val value: String) {
     BERSERK("berserk"),
     DRUNK("drunk"),
     HASTE("haste"),
+    GLOWING("glowing"),
 }

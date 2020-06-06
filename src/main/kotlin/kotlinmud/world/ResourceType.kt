@@ -8,7 +8,9 @@ enum class ResourceType(val value: String) {
     JUNGLE_TREE("jungle tree"),
     PINE_TREE("pine tree"),
     TAR("tar"),
-    CLAY("clay");
+    CLAY("clay"),
+    WATERMELON("watermelon"),
+    PUMPKIN("pumpkin");
 
     companion object {
         fun fromString(value: String): ResourceType {
