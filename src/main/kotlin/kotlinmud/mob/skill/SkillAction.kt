@@ -1,6 +1,6 @@
 package kotlinmud.mob.skill
 
-import kotlinmud.action.Invokable
+import kotlinmud.action.type.Invokable
 import kotlinmud.affect.Affect
 import kotlinmud.io.model.Request
 import kotlinmud.string.matches

@@ -1,7 +1,7 @@
 package kotlinmud.action.impl.social
 
+import kotlinmud.action.helper.mustBeAlive
 import kotlinmud.action.model.Action
-import kotlinmud.action.mustBeAlive
 import kotlinmud.action.type.Command
 import kotlinmud.io.factory.freeForm
 import kotlinmud.io.factory.messageToActionCreator

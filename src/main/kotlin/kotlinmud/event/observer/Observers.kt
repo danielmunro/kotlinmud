@@ -1,6 +1,6 @@
 package kotlinmud.event.observer
 
-import kotlinmud.action.ActionService
+import kotlinmud.action.service.ActionService
 import kotlinmud.event.EventService
 import kotlinmud.event.observer.impl.ChangeWeatherObserver
 import kotlinmud.event.observer.impl.ClientConnectedObserver

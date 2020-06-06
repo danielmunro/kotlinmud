@@ -1,4 +1,4 @@
-package kotlinmud.action
+package kotlinmud.action.service
 
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.affect.model.AffectInstance

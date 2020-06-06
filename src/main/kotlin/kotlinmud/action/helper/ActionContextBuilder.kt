@@ -1,6 +1,7 @@
-package kotlinmud.action
+package kotlinmud.action.helper
 
 import kotlinmud.action.model.ActionContextList
+import kotlinmud.action.service.ActionContextService
 import kotlinmud.event.EventService
 import kotlinmud.io.model.Request
 import kotlinmud.io.service.NIOServerService

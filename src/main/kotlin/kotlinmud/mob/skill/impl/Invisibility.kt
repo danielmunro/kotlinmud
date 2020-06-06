@@ -1,8 +1,8 @@
 package kotlinmud.mob.skill.impl
 
 import kotlinmud.Noun
-import kotlinmud.action.ActionContextService
-import kotlinmud.action.mustBeAlert
+import kotlinmud.action.helper.mustBeAlert
+import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
 import kotlinmud.affect.impl.InvisibilityAffect
 import kotlinmud.io.model.Response

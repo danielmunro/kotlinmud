@@ -1,4 +1,4 @@
-package kotlinmud.action
+package kotlinmud.action.helper
 
 import kotlinmud.action.impl.createBuyAction
 import kotlinmud.action.impl.createCloseAction

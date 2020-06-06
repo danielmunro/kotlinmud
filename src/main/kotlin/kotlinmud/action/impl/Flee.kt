@@ -1,7 +1,7 @@
 package kotlinmud.action.impl
 
+import kotlinmud.action.helper.mustBeFighting
 import kotlinmud.action.model.Action
-import kotlinmud.action.mustBeFighting
 import kotlinmud.action.type.Command
 import kotlinmud.io.factory.command
 import kotlinmud.io.model.MessageBuilder

@@ -1,6 +1,6 @@
 package kotlinmud.event.observer.impl
 
-import kotlinmud.action.ActionService
+import kotlinmud.action.service.ActionService
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.ClientConnectedEvent

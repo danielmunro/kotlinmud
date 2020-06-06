@@ -1,4 +1,4 @@
-package kotlinmud.action
+package kotlinmud.action.helper
 
 import kotlinmud.mob.type.Disposition
 

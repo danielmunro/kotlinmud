@@ -1,6 +1,6 @@
 package kotlinmud.app
 
-import kotlinmud.action.ActionService
+import kotlinmud.action.service.ActionService
 import kotlinmud.event.Event
 import kotlinmud.event.EventService
 import kotlinmud.event.EventType

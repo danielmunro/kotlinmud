@@ -1,7 +1,7 @@
 package kotlinmud.action.impl
 
+import kotlinmud.action.helper.mustBeStanding
 import kotlinmud.action.model.Action
-import kotlinmud.action.mustBeStanding
 import kotlinmud.action.type.Command
 import kotlinmud.exception.CraftException
 import kotlinmud.io.factory.messageToActionCreator

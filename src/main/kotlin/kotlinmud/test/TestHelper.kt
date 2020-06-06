@@ -3,7 +3,7 @@ package kotlinmud.test
 import com.tylerthrailkill.helpers.prettyprint.pp
 import java.lang.StringBuilder
 import kotlinmud.Noun
-import kotlinmud.action.ActionService
+import kotlinmud.action.service.ActionService
 import kotlinmud.app.createContainer
 import kotlinmud.event.EventService
 import kotlinmud.event.observer.Observers

@@ -1,4 +1,4 @@
-package kotlinmud.action
+package kotlinmud.action.service
 
 import kotlinmud.action.contextBuilder.AvailableDrinkContextBuilder
 import kotlinmud.action.contextBuilder.AvailableFoodContextBuilder
@@ -32,6 +32,7 @@ import kotlinmud.action.model.Action
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Command
+import kotlinmud.action.type.Invokable
 import kotlinmud.action.type.Status
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.factory.messageToActionCreator
