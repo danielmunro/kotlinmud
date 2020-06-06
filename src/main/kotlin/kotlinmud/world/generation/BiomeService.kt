@@ -10,14 +10,7 @@ class BiomeService(private val width: Int, private val length: Int) {
     }
 
     fun createLayer(biomeCount: Int): Layer {
-        val coordinates = mutableListOf<Pair<Int, Int>>()
-        for (i in 1..biomeCount) {
-            val w = Random.nextInt(0, width)
-            val l = Random.nextInt(0, length)
-            val biome = GeneratorService.randomBiome()
-            biomeLayer[l][w] = biome
-            coordinates.add(Pair(l, w))
-        }
+        val coordinates = seedBiomes(biomeCount)
         var iteration = 0
         while (coordinates.size > 0) {
             coordinates.removeIf {
@@ -30,6 +23,18 @@ class BiomeService(private val width: Int, private val length: Int) {
             iteration++
         }
         return biomeLayer
+    }
+
+    private fun seedBiomes(biomeCount: Int): MutableList<Pair<Int, Int>> {
+        val coordinates = mutableListOf<Pair<Int, Int>>()
+        for (i in 1..biomeCount) {
+            val w = Random.nextInt(0, width)
+            val l = Random.nextInt(0, length)
+            val biome = GeneratorService.randomBiome()
+            biomeLayer[l][w] = biome
+            coordinates.add(Pair(l, w))
+        }
+        return coordinates
     }
 
     private fun drawAround(c1: Pair<Int, Int>, c2: Pair<Int, Int>, value: Int): Boolean {
