@@ -62,12 +62,12 @@ class CraftingService(
         }.toList()
     }
 
-    fun harvest(resourceType: ResourceType, room: Room, mob: Mob): Item {
+    fun harvest(resourceType: ResourceType, room: Room, mob: Mob): List<Item> {
         room.resources.remove(resourceType)
         resources.find { it.resourceType == resourceType }?.let {
-            val item = it.createProduct(itemService.createItemBuilderBuilder())
-            itemService.add(ItemOwner(item, mob))
-            return item
+            val items = it.createProduct(itemService.createItemBuilderBuilder())
+            items.forEach { item -> itemService.add(ItemOwner(item, mob)) }
+            return items
         } ?: throw HarvestException()
     }
 }

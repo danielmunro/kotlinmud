@@ -53,7 +53,7 @@ class ActionContextService(
         return craftingService.craft(recipe, request.mob)
     }
 
-    fun harvest(resourceType: ResourceType): Item {
+    fun harvest(resourceType: ResourceType): List<Item> {
         return craftingService.harvest(resourceType, request.room, request.mob)
     }
 

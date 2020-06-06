@@ -8,6 +8,7 @@ import kotlinmud.world.resource.JungleTree
 import kotlinmud.world.resource.PineTree
 import kotlinmud.world.resource.Resource
 import kotlinmud.world.resource.Tar
+import kotlinmud.world.resource.Watermelon
 
 fun createResourceList(): List<Resource> {
     return listOf(
@@ -17,6 +18,7 @@ fun createResourceList(): List<Resource> {
         IronOre(),
         JungleTree(),
         PineTree(),
-        Tar()
+        Tar(),
+        Watermelon()
     )
 }

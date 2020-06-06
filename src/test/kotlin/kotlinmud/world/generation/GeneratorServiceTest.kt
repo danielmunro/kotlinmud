@@ -9,11 +9,11 @@ import org.junit.Test
 const val length = 10
 const val width = 12
 
-class GeneratorTest {
+class GeneratorServiceTest {
     @Test
     fun testGeneratorCreatesMatrix() {
         // given
-        val generator = Generator(width, length)
+        val generator = GeneratorService(width, length)
 
         // when
         val world = generator.generate()
@@ -27,7 +27,7 @@ class GeneratorTest {
     @Test
     fun testMatrixReceivesBiomes() {
         // given
-        val generator = Generator(width, length)
+        val generator = GeneratorService(width, length)
 
         // when
         val world = generator.generate()

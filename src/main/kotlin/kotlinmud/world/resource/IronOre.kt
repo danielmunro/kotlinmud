@@ -10,11 +10,13 @@ class IronOre : Resource {
     override val growable: Boolean = false
     override val toughness: Int = 3
 
-    override fun createProduct(builder: ItemBuilderBuilder): Item {
-        return builder()
-            .name("a chunk of rock with hints of iron")
-            .description("iron ore rock is here")
-            .type(ItemType.IRON_ORE)
-            .build()
+    override fun createProduct(builder: ItemBuilderBuilder): List<Item> {
+        return listOf(
+            builder()
+                .name("a chunk of rock with hints of iron")
+                .description("iron ore rock is here")
+                .type(ItemType.IRON_ORE)
+                .build()
+        )
     }
 }

@@ -10,11 +10,13 @@ class CoalOre : Resource {
     override val growable: Boolean = false
     override val toughness: Int = 3
 
-    override fun createProduct(builder: ItemBuilderBuilder): Item {
-        return builder()
-            .name("a lump of coal")
-            .description("a lump of coal is here")
-            .type(ItemType.COAL_LUMP)
-            .build()
+    override fun createProduct(builder: ItemBuilderBuilder): List<Item> {
+        return listOf(
+            builder()
+                .name("a lump of coal")
+                .description("a lump of coal is here")
+                .type(ItemType.COAL_LUMP)
+                .build()
+        )
     }
 }
