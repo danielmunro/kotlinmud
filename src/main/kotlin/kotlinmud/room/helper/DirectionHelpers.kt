@@ -1,4 +1,4 @@
-package kotlinmud.room
+package kotlinmud.room.helper
 
 import kotlinmud.room.type.Direction
 

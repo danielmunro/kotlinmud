@@ -16,6 +16,7 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
         val description = tokenizer.parseString()
         val area = tokenizer.parseString()
         val biomeType = BiomeType.fromString(tokenizer.parseString())
+        val elevation = if (loadSchemaVersion > 11) tokenizer.parseInt() else 0
         val resources = tokenizer.parseString().trim().split(",").mapNotNull {
             val trimmed = it.trim()
             if (trimmed != "") ResourceType.fromString(trimmed) else null
@@ -31,6 +32,23 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
         val down = props["d"] ?: ""
         val ownerId = intAttr(props["ownerId"], 0)
 
-        return RoomModel(id, name, description, regen, isIndoor, north, south, east, west, up, down, area, biomeType, resources, ownerId)
+        return RoomModel(
+            id,
+            name,
+            description,
+            regen,
+            isIndoor,
+            elevation,
+            north,
+            south,
+            east,
+            west,
+            up,
+            down,
+            area,
+            biomeType,
+            resources,
+            ownerId
+        )
     }
 }
