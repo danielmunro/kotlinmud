@@ -2,8 +2,10 @@ package kotlinmud.fs.saver
 
 import kotlinmud.world.generation.Layer
 
-fun outputBiomeLayer(layer: Layer): String {
+fun layerToString(layer: Layer): String {
     return layer.joinToString("\n") {
-        it.joinToString(" ")
+        it.joinToString(" ") { value ->
+            if (value > 9) value.toString() else " $value"
+        }
     }
 }

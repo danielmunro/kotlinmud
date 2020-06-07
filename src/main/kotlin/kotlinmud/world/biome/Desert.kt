@@ -13,4 +13,5 @@ class Desert : Biome {
         Pair(Brush(), 0.05)
     )
     override val substrate: SubstrateType = SubstrateType.SAND
+    override val elevationChange: Double = 0.1
 }

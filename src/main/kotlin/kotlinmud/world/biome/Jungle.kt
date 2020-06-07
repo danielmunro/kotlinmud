@@ -11,4 +11,5 @@ class Jungle : Biome {
         Pair(JungleTree(), 0.95)
     )
     override val substrate: SubstrateType = SubstrateType.DIRT
+    override val elevationChange: Double = 0.6
 }

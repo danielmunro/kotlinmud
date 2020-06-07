@@ -8,4 +8,5 @@ class Tundra : Biome {
     override val biomeType: BiomeType = BiomeType.TUNDRA
     override val resources: Map<Resource, Double> = mapOf()
     override val substrate: SubstrateType = SubstrateType.DIRT
+    override val elevationChange: Double = 0.1
 }

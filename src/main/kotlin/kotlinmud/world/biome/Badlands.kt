@@ -8,4 +8,5 @@ class Badlands : Biome {
     override val biomeType: BiomeType = BiomeType.BADLANDS
     override val resources: Map<Resource, Double> = mapOf()
     override val substrate: SubstrateType = SubstrateType.GRAVEL
+    override val elevationChange: Double = 0.3
 }

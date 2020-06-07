@@ -13,4 +13,5 @@ class Mountain : Biome {
         Pair(CoalOre(), 0.06)
     )
     override val substrate: SubstrateType = SubstrateType.ROCK
+    override val elevationChange: Double = 0.95
 }

@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isTrue
 import kotlinmud.world.BiomeType
+import kotlinmud.world.createBiomes
 import org.junit.Test
 
 const val length = 10
@@ -13,7 +14,7 @@ class GeneratorServiceTest {
     @Test
     fun testGeneratorCreatesMatrix() {
         // given
-        val generator = GeneratorService(width, length)
+        val generator = GeneratorService(width, length, createBiomes())
 
         // when
         val world = generator.generate()
@@ -27,7 +28,7 @@ class GeneratorServiceTest {
     @Test
     fun testMatrixReceivesBiomes() {
         // given
-        val generator = GeneratorService(width, length)
+        val generator = GeneratorService(width, length, createBiomes())
 
         // when
         val world = generator.generate()

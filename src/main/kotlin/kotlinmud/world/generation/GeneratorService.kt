@@ -5,6 +5,7 @@ import kotlinmud.room.model.Room
 import kotlinmud.room.model.RoomBuilder
 import kotlinmud.room.type.Direction
 import kotlinmud.world.BiomeType
+import kotlinmud.world.biome.Biome
 
 typealias Blocks = Array<Array<IntArray>>
 
@@ -12,30 +13,32 @@ typealias Layer = Array<IntArray>
 
 const val DEPTH = 100
 const val DEPTH_UNDERGROUND = 40
-const val DEPTH_SKY = 60
+const val DEPTH_GROUND = 50
 
 class GeneratorService(
     private val width: Int,
-    private val length: Int
+    private val length: Int,
+    private val biomes: List<Biome>
 ) {
-    private val biomeService = BiomeService(width, length)
+    private val biomeService = BiomeService(width, length, biomes)
     private var id = 0
-
-    companion object {
-        fun randomBiome(): Int {
-            val biomeType = BiomeType.getAll().random()
-            return BiomeType.values().indexOf(biomeType)
-        }
-    }
 
     fun generate(): World {
         val rooms = mutableListOf<Room>()
         val biomeLayer = biomeService.createLayer((width * length) / (width * length / 10))
+        val elevationService = ElevationService(biomeLayer, biomes)
+        val elevationLayer = elevationService.buildLayer()
         var index = 0
         val world = World(rooms, Array(DEPTH) { z ->
             Array(length) { y ->
                 IntArray(width) { x ->
-                    rooms.add(buildRoom(z, BiomeType.fromIndex(biomeLayer[y][x])))
+                    rooms.add(
+                        buildRoom(
+                            z,
+                            elevationLayer[y][x],
+                            BiomeType.fromIndex(biomeLayer[y][x])
+                        )
+                    )
                     val thisIndex = index
                     index++
                     thisIndex
@@ -75,18 +78,19 @@ class GeneratorService(
         }
     }
 
-    private fun buildRoom(z: Int, biomeType: BiomeType): Room {
+    private fun buildRoom(z: Int, elevation: Int, biomeType: BiomeType): Room {
         val entityId = id
         id++
+        val biome = when {
+            z < DEPTH_UNDERGROUND -> BiomeType.UNDERGROUND
+            z < DEPTH_GROUND + elevation -> biomeType
+            else -> BiomeType.SKY
+        }
         return RoomBuilder()
             .id(entityId)
             .name("todo")
             .description("todo")
-            .biome(when {
-                z < DEPTH_UNDERGROUND -> BiomeType.UNDERGROUND
-                z < DEPTH_SKY -> biomeType
-                else -> BiomeType.SKY
-            })
+            .biome(biome)
             .build()
     }
 }

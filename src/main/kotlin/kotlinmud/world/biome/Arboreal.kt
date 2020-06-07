@@ -11,4 +11,5 @@ class Arboreal : Biome {
         Pair(PineTree(), 0.80)
     )
     override val substrate: SubstrateType = SubstrateType.DIRT
+    override val elevationChange: Double = 0.45
 }

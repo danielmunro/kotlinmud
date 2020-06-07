@@ -22,9 +22,9 @@ data class Room(
     @DefaultValue("BiomeType.NONE") val biome: BiomeType,
     @DefaultValue("mutableListOf()") @Mutable val resources: MutableList<ResourceType>,
     @DefaultValue("mutableListOf()") @Mutable val exits: MutableList<Exit>,
+    @DefaultValue("0") val elevation: Int,
     @DefaultValue("null") var owner: Mob?
 ) : Row, HasInventory {
-
     fun openExits(): List<Exit> {
         return exits.filter { it.door == null || it.door.disposition == DoorDisposition.OPEN }
     }
