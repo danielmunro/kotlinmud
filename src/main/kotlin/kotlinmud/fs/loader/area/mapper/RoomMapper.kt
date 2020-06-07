@@ -20,6 +20,7 @@ class RoomMapper(val mobs: List<Mob>, val roomModels: List<RoomModel>, val doors
                 .description(it.description)
                 .regen(it.regen)
                 .isIndoor(it.isIndoor)
+                .elevation(it.elevation)
                 .biome(it.biomeType)
                 .resources(it.resources.toMutableList())
                 .owner(mob)

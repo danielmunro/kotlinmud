@@ -16,7 +16,7 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
         val description = tokenizer.parseString()
         val area = tokenizer.parseString()
         val biomeType = BiomeType.fromString(tokenizer.parseString())
-        val elevation = if (loadSchemaVersion > 11) tokenizer.parseInt() else 0
+        val elevation = tokenizer.parseInt()
         val resources = tokenizer.parseString().trim().split(",").mapNotNull {
             val trimmed = it.trim()
             if (trimmed != "") ResourceType.fromString(trimmed) else null

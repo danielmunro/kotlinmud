@@ -81,4 +81,21 @@ class MoveTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you must open the door first.")
     }
+
+    @Test
+    fun testMobCannotMoveOverGreatElevations() {
+        // setup
+        val test = createTestService()
+        val mob = test.createMob()
+        val room = test.getRooms().find { it.id == 119 }!!
+
+        // given
+        test.putMobInRoom(mob, room)
+
+        // when
+        val response = test.runAction(mob, "east")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("you can't climb that elevation.")
+    }
 }

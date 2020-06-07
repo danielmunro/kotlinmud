@@ -23,6 +23,12 @@ class DirectionToExitContextBuilder(private val room: Room) : ContextBuilder {
             )
         }
 
+        val elevationChange = room.elevation - exit.destination.elevation
+
+        if (elevationChange < -2) {
+            return Context(syntax, Status.ERROR, "you can't climb that elevation.")
+        }
+
         return Context(syntax, Status.OK, exit.destination)
     }
 }
