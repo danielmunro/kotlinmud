@@ -1,6 +1,4 @@
-package kotlinmud.mob
-
-import kotlinmud.mob.type.Disposition
+package kotlinmud.mob.type
 
 interface RequiresDisposition {
     val dispositions: List<Disposition>

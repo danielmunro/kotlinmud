@@ -45,15 +45,15 @@ import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
 import kotlinmud.math.percentRoll
-import kotlinmud.mob.HasCosts
-import kotlinmud.mob.RequiresDisposition
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.createSkillList
 import kotlinmud.mob.skill.type.CostType
+import kotlinmud.mob.type.HasCosts
 import kotlinmud.mob.type.Intent
+import kotlinmud.mob.type.RequiresDisposition
 import kotlinmud.player.service.PlayerService
 import org.slf4j.LoggerFactory
 

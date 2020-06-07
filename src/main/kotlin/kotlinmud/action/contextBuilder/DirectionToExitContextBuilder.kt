@@ -3,6 +3,7 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.type.Syntax
+import kotlinmud.mob.model.MAX_WALKABLE_ELEVATION
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.DoorDisposition
 
@@ -23,9 +24,9 @@ class DirectionToExitContextBuilder(private val room: Room) : ContextBuilder {
             )
         }
 
-        val elevationChange = room.elevation - exit.destination.elevation
+        val elevationChange = exit.destination.elevation - room.elevation
 
-        if (elevationChange < -2) {
+        if (elevationChange > MAX_WALKABLE_ELEVATION) {
             return Context(syntax, Status.ERROR, "you can't climb that elevation.")
         }
 

@@ -6,10 +6,10 @@ import kotlinmud.action.type.Command
 import kotlinmud.action.type.Invokable
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.HasCosts
-import kotlinmud.mob.RequiresDisposition
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.type.Disposition
+import kotlinmud.mob.type.HasCosts
+import kotlinmud.mob.type.RequiresDisposition
 
 class Action(
     override val command: Command,

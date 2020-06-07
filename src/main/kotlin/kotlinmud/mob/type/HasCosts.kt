@@ -1,4 +1,4 @@
-package kotlinmud.mob
+package kotlinmud.mob.type
 
 import kotlinmud.mob.skill.model.Cost
 

@@ -29,6 +29,7 @@ import kotlinmud.mob.type.SpecializationType
 
 const val corpseWeight = 20.0
 const val baseStat = 15
+const val MAX_WALKABLE_ELEVATION = 2
 
 @Builder
 class Mob(

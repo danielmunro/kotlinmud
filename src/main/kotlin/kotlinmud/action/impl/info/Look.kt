@@ -7,6 +7,7 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.item.model.Item
+import kotlinmud.mob.model.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.model.Exit
 import kotlinmud.room.model.Room
@@ -39,7 +40,7 @@ fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>, roomItems: List<Item>): 
         room.name,
         room.description,
         showDoors(room.exits),
-        reduceExits(room.exits),
+        reduceExits(room),
         if (roomItems.isNotEmpty()) "\n" else "",
         roomItems.joinToString("\n") { "${it.name} is here." },
         if (observers.count() > 0) "\n" else "",
@@ -56,7 +57,11 @@ fun showDoors(exits: List<Exit>): String {
     return ""
 }
 
-fun reduceExits(exits: List<Exit>): String {
-    return exits.filter { it.door == null || it.door.disposition == DoorDisposition.OPEN }
+fun reduceExits(room: Room): String {
+    return room.exits
+        .filter {
+            (it.door == null || it.door.disposition == DoorDisposition.OPEN) &&
+                    (it.destination.elevation - room.elevation < MAX_WALKABLE_ELEVATION)
+        }
         .joinToString("") { it.direction.name.subSequence(0, 1) }
 }
