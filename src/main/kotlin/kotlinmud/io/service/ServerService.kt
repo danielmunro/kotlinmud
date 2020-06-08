@@ -8,9 +8,9 @@ import java.nio.channels.Selector
 import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
 import java.util.stream.Collectors
-import kotlinmud.event.EventService
-import kotlinmud.event.createClientConnectedEvent
-import kotlinmud.event.createClientDisconnectedEvent
+import kotlinmud.event.factory.createClientConnectedEvent
+import kotlinmud.event.factory.createClientDisconnectedEvent
+import kotlinmud.event.service.EventService
 import kotlinmud.helper.logger
 import kotlinmud.io.model.Client
 import kotlinmud.io.type.Clients

@@ -1,8 +1,8 @@
 package kotlinmud.event.observer.impl
 
-import kotlinmud.event.Event
-import kotlinmud.event.EventType
+import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.Observer
+import kotlinmud.event.type.EventType
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.PersistenceService

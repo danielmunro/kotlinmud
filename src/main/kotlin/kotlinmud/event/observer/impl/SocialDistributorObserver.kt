@@ -1,9 +1,9 @@
 package kotlinmud.event.observer.impl
 
-import kotlinmud.event.Event
-import kotlinmud.event.EventType
-import kotlinmud.event.event.SocialEvent
+import kotlinmud.event.impl.Event
+import kotlinmud.event.impl.SocialEvent
 import kotlinmud.event.observer.Observer
+import kotlinmud.event.type.EventType
 import kotlinmud.io.model.Message
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.model.Mob

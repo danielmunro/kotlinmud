@@ -1,9 +1,9 @@
 package kotlinmud.event.observer.impl
 
-import kotlinmud.event.Event
-import kotlinmud.event.EventType
-import kotlinmud.event.event.PlayerLoggedInEvent
+import kotlinmud.event.impl.Event
+import kotlinmud.event.impl.PlayerLoggedInEvent
 import kotlinmud.event.observer.Observer
+import kotlinmud.event.type.EventType
 import kotlinmud.mob.service.MobService
 
 class LogPlayerInObserver(private val mobService: MobService) : Observer {

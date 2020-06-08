@@ -1,11 +1,11 @@
 package kotlinmud.app
 
 import kotlinmud.action.service.ActionService
-import kotlinmud.event.Event
-import kotlinmud.event.EventService
-import kotlinmud.event.EventType
-import kotlinmud.event.createSendMessageToRoomEvent
-import kotlinmud.event.event.DayEvent
+import kotlinmud.event.factory.createSendMessageToRoomEvent
+import kotlinmud.event.impl.DayEvent
+import kotlinmud.event.impl.Event
+import kotlinmud.event.service.EventService
+import kotlinmud.event.type.EventType
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.Request

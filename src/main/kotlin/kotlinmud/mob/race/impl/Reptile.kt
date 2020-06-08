@@ -1,6 +1,6 @@
 package kotlinmud.mob.race.impl
 
-import kotlinmud.attributes.createStats
+import kotlinmud.attributes.factory.createStats
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
@@ -16,7 +16,8 @@ data class Reptile(override val type: RaceType = RaceType.REPTILE) : Race {
     override val unarmedAttackVerb: String = "bite"
     override val unarmedDamageType: DamageType = DamageType.PIERCE
     override val form: Form = Form.REPTILE
-    override val attributes: Attributes = createStats(0, 0, 0, 0, 0, 0, 1)
+    override val attributes: Attributes =
+        createStats(0, 0, 0, 0, 0, 0, 1)
     override val size: Size = Size.SMALL
     override val maxAppetite: Int = 4
     override val maxThirst: Int = 4

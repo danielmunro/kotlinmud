@@ -1,8 +1,8 @@
 package kotlinmud.event.observer.impl
 
-import kotlinmud.event.Event
-import kotlinmud.event.EventType
+import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.Observer
+import kotlinmud.event.type.EventType
 import kotlinmud.io.service.ClientService
 
 class DecrementDelayObserver(private val clientService: ClientService) : Observer {

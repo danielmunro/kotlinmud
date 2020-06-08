@@ -1,7 +1,6 @@
 package kotlinmud.event.observer
 
 import kotlinmud.action.service.ActionService
-import kotlinmud.event.EventService
 import kotlinmud.event.observer.impl.ChangeWeatherObserver
 import kotlinmud.event.observer.impl.ClientConnectedObserver
 import kotlinmud.event.observer.impl.DecrementAffectTimeoutTickObserver
@@ -26,6 +25,7 @@ import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
+import kotlinmud.event.service.EventService
 import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService

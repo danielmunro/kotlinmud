@@ -5,10 +5,10 @@ import java.io.File
 import java.lang.RuntimeException
 import java.util.stream.Collectors
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.event.Event
-import kotlinmud.event.EventService
-import kotlinmud.event.EventType
-import kotlinmud.event.createSendMessageToRoomEvent
+import kotlinmud.event.factory.createSendMessageToRoomEvent
+import kotlinmud.event.impl.Event
+import kotlinmud.event.service.EventService
+import kotlinmud.event.type.EventType
 import kotlinmud.fs.PLAYER_MOBS_FILE
 import kotlinmud.helper.logger
 import kotlinmud.io.factory.messageToActionCreator
@@ -176,15 +176,17 @@ class MobService(
         mobRooms.removeIf {
             if (it.mob.isIncapacitated()) {
                 itemService.add(ItemOwner(createCorpseFrom(it.mob), it.room))
-                eventService.publishRoomMessage(createSendMessageToRoomEvent(
-                    MessageBuilder()
-                        .toActionCreator("you are DEAD!")
-                        .toObservers("${it.mob} has died!")
-                        .sendPrompt(false)
-                        .build(),
-                    it.room,
-                    it.mob
-                ))
+                eventService.publishRoomMessage(
+                    createSendMessageToRoomEvent(
+                        MessageBuilder()
+                            .toActionCreator("you are DEAD!")
+                            .toObservers("${it.mob} has died!")
+                            .sendPrompt(false)
+                            .build(),
+                        it.room,
+                        it.mob
+                    )
+                )
             }
             it.mob.isIncapacitated()
         }
@@ -195,7 +197,14 @@ class MobService(
     }
 
     fun sendMessageToRoom(message: Message, room: Room, actionCreator: Mob, target: Mob? = null) {
-        eventService.publish(createSendMessageToRoomEvent(message, room, actionCreator, target))
+        eventService.publish(
+            createSendMessageToRoomEvent(
+                message,
+                room,
+                actionCreator,
+                target
+            )
+        )
     }
 
     fun putMobInRoom(mob: Mob, room: Room) {

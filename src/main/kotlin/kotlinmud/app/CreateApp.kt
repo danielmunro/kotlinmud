@@ -1,8 +1,8 @@
 package kotlinmud.app
 
 import kotlinmud.action.service.ActionService
-import kotlinmud.event.EventService
 import kotlinmud.event.observer.Observers
+import kotlinmud.event.service.EventService
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService

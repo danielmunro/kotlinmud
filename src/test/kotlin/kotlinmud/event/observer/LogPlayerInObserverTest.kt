@@ -5,9 +5,9 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isFailure
 import assertk.assertions.isNotNull
 import io.mockk.mockk
-import kotlinmud.event.Event
-import kotlinmud.event.EventType
-import kotlinmud.event.event.PlayerLoggedInEvent
+import kotlinmud.event.impl.Event
+import kotlinmud.event.impl.PlayerLoggedInEvent
+import kotlinmud.event.type.EventType
 import kotlinmud.io.model.Client
 import kotlinmud.test.createTestService
 import org.junit.Test
@@ -25,7 +25,12 @@ class LogPlayerInObserverTest {
         val mobCard = test.findMobCardByName(mob.name)!!
 
         // when
-        test.publish(Event(EventType.CLIENT_LOGGED_IN, PlayerLoggedInEvent(client, mobCard)))
+        test.publish(
+            Event(
+                EventType.CLIENT_LOGGED_IN,
+                PlayerLoggedInEvent(client, mobCard)
+            )
+        )
 
         // then
         assertThat(client.mob).isEqualTo(mob)
@@ -48,7 +53,12 @@ class LogPlayerInObserverTest {
         }.isFailure()
 
         // when
-        test.publish(Event(EventType.CLIENT_LOGGED_IN, PlayerLoggedInEvent(client, mobCard)))
+        test.publish(
+            Event(
+                EventType.CLIENT_LOGGED_IN,
+                PlayerLoggedInEvent(client, mobCard)
+            )
+        )
 
         // then
         assertThat(test.getRoomForMob(mob)).isNotNull()

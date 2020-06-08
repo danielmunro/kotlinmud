@@ -4,8 +4,8 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isTrue
-import kotlinmud.event.Event
-import kotlinmud.event.EventType
+import kotlinmud.event.impl.Event
+import kotlinmud.event.type.EventType
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.createTestService

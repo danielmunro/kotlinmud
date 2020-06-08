@@ -1,4 +1,4 @@
-package kotlinmud.attributes
+package kotlinmud.attributes.factory
 
 import kotlinmud.attributes.model.Attributes
 

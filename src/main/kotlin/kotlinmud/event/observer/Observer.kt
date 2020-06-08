@@ -1,7 +1,7 @@
 package kotlinmud.event.observer
 
-import kotlinmud.event.Event
-import kotlinmud.event.EventType
+import kotlinmud.event.impl.Event
+import kotlinmud.event.type.EventType
 
 interface Observer {
     val eventType: EventType

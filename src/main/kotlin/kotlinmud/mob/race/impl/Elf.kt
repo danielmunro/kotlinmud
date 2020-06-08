@@ -1,6 +1,6 @@
 package kotlinmud.mob.race.impl
 
-import kotlinmud.attributes.createStats
+import kotlinmud.attributes.factory.createStats
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race

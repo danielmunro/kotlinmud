@@ -1,9 +1,9 @@
 package kotlinmud.event.observer.impl
 
-import kotlinmud.event.Event
-import kotlinmud.event.EventType
-import kotlinmud.event.event.FightStartedEvent
+import kotlinmud.event.impl.Event
+import kotlinmud.event.impl.FightStartedEvent
 import kotlinmud.event.observer.Observer
+import kotlinmud.event.type.EventType
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.service.MobService

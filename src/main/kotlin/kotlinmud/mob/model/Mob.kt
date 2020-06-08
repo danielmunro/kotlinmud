@@ -7,9 +7,9 @@ import kotlinmud.Noun
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.service.AffectService
 import kotlinmud.affect.type.AffectType
-import kotlinmud.attributes.HasAttributes
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.data.Row
 import kotlinmud.item.model.Item
 import kotlinmud.item.type.HasInventory

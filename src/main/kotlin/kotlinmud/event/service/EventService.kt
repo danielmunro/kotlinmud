@@ -1,6 +1,7 @@
-package kotlinmud.event
+package kotlinmud.event.service
 
-import kotlinmud.event.event.SendMessageToRoomEvent
+import kotlinmud.event.impl.Event
+import kotlinmud.event.impl.SendMessageToRoomEvent
 import kotlinmud.event.observer.Observer
 
 class EventService {

@@ -3,8 +3,8 @@ package kotlinmud.test
 import java.nio.channels.SocketChannel
 import kotlinmud.action.service.ActionService
 import kotlinmud.attributes.model.AttributesBuilder
-import kotlinmud.event.Event
-import kotlinmud.event.EventService
+import kotlinmud.event.impl.Event
+import kotlinmud.event.service.EventService
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response

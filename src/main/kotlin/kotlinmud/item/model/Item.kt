@@ -6,8 +6,8 @@ import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.Noun
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.service.AffectService
-import kotlinmud.attributes.HasAttributes
 import kotlinmud.attributes.model.Attributes
+import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.data.Row
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.Food

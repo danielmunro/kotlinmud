@@ -2,7 +2,7 @@ package kotlinmud.action.helper
 
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.action.service.ActionContextService
-import kotlinmud.event.EventService
+import kotlinmud.event.service.EventService
 import kotlinmud.io.model.Request
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService

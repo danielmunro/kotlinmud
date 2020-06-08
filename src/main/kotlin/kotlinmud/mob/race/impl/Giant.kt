@@ -1,6 +1,6 @@
 package kotlinmud.mob.race.impl
 
-import kotlinmud.attributes.createStats
+import kotlinmud.attributes.factory.createStats
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.Race
@@ -16,7 +16,8 @@ data class Giant(override val type: RaceType = RaceType.GIANT) : Race {
     override val unarmedAttackVerb: String = "punch"
     override val unarmedDamageType: DamageType = DamageType.POUND
     override val form: Form = Form.MAMMAL
-    override val attributes: Attributes = createStats(3, -2, -2, -2, 3, 0, 1)
+    override val attributes: Attributes =
+        createStats(3, -2, -2, -2, 3, 0, 1)
     override val size: Size = Size.HUGE
     override val maxAppetite: Int = 5
     override val maxThirst: Int = 4

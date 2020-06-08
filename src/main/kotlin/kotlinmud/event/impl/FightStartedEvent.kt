@@ -1,4 +1,4 @@
-package kotlinmud.event.event
+package kotlinmud.event.impl
 
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.model.Mob

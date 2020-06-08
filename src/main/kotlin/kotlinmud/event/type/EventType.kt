@@ -1,4 +1,4 @@
-package kotlinmud.event
+package kotlinmud.event.type
 
 enum class EventType {
     MOB_LEAVE_ROOM,

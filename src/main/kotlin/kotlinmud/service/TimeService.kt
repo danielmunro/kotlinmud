@@ -2,12 +2,12 @@ package kotlinmud.service
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlinmud.event.Event
-import kotlinmud.event.EventService
-import kotlinmud.event.EventType
-import kotlinmud.event.event.DayEvent
-import kotlinmud.event.event.PulseEvent
-import kotlinmud.event.event.TickEvent
+import kotlinmud.event.impl.DayEvent
+import kotlinmud.event.impl.Event
+import kotlinmud.event.impl.PulseEvent
+import kotlinmud.event.impl.TickEvent
+import kotlinmud.event.service.EventService
+import kotlinmud.event.type.EventType
 import org.slf4j.LoggerFactory
 
 const val TICKS_IN_DAY = 20

@@ -4,9 +4,9 @@ import java.net.ServerSocket
 import kotlinmud.action.helper.createActionContextBuilder
 import kotlinmud.action.helper.createActionsList
 import kotlinmud.action.service.ActionService
-import kotlinmud.event.EventService
 import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
+import kotlinmud.event.service.EventService
 import kotlinmud.fs.loadVersionState
 import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.io.service.ClientService

@@ -3,10 +3,10 @@ package kotlinmud.player.service
 import com.commit451.mailgun.Contact
 import com.commit451.mailgun.SendMessageRequest
 import java.io.File
-import kotlinmud.event.Event
-import kotlinmud.event.EventService
-import kotlinmud.event.EventType
-import kotlinmud.event.event.PlayerLoggedInEvent
+import kotlinmud.event.impl.Event
+import kotlinmud.event.impl.PlayerLoggedInEvent
+import kotlinmud.event.service.EventService
+import kotlinmud.event.type.EventType
 import kotlinmud.fs.MOB_CARD_FILE
 import kotlinmud.fs.PLAYER_FILE
 import kotlinmud.helper.logger
@@ -119,6 +119,11 @@ class PlayerService(
     }
 
     private fun loginMob(client: Client, mobCard: MobCard) {
-        eventService.publish(Event(EventType.CLIENT_LOGGED_IN, PlayerLoggedInEvent(client, mobCard)))
+        eventService.publish(
+            Event(
+                EventType.CLIENT_LOGGED_IN,
+                PlayerLoggedInEvent(client, mobCard)
+            )
+        )
     }
 }
