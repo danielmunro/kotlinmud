@@ -13,7 +13,7 @@ import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.createClientDisconnectedEvent
 import kotlinmud.helper.logger
 import kotlinmud.io.model.Client
-import kotlinmud.io.model.Clients
+import kotlinmud.io.type.Clients
 import kotlinmud.mob.model.Mob
 import okhttp3.internal.closeQuietly
 

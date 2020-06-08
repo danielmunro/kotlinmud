@@ -7,7 +7,7 @@ import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.event.SocialEvent
-import kotlinmud.io.model.Clients
+import kotlinmud.io.type.Clients
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
