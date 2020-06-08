@@ -8,13 +8,12 @@ import java.nio.channels.Selector
 import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
 import java.util.stream.Collectors
-import kotlin.streams.toList
 import kotlinmud.event.EventService
 import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.createClientDisconnectedEvent
 import kotlinmud.helper.logger
-import kotlinmud.io.model.NIOClient
-import kotlinmud.io.model.NIOClients
+import kotlinmud.io.model.Client
+import kotlinmud.io.model.Clients
 import kotlinmud.mob.model.Mob
 import okhttp3.internal.closeQuietly
 
@@ -33,7 +32,7 @@ class ServerService(
     }
 
     private val selector: Selector = Selector.open()
-    private val clients: NIOClients = mutableListOf()
+    private val clients: Clients = mutableListOf()
     private val socket = ServerSocketChannel.open()
     private val logger = logger(this)
 
@@ -69,21 +68,21 @@ class ServerService(
         }
     }
 
-    fun getClients(): NIOClients {
+    fun getClients(): Clients {
         return clients
     }
 
-    fun getClientsWithBuffers(): NIOClients {
+    fun getClientsWithBuffers(): Clients {
         return clients.stream()
             .filter { it.buffers.isNotEmpty() }
             .collect(Collectors.toList())
     }
 
-    fun getClientForMob(mob: Mob): NIOClient? {
+    fun getClientForMob(mob: Mob): Client? {
         return clients.find { it.mob == mob }
     }
 
-    fun getClientsFromMobs(mobs: List<Mob>): NIOClients {
+    fun getClientsFromMobs(mobs: List<Mob>): Clients {
         return mobs.mapNotNull { mob ->
             clients.find { it.mob == mob }
         }.toMutableList()
@@ -91,7 +90,7 @@ class ServerService(
 
     private fun handleAccept(newSocket: ServerSocketChannel) {
         val socket = configureAndAcceptSocket(newSocket)
-        val client = NIOClient(socket)
+        val client = Client(socket)
         eventService.publish(createClientConnectedEvent(client))
         clients.add(client)
         clientService.addClient(client)
@@ -135,7 +134,7 @@ class ServerService(
         return String(buffer.array()).trim { it <= ' ' }
     }
 
-    private fun getClientBySocket(socket: SocketChannel): NIOClient {
+    private fun getClientBySocket(socket: SocketChannel): Client {
         return clients.find { it.socket == socket }!!
     }
 }

@@ -8,7 +8,7 @@ import io.mockk.mockk
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.PlayerLoggedInEvent
-import kotlinmud.io.model.NIOClient
+import kotlinmud.io.model.Client
 import kotlinmud.test.createTestService
 import org.junit.Test
 
@@ -17,7 +17,7 @@ class LogPlayerInObserverTest {
     fun testMobIsSetOnLoginEvent() {
         // setup
         val test = createTestService()
-        val client = NIOClient(mockk())
+        val client = Client(mockk())
 
         // given
         val mob = test.createPlayerMobBuilder().build()
@@ -35,7 +35,7 @@ class LogPlayerInObserverTest {
     fun testMobIsAddedToWorld() {
         // setup
         val test = createTestService()
-        val client = NIOClient(mockk())
+        val client = Client(mockk())
 
         // given
         val mob = test.createPlayerMobBuilder().build()

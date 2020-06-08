@@ -10,7 +10,7 @@ import kotlinmud.event.event.PlayerLoggedInEvent
 import kotlinmud.fs.MOB_CARD_FILE
 import kotlinmud.fs.PLAYER_FILE
 import kotlinmud.helper.logger
-import kotlinmud.io.model.NIOClient
+import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
 import kotlinmud.io.type.IOStatus
@@ -31,8 +31,8 @@ class PlayerService(
     private val mobCards: MutableList<MobCard>,
     private val eventService: EventService
 ) {
-    private val preAuthClients: MutableMap<NIOClient, AuthStep> = mutableMapOf()
-    private val loggedInPlayers: MutableMap<NIOClient, Player> = mutableMapOf()
+    private val preAuthClients: MutableMap<Client, AuthStep> = mutableMapOf()
+    private val loggedInPlayers: MutableMap<Client, Player> = mutableMapOf()
     private val logger = logger(this)
 
     init {
@@ -90,11 +90,11 @@ class PlayerService(
         return mobCards
     }
 
-    fun loginClientAsPlayer(client: NIOClient, player: Player) {
+    fun loginClientAsPlayer(client: Client, player: Player) {
         loggedInPlayers[client] = player
     }
 
-    fun addPreAuthClient(client: NIOClient) {
+    fun addPreAuthClient(client: Client) {
         preAuthClients[client] = EmailAuthStep(AuthStepService(this))
     }
 
@@ -118,7 +118,7 @@ class PlayerService(
         file.writeText(mobCards.joinToString("\n") { mapMobCard(it) })
     }
 
-    private fun loginMob(client: NIOClient, mobCard: MobCard) {
+    private fun loginMob(client: Client, mobCard: MobCard) {
         eventService.publish(Event(EventType.CLIENT_LOGGED_IN, PlayerLoggedInEvent(client, mobCard)))
     }
 }

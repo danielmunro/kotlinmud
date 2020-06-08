@@ -1,3 +1,3 @@
 package kotlinmud.io.model
 
-class PreAuthRequest(val client: NIOClient, val input: String)
+class PreAuthRequest(val client: Client, val input: String)

@@ -5,7 +5,7 @@ import kotlinmud.action.service.ActionService
 import kotlinmud.attributes.model.AttributesBuilder
 import kotlinmud.event.Event
 import kotlinmud.event.EventService
-import kotlinmud.io.model.NIOClient
+import kotlinmud.io.model.Client
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
 import kotlinmud.io.service.ClientService
@@ -59,8 +59,8 @@ class TestService(
         serverService.readIntoBuffers()
     }
 
-    fun createClient(): NIOClient {
-        val client = NIOClient(SocketChannel.open())
+    fun createClient(): Client {
+        val client = Client(SocketChannel.open())
         clientService.addClient(client)
         return client
     }

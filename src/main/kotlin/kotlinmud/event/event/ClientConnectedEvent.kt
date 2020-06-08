@@ -1,5 +1,5 @@
 package kotlinmud.event.event
 
-import kotlinmud.io.model.NIOClient
+import kotlinmud.io.model.Client
 
-data class ClientConnectedEvent(val client: NIOClient)
+data class ClientConnectedEvent(val client: Client)

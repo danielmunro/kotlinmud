@@ -2,12 +2,12 @@ package kotlinmud.event
 
 import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.event.event.SendMessageToRoomEvent
+import kotlinmud.io.model.Client
 import kotlinmud.io.model.Message
-import kotlinmud.io.model.NIOClient
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.model.Room
 
-fun createClientConnectedEvent(client: NIOClient): Event<ClientConnectedEvent> {
+fun createClientConnectedEvent(client: Client): Event<ClientConnectedEvent> {
     return Event(EventType.CLIENT_CONNECTED, ClientConnectedEvent(client))
 }
 
@@ -15,6 +15,6 @@ fun createSendMessageToRoomEvent(message: Message, room: Room, actionCreator: Mo
     return Event(EventType.SEND_MESSAGE_TO_ROOM, SendMessageToRoomEvent(message, room, actionCreator, target))
 }
 
-fun createClientDisconnectedEvent(client: NIOClient): Event<NIOClient> {
+fun createClientDisconnectedEvent(client: Client): Event<Client> {
     return Event(EventType.CLIENT_DISCONNECTED, client)
 }

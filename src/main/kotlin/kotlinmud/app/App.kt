@@ -6,7 +6,7 @@ import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.createSendMessageToRoomEvent
 import kotlinmud.event.event.DayEvent
-import kotlinmud.io.model.NIOClient
+import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
@@ -50,7 +50,7 @@ class App(
         }
     }
 
-    private fun processRequest(client: NIOClient) {
+    private fun processRequest(client: Client) {
         if (client.delay > 0) {
             return
         }

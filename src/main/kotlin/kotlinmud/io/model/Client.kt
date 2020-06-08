@@ -6,7 +6,7 @@ import java.nio.channels.SocketChannel
 import kotlinmud.mob.model.Mob
 import kotlinmud.player.model.Player
 
-class NIOClient(val socket: SocketChannel) {
+class Client(val socket: SocketChannel) {
     val buffers: MutableList<String> = mutableListOf()
     var mob: Mob? = null
     var player: Player? = null

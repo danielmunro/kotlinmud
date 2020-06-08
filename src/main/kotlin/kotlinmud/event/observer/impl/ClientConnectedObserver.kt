@@ -5,7 +5,7 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.ClientConnectedEvent
 import kotlinmud.event.observer.Observer
-import kotlinmud.io.model.NIOClient
+import kotlinmud.io.model.Client
 import kotlinmud.io.model.Request
 import kotlinmud.mob.model.Appetite
 import kotlinmud.mob.service.MobService
@@ -29,7 +29,7 @@ class ClientConnectedObserver(
 //        client.write("email: ")
     }
 
-    private fun loginDummyMob(client: NIOClient) {
+    private fun loginDummyMob(client: Client) {
         val mob = fixtureService.createMobBuilder()
             .name("foo")
             .isNpc(false)
@@ -62,7 +62,7 @@ class ClientConnectedObserver(
         }
     }
 
-    private fun addPreAuthClient(client: NIOClient) {
+    private fun addPreAuthClient(client: Client) {
         playerService.addPreAuthClient(client)
     }
 }

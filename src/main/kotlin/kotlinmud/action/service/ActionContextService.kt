@@ -7,8 +7,8 @@ import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.event.SocialEvent
+import kotlinmud.io.model.Clients
 import kotlinmud.io.model.Message
-import kotlinmud.io.model.NIOClients
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
 import kotlinmud.io.service.ServerService
@@ -136,7 +136,7 @@ class ActionContextService(
         eventService.publish(Event(EventType.SOCIAL, SocialEvent(social)))
     }
 
-    fun getClients(): NIOClients {
+    fun getClients(): Clients {
         return serverService.getClients()
     }
 

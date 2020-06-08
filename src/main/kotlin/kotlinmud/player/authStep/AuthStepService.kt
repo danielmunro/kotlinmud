@@ -1,6 +1,6 @@
 package kotlinmud.player.authStep
 
-import kotlinmud.io.model.NIOClient
+import kotlinmud.io.model.Client
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.Player
 import kotlinmud.player.service.PlayerService
@@ -22,7 +22,7 @@ class AuthStepService(private val playerService: PlayerService) {
         playerService.sendOTP(player)
     }
 
-    fun loginClientAsPlayer(client: NIOClient, player: Player) {
+    fun loginClientAsPlayer(client: Client, player: Player) {
         playerService.loginClientAsPlayer(client, player)
     }
 }
