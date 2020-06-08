@@ -27,7 +27,7 @@ import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
 import kotlinmud.io.service.ClientService
-import kotlinmud.io.service.NIOServerService
+import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
@@ -40,7 +40,7 @@ import kotlinmud.world.World
 typealias Observers = List<Observer>
 
 fun createObservers(
-    serverService: NIOServerService,
+    serverService: ServerService,
     mobService: MobService,
     eventService: EventService,
     respawnService: RespawnService,

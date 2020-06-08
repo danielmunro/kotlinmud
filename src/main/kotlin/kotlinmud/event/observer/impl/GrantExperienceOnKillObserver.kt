@@ -3,13 +3,13 @@ package kotlinmud.event.observer.impl
 import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.observer.Observer
-import kotlinmud.io.service.NIOServerService
+import kotlinmud.io.service.ServerService
 import kotlinmud.mob.fight.Fight
 import kotlinmud.player.service.PlayerService
 
 class GrantExperienceOnKillObserver(
     private val playerService: PlayerService,
-    private val serverService: NIOServerService
+    private val serverService: ServerService
 ) : Observer {
     override val eventType: EventType = EventType.KILL
 

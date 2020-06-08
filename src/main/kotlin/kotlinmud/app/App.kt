@@ -10,7 +10,7 @@ import kotlinmud.io.model.NIOClient
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
-import kotlinmud.io.service.NIOServerService
+import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
@@ -22,7 +22,7 @@ class App(
     private val eventService: EventService,
     private val mobService: MobService,
     private val timeService: TimeService,
-    private val serverService: NIOServerService,
+    private val serverService: ServerService,
     private val actionService: ActionService,
     private val playerService: PlayerService
 ) {
@@ -30,7 +30,6 @@ class App(
 
     fun start() {
         logger.info("starting app on port ${serverService.port}")
-        serverService.configure()
         eventService.publish(Event(EventType.DAY, DayEvent()))
         mainLoop()
     }

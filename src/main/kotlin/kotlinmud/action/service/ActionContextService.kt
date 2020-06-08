@@ -11,7 +11,7 @@ import kotlinmud.io.model.Message
 import kotlinmud.io.model.NIOClients
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
-import kotlinmud.io.service.NIOServerService
+import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.helper.createRecipeList
@@ -42,7 +42,7 @@ class ActionContextService(
     private val eventService: EventService,
     private val weatherService: WeatherService,
     private val actionContextList: ActionContextList,
-    private val serverService: NIOServerService,
+    private val serverService: ServerService,
     private val request: Request
 ) {
     private val craftingService = CraftingService(itemService,

@@ -8,6 +8,7 @@ import java.nio.channels.Selector
 import java.nio.channels.ServerSocketChannel
 import java.nio.channels.SocketChannel
 import java.util.stream.Collectors
+import kotlin.streams.toList
 import kotlinmud.event.EventService
 import kotlinmud.event.createClientConnectedEvent
 import kotlinmud.event.createClientDisconnectedEvent
@@ -20,7 +21,7 @@ import okhttp3.internal.closeQuietly
 const val SELECT_TIMEOUT_MS: Long = 1
 const val READ_BUFFER_SIZE_IN_BYTES = 1024
 
-class NIOServerService(
+class ServerService(
     private val clientService: ClientService,
     private val eventService: EventService,
     val port: Int = 0
@@ -36,7 +37,7 @@ class NIOServerService(
     private val socket = ServerSocketChannel.open()
     private val logger = logger(this)
 
-    fun configure() {
+    fun init() {
         val serverSocket = socket.socket()
         serverSocket.bind(InetSocketAddress(port))
         socket.configureBlocking(false)
@@ -45,14 +46,10 @@ class NIOServerService(
     }
 
     fun removeDisconnectedClients() {
-        val lost = clients.stream()
-            .filter { !it.connected }
-            .collect(Collectors.toList())
+        val lost = clients.filter { !it.connected }
         lost.forEach {
             eventService.publish(createClientDisconnectedEvent(it))
-        }
-        if (lost.size > 0) {
-            logger.info("remove disconnected clients :: {}", lost.size)
+            logger.info("remove disconnected client :: {}", it.socket.remoteAddress)
         }
         clients.removeAll(lost)
     }
@@ -77,7 +74,9 @@ class NIOServerService(
     }
 
     fun getClientsWithBuffers(): NIOClients {
-        return clients.stream().filter { it.buffers.isNotEmpty() }.collect(Collectors.toList())
+        return clients.stream()
+            .filter { it.buffers.isNotEmpty() }
+            .collect(Collectors.toList())
     }
 
     fun getClientForMob(mob: Mob): NIOClient? {

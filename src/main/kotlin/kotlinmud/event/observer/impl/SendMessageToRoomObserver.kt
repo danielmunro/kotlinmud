@@ -4,10 +4,10 @@ import kotlinmud.event.Event
 import kotlinmud.event.EventType
 import kotlinmud.event.event.SendMessageToRoomEvent
 import kotlinmud.event.observer.Observer
-import kotlinmud.io.service.NIOServerService
+import kotlinmud.io.service.ServerService
 import kotlinmud.mob.service.MobService
 
-class SendMessageToRoomObserver(private val serverService: NIOServerService, private val mobService: MobService) :
+class SendMessageToRoomObserver(private val serverService: ServerService, private val mobService: MobService) :
     Observer {
     override val eventType: EventType = EventType.SEND_MESSAGE_TO_ROOM
 

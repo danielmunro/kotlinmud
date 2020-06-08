@@ -5,13 +5,13 @@ import kotlinmud.event.EventType
 import kotlinmud.event.event.SocialEvent
 import kotlinmud.event.observer.Observer
 import kotlinmud.io.model.Message
-import kotlinmud.io.service.NIOServerService
+import kotlinmud.io.service.ServerService
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.social.SocialChannel
 import kotlinmud.room.model.Room
 
-class SocialDistributorObserver(private val serverService: NIOServerService, private val mobService: MobService) :
+class SocialDistributorObserver(private val serverService: ServerService, private val mobService: MobService) :
     Observer {
     override val eventType: EventType = EventType.SOCIAL
 

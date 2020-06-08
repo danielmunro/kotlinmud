@@ -7,6 +7,7 @@ import kotlinmud.action.service.ActionService
 import kotlinmud.app.createContainer
 import kotlinmud.event.EventService
 import kotlinmud.event.observer.Observers
+import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
@@ -22,6 +23,7 @@ fun createTestService(): TestService {
     val act: ActionService by container.instance<ActionService>()
     val evt: EventService by container.instance<EventService>()
     val respawnService: RespawnService by container.instance<RespawnService>()
+    val serverService: ServerService by container.instance<ServerService>()
     val observers: Observers by container.instance<Observers>()
     val playerService: PlayerService by container.instance<PlayerService>()
     evt.observers = observers
@@ -32,7 +34,8 @@ fun createTestService(): TestService {
         act,
         respawnService,
         evt,
-        playerService
+        playerService,
+        serverService
     )
 }
 

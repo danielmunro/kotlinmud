@@ -9,6 +9,7 @@ import kotlinmud.io.model.NIOClient
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
 import kotlinmud.io.service.ClientService
+import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.IOStatus
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
@@ -41,7 +42,8 @@ class TestService(
     private val actionService: ActionService,
     private val respawnService: RespawnService,
     private val eventService: EventService,
-    private val playerService: PlayerService
+    private val playerService: PlayerService,
+    private val serverService: ServerService
 ) {
     private val clientService = ClientService()
 
@@ -51,6 +53,10 @@ class TestService(
 
     fun <T> publish(event: Event<T>) {
         eventService.publish(event)
+    }
+
+    fun readIntoBuffers() {
+        serverService.readIntoBuffers()
     }
 
     fun createClient(): NIOClient {
