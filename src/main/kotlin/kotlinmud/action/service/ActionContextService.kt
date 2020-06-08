@@ -7,11 +7,11 @@ import kotlinmud.event.EventService
 import kotlinmud.event.EventType
 import kotlinmud.event.event.FightStartedEvent
 import kotlinmud.event.event.SocialEvent
-import kotlinmud.io.type.Clients
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
 import kotlinmud.io.service.ServerService
+import kotlinmud.io.type.Clients
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.helper.createRecipeList
