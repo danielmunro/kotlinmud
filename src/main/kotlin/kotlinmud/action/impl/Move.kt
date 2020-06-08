@@ -6,6 +6,8 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.directionToExit
 import kotlinmud.io.model.EmptyResponse
 import kotlinmud.io.type.Syntax
+import kotlinmud.mob.model.MAX_WALKABLE_ELEVATION
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.room.model.Room
@@ -19,10 +21,25 @@ private fun move(command: Command, direction: Direction): Action {
         listOf(Cost(CostType.MV_AMOUNT, 1)),
         Command.LOOK
     ) {
+        val room = it.getRoom()
         val destination = it.get<Room>(Syntax.DIRECTION_TO_EXIT)
         it.moveMob(destination, direction)
+        val elevationChange = room.elevation - destination.elevation
+        if (elevationChange > MAX_WALKABLE_ELEVATION) {
+            takeDamageFromFall(it.getMob(), elevationChange)
+        }
         EmptyResponse()
     }
+}
+
+fun takeDamageFromFall(mob: Mob, elevationChange: Int) {
+    val damage = when {
+        elevationChange < MAX_WALKABLE_ELEVATION + 2 -> 3
+        elevationChange < MAX_WALKABLE_ELEVATION + 5 -> 10
+        elevationChange < MAX_WALKABLE_ELEVATION + 10 -> 50
+        else -> elevationChange * 10
+    }
+    mob.hp -= damage
 }
 
 fun createNorthAction(): Action {

@@ -2,7 +2,9 @@ package kotlinmud.action.impl
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isLessThan
 import kotlinmud.action.impl.info.describeRoom
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.createTestService
 import org.junit.Test
@@ -83,7 +85,7 @@ class MoveTest {
     }
 
     @Test
-    fun testMobCannotMoveOverGreatElevations() {
+    fun testMobCannotMoveOverGreatPositiveElevations() {
         // setup
         val test = createTestService()
         val mob = test.createMob()
@@ -97,5 +99,25 @@ class MoveTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you can't climb that elevation.")
+    }
+
+    @Test
+    fun testMobTakesDamageWhenFalling() {
+        // setup
+        val test = createTestService()
+        val mob = test.createMob()
+        val room = test.getRooms().find { it.id == 120 }!!
+
+        // expect
+        assertThat(mob.hp).isEqualTo(mob.calc(Attribute.HP))
+
+        // given
+        test.putMobInRoom(mob, room)
+
+        // when
+        test.runAction(mob, "west")
+
+        // then
+        assertThat(mob.hp).isLessThan(mob.calc(Attribute.HP))
     }
 }
