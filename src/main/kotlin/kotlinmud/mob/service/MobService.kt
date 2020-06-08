@@ -33,7 +33,7 @@ import kotlinmud.room.model.NewRoom
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.RegenLevel
-import kotlinmud.world.World
+import kotlinmud.world.model.World
 
 class MobService(
     private val itemService: ItemService,

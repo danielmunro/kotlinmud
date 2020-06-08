@@ -2,6 +2,7 @@ package kotlinmud.action.service
 
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.affect.model.AffectInstance
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.FightStartedEvent
 import kotlinmud.event.impl.SocialEvent
@@ -30,10 +31,8 @@ import kotlinmud.room.model.NewRoom
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.RegenLevel
-import kotlinmud.service.CraftingService
 import kotlinmud.service.WeatherService
 import kotlinmud.weather.Weather
-import kotlinmud.world.ResourceType
 
 class ActionContextService(
     private val mobService: MobService,
@@ -45,7 +44,8 @@ class ActionContextService(
     private val serverService: ServerService,
     private val request: Request
 ) {
-    private val craftingService = CraftingService(itemService,
+    private val craftingService = CraftingService(
+        itemService,
         createRecipeList()
     )
 

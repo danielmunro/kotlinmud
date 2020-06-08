@@ -1,4 +1,4 @@
-package kotlinmud.world
+package kotlinmud.biome.type
 
 enum class ResourceType(val value: String) {
     BRUSH("brush"),

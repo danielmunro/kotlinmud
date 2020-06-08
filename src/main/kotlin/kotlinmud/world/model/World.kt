@@ -1,4 +1,4 @@
-package kotlinmud.world
+package kotlinmud.world.model
 
 import kotlinmud.data.Table
 import kotlinmud.fs.loader.area.mapper.RoomMapper
@@ -20,7 +20,6 @@ data class World(private val areas: List<Area>) {
     var itemMobResets: Table<ItemMobReset>
     var itemRoomResets: Table<ItemRoomReset>
     var nextRoomID = 0
-    val biomes = createBiomes()
 
     init {
         val allRoomModels = areas.flatMap { it.roomMapper.roomModels }

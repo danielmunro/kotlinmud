@@ -2,8 +2,8 @@ package kotlinmud.world.generation
 
 import assertk.assertThat
 import assertk.assertions.doesNotContain
+import kotlinmud.biome.helper.createBiomes
 import kotlinmud.fs.saver.layerToString
-import kotlinmud.world.createBiomes
 import org.junit.Test
 
 const val WIDTH = 100

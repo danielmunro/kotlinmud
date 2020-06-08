@@ -1,4 +1,4 @@
-package kotlinmud.world
+package kotlinmud.biome.helper
 
 import kotlinmud.world.resource.Brush
 import kotlinmud.world.resource.CoalOre

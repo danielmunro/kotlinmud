@@ -1,8 +1,8 @@
 package kotlinmud.world.resource
 
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemBuilderBuilder
-import kotlinmud.world.ResourceType
 
 interface Resource {
     val resourceType: ResourceType

@@ -35,7 +35,7 @@ import kotlinmud.service.PersistenceService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
-import kotlinmud.world.World
+import kotlinmud.world.model.World
 
 typealias Observers = List<Observer>
 

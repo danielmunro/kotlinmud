@@ -20,7 +20,7 @@ import kotlinmud.mob.model.Mob
 import kotlinmud.room.loader.DoorLoader
 import kotlinmud.room.loader.RoomLoader
 import kotlinmud.room.model.Door
-import kotlinmud.world.Area
+import kotlinmud.world.model.Area
 
 class AreaLoader(
     private val baseDir: String,

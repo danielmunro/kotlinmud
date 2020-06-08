@@ -1,7 +1,8 @@
-package kotlinmud.world.biome
+package kotlinmud.biome.impl
 
-import kotlinmud.world.BiomeType
-import kotlinmud.world.SubstrateType
+import kotlinmud.biome.type.Biome
+import kotlinmud.biome.type.BiomeType
+import kotlinmud.biome.type.SubstrateType
 import kotlinmud.world.resource.Resource
 
 class Badlands : Biome {

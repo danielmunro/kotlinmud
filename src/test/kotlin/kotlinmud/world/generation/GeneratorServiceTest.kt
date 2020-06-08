@@ -3,8 +3,8 @@ package kotlinmud.world.generation
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isTrue
-import kotlinmud.world.BiomeType
-import kotlinmud.world.createBiomes
+import kotlinmud.biome.helper.createBiomes
+import kotlinmud.biome.type.BiomeType
 import org.junit.Test
 
 const val length = 10

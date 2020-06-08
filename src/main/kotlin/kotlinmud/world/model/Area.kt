@@ -1,4 +1,4 @@
-package kotlinmud.world
+package kotlinmud.world.model
 
 import kotlinmud.fs.loader.area.mapper.RoomMapper
 import kotlinmud.fs.loader.area.model.reset.ItemMobReset

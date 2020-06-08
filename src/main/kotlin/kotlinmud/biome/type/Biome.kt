@@ -1,7 +1,5 @@
-package kotlinmud.world.biome
+package kotlinmud.biome.type
 
-import kotlinmud.world.BiomeType
-import kotlinmud.world.SubstrateType
 import kotlinmud.world.resource.Resource
 
 interface Biome {

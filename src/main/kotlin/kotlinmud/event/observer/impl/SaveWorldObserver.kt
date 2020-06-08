@@ -6,7 +6,7 @@ import kotlinmud.event.type.EventType
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.PersistenceService
-import kotlinmud.world.World
+import kotlinmud.world.model.World
 
 class SaveWorldObserver(
     private val persistenceService: PersistenceService,

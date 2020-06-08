@@ -1,6 +1,8 @@
-package kotlinmud.service
+package kotlinmud.action.service
 
 import kotlin.streams.toList
+import kotlinmud.biome.helper.createResourceList
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.exception.CraftException
 import kotlinmud.exception.HarvestException
 import kotlinmud.item.model.Item
@@ -11,8 +13,6 @@ import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.model.Room
-import kotlinmud.world.ResourceType
-import kotlinmud.world.createResourceList
 import kotlinmud.world.resource.Resource
 
 class CraftingService(
@@ -45,9 +45,12 @@ class CraftingService(
     }
 
     fun craft(recipe: Recipe, hasInventory: HasInventory): List<Item> {
-        val componentsList = createListOfItemTypesFromMap(recipe.getComponents())
-        val toDestroy = createListOfItemsToDestroy(
-            itemService.findAllByOwner(hasInventory).sortedBy { it.type }, componentsList)
+        val componentsList =
+            createListOfItemTypesFromMap(recipe.getComponents())
+        val toDestroy =
+            createListOfItemsToDestroy(
+                itemService.findAllByOwner(hasInventory).sortedBy { it.type }, componentsList
+            )
 
         if (toDestroy.size < componentsList.size) {
             throw CraftException()

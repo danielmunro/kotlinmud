@@ -2,7 +2,7 @@ package kotlinmud.world.generation
 
 import assertk.assertThat
 import assertk.assertions.hasSize
-import kotlinmud.world.createBiomes
+import kotlinmud.biome.helper.createBiomes
 import org.junit.Test
 
 class ElevationServiceTest {
@@ -12,7 +12,9 @@ class ElevationServiceTest {
         val biomeService = BiomeService(width, length, createBiomes())
 
         // given
-        val elevationService = ElevationService(biomeService.createLayer(50), createBiomes())
+        val elevationService = ElevationService(biomeService.createLayer(50),
+            createBiomes()
+        )
 
         // when
         val layer = elevationService.buildLayer()

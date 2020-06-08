@@ -1,4 +1,4 @@
-package kotlinmud.world
+package kotlinmud.biome.type
 
 enum class SubstrateType {
     DIRT,

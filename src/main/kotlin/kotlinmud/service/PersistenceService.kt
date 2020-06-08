@@ -6,8 +6,8 @@ import kotlinmud.fs.VERSION_FILE
 import kotlinmud.fs.loader.AreaLoader
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.saver.WorldSaver
-import kotlinmud.world.Area
-import kotlinmud.world.World
+import kotlinmud.world.model.Area
+import kotlinmud.world.model.World
 import org.slf4j.LoggerFactory
 
 const val CURRENT_LOAD_SCHEMA_VERSION = 12

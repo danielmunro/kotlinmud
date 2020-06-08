@@ -1,11 +1,11 @@
 package kotlinmud.world.generation
 
+import kotlinmud.biome.type.Biome
+import kotlinmud.biome.type.BiomeType
 import kotlinmud.room.model.Exit
 import kotlinmud.room.model.Room
 import kotlinmud.room.model.RoomBuilder
 import kotlinmud.room.type.Direction
-import kotlinmud.world.BiomeType
-import kotlinmud.world.biome.Biome
 
 typealias Blocks = Array<Array<IntArray>>
 

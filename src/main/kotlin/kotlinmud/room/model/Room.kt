@@ -3,13 +3,13 @@ package kotlinmud.room.model
 import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
+import kotlinmud.biome.type.BiomeType
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.data.Row
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
-import kotlinmud.world.BiomeType
-import kotlinmud.world.ResourceType
 
 @Builder
 data class Room(

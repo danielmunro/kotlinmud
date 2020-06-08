@@ -1,13 +1,13 @@
 package kotlinmud.room.loader
 
+import kotlinmud.biome.type.BiomeType
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.loader.Loader
 import kotlinmud.fs.loader.area.loader.intAttr
 import kotlinmud.fs.loader.area.loader.strAttr
 import kotlinmud.fs.loader.area.model.RoomModel
 import kotlinmud.room.type.RegenLevel
-import kotlinmud.world.BiomeType
-import kotlinmud.world.ResourceType
 
 class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion: Int) : Loader {
     override fun load(): RoomModel {

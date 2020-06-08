@@ -1,9 +1,9 @@
 package kotlinmud.world.resource
 
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemBuilderBuilder
 import kotlinmud.item.type.ItemType
-import kotlinmud.world.ResourceType
 
 class Tar : Resource {
     override val resourceType: ResourceType = ResourceType.TAR

@@ -1,7 +1,7 @@
 package kotlinmud.world.generation
 
 import kotlin.random.Random
-import kotlinmud.world.biome.Biome
+import kotlinmud.biome.type.Biome
 
 class BiomeService(
     private val width: Int,

@@ -11,7 +11,7 @@ import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.service.MobService
 import kotlinmud.room.model.Room
-import kotlinmud.world.World
+import kotlinmud.world.model.World
 
 class RespawnService(
     private val world: World,
@@ -19,7 +19,6 @@ class RespawnService(
     private val itemService: ItemService
 ) {
     private val logger = logger(this)
-    private var mobIdAutoIncrementer = 0
 
     fun respawn() {
         logger.debug("respawn started")

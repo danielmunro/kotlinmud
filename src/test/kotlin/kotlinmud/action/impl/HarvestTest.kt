@@ -6,8 +6,8 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.test.createTestService
-import kotlinmud.world.ResourceType
 import org.junit.Test
 
 class HarvestTest {

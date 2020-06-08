@@ -1,12 +1,12 @@
 package kotlinmud.world.resource
 
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemBuilderBuilder
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.random.randomAmount
-import kotlinmud.world.ResourceType
 
 class Watermelon : Resource {
     override val resourceType: ResourceType = ResourceType.WATERMELON

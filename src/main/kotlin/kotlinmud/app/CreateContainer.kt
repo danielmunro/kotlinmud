@@ -23,7 +23,7 @@ import kotlinmud.service.PersistenceService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
-import kotlinmud.world.World
+import kotlinmud.world.model.World
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance

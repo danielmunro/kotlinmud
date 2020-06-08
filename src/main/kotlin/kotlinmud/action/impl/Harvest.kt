@@ -3,6 +3,7 @@ package kotlinmud.action.impl
 import kotlinmud.action.helper.mustBeStanding
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.exception.HarvestException
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.factory.resourceInRoom
@@ -10,7 +11,6 @@ import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
-import kotlinmud.world.ResourceType
 
 fun createHarvestAction(): Action {
     return Action(
