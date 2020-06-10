@@ -15,14 +15,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           arguments: clean test jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONARCLOUD }}
-      - name: Publish to Quay
+      - name: Publish Package
         uses: HurricanKai/Publish-Docker-Github-Action@master
         if: contains(github.ref, 'refs/tags/v')
         with:
-          name: quay.io/dmunro/kotlinmud
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: quay.io
+          name: danielmunro/kotlinmud
+          username: ${{ secrets.DOCKER_USERNAME_2 }}
+          password: ${{ secrets.DOCKER_PASSWORD_2 }}
+          registry: docker.pkg.github.com
           tagging: true
       - name: Restart service
         uses: appleboy/ssh-action@master
