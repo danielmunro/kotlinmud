@@ -3,7 +3,6 @@ package kotlinmud.mob.service
 import com.cesarferreira.pluralize.pluralize
 import java.io.File
 import java.lang.RuntimeException
-import java.util.stream.Collectors
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
@@ -11,6 +10,9 @@ import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
 import kotlinmud.fs.PLAYER_MOBS_FILE
 import kotlinmud.helper.logger
+import kotlinmud.io.factory.createArriveMessage
+import kotlinmud.io.factory.createLeaveMessage
+import kotlinmud.io.factory.createSingleHitMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
@@ -22,17 +24,17 @@ import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.helper.getDispositionRegenRate
+import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.mapper.mapMob
+import kotlinmud.mob.model.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobRoom
-import kotlinmud.mob.model.corpseWeight
-import kotlinmud.mob.type.Disposition
 import kotlinmud.room.helper.oppositeDirection
 import kotlinmud.room.model.Exit
 import kotlinmud.room.model.NewRoom
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
-import kotlinmud.room.type.RegenLevel
 import kotlinmud.world.model.World
 
 class MobService(
@@ -41,6 +43,18 @@ class MobService(
     private val world: World,
     private val playerMobs: MutableList<Mob>
 ) {
+    companion object {
+        private fun takeDamageFromFall(mob: Mob, elevationChange: Int) {
+            val damage = when {
+                elevationChange < MAX_WALKABLE_ELEVATION + 2 -> 3
+                elevationChange < MAX_WALKABLE_ELEVATION + 5 -> 10
+                elevationChange < MAX_WALKABLE_ELEVATION + 10 -> 50
+                else -> elevationChange * 10
+            }
+            mob.hp -= damage
+        }
+    }
+
     private val mobRooms: MutableList<MobRoom> = mutableListOf()
     private val newRooms: MutableList<NewRoom> = mutableListOf()
     private val fights: MutableList<Fight> = mutableListOf()
@@ -51,7 +65,7 @@ class MobService(
         mobRooms.filter { !it.mob.isIncapacitated() }.forEach {
             val regen = normalizeDouble(
                 0.0,
-                getRegenRate(it.room.regen) +
+                getRoomRegenRate(it.room.regen) +
                         getDispositionRegenRate(it.mob.disposition),
                 1.0
             )
@@ -142,8 +156,13 @@ class MobService(
     }
 
     fun moveMob(mob: Mob, room: Room, direction: Direction) {
-        sendMessageToRoom(createLeaveMessage(mob, direction), getRoomForMob(mob), mob)
+        val leaving = getRoomForMob(mob)
+        sendMessageToRoom(createLeaveMessage(mob, direction), leaving, mob)
         putMobInRoom(mob, room)
+        val elevationChange = leaving.elevation - room.elevation
+        if (elevationChange > MAX_WALKABLE_ELEVATION) {
+            takeDamageFromFall(mob, elevationChange)
+        }
         sendMessageToRoom(createArriveMessage(mob), room, mob)
     }
 
@@ -214,21 +233,7 @@ class MobService(
     }
 
     fun createCorpseFrom(mob: Mob): Item {
-        val corpse = itemService.createItemBuilder()
-            .name("a corpse of ${mob.name}")
-            .description("a corpse of ${mob.name} is here.")
-            .level(mob.level)
-            .weight(corpseWeight)
-            .decayTimer(20)
-            .build()
-
-        mob.equipped.stream().collect(Collectors.toList()).forEach {
-            mob.equipped.remove(it)
-        }
-
-        itemService.transferAllItems(mob, corpse)
-
-        return corpse
+        return itemService.createCorpseFromMob(mob)
     }
 
     fun persistPlayerMobs() {
@@ -242,14 +247,14 @@ class MobService(
         sendRoundMessage(round.defenderAttacks, room, round.defender, round.attacker)
         eventService.publishRoomMessage(
             createSendMessageToRoomEvent(
-                messageToActionCreator(getHealthIndication(round.defender)),
+                messageToActionCreator(round.defender.getHealthIndication()),
                 room,
                 round.attacker
             )
         )
         eventService.publishRoomMessage(
             createSendMessageToRoomEvent(
-                messageToActionCreator(getHealthIndication(round.attacker)),
+                messageToActionCreator(round.attacker.getHealthIndication()),
                 room,
                 round.defender
             )
@@ -263,65 +268,12 @@ class MobService(
             val verbPlural = if (it.attackResult == AttackResult.HIT) it.attackVerb.pluralize() else "misses"
             eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
-                    MessageBuilder()
-                        .toActionCreator("you $verb $defender.")
-                        .toTarget("$attacker $verbPlural you.")
-                        .toObservers("$attacker $verbPlural $defender.")
-                        .sendPrompt(false)
-                        .build(),
+                    createSingleHitMessage(attacker, defender, verb, verbPlural),
                     room,
                     attacker,
                     defender
                 )
             )
         }
-    }
-}
-
-fun getHealthIndication(mob: Mob): String {
-    val amount: Double = mob.hp.toDouble() / mob.calc(Attribute.HP).toDouble()
-    return when {
-        amount == 1.0 -> "$mob is in excellent condition."
-        amount > 0.9 -> "$mob has a few scratches."
-        amount > 0.75 -> "$mob has some small wounds and bruises."
-        amount > 0.5 -> "$mob has quite a few wounds."
-        amount > 0.3 -> "$mob has some big nasty wounds and scratches."
-        amount > 0.15 -> "$mob looks pretty hurt."
-        else -> "$mob is in awful condition."
-    }
-}
-
-fun createLeaveMessage(mob: Mob, direction: Direction): Message {
-    return MessageBuilder()
-        .toActionCreator("you leave heading ${direction.value}.")
-        .toObservers("${mob.name} leaves heading ${direction.value}.")
-        .sendPrompt(false)
-        .build()
-}
-
-fun createArriveMessage(mob: Mob): Message {
-    return MessageBuilder()
-        .toObservers("${mob.name} arrives.")
-        .sendPrompt(false)
-        .build()
-}
-
-fun getRegenRate(regenLevel: RegenLevel): Double {
-    return when (regenLevel) {
-        RegenLevel.NONE -> 0.0
-        RegenLevel.LOW -> 0.05
-        RegenLevel.NORMAL -> 0.1
-        RegenLevel.HIGH -> .20
-        RegenLevel.FULL -> 1.0
-    }
-}
-
-fun getDispositionRegenRate(disposition: Disposition): Double {
-    return when (disposition) {
-        Disposition.DEAD -> 0.0
-        Disposition.SLEEPING -> 0.15
-        Disposition.SITTING -> 0.05
-        Disposition.STANDING -> 0.0
-        Disposition.FIGHTING -> -0.15
     }
 }

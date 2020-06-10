@@ -6,6 +6,8 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.type.HasInventory
+import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.corpseWeight
 import kotlinmud.string.matches
 
 typealias ItemBuilderBuilder = () -> ItemBuilder
@@ -80,5 +82,18 @@ class ItemService(private val items: MutableList<ItemOwner> = mutableListOf()) {
                 it.owner = to
             }
         }
+    }
+
+    fun createCorpseFromMob(mob: Mob): Item {
+        val item = createItemBuilder()
+            .name("a corpse of $mob")
+            .description("a corpse of $mob is here.")
+            .level(mob.level)
+            .weight(corpseWeight)
+            .decayTimer(20)
+            .build()
+        mob.equipped.removeIf { true }
+        transferAllItems(mob, item)
+        return item
     }
 }

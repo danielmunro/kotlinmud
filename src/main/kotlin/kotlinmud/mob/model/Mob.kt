@@ -216,6 +216,19 @@ class Mob(
         return dN(1, 2) == 1
     }
 
+    fun getHealthIndication(): String {
+        val amount: Double = hp.toDouble() / calc(Attribute.HP).toDouble()
+        return when {
+            amount == 1.0 -> "$name is in excellent condition."
+            amount > 0.9 -> "$name has a few scratches."
+            amount > 0.75 -> "$name has some small wounds and bruises."
+            amount > 0.5 -> "$name has quite a few wounds."
+            amount > 0.3 -> "$name has some big nasty wounds and scratches."
+            amount > 0.15 -> "$name looks pretty hurt."
+            else -> "$name is in awful condition."
+        }
+    }
+
     private fun getWeapon(): Item? {
         return equipped.find { it.position == Position.WEAPON }
     }
