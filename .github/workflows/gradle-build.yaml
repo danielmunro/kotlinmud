@@ -16,7 +16,7 @@ jobs:
         with:
           arguments: clean test jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONARCLOUD }}
       - name: Publish Package
-        uses: HurricanKai/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@master
         if: contains(github.ref, 'refs/tags/v')
         with:
           name: danielmunro/kotlinmud
