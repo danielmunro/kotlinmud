@@ -19,7 +19,7 @@ jobs:
         uses: elgohr/Publish-Docker-Github-Action@master
         if: contains(github.ref, 'refs/tags/v')
         with:
-          name: danielmunro/kotlinmud
+          name: danielmunro/kotlinmud/kotlinmud-docker-image
           username: ${{ secrets.DOCKER_USERNAME_2 }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
