@@ -19,7 +19,7 @@ jobs:
         uses: HurricanKai/Publish-Docker-Github-Action@master
         if: contains(github.ref, 'refs/tags/v')
         with:
-          name: danielmunro/kotlinmud
+          name: docker.pkg.github.com/danielmunro/kotlinmud
           username: ${{ secrets.DOCKER_USERNAME_2 }}
           password: ${{ secrets.DOCKER_PASSWORD_2 }}
           registry: docker.pkg.github.com
