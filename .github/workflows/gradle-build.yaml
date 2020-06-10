@@ -21,7 +21,7 @@ jobs:
         with:
           name: danielmunro/kotlinmud
           username: ${{ secrets.DOCKER_USERNAME_2 }}
-          password: ${{ secrets.DOCKER_PASSWORD_2 }}
+          password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
           tagging: true
       - name: Restart service
