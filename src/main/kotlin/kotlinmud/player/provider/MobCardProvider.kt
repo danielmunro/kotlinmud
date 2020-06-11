@@ -1,14 +1,13 @@
 package kotlinmud.player.provider
 
 import java.io.EOFException
-import java.io.File
-import kotlinmud.fs.MOB_CARD_FILE
+import kotlinmud.fs.factory.mobCardFile
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.player.loader.MobCardLoader
 import kotlinmud.player.model.MobCard
 
 fun loadMobCards(): MutableList<MobCard> {
-    val file = File(MOB_CARD_FILE)
+    val file = mobCardFile()
     if (!file.exists()) {
         return mutableListOf()
     }

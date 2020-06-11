@@ -1,7 +1,7 @@
 package kotlinmud.room.mapper
 
-import kotlinmud.fs.int
-import kotlinmud.fs.str
+import kotlinmud.fs.helper.int
+import kotlinmud.fs.helper.str
 import kotlinmud.room.model.Door
 
 fun mapDoor(door: Door): String {

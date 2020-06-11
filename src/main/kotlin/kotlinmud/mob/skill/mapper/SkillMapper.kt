@@ -1,7 +1,7 @@
 package kotlinmud.mob.skill.mapper
 
-import kotlinmud.fs.end
-import kotlinmud.fs.str
+import kotlinmud.fs.helper.end
+import kotlinmud.fs.helper.str
 import kotlinmud.mob.skill.type.SkillType
 
 fun mapSkills(skills: Map<SkillType, Int>): String {

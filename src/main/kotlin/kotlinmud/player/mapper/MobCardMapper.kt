@@ -1,8 +1,8 @@
 package kotlinmud.player.mapper
 
 import kotlinmud.attributes.mapper.mapAttributeList
-import kotlinmud.fs.int
-import kotlinmud.fs.str
+import kotlinmud.fs.helper.int
+import kotlinmud.fs.helper.str
 import kotlinmud.player.model.MobCard
 
 fun mapMobCard(mobCard: MobCard): String {

@@ -2,13 +2,12 @@ package kotlinmud.player.service
 
 import com.commit451.mailgun.Contact
 import com.commit451.mailgun.SendMessageRequest
-import java.io.File
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.PlayerLoggedInEvent
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
-import kotlinmud.fs.MOB_CARD_FILE
-import kotlinmud.fs.PLAYER_FILE
+import kotlinmud.fs.factory.mobCardFile
+import kotlinmud.fs.factory.playerFile
 import kotlinmud.helper.logger
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
@@ -109,13 +108,11 @@ class PlayerService(
     }
 
     private fun writePlayersFile() {
-        val file = File(PLAYER_FILE)
-        file.writeText(players.joinToString("\n") { mapPlayer(it) })
+        playerFile().writeText(players.joinToString("\n") { mapPlayer(it) })
     }
 
     private fun writeMobCardsFile() {
-        val file = File(MOB_CARD_FILE)
-        file.writeText(mobCards.joinToString("\n") { mapMobCard(it) })
+        mobCardFile().writeText(mobCards.joinToString("\n") { mapMobCard(it) })
     }
 
     private fun loginMob(client: Client, mobCard: MobCard) {

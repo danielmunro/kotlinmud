@@ -9,6 +9,7 @@ import kotlinmud.fs.loader.area.loader.Loader
 import kotlinmud.fs.loader.area.loader.intAttr
 import kotlinmud.fs.loader.area.loader.parseAffects
 import kotlinmud.fs.loader.area.loader.strAttr
+import kotlinmud.fs.service.CURRENT_LOAD_SCHEMA_VERSION
 import kotlinmud.mob.factory.mobBuilder
 import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.race.createRaceFromString
@@ -17,7 +18,6 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
-import kotlinmud.service.CURRENT_LOAD_SCHEMA_VERSION
 
 class MobLoader(
     private val tokenizer: Tokenizer,

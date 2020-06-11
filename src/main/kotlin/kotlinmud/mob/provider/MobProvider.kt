@@ -1,14 +1,13 @@
 package kotlinmud.mob.provider
 
 import java.io.EOFException
-import java.io.File
-import kotlinmud.fs.PLAYER_MOBS_FILE
+import kotlinmud.fs.factory.playerMobFile
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.mob.loader.MobLoader
 import kotlinmud.mob.model.Mob
 
 fun loadMobs(loadSchemaToUse: Int): MutableList<Mob> {
-    val file = File(PLAYER_MOBS_FILE)
+    val file = playerMobFile()
     if (!file.exists()) {
         return mutableListOf()
     }

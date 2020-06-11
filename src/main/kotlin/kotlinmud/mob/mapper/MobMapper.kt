@@ -2,9 +2,9 @@ package kotlinmud.mob.mapper
 
 import kotlinmud.affect.mapper.mapAffects
 import kotlinmud.attributes.mapper.mapAttributes
-import kotlinmud.fs.int
+import kotlinmud.fs.helper.int
+import kotlinmud.fs.helper.str
 import kotlinmud.fs.saver.mapper.optional
-import kotlinmud.fs.str
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.mapper.mapSkills
 import kotlinmud.mob.type.JobType
@@ -44,5 +44,10 @@ ${str(mob.gender.toString())}
 ${mapSkills(mob.skills)}
 ${mapAttributes(mob.attributes)}
 ${mapAffects(mob.affects)}
-""" + str((if (optional != "") optional.substring(0, optional.length - 2) else "")) + "\n"
+""" + str(
+        (if (optional != "") optional.substring(
+            0,
+            optional.length - 2
+        ) else "")
+    ) + "\n"
 }

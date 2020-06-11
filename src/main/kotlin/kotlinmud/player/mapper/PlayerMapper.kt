@@ -1,6 +1,6 @@
 package kotlinmud.player.mapper
 
-import kotlinmud.fs.str
+import kotlinmud.fs.helper.str
 import kotlinmud.player.model.Player
 
 fun mapPlayer(player: Player): String {

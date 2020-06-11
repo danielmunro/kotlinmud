@@ -1,14 +1,13 @@
 package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
-import java.io.File
 import java.lang.RuntimeException
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
-import kotlinmud.fs.PLAYER_MOBS_FILE
+import kotlinmud.fs.factory.playerMobFile
 import kotlinmud.helper.logger
 import kotlinmud.io.factory.createArriveMessage
 import kotlinmud.io.factory.createLeaveMessage
@@ -237,8 +236,7 @@ class MobService(
     }
 
     fun persistPlayerMobs() {
-        val file = File(PLAYER_MOBS_FILE)
-        file.writeText(playerMobs.joinToString("\n") { mapMob(it) })
+        playerMobFile().writeText(playerMobs.joinToString("\n") { mapMob(it) })
     }
 
     private fun proceedFightRound(round: Round): Round {

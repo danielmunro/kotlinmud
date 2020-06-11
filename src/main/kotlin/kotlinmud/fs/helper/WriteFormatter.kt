@@ -1,4 +1,4 @@
-package kotlinmud.fs
+package kotlinmud.fs.helper
 
 fun str(value: String): String {
     return "$value~"

@@ -1,11 +1,12 @@
-package kotlinmud.fs
+package kotlinmud.fs.helper
 
-import java.io.File
+import kotlinmud.fs.factory.versionFile
 import kotlinmud.fs.loader.Tokenizer
 
 fun loadVersionState(isTest: Boolean = false): List<Int> {
-    return if (File(VERSION_FILE).exists() && !isTest) {
-        val tokenizer = Tokenizer(File(VERSION_FILE).readText())
+    val file = versionFile()
+    return if (file.exists() && !isTest) {
+        val tokenizer = Tokenizer(file.readText())
         val loadVersion = tokenizer.parseInt()
         val writeVersion = tokenizer.parseInt()
         listOf(loadVersion, writeVersion)

@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
 import kotlinmud.fs.loader.AreaLoader
-import kotlinmud.service.CURRENT_LOAD_SCHEMA_VERSION
+import kotlinmud.fs.service.CURRENT_LOAD_SCHEMA_VERSION
 import org.junit.Test
 
 class MobLoaderTest {

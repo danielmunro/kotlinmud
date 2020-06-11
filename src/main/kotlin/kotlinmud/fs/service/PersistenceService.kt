@@ -1,11 +1,12 @@
-package kotlinmud.service
+package kotlinmud.fs.service
 
 import java.io.File
-import kotlinmud.fs.TIME_FILE
-import kotlinmud.fs.VERSION_FILE
+import kotlinmud.fs.factory.timeFile
+import kotlinmud.fs.factory.versionFile
 import kotlinmud.fs.loader.AreaLoader
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.saver.WorldSaver
+import kotlinmud.service.TimeService
 import kotlinmud.world.model.Area
 import kotlinmud.world.model.World
 import org.slf4j.LoggerFactory
@@ -22,29 +23,35 @@ class PersistenceService(
 
     init {
         logger.info("previous load schema: {}, write schema: {}", previousLoadSchemaVersion, previousWriteSchemaVersion)
-        logger.info("hardcoded overrides :: load schema: {}, write schema: {}", CURRENT_LOAD_SCHEMA_VERSION, CURRENT_WRITE_SCHEMA_VERSION)
+        logger.info("hardcoded overrides :: load schema: {}, write schema: {}",
+            CURRENT_LOAD_SCHEMA_VERSION,
+            CURRENT_WRITE_SCHEMA_VERSION
+        )
     }
 
     fun writeVersionFile() {
-        logger.info("version file :: write schema {}, load schema: {}", CURRENT_WRITE_SCHEMA_VERSION, CURRENT_LOAD_SCHEMA_VERSION)
-        val file = File(VERSION_FILE)
-        file.writeText("""#$CURRENT_LOAD_SCHEMA_VERSION
+        logger.info("version file :: write schema {}, load schema: {}",
+            CURRENT_WRITE_SCHEMA_VERSION,
+            CURRENT_LOAD_SCHEMA_VERSION
+        )
+        versionFile().writeText("""#$CURRENT_LOAD_SCHEMA_VERSION
 #$CURRENT_WRITE_SCHEMA_VERSION""")
     }
 
     fun writeTimeFile(timeService: TimeService) {
         logger.info("time file :: {}", timeService.getTime())
-        val file = File(TIME_FILE)
-        file.writeText("#${timeService.getTime()}")
+        timeFile().writeText("#${timeService.getTime()}")
     }
 
     fun writeAreas(world: World) {
-        logger.info("areas file :: write schema {}", CURRENT_WRITE_SCHEMA_VERSION)
+        logger.info("areas file :: write schema {}",
+            CURRENT_WRITE_SCHEMA_VERSION
+        )
         WorldSaver(world).save()
     }
 
     fun loadTimeFile(): Int {
-        val file = File(TIME_FILE)
+        val file = timeFile()
         return if (file.exists()) Tokenizer(file.readText()).parseInt() else 0
     }
 

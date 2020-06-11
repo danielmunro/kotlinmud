@@ -1,9 +1,8 @@
 package kotlinmud.player.loader
 
 import java.io.EOFException
-import java.io.File
 import java.io.FileNotFoundException
-import kotlinmud.fs.PLAYER_FILE
+import kotlinmud.fs.factory.playerFile
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.player.model.Player
 import kotlinmud.player.model.PlayerBuilder
@@ -13,7 +12,7 @@ class PlayerLoader(private val tokenizer: Tokenizer) {
     companion object {
         fun loadAllPlayers(): List<Player> {
             return try {
-                val tokenizer = Tokenizer(File(PLAYER_FILE).readText())
+                val tokenizer = Tokenizer(playerFile().readText())
                 val loader = PlayerLoader(tokenizer)
                 val players = mutableListOf<Player>()
                 while (true) {

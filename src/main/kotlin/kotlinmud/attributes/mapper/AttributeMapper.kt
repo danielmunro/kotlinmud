@@ -1,7 +1,7 @@
 package kotlinmud.attributes.mapper
 
 import kotlinmud.attributes.model.Attributes
-import kotlinmud.fs.end
+import kotlinmud.fs.helper.end
 
 fun mapAttributeList(attributes: List<Attributes>): String {
     return attributes.joinToString { mapAttributes(it) } + end()
