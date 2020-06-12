@@ -171,31 +171,10 @@ class Mob(
         return percentRoll() > normalizeInt(5, base, 95)
     }
 
-    fun increaseHp(value: Int) {
-        hp += value
-        with(calc(Attribute.HP)) {
-            if (hp > this) {
-                hp = this
-            }
-        }
-    }
-
-    fun increaseMana(value: Int) {
-        mana += value
-        with(calc(Attribute.MANA)) {
-            if (mana > this) {
-                mana = this
-            }
-        }
-    }
-
-    fun increaseMv(value: Int) {
-        mv += value
-        with(calc(Attribute.MV)) {
-            if (mv > this) {
-                mv = this
-            }
-        }
+    fun increaseByRegenRate(rate: Double) {
+        increaseHp((rate * calc(Attribute.HP)).toInt())
+        increaseMana((rate * calc(Attribute.MANA)).toInt())
+        increaseMv((rate * calc(Attribute.MV)).toInt())
     }
 
     override fun toString(): String {
@@ -203,16 +182,9 @@ class Mob(
     }
 
     fun wantsToMove(): Boolean {
-        if (!isNpc) {
+        if (!isNpc || !job.wantsToMove()) {
             return false
         }
-
-        if (job != JobType.SCAVENGER &&
-            job != JobType.FODDER &&
-            job != JobType.PATROL) {
-            return false
-        }
-
         return dN(1, 2) == 1
     }
 
@@ -226,6 +198,33 @@ class Mob(
             amount > 0.3 -> "$name has some big nasty wounds and scratches."
             amount > 0.15 -> "$name looks pretty hurt."
             else -> "$name is in awful condition."
+        }
+    }
+
+    private fun increaseHp(value: Int) {
+        hp += value
+        with(calc(Attribute.HP)) {
+            if (hp > this) {
+                hp = this
+            }
+        }
+    }
+
+    private fun increaseMana(value: Int) {
+        mana += value
+        with(calc(Attribute.MANA)) {
+            if (mana > this) {
+                mana = this
+            }
+        }
+    }
+
+    private fun increaseMv(value: Int) {
+        mv += value
+        with(calc(Attribute.MV)) {
+            if (mv > this) {
+                mv = this
+            }
         }
     }
 

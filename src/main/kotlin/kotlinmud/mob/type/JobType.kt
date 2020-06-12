@@ -9,5 +9,9 @@ enum class JobType(val value: String) {
     FODDER("fodder"),
     PATROL("patrol"),
     HEALER("healer"),
-    NONE("none"),
+    NONE("none");
+
+    fun wantsToMove(): Boolean {
+        return this != SCAVENGER && this != FODDER && this != PATROL
+    }
 }

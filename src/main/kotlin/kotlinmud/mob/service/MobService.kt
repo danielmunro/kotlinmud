@@ -2,7 +2,6 @@ package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
 import java.lang.RuntimeException
-import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
@@ -10,11 +9,11 @@ import kotlinmud.event.type.EventType
 import kotlinmud.fs.factory.playerMobFile
 import kotlinmud.helper.logger
 import kotlinmud.io.factory.createArriveMessage
+import kotlinmud.io.factory.createDeathMessage
 import kotlinmud.io.factory.createLeaveMessage
 import kotlinmud.io.factory.createSingleHitMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Message
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.service.ItemService
@@ -54,23 +53,22 @@ class MobService(
         }
     }
 
-    private val mobRooms: MutableList<MobRoom> = mutableListOf()
-    private val newRooms: MutableList<NewRoom> = mutableListOf()
-    private val fights: MutableList<Fight> = mutableListOf()
+    private val mobRooms = mutableListOf<MobRoom>()
+    private val newRooms = mutableListOf<NewRoom>()
+    private val fights = mutableListOf<Fight>()
     private val logger = logger(this)
 
     fun regenMobs() {
         logger.debug("regen mobs :: ${mobRooms.size} mobs")
         mobRooms.filter { !it.mob.isIncapacitated() }.forEach {
-            val regen = normalizeDouble(
-                0.0,
-                getRoomRegenRate(it.room.regen) +
-                        getDispositionRegenRate(it.mob.disposition),
-                1.0
+            it.mob.increaseByRegenRate(
+                normalizeDouble(
+                    0.0,
+                    getRoomRegenRate(it.room.regen) +
+                            getDispositionRegenRate(it.mob.disposition),
+                    1.0
+                )
             )
-            it.mob.increaseHp((regen * it.mob.calc(Attribute.HP)).toInt())
-            it.mob.increaseMana((regen * it.mob.calc(Attribute.MANA)).toInt())
-            it.mob.increaseMv((regen * it.mob.calc(Attribute.MV)).toInt())
         }
     }
 
@@ -158,29 +156,25 @@ class MobService(
         val leaving = getRoomForMob(mob)
         sendMessageToRoom(createLeaveMessage(mob, direction), leaving, mob)
         putMobInRoom(mob, room)
-        val elevationChange = leaving.elevation - room.elevation
-        if (elevationChange > MAX_WALKABLE_ELEVATION) {
-            takeDamageFromFall(mob, elevationChange)
+        (leaving.elevation - room.elevation).let {
+            if (it > MAX_WALKABLE_ELEVATION) {
+                takeDamageFromFall(mob, it)
+            }
         }
         sendMessageToRoom(createArriveMessage(mob), room, mob)
     }
 
     fun proceedFights(): List<Round> {
-        val currentFights = fights.filter { !it.isOver() }
-        val rounds = currentFights.map {
+        val rounds = fights.filter { !it.isOver() }.map {
             proceedFightRound(it.createRound())
         }
         rounds.forEach {
             eventService.publish(Event(EventType.FIGHT_ROUND, it))
         }
-        fights.forEach {
-            if (it.hasFatality()) {
-                eventService.publish(Event(EventType.KILL, it))
-            }
+        fights.filter { it.hasFatality() }.forEach {
+            eventService.publish(Event(EventType.KILL, it))
         }
-        fights.removeIf {
-            it.isOver()
-        }
+        fights.removeIf { it.isOver() }
         return rounds
     }
 
@@ -195,15 +189,7 @@ class MobService(
             if (it.mob.isIncapacitated()) {
                 itemService.add(ItemOwner(createCorpseFrom(it.mob), it.room))
                 eventService.publishRoomMessage(
-                    createSendMessageToRoomEvent(
-                        MessageBuilder()
-                            .toActionCreator("you are DEAD!")
-                            .toObservers("${it.mob} has died!")
-                            .sendPrompt(false)
-                            .build(),
-                        it.room,
-                        it.mob
-                    )
+                    createSendMessageToRoomEvent(createDeathMessage(it.mob), it.room, it.mob)
                 )
             }
             it.mob.isIncapacitated()
@@ -216,12 +202,7 @@ class MobService(
 
     fun sendMessageToRoom(message: Message, room: Room, actionCreator: Mob, target: Mob? = null) {
         eventService.publish(
-            createSendMessageToRoomEvent(
-                message,
-                room,
-                actionCreator,
-                target
-            )
+            createSendMessageToRoomEvent(message, room, actionCreator, target)
         )
     }
 

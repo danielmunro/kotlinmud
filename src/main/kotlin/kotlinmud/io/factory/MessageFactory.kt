@@ -34,3 +34,11 @@ fun createSingleHitMessage(attacker: Mob, defender: Mob, verb: String, verbPlura
         .sendPrompt(false)
         .build()
 }
+
+fun createDeathMessage(mob: Mob): Message {
+    return MessageBuilder()
+        .toActionCreator("you are DEAD!")
+        .toObservers("$mob has died!")
+        .sendPrompt(false)
+        .build()
+}
