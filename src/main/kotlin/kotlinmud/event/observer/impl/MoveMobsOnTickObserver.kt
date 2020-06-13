@@ -4,10 +4,10 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.Observer
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
+import kotlinmud.helper.time.eventually
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.service.MobService
-import kotlinmud.time.eventually
 
 class MoveMobsOnTickObserver(private val mobService: MobService, private val itemService: ItemService, private val eventService: EventService) :
     Observer {

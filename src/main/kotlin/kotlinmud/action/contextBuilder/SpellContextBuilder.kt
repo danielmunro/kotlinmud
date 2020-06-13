@@ -9,7 +9,7 @@ import kotlinmud.mob.skill.SpellAction
 class SpellContextBuilder(private val skills: List<Skill>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return skills.find {
-            it is SpellAction && kotlinmud.string.matches(it.type.toString(), word)
+            it is SpellAction && kotlinmud.helper.string.matches(it.type.toString(), word)
         }?.let {
             Context<Any>(syntax, Status.OK, it)
         } ?: Context<Any>(syntax, Status.ERROR, "you don't know that.")

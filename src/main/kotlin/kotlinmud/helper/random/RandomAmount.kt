@@ -1,4 +1,4 @@
-package kotlinmud.random
+package kotlinmud.helper.random
 
 import java.util.stream.IntStream
 import kotlin.random.Random

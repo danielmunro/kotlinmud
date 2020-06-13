@@ -1,4 +1,4 @@
-package kotlinmud.math
+package kotlinmud.helper.math
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo

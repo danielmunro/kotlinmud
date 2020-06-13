@@ -8,6 +8,7 @@ import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
 import kotlinmud.fs.factory.playerMobFile
 import kotlinmud.helper.logger
+import kotlinmud.helper.math.normalizeDouble
 import kotlinmud.io.factory.createArriveMessage
 import kotlinmud.io.factory.createDeathMessage
 import kotlinmud.io.factory.createLeaveMessage
@@ -17,7 +18,6 @@ import kotlinmud.io.model.Message
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.service.ItemService
-import kotlinmud.math.normalizeDouble
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight

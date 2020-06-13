@@ -1,8 +1,8 @@
 package kotlinmud.affect.service
 
-import kotlinmud.Noun
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.type.AffectType
+import kotlinmud.helper.Noun
 
 class AffectService(private val noun: Noun) {
     fun add(affect: AffectInstance) {

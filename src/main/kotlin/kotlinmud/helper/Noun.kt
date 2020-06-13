@@ -1,4 +1,4 @@
-package kotlinmud
+package kotlinmud.helper
 
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.service.AffectService

@@ -3,12 +3,12 @@ package kotlinmud.item.model
 import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
-import kotlinmud.Noun
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.service.AffectService
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.data.Row
+import kotlinmud.helper.Noun
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.HasInventory

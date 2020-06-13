@@ -1,4 +1,4 @@
-package kotlinmud.math
+package kotlinmud.helper.math
 
 fun normalizeInt(min: Int, actual: Int, max: Int): Int {
     if (min > actual) {

@@ -1,4 +1,4 @@
-package kotlinmud.string
+package kotlinmud.helper.string
 
 fun leftPad(value: String, amount: Int): String {
     val pad = (amount - value.length)

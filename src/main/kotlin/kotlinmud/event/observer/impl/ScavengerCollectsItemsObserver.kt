@@ -4,11 +4,11 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.Observer
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
+import kotlinmud.helper.time.eventually
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
-import kotlinmud.time.eventually
 
 class ScavengerCollectsItemsObserver(
     private val mobService: MobService,

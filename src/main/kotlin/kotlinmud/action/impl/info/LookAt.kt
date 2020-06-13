@@ -1,9 +1,9 @@
 package kotlinmud.action.impl.info
 
-import kotlinmud.Noun
 import kotlinmud.action.helper.mustBeAwake
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
+import kotlinmud.helper.Noun
 import kotlinmud.io.factory.availableNoun
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.createResponseWithEmptyActionContext

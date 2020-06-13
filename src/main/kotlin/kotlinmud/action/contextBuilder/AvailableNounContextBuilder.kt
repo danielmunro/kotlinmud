@@ -3,12 +3,12 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.affect.type.AffectType
+import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.room.model.Room
-import kotlinmud.string.matches
 
 class AvailableNounContextBuilder(
     private val mobService: MobService,

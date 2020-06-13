@@ -8,7 +8,7 @@ import kotlinmud.item.model.Item
 class OptionalFurnitureContextBuilder(private val itemsInRoom: List<Item>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return itemsInRoom.find {
-            kotlinmud.string.matches(it.name, word)
+            kotlinmud.helper.string.matches(it.name, word)
         }?.let {
             Context<Any>(syntax, Status.OK, it)
         } ?: Context<Any>(

@@ -1,10 +1,10 @@
 package kotlinmud.world.resource
 
 import kotlinmud.biome.type.ResourceType
+import kotlinmud.helper.random.randomAmount
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemBuilderBuilder
 import kotlinmud.item.type.ItemType
-import kotlinmud.random.randomAmount
 
 class Brush : Resource {
     override val resourceType: ResourceType = ResourceType.BRUSH

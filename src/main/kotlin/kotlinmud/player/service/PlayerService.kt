@@ -9,6 +9,7 @@ import kotlinmud.event.type.EventType
 import kotlinmud.fs.factory.mobCardFile
 import kotlinmud.fs.factory.playerFile
 import kotlinmud.helper.logger
+import kotlinmud.helper.random.generateOTP
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
@@ -22,7 +23,6 @@ import kotlinmud.player.mapper.mapPlayer
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.Player
 import kotlinmud.player.model.PlayerBuilder
-import kotlinmud.random.generateOTP
 
 class PlayerService(
     private val emailService: EmailService,

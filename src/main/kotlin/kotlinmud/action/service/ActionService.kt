@@ -35,6 +35,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.action.type.Invokable
 import kotlinmud.action.type.Status
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.helper.math.percentRoll
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
@@ -44,7 +45,6 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
-import kotlinmud.math.percentRoll
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService

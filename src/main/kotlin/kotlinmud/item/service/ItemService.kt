@@ -2,13 +2,13 @@ package kotlinmud.item.service
 
 import kotlin.streams.toList
 import kotlinmud.affect.type.AffectType
+import kotlinmud.helper.string.matches
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.corpseWeight
-import kotlinmud.string.matches
 
 typealias ItemBuilderBuilder = () -> ItemBuilder
 

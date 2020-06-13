@@ -2,11 +2,11 @@ package kotlinmud.test
 
 import com.tylerthrailkill.helpers.prettyprint.pp
 import java.lang.StringBuilder
-import kotlinmud.Noun
 import kotlinmud.action.service.ActionService
 import kotlinmud.app.createContainer
 import kotlinmud.event.observer.Observers
 import kotlinmud.event.service.EventService
+import kotlinmud.helper.Noun
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService

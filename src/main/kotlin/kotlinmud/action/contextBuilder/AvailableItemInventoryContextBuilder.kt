@@ -11,7 +11,7 @@ import kotlinmud.room.model.Room
 class AvailableItemInventoryContextBuilder(private val mob: Mob, private val room: Room, private val itemService: ItemService) : ContextBuilder {
     companion object {
         fun isMatch(item: Item, word: String): Boolean {
-            return item.hasInventory && kotlinmud.string.matches(item.name, word)
+            return item.hasInventory && kotlinmud.helper.string.matches(item.name, word)
         }
     }
 

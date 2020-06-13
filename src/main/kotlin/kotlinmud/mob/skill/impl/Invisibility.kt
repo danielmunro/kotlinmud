@@ -1,10 +1,10 @@
 package kotlinmud.mob.skill.impl
 
-import kotlinmud.Noun
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
 import kotlinmud.affect.impl.InvisibilityAffect
+import kotlinmud.helper.Noun
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.skill.SpellAction

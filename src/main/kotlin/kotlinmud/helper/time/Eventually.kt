@@ -1,4 +1,4 @@
-package kotlinmud.time
+package kotlinmud.helper.time
 
 import java.util.Random
 import java.util.Timer

@@ -1,10 +1,10 @@
 package kotlinmud.mob.fight
 
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.helper.math.d20
+import kotlinmud.helper.math.dN
+import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.type.Position
-import kotlinmud.math.d20
-import kotlinmud.math.dN
-import kotlinmud.math.percentRoll
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
