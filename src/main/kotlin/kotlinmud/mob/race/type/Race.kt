@@ -1,4 +1,4 @@
-package kotlinmud.mob.race
+package kotlinmud.mob.race.type
 
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.mob.fight.DamageType

@@ -3,6 +3,9 @@ package kotlinmud.biome.impl
 import kotlinmud.biome.type.Biome
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.SubstrateType
+import kotlinmud.mob.factory.fox
+import kotlinmud.mob.factory.turkey
+import kotlinmud.mob.model.Mob
 import kotlinmud.world.resource.JungleTree
 import kotlinmud.world.resource.Resource
 
@@ -13,4 +16,8 @@ class Jungle : Biome {
     )
     override val substrate: SubstrateType = SubstrateType.DIRT
     override val elevationChange: Double = 0.6
+    override val mobs: List<Mob> = listOf(
+        turkey(),
+        fox()
+    )
 }

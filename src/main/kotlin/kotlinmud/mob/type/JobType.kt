@@ -9,6 +9,7 @@ enum class JobType(val value: String) {
     FODDER("fodder"),
     PATROL("patrol"),
     HEALER("healer"),
+    AGGRESSIVE("aggressive"),
     NONE("none");
 
     fun wantsToMove(): Boolean {

@@ -11,6 +11,10 @@ fun dN(rolls: Int, number: Int): Int {
             if (rolls > 1) dN(rolls - 1, number) else 0
 }
 
+fun coinFlip(): Boolean {
+    return Random.nextInt(0, 1) == 1
+}
+
 fun percentRoll(): Int {
     return Random.nextInt(1, 100)
 }

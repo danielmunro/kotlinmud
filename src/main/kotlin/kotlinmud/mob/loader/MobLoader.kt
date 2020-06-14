@@ -12,7 +12,7 @@ import kotlinmud.fs.loader.area.loader.strAttr
 import kotlinmud.fs.service.CURRENT_LOAD_SCHEMA_VERSION
 import kotlinmud.mob.factory.mobBuilder
 import kotlinmud.mob.model.MobBuilder
-import kotlinmud.mob.race.createRaceFromString
+import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.skill.loader.SkillLoader
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
@@ -39,7 +39,8 @@ class MobLoader(
         val wimpy = tokenizer.parseInt()
         val savingThrows = if (loadSchemaVersion >= 10) tokenizer.parseInt() else 0
         val gold = if (loadSchemaVersion >= 10) tokenizer.parseInt() else 0
-        val race = createRaceFromString(if (loadSchemaVersion >= 10) tokenizer.parseString() else "human")
+        val race =
+            createRaceFromString(if (loadSchemaVersion >= 10) tokenizer.parseString() else "human")
         val gender = Gender.valueOf(if (loadSchemaVersion >= 10) tokenizer.parseString() else "NONE")
         val skills = if (loadSchemaVersion >= 10) SkillLoader(tokenizer).load() else mutableMapOf()
         val attributes = AttributesLoader(tokenizer).load()

@@ -1,4 +1,4 @@
-package kotlinmud.mob.race
+package kotlinmud.mob.race.type
 
 enum class RaceType {
     HUMAN,
@@ -15,4 +15,9 @@ enum class RaceType {
     CANID,
     FELID,
     REPTILE,
+    DEER,
+    GOAT,
+    UNDEAD,
+    RABBIT,
+    AVIAN,
 }

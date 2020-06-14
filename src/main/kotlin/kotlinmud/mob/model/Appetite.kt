@@ -1,6 +1,6 @@
 package kotlinmud.mob.model
 
-import kotlinmud.mob.race.Race
+import kotlinmud.mob.race.type.Race
 
 class Appetite(
     val maxHunger: Int,

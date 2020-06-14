@@ -11,7 +11,7 @@ import kotlinmud.room.mapper.mapRoom
 import kotlinmud.world.model.World
 
 const val BASE_DIR = "state"
-const val BASE_AREAS_DIR = "$BASE_DIR/bootstrap_world"
+const val BASE_AREAS_DIR = "$BASE_DIR/generated"
 
 class WorldSaver(private val world: World) {
     fun save() {

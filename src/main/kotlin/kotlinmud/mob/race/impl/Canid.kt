@@ -2,8 +2,8 @@ package kotlinmud.mob.race.impl
 
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.mob.fight.DamageType
-import kotlinmud.mob.race.Race
-import kotlinmud.mob.race.RaceType
+import kotlinmud.mob.race.type.Race
+import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size
 

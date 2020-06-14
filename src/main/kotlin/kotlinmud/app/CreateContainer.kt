@@ -71,7 +71,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         }
         bind<World>() with singleton {
             val persistenceService = instance<PersistenceService>()
-            World(persistenceService.loadAreas(isTest))
+            World.fromAreas(persistenceService.loadAreas(isTest))
         }
         bind<WorldSaver>() with singleton {
             WorldSaver(instance<World>())

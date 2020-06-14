@@ -11,29 +11,52 @@ import kotlinmud.room.model.Door
 import kotlinmud.room.model.Room
 import kotlinmud.room.model.RoomBuilder
 
-data class World(private val areas: List<Area>) {
-    var rooms: Table<Room>
-    var doors: Table<Door>
-    var mobs: Table<Mob>
-    var items: Table<Item>
-    var mobResets: Table<MobReset>
-    var itemMobResets: Table<ItemMobReset>
+data class World(
+    var rooms: Table<Room>,
+    var doors: Table<Door>,
+    var mobs: Table<Mob>,
+    var items: Table<Item>,
+    var mobResets: Table<MobReset>,
+    var itemMobResets: Table<ItemMobReset>,
     var itemRoomResets: Table<ItemRoomReset>
-    var nextRoomID = 0
+) {
+    companion object {
+        fun fromAreas(areas: List<Area>): World {
+            val allRoomModels = areas.flatMap { it.roomMapper.roomModels }
+            val allDoors = areas.flatMap { it.roomMapper.doors }
+            val mobs = Table(areas.flatMap { it.mobs }.toMutableList())
+            val allRoomsMapper = RoomMapper(mobs.toList(), allRoomModels, allDoors)
+            val doors = Table(allDoors.toMutableList())
+            val rooms = Table(allRoomsMapper.map().toMutableList())
+            val items = Table(areas.flatMap { it.items }.toMutableList())
+            val mobResets = Table(areas.flatMap { it.mobResets }.toMutableList())
+            val itemMobResets = Table(areas.flatMap { it.itemMobResets }.toMutableList())
+            val itemRoomResets = Table(areas.flatMap { it.itemRoomResets }.toMutableList())
+            return World(
+                rooms,
+                doors,
+                mobs,
+                items,
+                mobResets,
+                itemMobResets,
+                itemRoomResets
+            )
+        }
 
-    init {
-        val allRoomModels = areas.flatMap { it.roomMapper.roomModels }
-        val allDoors = areas.flatMap { it.roomMapper.doors }
-        mobs = Table(areas.flatMap { it.mobs }.toMutableList())
-        val allRoomsMapper = RoomMapper(mobs.toList(), allRoomModels, allDoors)
-        doors = Table(allDoors.toMutableList())
-        rooms = Table(allRoomsMapper.map().toMutableList())
-        items = Table(areas.flatMap { it.items }.toMutableList())
-        mobResets = Table(areas.flatMap { it.mobResets }.toMutableList())
-        itemMobResets = Table(areas.flatMap { it.itemMobResets }.toMutableList())
-        itemRoomResets = Table(areas.flatMap { it.itemRoomResets }.toMutableList())
-        nextRoomID = rooms.toList().size
+        fun fromGenerator(world: kotlinmud.world.generation.World): World {
+            return World(
+                Table(world.rooms.toMutableList()),
+                Table(mutableListOf()),
+                Table(mutableListOf()),
+                Table(mutableListOf()),
+                Table(mutableListOf()),
+                Table(mutableListOf()),
+                Table(mutableListOf())
+            )
+        }
     }
+
+    private var nextRoomID = rooms.toList().size
 
     fun createRoomBuilder(): RoomBuilder {
         nextRoomID++

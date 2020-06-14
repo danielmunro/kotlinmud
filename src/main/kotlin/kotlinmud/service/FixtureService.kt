@@ -6,8 +6,8 @@ import kotlinmud.item.model.ItemBuilder
 import kotlinmud.mob.factory.mobBuilder
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobBuilder
-import kotlinmud.mob.race.Race
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
 

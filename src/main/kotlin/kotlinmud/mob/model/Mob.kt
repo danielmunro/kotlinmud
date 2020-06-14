@@ -19,8 +19,8 @@ import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
-import kotlinmud.mob.race.Race
-import kotlinmud.mob.race.RaceType
+import kotlinmud.mob.race.type.Race
+import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
