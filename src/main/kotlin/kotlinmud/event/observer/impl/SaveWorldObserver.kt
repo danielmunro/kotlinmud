@@ -17,7 +17,7 @@ class SaveWorldObserver(
     override val eventType: EventType = EventType.DAY
 
     override fun <T> processEvent(event: Event<T>) {
-        persistenceService.writeAreas(world)
+        persistenceService.writeWorld(world)
         playerService.persist()
         mobService.persistPlayerMobs()
     }

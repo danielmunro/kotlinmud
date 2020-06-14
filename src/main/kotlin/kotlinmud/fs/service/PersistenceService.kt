@@ -43,7 +43,7 @@ class PersistenceService(
         timeFile().writeText("#${timeService.getTime()}")
     }
 
-    fun writeAreas(world: World) {
+    fun writeWorld(world: World) {
         logger.info("areas file :: write schema {}",
             CURRENT_WRITE_SCHEMA_VERSION
         )
