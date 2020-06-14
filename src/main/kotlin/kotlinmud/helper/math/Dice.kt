@@ -12,7 +12,7 @@ fun dN(rolls: Int, number: Int): Int {
 }
 
 fun coinFlip(): Boolean {
-    return Random.nextInt(0, 1) == 1
+    return Random.nextInt(1, 3) == 1
 }
 
 fun percentRoll(): Int {
