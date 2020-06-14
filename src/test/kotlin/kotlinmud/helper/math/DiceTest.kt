@@ -39,7 +39,7 @@ class DiceTest {
         }
 
         // then
-        assertThat(prob.getOutcome1()).isLessThan((iterations * 0.7).toInt())
-        assertThat(prob.getOutcome2()).isLessThan((iterations * 0.7).toInt())
+        assertThat(prob.getOutcome1()).isLessThan((iterations * 0.9).toInt())
+        assertThat(prob.getOutcome2()).isLessThan((iterations * 0.9).toInt())
     }
 }
