@@ -3,7 +3,7 @@ package kotlinmud
 import kotlinmud.app.createContainer
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.fs.service.PersistenceService
-import kotlinmud.world.generation.GeneratorService
+import kotlinmud.generator.GeneratorService
 import kotlinmud.world.model.World
 import org.kodein.di.erased.instance
 

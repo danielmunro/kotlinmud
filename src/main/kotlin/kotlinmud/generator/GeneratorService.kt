@@ -1,25 +1,23 @@
-package kotlinmud.world.generation
+package kotlinmud.generator
 
 import kotlinmud.biome.type.Biome
 import kotlinmud.biome.type.BiomeType
+import kotlinmud.generator.constant.DEPTH
+import kotlinmud.generator.constant.DEPTH_GROUND
+import kotlinmud.generator.constant.DEPTH_UNDERGROUND
+import kotlinmud.generator.model.World
+import kotlinmud.generator.type.Layer
+import kotlinmud.generator.type.Matrix3D
 import kotlinmud.room.model.Exit
 import kotlinmud.room.model.Room
 import kotlinmud.room.model.RoomBuilder
 import kotlinmud.room.type.Direction
 
-typealias Matrix3D = Array<Array<IntArray>>
-
-typealias Layer = Array<IntArray>
-
-const val DEPTH = 100
-const val DEPTH_UNDERGROUND = 40
-const val DEPTH_GROUND = 50
-
-class GeneratorService(
-    private val width: Int,
-    private val length: Int,
-    private val biomes: List<Biome>
-) {
+    class GeneratorService(
+        private val width: Int,
+        private val length: Int,
+        private val biomes: List<Biome>
+    ) {
     private val biomeService = BiomeService(width, length, biomes)
     private var id = 0
 
@@ -27,7 +25,8 @@ class GeneratorService(
         val rooms = mutableListOf<Room>()
         val biomeLayer = biomeService.createLayer((width * length) / (width * length / 10))
         val elevationLayer = ElevationService(biomeLayer, biomes).buildLayer()
-        val world = World(rooms, buildMatrix(rooms, elevationLayer, biomeLayer))
+        val world =
+            World(rooms, buildMatrix(rooms, elevationLayer, biomeLayer))
         hookUpRoomExits(world)
         return world
     }

@@ -1,5 +1,6 @@
-package kotlinmud.world.generation
+package kotlinmud.generator.model
 
+import kotlinmud.generator.type.Matrix3D
 import kotlinmud.room.model.Room
 
 class World(

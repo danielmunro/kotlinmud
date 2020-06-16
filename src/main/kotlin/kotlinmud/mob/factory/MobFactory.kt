@@ -1,5 +1,6 @@
 package kotlinmud.mob.factory
 
+import Horse
 import kotlinmud.attributes.model.AttributesBuilder
 import kotlinmud.attributes.model.startingHp
 import kotlinmud.attributes.model.startingMana
@@ -97,7 +98,13 @@ fun wolf(): Mob {
     return npc("a wolf")
         .brief("a wolf is here, looking for its next meal")
         .job(JobType.AGGRESSIVE)
-        .level(5)
         .race(Canid())
+        .build()
+}
+
+fun horse(): Mob {
+    return npc("a horse")
+        .brief("a wild horse is here, grazing on tall grass")
+        .race(Horse())
         .build()
 }

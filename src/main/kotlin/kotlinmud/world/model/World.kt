@@ -43,7 +43,7 @@ data class World(
             )
         }
 
-        fun fromGenerator(world: kotlinmud.world.generation.World): World {
+        fun fromGenerator(world: kotlinmud.generator.model.World): World {
             return World(
                 Table(world.rooms.toMutableList()),
                 Table(mutableListOf()),

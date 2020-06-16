@@ -1,6 +1,6 @@
 package kotlinmud.fs.saver
 
-import kotlinmud.world.generation.Layer
+import kotlinmud.generator.type.Layer
 
 fun layerToString(layer: Layer): String {
     return layer.joinToString("\n") {
