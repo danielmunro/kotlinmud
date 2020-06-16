@@ -20,9 +20,9 @@ class GeneratorServiceTest {
         val world = generator.generate()
 
         // then
-        assertThat(world.blocks.size).isEqualTo(DEPTH)
-        assertThat(world.blocks[0].size).isEqualTo(length)
-        assertThat(world.blocks[0][0].size).isEqualTo(width)
+        assertThat(world.matrix3D.size).isEqualTo(DEPTH)
+        assertThat(world.matrix3D[0].size).isEqualTo(length)
+        assertThat(world.matrix3D[0][0].size).isEqualTo(width)
     }
 
     @Test
