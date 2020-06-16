@@ -2,12 +2,15 @@ package kotlinmud.generator
 
 import kotlinmud.biome.type.Biome
 import kotlinmud.biome.type.BiomeType
+import kotlinmud.fs.loader.area.model.reset.MobReset
 import kotlinmud.generator.constant.DEPTH
 import kotlinmud.generator.constant.DEPTH_GROUND
 import kotlinmud.generator.constant.DEPTH_UNDERGROUND
 import kotlinmud.generator.model.World
 import kotlinmud.generator.type.Layer
 import kotlinmud.generator.type.Matrix3D
+import kotlinmud.helper.math.coinFlip
+import kotlinmud.mob.model.Mob
 import kotlinmud.room.model.Exit
 import kotlinmud.room.model.Room
 import kotlinmud.room.model.RoomBuilder
@@ -25,10 +28,41 @@ import kotlinmud.room.type.Direction
         val rooms = mutableListOf<Room>()
         val biomeLayer = biomeService.createLayer((width * length) / (width * length / 10))
         val elevationLayer = ElevationService(biomeLayer, biomes).buildLayer()
-        val world =
-            World(rooms, buildMatrix(rooms, elevationLayer, biomeLayer))
+        val world = World(
+            rooms,
+            buildMatrix(rooms, elevationLayer, biomeLayer),
+            generateMobResets(rooms)
+        )
         hookUpRoomExits(world)
         return world
+    }
+
+    private fun generateMobResets(rooms: List<Room>): List<MobReset> {
+        val resets = mutableListOf<MobReset>()
+        val surfaceRooms = rooms.filter { it.biome.isSurface() }
+        val biomeMap = mutableMapOf<BiomeType, Biome>()
+        biomes.forEach {
+            biomeMap[it.biomeType] = it
+        }
+        val mobBiomeMap = mutableMapOf<BiomeType, List<Mob>>()
+        biomes.forEach {
+            mobBiomeMap[it.biomeType] = it.mobs
+        }
+        surfaceRooms.filter {
+            coinFlip()
+        }.forEach {
+            resets.add(
+                MobReset(
+                    0,
+//                    if (biomeMap.isNotEmpty()) biomeMap[it.biome]?.mobs?.random()?.id ?: 0 else 0,
+                    0,
+                    it.id,
+                    1,
+                    1
+                )
+            )
+        }
+        return resets
     }
 
     private fun buildMatrix(rooms: MutableList<Room>, elevationLayer: Layer, biomeLayer: Layer): Matrix3D {

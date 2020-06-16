@@ -20,17 +20,9 @@ enum class BiomeType(val value: String) {
         fun fromIndex(i: Int): BiomeType {
             return values()[i]
         }
+    }
 
-        fun getAll(): List<BiomeType> {
-            return listOf(
-                TUNDRA,
-                PLAINS,
-                ARBOREAL,
-                JUNGLE,
-                DESERT,
-                MOUNTAIN,
-                BADLANDS
-            )
-        }
+    fun isSurface(): Boolean {
+        return this != SKY && this != UNDERGROUND && this != NONE
     }
 }
