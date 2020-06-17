@@ -47,9 +47,9 @@ data class World(
             return World(
                 Table(world.rooms.toMutableList()),
                 Table(mutableListOf()),
+                Table(world.mobs.toMutableList()),
                 Table(mutableListOf()),
-                Table(mutableListOf()),
-                Table(mutableListOf()),
+                Table(world.mobResets.toMutableList()),
                 Table(mutableListOf()),
                 Table(mutableListOf())
             )
