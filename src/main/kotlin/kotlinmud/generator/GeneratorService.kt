@@ -25,14 +25,13 @@ class GeneratorService(
         val rooms = mutableListOf<Room>()
         val biomeLayer = biomeService.createLayer((width * length) / (width * length / 10))
         val elevationLayer = ElevationService(biomeLayer, biomes).buildLayer()
-        val mobGeneratorService = MobGeneratorService()
-        val mobs = mobGeneratorService.generateMobs(biomes)
+        val mobGeneratorService = MobGeneratorService(biomes)
         val matrix = buildMatrix(rooms, elevationLayer, biomeLayer)
-        val mobResets = mobGeneratorService.generateMobResets(rooms, mobs)
+        val mobResets = mobGeneratorService.generateMobResets(rooms)
         val world = World(
             rooms,
             matrix,
-            mobs.flatMap { it.value },
+            mobGeneratorService.getAllMobs(),
             mobResets
         )
         hookUpRoomExits(world)
