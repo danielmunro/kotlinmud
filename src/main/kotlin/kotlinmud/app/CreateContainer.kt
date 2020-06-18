@@ -23,6 +23,7 @@ import kotlinmud.service.FixtureService
 import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
+import kotlinmud.world.helper.mapAreasToModel
 import kotlinmud.world.model.World
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
@@ -71,7 +72,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         }
         bind<World>() with singleton {
             val persistenceService = instance<PersistenceService>()
-            World.fromAreas(persistenceService.loadAreas(isTest))
+            mapAreasToModel(persistenceService.loadAreas(isTest))
         }
         bind<WorldSaver>() with singleton {
             WorldSaver(instance<World>())
