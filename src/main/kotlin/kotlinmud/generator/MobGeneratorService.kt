@@ -1,6 +1,7 @@
 package kotlinmud.generator
 
 import kotlinmud.biome.type.Biome
+import kotlinmud.biome.type.BiomeMobList
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.fs.loader.area.model.reset.MobReset
 import kotlinmud.helper.math.coinFlip
@@ -36,9 +37,24 @@ class MobGeneratorService {
                 Rarity.RARE -> 50
             }
         }
+
+        private fun biomeHasMobs(biomeType: BiomeType, mobs: BiomeMobList): Boolean {
+            return mobs[biomeType]?.isNotEmpty() ?: false
+        }
+
+        private fun getRandomBiomeMob(biomeType: BiomeType, mobs: BiomeMobList): Mob? {
+            return mobs[biomeType]?.random()
+        }
+
+        private fun getRoomsToPopulate(rooms: List<Room>, mobs: BiomeMobList): List<Room> {
+            return rooms.filter { it.biome.isSurface() && biomeHasMobs(it.biome, mobs) }
+                .filter {
+                    coinFlip()
+                }
+        }
     }
 
-    fun generateMobs(biomes: List<Biome>): Map<BiomeType, List<Mob>> {
+    fun generateMobs(biomes: List<Biome>): BiomeMobList {
         var autoIncrementId = 1
         val mobBiomeMap = mutableMapOf<BiomeType, MutableList<Mob>>()
         biomes.forEach {
@@ -53,27 +69,22 @@ class MobGeneratorService {
         return mobBiomeMap
     }
 
-    fun generateMobResets(rooms: List<Room>, mobs: Map<BiomeType, List<Mob>>): List<MobReset> {
+    fun generateMobResets(rooms: List<Room>, mobs: BiomeMobList): List<MobReset> {
         val resets = mutableListOf<MobReset>()
-        val surfaceRooms = rooms.filter { it.biome.isSurface() }
         var resetId = 0
-        surfaceRooms.filter {
-            coinFlip()
-        }.forEach {
-            if (mobs[it.biome]!!.isEmpty()) {
-                return@forEach
-            }
-            val mob = mobs[it.biome]!!.random()
-            resetId++
-            resets.add(
-                MobReset(
-                    resetId,
-                    mob.id,
-                    it.id,
-                    (getMaxInRoom(mob) - getMaxInRoomModifier(mob)).coerceAtLeast(1),
-                    getMaxInWorld(mob)
+        getRoomsToPopulate(rooms, mobs).forEach { room ->
+            getRandomBiomeMob(room.biome, mobs)?.let { mob ->
+                resetId++
+                resets.add(
+                    MobReset(
+                        resetId,
+                        mob.id,
+                        room.id,
+                        (getMaxInRoom(mob) - getMaxInRoomModifier(mob)).coerceAtLeast(1),
+                        getMaxInWorld(mob)
+                    )
                 )
-            )
+            }
         }
         return resets
     }
