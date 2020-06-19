@@ -25,6 +25,7 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
+import kotlinmud.mob.type.Rarity
 import kotlinmud.mob.type.SpecializationType
 
 const val corpseWeight = 20.0
@@ -58,7 +59,8 @@ class Mob(
     @DefaultValue("true") val isNpc: Boolean,
     @DefaultValue("listOf()") val route: List<Int>,
     @DefaultValue("50") val maxItems: Int,
-    @DefaultValue("100") val maxWeight: Int
+    @DefaultValue("100") val maxWeight: Int,
+    @DefaultValue("Rarity.COMMON") val rarity: Rarity
 ) : Noun, Row, HasInventory {
     var lastRoute = 0
 

@@ -1,4 +1,4 @@
-package kotlinmud.world.generation
+package kotlinmud.generator
 
 import assertk.assertThat
 import assertk.assertions.hasSize
@@ -9,10 +9,15 @@ class ElevationServiceTest {
     @Test
     fun testCreateElevationLayerWithCorrectSize() {
         // setup
-        val biomeService = BiomeService(width, length, createBiomes())
+        val biomeService = BiomeService(
+            width,
+            length,
+            createBiomes()
+        )
 
         // given
-        val elevationService = ElevationService(biomeService.createLayer(50),
+        val elevationService = ElevationService(
+            biomeService.createLayer(50),
             createBiomes()
         )
 

@@ -20,4 +20,5 @@ enum class RaceType {
     UNDEAD,
     RABBIT,
     AVIAN,
+    HORSE,
 }

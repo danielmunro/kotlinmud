@@ -1,4 +1,4 @@
-package kotlinmud.world.generation
+package kotlinmud.generator
 
 import assertk.assertThat
 import assertk.assertions.doesNotContain
@@ -14,7 +14,11 @@ class BiomeServiceTest {
     @Test
     fun testCreateLayerSanityCheck() {
         // given
-        val biomeService = BiomeService(WIDTH, HEIGHT, createBiomes())
+        val biomeService = BiomeService(
+            WIDTH,
+            HEIGHT,
+            createBiomes()
+        )
 
         // when
         val data = layerToString(biomeService.createLayer(BIOME_COUNT))
