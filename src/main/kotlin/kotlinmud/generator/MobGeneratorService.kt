@@ -9,7 +9,7 @@ import kotlinmud.mob.type.Rarity
 import kotlinmud.mob.type.Size
 import kotlinmud.room.model.Room
 
-class MobGeneratorService(private val biomes: List<Biome>) {
+class MobGeneratorService(biomes: List<Biome>) {
     private val biomeMobList = mutableMapOf<BiomeType, List<Mob>>()
 
     companion object {
@@ -40,7 +40,7 @@ class MobGeneratorService(private val biomes: List<Biome>) {
         }
     }
 
-    fun init() {
+    init {
         var autoIncrementId = 1
         biomes.forEach {
             biomeMobList[it.biomeType] = it.mobs.map { mobBuilder ->
@@ -84,9 +84,10 @@ class MobGeneratorService(private val biomes: List<Biome>) {
     }
 
     private fun getRoomsToPopulate(rooms: List<Room>): List<Room> {
-        return rooms.filter { it.biome.isSurface() && biomeHasMobs(it.biome) }
-            .filter {
-                coinFlip()
-            }
+        return rooms.filter {
+            it.biome.isSurface() && biomeHasMobs(it.biome)
+        }.filter {
+            coinFlip()
+        }
     }
 }
