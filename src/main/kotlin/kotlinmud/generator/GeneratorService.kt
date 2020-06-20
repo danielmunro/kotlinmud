@@ -62,28 +62,32 @@ class GeneratorService(
         for (z in world.matrix3D.indices) {
             for (y in world.matrix3D[z].indices) {
                 for (x in world.matrix3D[z][y].indices) {
-                    val id = world.matrix3D[z][y][x]
-                    val room = world.rooms[id]
-                    if (world.matrix3D[z][y].size > x + 1) {
-                        val destId = world.matrix3D[z][y][x + 1]
-                        val dest = world.rooms[destId]
-                        room.exits.add(Exit(dest, Direction.EAST))
-                        dest.exits.add(Exit(room, Direction.WEST))
-                    }
-                    if (world.matrix3D[z].size > y + 1) {
-                        val destId = world.matrix3D[z][y + 1][x]
-                        val dest = world.rooms[destId]
-                        room.exits.add(Exit(dest, Direction.SOUTH))
-                        dest.exits.add(Exit(room, Direction.NORTH))
-                    }
-                    if (z + 1 < DEPTH) {
-                        val destId = world.matrix3D[z + 1][y][x]
-                        val dest = world.rooms[destId]
-                        room.exits.add(Exit(dest, Direction.DOWN))
-                        dest.exits.add(Exit(room, Direction.UP))
-                    }
+                    hookUpRoom(world, x, y, z)
                 }
             }
+        }
+    }
+
+    private fun hookUpRoom(world: World, x: Int, y: Int, z: Int) {
+        val id = world.matrix3D[z][y][x]
+        val room = world.rooms[id]
+        if (world.matrix3D[z][y].size > x + 1) {
+            val destId = world.matrix3D[z][y][x + 1]
+            val dest = world.rooms[destId]
+            room.exits.add(Exit(dest, Direction.EAST))
+            dest.exits.add(Exit(room, Direction.WEST))
+        }
+        if (world.matrix3D[z].size > y + 1) {
+            val destId = world.matrix3D[z][y + 1][x]
+            val dest = world.rooms[destId]
+            room.exits.add(Exit(dest, Direction.SOUTH))
+            dest.exits.add(Exit(room, Direction.NORTH))
+        }
+        if (z + 1 < DEPTH) {
+            val destId = world.matrix3D[z + 1][y][x]
+            val dest = world.rooms[destId]
+            room.exits.add(Exit(dest, Direction.DOWN))
+            dest.exits.add(Exit(room, Direction.UP))
         }
     }
 
