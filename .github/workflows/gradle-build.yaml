@@ -8,6 +8,8 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: ktlint
+        uses: vroy/gha-kotlin-linter@v1
       - name: Gradle Tests
         uses: eskatos/gradle-command-action@v1
         env:
