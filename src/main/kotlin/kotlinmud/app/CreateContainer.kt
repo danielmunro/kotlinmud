@@ -4,6 +4,7 @@ import java.net.ServerSocket
 import kotlinmud.action.helper.createActionContextBuilder
 import kotlinmud.action.helper.createActionsList
 import kotlinmud.action.service.ActionService
+import kotlinmud.action.service.ContextBuilderService
 import kotlinmud.event.observer.Observers
 import kotlinmud.event.observer.createObservers
 import kotlinmud.event.service.EventService
@@ -12,9 +13,11 @@ import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.fs.service.PersistenceService
 import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
+import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.provider.loadMobs
 import kotlinmud.mob.service.MobService
+import kotlinmud.mob.skill.createSkillList
 import kotlinmud.player.loader.PlayerLoader
 import kotlinmud.player.provider.loadMobCards
 import kotlinmud.player.service.EmailService
@@ -80,8 +83,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         bind<ActionService>() with singleton {
             ActionService(
                 instance<MobService>(),
-                instance<PlayerService>(),
-                instance<ItemService>(),
+                instance<ContextBuilderService>(),
                 createActionContextBuilder(
                     instance<MobService>(),
                     instance<PlayerService>(),
@@ -123,6 +125,15 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 instance<ClientService>(),
                 instance<PersistenceService>(),
                 instance<World>()
+            )
+        }
+        bind<ContextBuilderService>() with singleton {
+            ContextBuilderService(
+                instance<ItemService>(),
+                instance<MobService>(),
+                instance<PlayerService>(),
+                createSkillList(),
+                createRecipeList()
             )
         }
     }

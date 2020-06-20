@@ -1,13 +1,11 @@
 package kotlinmud.action.service
 
-import kotlinmud.action.factory.createContextFromSyntax
 import kotlinmud.action.model.Action
 import kotlinmud.action.model.ActionContextList
-import kotlinmud.action.model.Context
 import kotlinmud.action.type.Command
 import kotlinmud.action.type.Invokable
-import kotlinmud.action.type.Status
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.helper.logger
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Request
@@ -15,8 +13,6 @@ import kotlinmud.io.model.Response
 import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.helper.createRecipeList
-import kotlinmud.item.service.ItemService
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
@@ -26,13 +22,10 @@ import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.type.HasCosts
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.RequiresDisposition
-import kotlinmud.player.service.PlayerService
-import org.slf4j.LoggerFactory
 
 class ActionService(
     private val mobService: MobService,
-    private val playerService: PlayerService,
-    private val itemService: ItemService,
+    private val contextBuilderService: ContextBuilderService,
     private val actionContextBuilder: (request: Request, actionContextList: ActionContextList) -> ActionContextService,
     private val actions: List<Action>
 ) {
@@ -51,8 +44,7 @@ class ActionService(
     }
 
     private val skills = createSkillList()
-    private val recipes = createRecipeList()
-    private val logger = LoggerFactory.getLogger(ActionService::class.java)
+    private val logger = logger(this)
 
     fun run(request: Request): Response {
         if (request.input == "") {
@@ -182,23 +174,12 @@ class ActionService(
     private fun buildActionContextList(request: Request, invokable: Invokable): ActionContextList {
         logger.debug("${request.mob} building action context :: {}, {}", invokable.command, invokable.syntax)
         var i = 0
-        var previous: Context<Any> =
-            Context(Syntax.NOOP, Status.OK, request)
         return ActionContextList(invokable.syntax.map {
-            createContextFromSyntax(
+            contextBuilderService.createContext(
                 it,
                 request,
-                if (request.args.size > i) request.args[i++] else "",
-                itemService,
-                mobService,
-                playerService,
-                skills,
-                recipes,
-                previous
-            ).let { context ->
-                previous = context
-                context
-            }
-        } as MutableList<Context<Any>>)
+                if (request.args.size > i) request.args[i++] else ""
+            )
+        }.toMutableList())
     }
 }
