@@ -1,6 +1,7 @@
 package kotlinmud.generator
 
 import assertk.assertThat
+import assertk.assertions.hasSameSizeAs
 import assertk.assertions.isEqualTo
 import assertk.assertions.isTrue
 import kotlinmud.biome.helper.createBiomes
@@ -46,5 +47,29 @@ class GeneratorServiceTest {
         assertThat(world.rooms.all {
             it.biome != BiomeType.NONE
         }).isTrue()
+    }
+
+    @Test
+    fun testIndexesAreUnique() {
+        // setup
+        val generator = GeneratorService(
+            width,
+            length,
+            createBiomes()
+        )
+        val indexes = mutableListOf<Int>()
+        val world = generator.generate()
+
+        // given
+        world.matrix3D.forEach { z ->
+            z.forEach { y ->
+                y.forEach { z ->
+                    indexes.add(z)
+                }
+            }
+        }
+
+        // expect
+        assertThat(indexes).hasSameSizeAs(indexes.distinct())
     }
 }

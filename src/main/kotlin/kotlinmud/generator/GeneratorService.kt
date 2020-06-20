@@ -43,19 +43,21 @@ class GeneratorService(
         return Array(DEPTH) { z ->
             Array(length) { y ->
                 IntArray(width) { x ->
-                    rooms.add(
-                        buildRoom(
-                            z,
-                            elevationLayer[y][x],
-                            BiomeType.fromIndex(biomeLayer[y][x])
-                        )
-                    )
-                    val thisIndex = index
+                    addRoom(rooms, z, elevationLayer[y][x], BiomeType.fromIndex(biomeLayer[y][x]))
                     index++
-                    thisIndex
                 }
             }
         }
+    }
+
+    private fun addRoom(rooms: MutableList<Room>, z: Int, elevationValue: Int, biomeType: BiomeType) {
+        rooms.add(
+            buildRoom(
+                z,
+                elevationValue,
+                biomeType
+            )
+        )
     }
 
     private fun hookUpRoomExits(world: World) {
