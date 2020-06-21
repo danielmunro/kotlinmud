@@ -18,8 +18,8 @@ fun createApp(port: Int): App {
     val respawnService by container.instance<RespawnService>()
     val timeService by container.instance<TimeService>()
     val observers by container.instance<Observers>()
-    val actionService by container.instance<ActionService>()
     eventService.observers = observers
+    val actionService by container.instance<ActionService>()
     respawnService.respawn()
     val playerService by container.instance<PlayerService>()
 
