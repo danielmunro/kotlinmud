@@ -2,7 +2,7 @@ package kotlinmud.event.service
 
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.SendMessageToRoomEvent
-import kotlinmud.event.observer.Observer
+import kotlinmud.event.observer.type.Observer
 
 class EventService {
     var observers: List<Observer> = listOf()

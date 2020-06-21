@@ -3,7 +3,7 @@ package kotlinmud.event.observer.impl
 import kotlinmud.action.service.ActionService
 import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
-import kotlinmud.event.observer.Observer
+import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.Request

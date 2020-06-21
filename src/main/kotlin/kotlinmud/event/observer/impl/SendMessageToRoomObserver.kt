@@ -2,7 +2,7 @@ package kotlinmud.event.observer.impl
 
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.SendMessageToRoomEvent
-import kotlinmud.event.observer.Observer
+import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.service.MobService

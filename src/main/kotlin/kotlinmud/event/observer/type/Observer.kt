@@ -1,4 +1,4 @@
-package kotlinmud.event.observer
+package kotlinmud.event.observer.type
 
 import kotlinmud.event.impl.Event
 import kotlinmud.event.type.EventType

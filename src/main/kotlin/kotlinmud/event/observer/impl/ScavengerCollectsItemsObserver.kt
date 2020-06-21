@@ -1,7 +1,7 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.impl.Event
-import kotlinmud.event.observer.Observer
+import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
 import kotlinmud.helper.time.eventually

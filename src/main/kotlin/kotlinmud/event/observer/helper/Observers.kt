@@ -1,4 +1,4 @@
-package kotlinmud.event.observer
+package kotlinmud.event.observer.helper
 
 import kotlinmud.action.service.ActionService
 import kotlinmud.event.observer.impl.ChangeWeatherObserver
@@ -25,6 +25,7 @@ import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
+import kotlinmud.event.observer.type.Observers
 import kotlinmud.event.service.EventService
 import kotlinmud.fs.service.PersistenceService
 import kotlinmud.io.service.ClientService
@@ -36,8 +37,6 @@ import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
 import kotlinmud.world.model.World
-
-typealias Observers = List<Observer>
 
 fun createObservers(
     serverService: ServerService,
