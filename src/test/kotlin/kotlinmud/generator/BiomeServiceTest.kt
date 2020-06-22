@@ -6,8 +6,8 @@ import kotlinmud.biome.helper.createBiomes
 import kotlinmud.fs.saver.layerToString
 import org.junit.Test
 
-const val WIDTH = 100
-const val HEIGHT = 100
+const val WIDTH = 1000
+const val HEIGHT = 1000
 const val BIOME_COUNT = 50
 
 class BiomeServiceTest {
