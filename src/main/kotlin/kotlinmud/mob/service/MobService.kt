@@ -156,11 +156,7 @@ class MobService(
         val leaving = getRoomForMob(mob)
         sendMessageToRoom(createLeaveMessage(mob, direction), leaving, mob)
         putMobInRoom(mob, room)
-        (leaving.elevation - room.elevation).let {
-            if (it > MAX_WALKABLE_ELEVATION) {
-                takeDamageFromFall(mob, it)
-            }
-        }
+        doFallCheck(mob, leaving, room)
         sendMessageToRoom(createArriveMessage(mob), room, mob)
     }
 
@@ -218,6 +214,14 @@ class MobService(
 
     fun persistPlayerMobs() {
         playerMobFile().writeText(playerMobs.joinToString("\n") { mapMob(it) })
+    }
+
+    private fun doFallCheck(mob: Mob, leaving: Room, arriving: Room) {
+        (leaving.elevation - arriving.elevation).let {
+            if (it > MAX_WALKABLE_ELEVATION) {
+                takeDamageFromFall(mob, it)
+            }
+        }
     }
 
     private fun proceedFightRound(round: Round): Round {
