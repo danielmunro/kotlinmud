@@ -27,7 +27,6 @@ fun createTestService(): TestService {
     val observers: Observers by container.instance<Observers>()
     val playerService: PlayerService by container.instance<PlayerService>()
     evt.observers = observers
-    println("obs: ${observers.size}")
     return TestService(
         fix,
         mob,
