@@ -4,12 +4,12 @@ import java.util.Random
 import kotlinmud.affect.loader.AffectLoader
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.attributes.loader.AttributesLoader
+import kotlinmud.fs.constant.CURRENT_LOAD_SCHEMA_VERSION
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.loader.Loader
 import kotlinmud.fs.loader.area.loader.intAttr
 import kotlinmud.fs.loader.area.loader.parseAffects
 import kotlinmud.fs.loader.area.loader.strAttr
-import kotlinmud.fs.service.CURRENT_LOAD_SCHEMA_VERSION
 import kotlinmud.mob.factory.mobBuilder
 import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.race.factory.createRaceFromString

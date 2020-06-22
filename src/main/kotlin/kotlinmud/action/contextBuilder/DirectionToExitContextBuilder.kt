@@ -3,6 +3,7 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.factory.failedContext
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
+import kotlinmud.biome.type.SubstrateType
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.MAX_WALKABLE_ELEVATION
 import kotlinmud.room.model.Exit
@@ -22,6 +23,10 @@ class DirectionToExitContextBuilder(private val room: Room) : ContextBuilder {
             return Context(syntax, Status.ERROR, "you can't climb that elevation.")
         }
 
+        if (!canMoveIntoSubstrate(exit.destination)) {
+            return Context(syntax, Status.ERROR, "${exit.destination.name} is blocked by ${exit.destination.substrate.toString().toLowerCase()}.")
+        }
+
         return Context(syntax, Status.OK, exit.destination)
     }
 
@@ -37,5 +42,9 @@ class DirectionToExitContextBuilder(private val room: Room) : ContextBuilder {
         val elevationChange = exit.destination.elevation - room.elevation
 
         return elevationChange <= MAX_WALKABLE_ELEVATION
+    }
+
+    private fun canMoveIntoSubstrate(room: Room): Boolean {
+        return room.substrate == SubstrateType.NONE
     }
 }

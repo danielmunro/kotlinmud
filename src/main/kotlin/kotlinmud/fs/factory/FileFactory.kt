@@ -1,11 +1,11 @@
 package kotlinmud.fs.factory
 
 import java.io.File
-import kotlinmud.fs.MOB_CARD_FILE
-import kotlinmud.fs.PLAYER_FILE
-import kotlinmud.fs.PLAYER_MOBS_FILE
-import kotlinmud.fs.TIME_FILE
-import kotlinmud.fs.VERSION_FILE
+import kotlinmud.fs.constant.MOB_CARD_FILE
+import kotlinmud.fs.constant.PLAYER_FILE
+import kotlinmud.fs.constant.PLAYER_MOBS_FILE
+import kotlinmud.fs.constant.TIME_FILE
+import kotlinmud.fs.constant.VERSION_FILE
 
 fun versionFile(): File {
     return File(VERSION_FILE)

@@ -1,4 +1,4 @@
-package kotlinmud.fs
+package kotlinmud.fs.constant
 
 const val VERSION_FILE = "./state/version.txt"
 

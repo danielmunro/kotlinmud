@@ -1,6 +1,8 @@
 package kotlinmud.fs.service
 
 import java.io.File
+import kotlinmud.fs.constant.CURRENT_LOAD_SCHEMA_VERSION
+import kotlinmud.fs.constant.CURRENT_WRITE_SCHEMA_VERSION
 import kotlinmud.fs.factory.timeFile
 import kotlinmud.fs.factory.versionFile
 import kotlinmud.fs.loader.AreaLoader
@@ -10,9 +12,6 @@ import kotlinmud.service.TimeService
 import kotlinmud.world.model.Area
 import kotlinmud.world.model.World
 import org.slf4j.LoggerFactory
-
-const val CURRENT_LOAD_SCHEMA_VERSION = 12
-const val CURRENT_WRITE_SCHEMA_VERSION = 12
 
 class PersistenceService(
     private val previousLoadSchemaVersion: Int,

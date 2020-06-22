@@ -24,6 +24,7 @@ class RoomMapper(val mobs: List<Mob>, val roomModels: List<RoomModel>, val doors
                 .biome(it.biomeType)
                 .resources(it.resources.toMutableList())
                 .owner(mob)
+                .substrate(it.substrateType)
                 .build()
         }
         val modelMap = mutableMapOf<Int, RoomModel>()

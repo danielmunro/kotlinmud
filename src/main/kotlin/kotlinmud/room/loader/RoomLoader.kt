@@ -2,6 +2,8 @@ package kotlinmud.room.loader
 
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.ResourceType
+import kotlinmud.biome.type.SubstrateType
+import kotlinmud.fs.constant.SELECTED_SCHEMA_VERSION
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.loader.Loader
 import kotlinmud.fs.loader.area.loader.intAttr
@@ -21,6 +23,7 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
             val trimmed = it.trim()
             if (trimmed != "") ResourceType.fromString(trimmed) else null
         }.toList()
+        val substrateType = if (loadSchemaVersion >= SELECTED_SCHEMA_VERSION) SubstrateType.valueOf(tokenizer.parseString()) else SubstrateType.NONE
         val props = tokenizer.parseProperties()
         val regen = RegenLevel.valueOf(strAttr(props["regen"], "normal").toUpperCase())
         val isIndoor = strAttr(props["isIndoor"], "true").toBoolean()
@@ -48,7 +51,8 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
             area,
             biomeType,
             resources,
-            ownerId
+            ownerId,
+            substrateType
         )
     }
 }

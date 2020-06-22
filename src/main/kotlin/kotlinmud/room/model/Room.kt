@@ -5,6 +5,7 @@ import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.ResourceType
+import kotlinmud.biome.type.SubstrateType
 import kotlinmud.data.Row
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.model.Mob
@@ -20,6 +21,7 @@ data class Room(
     @DefaultValue("RegenLevel.NORMAL") val regen: RegenLevel,
     @DefaultValue("false") val isIndoor: Boolean,
     @DefaultValue("BiomeType.NONE") val biome: BiomeType,
+    @DefaultValue("SubstrateType.NONE") val substrate: SubstrateType,
     @DefaultValue("mutableListOf()") @Mutable val resources: MutableList<ResourceType>,
     @DefaultValue("mutableListOf()") @Mutable val exits: MutableList<Exit>,
     @DefaultValue("0") val elevation: Int,

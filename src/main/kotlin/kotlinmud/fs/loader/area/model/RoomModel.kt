@@ -2,6 +2,7 @@ package kotlinmud.fs.loader.area.model
 
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.ResourceType
+import kotlinmud.biome.type.SubstrateType
 import kotlinmud.room.type.RegenLevel
 
 data class RoomModel(
@@ -20,5 +21,6 @@ data class RoomModel(
     val area: String,
     val biomeType: BiomeType,
     val resources: List<ResourceType>,
-    val ownerId: Int
+    val ownerId: Int,
+    val substrateType: SubstrateType
 ) : Model

@@ -6,8 +6,8 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotNull
 import kotlinmud.affect.type.AffectType
+import kotlinmud.fs.constant.CURRENT_LOAD_SCHEMA_VERSION
 import kotlinmud.fs.loader.AreaLoader
-import kotlinmud.fs.service.CURRENT_LOAD_SCHEMA_VERSION
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import org.junit.Test
@@ -16,7 +16,9 @@ class ItemLoaderTest {
     @Test
     fun testLoadPropsMaterialAndPositionForItem() {
         // setup
-        val area = AreaLoader("test_areas/midgard", CURRENT_LOAD_SCHEMA_VERSION).load()
+        val area = AreaLoader("test_areas/midgard",
+            CURRENT_LOAD_SCHEMA_VERSION
+        ).load()
 
         // given
         val item = area.items.first()
@@ -29,7 +31,9 @@ class ItemLoaderTest {
     @Test
     fun testLoadPropsHitAndDam() {
         // setup
-        val area = AreaLoader("test_areas/midgard", CURRENT_LOAD_SCHEMA_VERSION).load()
+        val area = AreaLoader("test_areas/midgard",
+            CURRENT_LOAD_SCHEMA_VERSION
+        ).load()
 
         // given
         val item = area.items.find { it.id == 3 }!!
@@ -42,7 +46,9 @@ class ItemLoaderTest {
     @Test
     fun testLoadAffects() {
         // setup
-        val area = AreaLoader("test_areas/midgard", CURRENT_LOAD_SCHEMA_VERSION).load()
+        val area = AreaLoader("test_areas/midgard",
+            CURRENT_LOAD_SCHEMA_VERSION
+        ).load()
 
         // given
         val item = area.items.find { it.id == 50 }!!

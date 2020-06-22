@@ -120,4 +120,11 @@ class MoveTest {
         // then
         assertThat(mob.hp).isLessThan(mob.calc(Attribute.HP))
     }
+
+//    @Test
+//    fun testMobCannotMoveIntoSolidSubstrates() {
+//        // setup
+//        val test = createTestService()
+//        val mob = test.createMob()
+//    }
 }

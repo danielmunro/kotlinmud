@@ -2,11 +2,11 @@ package kotlinmud.item.loader
 
 import kotlinmud.affect.loader.AffectLoader
 import kotlinmud.attributes.loader.AttributesLoader
+import kotlinmud.fs.constant.CURRENT_LOAD_SCHEMA_VERSION
 import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.fs.loader.area.loader.Loader
 import kotlinmud.fs.loader.area.loader.intAttr
 import kotlinmud.fs.loader.area.loader.strAttr
-import kotlinmud.fs.service.CURRENT_LOAD_SCHEMA_VERSION
 import kotlinmud.item.factory.itemBuilder
 import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.type.Drink
