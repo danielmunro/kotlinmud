@@ -5,6 +5,7 @@ woods~
 none~
 #0
 ~
+NONE~
 w: 1001~
 
 #1001
@@ -15,6 +16,7 @@ woods~
 none~
 #0
 ~
+NONE~
 w: 1002~
 
 #1002
@@ -24,6 +26,7 @@ woods~
 none~
 #0
 ~
+NONE~
 n: 1003~
 
 #1003
@@ -33,6 +36,7 @@ woods~
 none~
 #0
 ~
+NONE~
 w: 1004, n: 1005~
 
 #1004
@@ -42,6 +46,7 @@ woods~
 none~
 #0
 ~
+NONE~
 ~
 
 #1005
@@ -51,4 +56,5 @@ woods~
 none~
 #0
 ~
+NONE~
 ~

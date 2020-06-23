@@ -5,4 +5,5 @@ castle~
 none~
 #0
 ~
+NONE~
 ~

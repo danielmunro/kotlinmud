@@ -5,6 +5,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isLessThan
 import kotlinmud.action.impl.info.describeRoom
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.createTestService
 import org.junit.Test
@@ -121,10 +122,21 @@ class MoveTest {
         assertThat(mob.hp).isLessThan(mob.calc(Attribute.HP))
     }
 
-//    @Test
-//    fun testMobCannotMoveIntoSolidSubstrates() {
-//        // setup
-//        val test = createTestService()
-//        val mob = test.createMob()
-//    }
+    @Test
+    fun testMobCannotMoveIntoSolidSubstrates() {
+        // setup
+        val test = createTestService()
+        val mob = test.createMob()
+        val room = test.getRooms().find { it.id == 120 }!!
+
+        // given
+        test.putMobInRoom(mob, room)
+
+        // when
+        val response = test.runAction(mob, "d")
+
+        // then
+        assertThat(response.status).isEqualTo(IOStatus.ERROR)
+        assertThat(response.message.toActionCreator).isEqualTo("An Underground Room is blocked by dirt.")
+    }
 }
