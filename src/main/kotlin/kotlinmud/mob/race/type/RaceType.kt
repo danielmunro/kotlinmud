@@ -16,9 +16,11 @@ enum class RaceType {
     FELID,
     REPTILE,
     DEER,
+    SHEEP,
     GOAT,
     UNDEAD,
     RABBIT,
     AVIAN,
     HORSE,
+    BEAR,
 }

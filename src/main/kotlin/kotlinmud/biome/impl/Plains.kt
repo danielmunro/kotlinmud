@@ -6,6 +6,7 @@ import kotlinmud.biome.type.SubstrateType
 import kotlinmud.mob.factory.deer
 import kotlinmud.mob.factory.horse
 import kotlinmud.mob.factory.rabbit
+import kotlinmud.mob.factory.sheep
 import kotlinmud.world.resource.PineTree
 import kotlinmud.world.resource.Resource
 
@@ -19,6 +20,7 @@ class Plains : Biome {
     override val mobs = listOf(
         deer(),
         rabbit(),
-        horse()
+        horse(),
+        sheep()
     )
 }

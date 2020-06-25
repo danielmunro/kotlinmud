@@ -8,10 +8,13 @@ import kotlinmud.attributes.model.startingMv
 import kotlinmud.helper.math.coinFlip
 import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.race.impl.Avian
+import kotlinmud.mob.race.impl.Bear
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Deer
+import kotlinmud.mob.race.impl.Goat
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.impl.Rabbit
+import kotlinmud.mob.race.impl.Sheep
 import kotlinmud.mob.race.impl.Undead
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
@@ -47,6 +50,13 @@ fun zombie(): MobBuilder {
         .race(Undead())
 }
 
+fun skeletonWarrior(): MobBuilder {
+    return npc("a skeleton warrior")
+        .brief("a skeleton warrior is here, stalking you!")
+        .job(JobType.AGGRESSIVE)
+        .race(Undead())
+}
+
 fun deer(): MobBuilder {
     return npc("a deer")
         .brief("a deer weaves through the bushes, trying to avoid attention")
@@ -58,7 +68,14 @@ fun goat(): MobBuilder {
     return npc("a goat")
         .brief("a goat is here, munching on foliage")
         .description("tbd")
-        .race(Deer())
+        .race(Goat())
+}
+
+fun sheep(): MobBuilder {
+    return npc("a sheep")
+        .brief("a sheep is here, grazing on the grass")
+        .description("tbd")
+        .race(Sheep())
 }
 
 fun turkey(): MobBuilder {
@@ -84,6 +101,36 @@ fun fox(): MobBuilder {
     return npc("a fox")
         .brief("a fox is here, darting through the brush")
         .race(Canid())
+}
+
+fun lizard(): MobBuilder {
+    return npc("a lizard")
+        .brief("a lizard is here, sunbathing on a rock")
+        .race(Canid())
+}
+
+fun ocelot(): MobBuilder {
+    return npc("an ocelot")
+        .brief("an ocelot is here, creeping around")
+        .race(Canid())
+}
+
+fun polarBear(): MobBuilder {
+    return npc("a polar bear")
+        .brief("a powerful polar bear is here, better not draw its attention")
+        .race(Bear())
+}
+
+fun brownBear(): MobBuilder {
+    return npc("a brown bear")
+        .brief("a playful brown bear is here, looking for honey")
+        .race(Bear())
+}
+
+fun blackBear(): MobBuilder {
+    return npc("a black bear")
+        .brief("a bear is here, scrounging for food")
+        .race(Bear())
 }
 
 fun wolf(): MobBuilder {

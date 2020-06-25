@@ -4,6 +4,7 @@ import kotlinmud.biome.type.Biome
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.mob.factory.fox
+import kotlinmud.mob.factory.ocelot
 import kotlinmud.mob.factory.turkey
 import kotlinmud.world.resource.JungleTree
 import kotlinmud.world.resource.Resource
@@ -17,6 +18,7 @@ class Jungle : Biome {
     override val elevationChange: Double = 0.6
     override val mobs = listOf(
         turkey(),
-        fox()
+        fox(),
+        ocelot()
     )
 }

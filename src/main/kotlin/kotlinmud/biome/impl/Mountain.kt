@@ -3,9 +3,11 @@ package kotlinmud.biome.impl
 import kotlinmud.biome.type.Biome
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.SubstrateType
+import kotlinmud.mob.factory.blackBear
 import kotlinmud.mob.factory.fox
 import kotlinmud.mob.factory.goat
 import kotlinmud.mob.factory.rabbit
+import kotlinmud.mob.factory.sheep
 import kotlinmud.mob.factory.wolf
 import kotlinmud.world.resource.CoalOre
 import kotlinmud.world.resource.IronOre
@@ -23,6 +25,8 @@ class Mountain : Biome {
         fox(),
         wolf(),
         goat(),
-        rabbit()
+        sheep(),
+        rabbit(),
+        blackBear()
     )
 }

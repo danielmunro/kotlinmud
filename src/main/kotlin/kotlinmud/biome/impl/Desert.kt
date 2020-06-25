@@ -4,6 +4,7 @@ import kotlinmud.biome.type.Biome
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.mob.factory.fox
+import kotlinmud.mob.factory.lizard
 import kotlinmud.mob.factory.rabbit
 import kotlinmud.world.resource.Brush
 import kotlinmud.world.resource.Resource
@@ -19,6 +20,7 @@ class Desert : Biome {
     override val elevationChange: Double = 0.1
     override val mobs = listOf(
         fox(),
-        rabbit()
+        rabbit(),
+        lizard()
     )
 }
