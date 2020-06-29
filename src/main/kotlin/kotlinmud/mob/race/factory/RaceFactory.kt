@@ -1,6 +1,8 @@
 package kotlinmud.mob.race.factory
 
+import Horse
 import kotlinmud.mob.race.impl.Avian
+import kotlinmud.mob.race.impl.Bear
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Deer
 import kotlinmud.mob.race.impl.Dwarf
@@ -13,9 +15,11 @@ import kotlinmud.mob.race.impl.Goblin
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.impl.Kender
 import kotlinmud.mob.race.impl.Lasher
+import kotlinmud.mob.race.impl.Lizard
 import kotlinmud.mob.race.impl.Ogre
 import kotlinmud.mob.race.impl.Rabbit
 import kotlinmud.mob.race.impl.Reptile
+import kotlinmud.mob.race.impl.Sheep
 import kotlinmud.mob.race.impl.Undead
 import kotlinmud.mob.race.type.Race
 
@@ -38,6 +42,10 @@ fun createRaceFromString(name: String): Race {
         "undead" -> Undead()
         "goat" -> Goat()
         "rabbit" -> Rabbit()
+        "horse" -> Horse()
+        "sheep" -> Sheep()
+        "bear" -> Bear()
+        "lizard" -> Lizard()
         else -> error("no race: $name")
     }
 }

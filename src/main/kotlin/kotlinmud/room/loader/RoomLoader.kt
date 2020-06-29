@@ -18,11 +18,11 @@ class RoomLoader(private val tokenizer: Tokenizer, private val loadSchemaVersion
         val area = tokenizer.parseString()
         val biomeType = BiomeType.fromString(tokenizer.parseString())
         val elevation = tokenizer.parseInt()
+        val substrateType = SubstrateType.valueOf(tokenizer.parseString())
         val resources = tokenizer.parseString().trim().split(",").mapNotNull {
             val trimmed = it.trim()
             if (trimmed != "") ResourceType.fromString(trimmed) else null
         }.toList()
-        val substrateType = SubstrateType.valueOf(tokenizer.parseString())
         val props = tokenizer.parseProperties()
         val regen = RegenLevel.valueOf(strAttr(props["regen"], "normal").toUpperCase())
         val isIndoor = strAttr(props["isIndoor"], "true").toBoolean()

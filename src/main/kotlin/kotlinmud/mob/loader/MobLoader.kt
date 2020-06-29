@@ -39,8 +39,7 @@ class MobLoader(
         val wimpy = tokenizer.parseInt()
         val savingThrows = if (loadSchemaVersion >= 10) tokenizer.parseInt() else 0
         val gold = if (loadSchemaVersion >= 10) tokenizer.parseInt() else 0
-        val race =
-            createRaceFromString(if (loadSchemaVersion >= 10) tokenizer.parseString() else "human")
+        val race = createRaceFromString(if (loadSchemaVersion >= 10) tokenizer.parseString() else "human")
         val gender = Gender.valueOf(if (loadSchemaVersion >= 10) tokenizer.parseString() else "NONE")
         val skills = if (loadSchemaVersion >= 10) SkillLoader(tokenizer).load() else mutableMapOf()
         val attributes = AttributesLoader(tokenizer).load()

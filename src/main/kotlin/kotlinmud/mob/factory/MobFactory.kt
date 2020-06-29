@@ -11,13 +11,16 @@ import kotlinmud.mob.race.impl.Avian
 import kotlinmud.mob.race.impl.Bear
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Deer
+import kotlinmud.mob.race.impl.Felid
 import kotlinmud.mob.race.impl.Goat
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.race.impl.Lizard
 import kotlinmud.mob.race.impl.Rabbit
 import kotlinmud.mob.race.impl.Sheep
 import kotlinmud.mob.race.impl.Undead
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
+import kotlinmud.mob.type.Rarity
 
 fun mobBuilder(id: Int, name: String): MobBuilder {
     return MobBuilder()
@@ -48,6 +51,7 @@ fun zombie(): MobBuilder {
         .brief("a zombie is here, ready to attack!")
         .job(JobType.AGGRESSIVE)
         .race(Undead())
+        .savingThrows(2)
 }
 
 fun skeletonWarrior(): MobBuilder {
@@ -55,6 +59,7 @@ fun skeletonWarrior(): MobBuilder {
         .brief("a skeleton warrior is here, stalking you!")
         .job(JobType.AGGRESSIVE)
         .race(Undead())
+        .savingThrows(2)
 }
 
 fun deer(): MobBuilder {
@@ -62,6 +67,7 @@ fun deer(): MobBuilder {
         .brief("a deer weaves through the bushes, trying to avoid attention")
         .description("tbd")
         .race(Deer())
+        .wimpy(5)
 }
 
 fun goat(): MobBuilder {
@@ -95,6 +101,7 @@ fun rabbit(): MobBuilder {
     return npc("a rabbit")
         .brief("a rabbit is here, scavenging for its burrow")
         .race(Rabbit())
+        .wimpy(5)
 }
 
 fun fox(): MobBuilder {
@@ -106,31 +113,36 @@ fun fox(): MobBuilder {
 fun lizard(): MobBuilder {
     return npc("a lizard")
         .brief("a lizard is here, sunbathing on a rock")
-        .race(Canid())
+        .race(Lizard())
+        .rarity(Rarity.UNCOMMON)
 }
 
 fun ocelot(): MobBuilder {
     return npc("an ocelot")
         .brief("an ocelot is here, creeping around")
-        .race(Canid())
+        .race(Felid())
+        .rarity(Rarity.RARE)
 }
 
 fun polarBear(): MobBuilder {
     return npc("a polar bear")
         .brief("a powerful polar bear is here, better not draw its attention")
         .race(Bear())
+        .rarity(Rarity.UNCOMMON)
 }
 
 fun brownBear(): MobBuilder {
     return npc("a brown bear")
         .brief("a playful brown bear is here, looking for honey")
         .race(Bear())
+        .rarity(Rarity.UNCOMMON)
 }
 
 fun blackBear(): MobBuilder {
     return npc("a black bear")
         .brief("a bear is here, scrounging for food")
         .race(Bear())
+        .rarity(Rarity.UNCOMMON)
 }
 
 fun wolf(): MobBuilder {
@@ -138,10 +150,12 @@ fun wolf(): MobBuilder {
         .brief("a wolf is here, looking for its next meal")
         .job(JobType.AGGRESSIVE)
         .race(Canid())
+        .rarity(Rarity.UNCOMMON)
 }
 
 fun horse(): MobBuilder {
     return npc("a horse")
         .brief("a wild horse is here, grazing on tall grass")
         .race(Horse())
+        .rarity(Rarity.UNCOMMON)
 }

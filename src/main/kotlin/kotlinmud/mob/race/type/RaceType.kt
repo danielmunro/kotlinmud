@@ -23,4 +23,5 @@ enum class RaceType {
     AVIAN,
     HORSE,
     BEAR,
+    LIZARD,
 }

@@ -25,17 +25,17 @@ class MobGeneratorService(biomes: List<Biome>) {
 
         private fun getMaxInRoomModifier(mob: Mob): Int {
             return when (mob.rarity) {
-                Rarity.COMMON -> 0
-                Rarity.UNCOMMON -> 2
-                Rarity.RARE -> 3
+                Rarity.COMMON -> 1
+                Rarity.UNCOMMON -> 1
+                Rarity.RARE -> 1
             }
         }
 
         private fun getMaxInWorld(mob: Mob): Int {
             return when (mob.rarity) {
-                Rarity.COMMON -> 2500
-                Rarity.UNCOMMON -> 500
-                Rarity.RARE -> 50
+                Rarity.COMMON -> 500
+                Rarity.UNCOMMON -> 100
+                Rarity.RARE -> 10
             }
         }
     }

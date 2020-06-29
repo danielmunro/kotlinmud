@@ -6,6 +6,7 @@ import kotlinmud.event.impl.DayEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
+import kotlinmud.helper.logger
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.Request
@@ -16,7 +17,6 @@ import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.TimeService
-import org.slf4j.LoggerFactory
 
 class App(
     private val eventService: EventService,
@@ -26,7 +26,7 @@ class App(
     private val actionService: ActionService,
     private val playerService: PlayerService
 ) {
-    private val logger = LoggerFactory.getLogger(App::class.java)
+    private val logger = logger(this)
 
     fun start() {
         logger.info("starting app on port ${serverService.port}")

@@ -36,7 +36,7 @@ class ServerService(
     private val socket = ServerSocketChannel.open()
     private val logger = logger(this)
 
-    fun init() {
+    init {
         val serverSocket = socket.socket()
         serverSocket.bind(InetSocketAddress(port))
         socket.configureBlocking(false)
