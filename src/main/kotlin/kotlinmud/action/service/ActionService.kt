@@ -16,8 +16,8 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.skill.SkillAction
-import kotlinmud.mob.skill.createSkillList
+import kotlinmud.mob.skill.type.SkillAction
+import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.type.HasCosts
 import kotlinmud.mob.type.Intent

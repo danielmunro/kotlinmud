@@ -7,7 +7,7 @@ import kotlinmud.affect.impl.InvisibilityAffect
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.skill.SpellAction
+import kotlinmud.mob.skill.type.SpellAction
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.LearningDifficulty

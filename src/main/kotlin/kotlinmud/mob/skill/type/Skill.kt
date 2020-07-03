@@ -1,4 +1,4 @@
-package kotlinmud.mob.skill
+package kotlinmud.mob.skill.type
 
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.LearningDifficulty
