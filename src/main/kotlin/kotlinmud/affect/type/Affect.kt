@@ -1,4 +1,4 @@
-package kotlinmud.affect
+package kotlinmud.affect.type
 
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.type.AffectType

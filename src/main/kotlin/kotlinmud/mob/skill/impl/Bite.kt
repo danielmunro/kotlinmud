@@ -4,7 +4,7 @@ import kotlin.random.Random
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
-import kotlinmud.affect.Affect
+import kotlinmud.affect.type.Affect
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax

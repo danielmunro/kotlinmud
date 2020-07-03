@@ -1,6 +1,6 @@
 package kotlinmud.affect.impl
 
-import kotlinmud.affect.Affect
+import kotlinmud.affect.type.Affect
 import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.model.AttributesBuilder
