@@ -3,12 +3,15 @@ package kotlinmud.item.service
 import kotlin.streams.toList
 import kotlinmud.affect.type.AffectType
 import kotlinmud.helper.string.matches
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.type.HasInventory
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.corpseWeight
+import org.jetbrains.exposed.sql.transactions.transaction
 
 typealias ItemBuilderBuilder = () -> ItemBuilder
 
@@ -84,7 +87,13 @@ class ItemService(private val items: MutableList<ItemOwner> = mutableListOf()) {
         }
     }
 
-    fun createCorpseFromMob(mob: Mob): Item {
+    fun createCorpseFromMob(mob: MobDAO): ItemDAO {
+        val item = transaction {
+            ItemDAO.new {
+                name = "a corpse of $mob"
+            }
+        }
+
         val item = createItemBuilder()
             .name("a corpse of $mob")
             .description("a corpse of $mob is here.")

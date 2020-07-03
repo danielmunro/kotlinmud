@@ -15,9 +15,11 @@ import kotlinmud.io.factory.createLeaveMessage
 import kotlinmud.io.factory.createSingleHitMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Message
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.service.ItemService
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
@@ -28,18 +30,21 @@ import kotlinmud.mob.mapper.mapMob
 import kotlinmud.mob.model.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobRoom
+import kotlinmud.mob.table.Mobs
+import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.oppositeDirection
 import kotlinmud.room.model.Exit
 import kotlinmud.room.model.NewRoom
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinmud.world.model.World
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobService(
     private val itemService: ItemService,
-    private val eventService: EventService,
-    private val world: World,
-    private val playerMobs: MutableList<Mob>
+    private val eventService: EventService
 ) {
     companion object {
         private fun takeDamageFromFall(mob: Mob, elevationChange: Int) {
@@ -140,16 +145,18 @@ class MobService(
         return mobRooms
     }
 
-    fun addMob(mob: Mob) {
+    fun addMob(mob: MobDAO) {
         putMobInRoom(mob, getStartRoom())
     }
 
-    fun addPlayerMob(mob: Mob) {
-        playerMobs.add(mob)
-    }
-
-    fun findPlayerMob(name: String): Mob? {
-        return playerMobs.find { it.name == name }
+    fun findPlayerMob(name: String): MobDAO? {
+        return transaction {
+            MobDAO.wrapRow(
+                Mobs.select {
+                    Mobs.name eq name and (Mobs.isNpc eq false)
+                }.first()
+            )
+        }
     }
 
     fun moveMob(mob: Mob, room: Room, direction: Direction) {
@@ -192,7 +199,7 @@ class MobService(
         }
     }
 
-    fun removeMob(mob: Mob) {
+    fun removeMob(mob: MobDAO) {
         mobRooms.removeIf { it.mob == mob }
     }
 
@@ -202,18 +209,14 @@ class MobService(
         )
     }
 
-    fun putMobInRoom(mob: Mob, room: Room) {
+    fun putMobInRoom(mob: MobDAO, room: RoomDAO) {
         mobRooms.find { it.mob == mob }?.let {
             it.room = room
         } ?: mobRooms.add(MobRoom(mob, room))
     }
 
-    fun createCorpseFrom(mob: Mob): Item {
+    fun createCorpseFrom(mob: MobDAO): ItemDAO {
         return itemService.createCorpseFromMob(mob)
-    }
-
-    fun persistPlayerMobs() {
-        playerMobFile().writeText(playerMobs.joinToString("\n") { mapMob(it) })
     }
 
     private fun doFallCheck(mob: Mob, leaving: Room, arriving: Room) {

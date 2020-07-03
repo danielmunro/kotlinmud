@@ -1,25 +1,17 @@
 package kotlinmud.mob.provider
 
-import java.io.EOFException
-import kotlinmud.fs.factory.playerMobFile
-import kotlinmud.fs.loader.Tokenizer
-import kotlinmud.mob.loader.MobLoader
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.table.Mobs
+import kotlinmud.mob.table.Mobs.isNpc
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.transactions.transaction
 
-fun loadMobs(loadSchemaToUse: Int): MutableList<Mob> {
-    val file = playerMobFile()
-    if (!file.exists()) {
-        return mutableListOf()
+fun loadMobs(): MutableList<MobDAO> {
+    return transaction {
+        MobDAO.wrapRows(
+            Mobs.select {
+                isNpc.eq(false)
+            }
+        ).toMutableList()
     }
-    val tokenizer = Tokenizer(file.readText())
-    val mobLoader = MobLoader(tokenizer, loadSchemaToUse)
-    val mobs = mutableListOf<Mob>()
-    while (true) {
-        try {
-            mobs.add(mobLoader.load().build())
-        } catch (e: EOFException) {
-            break
-        }
-    }
-    return mobs
 }

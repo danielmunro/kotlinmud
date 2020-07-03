@@ -67,10 +67,6 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 port
             )
         }
-        bind<PersistenceService>() with singleton {
-            val versions = loadVersionState(isTest)
-            PersistenceService(versions[0], versions[1])
-        }
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
         bind<ItemService>() with singleton { ItemService() }
@@ -96,10 +92,6 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 if (isTest) 0 else persistenceService.loadTimeFile()
             )
         }
-        bind<World>() with singleton {
-            val persistenceService = instance<PersistenceService>()
-            mapAreasToModel(persistenceService.loadAreas(isTest))
-        }
         bind<WorldSaver>() with singleton {
             WorldSaver(instance<World>())
         }
@@ -122,9 +114,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
             val persistenceService = instance<PersistenceService>()
             MobService(
                 instance<ItemService>(),
-                instance<EventService>(),
-                instance<World>(),
-                loadMobs(persistenceService.loadSchemaToUse)
+                instance<EventService>()
             )
         }
         bind<RespawnService>() with singleton {

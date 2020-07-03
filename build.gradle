@@ -90,6 +90,12 @@ dependencies {
 
     implementation 'io.github.cdimascio:java-dotenv:5.1.3'
 
+    // exposed orm + sqlite
+    implementation "org.jetbrains.exposed:exposed-core:0.24.1"
+    implementation "org.jetbrains.exposed:exposed-dao:0.24.1"
+    implementation "org.jetbrains.exposed:exposed-jdbc:0.24.1"
+    implementation "org.xerial:sqlite-jdbc:3.30.1"
+
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
     compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 
@@ -109,7 +115,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = project.hasProperty('generateWorld') ? 'kotlinmud.GenerateWorldAppKt' : 'kotlinmud.AppKt'
+    mainClassName = project.hasProperty('generateWorld') ? 'kotlinmud.GenerateWorldAppKt' : 'kotlinmud.CreateDatabaseAppKt'
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {

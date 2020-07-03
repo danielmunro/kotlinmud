@@ -6,13 +6,15 @@ import kotlinmud.fs.loader.area.model.reset.ItemRoomReset
 import kotlinmud.fs.loader.area.model.reset.MobReset
 import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
+import kotlinmud.room.dao.DoorDAO
+import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.Door
 import kotlinmud.room.model.Room
 import kotlinmud.room.model.RoomBuilder
 
 data class World(
-    var rooms: Table<Room>,
-    var doors: Table<Door>,
+    var rooms: List<RoomDAO>,
+    var doors: List<DoorDAO>,
     var mobs: Table<Mob>,
     var items: Table<Item>,
     var mobResets: Table<MobReset>,
