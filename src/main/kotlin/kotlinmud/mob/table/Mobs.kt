@@ -1,5 +1,6 @@
 package kotlinmud.mob.table
 
+import kotlinmud.affect.table.Affects
 import kotlinmud.attributes.table.Attributes
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.skill.table.Skills.references
@@ -30,6 +31,6 @@ object Mobs : IntIdTable() {
     val maxWeight = integer("maxWeight")
     val rarity = varchar("rarity", 50)
     val attributesId = reference("attributes", Attributes)
+    val affects = reference("affects", Affects)
     // skills
-    // affects
 }

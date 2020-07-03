@@ -1,11 +1,11 @@
 package kotlinmud.affect.table
 
+import kotlinmud.item.table.Items
 import kotlinmud.mob.table.Mobs
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.dao.IntIdTable
 
-object Affects : Table() {
-    val id = integer("id").autoIncrement().primaryKey()
+object Affects : IntIdTable() {
     val affect = varchar("affect", 50)
-    val mobId = (integer("mob_id") references Mobs.id).nullable()
-//    val itemId = (integer("item_id") references Items.id).nullable()
+    val mobId = reference("mobId", Mobs)
+    val itemId = reference("itemId", Items)
 }
