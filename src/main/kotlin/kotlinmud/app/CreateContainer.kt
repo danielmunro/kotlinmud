@@ -20,7 +20,6 @@ import kotlinmud.event.observer.impl.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.PruneDeadMobsPulseObserver
 import kotlinmud.event.observer.impl.RegenMobsObserver
 import kotlinmud.event.observer.impl.RemoveMobOnClientDisconnectObserver
-import kotlinmud.event.observer.impl.RespawnTickObserver
 import kotlinmud.event.observer.impl.SaveTimeObserver
 import kotlinmud.event.observer.impl.SaveVersionsObserver
 import kotlinmud.event.observer.impl.SaveWorldObserver
@@ -44,7 +43,6 @@ import kotlinmud.player.provider.loadMobCards
 import kotlinmud.player.service.EmailService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
-import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
 import kotlinmud.world.model.World
@@ -114,13 +112,6 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 instance<EventService>()
             )
         }
-        bind<RespawnService>() with singleton {
-            RespawnService(
-                instance<World>(),
-                instance<MobService>(),
-                instance<ItemService>()
-            )
-        }
         bind<ContextBuilderService>() with singleton {
             ContextBuilderService(
                 instance<ItemService>(),
@@ -156,7 +147,6 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 SaveTimeObserver(instance<TimeService>(), instance<PersistenceService>()),
                 LogTickObserver(instance<MobService>(), instance<ServerService>()),
                 PruneDeadMobsPulseObserver(instance<MobService>()),
-                RespawnTickObserver(instance<RespawnService>()),
                 SocialDistributorObserver(instance<ServerService>(), instance<MobService>()),
                 ChangeWeatherObserver(instance<WeatherService>()),
                 SaveVersionsObserver(instance<PersistenceService>()),

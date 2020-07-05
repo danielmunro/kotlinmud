@@ -12,7 +12,6 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
-import kotlinmud.service.RespawnService
 import org.kodein.di.erased.instance
 
 fun createTestService(): TestService {
@@ -22,7 +21,6 @@ fun createTestService(): TestService {
     val item: ItemService by container.instance<ItemService>()
     val act: ActionService by container.instance<ActionService>()
     val evt: EventService by container.instance<EventService>()
-    val respawnService: RespawnService by container.instance<RespawnService>()
     val serverService: ServerService by container.instance<ServerService>()
     val observers: Observers by container.instance<Observers>()
     val playerService: PlayerService by container.instance<PlayerService>()
@@ -32,7 +30,6 @@ fun createTestService(): TestService {
         mob,
         item,
         act,
-        respawnService,
         evt,
         playerService,
         serverService

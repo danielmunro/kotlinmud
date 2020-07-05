@@ -1,6 +1,7 @@
 package kotlinmud.room.dao
 
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.table.Items
 import kotlinmud.room.table.Doors
 import kotlinmud.room.type.DoorDisposition
 import org.jetbrains.exposed.dao.EntityID
@@ -12,6 +13,13 @@ class DoorDAO(id: EntityID<Int>) : IntEntity(id) {
 
     var name by Doors.name
     var description by Doors.description
-    var disposition: DoorDisposition by Doors.disposition.transform({ it.toString() }, { DoorDisposition.valueOf(it) })
-//    var keyItem by ItemDAO.key
+    var disposition: DoorDisposition by Doors.disposition.transform(
+        { it.toString() },
+        { DoorDisposition.valueOf(it) }
+    )
+    var defaultDisposition: DoorDisposition by Doors.disposition.transform(
+        { it.toString() },
+        { DoorDisposition.valueOf(it) }
+    )
+    var keyItem by ItemDAO optionalReferencedOn Items.doorKeyId
 }

@@ -64,4 +64,5 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInvent
     var mobEquipped by MobDAO optionalReferencedOn Items.mobEquippedId
     var room by RoomDAO optionalReferencedOn Items.roomId
     override val items by ItemDAO optionalReferrersOn Items.itemId
+    var doorKey by ItemDAO optionalReferencedOn Items.doorKeyId
 }

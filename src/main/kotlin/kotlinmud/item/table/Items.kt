@@ -4,6 +4,7 @@ import kotlinmud.affect.table.Affects
 import kotlinmud.attributes.table.Attributes
 import kotlinmud.item.type.Position
 import kotlinmud.mob.table.Mobs
+import kotlinmud.room.table.Doors
 import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.dao.IntIdTable
 
@@ -30,4 +31,5 @@ object Items : IntIdTable()  {
     val mobEquippedId = reference("mobEquippedId", Mobs).nullable()
     val roomId = reference("roomId", Rooms).nullable()
     val itemId = reference("itemId", Items).nullable()
+    val doorKeyId = reference("doorKeyId", Doors).nullable()
 }

@@ -11,5 +11,4 @@ fun main() {
     val app = createContainer(0)
     val world = GeneratorService(100, 100, createBiomes()).generate()
     val persistenceService by app.instance<PersistenceService>()
-    persistenceService.writeWorld(mapGeneratorToModel(world))
 }

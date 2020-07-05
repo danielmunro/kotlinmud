@@ -3,7 +3,6 @@ package kotlinmud.test
 import java.nio.channels.SocketChannel
 import kotlinmud.action.service.ActionService
 import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.attributes.model.AttributesBuilder
 import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
 import kotlinmud.io.model.Client
@@ -13,9 +12,7 @@ import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.IOStatus
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
-import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
@@ -29,15 +26,12 @@ import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.type.JobType
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.MobCardBuilder
 import kotlinmud.player.model.Player
 import kotlinmud.player.service.PlayerService
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.model.Room
 import kotlinmud.service.FixtureService
-import kotlinmud.service.RespawnService
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class TestService(
@@ -45,7 +39,6 @@ class TestService(
     private val mobService: MobService,
     private val itemService: ItemService,
     private val actionService: ActionService,
-    private val respawnService: RespawnService,
     private val eventService: EventService,
     private val playerService: PlayerService,
     private val serverService: ServerService
@@ -70,7 +63,7 @@ class TestService(
         return client
     }
 
-    fun createMobController(mob: Mob): MobController {
+    fun createMobController(mob: MobDAO): MobController {
         return MobController(mobService, itemService, eventService, mob)
     }
 
@@ -91,7 +84,7 @@ class TestService(
     }
 
     fun respawnWorld() {
-        respawnService.respawn()
+//        respawnService.respawn()
     }
 
     fun addNewRoom(mob: MobDAO) {
