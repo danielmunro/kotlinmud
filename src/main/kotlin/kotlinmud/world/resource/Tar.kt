@@ -1,6 +1,7 @@
 package kotlinmud.world.resource
 
 import kotlinmud.biome.type.ResourceType
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemBuilderBuilder
 import kotlinmud.item.type.ItemType
@@ -9,13 +10,13 @@ class Tar : Resource {
     override val resourceType: ResourceType = ResourceType.TAR
     override val growable: Boolean = false
     override val toughness: Int = 2
-    override fun createProduct(builder: ItemBuilderBuilder): List<Item> {
+    override fun createProduct(): List<ItemDAO> {
         return listOf(
-            builder()
-                .name("a lump of tar")
-                .description("a lump of tar is here")
-                .type(ItemType.TAR)
-                .build()
+            ItemDAO.new {
+                name = "a lump of tar"
+                description = "a lump of tar is here, make sure not to touch it!"
+                type = ItemType.TAR
+            }
         )
     }
 }
