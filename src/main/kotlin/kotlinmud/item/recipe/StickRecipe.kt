@@ -1,5 +1,6 @@
 package kotlinmud.item.recipe
 
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.type.ItemType
@@ -13,7 +14,7 @@ class StickRecipe : Recipe {
         return mapOf(Pair(ItemType.LUMBER, 1))
     }
 
-    override fun getProducts(): List<Item> {
+    override fun getProducts(): List<ItemDAO> {
         return listOf(
             stickItem(),
             stickItem(),
@@ -24,13 +25,12 @@ class StickRecipe : Recipe {
         )
     }
 
-    private fun stickItem(): Item {
-        return ItemBuilder()
-            .id(0)
-            .type(ItemType.STICK)
-            .name("a stick")
-            .description("a stick, used for construction")
-            .material(Material.WOOD)
-            .build()
+    private fun stickItem(): ItemDAO {
+        return ItemDAO.new {
+            type = ItemType.STICK
+            name = "a stick"
+            description = "a stick, used for construction"
+            material = Material.WOOD
+        }
     }
 }

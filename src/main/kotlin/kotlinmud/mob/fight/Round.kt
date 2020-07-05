@@ -1,10 +1,10 @@
 package kotlinmud.mob.fight
 
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 
 class Round(
-    val attacker: Mob,
-    val defender: Mob,
+    val attacker: MobDAO,
+    val defender: MobDAO,
     val attackerAttacks: List<Attack>,
     val defenderAttacks: List<Attack>
 ) {

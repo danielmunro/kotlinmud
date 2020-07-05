@@ -19,15 +19,10 @@ class FightTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob = testService.withMob {
-            it.skills(
-                mutableMapOf(
-                    Pair(SkillType.SHIELD_BLOCK, 100),
-                    Pair(SkillType.PARRY, 100),
-                    Pair(SkillType.DODGE, 100)
-                )
-            )
-        }
+        val mob = testService.createMob()
+        mob.addSkill(SkillType.SHIELD_BLOCK, 100)
+        mob.addSkill(SkillType.PARRY, 100)
+        mob.addSkill(SkillType.DODGE, 100)
 
         // when
         val fight = Fight(mob, testService.createMob())
@@ -52,14 +47,13 @@ class FightTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
-        }
-
-        val mob2 = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
-        }
-        mob2.equipped.add(testService.buildItem(testService.itemBuilder().position(Position.SHIELD), mob2))
+        val mob1 = testService.createMob()
+        mob1.addSkill(SkillType.SHIELD_BLOCK, 100)
+        val mob2 = testService.createMob()
+        mob2.addSkill(SkillType.SHIELD_BLOCK, 100)
+        val item = testService.createItem(mob2)
+        item.position = Position.SHIELD
+        mob2.equipped.plus(item)
 
         // when
         val fight = Fight(mob1, mob2)
@@ -84,17 +78,18 @@ class FightTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.withMob { it.skills(mutableMapOf(Pair(SkillType.PARRY, 100))) }
-        mob1.equipped.removeAt(0)
+        val mob1 = testService.createMob()
+        mob1.addSkill(SkillType.PARRY, 100)
+        mob1.equipped.minus(mob1.equipped.first())
 
-        val mob2 = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.PARRY, 100)))
-        }
-        mob2.equipped.add(testService.buildItem(
-            testService.itemBuilder()
-                .position(Position.WEAPON), mob2))
+        val mob2 = testService.createMob()
+        mob2.addSkill(SkillType.PARRY, 100)
+
+        val item = testService.createItem(mob2)
+        item.position = Position.WEAPON
 
         val fight = Fight(mob1, mob2)
+
         testService.addFight(fight)
 
         // when
@@ -115,8 +110,12 @@ class FightTest {
         // setup
         val hp = 100
         val testService = createTestService()
-        val mob1 = testService.withMob { it.hp(hp).wimpy(hp) }
-        val mob2 = testService.withMob { it.hp(hp).wimpy(hp) }
+        val mob1 = testService.createMob()
+        mob1.hp = hp
+        mob1.wimpy = hp
+        val mob2 = testService.createMob()
+        mob2.hp = hp
+        mob2.wimpy = hp
         val fight = Fight(mob1, mob2)
 
         // given

@@ -26,19 +26,4 @@ class AppTest {
         // then
         assertNotNull(app, "app should have a greeting")
     }
-
-    @Test
-    fun testItemServiceAutoId() {
-        val test = createTestService()
-        val mob = test.createMob()
-        val item = test.createItem(mob)
-        val itemService = ItemService(mutableListOf(ItemOwner(item, mob)))
-        val itemBuilder = itemService.createItemBuilderBuilder()()
-            .name("foo")
-            .description("foo")
-            .level(1)
-            .weight(0.0)
-            .build()
-        assertThat(itemBuilder.id).isEqualTo(4)
-    }
 }

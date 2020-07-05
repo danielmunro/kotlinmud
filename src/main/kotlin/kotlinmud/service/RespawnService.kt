@@ -91,12 +91,12 @@ class RespawnService(
 
     private fun itemRoomCanRespawn(reset: ItemRoomReset, room: Room): Boolean {
         return reset.maxInInventory > itemService.findAllByOwner(room).filter { it.id == reset.itemId }.size &&
-                reset.maxInWorld > itemService.countItemsById(reset.itemId)
+                reset.maxInWorld > itemService.countItemsByCanonicalId(reset.itemId)
     }
 
     private fun itemMobCanRespawn(reset: ItemMobReset, mob: Mob): Boolean {
         return reset.maxInInventory > itemService.findAllByOwner(mob).filter { it.id == reset.itemId }.size &&
-                reset.maxInWorld > itemService.countItemsById(reset.itemId)
+                reset.maxInWorld > itemService.countItemsByCanonicalId(reset.itemId)
     }
 
     private fun mobCanRespawn(reset: MobReset, room: Room): Boolean {

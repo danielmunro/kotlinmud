@@ -2,14 +2,13 @@ package kotlinmud.item.table
 
 import kotlinmud.affect.table.Affects
 import kotlinmud.attributes.table.Attributes
+import kotlinmud.item.type.Position
 import kotlinmud.mob.table.Mobs
 import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.dao.IntIdTable
 
 object Items : IntIdTable()  {
-    val mobInventoryId = reference("mobInventoryId", Mobs)
-    val mobEquippedId = reference("mobEquippedId", Mobs)
-    val roomId = reference("roomId", Rooms)
+    val canonicalId = uuid("canonicalId")
     val name = varchar("name", 255)
     val description = text("description")
     val type = varchar("type", 50)
@@ -27,4 +26,8 @@ object Items : IntIdTable()  {
     val canOwn = bool("canOwn")
     val attributesId = reference("attributes", Attributes)
     val affects = reference("affects", Affects)
+    val mobInventoryId = reference("mobInventoryId", Mobs).nullable()
+    val mobEquippedId = reference("mobEquippedId", Mobs).nullable()
+    val roomId = reference("roomId", Rooms).nullable()
+    val itemId = reference("itemId", Items).nullable()
 }

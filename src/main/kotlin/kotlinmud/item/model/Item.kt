@@ -47,8 +47,4 @@ class Item(
     override fun affects(): AffectService {
         return AffectService(this)
     }
-
-    fun copy(): Item {
-        return ItemBuilder(this).build()
-    }
 }

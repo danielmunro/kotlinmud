@@ -13,7 +13,7 @@ fun createBuyAction(): Action {
     return Action(Command.BUY, mustBeAlert(), itemFromMerchant()) {
         val item: Item = it.get(Syntax.ITEM_FROM_MERCHANT)
         val shopkeeper = it.getMobsInRoom().find { mob -> mob.job == JobType.SHOPKEEPER }!!
-        it.changeItemOwner(item, it.getMob())
+        it.giveItemToMob(item, it.getMob())
         it.deductGold(item.worth)
         shopkeeper.gold += item.worth
         it.createOkResponse(

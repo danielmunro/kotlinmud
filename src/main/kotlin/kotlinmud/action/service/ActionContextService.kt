@@ -1,7 +1,7 @@
 package kotlinmud.action.service
 
 import kotlinmud.action.model.ActionContextList
-import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.FightStartedEvent
@@ -15,24 +15,27 @@ import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.Clients
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Recipe
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.service.PlayerService
 import kotlinmud.player.social.Social
-import kotlinmud.room.model.Exit
+import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.NewRoom
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.service.WeatherService
 import kotlinmud.weather.Weather
+import org.jetbrains.exposed.dao.EntityID
 
 class ActionContextService(
     private val mobService: MobService,
@@ -49,11 +52,11 @@ class ActionContextService(
         createRecipeList()
     )
 
-    fun craft(recipe: Recipe): List<Item> {
+    fun craft(recipe: Recipe): List<ItemDAO> {
         return craftingService.craft(recipe, request.mob)
     }
 
-    fun harvest(resourceType: ResourceType): List<Item> {
+    fun harvest(resourceType: ResourceType): List<ItemDAO> {
         return craftingService.harvest(resourceType, request.room, request.mob)
     }
 
@@ -61,7 +64,7 @@ class ActionContextService(
         return weatherService.getWeather()
     }
 
-    fun getMob(): Mob {
+    fun getMob(): MobDAO {
         return request.mob
     }
 
@@ -69,8 +72,8 @@ class ActionContextService(
         return playerService.findMobCardByName(getMob().name)!!
     }
 
-    fun getAffects(): List<AffectInstance> {
-        return getMob().affects
+    fun getAffects(): List<AffectDAO> {
+        return getMob().affects.toList()
     }
 
     fun getLevel(): Int {
@@ -85,15 +88,15 @@ class ActionContextService(
         getMob().gold -= amount
     }
 
-    fun getRoom(): Room {
+    fun getRoom(): RoomDAO {
         return request.room
     }
 
-    fun getExits(): List<Exit> {
-        return request.room.exits
+    fun getExits(): Map<Direction, RoomDAO> {
+        return request.room.getAvailableExits()
     }
 
-    fun getRecall(): Room {
+    fun getRecall(): RoomDAO {
         return mobService.getStartRoom()
     }
 
@@ -101,15 +104,15 @@ class ActionContextService(
         return actionContextList.getResultBySyntax(syntax)
     }
 
-    fun getMobsInRoom(): List<Mob> {
+    fun getMobsInRoom(): List<MobDAO> {
         return mobService.getMobsForRoom(getRoom())
     }
 
-    fun moveMob(room: Room, direction: Direction) {
+    fun moveMob(room: RoomDAO, direction: Direction) {
         mobService.moveMob(getMob(), room, direction)
     }
 
-    fun putMobInRoom(room: Room) {
+    fun putMobInRoom(room: RoomDAO) {
         mobService.putMobInRoom(getMob(), room)
     }
 
@@ -122,7 +125,7 @@ class ActionContextService(
     }
 
     fun createFight() {
-        val target: Mob = get(Syntax.MOB_IN_ROOM)
+        val target: MobDAO = get(Syntax.MOB_IN_ROOM)
         val fight = Fight(getMob(), target)
         mobService.addFight(fight)
         eventService.publish(
@@ -145,35 +148,35 @@ class ActionContextService(
         return serverService.getClients()
     }
 
-    fun getItemsFor(hasInventory: HasInventory): List<Item> {
+    fun getItemsFor(hasInventory: HasInventory): List<ItemDAO> {
         return itemService.findAllByOwner(hasInventory)
     }
 
-    fun getItemGroupsFor(mob: Mob): Map<Int, List<Item>> {
+    fun getItemGroupsFor(mob: MobDAO): Map<EntityID<Int>, List<ItemDAO>> {
         return itemService.getItemGroups(mob)
     }
 
-    fun changeItemOwner(item: Item, hasInventory: HasInventory) {
-        itemService.changeItemOwner(item, hasInventory)
+    fun giveItemToMob(item: ItemDAO, mob: MobDAO) {
+        itemService.giveItemToMob(item, mob)
     }
 
-    fun destroy(item: Item) {
+    fun destroy(item: ItemDAO) {
         itemService.destroy(item)
     }
 
     fun createNewRoom(name: String): NewRoom {
         val newRoom = mobService.createNewRoom(getMob())
-        newRoom.roomBuilder
-            .name(name)
-            .area(getRoom().area)
-            .description("A new room has been created")
-            .isIndoor(getRoom().isIndoor)
-            .owner(getRoom().owner)
-            .regen(RegenLevel.NORMAL)
+        val room = newRoom.room
+        room.name = name
+        room.area = getRoom().area
+        room.description = "A new room has been created"
+        room.isIndoor = getRoom().isIndoor
+        room.owner = getRoom().owner
+        room.regenLevel = RegenLevel.NORMAL
         return newRoom
     }
 
-    fun buildRoom(mob: Mob, direction: Direction): Room {
+    fun buildRoom(mob: MobDAO, direction: Direction): RoomDAO {
         return mobService.buildRoom(mob, direction)
     }
 

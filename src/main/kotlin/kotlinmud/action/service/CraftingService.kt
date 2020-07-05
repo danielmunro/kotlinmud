@@ -5,15 +5,19 @@ import kotlinmud.biome.helper.createResourceList
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.exception.CraftException
 import kotlinmud.exception.HarvestException
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Recipe
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.Mob
+import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.Room
 import kotlinmud.world.resource.Resource
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class CraftingService(
     private val itemService: ItemService,
@@ -31,8 +35,8 @@ class CraftingService(
             return componentsList
         }
 
-        fun createListOfItemsToDestroy(items: List<Item>, componentsList: List<ItemType>): List<Item> {
-            val toDestroy: MutableList<Item> = mutableListOf()
+        fun createListOfItemsToDestroy(items: List<ItemDAO>, componentsList: List<ItemType>): List<ItemDAO> {
+            val toDestroy: MutableList<ItemDAO> = mutableListOf()
             var componentReq = 0
             items.forEach {
                 if (componentReq < componentsList.size && it.type == componentsList[componentReq]) {
@@ -44,12 +48,12 @@ class CraftingService(
         }
     }
 
-    fun craft(recipe: Recipe, hasInventory: HasInventory): List<Item> {
+    fun craft(recipe: Recipe, mob: MobDAO): List<ItemDAO> {
         val componentsList =
             createListOfItemTypesFromMap(recipe.getComponents())
         val toDestroy =
             createListOfItemsToDestroy(
-                itemService.findAllByOwner(hasInventory).sortedBy { it.type }, componentsList
+                itemService.findAllByOwner(mob).sortedBy { it.type }, componentsList
             )
 
         if (toDestroy.size < componentsList.size) {
@@ -57,20 +61,26 @@ class CraftingService(
         }
 
         toDestroy.forEach { itemService.destroy(it) }
+        val products = recipe.getProducts()
+        transaction {
+            products.forEach {
+                it.mobInventory = mob
+            }
+        }
 
-        return recipe.getProducts().stream().map {
-            val newItem = it.copy()
-            itemService.add(ItemOwner(newItem, hasInventory))
-            newItem
-        }.toList()
+        return products
     }
 
-    fun harvest(resourceType: ResourceType, room: Room, mob: Mob): List<Item> {
+    fun harvest(resourceType: ResourceType, room: RoomDAO, mob: MobDAO): List<ItemDAO> {
         room.resources.remove(resourceType)
         resources.find { it.resourceType == resourceType }?.let {
-            val items = it.createProduct(itemService.createItemBuilderBuilder())
-            items.forEach { item -> itemService.add(ItemOwner(item, mob)) }
-            return items
+            val products = it.createProduct()
+            transaction {
+                products.forEach { item ->
+                    item.mobInventory = mob
+                }
+            }
+            return products
         } ?: throw HarvestException()
     }
 }

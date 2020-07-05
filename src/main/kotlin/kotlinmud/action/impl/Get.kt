@@ -18,7 +18,7 @@ fun createGetAction(): Action {
                     .build()
             )
         }
-        it.changeItemOwner(item, it.getMob())
+        it.giveItemToMob(item, it.getMob())
         it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you pick up ${item.name}.")

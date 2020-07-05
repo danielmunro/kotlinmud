@@ -52,7 +52,7 @@ class Mob(
     @DefaultValue("0") var goldMin: Int,
     @DefaultValue("0") var goldMax: Int,
     @DefaultValue("mutableMapOf()") @Mutable val skills: MutableMap<SkillType, Int>,
-    @DefaultValue("mutableListOf()") @Mutable override val affects: MutableList<AffectInstance>,
+    @DefaultValue("mutableListOf()") @Mutable val affects: MutableList<AffectInstance>,
     @DefaultValue("0") var wimpy: Int,
     @DefaultValue("0") var savingThrows: Int,
     @DefaultValue("mutableListOf()") @Mutable val equipped: MutableList<Item>,
@@ -61,35 +61,15 @@ class Mob(
     @DefaultValue("50") val maxItems: Int,
     @DefaultValue("100") val maxWeight: Int,
     @DefaultValue("Rarity.COMMON") val rarity: Rarity
-) : Noun, Row, HasInventory {
+) : Noun, Row {
     var lastRoute = 0
 
-    override fun affects(): AffectService {
+    fun affects(): AffectService {
         return AffectService(this)
-    }
-
-    fun isSleeping(): Boolean {
-        return disposition == Disposition.SLEEPING
-    }
-
-    fun isIncapacitated(): Boolean {
-        return disposition == Disposition.DEAD
     }
 
     fun isStanding(): Boolean {
         return disposition == Disposition.STANDING
-    }
-
-    fun getAttacks(): List<AttackType> {
-        return arrayListOf(AttackType.FIRST)
-    }
-
-    fun getDamageType(): DamageType {
-        return getWeapon()?.damageType ?: race.unarmedDamageType
-    }
-
-    fun getAttackVerb(): String {
-        return getWeapon()?.attackVerb ?: race.unarmedAttackVerb
     }
 
     fun base(attribute: Attribute): Int {
@@ -173,65 +153,8 @@ class Mob(
         return percentRoll() > normalizeInt(5, base, 95)
     }
 
-    fun increaseByRegenRate(rate: Double) {
-        increaseHp((rate * calc(Attribute.HP)).toInt())
-        increaseMana((rate * calc(Attribute.MANA)).toInt())
-        increaseMv((rate * calc(Attribute.MV)).toInt())
-    }
-
     override fun toString(): String {
         return name
-    }
-
-    fun wantsToMove(): Boolean {
-        if (!isNpc || !job.wantsToMove()) {
-            return false
-        }
-        return dN(1, 2) == 1
-    }
-
-    fun getHealthIndication(): String {
-        val amount: Double = hp.toDouble() / calc(Attribute.HP).toDouble()
-        return when {
-            amount == 1.0 -> "$name is in excellent condition."
-            amount > 0.9 -> "$name has a few scratches."
-            amount > 0.75 -> "$name has some small wounds and bruises."
-            amount > 0.5 -> "$name has quite a few wounds."
-            amount > 0.3 -> "$name has some big nasty wounds and scratches."
-            amount > 0.15 -> "$name looks pretty hurt."
-            else -> "$name is in awful condition."
-        }
-    }
-
-    private fun increaseHp(value: Int) {
-        hp += value
-        with(calc(Attribute.HP)) {
-            if (hp > this) {
-                hp = this
-            }
-        }
-    }
-
-    private fun increaseMana(value: Int) {
-        mana += value
-        with(calc(Attribute.MANA)) {
-            if (mana > this) {
-                mana = this
-            }
-        }
-    }
-
-    private fun increaseMv(value: Int) {
-        mv += value
-        with(calc(Attribute.MV)) {
-            if (mv > this) {
-                mv = this
-            }
-        }
-    }
-
-    private fun getWeapon(): Item? {
-        return equipped.find { it.position == Position.WEAPON }
     }
 
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {

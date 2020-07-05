@@ -5,7 +5,9 @@ import assertk.assertions.isEqualTo
 import kotlinmud.affect.impl.BlessAffect
 import kotlinmud.affect.impl.BlindAffect
 import kotlinmud.affect.impl.InvisibilityAffect
+import kotlinmud.affect.model.AffectInstance
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.SizedIterable
 import org.junit.Test
 
 class AffectsTest {
@@ -15,15 +17,10 @@ class AffectsTest {
         val test = createTestService()
 
         // given
-        val mob = test.withMob {
-            it.affects(
-                mutableListOf(
-                    InvisibilityAffect().createInstance(5),
-                    BlessAffect().createInstance(10),
-                    BlindAffect().createInstance(1)
-                )
-            )
-        }
+        val mob = test.createMob()
+        mob.affects.plus(InvisibilityAffect().createInstance(5))
+        mob.affects.plus(BlessAffect().createInstance(10))
+        mob.affects.plus(BlindAffect().createInstance(1))
 
         // when
         val response = test.runAction(mob, "affects")

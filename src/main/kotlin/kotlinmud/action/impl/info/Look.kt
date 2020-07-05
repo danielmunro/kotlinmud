@@ -6,12 +6,9 @@ import kotlinmud.action.type.Command
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.createResponseWithEmptyActionContext
-import kotlinmud.item.model.Item
-import kotlinmud.mob.model.MAX_WALKABLE_ELEVATION
-import kotlinmud.mob.model.Mob
-import kotlinmud.room.model.Exit
-import kotlinmud.room.model.Room
-import kotlinmud.room.type.DoorDisposition
+import kotlinmud.item.dao.ItemDAO
+import kotlinmud.mob.dao.MobDAO
+import kotlinmud.room.dao.RoomDAO
 
 fun createLookAction(): Action {
     return Action(Command.LOOK, mustBeAwake()) {
@@ -29,17 +26,17 @@ fun createLookAction(): Action {
     }
 }
 
-fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>, roomItems: List<Item>): String {
-    mob.affects().findByType(AffectType.BLIND)?.let {
+fun describeRoom(room: RoomDAO, mob: MobDAO, mobs: List<MobDAO>, roomItems: List<ItemDAO>): String {
+    mob.affects.find { it.type == AffectType.BLIND }?.let {
         return "you can't see anything, you're blind!"
     }
     val observers = mobs.filter {
-        it != mob && it.affects().findByType(AffectType.INVISIBILITY) == null
+        it != mob && it.affects.find { affect -> affect.type == AffectType.INVISIBILITY } == null
     }
     return String.format("%s\n%s\n%sExits [%s]%s%s%s%s",
         room.name,
         room.description,
-        showDoors(room.exits),
+        showDoors(room),
         reduceExits(room),
         if (roomItems.isNotEmpty()) "\n" else "",
         roomItems.joinToString("\n") { "${it.name} is here." },
@@ -48,20 +45,18 @@ fun describeRoom(room: Room, mob: Mob, mobs: List<Mob>, roomItems: List<Item>): 
     )
 }
 
-fun showDoors(exits: List<Exit>): String {
-    val doors = exits.filter { it.door != null }
-        .joinToString("\n") { "${it.door!!.name} to the ${it.direction.value.toLowerCase()} is ${it.door.disposition.toString().toLowerCase()}." }
+fun showDoors(room: RoomDAO): String {
+    val doors = room.getDoors()
+        .entries
+        .joinToString("\n") { "${it.value.name} to the ${it.key.value.toLowerCase()} is ${it.value.disposition.toString().toLowerCase()}." }
     if (doors != "") {
         return "\n$doors\n"
     }
     return ""
 }
 
-fun reduceExits(room: Room): String {
-    return room.exits
-        .filter {
-            (it.door == null || it.door.disposition == DoorDisposition.OPEN) &&
-                    (it.destination.elevation - room.elevation < MAX_WALKABLE_ELEVATION)
-        }
-        .joinToString("") { it.direction.name.subSequence(0, 1) }
+fun reduceExits(room: RoomDAO): String {
+    return room.getAvailableExits()
+        .entries
+        .joinToString("") { it.key.name.subSequence(0, 1) }
 }

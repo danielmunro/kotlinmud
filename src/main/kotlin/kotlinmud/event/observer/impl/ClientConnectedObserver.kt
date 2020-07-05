@@ -14,6 +14,7 @@ import kotlinmud.helper.math.coinFlip
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.Request
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.factory.mobBuilder
 import kotlinmud.mob.model.Appetite
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
@@ -42,24 +43,7 @@ class ClientConnectedObserver(
     }
 
     private fun loginDummyMob(client: Client) {
-        val mob = transaction {
-            MobDAO.new {
-                name = "foo"
-                isNpc = false
-                gold = 100
-                hp = startingHp
-                mana = startingMana
-                mv = startingMv
-                race = Human()
-                level = 1
-                gender = if (coinFlip()) Gender.MALE else Gender.FEMALE
-                attributes = AttributesDAO.new {
-                    hp = startingHp
-                    mana = startingMana
-                    mv = startingMv
-                }
-            }
-        }
+        val mob = mobBuilder("foo")
         mobService.addMob(mob)
         playerService.createNewPlayerWithEmailAddress("dan@danmunro.com")
         playerService.addMobCard(

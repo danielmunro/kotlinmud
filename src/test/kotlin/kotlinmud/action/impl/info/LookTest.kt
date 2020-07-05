@@ -4,11 +4,13 @@ import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
+import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.factory.affect
 import kotlinmud.affect.factory.affects
 import kotlinmud.affect.type.AffectType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class LookTest {
@@ -39,7 +41,7 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        mob.affects().add(affect(AffectType.BLIND))
+        mob.affects.plus(affect(AffectType.BLIND))
 
         // when
         val response = testService.runAction(mob, "look")
@@ -68,7 +70,8 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val item = testService.createItem(mob)
+        val item = testService.createItem()
+        mob.items.plus(item)
 
         // when
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")
@@ -97,7 +100,7 @@ class LookTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val room = testService.getRoomForMob(mob)
-        val door = room.exits.find { it.door != null }!!.door!!
+        val door = room.northDoor!!
 
         // when
         val response = testService.runAction(mob, "look")
@@ -112,8 +115,11 @@ class LookTest {
         val testService = createTestService()
 
         // given
-        val mob1 = testService.withMob {
-            it.affects(affects(AffectType.INVISIBILITY))
+        val mob1 = testService.createMob()
+        transaction {
+            mob1.affects.plus(AffectDAO.new {
+                type = AffectType.INVISIBILITY
+            })
         }
         val mob2 = testService.createMob()
 

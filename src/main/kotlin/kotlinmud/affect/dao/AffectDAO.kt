@@ -1,6 +1,10 @@
 package kotlinmud.affect.dao
 
 import kotlinmud.affect.table.Affects
+import kotlinmud.affect.type.AffectType
+import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.table.Attributes
+import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.table.Items
 import kotlinmud.mob.dao.MobDAO
@@ -9,10 +13,15 @@ import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 
-class AffectDAO(id: EntityID<Int>) : IntEntity(id) {
+class AffectDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes {
     companion object : IntEntityClass<AffectDAO>(Affects)
 
-    var affect by Affects.affect
+    var type by Affects.type.transform(
+        { it.toString() },
+        { AffectType.valueOf(it) }
+    )
+
     val mob by MobDAO referrersOn Mobs.id
     val item by ItemDAO referrersOn Items.id
+    override var attributes by AttributesDAO referencedOn Affects.attributesId
 }

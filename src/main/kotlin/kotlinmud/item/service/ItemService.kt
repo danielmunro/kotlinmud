@@ -1,107 +1,108 @@
 package kotlinmud.item.service
 
-import kotlin.streams.toList
 import kotlinmud.affect.type.AffectType
 import kotlinmud.helper.string.matches
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.model.ItemOwner
+import kotlinmud.item.table.Items
+import kotlinmud.item.table.Items.decayTimer
+import kotlinmud.item.table.Items.mobInventoryId
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.corpseWeight
+import org.jetbrains.exposed.dao.EntityID
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.sql.SqlExpressionBuilder
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNotNull
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
+import java.util.*
 
 typealias ItemBuilderBuilder = () -> ItemBuilder
 
-class ItemService(private val items: MutableList<ItemOwner> = mutableListOf()) {
-    private var autoId: Int
-
-    init {
-        items.sortBy { it.item.id }
-        autoId = if (items.isNotEmpty()) items.last().item.id else 0
-    }
-
-    fun createItemBuilder(): ItemBuilder {
-        autoId++
-        return ItemBuilder()
-            .id(autoId)
-    }
-
-    fun createItemBuilderBuilder(): ItemBuilderBuilder {
-        return {
-            createItemBuilder()
+class ItemService {
+    fun countItemsByCanonicalId(id: UUID): Int {
+        return transaction {
+            Items.select { Items.canonicalId eq id }.count()
         }
     }
 
-    fun countItemsById(id: Int): Int {
-        return items.filter { it.item.id == id }.size
-    }
-
-    fun add(item: ItemOwner) {
-        items.add(item)
-    }
-
-    fun findByOwner(hasInventory: HasInventory, input: String): Item? {
-        val item = items.find { it.owner == hasInventory && matches(it.item.name, input) }?.item
-        if (item?.affects()?.findByType(AffectType.INVISIBILITY) == null) {
-            return item
+    fun findByOwner(mob: MobDAO, input: String): ItemDAO? {
+        return transaction {
+            ItemDAO.wrapRows(
+                Items.select( mobInventoryId eq mob.id and (Items.name like "$input%") )
+            ).firstOrNull()
         }
-        return null
     }
 
-    fun findAllByOwner(hasInventory: HasInventory): List<Item> {
-        return items.stream().filter { it.owner == hasInventory }.map { it.item }.toList()
+    fun findAllByOwner(hasInventory: HasInventory): List<ItemDAO> {
+        return transaction {
+            ItemDAO.wrapRows(
+                Items.select {
+                    mobInventoryId eq hasInventory.id
+                }
+            ).toList()
+        }
     }
 
-    fun getItemGroups(hasInventory: HasInventory): Map<Int, List<Item>> {
-        return findAllByOwner(hasInventory).groupBy { it.id }
+    fun getItemGroups(mob: MobDAO): Map<EntityID<Int>, List<ItemDAO>> {
+        return findAllByOwner(mob).groupBy { it.id }
     }
 
-    fun changeItemOwner(item: Item, hasInventory: HasInventory) {
-        items.find { it.item == item }?.let {
-            it.owner = hasInventory
-        } ?: items.add(ItemOwner(item, hasInventory))
+    fun giveItemToMob(item: ItemDAO, mob: MobDAO) {
+        transaction {
+            Items.update({ Items.id eq item.id }) {
+                it[mobInventoryId] = mob.id
+            }
+        }
     }
 
     fun decrementDecayTimer() {
-        items.removeIf {
-            if (it.item.decayTimer > 0) {
-                it.item.decayTimer -= 1
-                return@removeIf it.item.decayTimer == 0
+        transaction {
+            Items.update({ decayTimer.isNotNull() }) {
+                decayTimer less 1
             }
-            return@removeIf false
+            Items.deleteWhere(9999 as Int, 0 as Int) {
+                decayTimer.isNotNull() and (decayTimer less 0)
+            }
         }
     }
 
-    fun destroy(item: Item) {
-        items.removeIf { it.item == item }
+    fun destroy(item: ItemDAO) {
+        transaction {
+            item.delete()
+        }
     }
 
-    fun transferAllItems(from: HasInventory, to: HasInventory) {
-        items.forEach {
-            if (it.owner == from) {
-                it.owner = to
+    fun transferAllItems(from: IntEntity, to: IntEntity) {
+        transaction {
+            Items.update({ mobInventoryId eq from.id }) {
+                it[mobInventoryId] = to.id
             }
         }
     }
 
     fun createCorpseFromMob(mob: MobDAO): ItemDAO {
         val item = transaction {
+            Items.update({ Items.mobEquippedId eq mob.id }) {
+                it[mobEquippedId] = null
+            }
             ItemDAO.new {
                 name = "a corpse of $mob"
+                description = "a corpse of $mob is here."
+                level = mob.level
+                weight = corpseWeight
+                decayTimer = 20
             }
         }
-
-        val item = createItemBuilder()
-            .name("a corpse of $mob")
-            .description("a corpse of $mob is here.")
-            .level(mob.level)
-            .weight(corpseWeight)
-            .decayTimer(20)
-            .build()
-        mob.equipped.removeIf { true }
         transferAllItems(mob, item)
         return item
     }
