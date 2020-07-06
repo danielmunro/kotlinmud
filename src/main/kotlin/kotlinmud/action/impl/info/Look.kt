@@ -56,7 +56,7 @@ fun showDoors(room: RoomDAO): String {
 }
 
 fun reduceExits(room: RoomDAO): String {
-    return room.getAvailableExits()
+    return room.getAllExits()
         .entries
         .joinToString("") { it.key.name.subSequence(0, 1) }
 }

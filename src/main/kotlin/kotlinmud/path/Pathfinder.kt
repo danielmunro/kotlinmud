@@ -21,7 +21,7 @@ class Pathfinder(private val src: RoomDAO, private val dest: RoomDAO) {
                 if (!roomSeen(it)) {
                     explored.add(Explored(it, true))
                 }
-                it.getAvailableExits().forEach { exit ->
+                it.getAllExits().forEach { exit ->
                     val roomsToProceed = rooms.toMutableList()
                     roomsToProceed.add(exit.value)
                     val dest = proceed(roomsToProceed, moves + 1)

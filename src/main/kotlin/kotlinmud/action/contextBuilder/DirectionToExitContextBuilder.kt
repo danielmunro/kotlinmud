@@ -3,19 +3,18 @@ package kotlinmud.action.contextBuilder
 import kotlinmud.action.factory.failedContext
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
+import kotlinmud.action.type.Exit
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.model.MAX_WALKABLE_ELEVATION
-import kotlinmud.room.model.Exit
+import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.Room
-import kotlinmud.room.type.DoorDisposition
 
-class DirectionToExitContextBuilder(private val room: Room) : ContextBuilder {
+class DirectionToExitContextBuilder(private val room: RoomDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        val exit = getValidDirection(word)
+        val exit = getExit(word)
             ?: return failedContext(syntax, "Alas, that direction does not exist.")
 
-        if (!exitHasNoDoorOrDoorIsOpen(exit)) {
+        if (!exit.value.isDoorPassable(exit.key)) {
             return failedContext(syntax, "you must open the door first.")
         }
 
@@ -23,28 +22,24 @@ class DirectionToExitContextBuilder(private val room: Room) : ContextBuilder {
             return Context(syntax, Status.ERROR, "you can't climb that elevation.")
         }
 
-        if (!canMoveIntoSubstrate(exit.destination)) {
-            return Context(syntax, Status.ERROR, "${exit.destination.name} is blocked by ${exit.destination.substrate.toString().toLowerCase()}.")
+        if (!canMoveIntoSubstrate(exit.value)) {
+            return Context(syntax, Status.ERROR, "${exit.value.name} is blocked by ${exit.value.substrate.toString().toLowerCase()}.")
         }
 
-        return Context(syntax, Status.OK, exit.destination)
+        return Context(syntax, Status.OK, exit.value)
     }
 
-    private fun getValidDirection(word: String): Exit? {
-        return room.exits.find { it.direction.toString().toLowerCase().startsWith(word) }
-    }
-
-    private fun exitHasNoDoorOrDoorIsOpen(exit: Exit): Boolean {
-        return exit.door == null || exit.door.disposition == DoorDisposition.OPEN
+    private fun getExit(word: String): Exit? {
+        return room.getAllExits().entries.find {
+            it.key.toString().toLowerCase().startsWith(word)
+        }
     }
 
     private fun isClimbableElevation(exit: Exit): Boolean {
-        val elevationChange = exit.destination.elevation - room.elevation
-
-        return elevationChange <= MAX_WALKABLE_ELEVATION
+        return room.isElevationPassable(exit.key)
     }
 
-    private fun canMoveIntoSubstrate(room: Room): Boolean {
+    private fun canMoveIntoSubstrate(room: RoomDAO): Boolean {
         return room.substrate == SubstrateType.NONE
     }
 }

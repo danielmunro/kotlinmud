@@ -5,10 +5,11 @@ import kotlinmud.action.type.Status
 import kotlinmud.helper.Noun
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.Mob
 
 class OptionalTargetContextBuilder(
-    private val actionCreator: Mob,
+    private val actionCreator: MobDAO,
     private val possibleTargets: List<Noun>
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

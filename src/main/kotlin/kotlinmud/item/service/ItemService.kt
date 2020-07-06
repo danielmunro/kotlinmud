@@ -9,9 +9,11 @@ import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.table.Items
 import kotlinmud.item.table.Items.decayTimer
 import kotlinmud.item.table.Items.mobInventoryId
+import kotlinmud.item.table.Items.roomId
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.corpseWeight
+import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
@@ -39,6 +41,14 @@ class ItemService {
         return transaction {
             ItemDAO.wrapRows(
                 Items.select( mobInventoryId eq mob.id and (Items.name like "$input%") )
+            ).firstOrNull()
+        }
+    }
+
+    fun findByRoom(room: RoomDAO, input: String): ItemDAO? {
+        return transaction {
+            ItemDAO.wrapRows(
+                Items.select( roomId eq room.id and (Items.name like "$input%") )
             ).firstOrNull()
         }
     }

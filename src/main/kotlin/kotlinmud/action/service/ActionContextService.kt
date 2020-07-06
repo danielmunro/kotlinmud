@@ -17,20 +17,17 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.helper.createRecipeList
-import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.service.PlayerService
 import kotlinmud.player.social.Social
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.NewRoom
-import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.service.WeatherService
@@ -93,7 +90,7 @@ class ActionContextService(
     }
 
     fun getExits(): Map<Direction, RoomDAO> {
-        return request.room.getAvailableExits()
+        return request.room.getAllExits()
     }
 
     fun getRecall(): RoomDAO {

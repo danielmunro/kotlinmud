@@ -19,7 +19,11 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 
 class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
-    companion object : IntEntityClass<RoomDAO>(Rooms)
+    companion object : IntEntityClass<RoomDAO>(Rooms) {
+        private fun isDoorPassable(door: DoorDAO?): Boolean {
+            return door == null || door.disposition == DoorDisposition.OPEN
+        }
+    }
 
     var name by Rooms.name
     var area by Rooms.area
@@ -75,31 +79,79 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
         return exits
     }
 
-    fun getAvailableExits(): Map<Direction, RoomDAO> {
+    fun getExitsWithDoors(): Map<Direction, RoomDAO> {
         val exits = mutableMapOf<Direction, RoomDAO>()
-        if (isExitAvailable(northDoor, north)) {
+        if (isDoorPassable(northDoor)) {
             exits.plus(Pair(Direction.NORTH, north))
         }
-        if (isExitAvailable(southDoor, south)) {
+        if (isDoorPassable(southDoor)) {
             exits.plus(Pair(Direction.SOUTH, south))
         }
-        if (isExitAvailable(eastDoor, east)) {
+        if (isDoorPassable(eastDoor)) {
             exits.plus(Pair(Direction.EAST, east))
         }
-        if (isExitAvailable(westDoor, west)) {
+        if (isDoorPassable(westDoor)) {
             exits.plus(Pair(Direction.WEST, west))
         }
-        if (isExitAvailable(upDoor, up)) {
+        if (isDoorPassable(upDoor)) {
             exits.plus(Pair(Direction.UP, up))
         }
-        if (isExitAvailable(downDoor, down)) {
+        if (isDoorPassable(downDoor)) {
             exits.plus(Pair(Direction.DOWN, down))
         }
         return exits
     }
 
+    fun getAllExits(): Map<Direction, RoomDAO> {
+        val exits = mutableMapOf<Direction, RoomDAO>()
+        if (north != null) {
+            exits.plus(Pair(Direction.NORTH, north))
+        }
+        if (south != null) {
+            exits.plus(Pair(Direction.SOUTH, south))
+        }
+        if (east != null) {
+            exits.plus(Pair(Direction.EAST, east))
+        }
+        if (west != null) {
+            exits.plus(Pair(Direction.WEST, west))
+        }
+        if (up != null) {
+            exits.plus(Pair(Direction.UP, up))
+        }
+        if (down != null) {
+            exits.plus(Pair(Direction.DOWN, down))
+        }
+        return exits
+    }
+
+    fun isDoorPassable(direction: Direction): Boolean {
+        return when (direction) {
+            Direction.NORTH -> isDoorPassable(northDoor)
+            Direction.SOUTH -> isDoorPassable(southDoor)
+            Direction.EAST -> isDoorPassable(eastDoor)
+            Direction.WEST -> isDoorPassable(westDoor)
+            Direction.UP -> isDoorPassable(upDoor)
+            Direction.DOWN -> isDoorPassable(downDoor)
+        }
+    }
+
+    fun isElevationPassable(direction: Direction): Boolean {
+        return when (direction) {
+            Direction.NORTH -> isElevationPassable(north)
+            Direction.SOUTH -> isElevationPassable(south)
+            Direction.EAST -> isElevationPassable(east)
+            Direction.WEST -> isElevationPassable(west)
+            Direction.UP -> isElevationPassable(up)
+            Direction.DOWN -> isElevationPassable(down)
+        }
+    }
+
     private fun isExitAvailable(door: DoorDAO?, exit: RoomDAO?): Boolean {
-        return door == null || door.disposition == DoorDisposition.OPEN
-                && exit != null && exit.elevation - elevation < MAX_WALKABLE_ELEVATION
+        return isDoorPassable(door) && exit != null && isElevationPassable(exit)
+    }
+
+    private fun isElevationPassable(room: RoomDAO?): Boolean {
+        return room != null && room.elevation - elevation < MAX_WALKABLE_ELEVATION
     }
 }

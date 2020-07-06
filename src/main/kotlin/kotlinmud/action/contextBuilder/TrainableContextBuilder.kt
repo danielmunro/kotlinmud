@@ -5,12 +5,13 @@ import kotlinmud.action.type.Status
 import kotlinmud.attributes.model.isVitals
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.type.Syntax
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.player.service.PlayerService
 
-class TrainableContextBuilder(private val mobService: MobService, private val playerService: PlayerService, private val mob: Mob) : ContextBuilder {
+class TrainableContextBuilder(private val mobService: MobService, private val playerService: PlayerService, private val mob: MobDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val mobCard = playerService.findMobCardByName(mob.name)!!
         if (mobCard.trains == 0) {

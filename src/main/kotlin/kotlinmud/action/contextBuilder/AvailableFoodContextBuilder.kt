@@ -6,13 +6,14 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.Mob
 
-class AvailableFoodContextBuilder(private val itemService: ItemService, private val mob: Mob) : ContextBuilder {
+class AvailableFoodContextBuilder(private val itemService: ItemService, private val mob: MobDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val target = itemService.findByOwner(mob, word) ?: return notFound(syntax)
 
-        if (target.affects().findByType(AffectType.INVISIBILITY) != null) {
+        target.affects.find { it.type == AffectType.INVISIBILITY }?.let {
             return notFound(syntax)
         }
 

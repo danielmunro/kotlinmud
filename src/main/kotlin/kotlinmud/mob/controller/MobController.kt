@@ -6,16 +6,12 @@ import kotlinmud.helper.logger
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.path.Pathfinder
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.model.Exit
-import kotlinmud.room.model.Room
 import kotlinmud.room.type.DoorDisposition
-import org.slf4j.LoggerFactory
 
 class MobController(
     private val mobService: MobService,
@@ -67,7 +63,7 @@ class MobController(
         logger.debug("mob $mob moving on route, index: ${mob.lastRoute}")
         val path = Pathfinder(currentRoom, nextRoom)
         val rooms = path.find()
-        val nextMove = currentRoom.getAvailableExits().entries.find { it.value == rooms[1] }!!
+        val nextMove = currentRoom.getAllExits().entries.find { it.value == rooms[1] }!!
         val door = currentRoom.getDoors().entries.find { it.key == nextMove.key }!!.value
         if (openDoorIfExistsAndClosed(currentRoom, door)) {
             mobService.moveMob(mob, nextMove.value, nextMove.key)
@@ -77,7 +73,7 @@ class MobController(
     private fun wander() {
         logger.debug("mob $mob moving via random choice")
         val room = mobService.getRoomForMob(mob)
-        room.getAvailableExits().filter { it.value.area == room.area }.entries.random().let {
+        room.getAllExits().filter { it.value.area == room.area }.entries.random().let {
             mobService.moveMob(mob, it.value, it.key)
         }
     }
