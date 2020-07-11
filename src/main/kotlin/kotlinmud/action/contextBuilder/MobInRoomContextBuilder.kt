@@ -5,7 +5,6 @@ import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.Mob
 
 class MobInRoomContextBuilder(private val mobs: List<MobDAO>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

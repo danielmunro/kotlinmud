@@ -1,7 +1,7 @@
 package kotlinmud
 
 import kotlinmud.affect.table.Affects
-//import kotlinmud.attributes.table.Attributes
+// import kotlinmud.attributes.table.Attributes
 import kotlinmud.item.table.Items
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.table.Mobs

@@ -7,14 +7,14 @@ import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.factory.playerFreeForm
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.player.social.Social
 import kotlinmud.player.social.SocialChannel
 
 fun createTellAction(): Action {
     return Action(Command.TELL, mustBeAlive(), playerFreeForm()) {
         val text = it.get<String>(Syntax.FREE_FORM)
-        val target = it.get<Mob>(Syntax.PLAYER_MOB)
+        val target = it.get<MobDAO>(Syntax.PLAYER_MOB)
         it.publishSocial(
             Social(
                 SocialChannel.TELL,

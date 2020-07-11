@@ -11,7 +11,7 @@ import kotlinmud.item.model.Item
 fun createRemoveAction(): Action {
     return Action(Command.REMOVE, mustBeAlert(), equippedItem()) {
         val item = it.get<Item>(Syntax.EQUIPPED_ITEM)
-        it.getMob().equipped.remove(item)
+        it.getMob().equipped.minus(item)
         it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you remove $item and put it in your inventory.")

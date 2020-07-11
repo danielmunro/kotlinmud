@@ -5,29 +5,21 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
-import kotlinmud.affect.dao.AffectDAO
 import kotlin.test.assertEquals
-import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.type.AffectType
-import kotlinmud.attributes.model.AttributesBuilder
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.fight.Fight
-import kotlinmud.mob.mapper.mapMob
 import kotlinmud.mob.race.impl.Elf
 import kotlinmud.mob.race.impl.Faerie
-import kotlinmud.mob.race.impl.Felid
 import kotlinmud.mob.race.impl.Goblin
 import kotlinmud.mob.race.impl.Ogre
-import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
-import kotlinmud.mob.type.Gender
-import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
 import kotlinmud.test.ProbabilityTest
-import kotlinmud.test.buf
 import kotlinmud.test.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
@@ -49,25 +41,24 @@ class MobTest {
         val initialAc = mob.calc(Attribute.AC_BASH)
 
         // when
-        val item = testService.itemBuilder().attributes(
-            AttributesBuilder()
-                .hp(1)
-                .mana(1)
-                .mv(1)
-                .strength(1)
-                .intelligence(1)
-                .wisdom(1)
-                .dexterity(1)
-                .constitution(1)
-                .hit(1)
-                .dam(1)
-                .acBash(1)
-                .acSlash(1)
-                .acPierce(1)
-                .acMagic(1)
-                .build()
-        )
-        mob.equipped.plus(item.build())
+        val item = testService.createItem()
+        item.attributes = AttributesDAO.new {
+            hp = 1
+            mana = 1
+            mv = 1
+            strength = 1
+            intelligence = 1
+            wisdom = 1
+            dexterity = 1
+            constitution = 1
+            hit = 1
+            dam = 1
+            acBash = 1
+            acSlash = 1
+            acPierce = 1
+            acMagic = 1
+        }
+        mob.equipped.plus(item)
 
         // then
         assertEquals(initialHp + 1, mob.calc(Attribute.HP))
@@ -262,7 +253,8 @@ class MobTest {
         val mob = testService.createMob()
 
         // given
-        val item = testService.createItem(mob)
+        val item = testService.createItem()
+        item.mobInventory = mob
         item.position = Position.SHIELD
         item.attributes.hp = 100
         mob.equipped.plus(item)
@@ -306,8 +298,8 @@ class MobTest {
 
         // given
         val mob = test.createMob()
-        test.createItem(mob)
-        val item = test.createItem(mob)
+        mob.items.plus(test.createItem())
+        val item = test.createItem()
         mob.equipped.plus(item)
         val inventoryAmount = test.countItemsFor(mob)
 

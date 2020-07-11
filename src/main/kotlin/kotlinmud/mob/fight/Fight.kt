@@ -6,7 +6,6 @@ import kotlinmud.helper.math.dN
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.type.Position
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import org.jetbrains.exposed.sql.transactions.transaction

@@ -87,8 +87,8 @@ class MobController(
             eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
                     MessageBuilder()
-                        .toActionCreator("you open ${door}.")
-                        .toObservers("$mob opens ${door}.")
+                        .toActionCreator("you open $door.")
+                        .toObservers("$mob opens $door.")
                         .build(),
                     room,
                     mob

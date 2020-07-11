@@ -17,10 +17,10 @@ fun createFleeAction(): Action {
         Command.LOOK
     ) {
         it.endFight()
-        val exit = it.getExits().random()
+        val exit = it.getExits().entries.random()
         it.moveMob(
-            exit.destination,
-            exit.direction
+            exit.value,
+            exit.key
         )
         it.createOkResponse(
             MessageBuilder()

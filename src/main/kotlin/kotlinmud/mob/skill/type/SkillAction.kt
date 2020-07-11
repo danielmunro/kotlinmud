@@ -4,7 +4,6 @@ import kotlinmud.action.type.Invokable
 import kotlinmud.affect.type.Affect
 import kotlinmud.helper.string.matches
 import kotlinmud.io.model.Request
-import kotlinmud.mob.skill.type.Skill
 
 interface SkillAction : Skill, Invokable {
     val affect: Affect?

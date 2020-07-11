@@ -8,7 +8,7 @@ import kotlinmud.io.model.EmptyResponse
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
-import kotlinmud.room.model.Room
+import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.type.Direction
 
 private fun move(command: Command, direction: Direction): Action {
@@ -19,7 +19,7 @@ private fun move(command: Command, direction: Direction): Action {
         listOf(Cost(CostType.MV_AMOUNT, 1)),
         Command.LOOK
     ) {
-        val destination = it.get<Room>(Syntax.DIRECTION_TO_EXIT)
+        val destination = it.get<RoomDAO>(Syntax.DIRECTION_TO_EXIT)
         it.moveMob(destination, direction)
         EmptyResponse()
     }

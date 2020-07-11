@@ -3,16 +3,16 @@ package kotlinmud.mob.skill.impl
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
+import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.impl.BerserkAffect
-import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.LearningDifficulty
+import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
@@ -40,11 +40,11 @@ class Berserk : SkillAction {
     override val affect = BerserkAffect()
 
     override fun invoke(actionContextService: ActionContextService): Response {
-        actionContextService.getMob().affects().add(
-            AffectInstance(
-                AffectType.BERSERK,
-                actionContextService.getLevel() / 8
-            )
+        actionContextService.getMob().affects.plus(
+            AffectDAO.new {
+                type = AffectType.BERSERK
+                timeout = actionContextService.getLevel() / 8
+            }
         )
         return actionContextService.createOkResponse(
             MessageBuilder()

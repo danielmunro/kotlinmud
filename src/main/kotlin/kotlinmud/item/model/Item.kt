@@ -4,7 +4,6 @@ import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.affect.model.AffectInstance
-import kotlinmud.affect.service.AffectService
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.data.Row
@@ -42,9 +41,5 @@ class Item(
 
     override fun toString(): String {
         return name
-    }
-
-    override fun affects(): AffectService {
-        return AffectService(this)
     }
 }

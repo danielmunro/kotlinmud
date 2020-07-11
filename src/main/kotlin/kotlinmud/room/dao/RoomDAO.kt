@@ -8,8 +8,6 @@ import kotlinmud.item.table.Items
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.MAX_WALKABLE_ELEVATION
-import kotlinmud.mob.table.Mobs
-import kotlinmud.room.model.Door
 import kotlinmud.room.table.Rooms
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
@@ -136,6 +134,17 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
         }
     }
 
+    fun getDoorForDirection(direction: Direction): DoorDAO? {
+        return when (direction) {
+            Direction.NORTH -> northDoor
+            Direction.SOUTH -> southDoor
+            Direction.EAST -> eastDoor
+            Direction.WEST -> westDoor
+            Direction.UP -> upDoor
+            Direction.DOWN -> downDoor
+        }
+    }
+
     fun isElevationPassable(direction: Direction): Boolean {
         return when (direction) {
             Direction.NORTH -> isElevationPassable(north)
@@ -145,10 +154,6 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
             Direction.UP -> isElevationPassable(up)
             Direction.DOWN -> isElevationPassable(down)
         }
-    }
-
-    private fun isExitAvailable(door: DoorDAO?, exit: RoomDAO?): Boolean {
-        return isDoorPassable(door) && exit != null && isElevationPassable(exit)
     }
 
     private fun isElevationPassable(room: RoomDAO?): Boolean {

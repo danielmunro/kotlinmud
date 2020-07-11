@@ -1,7 +1,6 @@
 package kotlinmud.item.type
 
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.model.Item
 
 interface Recipe {
     val name: String

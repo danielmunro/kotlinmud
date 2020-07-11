@@ -4,20 +4,15 @@ import com.thinkinglogic.builder.annotation.Builder
 import com.thinkinglogic.builder.annotation.DefaultValue
 import com.thinkinglogic.builder.annotation.Mutable
 import kotlinmud.affect.model.AffectInstance
-import kotlinmud.affect.service.AffectService
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.model.Attributes
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.data.Row
 import kotlinmud.helper.Noun
-import kotlinmud.helper.math.dN
 import kotlinmud.helper.math.normalizeInt
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.model.Item
-import kotlinmud.item.type.HasInventory
-import kotlinmud.item.type.Position
-import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.race.type.RaceType
@@ -63,10 +58,6 @@ class Mob(
     @DefaultValue("Rarity.COMMON") val rarity: Rarity
 ) : Noun, Row {
     var lastRoute = 0
-
-    fun affects(): AffectService {
-        return AffectService(this)
-    }
 
     fun isStanding(): Boolean {
         return disposition == Disposition.STANDING

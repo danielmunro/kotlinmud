@@ -13,12 +13,12 @@ import kotlinmud.io.model.Response
 import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.type.CostType
+import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.type.HasCosts
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.RequiresDisposition
@@ -94,11 +94,11 @@ class ActionService(
     private fun executeSkill(request: Request, skill: SkillAction): Response {
         return dispositionCheck(request, skill)
             ?: deductCosts(request.mob, skill)
-            ?: skillRoll(request.mob.skills[skill.type] ?: error("no skill"))
+            ?: skillRoll(request.mob.skills.find { it.type == skill.type }?.level ?: error("no skill"))
             ?: callInvokable(request, skill, buildActionContextList(request, skill))
     }
 
-    private fun deductCosts(mob: Mob, hasCosts: HasCosts): Response? {
+    private fun deductCosts(mob: MobDAO, hasCosts: HasCosts): Response? {
         val cost = hasCosts.costs.find {
             when (it.type) {
                 CostType.MV_AMOUNT -> mob.mv < it.amount
@@ -125,7 +125,7 @@ class ActionService(
         return null
     }
 
-    private fun triggerFightForOffensiveSkills(mob: Mob, target: Mob) {
+    private fun triggerFightForOffensiveSkills(mob: MobDAO, target: MobDAO) {
         mobService.findFightForMob(mob) ?: mobService.addFight(Fight(mob, target))
     }
 
@@ -163,7 +163,7 @@ class ActionService(
         }
     }
 
-    private fun createChainToRequest(mob: Mob, action: Action): Request {
+    private fun createChainToRequest(mob: MobDAO, action: Action): Request {
         return Request(
             mob,
             action.chainTo.toString(),

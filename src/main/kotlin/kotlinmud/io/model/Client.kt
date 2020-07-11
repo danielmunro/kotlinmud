@@ -1,10 +1,9 @@
 package kotlinmud.io.model
 
-import kotlinmud.mob.dao.MobDAO
 import java.nio.ByteBuffer
 import java.nio.channels.ClosedChannelException
 import java.nio.channels.SocketChannel
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.player.model.Player
 
 class Client(val socket: SocketChannel) {

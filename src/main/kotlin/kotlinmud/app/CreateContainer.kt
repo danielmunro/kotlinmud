@@ -141,7 +141,6 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 SaveWorldObserver(
                     instance<PersistenceService>(),
                     instance<PlayerService>(),
-                    instance<MobService>(),
                     instance<World>()
                 ),
                 SaveTimeObserver(instance<TimeService>(), instance<PersistenceService>()),

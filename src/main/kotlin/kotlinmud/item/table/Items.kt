@@ -2,13 +2,12 @@ package kotlinmud.item.table
 
 import kotlinmud.affect.table.Affects
 import kotlinmud.attributes.table.Attributes
-import kotlinmud.item.type.Position
 import kotlinmud.mob.table.Mobs
 import kotlinmud.room.table.Doors
 import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.dao.IntIdTable
 
-object Items : IntIdTable()  {
+object Items : IntIdTable() {
     val canonicalId = uuid("canonicalId")
     val name = varchar("name", 255)
     val description = text("description")

@@ -12,7 +12,6 @@ import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.IOStatus
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
@@ -21,8 +20,6 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.model.Appetite
-import kotlinmud.mob.model.Mob
-import kotlinmud.mob.model.MobBuilder
 import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
@@ -115,13 +112,12 @@ class TestService(
         return playerService.createNewPlayerWithEmailAddress(fixtureService.faker.breakingBad.character() + "@hotmail.com")
     }
 
-    fun createPlayerMobBuilder(): MobBuilder {
-        val mob = fixtureService.createMobBuilder().isNpc(false)
-        val name = fixtureService.faker.name.name()
-        mob.name(name)
+    fun createPlayerMob(): MobDAO {
+        val mob = fixtureService.createMob()
+        mob.isNpc = false
         playerService.addMobCard(
             MobCardBuilder()
-                .mobName(name)
+                .mobName(mob.name)
                 .playerEmail("foo@bar.com")
                 .experiencePerLevel(1000)
                 .appetite(Appetite.fromRace(Human()))
@@ -144,12 +140,8 @@ class TestService(
         }
     }
 
-    fun itemBuilder(): ItemBuilder {
-        return fixtureService.createItemBuilder()
-    }
-
     fun make(amount: Int): MakeItemService {
-        return MakeItemService(this, amount)
+        return MakeItemService(amount)
     }
 
     fun getMobRooms(): List<MobRoom> {
@@ -208,11 +200,6 @@ class TestService(
 
     fun proceedFights(): List<Round> {
         return mobService.proceedFights()
-    }
-
-    private fun buildMob(mob: MobDAO): MobDAO {
-        mob.equipped.plus(weapon(mob))
-        return mob
     }
 
     private fun weapon(mob: MobDAO): ItemDAO {

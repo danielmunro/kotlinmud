@@ -4,7 +4,6 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.model.Item
 
 class OptionalFurnitureContextBuilder(private val itemsInRoom: List<ItemDAO>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

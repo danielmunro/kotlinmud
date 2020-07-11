@@ -1,9 +1,9 @@
 package kotlinmud.mob.skill.impl
 
 import kotlinmud.action.helper.mustBeFighting
-import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.LearningDifficulty
+import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition

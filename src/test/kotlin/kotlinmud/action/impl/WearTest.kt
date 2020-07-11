@@ -15,10 +15,10 @@ class WearTest {
 
         // given
         val mob = test.createMob()
-        test.buildItem(
-            test.itemBuilder()
-                .position(Position.SHIELD)
-                .name("a shield"), mob)
+        val item = test.createItem()
+        item.position = Position.SHIELD
+        item.name = "a shield"
+        mob.items.plus(item)
 
         // when
         val response = test.runAction(mob, "wear shield")
@@ -28,7 +28,7 @@ class WearTest {
         assertThat(response.message.toObservers).isEqualTo("$mob wears a shield.")
 
         // and
-        assertThat(mob.equipped).hasSize(2)
+        assertThat(mob.equipped.count()).isEqualTo(2)
     }
 
     @Test
@@ -38,7 +38,10 @@ class WearTest {
 
         // given
         val mob = test.createMob()
-        test.buildItem(test.itemBuilder().name("a book"), mob)
+        val equippedCount = mob.equipped.count()
+        val item = test.createItem()
+        item.name = "a book"
+        mob.items.plus(item)
 
         // when
         val response = test.runAction(mob, "wear book")
@@ -47,6 +50,6 @@ class WearTest {
         assertThat(response.message.toActionCreator).isEqualTo("you can't equip that.")
 
         // and
-        assertThat(mob.equipped).hasSize(1)
+        assertThat(mob.equipped.toList()).hasSize(equippedCount)
     }
 }

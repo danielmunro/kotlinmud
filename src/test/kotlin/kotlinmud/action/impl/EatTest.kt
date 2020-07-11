@@ -1,12 +1,12 @@
 package kotlinmud.action.impl
 
 import assertk.assertThat
-import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import kotlinmud.affect.impl.StunnedAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.type.IOStatus
 import kotlinmud.item.type.Food
+import kotlinmud.item.type.ItemType
 import kotlinmud.test.createTestService
 import org.junit.Test
 
@@ -18,14 +18,14 @@ class EatTest {
 
         // given
         val timeout = 2
-        val mob = test.createPlayerMobBuilder().build()
+        val mob = test.createPlayerMob()
         test.putMobInRoom(mob, test.getStartRoom())
         val mobCard = test.findMobCardByName(mob.name)!!
-        test.buildItem(
-            test.itemBuilder()
-                .food(Food.MEAT_PIE)
-                .name("a big meat pie")
-                .affects(mutableListOf(StunnedAffect().createInstance(timeout))), mob)
+        val item = test.createItem()
+        item.type = ItemType.FOOD
+        item.food = Food.MEAT_PIE
+        item.name = "a big meat pie"
+        item.affects.plus(StunnedAffect().createInstance(timeout))
         mobCard.appetite.decrement()
 
         // when
@@ -33,9 +33,9 @@ class EatTest {
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.OK)
-        assertThat(mob.affects().getAffects()).hasSize(1)
-        val affect = mob.affects().findByType(AffectType.STUNNED)!!
-        assertThat(affect.affectType).isEqualTo(AffectType.STUNNED)
+        assertThat(mob.affects.count()).isEqualTo(1)
+        val affect = mob.affects.find { it.type == AffectType.STUNNED }!!
+        assertThat(affect.type).isEqualTo(AffectType.STUNNED)
         assertThat(affect.timeout).isEqualTo(timeout)
     }
 }

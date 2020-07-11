@@ -2,17 +2,13 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.affect.table.Affects
 import kotlinmud.affect.table.Affects.type
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.Mob
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.model.Room
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 const val notFound = "you don't see anything like that here."
 

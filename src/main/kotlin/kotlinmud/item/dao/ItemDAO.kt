@@ -3,7 +3,6 @@ package kotlinmud.item.dao
 import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.table.Affects
 import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.attributes.table.Attributes
 import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.helper.Noun
 import kotlinmud.item.table.Items
@@ -15,7 +14,6 @@ import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.DamageType
-import kotlinmud.mob.table.Mobs
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
@@ -59,10 +57,11 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInvent
     var decayTimer by Items.decayTimer
     var canOwn by Items.canOwn
     override var attributes by AttributesDAO referencedOn Items.attributesId
-    val affects by AffectDAO referrersOn Affects.itemId
+    override val affects by AffectDAO referrersOn Affects.itemId
     var mobInventory by MobDAO optionalReferencedOn Items.mobInventoryId
     var mobEquipped by MobDAO optionalReferencedOn Items.mobEquippedId
     var room by RoomDAO optionalReferencedOn Items.roomId
     override val items by ItemDAO optionalReferrersOn Items.itemId
+    var container by ItemDAO optionalReferencedOn Items.itemId
     var doorKey by ItemDAO optionalReferencedOn Items.doorKeyId
 }

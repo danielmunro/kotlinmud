@@ -16,9 +16,10 @@ class PutTest {
         val room = test.getStartRoom()
 
         // given
-        val itemToPut = test.createItem(mob)
-        val itemWithInventory = test.buildItem(test.itemBuilder()
-            .hasInventory(true), room)
+        val itemToPut = test.createItem()
+        mob.items.plus(itemToPut)
+        val itemWithInventory = test.createItem()
+        itemWithInventory.room = room
 
         // when
         val response = test.runAction(mob, "put ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(itemToPut)}")
@@ -36,9 +37,10 @@ class PutTest {
         val mob = test.createMob()
 
         // given
-        val itemToPut = test.createItem(mob)
-        val itemWithInventory = test.buildItem(test.itemBuilder()
-            .hasInventory(true), mob)
+        val itemToPut = test.createItem()
+        mob.items.plus(itemToPut)
+        val itemWithInventory = test.createItem()
+        mob.items.plus(itemWithInventory)
 
         // when
         val response = test.runAction(mob, "put ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(itemToPut)}")
@@ -56,9 +58,12 @@ class PutTest {
         val mob = test.createMob()
 
         // given
-        val itemToPut = test.createItem(mob)
-        val itemWithInventory = test.buildItem(test.itemBuilder()
-            .hasInventory(false), mob)
+        val itemToPut = test.createItem()
+        mob.items.plus(itemToPut)
+        val itemWithInventory = test.createItem()
+        mob.items.plus(itemWithInventory)
+//        val itemWithInventory = test.buildItem(test.itemBuilder()
+//            .hasInventory(false), mob)
 
         // when
         val response = test.runAction(mob, "put ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(itemToPut)}")

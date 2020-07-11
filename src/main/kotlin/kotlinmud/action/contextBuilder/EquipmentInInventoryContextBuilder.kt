@@ -6,7 +6,6 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Position
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.Mob
 
 class EquipmentInInventoryContextBuilder(private val itemService: ItemService, private val mob: MobDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

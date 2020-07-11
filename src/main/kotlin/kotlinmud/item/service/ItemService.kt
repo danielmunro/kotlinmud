@@ -1,11 +1,8 @@
 package kotlinmud.item.service
 
-import kotlinmud.affect.type.AffectType
-import kotlinmud.helper.string.matches
+import java.util.*
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.model.Item
 import kotlinmud.item.model.ItemBuilder
-import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.table.Items
 import kotlinmud.item.table.Items.decayTimer
 import kotlinmud.item.table.Items.mobInventoryId
@@ -16,7 +13,6 @@ import kotlinmud.mob.model.corpseWeight
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
-import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNotNull
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
@@ -26,21 +22,14 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
-import java.util.*
 
 typealias ItemBuilderBuilder = () -> ItemBuilder
 
 class ItemService {
-    fun countItemsByCanonicalId(id: UUID): Int {
-        return transaction {
-            Items.select { Items.canonicalId eq id }.count()
-        }
-    }
-
     fun findByOwner(mob: MobDAO, input: String): ItemDAO? {
         return transaction {
             ItemDAO.wrapRows(
-                Items.select( mobInventoryId eq mob.id and (Items.name like "$input%") )
+                Items.select(mobInventoryId eq mob.id and (Items.name like "$input%"))
             ).firstOrNull()
         }
     }
@@ -48,7 +37,7 @@ class ItemService {
     fun findByRoom(room: RoomDAO, input: String): ItemDAO? {
         return transaction {
             ItemDAO.wrapRows(
-                Items.select( roomId eq room.id and (Items.name like "$input%") )
+                Items.select(roomId eq room.id and (Items.name like "$input%"))
             ).firstOrNull()
         }
     }
@@ -69,9 +58,28 @@ class ItemService {
 
     fun giveItemToMob(item: ItemDAO, mob: MobDAO) {
         transaction {
-            Items.update({ Items.id eq item.id }) {
-                it[mobInventoryId] = mob.id
-            }
+            item.mobInventory = mob
+            item.room = null
+            item.mobEquipped = null
+            item.container = null
+        }
+    }
+
+    fun putItemInRoom(item: ItemDAO, room: RoomDAO) {
+        transaction {
+            item.mobInventory = null
+            item.mobEquipped = null
+            item.container = null
+            item.room = room
+        }
+    }
+
+    fun putItemInContainer(item: ItemDAO, container: ItemDAO) {
+        transaction {
+            item.mobInventory = null
+            item.mobEquipped = null
+            item.room = null
+            item.container = container
         }
     }
 
@@ -92,14 +100,6 @@ class ItemService {
         }
     }
 
-    fun transferAllItems(from: IntEntity, to: IntEntity) {
-        transaction {
-            Items.update({ mobInventoryId eq from.id }) {
-                it[mobInventoryId] = to.id
-            }
-        }
-    }
-
     fun createCorpseFromMob(mob: MobDAO): ItemDAO {
         val item = transaction {
             Items.update({ Items.mobEquippedId eq mob.id }) {
@@ -115,5 +115,13 @@ class ItemService {
         }
         transferAllItems(mob, item)
         return item
+    }
+
+    private fun transferAllItems(from: IntEntity, to: IntEntity) {
+        transaction {
+            Items.update({ mobInventoryId eq from.id }) {
+                it[mobInventoryId] = to.id
+            }
+        }
     }
 }

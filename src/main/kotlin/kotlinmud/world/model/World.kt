@@ -8,8 +8,6 @@ import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.model.Door
-import kotlinmud.room.model.Room
 import kotlinmud.room.model.RoomBuilder
 
 data class World(

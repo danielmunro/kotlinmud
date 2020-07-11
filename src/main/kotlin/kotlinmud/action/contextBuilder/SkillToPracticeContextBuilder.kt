@@ -5,7 +5,6 @@ import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.Mob
 import kotlinmud.player.service.PlayerService
 
 class SkillToPracticeContextBuilder(private val playerService: PlayerService, private val mob: MobDAO) : ContextBuilder {

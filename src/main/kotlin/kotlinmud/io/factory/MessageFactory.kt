@@ -3,7 +3,6 @@ package kotlinmud.io.factory
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.Mob
 import kotlinmud.room.type.Direction
 
 fun messageToActionCreator(message: String): Message {

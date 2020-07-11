@@ -1,8 +1,8 @@
 package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
-import kotlinmud.affect.table.Affects
 import java.lang.RuntimeException
+import kotlinmud.affect.table.Affects
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
@@ -16,7 +16,6 @@ import kotlinmud.io.factory.createSingleHitMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Message
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.model.ItemOwner
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Attack
@@ -26,19 +25,17 @@ import kotlinmud.mob.fight.Round
 import kotlinmud.mob.helper.getDispositionRegenRate
 import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.model.MAX_WALKABLE_ELEVATION
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.table.Mobs
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.oppositeDirection
 import kotlinmud.room.model.NewRoom
-import kotlinmud.room.model.Room
 import kotlinmud.room.table.Rooms
 import kotlinmud.room.type.Direction
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNotNull
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.minus
-import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobService(

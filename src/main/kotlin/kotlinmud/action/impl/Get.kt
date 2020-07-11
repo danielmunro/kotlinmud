@@ -6,11 +6,11 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.itemInRoom
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.model.Item
+import kotlinmud.item.dao.ItemDAO
 
 fun createGetAction(): Action {
     return Action(Command.GET, mustBeAwake(), itemInRoom()) {
-        val item = it.get<Item>(Syntax.ITEM_IN_ROOM)
+        val item = it.get<ItemDAO>(Syntax.ITEM_IN_ROOM)
         if (!item.canOwn) {
             return@Action it.createOkResponse(
                 MessageBuilder()

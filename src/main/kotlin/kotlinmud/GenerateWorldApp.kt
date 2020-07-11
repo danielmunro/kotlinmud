@@ -4,7 +4,6 @@ import kotlinmud.app.createContainer
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.fs.service.PersistenceService
 import kotlinmud.generator.GeneratorService
-import kotlinmud.world.helper.mapGeneratorToModel
 import org.kodein.di.erased.instance
 
 fun main() {

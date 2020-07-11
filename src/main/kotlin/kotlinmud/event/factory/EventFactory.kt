@@ -7,9 +7,7 @@ import kotlinmud.event.type.EventType
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.Message
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.Mob
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.model.Room
 
 fun createClientConnectedEvent(client: Client): Event<ClientConnectedEvent> {
     return Event(EventType.CLIENT_CONNECTED, ClientConnectedEvent(client))

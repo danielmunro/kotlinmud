@@ -18,10 +18,10 @@ fun createWearAction(): Action {
         val removed = svc.getMob().equipped.find {
             it.position == item.position
         }?.let {
-            svc.getMob().equipped.remove(it)
+            svc.getMob().equipped.minus(it)
             it
         }
-        svc.getMob().equipped.add(item)
+        svc.getMob().equipped.plus(item)
         svc.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you ${if (removed != null) "remove $removed and " else ""}wear $item.")

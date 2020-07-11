@@ -10,7 +10,6 @@ import kotlinmud.helper.Noun
 import kotlinmud.helper.math.normalizeInt
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.model.Item
 import kotlinmud.item.table.Items
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
@@ -85,7 +84,7 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     val equipped by ItemDAO optionalReferrersOn Items.mobEquippedId
     override val items by ItemDAO optionalReferrersOn Items.mobInventoryId
     val skills by SkillDAO referrersOn Skills.mobId
-    val affects by AffectDAO referrersOn Affects.mobId
+    override val affects by AffectDAO referrersOn Affects.mobId
 
     fun isStanding(): Boolean {
         return disposition == Disposition.STANDING
@@ -93,6 +92,10 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
 
     fun isIncapacitated(): Boolean {
         return disposition == Disposition.DEAD
+    }
+
+    fun isSleeping(): Boolean {
+        return disposition == Disposition.SLEEPING
     }
 
     fun getHealthIndication(): String {
@@ -197,16 +200,11 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         return percentRoll() > normalizeInt(5, base, 95)
     }
 
-    private fun getWeapon(): ItemDAO? {
-        return equipped.find { it.position == Position.WEAPON }
+    fun wantsToMove(): Boolean {
+        return job.wantsToMove()
     }
 
-    private fun accumulate(accumulator: (HasAttributes) -> Int): Int {
-        return equipped.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it } +
-                affects.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it }
-    }
-
-    private fun base(attribute: Attribute): Int {
+    fun base(attribute: Attribute): Int {
         return when (attribute) {
             Attribute.STR -> baseStat +
                     attributes.strength +
@@ -225,6 +223,19 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
                     race.attributes.constitution
             else -> 0
         }
+    }
+
+    override fun toString(): String {
+        return name
+    }
+
+    private fun getWeapon(): ItemDAO? {
+        return equipped.find { it.position == Position.WEAPON }
+    }
+
+    private fun accumulate(accumulator: (HasAttributes) -> Int): Int {
+        return equipped.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it } +
+                affects.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it }
     }
 
     private fun increaseHp(value: Int) {

@@ -5,7 +5,6 @@ import kotlinmud.action.type.Status
 import kotlinmud.io.type.Syntax
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.matchDirectionString
-import kotlinmud.room.model.Room
 
 class DirectionWithNoExitContextBuilder(private val room: RoomDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

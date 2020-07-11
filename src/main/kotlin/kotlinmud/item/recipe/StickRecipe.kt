@@ -1,8 +1,6 @@
 package kotlinmud.item.recipe
 
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.model.Item
-import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Recipe

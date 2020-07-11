@@ -6,12 +6,12 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.itemFromMerchant
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.model.Item
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.mob.type.JobType
 
 fun createBuyAction(): Action {
     return Action(Command.BUY, mustBeAlert(), itemFromMerchant()) {
-        val item: Item = it.get(Syntax.ITEM_FROM_MERCHANT)
+        val item = it.get<ItemDAO>(Syntax.ITEM_FROM_MERCHANT)
         val shopkeeper = it.getMobsInRoom().find { mob -> mob.job == JobType.SHOPKEEPER }!!
         it.giveItemToMob(item, it.getMob())
         it.deductGold(item.worth)

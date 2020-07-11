@@ -4,8 +4,8 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
 import kotlinmud.io.model.MessageBuilder
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Round
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 
 class WimpyObserver(private val mobService: MobService) : Observer {
@@ -19,22 +19,22 @@ class WimpyObserver(private val mobService: MobService) : Observer {
         }
     }
 
-    private fun checkWimpy(mob: Mob): Boolean {
+    private fun checkWimpy(mob: MobDAO): Boolean {
         val room = mobService.getRoomForMob(mob)
-        if (mob.wimpy > mob.hp && room.exits.size > 0) {
+        if (mob.wimpy > mob.hp && room.getAllExits().isNotEmpty()) {
             mobService.endFightFor(mob)
-            val exit = room.exits.random()
+            val exit = room.getAllExits().entries.random()
             mobService.sendMessageToRoom(MessageBuilder()
-                .toActionCreator("you flee heading ${exit.direction.value}!")
-                .toTarget("$mob flees heading ${exit.direction.value}!")
+                .toActionCreator("you flee heading ${exit.key.value}!")
+                .toTarget("$mob flees heading ${exit.key.value}!")
                 .build(),
                 room,
                 mob
             )
-            mobService.putMobInRoom(mob, exit.destination)
+            mobService.putMobInRoom(mob, exit.value)
             mobService.sendMessageToRoom(
                 MessageBuilder().toObservers("$mob arrives.").build(),
-                exit.destination,
+                exit.value,
                 mob
             )
             return true

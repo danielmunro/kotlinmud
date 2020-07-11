@@ -6,10 +6,10 @@ import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
 import kotlinmud.io.model.Message
 import kotlinmud.io.service.ServerService
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.social.SocialChannel
-import kotlinmud.room.model.Room
+import kotlinmud.room.dao.RoomDAO
 
 class SocialDistributorObserver(private val serverService: ServerService, private val mobService: MobService) :
     Observer {
@@ -26,7 +26,7 @@ class SocialDistributorObserver(private val serverService: ServerService, privat
         }
     }
 
-    private fun yellToArea(mob: Mob, room: Room, message: Message) {
+    private fun yellToArea(mob: MobDAO, room: RoomDAO, message: Message) {
         serverService.getClients().forEach {
             val clientRoom = mobService.getRoomForMob(it.mob!!)
             if (it.mob != mob && clientRoom.area == room.area) {
@@ -35,7 +35,7 @@ class SocialDistributorObserver(private val serverService: ServerService, privat
         }
     }
 
-    private fun gossipToClients(mob: Mob, message: Message) {
+    private fun gossipToClients(mob: MobDAO, message: Message) {
         serverService.getClients().forEach {
             if (it.mob != mob) {
                 it.write(message.toObservers)
@@ -43,14 +43,14 @@ class SocialDistributorObserver(private val serverService: ServerService, privat
         }
     }
 
-    private fun tellMob(target: Mob, message: Message) {
+    private fun tellMob(target: MobDAO, message: Message) {
         val clients = serverService.getClientsFromMobs(listOf(target))
         if (clients.isNotEmpty()) {
             clients[0].write(message.toTarget)
         }
     }
 
-    private fun sayToRoom(mob: Mob, room: Room, message: Message) {
+    private fun sayToRoom(mob: MobDAO, room: RoomDAO, message: Message) {
         val mobs = mobService.getMobsForRoom(room)
         serverService.getClientsFromMobs(mobs).forEach {
             if (it.mob != mob) {

@@ -1,7 +1,6 @@
 package kotlinmud.action.impl
 
 import assertk.assertThat
-import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import kotlinmud.affect.impl.DrunkAffect
 import kotlinmud.affect.type.AffectType
@@ -18,14 +17,14 @@ class DrinkTest {
 
         // given
         val timeout = 2
-        val mob = test.createPlayerMobBuilder().build()
+        val mob = test.createPlayerMob()
         test.putMobInRoom(mob, test.getStartRoom())
         val mobCard = test.findMobCardByName(mob.name)!!
-        test.buildItem(test.itemBuilder()
-            .drink(Drink.BEER)
-            .name("a glass of beer")
-            .quantity(1)
-            .affects(mutableListOf(DrunkAffect().createInstance(timeout))), mob)
+        val item = test.createItem()
+        item.drink = Drink.BEER
+        item.name = "a glass of beer"
+        item.quantity = 1
+        item.affects.plus(DrunkAffect().createInstance(timeout))
         mobCard.appetite.decrement()
 
         // when
@@ -33,9 +32,9 @@ class DrinkTest {
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.OK)
-        assertThat(mob.affects().getAffects()).hasSize(1)
-        val affect = mob.affects().findByType(AffectType.DRUNK)!!
-        assertThat(affect.affectType).isEqualTo(AffectType.DRUNK)
+        assertThat(mob.affects.count()).isEqualTo(1)
+        val affect = mob.affects.find { it.type == AffectType.DRUNK }!!
+        assertThat(affect.type).isEqualTo(AffectType.DRUNK)
         assertThat(affect.timeout).isEqualTo(timeout)
     }
 }

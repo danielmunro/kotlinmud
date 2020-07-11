@@ -10,7 +10,7 @@ fun createAffectsAction(): Action {
         createResponseWithEmptyActionContext(
             messageToActionCreator(
                 "You are affected by:\n${svc.getAffects().fold("") { acc, it ->
-                    acc + "${it.affectType.value}: ${it.timeout} tick${if (it.timeout == 1) "" else "s"}\n"
+                    acc + "${it.type}: ${it.timeout} tick${if (it.timeout == 1) "" else "s"}\n"
                 }}"
             )
         )

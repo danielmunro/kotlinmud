@@ -2,12 +2,11 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.factory.failedContext
 import kotlinmud.action.model.Context
-import kotlinmud.action.type.Status
 import kotlinmud.action.type.Exit
+import kotlinmud.action.type.Status
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.io.type.Syntax
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.model.Room
 
 class DirectionToExitContextBuilder(private val room: RoomDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

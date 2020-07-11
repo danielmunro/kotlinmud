@@ -3,7 +3,7 @@ package kotlinmud.action.impl
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
-import kotlinmud.room.type.DoorDisposition
+import kotlinmud.room.dao.DoorDAO
 import kotlinmud.test.createTestService
 import org.junit.Test
 
@@ -15,7 +15,10 @@ class CloseTest {
         val mob = testService.createMob()
 
         // given
-        testService.getStartRoom().exits.find { it.door != null }?.let { it.door?.disposition = DoorDisposition.OPEN }
+        val room = testService.getStartRoom()
+        room.northDoor = DoorDAO.new {
+            name = "a door"
+        }
 
         // when
         val response = testService.runAction(mob, "close door")
@@ -31,7 +34,10 @@ class CloseTest {
         val mob = testService.createMob()
 
         // given
-        testService.getStartRoom().exits.find { it.door != null }?.let { it.door?.disposition = DoorDisposition.CLOSED }
+        val room = testService.getStartRoom()
+        room.northDoor = DoorDAO.new {
+            name = "a door"
+        }
 
         // when
         val response = testService.runAction(mob, "close door")
@@ -46,9 +52,6 @@ class CloseTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-
-        // given
-        testService.getStartRoom().exits.find { it.door != null }?.let { it.door?.disposition = DoorDisposition.OPEN }
 
         // when
         val response = testService.runAction(mob, "close grate")

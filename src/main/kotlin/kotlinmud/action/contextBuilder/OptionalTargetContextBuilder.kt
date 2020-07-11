@@ -6,7 +6,6 @@ import kotlinmud.helper.Noun
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.Mob
 
 class OptionalTargetContextBuilder(
     private val actionCreator: MobDAO,

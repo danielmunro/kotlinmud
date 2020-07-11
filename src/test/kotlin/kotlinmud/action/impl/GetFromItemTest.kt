@@ -15,8 +15,9 @@ class GetFromItemTest {
         val room = test.getStartRoom()
 
         // given
-        val itemWithInventory = test.buildItem(test.itemBuilder().hasInventory(true), room)
-        val item = test.createItem(itemWithInventory)
+        val itemWithInventory = test.createItem()
+        val item = test.createItem()
+        itemWithInventory.items.plus(item)
 
         // when
         val response = test.runAction(mob, "get ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(item)}")
@@ -33,8 +34,9 @@ class GetFromItemTest {
         val mob = test.createMob()
 
         // given
-        val itemWithInventory = test.buildItem(test.itemBuilder().hasInventory(true), mob)
-        val item = test.createItem(itemWithInventory)
+        val itemWithInventory = test.createItem()
+        val item = test.createItem()
+        itemWithInventory.items.plus(item)
 
         // when
         val response = test.runAction(mob, "get ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(item)}")

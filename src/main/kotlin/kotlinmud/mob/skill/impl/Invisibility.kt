@@ -7,12 +7,12 @@ import kotlinmud.affect.impl.InvisibilityAffect
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.skill.type.SpellAction
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.skill.type.SpellAction
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.SpecializationType
@@ -39,7 +39,7 @@ class Invisibility : SpellAction {
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val target = actionContextService.get<Noun>(Syntax.OPTIONAL_TARGET)
-        target.affects().add(affect.createInstance(actionContextService.getLevel()))
+        target.affects.plus(affect.createInstance(actionContextService.getLevel()))
         return actionContextService.createOkResponse(
             affect.messageFromInstantiation(actionContextService.getMob(), target),
             1

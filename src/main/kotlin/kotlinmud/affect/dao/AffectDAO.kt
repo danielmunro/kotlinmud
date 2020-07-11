@@ -3,7 +3,6 @@ package kotlinmud.affect.dao
 import kotlinmud.affect.table.Affects
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.attributes.table.Attributes
 import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.table.Items
@@ -20,7 +19,7 @@ class AffectDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes {
         { it.toString() },
         { AffectType.valueOf(it) }
     )
-
+    var timeout by Affects.timeout
     val mob by MobDAO referrersOn Mobs.id
     val item by ItemDAO referrersOn Items.id
     override var attributes by AttributesDAO referencedOn Affects.attributesId

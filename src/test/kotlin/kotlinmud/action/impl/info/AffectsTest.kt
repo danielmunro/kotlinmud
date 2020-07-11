@@ -5,9 +5,7 @@ import assertk.assertions.isEqualTo
 import kotlinmud.affect.impl.BlessAffect
 import kotlinmud.affect.impl.BlindAffect
 import kotlinmud.affect.impl.InvisibilityAffect
-import kotlinmud.affect.model.AffectInstance
 import kotlinmud.test.createTestService
-import org.jetbrains.exposed.sql.SizedIterable
 import org.junit.Test
 
 class AffectsTest {

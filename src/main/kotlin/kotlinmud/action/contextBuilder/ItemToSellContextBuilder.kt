@@ -5,7 +5,6 @@ import kotlinmud.action.type.Status
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.JobType
 
 class ItemToSellContextBuilder(

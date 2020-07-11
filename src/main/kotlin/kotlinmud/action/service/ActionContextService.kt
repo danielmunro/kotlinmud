@@ -157,6 +157,14 @@ class ActionContextService(
         itemService.giveItemToMob(item, mob)
     }
 
+    fun putItemInRoom(item: ItemDAO, room: RoomDAO) {
+        itemService.putItemInRoom(item, room)
+    }
+
+    fun putItemInContainer(item: ItemDAO, container: ItemDAO) {
+        itemService.putItemInContainer(item, container)
+    }
+
     fun destroy(item: ItemDAO) {
         itemService.destroy(item)
     }

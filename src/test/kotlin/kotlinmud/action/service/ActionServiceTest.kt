@@ -8,11 +8,9 @@ import assertk.assertions.isNotNull
 import kotlin.test.Test
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.fight.Fight
-import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionServiceTest {
     @Test
