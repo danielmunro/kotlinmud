@@ -44,7 +44,6 @@ import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
-import kotlinmud.world.model.World
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
@@ -85,6 +84,9 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 instance<EventService>(),
                 if (isTest) 0 else persistenceService.loadTimeFile()
             )
+        }
+        bind<PersistenceService>() with singleton {
+            PersistenceService()
         }
         bind<ActionService>() with singleton {
             ActionService(
@@ -135,9 +137,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 DecrementDelayObserver(instance<ClientService>()),
                 DecrementItemDecayTimerObserver(instance<ItemService>()),
                 SaveWorldObserver(
-                    instance<PersistenceService>(),
-                    instance<PlayerService>(),
-                    instance<World>()
+                    instance<PlayerService>()
                 ),
                 SaveTimeObserver(instance<TimeService>(), instance<PersistenceService>()),
                 LogTickObserver(instance<MobService>(), instance<ServerService>()),

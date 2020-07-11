@@ -1,18 +1,21 @@
 package kotlinmud.room.table
 
+import kotlinmud.biome.type.BiomeType
+import kotlinmud.biome.type.SubstrateType
 import kotlinmud.mob.table.Mobs
+import kotlinmud.room.type.RegenLevel
 import org.jetbrains.exposed.dao.IntIdTable
 
 object Rooms : IntIdTable() {
     val name = varchar("name", 255)
     val area = varchar("area", 50)
     val description = text("description")
-    val regenLevel = varchar("regenLevel", 50)
-    val isIndoor = bool("isIndoor")
-    val biome = varchar("biome", 50)
-    val substrate = varchar("substrate", 50)
-    val resources = varchar("resources", 255)
-    val elevation = integer("elevation")
+    val regenLevel = varchar("regenLevel", 50).default(RegenLevel.NORMAL.toString())
+    val isIndoor = bool("isIndoor").default(false)
+    val biome = varchar("biome", 50).default(BiomeType.NONE.toString())
+    val substrate = varchar("substrate", 50).default(SubstrateType.DIRT.toString())
+    val resources = varchar("resources", 255).default("")
+    val elevation = integer("elevation").default(1)
     val northId = reference("northId", Rooms).nullable()
     val northDoorId = reference("northDoorId", Doors).nullable()
     val southId = reference("southId", Rooms).nullable()

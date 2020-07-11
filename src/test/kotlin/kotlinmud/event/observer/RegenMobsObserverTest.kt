@@ -15,11 +15,11 @@ class RegenMobsObserverTest {
         val rooms = test.getRooms()
 
         // given
-        val room1 = rooms.find { it.regen == RegenLevel.NONE }!!
-        val room2 = rooms.find { it.regen == RegenLevel.LOW }!!
-        val room3 = rooms.find { it.regen == RegenLevel.NORMAL }!!
-        val room4 = rooms.find { it.regen == RegenLevel.HIGH }!!
-        val room5 = rooms.find { it.regen == RegenLevel.FULL }!!
+        val room1 = rooms.find { it.regenLevel == RegenLevel.NONE }!!
+        val room2 = rooms.find { it.regenLevel == RegenLevel.LOW }!!
+        val room3 = rooms.find { it.regenLevel == RegenLevel.NORMAL }!!
+        val room4 = rooms.find { it.regenLevel == RegenLevel.HIGH }!!
+        val room5 = rooms.find { it.regenLevel == RegenLevel.FULL }!!
 
         // when
         mob.hp = 1

@@ -90,7 +90,7 @@ class MoveTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val room = test.getRooms().find { it.id == 119 }!!
+        val room = test.getRooms().find { it.id.value == 119 }!!
 
         // given
         test.putMobInRoom(mob, room)
@@ -107,7 +107,7 @@ class MoveTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val room = test.getRooms().find { it.id == 120 }!!
+        val room = test.getRooms().find { it.id.value == 120 }!!
 
         // expect
         assertThat(mob.hp).isEqualTo(mob.calc(Attribute.HP))
@@ -127,7 +127,7 @@ class MoveTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val room = test.getRooms().find { it.id == 120 }!!
+        val room = test.getRooms().find { it.id.value == 120 }!!
 
         // given
         test.putMobInRoom(mob, room)

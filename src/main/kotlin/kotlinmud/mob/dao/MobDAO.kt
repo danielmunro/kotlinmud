@@ -1,6 +1,7 @@
 package kotlinmud.mob.dao
 
 import kotlinmud.affect.dao.AffectDAO
+import kotlinmud.affect.model.AttributeAffect
 import kotlinmud.affect.table.Affects
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
@@ -13,9 +14,9 @@ import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.table.Items
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
+import kotlinmud.mob.constant.BASE_STAT
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
-import kotlinmud.mob.model.baseStat
 import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.skill.dao.SkillDAO
@@ -35,7 +36,6 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     companion object : IntEntityClass<MobDAO>(Mobs)
 
-    var canonicalId by Mobs.canonicalId
     override var name by Mobs.name
     var brief by Mobs.brief
     override var description by Mobs.description
@@ -49,7 +49,7 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     )
     var specialization by Mobs.specialization.transform(
         { it.toString() },
-        { SpecializationType.valueOf(it) }
+        { it?.let { SpecializationType.valueOf(it) } }
     )
     var disposition by Mobs.disposition.transform(
         { it.toString() },
@@ -57,11 +57,11 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     )
     var job by Mobs.job.transform(
         { it.toString() },
-        { JobType.valueOf(it) }
+        { it?.let { JobType.valueOf(it) } }
     )
     var gender by Mobs.gender.transform(
         { it.toString() },
-        { Gender.valueOf(it) }
+        { it?.let { Gender.valueOf(it) } }
     )
     var gold by Mobs.gold
     var goldMin by Mobs.goldMin
@@ -84,7 +84,7 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     val equipped by ItemDAO optionalReferrersOn Items.mobEquippedId
     override val items by ItemDAO optionalReferrersOn Items.mobInventoryId
     val skills by SkillDAO referrersOn Skills.mobId
-    override val affects by AffectDAO referrersOn Affects.mobId
+    override val affects by AffectDAO optionalReferrersOn Affects.mobId
 
     fun isStanding(): Boolean {
         return disposition == Disposition.STANDING
@@ -201,24 +201,24 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     }
 
     fun wantsToMove(): Boolean {
-        return job.wantsToMove()
+        return job?.wantsToMove() ?: false
     }
 
     fun base(attribute: Attribute): Int {
         return when (attribute) {
-            Attribute.STR -> baseStat +
+            Attribute.STR -> BASE_STAT +
                     attributes.strength +
                     race.attributes.strength
-            Attribute.INT -> baseStat +
+            Attribute.INT -> BASE_STAT +
                     attributes.intelligence +
                     race.attributes.intelligence
-            Attribute.WIS -> baseStat +
+            Attribute.WIS -> BASE_STAT +
                     attributes.wisdom +
                     race.attributes.wisdom
-            Attribute.DEX -> baseStat +
+            Attribute.DEX -> BASE_STAT +
                     attributes.dexterity +
                     race.attributes.dexterity
-            Attribute.CON -> baseStat +
+            Attribute.CON -> BASE_STAT +
                     attributes.constitution +
                     race.attributes.constitution
             else -> 0
@@ -235,7 +235,10 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
 
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {
         return equipped.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it } +
-                affects.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it }
+                affects.filter { it.attributes != null }
+                    .map { AttributeAffect(it) }
+                    .map(accumulator)
+                    .fold(0) { acc: Int, it: Int -> acc + it }
     }
 
     private fun increaseHp(value: Int) {

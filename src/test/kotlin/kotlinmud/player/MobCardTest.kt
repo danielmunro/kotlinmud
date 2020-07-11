@@ -15,7 +15,7 @@ class MobCardTest {
     fun testMobCardCanMapAndLoad() {
         // setup
         val test = createTestService()
-        val mob = test.createPlayerMobBuilder().build()
+        val mob = test.createPlayerMob()
         val mobCard = test.findMobCardByName(mob.name)!!
 
         // given

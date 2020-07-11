@@ -13,8 +13,10 @@ class InventoryTest {
         val mob = testService.createMob()
 
         // given
-        val item1 = testService.createItem(mob)
-        val item2 = testService.createItem(mob)
+        val item1 = testService.createItem()
+        item1.mobInventory = mob
+        val item2 = testService.createItem()
+        item2.mobInventory = mob
 
         // when
         val response = testService.runAction(mob, "inv")

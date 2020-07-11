@@ -46,6 +46,16 @@ class ItemService {
         }
     }
 
+    fun findAllByRoom(room: RoomDAO): List<ItemDAO> {
+        return transaction {
+            ItemDAO.wrapRows(
+                Items.select {
+                    roomId eq room.id
+                }
+            ).toList()
+        }
+    }
+
     fun getItemGroups(mob: MobDAO): Map<EntityID<Int>, List<ItemDAO>> {
         return findAllByOwner(mob).groupBy { it.id }
     }
@@ -103,7 +113,7 @@ class ItemService {
                 name = "a corpse of $mob"
                 description = "a corpse of $mob is here."
                 level = mob.level
-                weight = 100
+                weight = 100.0
                 decayTimer = 20
             }
         }

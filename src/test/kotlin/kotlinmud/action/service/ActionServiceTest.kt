@@ -167,7 +167,8 @@ class ActionServiceTest {
         val testService = createTestService()
         val mob = testService.createMob()
         mob.addSkill(SkillType.INVISIBILITY, 100)
-        val item = testService.createItem(mob)
+        val item = testService.createItem()
+        item.mobInventory = mob
 
         // when
         val response = testService.runAction(mob, "cast invis ${getIdentifyingWord(item)}")

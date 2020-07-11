@@ -42,7 +42,8 @@ class LookAtTest {
 
         // given
         val mob = testService.createMob()
-        val item = testService.createItem(mob)
+        val item = testService.createItem()
+        item.mobInventory = mob
         transaction {
             item.affects.plus(AffectDAO.new {
                 type = AffectType.INVISIBILITY

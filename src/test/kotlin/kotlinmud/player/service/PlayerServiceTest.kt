@@ -13,9 +13,9 @@ class PlayerServiceTest {
         val test = createTestService()
 
         // given
-        test.createPlayerMobBuilder().build()
-        val mob = test.createPlayerMobBuilder().build()
-        test.createPlayerMobBuilder().build()
+        test.createPlayerMob()
+        val mob = test.createPlayerMob()
+        test.createPlayerMob()
 
         // when
         val mobCard = test.findMobCardByName(mob.name)
@@ -28,7 +28,7 @@ class PlayerServiceTest {
     fun testDoesNotFindMobCardThatDoesNotExist() {
         // setup
         val test = createTestService()
-        test.createPlayerMobBuilder().build()
+        test.createPlayerMob()
 
         // when
         val mobCard = test.findMobCardByName("foo12344567")

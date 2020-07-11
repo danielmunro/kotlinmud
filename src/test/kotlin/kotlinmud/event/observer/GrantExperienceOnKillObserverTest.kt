@@ -16,8 +16,8 @@ class GrantExperienceOnKillObserverTest {
     fun testKillsAddExperience() {
         // setup
         val testService = createTestService()
-        val mob1 = testService.createPlayerMobBuilder().build()
-        val mob2 = testService.createPlayerMobBuilder().build()
+        val mob1 = testService.createPlayerMob()
+        val mob2 = testService.createPlayerMob()
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
         val mobCard1 = testService.findMobCardByName(mob1.name)!!
@@ -37,8 +37,8 @@ class GrantExperienceOnKillObserverTest {
     fun testEnoughExpTriggersLevel() {
         // setup
         val testService = createTestService()
-        val mob1 = testService.createPlayerMobBuilder().build()
-        val mob2 = testService.createPlayerMobBuilder().build()
+        val mob1 = testService.createPlayerMob()
+        val mob2 = testService.createPlayerMob()
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
         mob2.disposition = Disposition.DEAD

@@ -51,7 +51,8 @@ class FightTest {
         mob1.addSkill(SkillType.SHIELD_BLOCK, 100)
         val mob2 = testService.createMob()
         mob2.addSkill(SkillType.SHIELD_BLOCK, 100)
-        val item = testService.createItem(mob2)
+        val item = testService.createItem()
+        item.mobInventory = mob2
         item.position = Position.SHIELD
         mob2.equipped.plus(item)
 
@@ -85,7 +86,8 @@ class FightTest {
         val mob2 = testService.createMob()
         mob2.addSkill(SkillType.PARRY, 100)
 
-        val item = testService.createItem(mob2)
+        val item = testService.createItem()
+        item.mobInventory = mob2
         item.position = Position.WEAPON
 
         val fight = Fight(mob1, mob2)

@@ -13,10 +13,12 @@ class SellTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val shopkeeper = testService.createMob(JobType.SHOPKEEPER)
+        val shopkeeper = testService.createMob()
+        shopkeeper.job = JobType.SHOPKEEPER
 
         // given
-        val item = testService.createItem(mob)
+        val item = testService.createItem()
+        item.mobInventory = mob
 
         // when
         val response = testService.runAction(mob, "sell ${getIdentifyingWord(item)}")

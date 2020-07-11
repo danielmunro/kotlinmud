@@ -13,7 +13,8 @@ class GetTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val room = testService.getRoomForMob(mob)
-        val item = testService.createItem(room)
+        val item = testService.createItem()
+        item.room = room
         val roomItemCount = testService.countItemsFor(room)
         val mobItemCount = testService.countItemsFor(mob)
 

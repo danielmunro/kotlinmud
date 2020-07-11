@@ -3,6 +3,8 @@ package kotlinmud.test
 import java.nio.channels.SocketChannel
 import kotlinmud.action.service.ActionService
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.db.applySchema
+import kotlinmud.db.createConnection
 import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
 import kotlinmud.io.model.Client
@@ -14,6 +16,7 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
+import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Position
 import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.dao.MobDAO
@@ -43,7 +46,19 @@ class TestService(
     private val clientService = ClientService()
 
     init {
-        getStartRoom().items.plus(createItem())
+        createConnection()
+        applySchema()
+        val room = transaction {
+            RoomDAO.new {
+                name = "start room"
+                description = "tbd"
+                area = "midgaard"
+            }
+        }
+        val item = createItem()
+        transaction {
+            room.items.plus(item)
+        }
     }
 
     fun <T> publish(event: Event<T>) {
@@ -66,6 +81,10 @@ class TestService(
 
     fun countItemsFor(hasInventory: HasInventory): Int {
         return itemService.findAllByOwner(hasInventory).size
+    }
+
+    fun countItemsFor(room: RoomDAO): Int {
+        return itemService.findAllByRoom(room).size
     }
 
     fun getItemsFor(hasInventory: HasInventory): List<ItemDAO> {
@@ -97,11 +116,22 @@ class TestService(
     }
 
     fun createMob(): MobDAO {
-        return transaction {
+        val mob = transaction {
             MobDAO.new {
-                equipped.plus(weapon(this))
+                name = fixtureService.faker.name.name()
+                description = "foo"
+                brief = "bar"
+                race = Human()
+                isNpc = true
+                attributes = AttributesDAO.new {}
             }
         }
+        transaction {
+            mob.equipped.plus(weapon(mob))
+        }
+        putMobInRoom(mob, getStartRoom())
+
+        return mob
     }
 
     fun createCorpseFrom(mob: MobDAO): ItemDAO {
@@ -136,7 +166,11 @@ class TestService(
 
     fun createItem(): ItemDAO {
         return transaction {
-            ItemDAO.new {}
+            ItemDAO.new {
+                name = fixtureService.faker.cannabis.brands()
+                description = "a nice looking herb is here"
+                attributes = AttributesDAO.new {}
+            }
         }
     }
 
@@ -203,14 +237,15 @@ class TestService(
     }
 
     private fun weapon(mob: MobDAO): ItemDAO {
-        return transaction {
-            ItemDAO.new {
-                position = Position.WEAPON
-                mobInventory = mob
-                attributes = AttributesDAO.new {
-                    hit = 2
-                    dam = 1
-                }
+        return ItemDAO.new {
+            name = "a sword"
+            description = "a sword"
+            type = ItemType.EQUIPMENT
+            position = Position.WEAPON
+            mobInventory = mob
+            attributes = AttributesDAO.new {
+                hit = 2
+                dam = 1
             }
         }
     }
