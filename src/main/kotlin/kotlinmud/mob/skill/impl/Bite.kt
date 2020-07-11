@@ -8,8 +8,8 @@ import kotlinmud.affect.type.Affect
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.DamageType
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.LearningDifficulty
@@ -35,7 +35,7 @@ class Bite : SkillAction {
     override val affect: Affect? = null
 
     override fun invoke(actionContextService: ActionContextService): Response {
-        val target: Mob = actionContextService.get(Syntax.TARGET_MOB)
+        val target = actionContextService.get<MobDAO>(Syntax.TARGET_MOB)
         val limit = (actionContextService.getLevel() / 10).coerceAtLeast(2)
         target.hp -= Random.nextInt(1, limit) +
                 if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)

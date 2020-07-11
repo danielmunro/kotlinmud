@@ -1,9 +1,10 @@
 package kotlinmud.affect.impl
 
-import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.dao.AffectDAO
+import kotlinmud.affect.factory.affect
 import kotlinmud.affect.type.Affect
 import kotlinmud.affect.type.AffectType
-import kotlinmud.attributes.model.AttributesBuilder
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.mob.dao.MobDAO
@@ -19,11 +20,7 @@ class StunnedAffect : Affect {
         TODO("Not yet implemented")
     }
 
-    override fun createInstance(timeout: Int): AffectInstance {
-        return AffectInstance(
-            type, timeout, AttributesBuilder()
-                .intelligence(-1)
-                .build()
-        )
+    override fun createInstance(timeout: Int): AffectDAO {
+        return affect(type, timeout, AttributesDAO.new { intelligence = -1 })
     }
 }

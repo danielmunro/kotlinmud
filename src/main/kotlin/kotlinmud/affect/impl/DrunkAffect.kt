@@ -1,9 +1,10 @@
 package kotlinmud.affect.impl
 
-import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.dao.AffectDAO
+import kotlinmud.affect.factory.affect
 import kotlinmud.affect.type.Affect
 import kotlinmud.affect.type.AffectType
-import kotlinmud.attributes.model.AttributesBuilder
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
@@ -26,14 +27,14 @@ class DrunkAffect : Affect {
             .build()
     }
 
-    override fun createInstance(timeout: Int): AffectInstance {
-        return AffectInstance(
+    override fun createInstance(timeout: Int): AffectDAO {
+        return affect(
             type,
             timeout,
-            AttributesBuilder()
-                .dexterity(-1)
-                .intelligence(-1)
-                .build()
+            AttributesDAO.new {
+                dexterity = -1
+                intelligence = -1
+            }
         )
     }
 }

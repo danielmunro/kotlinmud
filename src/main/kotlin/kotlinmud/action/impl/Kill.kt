@@ -6,11 +6,11 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.mobInRoom
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 
 fun createKillAction(): Action {
     return Action(Command.KILL, mustBeStanding(), mobInRoom()) {
-        val target = it.get<Mob>(Syntax.MOB_IN_ROOM)
+        val target = it.get<MobDAO>(Syntax.MOB_IN_ROOM)
         it.createFight()
         it.createOkResponse(
             MessageBuilder()

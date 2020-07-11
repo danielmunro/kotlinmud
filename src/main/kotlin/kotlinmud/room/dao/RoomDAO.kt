@@ -6,8 +6,8 @@ import kotlinmud.biome.type.SubstrateType
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.table.Items
 import kotlinmud.item.type.HasInventory
+import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.MAX_WALKABLE_ELEVATION
 import kotlinmud.room.table.Rooms
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition

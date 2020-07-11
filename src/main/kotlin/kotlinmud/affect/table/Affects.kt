@@ -11,5 +11,5 @@ object Affects : IntIdTable() {
     val timeout = integer("timeout").nullable()
     val mobId = reference("mobId", Mobs)
     val itemId = reference("itemId", Items)
-    val attributesId = reference("atttributesId", Attributes)
+    val attributesId = reference("atttributesId", Attributes).nullable()
 }

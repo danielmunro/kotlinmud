@@ -22,7 +22,6 @@ import kotlinmud.action.impl.createPracticeAction
 import kotlinmud.action.impl.createPutAction
 import kotlinmud.action.impl.createRecallAction
 import kotlinmud.action.impl.createRemoveAction
-import kotlinmud.action.impl.createSaveWorldAction
 import kotlinmud.action.impl.createSellAction
 import kotlinmud.action.impl.createSitAction
 import kotlinmud.action.impl.createSleepAction
@@ -52,9 +51,8 @@ import kotlinmud.action.impl.social.createGossipAction
 import kotlinmud.action.impl.social.createSayAction
 import kotlinmud.action.impl.social.createTellAction
 import kotlinmud.action.model.Action
-import kotlinmud.fs.saver.WorldSaver
 
-fun createActionsList(worldSaver: WorldSaver): List<Action> {
+fun createActionsList(): List<Action> {
     return listOf(
         createLookAction(),
         createLookAtAction(),
@@ -100,7 +98,6 @@ fun createActionsList(worldSaver: WorldSaver): List<Action> {
         createHealListAction(),
         createOwnerInfoAction(),
         createOwnerSetAction(),
-        createSaveWorldAction(worldSaver),
         createRoomNewAction(),
         createRoomBuildAction(),
         createRoomDescriptionAction(),

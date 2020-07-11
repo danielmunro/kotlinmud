@@ -5,10 +5,8 @@ import kotlinmud.fs.constant.CURRENT_WRITE_SCHEMA_VERSION
 import kotlinmud.fs.factory.timeFile
 import kotlinmud.fs.factory.versionFile
 import kotlinmud.fs.loader.Tokenizer
-import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.helper.logger
 import kotlinmud.service.TimeService
-import kotlinmud.world.model.World
 
 class PersistenceService {
     private val logger = logger(this)
@@ -25,13 +23,6 @@ class PersistenceService {
     fun writeTimeFile(timeService: TimeService) {
         logger.info("time file :: {}", timeService.getTime())
         timeFile().writeText("#${timeService.getTime()}")
-    }
-
-    fun writeWorld(world: World) {
-        logger.info("areas file :: write schema {}",
-            CURRENT_WRITE_SCHEMA_VERSION
-        )
-        WorldSaver(world).save()
     }
 
     fun loadTimeFile(): Int {

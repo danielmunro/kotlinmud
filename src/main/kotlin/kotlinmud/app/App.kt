@@ -13,7 +13,7 @@ import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.TimeService
@@ -73,9 +73,9 @@ class App(
         )
     }
 
-    private fun getTarget(response: Response): Mob? {
+    private fun getTarget(response: Response): MobDAO? {
         return try {
-            response.actionContextList.getResultBySyntax<Mob>(Syntax.MOB_IN_ROOM)
+            response.actionContextList.getResultBySyntax<MobDAO>(Syntax.MOB_IN_ROOM)
         } catch (e: Exception) {
             null
         }

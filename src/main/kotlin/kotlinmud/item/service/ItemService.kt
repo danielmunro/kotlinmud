@@ -1,20 +1,16 @@
 package kotlinmud.item.service
 
-import java.util.*
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.model.ItemBuilder
 import kotlinmud.item.table.Items
 import kotlinmud.item.table.Items.decayTimer
 import kotlinmud.item.table.Items.mobInventoryId
 import kotlinmud.item.table.Items.roomId
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.model.corpseWeight
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNotNull
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
 import org.jetbrains.exposed.sql.and
@@ -22,8 +18,6 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
-
-typealias ItemBuilderBuilder = () -> ItemBuilder
 
 class ItemService {
     fun findByOwner(mob: MobDAO, input: String): ItemDAO? {
@@ -109,7 +103,7 @@ class ItemService {
                 name = "a corpse of $mob"
                 description = "a corpse of $mob is here."
                 level = mob.level
-                weight = corpseWeight
+                weight = 100
                 decayTimer = 20
             }
         }

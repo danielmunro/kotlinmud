@@ -8,10 +8,7 @@ import kotlinmud.generator.constant.DEPTH_UNDERGROUND
 import kotlinmud.generator.model.World
 import kotlinmud.generator.type.Layer
 import kotlinmud.generator.type.Matrix3D
-import kotlinmud.room.model.Exit
-import kotlinmud.room.model.Room
-import kotlinmud.room.model.RoomBuilder
-import kotlinmud.room.type.Direction
+import kotlinmud.room.dao.RoomDAO
 
 class GeneratorService(
     private val width: Int,
@@ -22,7 +19,7 @@ class GeneratorService(
     private var id = 0
 
     fun generate(): World {
-        val rooms = mutableListOf<Room>()
+        val rooms = mutableListOf<RoomDAO>()
         val biomeLayer = biomeService.createLayer((width * length) / (width * length / 10))
         val elevationLayer = ElevationService(biomeLayer, biomes).buildLayer()
         val mobGeneratorService = MobGeneratorService(biomes)
@@ -38,7 +35,7 @@ class GeneratorService(
         return world
     }
 
-    private fun buildMatrix(rooms: MutableList<Room>, elevationLayer: Layer, biomeLayer: Layer): Matrix3D {
+    private fun buildMatrix(rooms: MutableList<RoomDAO>, elevationLayer: Layer, biomeLayer: Layer): Matrix3D {
         var index = 0
         return Array(DEPTH) { z ->
             Array(length) { y ->
@@ -50,7 +47,7 @@ class GeneratorService(
         }
     }
 
-    private fun addRoom(rooms: MutableList<Room>, z: Int, elevationValue: Int, biomeType: BiomeType) {
+    private fun addRoom(rooms: MutableList<RoomDAO>, z: Int, elevationValue: Int, biomeType: BiomeType) {
         rooms.add(
             buildRoom(
                 z,
@@ -76,36 +73,32 @@ class GeneratorService(
         if (world.matrix3D[z][y].size > x + 1) {
             val destId = world.matrix3D[z][y][x + 1]
             val dest = world.rooms[destId]
-            room.exits.add(Exit(dest, Direction.EAST))
-            dest.exits.add(Exit(room, Direction.WEST))
+            room.east = dest
+            dest.west = room
         }
         if (world.matrix3D[z].size > y + 1) {
             val destId = world.matrix3D[z][y + 1][x]
             val dest = world.rooms[destId]
-            room.exits.add(Exit(dest, Direction.SOUTH))
-            dest.exits.add(Exit(room, Direction.NORTH))
+            room.south = dest
+            dest.north = room
         }
         if (z + 1 < DEPTH) {
             val destId = world.matrix3D[z + 1][y][x]
             val dest = world.rooms[destId]
-            room.exits.add(Exit(dest, Direction.DOWN))
-            dest.exits.add(Exit(room, Direction.UP))
+            room.up = dest
+            dest.down = room
         }
     }
 
-    private fun buildRoom(z: Int, elevation: Int, biomeType: BiomeType): Room {
-        val entityId = id
-        id++
-        val biome = when {
-            z < DEPTH_UNDERGROUND -> BiomeType.UNDERGROUND
-            z < DEPTH_GROUND + elevation -> biomeType
-            else -> BiomeType.SKY
+    private fun buildRoom(z: Int, elevation: Int, biomeType: BiomeType): RoomDAO {
+        return RoomDAO.new {
+            name = "todo"
+            description = "todo"
+            biome = when {
+                z < DEPTH_UNDERGROUND -> BiomeType.UNDERGROUND
+                z < DEPTH_GROUND + elevation -> biomeType
+                else -> BiomeType.SKY
+            }
         }
-        return RoomBuilder()
-            .id(entityId)
-            .name("todo")
-            .description("todo")
-            .biome(biome)
-            .build()
     }
 }

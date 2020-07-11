@@ -30,7 +30,6 @@ import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
 import kotlinmud.event.observer.type.Observers
 import kotlinmud.event.service.EventService
-import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.fs.service.PersistenceService
 import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
@@ -87,9 +86,6 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 if (isTest) 0 else persistenceService.loadTimeFile()
             )
         }
-        bind<WorldSaver>() with singleton {
-            WorldSaver(instance<World>())
-        }
         bind<ActionService>() with singleton {
             ActionService(
                 instance<MobService>(),
@@ -102,7 +98,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                     instance<WeatherService>(),
                     instance<ServerService>()
                 ),
-                createActionsList(instance<WorldSaver>())
+                createActionsList()
             )
         }
         bind<MobService>() with singleton {

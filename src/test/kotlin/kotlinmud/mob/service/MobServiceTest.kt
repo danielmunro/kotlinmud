@@ -7,10 +7,9 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isFailure
 import assertk.assertions.isNotNull
 import kotlin.test.Test
-import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.factory.affect
 import kotlinmud.affect.type.AffectType
-import kotlinmud.mob.model.MobBuilder
-import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
@@ -25,13 +24,13 @@ class MobServiceTest {
         val initial = 10
 
         // given
-        mob.affects().add(AffectInstance(AffectType.BLESS, initial))
+        mob.affects.plus(affect(AffectType.BLESS, initial))
 
         // when
         testService.decrementAffects()
 
         // then
-        val affect = mob.affects().findByType(AffectType.BLESS)!!
+        val affect = mob.affects.find { it.type == AffectType.BLESS }!!
         assertThat(affect.timeout).isEqualTo(initial - 1)
     }
 
@@ -43,13 +42,13 @@ class MobServiceTest {
         val initial = 0
 
         // given
-        mob.affects().add(AffectInstance(AffectType.BLESS, initial))
+        mob.affects.plus(affect(AffectType.BLESS, initial))
 
         // when
         testService.decrementAffects()
 
         // then
-        assertThat(mob.affects().getAffects()).hasSize(0)
+        assertThat(mob.affects.toList()).hasSize(0)
     }
 
     @Test
@@ -113,7 +112,8 @@ class MobServiceTest {
         val defender = testService.createMob()
 
         // given
-        val guard = testService.createMob(JobType.GUARD)
+        val guard = testService.createMob()
+        guard.job = JobType.GUARD
 
         // when
         testService.runAction(aggressor, "kill ${getIdentifyingWord(defender)}")
@@ -128,14 +128,7 @@ class MobServiceTest {
         val test = createTestService()
 
         // when
-        val mob = MobBuilder()
-            .id(0)
-            .name("foo")
-            .hp(0)
-            .mana(0)
-            .mv(0)
-            .race(Human())
-            .build()
+        val mob = MobDAO.new {}
 
         // then
         assertThat { test.addNewRoom(mob) }.isFailure().hasMessage("mob must be in a room to add a room")

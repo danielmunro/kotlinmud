@@ -4,15 +4,15 @@ import kotlin.random.Random
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
+import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.impl.StunnedAffect
-import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.type.AffectType
-import kotlinmud.attributes.model.Attributes
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.DamageType
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.LearningDifficulty
@@ -46,15 +46,19 @@ class Bash : SkillAction {
     override val affect = StunnedAffect()
 
     override fun invoke(actionContextService: ActionContextService): Response {
-        val target: Mob = actionContextService.get(Syntax.TARGET_MOB)
+        val target = actionContextService.get<MobDAO>(Syntax.TARGET_MOB)
         val limit = (actionContextService.getLevel() / 10).coerceAtLeast(2)
         val modifier = Random.nextInt(1, limit) +
                 if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)
         target.hp -= modifier
-        target.affects().add(
-            AffectInstance(
-                AffectType.STUNNED, modifier / 5, Attributes(0, 0, 0, 0, -1)
-            )
+        target.affects.plus(
+            AffectDAO.new {
+                type = AffectType.STUNNED
+                timeout = modifier / 5
+                attributes = AttributesDAO.new {
+                    intelligence = -1
+                }
+            }
         )
         return actionContextService.createOkResponse(MessageBuilder()
             .toActionCreator("you slam into $target and send them flying!")

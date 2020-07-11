@@ -1,6 +1,7 @@
 package kotlinmud.affect.impl
 
-import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.dao.AffectDAO
+import kotlinmud.affect.factory.affect
 import kotlinmud.affect.type.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.helper.Noun
@@ -26,7 +27,7 @@ class InvisibilityAffect : Affect {
             .build()
     }
 
-    override fun createInstance(timeout: Int): AffectInstance {
-        return AffectInstance(type, timeout)
+    override fun createInstance(timeout: Int): AffectDAO {
+        return affect(type, timeout)
     }
 }

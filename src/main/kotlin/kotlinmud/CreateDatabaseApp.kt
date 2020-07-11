@@ -1,7 +1,8 @@
 package kotlinmud
 
+import java.sql.Connection
 import kotlinmud.affect.table.Affects
-// import kotlinmud.attributes.table.Attributes
+import kotlinmud.attributes.table.Attributes
 import kotlinmud.item.table.Items
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.table.Mobs
@@ -12,7 +13,6 @@ import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.sql.Connection
 
 fun main() {
     Database.connect("jdbc:sqlite:data.db", "org.sqlite.JDBC")
@@ -24,7 +24,8 @@ fun main() {
             Affects,
             Items,
             Rooms,
-            Doors
+            Doors,
+            Attributes
         )
     }
     println("mobs: ${Mobs.selectAll()}")

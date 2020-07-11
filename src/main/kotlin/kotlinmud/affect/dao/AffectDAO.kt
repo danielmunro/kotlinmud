@@ -3,7 +3,6 @@ package kotlinmud.affect.dao
 import kotlinmud.affect.table.Affects
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.table.Items
 import kotlinmud.mob.dao.MobDAO
@@ -12,7 +11,7 @@ import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 
-class AffectDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes {
+class AffectDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<AffectDAO>(Affects)
 
     var type by Affects.type.transform(
@@ -22,5 +21,5 @@ class AffectDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes {
     var timeout by Affects.timeout
     val mob by MobDAO referrersOn Mobs.id
     val item by ItemDAO referrersOn Items.id
-    override var attributes by AttributesDAO referencedOn Affects.attributesId
+    var attributes by AttributesDAO optionalReferencedOn Affects.attributesId
 }
