@@ -10,7 +10,15 @@ import kotlinmud.mob.type.Size
 import kotlinmud.room.dao.RoomDAO
 
 class MobGeneratorService(biomes: List<Biome>) {
-    private val biomeMobList = mutableMapOf<BiomeType, List<MobDAO>>()
+    private val biomeMobList: Map<BiomeType, List<MobDAO>> = biomes.map {
+        Pair(it.biomeType, it.mobs)
+    }.toMap()
+
+    init {
+        biomes.forEach {
+            biomeMobList.plus(Pair(it.biomeType, it.mobs))
+        }
+    }
 
     companion object {
         private fun getMaxInRoom(mob: MobDAO): Int {

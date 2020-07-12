@@ -28,6 +28,8 @@ fun mobBuilder(name: String): MobDAO {
     return transaction {
         MobDAO.new {
             this.name = name
+            brief = "$name is here"
+            description = "$name is here"
             hp = startingHp
             mana = startingMana
             mv = startingMv

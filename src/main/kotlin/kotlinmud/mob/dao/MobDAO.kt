@@ -17,7 +17,7 @@ import kotlinmud.item.type.Position
 import kotlinmud.mob.constant.BASE_STAT
 import kotlinmud.mob.fight.AttackType
 import kotlinmud.mob.fight.DamageType
-import kotlinmud.mob.race.factory.createRaceFromString
+import kotlinmud.mob.race.factory.createRaceFromType
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.table.Skills
@@ -44,8 +44,8 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     var mv by Mobs.mv
     var level by Mobs.level
     var race by Mobs.race.transform(
-        { it.toString() },
-        { createRaceFromString(it) }
+        { it.type.toString() },
+        { createRaceFromType(it) }
     )
     var specialization by Mobs.specialization.transform(
         { it.toString() },

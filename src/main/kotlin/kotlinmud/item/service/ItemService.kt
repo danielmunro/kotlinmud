@@ -23,7 +23,7 @@ class ItemService {
     fun findByOwner(mob: MobDAO, input: String): ItemDAO? {
         return transaction {
             ItemDAO.wrapRows(
-                Items.select(mobInventoryId eq mob.id and (Items.name like "$input%"))
+                Items.select(mobInventoryId eq mob.id and (Items.name like "%$input%"))
             ).firstOrNull()
         }
     }
@@ -31,7 +31,7 @@ class ItemService {
     fun findByRoom(room: RoomDAO, input: String): ItemDAO? {
         return transaction {
             ItemDAO.wrapRows(
-                Items.select(roomId eq room.id and (Items.name like "$input%"))
+                Items.select(roomId eq room.id and (Items.name like "%$input%"))
             ).firstOrNull()
         }
     }

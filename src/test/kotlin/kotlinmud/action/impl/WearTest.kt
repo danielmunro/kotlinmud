@@ -5,6 +5,7 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import kotlinmud.item.type.Position
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class WearTest {
@@ -16,9 +17,11 @@ class WearTest {
         // given
         val mob = test.createMob()
         val item = test.createItem()
-        item.position = Position.SHIELD
-        item.name = "a shield"
-        mob.items.plus(item)
+        transaction {
+            item.position = Position.SHIELD
+            item.name = "a shield"
+            mob.items.plus(item)
+        }
 
         // when
         val response = test.runAction(mob, "wear shield")
@@ -38,10 +41,12 @@ class WearTest {
 
         // given
         val mob = test.createMob()
-        val equippedCount = mob.equipped.count()
+        val equippedCount = transaction { mob.equipped.count() }
         val item = test.createItem()
-        item.name = "a book"
-        mob.items.plus(item)
+        transaction {
+            item.name = "a book"
+            item.mobInventory = mob
+        }
 
         // when
         val response = test.runAction(mob, "wear book")
@@ -50,6 +55,6 @@ class WearTest {
         assertThat(response.message.toActionCreator).isEqualTo("you can't equip that.")
 
         // and
-        assertThat(mob.equipped.toList()).hasSize(equippedCount)
+        assertThat(transaction { mob.equipped.toList() }).hasSize(equippedCount)
     }
 }

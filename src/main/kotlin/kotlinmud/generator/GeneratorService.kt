@@ -9,6 +9,7 @@ import kotlinmud.generator.model.World
 import kotlinmud.generator.type.Layer
 import kotlinmud.generator.type.Matrix3D
 import kotlinmud.room.dao.RoomDAO
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class GeneratorService(
     private val width: Int,
@@ -16,14 +17,13 @@ class GeneratorService(
     private val biomes: List<Biome>
 ) {
     private val biomeService = BiomeService(width, length, biomes)
-    private var id = 0
 
     fun generate(): World {
         val rooms = mutableListOf<RoomDAO>()
         val biomeLayer = biomeService.createLayer((width * length) / (width * length / 10))
         val elevationLayer = ElevationService(biomeLayer, biomes).buildLayer()
         val mobGeneratorService = MobGeneratorService(biomes)
-        val matrix = buildMatrix(rooms, elevationLayer, biomeLayer)
+        val matrix = transaction { buildMatrix(rooms, elevationLayer, biomeLayer) }
         val mobResets = mobGeneratorService.generateMobResets(rooms)
         val world = World(
             rooms,
@@ -31,7 +31,7 @@ class GeneratorService(
             mobGeneratorService.getAllMobs(),
             mobResets
         )
-        hookUpRoomExits(world)
+        transaction { hookUpRoomExits(world) }
         return world
     }
 
@@ -94,6 +94,7 @@ class GeneratorService(
         return RoomDAO.new {
             name = "todo"
             description = "todo"
+            area = "todo"
             biome = when {
                 z < DEPTH_UNDERGROUND -> BiomeType.UNDERGROUND
                 z < DEPTH_GROUND + elevation -> biomeType

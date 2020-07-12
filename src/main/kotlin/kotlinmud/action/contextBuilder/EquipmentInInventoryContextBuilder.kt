@@ -4,7 +4,6 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
-import kotlinmud.item.type.Position
 import kotlinmud.mob.dao.MobDAO
 
 class EquipmentInInventoryContextBuilder(private val itemService: ItemService, private val mob: MobDAO) : ContextBuilder {
@@ -15,7 +14,7 @@ class EquipmentInInventoryContextBuilder(private val itemService: ItemService, p
                 Status.ERROR,
                 "you don't have that."
             )
-        if (item.position == Position.NONE) {
+        if (item.position == null) {
             return Context<Any>(syntax, Status.ERROR, "you can't equip that.")
         }
         return Context<Any>(syntax, Status.OK, item)

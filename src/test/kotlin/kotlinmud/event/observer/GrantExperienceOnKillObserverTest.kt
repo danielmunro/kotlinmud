@@ -9,6 +9,7 @@ import kotlinmud.event.type.EventType
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class GrantExperienceOnKillObserverTest {
@@ -23,7 +24,7 @@ class GrantExperienceOnKillObserverTest {
         val mobCard1 = testService.findMobCardByName(mob1.name)!!
 
         // given
-        mob2.disposition = Disposition.DEAD
+        transaction { mob2.disposition = Disposition.DEAD }
 
         // when
         testService.publish(Event(EventType.KILL, fight))
@@ -41,7 +42,7 @@ class GrantExperienceOnKillObserverTest {
         val mob2 = testService.createPlayerMob()
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
-        mob2.disposition = Disposition.DEAD
+        transaction { mob2.disposition = Disposition.DEAD }
         val mobCard1 = testService.findMobCardByName(mob1.name)!!
 
         // given

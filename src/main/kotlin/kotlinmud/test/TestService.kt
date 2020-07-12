@@ -143,8 +143,8 @@ class TestService(
     }
 
     fun createPlayerMob(): MobDAO {
-        val mob = fixtureService.createMob()
-        mob.isNpc = false
+        val mob = createMob()
+        transaction { mob.isNpc = false }
         playerService.addMobCard(
             MobCardBuilder()
                 .mobName(mob.name)

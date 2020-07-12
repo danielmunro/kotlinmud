@@ -16,8 +16,10 @@ class Fight(private val mob1: MobDAO, private val mob2: MobDAO) {
     private val logger = LoggerFactory.getLogger(Fight::class.java)
 
     init {
-        mob1.disposition = Disposition.FIGHTING
-        mob2.disposition = Disposition.FIGHTING
+        transaction {
+            mob1.disposition = Disposition.FIGHTING
+            mob2.disposition = Disposition.FIGHTING
+        }
     }
 
     fun isParticipant(mob: MobDAO): Boolean {

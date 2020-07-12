@@ -38,20 +38,20 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInvent
     )
     var position by Items.position.transform(
         { it.toString() },
-        { Position.valueOf(it!!) }
+        { it?.let { Position.valueOf(it) } }
     )
     var attackVerb by Items.attackVerb
     var damageType by Items.damageType.transform(
         { it.toString() },
-        { DamageType.valueOf(it!!) }
+        { it?.let { DamageType.valueOf(it) } }
     )
     var drink by Items.drink.transform(
         { it.toString() },
-        { Drink.valueOf(it!!) }
+        { it?.let { Drink.valueOf(it) } }
     )
     var food by Items.food.transform(
         { it.toString() },
-        { Food.valueOf(it!!) }
+        { it?.let { Food.valueOf(it) } }
     )
     var quantity by Items.quantity
     var decayTimer by Items.decayTimer
