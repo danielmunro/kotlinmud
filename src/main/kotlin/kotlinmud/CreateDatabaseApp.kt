@@ -7,6 +7,7 @@ import kotlinmud.item.table.Items
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.table.Mobs
 import kotlinmud.room.table.Doors
+import kotlinmud.room.table.Resources
 import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.selectAll
@@ -22,7 +23,8 @@ fun main() {
             Items,
             Rooms,
             Doors,
-            Attributes
+            Attributes,
+            Resources
         )
     }
     println("mobs: ${Mobs.selectAll()}")

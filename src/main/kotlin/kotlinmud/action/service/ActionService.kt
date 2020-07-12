@@ -22,6 +22,7 @@ import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.type.HasCosts
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.RequiresDisposition
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionService(
     private val mobService: MobService,
@@ -113,13 +114,15 @@ class ActionService(
                 messageToActionCreator("You are too tired")
             )
         }
-        hasCosts.costs.forEach {
-            when (it.type) {
-                CostType.DELAY -> return@forEach
-                CostType.MV_AMOUNT -> mob.mv -= it.amount
-                CostType.MV_PERCENT -> mob.mv -= (mob.calc(Attribute.MV) * (it.amount.toDouble() / 100)).toInt()
-                CostType.MANA_AMOUNT -> mob.mana -= it.amount
-                CostType.MANA_PERCENT -> mob.mana -= (mob.calc(Attribute.MANA) * (it.amount.toDouble() / 100)).toInt()
+        transaction {
+            hasCosts.costs.forEach {
+                when (it.type) {
+                    CostType.DELAY -> return@forEach
+                    CostType.MV_AMOUNT -> mob.mv -= it.amount
+                    CostType.MV_PERCENT -> mob.mv -= (mob.calc(Attribute.MV) * (it.amount.toDouble() / 100)).toInt()
+                    CostType.MANA_AMOUNT -> mob.mana -= it.amount
+                    CostType.MANA_PERCENT -> mob.mana -= (mob.calc(Attribute.MANA) * (it.amount.toDouble() / 100)).toInt()
+                }
             }
         }
         return null

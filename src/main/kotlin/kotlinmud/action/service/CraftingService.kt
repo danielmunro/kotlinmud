@@ -1,7 +1,6 @@
 package kotlinmud.action.service
 
 import kotlinmud.biome.helper.createResourceList
-import kotlinmud.biome.type.ResourceType
 import kotlinmud.exception.CraftException
 import kotlinmud.exception.HarvestException
 import kotlinmud.item.dao.ItemDAO
@@ -9,8 +8,12 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.table.Resources
 import kotlinmud.world.resource.Resource
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class CraftingService(
@@ -65,16 +68,18 @@ class CraftingService(
         return products
     }
 
-    fun harvest(resourceType: ResourceType, room: RoomDAO, mob: MobDAO): List<ItemDAO> {
-        room.resources.remove(resourceType)
-        resources.find { it.resourceType == resourceType }?.let {
-            val products = it.createProduct()
-            transaction {
-                products.forEach { item ->
-                    item.mobInventory = mob
+    fun harvest(resource: ResourceDAO, room: RoomDAO, mob: MobDAO): List<ItemDAO> {
+        return transaction {
+            Resources.deleteWhere(null, 0 as Int) { Resources.id eq resource.id }
+            resources.find { it.resourceType == resource.type }?.let {
+                val products = it.createProduct()
+                transaction {
+                    products.forEach { item ->
+                        item.mobInventory = mob
+                    }
                 }
-            }
-            return products
-        } ?: throw HarvestException()
+                return@let products
+            } ?: throw HarvestException()
+        }
     }
 }

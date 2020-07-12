@@ -133,24 +133,26 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     }
 
     fun calc(attribute: Attribute): Int {
-        return when (attribute) {
-            Attribute.HP -> attributes.hp +
-                    accumulate { it.attributes.hp }
-            Attribute.MANA -> attributes.mana +
-                    accumulate { it.attributes.mana }
-            Attribute.MV -> attributes.mv +
-                    accumulate { it.attributes.mv }
-            Attribute.STR -> base(attribute) + accumulate { it.attributes.strength }
-            Attribute.INT -> base(attribute) + accumulate { it.attributes.intelligence }
-            Attribute.WIS -> base(attribute) + accumulate { it.attributes.wisdom }
-            Attribute.DEX -> base(attribute) + accumulate { it.attributes.dexterity }
-            Attribute.CON -> base(attribute) + accumulate { it.attributes.constitution }
-            Attribute.HIT -> attributes.hit + accumulate { it.attributes.hit }
-            Attribute.DAM -> attributes.dam + accumulate { it.attributes.dam }
-            Attribute.AC_BASH -> attributes.acBash + accumulate { it.attributes.acBash }
-            Attribute.AC_PIERCE -> attributes.acPierce + accumulate { it.attributes.acPierce }
-            Attribute.AC_SLASH -> attributes.acSlash + accumulate { it.attributes.acSlash }
-            Attribute.AC_MAGIC -> attributes.acMagic + accumulate { it.attributes.acMagic }
+        return transaction {
+            when (attribute) {
+                Attribute.HP -> attributes.hp +
+                        accumulate { it.attributes.hp }
+                Attribute.MANA -> attributes.mana +
+                        accumulate { it.attributes.mana }
+                Attribute.MV -> attributes.mv +
+                        accumulate { it.attributes.mv }
+                Attribute.STR -> base(attribute) + accumulate { it.attributes.strength }
+                Attribute.INT -> base(attribute) + accumulate { it.attributes.intelligence }
+                Attribute.WIS -> base(attribute) + accumulate { it.attributes.wisdom }
+                Attribute.DEX -> base(attribute) + accumulate { it.attributes.dexterity }
+                Attribute.CON -> base(attribute) + accumulate { it.attributes.constitution }
+                Attribute.HIT -> attributes.hit + accumulate { it.attributes.hit }
+                Attribute.DAM -> attributes.dam + accumulate { it.attributes.dam }
+                Attribute.AC_BASH -> attributes.acBash + accumulate { it.attributes.acBash }
+                Attribute.AC_PIERCE -> attributes.acPierce + accumulate { it.attributes.acPierce }
+                Attribute.AC_SLASH -> attributes.acSlash + accumulate { it.attributes.acSlash }
+                Attribute.AC_MAGIC -> attributes.acMagic + accumulate { it.attributes.acMagic }
+            }
         }
     }
 
@@ -235,7 +237,7 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
 
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {
         return equipped.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it } +
-                affects.filter { it.attributes != null }
+                affects.asSequence().toList().filter { it.attributes != null }
                     .map { AttributeAffect(it) }
                     .map(accumulator)
                     .fold(0) { acc: Int, it: Int -> acc + it }

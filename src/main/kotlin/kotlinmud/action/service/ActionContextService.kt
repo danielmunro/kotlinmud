@@ -2,7 +2,6 @@ package kotlinmud.action.service
 
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.affect.dao.AffectDAO
-import kotlinmud.biome.type.ResourceType
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.FightStartedEvent
 import kotlinmud.event.impl.SocialEvent
@@ -26,6 +25,7 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.player.model.MobCard
 import kotlinmud.player.service.PlayerService
 import kotlinmud.player.social.Social
+import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.NewRoom
 import kotlinmud.room.type.Direction
@@ -53,8 +53,8 @@ class ActionContextService(
         return craftingService.craft(recipe, request.mob)
     }
 
-    fun harvest(resourceType: ResourceType): List<ItemDAO> {
-        return craftingService.harvest(resourceType, request.room, request.mob)
+    fun harvest(resource: ResourceDAO): List<ItemDAO> {
+        return craftingService.harvest(resource, request.room, request.mob)
     }
 
     fun getWeather(): Weather {

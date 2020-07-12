@@ -7,7 +7,9 @@ import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.type.ResourceType
+import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class HarvestTest {
@@ -20,7 +22,12 @@ class HarvestTest {
         val itemCount = test.getItemsFor(mob).size
 
         // given
-        room.resources.add(ResourceType.IRON_ORE)
+        transaction {
+            ResourceDAO.new {
+                type = ResourceType.IRON_ORE
+                this.room = room
+            }
+        }
 
         // when
         val response = test.runAction(mob, "harvest iron")
@@ -31,7 +38,7 @@ class HarvestTest {
         assertThat(response.delay).isGreaterThan(0)
         assertThat(mob.mv).isLessThan(mob.calc(Attribute.MV))
         assertThat(test.getItemsFor(mob)).hasSize(itemCount + 1)
-        assertThat(room.resources).hasSize(0)
+        assertThat(transaction { room.resources.toList() }).hasSize(0)
     }
 
     @Test

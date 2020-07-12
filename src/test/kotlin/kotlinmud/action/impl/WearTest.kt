@@ -20,8 +20,9 @@ class WearTest {
         transaction {
             item.position = Position.SHIELD
             item.name = "a shield"
-            mob.items.plus(item)
+            item.mobInventory = mob
         }
+        val count = transaction { mob.equipped.count() }
 
         // when
         val response = test.runAction(mob, "wear shield")
@@ -31,7 +32,7 @@ class WearTest {
         assertThat(response.message.toObservers).isEqualTo("$mob wears a shield.")
 
         // and
-        assertThat(mob.equipped.count()).isEqualTo(2)
+        assertThat(transaction { mob.equipped.count() }).isEqualTo(count + 1)
     }
 
     @Test

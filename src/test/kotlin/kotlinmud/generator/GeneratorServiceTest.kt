@@ -7,6 +7,7 @@ import assertk.assertions.isTrue
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.generator.constant.DEPTH
+import kotlinmud.test.createTestService
 import org.junit.Test
 
 const val length = 10
@@ -15,6 +16,9 @@ const val width = 12
 class GeneratorServiceTest {
     @Test
     fun testGeneratorCreatesMatrix() {
+        // setup
+        createTestService()
+
         // given
         val generator = GeneratorService(
             width,
@@ -33,6 +37,9 @@ class GeneratorServiceTest {
 
     @Test
     fun testMatrixReceivesBiomes() {
+        // setup
+        createTestService()
+
         // given
         val generator = GeneratorService(
             width,
@@ -52,6 +59,7 @@ class GeneratorServiceTest {
     @Test
     fun testIndexesAreUnique() {
         // setup
+        createTestService()
         val generator = GeneratorService(
             width,
             length,

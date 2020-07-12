@@ -1,13 +1,13 @@
 package kotlinmud.room.dao
 
 import kotlinmud.biome.type.BiomeType
-import kotlinmud.biome.type.ResourceType
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.table.Items
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.room.table.Resources
 import kotlinmud.room.table.Rooms
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
@@ -30,14 +30,7 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
     var regenLevel: RegenLevel by Rooms.regenLevel.transform({ it.toString() }, { RegenLevel.valueOf(it) })
     var biome: BiomeType by Rooms.biome.transform({ it.toString() }, { BiomeType.valueOf(it) })
     var substrate: SubstrateType by Rooms.substrate.transform({ it.toString() }, { SubstrateType.valueOf(it) })
-    var resources: MutableList<ResourceType> by Rooms.resources.transform(
-        {
-            it.joinToString(", ")
-        },
-        {
-            it.split(", ").map { ResourceType.valueOf(it) }.toMutableList()
-        }
-    )
+    val resources by ResourceDAO referrersOn Resources.roomId
     var elevation by Rooms.elevation
     override val items by ItemDAO optionalReferrersOn Items.roomId
     var north by RoomDAO optionalReferencedOn Rooms.northId

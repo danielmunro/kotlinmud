@@ -1,5 +1,6 @@
 package kotlinmud.world.resource
 
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.type.ItemType
@@ -15,6 +16,7 @@ class IronOre : Resource {
                 name = "a chunk of rock with hints of iron"
                 description = "iron ore rock is here"
                 type = ItemType.IRON_ORE
+                attributes = AttributesDAO.new {}
             }
         )
     }

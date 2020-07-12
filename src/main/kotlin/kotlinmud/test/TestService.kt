@@ -3,6 +3,9 @@ package kotlinmud.test
 import java.nio.channels.SocketChannel
 import kotlinmud.action.service.ActionService
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.model.startingHp
+import kotlinmud.attributes.model.startingMana
+import kotlinmud.attributes.model.startingMv
 import kotlinmud.db.applySchema
 import kotlinmud.db.createConnection
 import kotlinmud.event.impl.Event
@@ -44,11 +47,12 @@ class TestService(
     private val serverService: ServerService
 ) {
     private val clientService = ClientService()
+    private val room: RoomDAO
 
     init {
         createConnection()
         applySchema()
-        val room = transaction {
+        room = transaction {
             RoomDAO.new {
                 name = "start room"
                 description = "tbd"
@@ -112,7 +116,7 @@ class TestService(
     }
 
     fun getStartRoom(): RoomDAO {
-        return mobService.getStartRoom()
+        return room
     }
 
     fun createMob(): MobDAO {
@@ -123,7 +127,14 @@ class TestService(
                 brief = "bar"
                 race = Human()
                 isNpc = true
-                attributes = AttributesDAO.new {}
+                hp = startingHp
+                mana = startingMana
+                mv = startingMv
+                attributes = AttributesDAO.new {
+                    hp = startingHp
+                    mana = startingMana
+                    mv = startingMana
+                }
             }
         }
         transaction {

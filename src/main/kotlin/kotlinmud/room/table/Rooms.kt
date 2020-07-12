@@ -14,7 +14,6 @@ object Rooms : IntIdTable() {
     val isIndoor = bool("isIndoor").default(false)
     val biome = varchar("biome", 50).default(BiomeType.NONE.toString())
     val substrate = varchar("substrate", 50).default(SubstrateType.DIRT.toString())
-    val resources = varchar("resources", 255).default("")
     val elevation = integer("elevation").default(1)
     val northId = reference("northId", Rooms).nullable()
     val northDoorId = reference("northDoorId", Doors).nullable()
@@ -29,4 +28,5 @@ object Rooms : IntIdTable() {
     val downId = reference("downId", Rooms).nullable()
     val downDoorId = reference("downDoorId", Doors).nullable()
     val ownerId = reference("ownerId", Mobs).nullable()
+    val resources = reference("resources", Resources).nullable()
 }
