@@ -1,7 +1,5 @@
 package kotlinmud.room.dao
 
-import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.table.Items
 import kotlinmud.room.table.Doors
 import kotlinmud.room.type.DoorDisposition
 import org.jetbrains.exposed.dao.EntityID
@@ -17,9 +15,12 @@ class DoorDAO(id: EntityID<Int>) : IntEntity(id) {
         { it.toString() },
         { DoorDisposition.valueOf(it) }
     )
-    var defaultDisposition: DoorDisposition by Doors.disposition.transform(
+    var defaultDisposition: DoorDisposition by Doors.defaultDisposition.transform(
         { it.toString() },
         { DoorDisposition.valueOf(it) }
     )
-    var keyItem by ItemDAO optionalReferencedOn Items.doorKeyId
+
+    override fun toString(): String {
+        return name
+    }
 }

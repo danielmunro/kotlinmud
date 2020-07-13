@@ -15,7 +15,6 @@ import kotlinmud.item.type.Position
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.table.Doors
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -63,7 +62,7 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInvent
     var room by RoomDAO optionalReferencedOn Items.roomId
     override val items by ItemDAO optionalReferrersOn Items.itemId
     var container by ItemDAO optionalReferencedOn Items.itemId
-    var doorKey by ItemDAO optionalReferencedOn Doors.keyItemId
+//    var doorKey by ItemDAO optionalReferencedOn Doors.keyItemId
 
     override fun toString(): String {
         return name

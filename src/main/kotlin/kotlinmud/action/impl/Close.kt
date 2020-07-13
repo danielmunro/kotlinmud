@@ -7,16 +7,17 @@ import kotlinmud.io.factory.doorInRoom
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
-import kotlinmud.room.model.Door
+import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.type.DoorDisposition
+import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createCloseAction(): Action {
     return Action(Command.CLOSE, mustBeAlert(), doorInRoom()) {
-        val door: Door = it.get(Syntax.DOOR_IN_ROOM)
+        val door = it.get<DoorDAO>(Syntax.DOOR_IN_ROOM)
         if (door.disposition != DoorDisposition.OPEN) {
             return@Action it.createErrorResponse(messageToActionCreator("it is already closed."))
         }
-        door.disposition = DoorDisposition.CLOSED
+        transaction { door.disposition = DoorDisposition.CLOSED }
         it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you close $door.")

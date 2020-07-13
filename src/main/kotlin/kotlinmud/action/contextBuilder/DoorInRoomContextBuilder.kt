@@ -7,10 +7,13 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.type.Direction
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class DoorInRoomContextBuilder(private val room: RoomDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        return room.getDoors().entries.find {
+        val doors = room.getDoors()
+        val door = transaction { room.northDoor }
+        return doors.entries.find {
             matchExit(it.key, it.value, word)
         }?.let { Context<Any>(syntax, Status.OK, it.value) }
             ?: Context<Any>(

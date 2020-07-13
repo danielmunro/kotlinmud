@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class GetTest {
@@ -14,7 +15,7 @@ class GetTest {
         val mob = testService.createMob()
         val room = testService.getRoomForMob(mob)
         val item = testService.createItem()
-        item.room = room
+        transaction { item.room = room }
         val roomItemCount = testService.countItemsFor(room)
         val mobItemCount = testService.countItemsFor(mob)
 

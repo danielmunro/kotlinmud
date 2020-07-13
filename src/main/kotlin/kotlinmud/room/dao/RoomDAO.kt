@@ -15,6 +15,7 @@ import kotlinmud.room.type.RegenLevel
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
     companion object : IntEntityClass<RoomDAO>(Rooms) {
@@ -49,46 +50,13 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
 
     fun getDoors(): Map<Direction, DoorDAO> {
         val exits = mutableMapOf<Direction, DoorDAO>()
-        if (northDoor != null) {
-            exits.plus(Pair(Direction.NORTH, northDoor))
-        }
-        if (southDoor != null) {
-            exits.plus(Pair(Direction.SOUTH, southDoor))
-        }
-        if (eastDoor != null) {
-            exits.plus(Pair(Direction.EAST, eastDoor))
-        }
-        if (westDoor != null) {
-            exits.plus(Pair(Direction.WEST, westDoor))
-        }
-        if (upDoor != null) {
-            exits.plus(Pair(Direction.UP, upDoor))
-        }
-        if (downDoor != null) {
-            exits.plus(Pair(Direction.DOWN, downDoor))
-        }
-        return exits
-    }
-
-    fun getExitsWithDoors(): Map<Direction, RoomDAO> {
-        val exits = mutableMapOf<Direction, RoomDAO>()
-        if (isDoorPassable(northDoor)) {
-            exits.plus(Pair(Direction.NORTH, north))
-        }
-        if (isDoorPassable(southDoor)) {
-            exits.plus(Pair(Direction.SOUTH, south))
-        }
-        if (isDoorPassable(eastDoor)) {
-            exits.plus(Pair(Direction.EAST, east))
-        }
-        if (isDoorPassable(westDoor)) {
-            exits.plus(Pair(Direction.WEST, west))
-        }
-        if (isDoorPassable(upDoor)) {
-            exits.plus(Pair(Direction.UP, up))
-        }
-        if (isDoorPassable(downDoor)) {
-            exits.plus(Pair(Direction.DOWN, down))
+        transaction {
+            northDoor?.let { exits[Direction.NORTH] = it }
+            southDoor?.let { exits[Direction.SOUTH] = it }
+            eastDoor?.let { exits[Direction.EAST] = it }
+            westDoor?.let { exits[Direction.WEST] = it }
+            upDoor?.let { exits[Direction.UP] = it }
+            downDoor?.let { exits[Direction.DOWN] = it }
         }
         return exits
     }

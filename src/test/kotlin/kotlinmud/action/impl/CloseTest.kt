@@ -4,7 +4,9 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
 import kotlinmud.room.dao.DoorDAO
+import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class CloseTest {
@@ -15,16 +17,22 @@ class CloseTest {
         val mob = testService.createMob()
 
         // given
+        val name = "a door"
         val room = testService.getStartRoom()
-        room.northDoor = DoorDAO.new {
-            name = "a door"
+        transaction {
+            room.northDoor = DoorDAO.new {
+                this.name = name
+                description = "a door"
+                disposition = DoorDisposition.OPEN
+                defaultDisposition = DoorDisposition.OPEN
+            }
         }
 
         // when
         val response = testService.runAction(mob, "close door")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you close a heavy wooden door.")
+        assertThat(response.message.toActionCreator).isEqualTo("you close $name.")
     }
 
     @Test
@@ -35,8 +43,13 @@ class CloseTest {
 
         // given
         val room = testService.getStartRoom()
-        room.northDoor = DoorDAO.new {
-            name = "a door"
+        transaction {
+            room.northDoor = DoorDAO.new {
+                name = "a door"
+                description = "a door"
+                disposition = DoorDisposition.CLOSED
+                defaultDisposition = DoorDisposition.CLOSED
+            }
         }
 
         // when
