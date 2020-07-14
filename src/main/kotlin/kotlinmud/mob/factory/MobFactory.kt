@@ -35,6 +35,7 @@ fun mobBuilder(name: String): MobDAO {
             mv = startingMv
             race = Human()
             level = 1
+            isNpc = false
             gender = if (coinFlip()) Gender.MALE else Gender.FEMALE
             attributes = AttributesDAO.new {
                 hp = startingHp

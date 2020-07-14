@@ -1,6 +1,7 @@
 package kotlinmud.app
 
 import kotlinmud.action.service.ActionService
+import kotlinmud.db.createConnection
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.DayEvent
 import kotlinmud.event.impl.Event
@@ -30,6 +31,7 @@ class App(
 
     fun start() {
         logger.info("starting app on port ${serverService.port}")
+        createConnection()
         eventService.publish(Event(EventType.DAY, DayEvent()))
         mainLoop()
     }
