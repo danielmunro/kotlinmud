@@ -6,6 +6,8 @@ import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.model.startingHp
 import kotlinmud.attributes.model.startingMana
 import kotlinmud.attributes.model.startingMv
+import kotlinmud.biome.type.BiomeType
+import kotlinmud.biome.type.SubstrateType
 import kotlinmud.db.applySchema
 import kotlinmud.db.createConnection
 import kotlinmud.event.impl.Event
@@ -36,6 +38,7 @@ import kotlinmud.player.service.PlayerService
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.type.DoorDisposition
+import kotlinmud.room.type.RegenLevel
 import kotlinmud.service.FixtureService
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -109,10 +112,6 @@ class TestService(
         mobService.createNewRoom(mob)
     }
 
-    fun getRooms(): List<RoomDAO> {
-        return mobService.getRooms()
-    }
-
     fun getStartRoom(): RoomDAO {
         return room
     }
@@ -152,6 +151,21 @@ class TestService(
         putMobInRoom(mob, getStartRoom())
 
         return mob
+    }
+
+    fun createRoom(): RoomDAO {
+        return transaction {
+            RoomDAO.new {
+                name = "a test room"
+                description = "this is a test room"
+                area = "test"
+                isIndoor = false
+                regenLevel = RegenLevel.NORMAL
+                biome = BiomeType.NONE
+                substrate = SubstrateType.NONE
+                elevation = 1
+            }
+        }
     }
 
     fun createCorpseFrom(mob: MobDAO): ItemDAO {

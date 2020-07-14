@@ -18,19 +18,19 @@ class MobControllerTest {
 
         controller.move()
 
-        assertThat(test.getRoomForMob(mob)).isEqualTo(test.getRooms().find { it.id.value == 2 })
+        assertThat(test.getRoomForMob(mob).id.value).isEqualTo(2)
 
         controller.move()
 
-        assertThat(test.getRoomForMob(mob)).isEqualTo(test.getRooms().find { it.id.value == 1 })
+        assertThat(test.getRoomForMob(mob).id.value).isEqualTo(1)
 
         controller.move()
 
-        assertThat(test.getRoomForMob(mob)).isEqualTo(test.getRooms().find { it.id.value == 100 })
+        assertThat(test.getRoomForMob(mob).id.value).isEqualTo(100)
 
         controller.move()
 
-        assertThat(test.getRoomForMob(mob)).isEqualTo(test.getRooms().find { it.id.value == 1 })
+        assertThat(test.getRoomForMob(mob).id.value).isEqualTo(1)
     }
 
     @Test

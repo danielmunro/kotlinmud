@@ -13,7 +13,7 @@ class DirectionToExitContextBuilder(private val room: RoomDAO) : ContextBuilder 
         val exit = getExit(word)
             ?: return failedContext(syntax, "Alas, that direction does not exist.")
 
-        if (!exit.value.isDoorPassable(exit.key)) {
+        if (!room.isDoorPassable(exit.key)) {
             return failedContext(syntax, "you must open the door first.")
         }
 

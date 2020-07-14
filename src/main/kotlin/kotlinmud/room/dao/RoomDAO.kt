@@ -31,8 +31,8 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
     var regenLevel: RegenLevel by Rooms.regenLevel.transform({ it.toString() }, { RegenLevel.valueOf(it) })
     var biome: BiomeType by Rooms.biome.transform({ it.toString() }, { BiomeType.valueOf(it) })
     var substrate: SubstrateType by Rooms.substrate.transform({ it.toString() }, { SubstrateType.valueOf(it) })
-    val resources by ResourceDAO referrersOn Resources.roomId
     var elevation by Rooms.elevation
+    val resources by ResourceDAO referrersOn Resources.roomId
     override val items by ItemDAO optionalReferrersOn Items.roomId
     var north by RoomDAO optionalReferencedOn Rooms.northId
     var northDoor by DoorDAO optionalReferencedOn Rooms.northDoorId
@@ -63,35 +63,27 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
 
     fun getAllExits(): Map<Direction, RoomDAO> {
         val exits = mutableMapOf<Direction, RoomDAO>()
-        if (north != null) {
-            exits.plus(Pair(Direction.NORTH, north))
-        }
-        if (south != null) {
-            exits.plus(Pair(Direction.SOUTH, south))
-        }
-        if (east != null) {
-            exits.plus(Pair(Direction.EAST, east))
-        }
-        if (west != null) {
-            exits.plus(Pair(Direction.WEST, west))
-        }
-        if (up != null) {
-            exits.plus(Pair(Direction.UP, up))
-        }
-        if (down != null) {
-            exits.plus(Pair(Direction.DOWN, down))
+        transaction {
+            north?.let { exits[Direction.NORTH] = it }
+            south?.let { exits[Direction.SOUTH] = it }
+            east?.let { exits[Direction.EAST] = it }
+            west?.let { exits[Direction.WEST] = it }
+            up?.let { exits[Direction.UP] = it }
+            down?.let { exits[Direction.DOWN] = it }
         }
         return exits
     }
 
     fun isDoorPassable(direction: Direction): Boolean {
-        return when (direction) {
-            Direction.NORTH -> isDoorPassable(northDoor)
-            Direction.SOUTH -> isDoorPassable(southDoor)
-            Direction.EAST -> isDoorPassable(eastDoor)
-            Direction.WEST -> isDoorPassable(westDoor)
-            Direction.UP -> isDoorPassable(upDoor)
-            Direction.DOWN -> isDoorPassable(downDoor)
+        return transaction {
+            when (direction) {
+                Direction.NORTH -> isDoorPassable(northDoor)
+                Direction.SOUTH -> isDoorPassable(southDoor)
+                Direction.EAST -> isDoorPassable(eastDoor)
+                Direction.WEST -> isDoorPassable(westDoor)
+                Direction.UP -> isDoorPassable(upDoor)
+                Direction.DOWN -> isDoorPassable(downDoor)
+            }
         }
     }
 
@@ -107,13 +99,15 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
     }
 
     fun isElevationPassable(direction: Direction): Boolean {
-        return when (direction) {
-            Direction.NORTH -> isElevationPassable(north)
-            Direction.SOUTH -> isElevationPassable(south)
-            Direction.EAST -> isElevationPassable(east)
-            Direction.WEST -> isElevationPassable(west)
-            Direction.UP -> isElevationPassable(up)
-            Direction.DOWN -> isElevationPassable(down)
+        return transaction {
+            when (direction) {
+                Direction.NORTH -> isElevationPassable(north)
+                Direction.SOUTH -> isElevationPassable(south)
+                Direction.EAST -> isElevationPassable(east)
+                Direction.WEST -> isElevationPassable(west)
+                Direction.UP -> isElevationPassable(up)
+                Direction.DOWN -> isElevationPassable(down)
+            }
         }
     }
 

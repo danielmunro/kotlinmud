@@ -36,7 +36,6 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.minus
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
@@ -52,7 +51,7 @@ class MobService(
                 elevationChange < MAX_WALKABLE_ELEVATION + 10 -> 50
                 else -> elevationChange * 10
             }
-            mob.hp -= damage
+            transaction { mob.hp -= damage }
         }
     }
 
@@ -120,14 +119,6 @@ class MobService(
     fun getNewRoom(mob: MobDAO): NewRoom? {
         val mobRoom = mobRooms.find { it.mob == mob }
         return newRooms.find { mobRoom == it.mobRoom }
-    }
-
-    fun getRooms(): List<RoomDAO> {
-        return transaction {
-            RoomDAO.wrapRows(
-                Rooms.selectAll()
-            )
-        }.toList()
     }
 
     fun getStartRoom(): RoomDAO {
