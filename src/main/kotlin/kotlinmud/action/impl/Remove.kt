@@ -7,11 +7,12 @@ import kotlinmud.io.factory.equippedItem
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
+import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createRemoveAction(): Action {
     return Action(Command.REMOVE, mustBeAlert(), equippedItem()) {
         val item = it.get<ItemDAO>(Syntax.EQUIPPED_ITEM)
-        it.getMob().equipped.minus(item)
+        transaction { item.mobEquipped = null }
         it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you remove $item and put it in your inventory.")
