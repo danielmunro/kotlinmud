@@ -17,11 +17,11 @@ class AvailableItemInventoryContextBuilder(private val mob: MobDAO, private val 
 
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return itemService.findAllByOwner(mob).find {
-            isMatch(it, word)
+            isMatch(it, word) && it.isContainer
         }?.let {
             Context<Any>(syntax, Status.OK, it)
         } ?: itemService.findAllByOwner(room).find {
-            isMatch(it, word)
+            isMatch(it, word) && it.isContainer
         }?.let {
             Context<Any>(syntax, Status.OK, it)
         } ?: Context<Any>(

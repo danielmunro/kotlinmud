@@ -4,9 +4,7 @@ import kotlinmud.affect.table.Affects
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.table.Items
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.table.Mobs
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -19,7 +17,7 @@ class AffectDAO(id: EntityID<Int>) : IntEntity(id) {
         { AffectType.valueOf(it) }
     )
     var timeout by Affects.timeout
-    val mob by MobDAO referrersOn Mobs.id
-    val item by ItemDAO referrersOn Items.id
+    var mob by MobDAO optionalReferencedOn Affects.mobId
+    var item by ItemDAO optionalReferencedOn Affects.itemId
     var attributes by AttributesDAO optionalReferencedOn Affects.attributesId
 }

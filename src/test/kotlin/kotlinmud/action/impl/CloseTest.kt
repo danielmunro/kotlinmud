@@ -3,7 +3,6 @@ package kotlinmud.action.impl
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
-import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -20,12 +19,9 @@ class CloseTest {
         val name = "a door"
         val room = testService.getStartRoom()
         transaction {
-            room.northDoor = DoorDAO.new {
-                this.name = name
-                description = "a door"
-                disposition = DoorDisposition.OPEN
-                defaultDisposition = DoorDisposition.OPEN
-            }
+            val door = testService.createDoor()
+            door.disposition = DoorDisposition.OPEN
+            room.northDoor = door
         }
 
         // when
@@ -44,12 +40,7 @@ class CloseTest {
         // given
         val room = testService.getStartRoom()
         transaction {
-            room.northDoor = DoorDAO.new {
-                name = "a door"
-                description = "a door"
-                disposition = DoorDisposition.CLOSED
-                defaultDisposition = DoorDisposition.CLOSED
-            }
+            room.northDoor = testService.createDoor()
         }
 
         // when

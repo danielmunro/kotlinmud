@@ -8,7 +8,7 @@ fun affect(affectType: AffectType, timeout: Int? = null, attributes: AttributesD
     return AffectDAO.new {
         type = affectType
         this.timeout = timeout
-        this.attributes = attributes
+        this.attributes = attributes ?: AttributesDAO.new {}
     }
 }
 

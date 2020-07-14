@@ -35,6 +35,7 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInvent
         { it.toString() },
         { Material.valueOf(it) }
     )
+    var isContainer by Items.isContainer
     var position by Items.position.transform(
         { it.toString() },
         { it?.let { Position.valueOf(it) } }

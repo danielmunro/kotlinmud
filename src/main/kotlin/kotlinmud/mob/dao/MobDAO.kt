@@ -237,7 +237,8 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
 
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {
         return equipped.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it } +
-                affects.asSequence().toList().filter { it.attributes != null }
+                affects.asSequence().toList()
+                    .filter { it.attributes != null }
                     .map { AttributeAffect(it) }
                     .map(accumulator)
                     .fold(0) { acc: Int, it: Int -> acc + it }

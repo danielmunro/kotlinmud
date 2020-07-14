@@ -6,7 +6,6 @@ import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.factory.affect
-import kotlinmud.affect.factory.affects
 import kotlinmud.affect.type.AffectType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
@@ -31,7 +30,7 @@ class LookTest {
                 room,
                 mob,
                 observers,
-                testService.getItemsFor(room)
+                testService.findAllItemsByOwner(room)
             )
         )
     }
@@ -56,7 +55,7 @@ class LookTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val room = testService.getRoomForMob(mob)
-        val item = testService.getItemsFor(room).first()
+        val item = testService.findAllItemsByOwner(room).first()
 
         // when
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")

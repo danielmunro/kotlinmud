@@ -8,10 +8,11 @@ import org.jetbrains.exposed.sql.transactions.transaction
 fun applyAffectFromItem(mob: MobDAO, item: ItemDAO) {
     transaction {
         item.affects.forEach {
-            mob.affects.plus(AffectDAO.new {
+            AffectDAO.new {
                 type = it.type
-                timeout = item.level
-            })
+                timeout = it.timeout
+                this.mob = mob
+            }
         }
     }
 }

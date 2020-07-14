@@ -4,7 +4,7 @@ import kotlin.random.Random
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
-import kotlinmud.affect.dao.AffectDAO
+import kotlinmud.affect.factory.affect
 import kotlinmud.affect.impl.StunnedAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
@@ -52,13 +52,7 @@ class Bash : SkillAction {
                 if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)
         target.hp -= modifier
         target.affects.plus(
-            AffectDAO.new {
-                type = AffectType.STUNNED
-                timeout = modifier / 5
-                attributes = AttributesDAO.new {
-                    intelligence = -1
-                }
-            }
+            affect(AffectType.STUNNED, modifier / 5, AttributesDAO.new { intelligence = -1 })
         )
         return actionContextService.createOkResponse(MessageBuilder()
             .toActionCreator("you slam into $target and send them flying!")

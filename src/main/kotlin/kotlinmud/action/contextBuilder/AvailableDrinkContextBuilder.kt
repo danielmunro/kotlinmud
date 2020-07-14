@@ -9,6 +9,7 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.room.dao.RoomDAO
+import org.jetbrains.exposed.sql.transactions.transaction
 
 const val notFound = "you don't see anything like that here."
 
@@ -22,8 +23,10 @@ class AvailableDrinkContextBuilder(
             ?: itemService.findByRoom(room, word)
             ?: return notFound(syntax)
 
-        target.affects.find { it.type == AffectType.INVISIBILITY }?.let {
-            return notFound(syntax)
+        transaction {
+            target.affects.find { it.type == AffectType.INVISIBILITY }?.let {
+                return@transaction notFound(syntax)
+            }
         }
 
         if (target.drink == Drink.NONE) {

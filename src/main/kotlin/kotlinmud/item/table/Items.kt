@@ -17,6 +17,7 @@ object Items : IntIdTable() {
     val level = integer("level").default(1)
     val weight = double("weight").default(1.0)
     val material = varchar("material", 50).default(Material.ORGANIC.toString())
+    val isContainer = bool("isContainer").default(false)
     val position = varchar("position", 50).nullable()
     val attackVerb = varchar("attackVerb", 50).nullable()
     val damageType = varchar("damageType", 50).nullable()

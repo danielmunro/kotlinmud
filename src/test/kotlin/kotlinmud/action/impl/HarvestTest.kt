@@ -19,7 +19,7 @@ class HarvestTest {
         val test = createTestService()
         val mob = test.createMob()
         val room = test.getStartRoom()
-        val itemCount = test.getItemsFor(mob).size
+        val itemCount = test.findAllItemsByOwner(mob).size
 
         // given
         transaction {
@@ -37,7 +37,7 @@ class HarvestTest {
         assertThat(response.message.toObservers).isEqualTo("$mob harvests iron ore.")
         assertThat(response.delay).isGreaterThan(0)
         assertThat(mob.mv).isLessThan(mob.calc(Attribute.MV))
-        assertThat(test.getItemsFor(mob)).hasSize(itemCount + 1)
+        assertThat(test.findAllItemsByOwner(mob)).hasSize(itemCount + 1)
         assertThat(transaction { room.resources.toList() }).hasSize(0)
     }
 

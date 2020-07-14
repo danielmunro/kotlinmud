@@ -9,6 +9,7 @@ import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.helper.applyAffectFromItem
+import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createDrinkAction(): Action {
     return Action(Command.DRINK, mustBeAwake(), drink()) {
@@ -19,8 +20,10 @@ fun createDrinkAction(): Action {
             return@Action it.createErrorResponse(messageToActionCreator("you are full."))
         }
 
-        item.quantity?.let { quantity ->
-            item.quantity = quantity - 1
+        transaction {
+            item.quantity?.let { quantity ->
+                item.quantity = quantity - 1
+            }
         }
 
         appetite.nourishThirst()

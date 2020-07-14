@@ -33,7 +33,9 @@ import kotlinmud.player.model.MobCard
 import kotlinmud.player.model.MobCardBuilder
 import kotlinmud.player.model.Player
 import kotlinmud.player.service.PlayerService
+import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.type.DoorDisposition
 import kotlinmud.service.FixtureService
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -87,11 +89,7 @@ class TestService(
         return itemService.findAllByOwner(hasInventory).size
     }
 
-    fun countItemsFor(room: RoomDAO): Int {
-        return itemService.findAllByRoom(room).size
-    }
-
-    fun getItemsFor(hasInventory: HasInventory): List<ItemDAO> {
+    fun findAllItemsByOwner(hasInventory: HasInventory): List<ItemDAO> {
         return itemService.findAllByOwner(hasInventory)
     }
 
@@ -117,6 +115,17 @@ class TestService(
 
     fun getStartRoom(): RoomDAO {
         return room
+    }
+
+    fun createDoor(): DoorDAO {
+        return transaction {
+            DoorDAO.new {
+                name = "a door"
+                description = "a door"
+                disposition = DoorDisposition.CLOSED
+                defaultDisposition = DoorDisposition.CLOSED
+            }
+        }
     }
 
     fun createMob(): MobDAO {
@@ -178,11 +187,17 @@ class TestService(
     fun createItem(): ItemDAO {
         return transaction {
             ItemDAO.new {
-                name = fixtureService.faker.cannabis.brands()
+                name = fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words()
                 description = "a nice looking herb is here"
                 attributes = AttributesDAO.new {}
             }
         }
+    }
+
+    fun createContainer(): ItemDAO {
+        val item = createItem()
+        transaction { item.isContainer = true }
+        return item
     }
 
     fun make(amount: Int): MakeItemService {

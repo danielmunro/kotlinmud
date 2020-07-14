@@ -3,6 +3,7 @@ package kotlinmud.item.service
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.table.Items
 import kotlinmud.item.table.Items.decayTimer
+import kotlinmud.item.table.Items.itemId
 import kotlinmud.item.table.Items.mobInventoryId
 import kotlinmud.item.table.Items.roomId
 import kotlinmud.item.type.HasInventory
@@ -10,6 +11,7 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
@@ -20,6 +22,27 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
 class ItemService {
+    companion object {
+        fun getColumn(hasInventory: HasInventory): Column<EntityID<Int>?> {
+            return when (hasInventory) {
+                is MobDAO -> mobInventoryId
+                is RoomDAO -> roomId
+                is ItemDAO -> itemId
+                else -> throw Exception("no has inventory")
+            }
+        }
+    }
+
+    fun findAllByOwner(hasInventory: HasInventory): List<ItemDAO> {
+        return transaction {
+            ItemDAO.wrapRows(
+                Items.select {
+                    getColumn(hasInventory) eq hasInventory.id
+                }
+            ).toList()
+        }
+    }
+
     fun findByOwner(mob: MobDAO, input: String): ItemDAO? {
         return transaction {
             ItemDAO.wrapRows(
@@ -33,16 +56,6 @@ class ItemService {
             ItemDAO.wrapRows(
                 Items.select(roomId eq room.id and (Items.name like "%$input%"))
             ).firstOrNull()
-        }
-    }
-
-    fun findAllByOwner(hasInventory: HasInventory): List<ItemDAO> {
-        return transaction {
-            ItemDAO.wrapRows(
-                Items.select {
-                    mobInventoryId eq hasInventory.id
-                }
-            ).toList()
         }
     }
 
