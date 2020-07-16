@@ -115,28 +115,31 @@ class Fight(private val mob1: MobDAO, private val mob2: MobDAO) {
     }
 
     private fun rollEvasiveSkills(defender: MobDAO): SkillType? {
-        defender.equipped.find { it.position == Position.SHIELD }?.let { _ ->
-            defender.skills.find { it.type == SkillType.SHIELD_BLOCK }?.let {
-                if (percentRoll() < it.level / 3) {
-                    return SkillType.SHIELD_BLOCK
+        return transaction {
+            defender.equipped.find { it.position == Position.SHIELD }?.let { _ ->
+                defender.skills.find { it.type == SkillType.SHIELD_BLOCK }?.let {
+                    if (percentRoll() < it.level / 3) {
+                        return@transaction SkillType.SHIELD_BLOCK
+                    }
                 }
             }
-        }
 
-        defender.equipped.find { it.position == Position.WEAPON }?.let { _ ->
-            defender.skills.find { it.type == SkillType.PARRY }?.let {
-                if (percentRoll() < it.level / 3) {
-                    return SkillType.PARRY
+            defender.equipped.find { it.position == Position.WEAPON }?.let { _ ->
+                defender.skills.find { it.type == SkillType.PARRY }?.let {
+                    if (percentRoll() < it.level / 3) {
+                        return@transaction SkillType.PARRY
+                    }
                 }
             }
-        }
 
-        defender.skills.find { it.type == SkillType.DODGE }?.let {
-            if (percentRoll() < it.level / 3) {
-                return SkillType.DODGE
+            defender.skills.find { it.type == SkillType.DODGE }?.let {
+                if (percentRoll() < it.level / 3) {
+                    return@transaction SkillType.DODGE
+                }
             }
+
+            return@transaction null
         }
-        return null
     }
 
     private fun calculateDamage(attacker: MobDAO): Int {

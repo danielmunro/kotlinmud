@@ -165,41 +165,44 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     }
 
     fun savesAgainst(damageType: DamageType): Boolean {
-        var saves = savingThrows
+        return transaction {
+            var saves = savingThrows
 
-        if (race.type == RaceType.ELF) {
-            saves -= 5
+            if (race.type == RaceType.ELF) {
+                saves -= 5
+            }
+
+            var base = 80 + (level / 6) + saves - calc(Attribute.WIS) - calc(
+                Attribute.INT
+            )
+
+            if (affects.find { it.type == AffectType.CURSE } != null) {
+                base += 5
+            }
+
+            if (disposition == Disposition.FIGHTING) {
+                base += 5
+            }
+
+            affects.find { it.type == AffectType.BERSERK }?.let {
+                base -= level / 10
+            }
+
+            base += when {
+                race.vulnerableTo.contains(damageType) -> 25
+                race.resist.contains(damageType) -> -25
+                race.immuneTo.contains(damageType) -> return@transaction true
+                else -> 0
+            }
+
+            if (specialization == SpecializationType.MAGE) {
+                base -= 5
+            } else if (specialization == SpecializationType.CLERIC) {
+                base -= 3
+            }
+
+            percentRoll() > normalizeInt(5, base, 95)
         }
-
-        var base = 80 + (level / 6) + saves - calc(Attribute.WIS) - calc(
-            Attribute.INT)
-
-        if (affects.find { it.type == AffectType.CURSE } != null) {
-            base += 5
-        }
-
-        if (disposition == Disposition.FIGHTING) {
-            base += 5
-        }
-
-        affects.find { it.type == AffectType.BERSERK }?.let {
-            base -= level / 10
-        }
-
-        base += when {
-            race.vulnerableTo.contains(damageType) -> 25
-            race.resist.contains(damageType) -> -25
-            race.immuneTo.contains(damageType) -> return true
-            else -> 0
-        }
-
-        if (specialization == SpecializationType.MAGE) {
-            base -= 5
-        } else if (specialization == SpecializationType.CLERIC) {
-            base -= 3
-        }
-
-        return percentRoll() > normalizeInt(5, base, 95)
     }
 
     fun wantsToMove(): Boolean {
@@ -232,7 +235,7 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     }
 
     private fun getWeapon(): ItemDAO? {
-        return equipped.find { it.position == Position.WEAPON }
+        return transaction { equipped.find { it.position == Position.WEAPON } }
     }
 
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {

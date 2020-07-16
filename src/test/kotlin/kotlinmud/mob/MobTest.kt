@@ -234,7 +234,7 @@ class MobTest {
 
         // given
         val mob1 = testService.createMob()
-        mob1.specialization = SpecializationType.CLERIC
+        transaction { mob1.specialization = SpecializationType.CLERIC }
         val mob2 = testService.createMob()
 
         // when
@@ -254,10 +254,12 @@ class MobTest {
 
         // given
         val item = testService.createItem()
-        item.mobInventory = mob
-        item.position = Position.SHIELD
-        item.attributes.hp = 100
-        mob.equipped.plus(item)
+        transaction {
+            item.mobInventory = mob
+            item.position = Position.SHIELD
+            item.attributes.hp = 100
+            item.mobEquipped = mob
+        }
 
         // expect
         assertThat(mob.calc(Attribute.HP)).isEqualTo(120)
@@ -267,16 +269,20 @@ class MobTest {
     fun testGoldTransfersWhenMobIsKilled() {
         // setup
         val testService = createTestService()
+        val mob1 = testService.createMob()
+        val mob2 = testService.createMob()
 
         // given
-        val mob1 = testService.createMob()
-        mob1.gold = 5
-        mob1.hp = 1
+        transaction {
+            mob1.gold = 5
+            mob1.hp = 1
+            mob1.attributes.hit = 10
+            mob2.gold = 5
+            mob2.hp = 1
+            mob2.attributes.hit = 10
+        }
 
-        val mob2 = testService.createMob()
-        mob2.gold = 5
-        mob2.hp = 1
-
+        // and
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
 
@@ -287,8 +293,8 @@ class MobTest {
 
         // then
         val winner = fight.getWinner()!!
-        assertThat(winner.gold).isEqualTo(10)
-        assertThat(fight.getOpponentFor(winner)!!.gold).isEqualTo(0)
+        assertThat(transaction { winner.gold }).isEqualTo(10)
+        assertThat(transaction { fight.getOpponentFor(winner)!!.gold }).isEqualTo(0)
     }
 
     @Test
