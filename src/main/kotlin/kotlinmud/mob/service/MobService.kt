@@ -32,6 +32,7 @@ import kotlinmud.room.helper.oppositeDirection
 import kotlinmud.room.model.NewRoom
 import kotlinmud.room.table.Rooms
 import kotlinmud.room.type.Direction
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNotNull
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.minus
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
@@ -197,13 +198,12 @@ class MobService(
 
     fun decrementAffects() {
         transaction {
-            Affects.update({ Affects.decay.isNotNull() }) {
-                it.update(decay, decay - 1)
-            }
-            // @todo fix this bug
             // see: https://stackoverflow.com/questions/38779666/how-to-fix-overload-resolution-ambiguity-in-kotlin-no-lambda
-            Affects.deleteWhere(9999 as Int, 0 as Int) {
-                Affects.decay.isNotNull() and (Affects.decay less 0)
+            Affects.deleteWhere(null as Int?, null as Int?) {
+                Affects.timeout.isNotNull() and (Affects.timeout eq 0)
+            }
+            Affects.update({ Affects.timeout.isNotNull() }) {
+                it.update(timeout, timeout - 1)
             }
         }
     }

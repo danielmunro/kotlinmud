@@ -1,5 +1,6 @@
 package kotlinmud.item.service
 
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.table.Items
 import kotlinmud.item.table.Items.decayTimer
@@ -128,6 +129,7 @@ class ItemService {
                 level = mob.level
                 weight = 100.0
                 decayTimer = 20
+                attributes = AttributesDAO.new {}
             }
         }
         transferAllItems(mob, item)
