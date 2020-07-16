@@ -2,8 +2,10 @@ package kotlinmud.action.service
 
 import kotlinmud.action.model.Action
 import kotlinmud.action.model.ActionContextList
+import kotlinmud.action.model.Context
 import kotlinmud.action.type.Command
 import kotlinmud.action.type.Invokable
+import kotlinmud.action.type.Status
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.helper.logger
 import kotlinmud.helper.math.percentRoll
@@ -177,12 +179,19 @@ class ActionService(
     private fun buildActionContextList(request: Request, invokable: Invokable): ActionContextList {
         logger.debug("${request.mob} building action context :: {}, {}", invokable.command, invokable.syntax)
         var i = 0
-        return ActionContextList(invokable.syntax.map {
-            contextBuilderService.createContext(
-                it,
-                request,
-                if (request.args.size > i) request.args[i++] else ""
-            )
-        }.toMutableList())
+        var successful = true
+        val contexts = mutableListOf<Context<out Any>>()
+        invokable.syntax.forEach {
+            if (successful) {
+                val context = contextBuilderService.createContext(
+                    it,
+                    request,
+                    if (request.args.size > i) request.args[i++] else ""
+                )
+                contexts.add(context)
+                successful = context.status == Status.OK
+            }
+        }
+        return ActionContextList(contexts)
     }
 }

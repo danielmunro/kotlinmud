@@ -6,6 +6,7 @@ import kotlinmud.affect.impl.BlessAffect
 import kotlinmud.affect.impl.BlindAffect
 import kotlinmud.affect.impl.InvisibilityAffect
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class AffectsTest {
@@ -16,9 +17,11 @@ class AffectsTest {
 
         // given
         val mob = test.createMob()
-        mob.affects.plus(InvisibilityAffect().createInstance(5))
-        mob.affects.plus(BlessAffect().createInstance(10))
-        mob.affects.plus(BlindAffect().createInstance(1))
+        transaction {
+            InvisibilityAffect().createInstance(5).mob = mob
+            BlessAffect().createInstance(10).mob = mob
+            BlindAffect().createInstance(1).mob = mob
+        }
 
         // when
         val response = test.runAction(mob, "affects")

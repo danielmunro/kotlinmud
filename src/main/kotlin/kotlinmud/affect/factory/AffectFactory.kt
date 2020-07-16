@@ -3,12 +3,15 @@ package kotlinmud.affect.factory
 import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
+import org.jetbrains.exposed.sql.transactions.transaction
 
 fun affect(affectType: AffectType, timeout: Int? = null, attributes: AttributesDAO? = null): AffectDAO {
-    return AffectDAO.new {
-        type = affectType
-        this.timeout = timeout
-        this.attributes = attributes ?: AttributesDAO.new {}
+    return transaction {
+        AffectDAO.new {
+            type = affectType
+            this.timeout = timeout
+            this.attributes = attributes ?: AttributesDAO.new {}
+        }
     }
 }
 

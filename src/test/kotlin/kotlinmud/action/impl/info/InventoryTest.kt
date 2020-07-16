@@ -3,6 +3,7 @@ package kotlinmud.action.impl.info
 import assertk.assertThat
 import assertk.assertions.contains
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class InventoryTest {
@@ -14,9 +15,11 @@ class InventoryTest {
 
         // given
         val item1 = testService.createItem()
-        item1.mobInventory = mob
         val item2 = testService.createItem()
-        item2.mobInventory = mob
+        transaction {
+            item1.mobInventory = mob
+            item2.mobInventory = mob
+        }
 
         // when
         val response = testService.runAction(mob, "inv")

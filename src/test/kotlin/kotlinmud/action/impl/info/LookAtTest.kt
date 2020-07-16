@@ -3,8 +3,7 @@ package kotlinmud.action.impl.info
 import assertk.assertThat
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
-import kotlinmud.affect.dao.AffectDAO
-import kotlinmud.affect.factory.affects
+import kotlinmud.affect.factory.affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.type.IOStatus
 import kotlinmud.test.createTestService
@@ -21,9 +20,7 @@ class LookAtTest {
         // given
         val mob1 = testService.createMob()
         transaction {
-            mob1.affects.plus(AffectDAO.new {
-                type = AffectType.INVISIBILITY
-            })
+            affect(AffectType.INVISIBILITY).mob = mob1
         }
         val mob2 = testService.createMob()
 
@@ -43,11 +40,9 @@ class LookAtTest {
         // given
         val mob = testService.createMob()
         val item = testService.createItem()
-        item.mobInventory = mob
         transaction {
-            item.affects.plus(AffectDAO.new {
-                type = AffectType.INVISIBILITY
-            })
+            item.mobInventory = mob
+            affect(AffectType.INVISIBILITY).item = item
         }
 
         // when

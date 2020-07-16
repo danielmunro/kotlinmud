@@ -7,6 +7,8 @@ import assertk.assertions.isEqualTo
 import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.factory.affect
 import kotlinmud.affect.type.AffectType
+import kotlinmud.room.dao.DoorDAO
+import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -40,7 +42,10 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        mob.affects.plus(affect(AffectType.BLIND))
+        val affect = affect(AffectType.BLIND)
+
+        // given
+        transaction { affect.mob = mob }
 
         // when
         val response = testService.runAction(mob, "look")
@@ -55,7 +60,10 @@ class LookTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val room = testService.getRoomForMob(mob)
-        val item = testService.findAllItemsByOwner(room).first()
+        val item = testService.createItem()
+
+        // given
+        transaction { item.room = room }
 
         // when
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")
@@ -70,7 +78,9 @@ class LookTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val item = testService.createItem()
-        mob.items.plus(item)
+
+        // given
+        transaction { item.mobInventory = mob }
 
         // when
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")
@@ -87,7 +97,7 @@ class LookTest {
         val mob2 = testService.createMob()
 
         // when
-        val response = testService.runAction(mob1, "look ${mob2.name.split(" ")[0]}")
+        val response = testService.runAction(mob1, "look ${getIdentifyingWord(mob2)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(mob2.description)
@@ -99,7 +109,17 @@ class LookTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val room = testService.getRoomForMob(mob)
-        val door = room.northDoor!!
+
+        // given
+        val door = transaction {
+            room.northDoor = DoorDAO.new {
+                name = "a door"
+                description = "a door"
+                disposition = DoorDisposition.OPEN
+                defaultDisposition = DoorDisposition.OPEN
+            }
+            room.northDoor!!
+        }
 
         // when
         val response = testService.runAction(mob, "look")

@@ -33,6 +33,7 @@ import kotlinmud.room.type.RegenLevel
 import kotlinmud.service.WeatherService
 import kotlinmud.weather.Weather
 import org.jetbrains.exposed.dao.EntityID
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionContextService(
     private val mobService: MobService,
@@ -70,7 +71,7 @@ class ActionContextService(
     }
 
     fun getAffects(): List<AffectDAO> {
-        return getMob().affects.toList()
+        return transaction { getMob().affects.toList() }
     }
 
     fun getLevel(): Int {
