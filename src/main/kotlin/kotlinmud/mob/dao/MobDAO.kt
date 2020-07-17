@@ -117,17 +117,6 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         increaseMv((rate * calc(Attribute.MV)).toInt())
     }
 
-    fun addSkill(skill: SkillType, level: Int = 1) {
-        transaction {
-            skills.plus(
-                SkillDAO.new {
-                    type = skill
-                    this.level = level
-                }
-            )
-        }
-    }
-
     fun getAttacks(): List<AttackType> {
         return listOf(AttackType.FIRST)
     }
