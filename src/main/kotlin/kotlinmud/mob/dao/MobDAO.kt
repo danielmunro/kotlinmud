@@ -248,28 +248,34 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     }
 
     private fun increaseHp(value: Int) {
-        hp += value
-        with(calc(Attribute.HP)) {
-            if (hp > this) {
-                hp = this
+        transaction {
+            hp += value
+            with(calc(Attribute.HP)) {
+                if (hp > this) {
+                    hp = this
+                }
             }
         }
     }
 
     private fun increaseMana(value: Int) {
-        mana += value
-        with(calc(Attribute.MANA)) {
-            if (mana > this) {
-                mana = this
+        transaction {
+            mana += value
+            with(calc(Attribute.MANA)) {
+                if (mana > this) {
+                    mana = this
+                }
             }
         }
     }
 
     private fun increaseMv(value: Int) {
-        mv += value
-        with(calc(Attribute.MV)) {
-            if (mv > this) {
-                mv = this
+        transaction {
+            mv += value
+            with(calc(Attribute.MV)) {
+                if (mv > this) {
+                    mv = this
+                }
             }
         }
     }

@@ -2,7 +2,9 @@ package kotlinmud.event.observer
 
 import assertk.assertThat
 import assertk.assertions.isGreaterThan
+import kotlinmud.room.type.RegenLevel
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class RegenMobsObserverTest {
@@ -11,45 +13,46 @@ class RegenMobsObserverTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-//        val rooms = test.getRooms()
 
         // given
-//        val room1 = rooms.find { it.regenLevel == RegenLevel.NONE }!!
-//        val room2 = rooms.find { it.regenLevel == RegenLevel.LOW }!!
-//        val room3 = rooms.find { it.regenLevel == RegenLevel.NORMAL }!!
-//        val room4 = rooms.find { it.regenLevel == RegenLevel.HIGH }!!
-//        val room5 = rooms.find { it.regenLevel == RegenLevel.FULL }!!
-        val room1 = test.getStartRoom()
-        val room2 = test.getStartRoom()
-        val room3 = test.getStartRoom()
-        val room4 = test.getStartRoom()
-        val room5 = test.getStartRoom()
+        val room1 = test.createRoom()
+        val room2 = test.createRoom()
+        val room3 = test.createRoom()
+        val room4 = test.createRoom()
+        val room5 = test.createRoom()
+        transaction {
+            room1.regenLevel = RegenLevel.NONE
+            room2.regenLevel = RegenLevel.LOW
+            room3.regenLevel = RegenLevel.NORMAL
+            room4.regenLevel = RegenLevel.HIGH
+            room5.regenLevel = RegenLevel.FULL
+        }
 
         // when
-        mob.hp = 1
+        transaction { mob.hp = 1 }
         test.putMobInRoom(mob, room1)
         test.regenMobs()
-        val gain1 = mob.hp
+        val gain1 = transaction { mob.hp }
 
-        mob.hp = 1
+        transaction { mob.hp = 1 }
         test.putMobInRoom(mob, room2)
         test.regenMobs()
-        val gain2 = mob.hp
+        val gain2 = transaction { mob.hp }
 
-        mob.hp = 1
+        transaction { mob.hp = 1 }
         test.putMobInRoom(mob, room3)
         test.regenMobs()
-        val gain3 = mob.hp
+        val gain3 = transaction { mob.hp }
 
-        mob.hp = 1
+        transaction { mob.hp = 1 }
         test.putMobInRoom(mob, room4)
         test.regenMobs()
-        val gain4 = mob.hp
+        val gain4 = transaction { mob.hp }
 
-        mob.hp = 1
+        transaction { mob.hp = 1 }
         test.putMobInRoom(mob, room5)
         test.regenMobs()
-        val gain5 = mob.hp
+        val gain5 = transaction { mob.hp }
 
         // then
         assertThat(gain5).isGreaterThan(gain4)
