@@ -146,7 +146,7 @@ class TestService(
             }
         }
         transaction {
-            mob.equipped.plus(weapon(mob))
+            weapon(mob)
         }
         putMobInRoom(mob, getStartRoom())
 
@@ -283,6 +283,7 @@ class TestService(
             type = ItemType.EQUIPMENT
             position = Position.WEAPON
             mobInventory = mob
+            mobEquipped = mob
             attributes = AttributesDAO.new {
                 hit = 2
                 dam = 1

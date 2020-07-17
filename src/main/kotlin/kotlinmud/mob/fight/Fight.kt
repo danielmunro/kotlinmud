@@ -114,25 +114,27 @@ class Fight(private val mob1: MobDAO, private val mob2: MobDAO) {
         }
     }
 
-    private fun rollEvasiveSkills(defender: MobDAO): SkillType? {
+    private fun rollEvasiveSkills(mob: MobDAO): SkillType? {
         return transaction {
-            defender.equipped.find { it.position == Position.SHIELD }?.let { _ ->
-                defender.skills.find { it.type == SkillType.SHIELD_BLOCK }?.let {
+//            val itemResult = Items.select { Items.mobEquippedId eq mob.id and (Items.position eq Position.SHIELD.toString()) }.singleOrNull()
+//            val skillResult = Skills.select { Skills.mobId eq mob.id and (Skills.type eq SkillType.SHIELD_BLOCK.toString()) }.singleOrNull()
+            mob.equipped.find { it.position == Position.SHIELD }?.let {
+                mob.skills.find { it.type == SkillType.SHIELD_BLOCK }?.let {
                     if (percentRoll() < it.level / 3) {
                         return@transaction SkillType.SHIELD_BLOCK
                     }
                 }
             }
 
-            defender.equipped.find { it.position == Position.WEAPON }?.let { _ ->
-                defender.skills.find { it.type == SkillType.PARRY }?.let {
+            mob.equipped.find { it.position == Position.WEAPON }?.let { _ ->
+                mob.skills.find { it.type == SkillType.PARRY }?.let {
                     if (percentRoll() < it.level / 3) {
                         return@transaction SkillType.PARRY
                     }
                 }
             }
 
-            defender.skills.find { it.type == SkillType.DODGE }?.let {
+            mob.skills.find { it.type == SkillType.DODGE }?.let {
                 if (percentRoll() < it.level / 3) {
                     return@transaction SkillType.DODGE
                 }
