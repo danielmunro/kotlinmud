@@ -11,7 +11,6 @@ import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
-import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
@@ -132,14 +131,17 @@ class ItemService {
                 attributes = AttributesDAO.new {}
             }
         }
-        transferAllItems(mob, item)
+        transferAllItemsToItem(mob, item)
         return item
     }
 
-    private fun transferAllItems(from: IntEntity, to: IntEntity) {
+    private fun transferAllItemsToItem(from: HasInventory, to: HasInventory) {
         transaction {
-            Items.update({ mobInventoryId eq from.id }) {
-                it[mobInventoryId] = to.id
+            Items.update({ getColumn(from) eq from.id }) {
+                it[mobEquippedId] = null
+                it[mobInventoryId] = null
+                it[roomId] = null
+                it[itemId] = to.id
             }
         }
     }

@@ -21,7 +21,6 @@ import kotlinmud.mob.race.factory.createRaceFromType
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.table.Skills
-import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
