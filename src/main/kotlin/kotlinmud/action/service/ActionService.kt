@@ -97,7 +97,7 @@ class ActionService(
     private fun executeSkill(request: Request, skill: SkillAction): Response {
         return dispositionCheck(request, skill)
             ?: deductCosts(request.mob, skill)
-            ?: skillRoll(request.mob.skills.find { it.type == skill.type }?.level ?: error("no skill"))
+            ?: skillRoll(transaction { request.mob.skills.find { it.type == skill.type }?.level } ?: error("no skill"))
             ?: callInvokable(request, skill, buildActionContextList(request, skill))
     }
 

@@ -1,7 +1,7 @@
 package kotlinmud.affect.impl
 
 import kotlinmud.affect.dao.AffectDAO
-import kotlinmud.affect.factory.affect
+import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
@@ -28,6 +28,6 @@ class BlindAffect : Affect {
     }
 
     override fun createInstance(timeout: Int): AffectDAO {
-        return affect(type, timeout, AttributesDAO.new { dexterity = -1 })
+        return createAffect(type, timeout, AttributesDAO.new { dexterity = -1 })
     }
 }

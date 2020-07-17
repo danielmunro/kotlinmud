@@ -1,7 +1,7 @@
 package kotlinmud.affect.impl
 
 import kotlinmud.affect.dao.AffectDAO
-import kotlinmud.affect.factory.affect
+import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.helper.Noun
@@ -27,6 +27,6 @@ class BerserkAffect : Affect {
     }
 
     override fun createInstance(timeout: Int): AffectDAO {
-        return affect(type, timeout)
+        return createAffect(type, timeout)
     }
 }

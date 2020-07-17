@@ -5,7 +5,7 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import kotlin.test.Test
-import kotlinmud.affect.factory.affect
+import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
@@ -22,7 +22,7 @@ class MobServiceTest {
         val initial = 10
 
         // given
-        transaction { affect(AffectType.BLESS, initial).mob = mob }
+        transaction { createAffect(AffectType.BLESS, initial).mob = mob }
 
         // when
         testService.decrementAffects()
@@ -40,7 +40,7 @@ class MobServiceTest {
         val initial = 0
 
         // given
-        transaction { affect(AffectType.BLESS, initial).mob = mob }
+        transaction { createAffect(AffectType.BLESS, initial).mob = mob }
 
         // when
         testService.decrementAffects()

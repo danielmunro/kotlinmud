@@ -5,7 +5,7 @@ import assertk.assertions.contains
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import kotlinmud.affect.dao.AffectDAO
-import kotlinmud.affect.factory.affect
+import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.type.DoorDisposition
@@ -42,7 +42,7 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val affect = affect(AffectType.BLIND)
+        val affect = createAffect(AffectType.BLIND)
 
         // given
         transaction { affect.mob = mob }

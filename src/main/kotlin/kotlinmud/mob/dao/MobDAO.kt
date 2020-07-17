@@ -230,15 +230,6 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         }
     }
 
-//    fun removeWeapon() {
-//        val id = this.id
-//        transaction {
-//            Items.update({ Items.mobEquippedId eq id and (Items.position eq Position.WEAPON.value) }) {
-//                it[mobEquippedId] = null
-//            }
-//        }
-//    }
-
     override fun toString(): String {
         return name
     }

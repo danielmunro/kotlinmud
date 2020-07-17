@@ -19,6 +19,7 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.SpecializationType
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class Bite : SkillAction {
     override val type: SkillType = SkillType.BITE
@@ -37,8 +38,10 @@ class Bite : SkillAction {
     override fun invoke(actionContextService: ActionContextService): Response {
         val target = actionContextService.get<MobDAO>(Syntax.TARGET_MOB)
         val limit = (actionContextService.getLevel() / 10).coerceAtLeast(2)
-        target.hp -= Random.nextInt(1, limit) +
-                if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)
+        transaction {
+            target.hp -= Random.nextInt(1, limit) +
+                    if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)
+        }
         return actionContextService.createOkResponse(
             MessageBuilder()
                 .toActionCreator("You bite $target.")

@@ -5,7 +5,7 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun affect(affectType: AffectType, timeout: Int? = null, attributes: AttributesDAO? = null): AffectDAO {
+fun createAffect(affectType: AffectType, timeout: Int? = null, attributes: AttributesDAO? = null): AffectDAO {
     return transaction {
         AffectDAO.new {
             type = affectType
@@ -16,5 +16,5 @@ fun affect(affectType: AffectType, timeout: Int? = null, attributes: AttributesD
 }
 
 fun affects(affectType: AffectType): MutableList<AffectDAO> {
-    return mutableListOf(affect(affectType))
+    return mutableListOf(createAffect(affectType))
 }
