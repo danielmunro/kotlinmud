@@ -3,7 +3,7 @@ package kotlinmud.path
 import kotlinmud.room.dao.RoomDAO
 
 class Pathfinder(private val src: RoomDAO, private val dest: RoomDAO) {
-    private val explored = mutableListOf<Explored>()
+    private val explored = mutableListOf<Int>()
 
     fun find(): List<RoomDAO> {
         return proceed(mutableListOf(src), 0) ?: listOf()
@@ -14,13 +14,11 @@ class Pathfinder(private val src: RoomDAO, private val dest: RoomDAO) {
             return null
         }
         rooms.forEach {
-            if (it == dest) {
+            if (it.id.value == dest.id.value) {
                 return rooms.toList()
             }
-            if (!roomExplored(it)) {
-                if (!roomSeen(it)) {
-                    explored.add(Explored(it, true))
-                }
+            if (!roomSeen(it)) {
+                explored.add(it.id.value)
                 it.getAllExits().forEach { exit ->
                     val roomsToProceed = rooms.toMutableList()
                     roomsToProceed.add(exit.value)
@@ -36,10 +34,6 @@ class Pathfinder(private val src: RoomDAO, private val dest: RoomDAO) {
     }
 
     private fun roomSeen(room: RoomDAO): Boolean {
-        return explored.find { it.room == room } != null
-    }
-
-    private fun roomExplored(room: RoomDAO): Boolean {
-        return explored.find { it.room == room && it.explored } != null
+        return explored.find { it == room.id.value } != null
     }
 }

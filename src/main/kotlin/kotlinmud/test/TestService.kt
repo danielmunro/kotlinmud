@@ -104,14 +104,6 @@ class TestService(
         mobService.putMobInRoom(mob, room)
     }
 
-    fun respawnWorld() {
-//        respawnService.respawn()
-    }
-
-    fun addNewRoom(mob: MobDAO) {
-        mobService.createNewRoom(mob)
-    }
-
     fun getStartRoom(): RoomDAO {
         return room
     }

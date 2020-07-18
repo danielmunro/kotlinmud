@@ -13,13 +13,13 @@ class GetFromItemTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val room = test.getStartRoom()
 
         // given
         val itemWithInventory = test.createItem()
         val item = test.createItem()
         transaction {
             itemWithInventory.isContainer = true
+            itemWithInventory.mobInventory = mob
             item.container = itemWithInventory
         }
 
@@ -42,6 +42,7 @@ class GetFromItemTest {
         val item = test.createItem()
         transaction {
             itemWithInventory.isContainer = true
+            itemWithInventory.mobInventory = mob
             item.container = itemWithInventory
         }
 

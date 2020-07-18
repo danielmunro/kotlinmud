@@ -155,9 +155,11 @@ class MobService(
     }
 
     fun getRoomById(id: Int): RoomDAO? {
-        return RoomDAO.wrapRow(
-            Rooms.select { Rooms.id eq id }.first()
-        )
+        return transaction {
+            RoomDAO.wrapRow(
+                Rooms.select { Rooms.id eq id }.first()
+            )
+        }
     }
 
     fun addMob(mob: MobDAO) {

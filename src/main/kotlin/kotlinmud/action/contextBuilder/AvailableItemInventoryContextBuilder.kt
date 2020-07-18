@@ -27,7 +27,7 @@ class AvailableItemInventoryContextBuilder(private val mob: MobDAO, private val 
         } ?: Context<Any>(
             syntax,
             Status.ERROR,
-            "you don't see anywhere to put that."
+            "you don't that anywhere."
         )
     }
 }

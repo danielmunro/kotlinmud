@@ -12,6 +12,7 @@ import kotlinmud.path.Pathfinder
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.type.DoorDisposition
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobController(
     private val mobService: MobService,
@@ -50,21 +51,33 @@ class MobController(
     }
 
     private fun proceedRoute() {
+        transaction {
+            if (mob.lastRoute == null) {
+                mob.lastRoute = 0
+            }
+        }
         val nextRoomId = mob.route?.get(mob.lastRoute!!)!!
         val currentRoom = mobService.getRoomForMob(mob)
         val nextRoom = mobService.getRoomById(nextRoomId)!!
-        if (currentRoom.id.value == nextRoomId) {
-            mob.lastRoute = mob.lastRoute?.plus(1)
-            if (mob.lastRoute == mob.route?.size) {
-                mob.lastRoute = 0
+        val currentRoomId = transaction { currentRoom.id.value }
+        if (currentRoomId == nextRoomId) {
+            transaction {
+                mob.lastRoute = mob.lastRoute?.plus(1)
+                if (mob.lastRoute == mob.route?.size) {
+                    mob.lastRoute = 0
+                }
             }
             return proceedRoute()
         }
         logger.debug("mob $mob moving on route, index: ${mob.lastRoute}")
         val path = Pathfinder(currentRoom, nextRoom)
         val rooms = path.find()
-        val nextMove = currentRoom.getAllExits().entries.find { it.value == rooms[1] }!!
-        val door = currentRoom.getDoors().entries.find { it.key == nextMove.key }!!.value
+        val nextMove = currentRoom.getAllExits().entries.find {
+            it.value.id.value == rooms[1].id.value
+        }!!
+        val door = currentRoom.getDoors().entries.find {
+            it.key == nextMove.key
+        }?.value
         if (openDoorIfExistsAndClosed(currentRoom, door)) {
             mobService.moveMob(mob, nextMove.value, nextMove.key)
         }

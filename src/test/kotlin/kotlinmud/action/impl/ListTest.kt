@@ -12,7 +12,6 @@ class ListTest {
     fun testListSanity() {
         // setup
         val test = createTestService()
-        test.respawnWorld()
         val mob = test.createMob()
 
         // given
