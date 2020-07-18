@@ -74,6 +74,6 @@ class PutTest {
         val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithNoInventory)}")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you don't see anywhere to put that.")
+        assertThat(response.message.toActionCreator).isEqualTo("you don't see that anywhere.")
     }
 }

@@ -79,11 +79,11 @@ class ActionContextService(
     }
 
     fun addGold(amount: Int) {
-        getMob().gold += amount
+        transaction { getMob().gold += amount }
     }
 
     fun deductGold(amount: Int) {
-        getMob().gold -= amount
+        transaction { getMob().gold -= amount }
     }
 
     fun getRoom(): RoomDAO {

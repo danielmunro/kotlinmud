@@ -8,6 +8,7 @@ import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.mob.type.JobType
+import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createSellAction(): Action {
     return Action(Command.SELL, mustBeAlert(), itemInInventory()) {
@@ -15,7 +16,7 @@ fun createSellAction(): Action {
         val shopkeeper = it.getMobsInRoom().find { mob -> mob.job == JobType.SHOPKEEPER }!!
         it.giveItemToMob(item, shopkeeper)
         it.addGold(item.worth)
-        shopkeeper.gold -= item.worth
+        transaction { shopkeeper.gold -= item.worth }
         it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you sell $item to $shopkeeper for ${item.worth} gold.")
