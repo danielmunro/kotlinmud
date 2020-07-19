@@ -23,10 +23,9 @@ class AvailableDrinkContextBuilder(
             ?: itemService.findByRoom(room, word)
             ?: return notFound(syntax)
 
-        transaction {
-            target.affects.find { it.type == AffectType.INVISIBILITY }?.let {
-                return@transaction notFound(syntax)
-            }
+        val affect = transaction { target.affects.find { it.type == AffectType.INVISIBILITY } }
+        if (affect != null) {
+            return notFound(syntax)
         }
 
         if (target.drink == Drink.NONE) {

@@ -210,6 +210,10 @@ class TestService(
         return MakeItemService(amount)
     }
 
+    fun getMobCardForMob(mob: MobDAO): MobCard? {
+        return playerService.findMobCardByName(mob.name)
+    }
+
     fun getMobRooms(): List<MobRoom> {
         return mobService.getMobRooms()
     }
