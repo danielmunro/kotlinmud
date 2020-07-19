@@ -2,14 +2,12 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.affect.table.Affects.type
-import kotlinmud.affect.type.AffectType
+import kotlinmud.affect.helper.isInvisible
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.room.dao.RoomDAO
-import org.jetbrains.exposed.sql.transactions.transaction
 
 const val notFound = "you don't see anything like that here."
 
@@ -23,8 +21,7 @@ class AvailableDrinkContextBuilder(
             ?: itemService.findByRoom(room, word)
             ?: return notFound(syntax)
 
-        val affect = transaction { target.affects.find { it.type == AffectType.INVISIBILITY } }
-        if (affect != null) {
+        if (isInvisible(target)) {
             return notFound(syntax)
         }
 
