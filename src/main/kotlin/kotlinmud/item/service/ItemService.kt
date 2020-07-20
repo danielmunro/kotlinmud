@@ -59,16 +59,6 @@ class ItemService {
         }
     }
 
-    fun findAllByRoom(room: RoomDAO): List<ItemDAO> {
-        return transaction {
-            ItemDAO.wrapRows(
-                Items.select {
-                    roomId eq room.id
-                }
-            ).toList()
-        }
-    }
-
     fun getItemGroups(mob: MobDAO): Map<EntityID<Int>, List<ItemDAO>> {
         return findAllByOwner(mob).groupBy { it.id }
     }
@@ -105,7 +95,7 @@ class ItemService {
             Items.update({ decayTimer.isNotNull() }) {
                 decayTimer less 1
             }
-            Items.deleteWhere(9999 as Int, 0 as Int) {
+            Items.deleteWhere(null as Int?, null as Int?) {
                 decayTimer.isNotNull() and (decayTimer less 0)
             }
         }

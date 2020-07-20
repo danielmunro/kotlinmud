@@ -53,7 +53,7 @@ class ActionContextService(
     }
 
     fun harvest(resource: ResourceDAO): List<ItemDAO> {
-        return craftingService.harvest(resource, request.room, request.mob)
+        return craftingService.harvest(resource, request.mob)
     }
 
     fun getWeather(): Weather {

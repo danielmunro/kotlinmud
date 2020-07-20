@@ -9,7 +9,6 @@ import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.room.dao.ResourceDAO
-import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.table.Resources
 import kotlinmud.world.resource.Resource
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -67,15 +66,13 @@ class CraftingService(
         return products
     }
 
-    fun harvest(resource: ResourceDAO, room: RoomDAO, mob: MobDAO): List<ItemDAO> {
+    fun harvest(resource: ResourceDAO, mob: MobDAO): List<ItemDAO> {
         return transaction {
-            Resources.deleteWhere(null, 0 as Int) { Resources.id eq resource.id }
+            Resources.deleteWhere(null as Int?, null as Int?) { Resources.id eq resource.id }
             resources.find { it.resourceType == resource.type }?.let {
                 val products = it.createProduct()
-                transaction {
-                    products.forEach { item ->
-                        item.mobInventory = mob
-                    }
+                products.forEach { item ->
+                    item.mobInventory = mob
                 }
                 return@let products
             } ?: throw HarvestException()

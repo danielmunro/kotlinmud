@@ -5,7 +5,7 @@ import kotlinmud.attributes.table.Attributes
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.AddExperience
-import kotlinmud.mob.model.Appetite
+import kotlinmud.mob.race.type.Race
 import kotlinmud.player.table.MobCards
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
@@ -47,8 +47,8 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
         return AddExperience(experience, didLevel)
     }
 
-    fun getAppetite(): Appetite {
-        return Appetite.fromRace(transaction { mob.race })
+    fun isFull(race: Race): Boolean {
+        return hunger == race.maxAppetite || thirst == race.maxThirst
     }
 
     private fun getExperienceToLevel(level: Int): Int {
