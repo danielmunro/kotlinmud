@@ -18,5 +18,5 @@ object Attributes : IntIdTable() {
     val acSlash = integer("acSlash").default(0)
     val acPierce = integer("acPierce").default(0)
     val acMagic = integer("acMagic").default(0)
-    val mobCardId = reference("mobCardId", MobCards)
+    val mobCardId = reference("mobCardId", MobCards).nullable()
 }

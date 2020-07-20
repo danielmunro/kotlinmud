@@ -17,7 +17,7 @@ fun createTrainAction(): Action {
         card.trains -= 1
         transaction {
             val attributes = AttributesDAO.new {
-                mobCard = card.id
+                mobCard = card
             }
             attributes.setAttribute(attribute, if (attribute.isVitals()) 10 else 1)
         }

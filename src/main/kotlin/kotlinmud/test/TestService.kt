@@ -165,12 +165,13 @@ class TestService(
         val mob = createMob()
         transaction {
             mob.isNpc = false
-            MobCardDAO.new {
+            val card = MobCardDAO.new {
                 experiencePerLevel = 1000
                 hunger = mob.race.maxAppetite
                 thirst = mob.race.maxThirst
                 this.mob = mob
             }
+            mob.mobCard = card
         }
         return mob
     }

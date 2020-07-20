@@ -87,7 +87,7 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     val skills by SkillDAO referrersOn Skills.mobId
     override val affects by AffectDAO optionalReferrersOn Affects.mobId
     val player by PlayerDAO optionalReferencedOn Mobs.playerId
-    val mobCard by MobCardDAO optionalReferencedOn Mobs.mobCardId
+    var mobCard by MobCardDAO optionalReferencedOn Mobs.mobCardId
 
     fun isStanding(): Boolean {
         return disposition == Disposition.STANDING

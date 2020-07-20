@@ -33,7 +33,7 @@ class ClientConnectedObserver(
     private fun loginDummyMob(client: Client) {
         val mob = mobBuilder("foo")
         mobService.addMob(mob)
-        val player = playerService.createNewPlayerWithEmailAddress("dan@danmunro.com")
+        playerService.createNewPlayerWithEmailAddress("dan@danmunro.com")
         transaction {
             MobCardDAO.new {
                 trains = 5
@@ -42,7 +42,6 @@ class ClientConnectedObserver(
                 thirst = mob.race.maxThirst
                 experiencePerLevel = 1000
                 this.mob = mob
-                this.player = player
             }
         }
         client.mob = mob

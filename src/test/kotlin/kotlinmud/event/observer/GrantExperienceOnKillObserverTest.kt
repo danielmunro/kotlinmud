@@ -21,7 +21,6 @@ class GrantExperienceOnKillObserverTest {
         val mob2 = testService.createPlayerMob()
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
-        val mobCard1 = testService.findMobCardByName(mob1.name)!!
 
         // given
         transaction { mob2.disposition = Disposition.DEAD }
@@ -30,8 +29,8 @@ class GrantExperienceOnKillObserverTest {
         testService.publish(Event(EventType.KILL, fight))
 
         // then
-        assertThat(mobCard1.experience).isGreaterThan(0)
-        assertThat(mob1.level).isEqualTo(1)
+        assertThat(transaction { mob1.mobCard!!.experience }).isGreaterThan(0)
+        assertThat(transaction { mob1.level }).isEqualTo(1)
     }
 
     @Test
@@ -46,7 +45,7 @@ class GrantExperienceOnKillObserverTest {
         val mobCard1 = testService.findMobCardByName(mob1.name)!!
 
         // given
-        mobCard1.experience = 2000
+        transaction { mobCard1.experience = 2000 }
         testService.publish(Event(EventType.KILL, fight))
         val addExperience = mobCard1.addExperience(mob1.level, 1)
 

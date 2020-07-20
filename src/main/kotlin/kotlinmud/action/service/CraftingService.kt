@@ -17,8 +17,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class CraftingService(
-    private val itemService: ItemService,
-    private val recipeList: List<Recipe>
+    private val itemService: ItemService
 ) {
     private val resources: List<Resource> = createResourceList()
     companion object {

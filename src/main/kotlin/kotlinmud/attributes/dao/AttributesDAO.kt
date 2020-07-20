@@ -2,6 +2,7 @@ package kotlinmud.attributes.dao
 
 import kotlinmud.attributes.table.Attributes
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.player.dao.MobCardDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -24,7 +25,7 @@ class AttributesDAO(id: EntityID<Int>) : IntEntity(id) {
     var acSlash by Attributes.acSlash
     var acPierce by Attributes.acPierce
     var acMagic by Attributes.acMagic
-    var mobCard by Attributes.mobCardId
+    var mobCard by MobCardDAO optionalReferencedOn Attributes.mobCardId
 
     fun getAttribute(attribute: Attribute): Int {
         return transaction {

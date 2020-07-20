@@ -234,7 +234,7 @@ class MobTest {
     fun testClericSaveBonus() {
         // setup
         val testService = createTestService()
-        val prob = ProbabilityTest(10000)
+        val prob = ProbabilityTest()
         val mob1 = testService.createMob()
         val mob2 = testService.createMob()
 

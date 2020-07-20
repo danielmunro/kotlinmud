@@ -31,8 +31,9 @@ class EatTest {
             item.mobInventory = mob
             val affect = StunnedAffect().createInstance(timeout)
             affect.item = item
+            mobCard.hunger = 0
+            mobCard.thirst = 0
         }
-        mobCard.getAppetite().decrement()
 
         // when
         val response = test.runAction(mob, "eat pie")

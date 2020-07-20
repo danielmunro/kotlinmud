@@ -21,7 +21,8 @@ class MobSelectAuthStep(
 
     override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
         return authStepService.findMobCardByName(request.input)?.let {
-            if (mobCard?.player?.id?.value == player.id.value) {
+            val mob = player.mobs.find { mob -> mob.mobCard?.id?.value == mobCard?.id?.value }
+            if (mob != null) {
                 mobCard = it
                 PreAuthResponse(request, IOStatus.OK, "ok")
             } else {

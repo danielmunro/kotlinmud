@@ -6,7 +6,6 @@ import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.AddExperience
 import kotlinmud.mob.model.Appetite
-import kotlinmud.mob.table.Mobs
 import kotlinmud.player.table.MobCards
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
@@ -25,9 +24,8 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     var hunger by MobCards.hunger
     var thirst by MobCards.thirst
     var skillPoints by MobCards.skillPoints
-    val trainedAttributes by AttributesDAO referrersOn Attributes.mobCardId
-    var mob by MobDAO optionalReferencedOn Mobs.mobCardId
-    var player by PlayerDAO optionalReferencedOn Mobs.playerId
+    val trainedAttributes by AttributesDAO optionalReferrersOn Attributes.mobCardId
+    var mob by MobDAO referencedOn MobCards.mobId
 
     fun calcTrained(attribute: Attribute): Int {
         return trainedAttributes.fold(0) { acc, it -> acc + it.getAttribute(attribute) }
@@ -50,8 +48,7 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     }
 
     fun getAppetite(): Appetite {
-        val race = transaction { mob!!.race }
-        return Appetite(race.maxAppetite, race.maxThirst, hunger, thirst)
+        return Appetite.fromRace(transaction { mob.race })
     }
 
     private fun getExperienceToLevel(level: Int): Int {
