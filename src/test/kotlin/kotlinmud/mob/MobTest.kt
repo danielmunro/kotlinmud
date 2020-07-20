@@ -11,8 +11,8 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.type.Position
-import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.fight.Fight
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Elf
 import kotlinmud.mob.race.impl.Faerie
 import kotlinmud.mob.race.impl.Goblin
@@ -91,7 +91,8 @@ class MobTest {
         transaction { mob2.race = Elf() }
 
         // when
-        prob.test({ mob1.savesAgainst(DamageType.NONE) }, { mob2.savesAgainst(DamageType.NONE) })
+        prob.test({ mob1.savesAgainst(DamageType.NONE) }, { mob2.savesAgainst(
+            DamageType.NONE) })
 
         // then
         assertThat(prob.getOutcome1()).isLessThan(prob.getOutcome2())
@@ -111,7 +112,8 @@ class MobTest {
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(
+                DamageType.NONE))
         }
 
         // then
@@ -136,7 +138,8 @@ class MobTest {
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(
+                DamageType.NONE))
         }
 
         // then
@@ -159,7 +162,8 @@ class MobTest {
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(
+                DamageType.NONE))
         }
 
         // then
@@ -179,7 +183,8 @@ class MobTest {
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(
+                DamageType.NONE))
         }
 
         // then
@@ -202,7 +207,8 @@ class MobTest {
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.POISON), mob2.savesAgainst(DamageType.POISON))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.POISON), mob2.savesAgainst(
+                DamageType.POISON))
         }
 
         // then
@@ -223,7 +229,8 @@ class MobTest {
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(
+                DamageType.NONE))
         }
 
         // then
@@ -243,7 +250,8 @@ class MobTest {
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(
+                DamageType.NONE))
         }
 
         // then

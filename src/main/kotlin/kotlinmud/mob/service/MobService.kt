@@ -20,9 +20,9 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Attack
-import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.helper.getDispositionRegenRate
 import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.model.MobRoom
@@ -32,7 +32,6 @@ import kotlinmud.room.helper.oppositeDirection
 import kotlinmud.room.model.NewRoom
 import kotlinmud.room.table.Rooms
 import kotlinmud.room.type.Direction
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNotNull
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.minus
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere

@@ -6,6 +6,9 @@ import kotlinmud.helper.math.dN
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.type.Position
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.fight.type.AttackResult
+import kotlinmud.mob.fight.type.DamageType
+import kotlinmud.mob.fight.type.FightStatus
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import org.jetbrains.exposed.sql.transactions.transaction

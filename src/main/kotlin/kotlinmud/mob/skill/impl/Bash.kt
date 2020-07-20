@@ -12,7 +12,7 @@ import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.fight.DamageType
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.LearningDifficulty

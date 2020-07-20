@@ -15,8 +15,8 @@ import kotlinmud.item.table.Items
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
 import kotlinmud.mob.constant.BASE_STAT
-import kotlinmud.mob.fight.AttackType
-import kotlinmud.mob.fight.DamageType
+import kotlinmud.mob.fight.type.AttackType
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.factory.createRaceFromType
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.skill.dao.SkillDAO

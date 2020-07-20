@@ -13,7 +13,7 @@ import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.fight.DamageType
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity

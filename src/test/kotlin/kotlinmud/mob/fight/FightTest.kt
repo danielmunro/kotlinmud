@@ -5,6 +5,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotEqualTo
 import kotlinmud.item.type.Position
+import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition

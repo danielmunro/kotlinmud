@@ -2,7 +2,7 @@ package kotlinmud.mob.race.impl
 
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.factory.createStats
-import kotlinmud.mob.fight.DamageType
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.type.Form

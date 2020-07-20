@@ -1,7 +1,7 @@
 package kotlinmud.mob.race.type
 
 import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.mob.fight.DamageType
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size
 
