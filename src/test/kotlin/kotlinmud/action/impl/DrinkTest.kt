@@ -32,7 +32,7 @@ class DrinkTest {
             val affect = DrunkAffect().createInstance(timeout)
             affect.item = item
         }
-        mobCard.appetite.decrement()
+        mobCard.getAppetite().decrement()
 
         // when
         val response = test.runAction(mob, "drink beer")
@@ -56,7 +56,7 @@ class DrinkTest {
         val mobCard = test.getMobCardForMob(mob)!!
 
         // given
-        mobCard.appetite.decrement()
+        mobCard.getAppetite().decrement()
         transaction {
             drink.name = "a glass of milk"
             drink.mobInventory = mob

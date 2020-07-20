@@ -12,6 +12,7 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class ClientConnectedObserver(
     private val playerService: PlayerService,
@@ -33,13 +34,16 @@ class ClientConnectedObserver(
         val mob = mobBuilder("foo")
         mobService.addMob(mob)
         val player = playerService.createNewPlayerWithEmailAddress("dan@danmunro.com")
-        val mobCard = MobCardDAO.new {
-            trains = 5
-            practices = 5
-            hunger = mob.race.maxAppetite
-            thirst = mob.race.maxThirst
-            experiencePerLevel = 1000
-            this.mob = mob
+        transaction {
+            MobCardDAO.new {
+                trains = 5
+                practices = 5
+                hunger = mob.race.maxAppetite
+                thirst = mob.race.maxThirst
+                experiencePerLevel = 1000
+                this.mob = mob
+                this.player = player
+            }
         }
         client.mob = mob
         actionService.run(

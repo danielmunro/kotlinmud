@@ -13,7 +13,7 @@ import kotlinmud.item.helper.applyAffectFromItem
 fun createEatAction(): Action {
     return Action(Command.EAT, mustBeAwake(), foodInInventory()) {
         val item = it.get<ItemDAO>(Syntax.AVAILABLE_FOOD)
-        val appetite = it.getMobCard().appetite
+        val appetite = it.getMobCard().getAppetite()
 
         if (appetite.isFull()) {
             return@Action it.createErrorResponse(messageToActionCreator("you are full."))

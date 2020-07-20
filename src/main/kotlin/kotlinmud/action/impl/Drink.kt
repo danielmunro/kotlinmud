@@ -14,7 +14,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 fun createDrinkAction(): Action {
     return Action(Command.DRINK, mustBeAwake(), drink()) {
         val item = it.get<ItemDAO>(Syntax.AVAILABLE_DRINK)
-        val appetite = it.getMobCard().appetite
+        val appetite = it.getMobCard().getAppetite()
 
         if (appetite.isFull()) {
             return@Action it.createErrorResponse(messageToActionCreator("you are full."))

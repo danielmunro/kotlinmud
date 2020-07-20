@@ -1,10 +1,10 @@
 package kotlinmud.mob.factory
 
 import Horse
+import kotlinmud.attributes.constant.startingHp
+import kotlinmud.attributes.constant.startingMana
+import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.attributes.model.startingHp
-import kotlinmud.attributes.model.startingMana
-import kotlinmud.attributes.model.startingMv
 import kotlinmud.helper.math.coinFlip
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.constant.ZOMBIE_SAVING_THROWS

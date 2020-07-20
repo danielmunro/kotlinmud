@@ -4,8 +4,6 @@ import kotlinmud.action.helper.mustBeStanding
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.attributes.model.isVitals
-import kotlinmud.attributes.model.setAttribute
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.factory.trainable
 import kotlinmud.io.model.MessageBuilder
@@ -21,7 +19,7 @@ fun createTrainAction(): Action {
             val attributes = AttributesDAO.new {
                 mobCard = card.id
             }
-            attributes.setAttribute(attribute, if (isVitals(attribute)) 10 else 1)
+            attributes.setAttribute(attribute, if (attribute.isVitals()) 10 else 1)
         }
         it.createOkResponse(
             MessageBuilder()

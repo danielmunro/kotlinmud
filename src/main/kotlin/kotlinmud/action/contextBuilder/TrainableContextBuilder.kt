@@ -2,7 +2,6 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.attributes.model.isVitals
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
@@ -42,7 +41,7 @@ class TrainableContextBuilder(private val mobService: MobService, private val pl
             )
         }
         val amount = playerService.findMobCardByName(mob.name)!!.calcTrained(attribute)
-        val maxAmount = if (isVitals(attribute)) 10 else 4
+        val maxAmount = if (attribute.isVitals()) 10 else 4
         if (amount == maxAmount) {
             return Context(
                 syntax,

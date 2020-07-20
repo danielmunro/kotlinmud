@@ -2,10 +2,10 @@ package kotlinmud.test
 
 import java.nio.channels.SocketChannel
 import kotlinmud.action.service.ActionService
+import kotlinmud.attributes.constant.startingHp
+import kotlinmud.attributes.constant.startingMana
+import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.attributes.model.startingHp
-import kotlinmud.attributes.model.startingMana
-import kotlinmud.attributes.model.startingMv
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.db.applySchema
@@ -31,7 +31,6 @@ import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.dao.MobCardDAO
-import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
@@ -162,10 +161,6 @@ class TestService(
         return mobService.createCorpseFrom(mob)
     }
 
-    fun createPlayer(): PlayerDAO {
-        return playerService.createNewPlayerWithEmailAddress(fixtureService.faker.breakingBad.character() + "@hotmail.com")
-    }
-
     fun createPlayerMob(): MobDAO {
         val mob = createMob()
         transaction {
@@ -174,7 +169,7 @@ class TestService(
                 experiencePerLevel = 1000
                 hunger = mob.race.maxAppetite
                 thirst = mob.race.maxThirst
-                this.mob = mob.id
+                this.mob = mob
             }
         }
         return mob

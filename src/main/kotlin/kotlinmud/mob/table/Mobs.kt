@@ -1,9 +1,9 @@
 package kotlinmud.mob.table
 
 import kotlinmud.affect.table.Affects
-import kotlinmud.attributes.model.startingHp
-import kotlinmud.attributes.model.startingMana
-import kotlinmud.attributes.model.startingMv
+import kotlinmud.attributes.constant.startingHp
+import kotlinmud.attributes.constant.startingMana
+import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.table.Attributes
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.type.Disposition
