@@ -1,22 +1,18 @@
 package kotlinmud.attributes.factory
 
-import kotlinmud.attributes.model.Attributes
+import kotlinmud.attributes.dao.AttributesDAO
+import org.jetbrains.exposed.sql.transactions.transaction
 
-fun createStats(str: Int, int: Int, wis: Int, dex: Int, con: Int, hit: Int = 0, dam: Int = 0): Attributes {
-    return Attributes(
-        0,
-        0,
-        0,
-        str,
-        int,
-        wis,
-        dex,
-        con,
-        hit,
-        dam,
-        0,
-        0,
-        0,
-        0
-    )
+fun createStats(str: Int, int: Int, wis: Int, dex: Int, con: Int, hit: Int = 0, dam: Int = 0): AttributesDAO {
+    return transaction {
+        AttributesDAO.new {
+            strength = str
+            intelligence = int
+            wisdom = wis
+            dexterity = dex
+            constitution = con
+            this.hit = hit
+            this.dam = dam
+        }
+    }
 }

@@ -22,7 +22,6 @@ import kotlinmud.event.observer.impl.RegenMobsObserver
 import kotlinmud.event.observer.impl.RemoveMobOnClientDisconnectObserver
 import kotlinmud.event.observer.impl.SaveTimeObserver
 import kotlinmud.event.observer.impl.SaveVersionsObserver
-import kotlinmud.event.observer.impl.SaveWorldObserver
 import kotlinmud.event.observer.impl.ScavengerCollectsItemsObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
@@ -37,8 +36,6 @@ import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.helper.createSkillList
-import kotlinmud.player.loader.PlayerLoader
-import kotlinmud.player.provider.loadMobCards
 import kotlinmud.player.service.EmailService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
@@ -73,8 +70,6 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         bind<PlayerService>() with singleton {
             PlayerService(
                 instance<EmailService>(),
-                PlayerLoader.loadAllPlayers().toMutableList(),
-                loadMobCards(),
                 instance<EventService>()
             )
         }
@@ -136,9 +131,6 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 DecrementAffectTimeoutTickObserver(instance<MobService>()),
                 DecrementDelayObserver(instance<ClientService>()),
                 DecrementItemDecayTimerObserver(instance<ItemService>()),
-                SaveWorldObserver(
-                    instance<PlayerService>()
-                ),
                 SaveTimeObserver(instance<TimeService>(), instance<PersistenceService>()),
                 LogTickObserver(instance<MobService>(), instance<ServerService>()),
                 PruneDeadMobsPulseObserver(instance<MobService>()),
@@ -148,7 +140,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 WimpyObserver(instance<MobService>()),
                 GrantExperienceOnKillObserver(instance<PlayerService>(), instance<ServerService>()),
                 TransferGoldOnKillObserver(),
-                IncreaseThirstAndHungerObserver(instance<PlayerService>(), instance<ServerService>()),
+                IncreaseThirstAndHungerObserver(instance<ServerService>()),
                 RegenMobsObserver(instance<MobService>()),
                 MoveMobsOnTickObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),
                 ScavengerCollectsItemsObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),

@@ -6,7 +6,7 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.player.authStep.AuthStep
 import kotlinmud.player.authStep.AuthStepService
 import kotlinmud.player.authStep.AuthorizationStep
-import kotlinmud.player.model.Player
+import kotlinmud.player.dao.PlayerDAO
 import org.slf4j.LoggerFactory
 
 class PasswordAuthStep(private val authService: AuthStepService) :
@@ -16,7 +16,7 @@ class PasswordAuthStep(private val authService: AuthStepService) :
     override val promptMessage: String = "enter OTP:"
     override val errorMessage: String = "sorry, there was an error."
     private val logger = LoggerFactory.getLogger(PasswordAuthStep::class.java)
-    private var player: Player? = null
+    private var player: PlayerDAO? = null
 
     override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
         return authService.findPlayerByOTP(request.input)?.let {

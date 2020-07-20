@@ -8,9 +8,8 @@ import kotlinmud.event.type.EventType
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.Request
 import kotlinmud.mob.factory.mobBuilder
-import kotlinmud.mob.model.Appetite
 import kotlinmud.mob.service.MobService
-import kotlinmud.player.model.MobCardBuilder
+import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
 
@@ -33,18 +32,15 @@ class ClientConnectedObserver(
     private fun loginDummyMob(client: Client) {
         val mob = mobBuilder("foo")
         mobService.addMob(mob)
-        playerService.createNewPlayerWithEmailAddress("dan@danmunro.com")
-        playerService.addMobCard(
-            MobCardBuilder()
-                .playerEmail("dan@danmunro.com")
-                .mobName("foo")
-                .trains(5)
-                .practices(5)
-                .appetite(Appetite(mob.race.maxAppetite, mob.race.maxThirst))
-                .experiencePerLevel(1000)
-                .build()
-        )
-        playerService.persist()
+        val player = playerService.createNewPlayerWithEmailAddress("dan@danmunro.com")
+        val mobCard = MobCardDAO.new {
+            trains = 5
+            practices = 5
+            hunger = mob.race.maxAppetite
+            thirst = mob.race.maxThirst
+            experiencePerLevel = 1000
+            this.mob = mob
+        }
         client.mob = mob
         actionService.run(
             Request(

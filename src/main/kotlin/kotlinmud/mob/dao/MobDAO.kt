@@ -27,6 +27,8 @@ import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.Rarity
 import kotlinmud.mob.type.SpecializationType
+import kotlinmud.player.dao.MobCardDAO
+import kotlinmud.player.dao.PlayerDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -84,6 +86,8 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     override val items by ItemDAO optionalReferrersOn Items.mobInventoryId
     val skills by SkillDAO referrersOn Skills.mobId
     override val affects by AffectDAO optionalReferrersOn Affects.mobId
+    val player by PlayerDAO optionalReferencedOn Mobs.playerId
+    val mobCard by MobCardDAO optionalReferencedOn Mobs.mobCardId
 
     fun isStanding(): Boolean {
         return disposition == Disposition.STANDING

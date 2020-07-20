@@ -6,37 +6,32 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.PlayerLoggedInEvent
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
-import kotlinmud.fs.factory.mobCardFile
-import kotlinmud.fs.factory.playerFile
 import kotlinmud.helper.logger
 import kotlinmud.helper.random.generateOTP
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
 import kotlinmud.io.type.IOStatus
+import kotlinmud.mob.table.Mobs
 import kotlinmud.player.authStep.AuthStep
 import kotlinmud.player.authStep.AuthStepService
 import kotlinmud.player.authStep.impl.CompleteAuthStep
 import kotlinmud.player.authStep.impl.EmailAuthStep
-import kotlinmud.player.mapper.mapMobCard
-import kotlinmud.player.mapper.mapPlayer
-import kotlinmud.player.model.MobCard
-import kotlinmud.player.model.Player
-import kotlinmud.player.model.PlayerBuilder
+import kotlinmud.player.dao.MobCardDAO
+import kotlinmud.player.dao.PlayerDAO
+import kotlinmud.player.table.MobCards
+import kotlinmud.player.table.Players
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class PlayerService(
     private val emailService: EmailService,
-    private val players: MutableList<Player>,
-    private val mobCards: MutableList<MobCard>,
     private val eventService: EventService
 ) {
     private val preAuthClients: MutableMap<Client, AuthStep> = mutableMapOf()
-    private val loggedInPlayers: MutableMap<Client, Player> = mutableMapOf()
+    private val loggedInPlayers: MutableMap<Client, PlayerDAO> = mutableMapOf()
     private val logger = logger(this)
-
-    init {
-        logger.debug("player service with {} players and {} mob cards", players.size, mobCards.size)
-    }
 
     fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
         val authStep = preAuthClients[request.client] ?: EmailAuthStep(
@@ -55,23 +50,31 @@ class PlayerService(
         return response
     }
 
-    fun findMobCardByName(name: String): MobCard? {
-        return mobCards.find { it.mobName == name }
+    fun findMobCardByName(name: String): MobCardDAO? {
+        return transaction {
+            (Mobs innerJoin MobCards).select {
+                Mobs.mobCardId eq MobCards.id and (Mobs.name eq name)
+            }.firstOrNull()?.let {
+                MobCardDAO.wrapRow(it)
+            }
+        }
     }
 
-    fun findPlayerByOTP(otp: String): Player? {
-        return players.find { it.lastOTP == otp }
+    fun findPlayerByOTP(otp: String): PlayerDAO? {
+        return Players.select { Players.lastOTP eq otp }.firstOrNull()?.let {
+            PlayerDAO.wrapRow(it)
+        }
     }
 
-    fun createNewPlayerWithEmailAddress(emailAddress: String): Player {
-        val player = PlayerBuilder()
-            .email(emailAddress)
-            .build()
-        players.add(player)
-        return player
+    fun createNewPlayerWithEmailAddress(emailAddress: String): PlayerDAO {
+        return transaction {
+            PlayerDAO.new {
+                email = emailAddress
+            }
+        }
     }
 
-    fun sendOTP(player: Player) {
+    fun sendOTP(player: PlayerDAO) {
         val from = Contact("floodle@danmunro.com", "Floodle")
         val to = mutableListOf(Contact(player.email, "Login OTP"))
         val otp = generateOTP()
@@ -85,11 +88,7 @@ class PlayerService(
         player.lastOTP = otp
     }
 
-    fun getMobCards(): List<MobCard> {
-        return mobCards
-    }
-
-    fun loginClientAsPlayer(client: Client, player: Player) {
+    fun loginClientAsPlayer(client: Client, player: PlayerDAO) {
         loggedInPlayers[client] = player
     }
 
@@ -97,25 +96,7 @@ class PlayerService(
         preAuthClients[client] = EmailAuthStep(AuthStepService(this))
     }
 
-    fun addMobCard(mobCard: MobCard) {
-        mobCards.add(mobCard)
-    }
-
-    fun persist() {
-        logger.debug("player service persist :: {} players, {} mob cards", players.size, mobCards.size)
-        writePlayersFile()
-        writeMobCardsFile()
-    }
-
-    private fun writePlayersFile() {
-        playerFile().writeText(players.joinToString("\n") { mapPlayer(it) })
-    }
-
-    private fun writeMobCardsFile() {
-        mobCardFile().writeText(mobCards.joinToString("\n") { mapMobCard(it) })
-    }
-
-    private fun loginMob(client: Client, mobCard: MobCard) {
+    private fun loginMob(client: Client, mobCard: MobCardDAO) {
         eventService.publish(
             Event(
                 EventType.CLIENT_LOGGED_IN,

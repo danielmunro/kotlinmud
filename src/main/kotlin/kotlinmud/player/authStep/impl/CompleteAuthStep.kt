@@ -4,9 +4,9 @@ import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
 import kotlinmud.player.authStep.AuthStep
 import kotlinmud.player.authStep.AuthorizationStep
-import kotlinmud.player.model.MobCard
+import kotlinmud.player.dao.MobCardDAO
 
-class CompleteAuthStep(val mobCard: MobCard) : AuthStep {
+class CompleteAuthStep(val mobCard: MobCardDAO) : AuthStep {
     override val authorizationStep: AuthorizationStep = AuthorizationStep.COMPLETE
     override val promptMessage: String = "you are logged in"
     override val errorMessage: String = ""

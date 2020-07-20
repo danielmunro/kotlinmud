@@ -5,6 +5,8 @@ import kotlinmud.attributes.table.Attributes
 import kotlinmud.item.table.Items
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.table.Mobs
+import kotlinmud.player.table.MobCards
+import kotlinmud.player.table.Players
 import kotlinmud.room.table.Doors
 import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -19,7 +21,9 @@ fun applySchema() {
             Items,
             Rooms,
             Doors,
-            Attributes
+            Attributes,
+            Players,
+            MobCards
         )
     }
 }

@@ -22,7 +22,7 @@ import kotlinmud.item.type.Recipe
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.service.MobService
-import kotlinmud.player.model.MobCard
+import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.player.social.Social
 import kotlinmud.room.dao.ResourceDAO
@@ -66,7 +66,7 @@ class ActionContextService(
         return request.mob
     }
 
-    fun getMobCard(): MobCard {
+    fun getMobCard(): MobCardDAO {
         return playerService.findMobCardByName(getMob().name)!!
     }
 

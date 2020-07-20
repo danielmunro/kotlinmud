@@ -1,5 +1,6 @@
 package kotlinmud.attributes.table
 
+import kotlinmud.player.table.MobCards
 import org.jetbrains.exposed.dao.IntIdTable
 
 object Attributes : IntIdTable() {
@@ -17,4 +18,5 @@ object Attributes : IntIdTable() {
     val acSlash = integer("acSlash").default(0)
     val acPierce = integer("acPierce").default(0)
     val acMagic = integer("acMagic").default(0)
+    val mobCardId = reference("mobCardId", MobCards)
 }

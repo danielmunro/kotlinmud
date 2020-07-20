@@ -27,13 +27,11 @@ import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
-import kotlinmud.mob.model.Appetite
 import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
-import kotlinmud.player.model.MobCard
-import kotlinmud.player.model.MobCardBuilder
-import kotlinmud.player.model.Player
+import kotlinmud.player.dao.MobCardDAO
+import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
@@ -164,29 +162,25 @@ class TestService(
         return mobService.createCorpseFrom(mob)
     }
 
-    fun createPlayer(): Player {
+    fun createPlayer(): PlayerDAO {
         return playerService.createNewPlayerWithEmailAddress(fixtureService.faker.breakingBad.character() + "@hotmail.com")
     }
 
     fun createPlayerMob(): MobDAO {
         val mob = createMob()
-        transaction { mob.isNpc = false }
-        playerService.addMobCard(
-            MobCardBuilder()
-                .mobName(mob.name)
-                .playerEmail("foo@bar.com")
-                .experiencePerLevel(1000)
-                .appetite(Appetite.fromRace(Human()))
-                .build()
-        )
+        transaction {
+            mob.isNpc = false
+            MobCardDAO.new {
+                experiencePerLevel = 1000
+                hunger = mob.race.maxAppetite
+                thirst = mob.race.maxThirst
+                this.mob = mob.id
+            }
+        }
         return mob
     }
 
-    fun findPlayerByOTP(otp: String): Player? {
-        return playerService.findPlayerByOTP(otp)
-    }
-
-    fun findMobCardByName(name: String): MobCard? {
+    fun findMobCardByName(name: String): MobCardDAO? {
         return playerService.findMobCardByName(name)
     }
 
@@ -210,7 +204,7 @@ class TestService(
         return MakeItemService(amount)
     }
 
-    fun getMobCardForMob(mob: MobDAO): MobCard? {
+    fun getMobCardForMob(mob: MobDAO): MobCardDAO? {
         return playerService.findMobCardByName(mob.name)
     }
 

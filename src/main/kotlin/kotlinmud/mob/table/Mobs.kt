@@ -8,6 +8,8 @@ import kotlinmud.attributes.table.Attributes
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Rarity
+import kotlinmud.player.table.MobCards
+import kotlinmud.player.table.Players
 import org.jetbrains.exposed.dao.IntIdTable
 
 object Mobs : IntIdTable() {
@@ -37,4 +39,6 @@ object Mobs : IntIdTable() {
     val attributesId = reference("attributes", Attributes)
     val affects = reference("affects", Affects).nullable()
     val skills = reference("skills", Skills).nullable()
+    val playerId = reference("playerId", Players).nullable()
+    val mobCardId = reference("mobCardId", MobCards).nullable()
 }

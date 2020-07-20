@@ -1,7 +1,7 @@
 package kotlinmud.mob.race.impl
 
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.factory.createStats
-import kotlinmud.attributes.model.Attributes
 import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.race.type.RaceType
@@ -21,7 +21,7 @@ class Bear : Race {
     override val unarmedAttackVerb: String = "swipe"
     override val unarmedDamageType: DamageType = DamageType.SLASH
     override val form: Form = Form.MAMMAL
-    override val attributes: Attributes = createStats(2, -2, -2, 0, 2)
+    override val attributes: AttributesDAO = createStats(2, -2, -2, 0, 2)
     override val size: Size = Size.LARGE
     override val maxAppetite: Int = 3
     override val maxThirst: Int = 3
