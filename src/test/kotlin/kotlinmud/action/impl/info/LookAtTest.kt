@@ -3,11 +3,12 @@ package kotlinmud.action.impl.info
 import assertk.assertThat
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
-import kotlinmud.affect.factory.affects
+import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.type.IOStatus
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class LookAtTest {
@@ -17,8 +18,9 @@ class LookAtTest {
         val testService = createTestService()
 
         // given
-        val mob1 = testService.withMob {
-            it.affects(affects(AffectType.INVISIBILITY))
+        val mob1 = testService.createMob()
+        transaction {
+            createAffect(AffectType.INVISIBILITY).mob = mob1
         }
         val mob2 = testService.createMob()
 
@@ -37,9 +39,11 @@ class LookAtTest {
 
         // given
         val mob = testService.createMob()
-        val item = testService.buildItem(
-            testService.itemBuilder()
-                .affects(affects(AffectType.INVISIBILITY)), mob)
+        val item = testService.createItem()
+        transaction {
+            item.mobInventory = mob
+            createAffect(AffectType.INVISIBILITY).item = item
+        }
 
         // when
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")

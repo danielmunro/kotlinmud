@@ -5,9 +5,13 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isLessThan
 import kotlinmud.action.impl.info.describeRoom
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.biome.type.SubstrateType
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.type.Disposition
+import kotlinmud.room.dao.DoorDAO
+import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class MoveTest {
@@ -16,14 +20,18 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
+        val src = testService.getStartRoom()
+        val dst = testService.createRoom()
+
+        // given
+        transaction { src.north = dst }
 
         // when
         val response = testService.runAction(mob, "n")
-        val room = testService.getRoomForMob(mob)
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(room, mob, testService.getMobsForRoom(room), testService.getItemsFor(room))
+            describeRoom(dst, mob, testService.getMobsForRoom(dst), testService.findAllItemsByOwner(dst))
         )
     }
 
@@ -32,14 +40,98 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
+        val src = testService.getStartRoom()
+        val dst = testService.createRoom()
+
+        // given
+        transaction { src.south = dst }
 
         // when
         val response = testService.runAction(mob, "s")
-        val room = testService.getRoomForMob(mob)
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(room, mob, testService.getMobsForRoom(room), testService.getItemsFor(room))
+            describeRoom(dst, mob, testService.getMobsForRoom(dst), testService.findAllItemsByOwner(dst))
+        )
+    }
+
+    @Test
+    fun testMobMovesEast() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        val src = testService.getStartRoom()
+        val dst = testService.createRoom()
+
+        // given
+        transaction { src.east = dst }
+
+        // when
+        val response = testService.runAction(mob, "e")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo(
+            describeRoom(dst, mob, testService.getMobsForRoom(dst), testService.findAllItemsByOwner(dst))
+        )
+    }
+
+    @Test
+    fun testMobMovesWest() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        val src = testService.getStartRoom()
+        val dst = testService.createRoom()
+
+        // given
+        transaction { src.west = dst }
+
+        // when
+        val response = testService.runAction(mob, "w")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo(
+            describeRoom(dst, mob, testService.getMobsForRoom(dst), testService.findAllItemsByOwner(dst))
+        )
+    }
+
+    @Test
+    fun testMobMovesUp() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        val src = testService.getStartRoom()
+        val dst = testService.createRoom()
+
+        // given
+        transaction { src.up = dst }
+
+        // when
+        val response = testService.runAction(mob, "u")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo(
+            describeRoom(dst, mob, testService.getMobsForRoom(dst), testService.findAllItemsByOwner(dst))
+        )
+    }
+
+    @Test
+    fun testMobMovesDown() {
+        // setup
+        val testService = createTestService()
+        val mob = testService.createMob()
+        val src = testService.getStartRoom()
+        val dst = testService.createRoom()
+
+        // given
+        transaction { src.down = dst }
+
+        // when
+        val response = testService.runAction(mob, "d")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo(
+            describeRoom(dst, mob, testService.getMobsForRoom(dst), testService.findAllItemsByOwner(dst))
         )
     }
 
@@ -63,7 +155,7 @@ class MoveTest {
         val mob = testService.createMob()
 
         // given
-        mob.disposition = Disposition.SITTING
+        transaction { mob.disposition = Disposition.SITTING }
 
         // when
         val response = testService.runAction(mob, "n")
@@ -77,9 +169,22 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
+        val src = testService.getStartRoom()
+        val dst = testService.createRoom()
+
+        // given
+        transaction {
+            src.west = dst
+            src.westDoor = DoorDAO.new {
+                name = "a door"
+                description = "a door"
+                defaultDisposition = DoorDisposition.CLOSED
+                disposition = DoorDisposition.CLOSED
+            }
+        }
 
         // when
-        val response = testService.runAction(mob, "e")
+        val response = testService.runAction(mob, "w")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you must open the door first.")
@@ -90,13 +195,20 @@ class MoveTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val room = test.getRooms().find { it.id == 119 }!!
+        val src = test.getStartRoom()
+        val dst = test.createRoom()
+
+        // expect
+        assertThat(mob.hp).isEqualTo(mob.calc(Attribute.HP))
 
         // given
-        test.putMobInRoom(mob, room)
+        transaction {
+            src.west = dst
+            dst.elevation = src.elevation + 5
+        }
 
         // when
-        val response = test.runAction(mob, "east")
+        val response = test.runAction(mob, "west")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you can't climb that elevation.")
@@ -107,13 +219,17 @@ class MoveTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val room = test.getRooms().find { it.id == 120 }!!
+        val src = test.getStartRoom()
+        val dst = test.createRoom()
 
         // expect
         assertThat(mob.hp).isEqualTo(mob.calc(Attribute.HP))
 
         // given
-        test.putMobInRoom(mob, room)
+        transaction {
+            src.west = dst
+            dst.elevation = src.elevation - 5
+        }
 
         // when
         test.runAction(mob, "west")
@@ -127,16 +243,20 @@ class MoveTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val room = test.getRooms().find { it.id == 120 }!!
+        val src = test.getStartRoom()
+        val dst = test.createRoom()
 
         // given
-        test.putMobInRoom(mob, room)
+        transaction {
+            src.north = dst
+            dst.substrate = SubstrateType.DIRT
+        }
 
         // when
-        val response = test.runAction(mob, "d")
+        val response = test.runAction(mob, "n")
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.ERROR)
-        assertThat(response.message.toActionCreator).isEqualTo("An Underground Room is blocked by dirt.")
+        assertThat(response.message.toActionCreator).isEqualTo("${transaction { dst.name } } is blocked by dirt.")
     }
 }

@@ -1,22 +1,32 @@
 package kotlinmud.test
 
-import kotlinmud.item.model.ItemBuilder
-import kotlinmud.item.type.HasInventory
+import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.type.ItemType
+import kotlinmud.mob.dao.MobDAO
+import org.jetbrains.exposed.sql.transactions.transaction
 
-class MakeItemService(private val testService: TestService, private val amount: Int) {
-    private val itemTemplate: ItemBuilder = testService.itemBuilder()
+class MakeItemService(private val amount: Int) {
+    var item: ItemDAO? = null
 
     fun lumber(): MakeItemService {
-        itemTemplate.name("lumber")
-            .description("Fine pine lumber is here.")
-            .type(ItemType.LUMBER)
         return this
     }
 
-    fun andGiveTo(hasInventory: HasInventory) {
-        for (i in 1..amount) {
-            testService.buildItem(itemTemplate, hasInventory)
+    fun andGiveTo(mob: MobDAO) {
+        transaction {
+            for (i in 1..amount) {
+                createItem().mobInventory = mob
+            }
+        }
+    }
+
+    private fun createItem(): ItemDAO {
+        return ItemDAO.new {
+            name = "lumber"
+            description = "Fine pine lumber is here."
+            type = ItemType.LUMBER
+            attributes = AttributesDAO.new {}
         }
     }
 }

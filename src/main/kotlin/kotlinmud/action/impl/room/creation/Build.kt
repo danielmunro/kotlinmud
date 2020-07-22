@@ -16,11 +16,11 @@ fun createRoomBuildAction(): Action {
     ) { svc ->
         val direction = svc.get<Direction>(Syntax.DIRECTION_WITH_NO_EXIT)
         val room = svc.buildRoom(svc.getMob(), direction)
-        val exit = svc.getExits().find { it.destination == room }!!
+        val exit = svc.getExits().entries.find { it.value == room }!!
         svc.createOkResponse(
             MessageBuilder()
-                .toActionCreator("you have built ${room.name} ${exit.direction.value}.")
-                .toObservers("${svc.getMob()} builds ${room.name} ${exit.direction.value}.")
+                .toActionCreator("you have built ${room.name} ${exit.key.value}.")
+                .toObservers("${svc.getMob()} builds ${room.name} ${exit.key.value}.")
                 .build()
         )
     }

@@ -6,14 +6,19 @@ import kotlinmud.event.impl.SendMessageToRoomEvent
 import kotlinmud.event.type.EventType
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.Message
-import kotlinmud.mob.model.Mob
-import kotlinmud.room.model.Room
+import kotlinmud.mob.dao.MobDAO
+import kotlinmud.room.dao.RoomDAO
 
 fun createClientConnectedEvent(client: Client): Event<ClientConnectedEvent> {
     return Event(EventType.CLIENT_CONNECTED, ClientConnectedEvent(client))
 }
 
-fun createSendMessageToRoomEvent(message: Message, room: Room, actionCreator: Mob, target: Mob? = null): Event<SendMessageToRoomEvent> {
+fun createSendMessageToRoomEvent(
+    message: Message,
+    room: RoomDAO,
+    actionCreator: MobDAO,
+    target: MobDAO? = null
+): Event<SendMessageToRoomEvent> {
     return Event(
         EventType.SEND_MESSAGE_TO_ROOM,
         SendMessageToRoomEvent(message, room, actionCreator, target)

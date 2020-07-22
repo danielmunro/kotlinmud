@@ -3,11 +3,14 @@ package kotlinmud.generator
 import assertk.assertThat
 import assertk.assertions.hasSize
 import kotlinmud.biome.helper.createBiomes
+import kotlinmud.test.createTestService
 import org.junit.Test
 
 class ElevationServiceTest {
     @Test
     fun testCreateElevationLayerWithCorrectSize() {
+        createTestService()
+
         // setup
         val biomeService = BiomeService(
             width,

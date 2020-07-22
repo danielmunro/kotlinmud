@@ -14,7 +14,7 @@ import kotlinmud.event.service.EventService
 import kotlinmud.helper.logger
 import kotlinmud.io.model.Client
 import kotlinmud.io.type.Clients
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 import okhttp3.internal.closeQuietly
 
 const val SELECT_TIMEOUT_MS: Long = 1
@@ -36,7 +36,7 @@ class ServerService(
     private val socket = ServerSocketChannel.open()
     private val logger = logger(this)
 
-    fun init() {
+    init {
         val serverSocket = socket.socket()
         serverSocket.bind(InetSocketAddress(port))
         socket.configureBlocking(false)
@@ -78,11 +78,11 @@ class ServerService(
             .collect(Collectors.toList())
     }
 
-    fun getClientForMob(mob: Mob): Client? {
+    fun getClientForMob(mob: MobDAO): Client? {
         return clients.find { it.mob == mob }
     }
 
-    fun getClientsFromMobs(mobs: List<Mob>): Clients {
+    fun getClientsFromMobs(mobs: List<MobDAO>): Clients {
         return mobs.mapNotNull { mob ->
             clients.find { it.mob == mob }
         }.toMutableList()

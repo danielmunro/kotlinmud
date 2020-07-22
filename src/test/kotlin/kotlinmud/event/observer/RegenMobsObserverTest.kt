@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isGreaterThan
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class RegenMobsObserverTest {
@@ -12,40 +13,23 @@ class RegenMobsObserverTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val rooms = test.getRooms()
-
-        // given
-        val room1 = rooms.find { it.regen == RegenLevel.NONE }!!
-        val room2 = rooms.find { it.regen == RegenLevel.LOW }!!
-        val room3 = rooms.find { it.regen == RegenLevel.NORMAL }!!
-        val room4 = rooms.find { it.regen == RegenLevel.HIGH }!!
-        val room5 = rooms.find { it.regen == RegenLevel.FULL }!!
+        val room = test.getStartRoom()
 
         // when
-        mob.hp = 1
-        test.putMobInRoom(mob, room1)
-        test.regenMobs()
-        val gain1 = mob.hp
+        val testCase = { regenLevel: RegenLevel ->
+            transaction {
+                mob.hp = 1
+                room.regenLevel = regenLevel
+                test.regenMobs()
+                mob.hp
+            }
+        }
 
-        mob.hp = 1
-        test.putMobInRoom(mob, room2)
-        test.regenMobs()
-        val gain2 = mob.hp
-
-        mob.hp = 1
-        test.putMobInRoom(mob, room3)
-        test.regenMobs()
-        val gain3 = mob.hp
-
-        mob.hp = 1
-        test.putMobInRoom(mob, room4)
-        test.regenMobs()
-        val gain4 = mob.hp
-
-        mob.hp = 1
-        test.putMobInRoom(mob, room5)
-        test.regenMobs()
-        val gain5 = mob.hp
+        val gain1 = testCase(RegenLevel.NONE)
+        val gain2 = testCase(RegenLevel.LOW)
+        val gain3 = testCase(RegenLevel.NORMAL)
+        val gain4 = testCase(RegenLevel.HIGH)
+        val gain5 = testCase(RegenLevel.FULL)
 
         // then
         assertThat(gain5).isGreaterThan(gain4)

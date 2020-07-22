@@ -2,7 +2,14 @@ package kotlinmud.test
 
 import java.nio.channels.SocketChannel
 import kotlinmud.action.service.ActionService
-import kotlinmud.attributes.model.AttributesBuilder
+import kotlinmud.attributes.constant.startingHp
+import kotlinmud.attributes.constant.startingMana
+import kotlinmud.attributes.constant.startingMv
+import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.biome.type.BiomeType
+import kotlinmud.biome.type.SubstrateType
+import kotlinmud.db.applySchema
+import kotlinmud.db.createConnection
 import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
 import kotlinmud.io.model.Client
@@ -11,44 +18,52 @@ import kotlinmud.io.model.Response
 import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.IOStatus
-import kotlinmud.item.model.Item
-import kotlinmud.item.model.ItemBuilder
-import kotlinmud.item.model.ItemOwner
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
+import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Position
 import kotlinmud.mob.controller.MobController
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
-import kotlinmud.mob.model.Appetite
-import kotlinmud.mob.model.Mob
-import kotlinmud.mob.model.MobBuilder
-import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.type.JobType
-import kotlinmud.player.model.MobCard
-import kotlinmud.player.model.MobCardBuilder
-import kotlinmud.player.model.Player
+import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.service.PlayerService
-import kotlinmud.room.model.Room
+import kotlinmud.room.dao.DoorDAO
+import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.type.DoorDisposition
+import kotlinmud.room.type.RegenLevel
 import kotlinmud.service.FixtureService
-import kotlinmud.service.RespawnService
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class TestService(
     private val fixtureService: FixtureService,
     private val mobService: MobService,
     private val itemService: ItemService,
     private val actionService: ActionService,
-    private val respawnService: RespawnService,
     private val eventService: EventService,
     private val playerService: PlayerService,
     private val serverService: ServerService
 ) {
     private val clientService = ClientService()
+    private val room: RoomDAO
 
     init {
-        createItem(mobService.getStartRoom())
+        createConnection()
+        applySchema()
+        room = transaction {
+            RoomDAO.new {
+                name = "start room"
+                description = "tbd"
+                area = "midgaard"
+            }
+        }
+        val item = createItem()
+        transaction {
+            room.items.plus(item)
+        }
     }
 
     fun <T> publish(event: Event<T>) {
@@ -65,7 +80,7 @@ class TestService(
         return client
     }
 
-    fun createMobController(mob: Mob): MobController {
+    fun createMobController(mob: MobDAO): MobController {
         return MobController(mobService, itemService, eventService, mob)
     }
 
@@ -73,7 +88,7 @@ class TestService(
         return itemService.findAllByOwner(hasInventory).size
     }
 
-    fun getItemsFor(hasInventory: HasInventory): List<Item> {
+    fun findAllItemsByOwner(hasInventory: HasInventory): List<ItemDAO> {
         return itemService.findAllByOwner(hasInventory)
     }
 
@@ -81,101 +96,111 @@ class TestService(
         mobService.regenMobs()
     }
 
-    fun putMobInRoom(mob: Mob, room: Room) {
+    fun putMobInRoom(mob: MobDAO, room: RoomDAO) {
         mobService.putMobInRoom(mob, room)
     }
 
-    fun respawnWorld() {
-        respawnService.respawn()
+    fun getStartRoom(): RoomDAO {
+        return room
     }
 
-    fun addNewRoom(mob: Mob) {
-        mobService.createNewRoom(mob)
-    }
-
-    fun getRooms(): List<Room> {
-        return mobService.getRooms()
-    }
-
-    fun getStartRoom(): Room {
-        return mobService.getStartRoom()
-    }
-
-    fun createMob(job: JobType = JobType.NONE): Mob {
-        val mobBuilder = fixtureService.createMobBuilder()
-        val mob = mobBuilder.job(job).build()
-        mob.equipped.add(weapon(mob))
-        mobService.addMob(mob)
-        return mob
-    }
-
-    fun createCorpseFrom(mob: Mob): Item {
-        return mobService.createCorpseFrom(mob)
-    }
-
-    fun createPlayer(): Player {
-        return playerService.createNewPlayerWithEmailAddress(fixtureService.faker.breakingBad.character() + "@hotmail.com")
-    }
-
-    fun createPlayerMobBuilder(): MobBuilder {
-        val mob = fixtureService.createMobBuilder().isNpc(false)
-        val name = fixtureService.faker.name.name()
-        mob.name(name)
-        playerService.addMobCard(
-            MobCardBuilder()
-                .mobName(name)
-                .playerEmail("foo@bar.com")
-                .experiencePerLevel(1000)
-                .appetite(Appetite.fromRace(Human()))
-                .build()
-        )
-        return mob
-    }
-
-    fun addBuiltPlayerMob(mob: Mob) {
-        mobService.addPlayerMob(mob)
-    }
-
-    fun withMob(builder: (MobBuilder) -> MobBuilder): Mob {
-        return buildMob(builder(fixtureService.createMobBuilder()))
-    }
-
-    fun findPlayerByOTP(otp: String): Player? {
-        return playerService.findPlayerByOTP(otp)
-    }
-
-    fun findMobCardByName(name: String): MobCard? {
-        return playerService.findMobCardByName(name)
-    }
-
-    fun createItem(hasInventory: HasInventory): Item {
-        return buildItem(itemBuilder(), hasInventory)
-    }
-
-    fun itemBuilder(): ItemBuilder {
-        return fixtureService.createItemBuilder()
-    }
-
-    fun buildItem(itemBuilder: ItemBuilder, hasInventory: HasInventory): Item {
-        itemBuilder.build().let {
-            itemService.add(ItemOwner(it, hasInventory))
-            return it
+    fun createDoor(): DoorDAO {
+        return transaction {
+            DoorDAO.new {
+                name = "a door"
+                description = "a door"
+                disposition = DoorDisposition.CLOSED
+                defaultDisposition = DoorDisposition.CLOSED
+            }
         }
     }
 
+    fun createMob(): MobDAO {
+        val mob = transaction {
+            MobDAO.new {
+                name = fixtureService.faker.name.name()
+                description = "foo"
+                brief = "bar"
+                race = Human()
+                isNpc = true
+                hp = startingHp
+                mana = startingMana
+                mv = startingMv
+                attributes = AttributesDAO.new {
+                    hp = startingHp
+                    mana = startingMana
+                    mv = startingMana
+                }
+                room = getStartRoom()
+            }
+        }
+        transaction {
+            weapon(mob)
+        }
+        putMobInRoom(mob, getStartRoom())
+
+        return mob
+    }
+
+    fun createRoom(): RoomDAO {
+        return transaction {
+            RoomDAO.new {
+                name = "a test room"
+                description = "this is a test room"
+                area = "test"
+                isIndoor = false
+                regenLevel = RegenLevel.NORMAL
+                biome = BiomeType.NONE
+                substrate = SubstrateType.NONE
+                elevation = 1
+            }
+        }
+    }
+
+    fun createCorpseFrom(mob: MobDAO): ItemDAO {
+        return mobService.createCorpseFrom(mob)
+    }
+
+    fun createPlayerMob(): MobDAO {
+        val mob = createMob()
+        transaction {
+            mob.isNpc = false
+            val card = MobCardDAO.new {
+                experiencePerLevel = 1000
+                hunger = mob.race.maxAppetite
+                thirst = mob.race.maxThirst
+                this.mob = mob
+            }
+            mob.mobCard = card
+        }
+        return mob
+    }
+
+    fun findMobCardByName(name: String): MobCardDAO? {
+        return playerService.findMobCardByName(name)
+    }
+
+    fun createItem(): ItemDAO {
+        return transaction {
+            ItemDAO.new {
+                name = fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words()
+                description = "a nice looking herb is here"
+                attributes = AttributesDAO.new {}
+            }
+        }
+    }
+
+    fun createContainer(): ItemDAO {
+        val item = createItem()
+        transaction { item.isContainer = true }
+        return item
+    }
+
     fun make(amount: Int): MakeItemService {
-        return MakeItemService(this, amount)
+        return MakeItemService(amount)
     }
 
-    fun getMobRooms(): List<MobRoom> {
-        return mobService.getMobRooms()
-    }
-
-    fun getRoomForMob(mob: Mob): Room {
-        return mobService.getRoomForMob(mob)
-    }
-
-    fun getMobsForRoom(room: Room): List<Mob> {
+    fun getMobsForRoom(room: RoomDAO): List<MobDAO> {
         return mobService.getMobsForRoom(room)
     }
 
@@ -191,17 +216,17 @@ class TestService(
         mobService.decrementAffects()
     }
 
-    fun runAction(mob: Mob, input: String): Response {
+    fun runAction(mob: MobDAO, input: String): Response {
         return actionService.run(
             Request(
                 mob,
                 input,
-                mobService.getRoomForMob(mob)
+                transaction { mob.room }
             )
         )
     }
 
-    fun runActionForIOStatus(mob: Mob, input: String, status: IOStatus): Response {
+    fun runActionForIOStatus(mob: MobDAO, input: String, status: IOStatus): Response {
         var i = 0
         while (i < 100) {
             val response = runAction(mob, input)
@@ -217,7 +242,7 @@ class TestService(
         mobService.addFight(fight)
     }
 
-    fun findFightForMob(mob: Mob): Fight? {
+    fun findFightForMob(mob: MobDAO): Fight? {
         return mobService.findFightForMob(mob)
     }
 
@@ -225,21 +250,18 @@ class TestService(
         return mobService.proceedFights()
     }
 
-    private fun buildMob(mobBuilder: MobBuilder): Mob {
-        val mob = mobBuilder.build()
-        mob.equipped.add(weapon(mob))
-        mobService.addMob(mob)
-        return mob
-    }
-
-    private fun weapon(hasInventory: HasInventory): Item {
-        return buildItem(itemBuilder()
-            .position(Position.WEAPON)
-            .attributes(
-                AttributesBuilder()
-                    .hit(2)
-                    .dam(1)
-                    .build()
-            ), hasInventory)
+    private fun weapon(mob: MobDAO): ItemDAO {
+        return ItemDAO.new {
+            name = "a sword"
+            description = "a sword"
+            type = ItemType.EQUIPMENT
+            position = Position.WEAPON
+            mobInventory = mob
+            mobEquipped = mob
+            attributes = AttributesDAO.new {
+                hit = 2
+                dam = 1
+            }
+        }
     }
 }

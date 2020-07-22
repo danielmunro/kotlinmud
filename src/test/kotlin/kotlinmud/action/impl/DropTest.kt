@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class DropTest {
@@ -12,8 +13,9 @@ class DropTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val item = testService.createItem(mob)
-        val room = testService.getRoomForMob(mob)
+        val item = testService.createItem()
+        transaction { item.mobInventory = mob }
+        val room = transaction { mob.room }
         val mobItemCount = testService.countItemsFor(mob)
         val roomItemCount = testService.countItemsFor(room)
 

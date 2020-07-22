@@ -3,13 +3,13 @@ package kotlinmud.io.model
 import java.nio.ByteBuffer
 import java.nio.channels.ClosedChannelException
 import java.nio.channels.SocketChannel
-import kotlinmud.mob.model.Mob
-import kotlinmud.player.model.Player
+import kotlinmud.mob.dao.MobDAO
+import kotlinmud.player.dao.PlayerDAO
 
 class Client(val socket: SocketChannel) {
     val buffers: MutableList<String> = mutableListOf()
-    var mob: Mob? = null
-    var player: Player? = null
+    var mob: MobDAO? = null
+    var player: PlayerDAO? = null
     var connected = true
     var delay = 0
 

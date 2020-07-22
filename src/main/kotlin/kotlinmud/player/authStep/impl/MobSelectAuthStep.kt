@@ -6,22 +6,23 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.player.authStep.AuthStep
 import kotlinmud.player.authStep.AuthStepService
 import kotlinmud.player.authStep.AuthorizationStep
-import kotlinmud.player.model.MobCard
-import kotlinmud.player.model.Player
+import kotlinmud.player.dao.MobCardDAO
+import kotlinmud.player.dao.PlayerDAO
 
 class MobSelectAuthStep(
     private val authStepService: AuthStepService,
-    private val player: Player
+    private val player: PlayerDAO
 ) : AuthStep {
     override val authorizationStep: AuthorizationStep = AuthorizationStep.MOB_SELECT
     override val promptMessage: String = "by what name do you wish to be known?"
     override val errorMessage: String = "that name is not valid"
     private var newMob: Boolean = false
-    private var mobCard: MobCard? = null
+    private var mobCard: MobCardDAO? = null
 
     override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
         return authStepService.findMobCardByName(request.input)?.let {
-            if (player.email == it.playerEmail) {
+            val mob = player.mobs.find { mob -> mob.mobCard?.id?.value == mobCard?.id?.value }
+            if (mob != null) {
                 mobCard = it
                 PreAuthResponse(request, IOStatus.OK, "ok")
             } else {

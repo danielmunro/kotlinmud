@@ -6,30 +6,22 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
 import kotlin.test.assertEquals
-import kotlinmud.affect.factory.affects
-import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
-import kotlinmud.attributes.model.AttributesBuilder
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.fs.loader.Tokenizer
 import kotlinmud.item.type.Position
-import kotlinmud.mob.fight.DamageType
 import kotlinmud.mob.fight.Fight
-import kotlinmud.mob.loader.MobLoader
-import kotlinmud.mob.mapper.mapMob
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Elf
 import kotlinmud.mob.race.impl.Faerie
-import kotlinmud.mob.race.impl.Felid
 import kotlinmud.mob.race.impl.Goblin
 import kotlinmud.mob.race.impl.Ogre
-import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
-import kotlinmud.mob.type.Gender
-import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.SpecializationType
 import kotlinmud.test.ProbabilityTest
-import kotlinmud.test.buf
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class MobTest {
@@ -49,25 +41,26 @@ class MobTest {
         val initialAc = mob.calc(Attribute.AC_BASH)
 
         // when
-        val item = testService.itemBuilder().attributes(
-            AttributesBuilder()
-                .hp(1)
-                .mana(1)
-                .mv(1)
-                .strength(1)
-                .intelligence(1)
-                .wisdom(1)
-                .dexterity(1)
-                .constitution(1)
-                .hit(1)
-                .dam(1)
-                .acBash(1)
-                .acSlash(1)
-                .acPierce(1)
-                .acMagic(1)
-                .build()
-        )
-        mob.equipped.add(item.build())
+        val item = testService.createItem()
+        transaction {
+            item.attributes = AttributesDAO.new {
+                hp = 1
+                mana = 1
+                mv = 1
+                strength = 1
+                intelligence = 1
+                wisdom = 1
+                dexterity = 1
+                constitution = 1
+                hit = 1
+                dam = 1
+                acBash = 1
+                acSlash = 1
+                acPierce = 1
+                acMagic = 1
+            }
+            item.mobEquipped = mob
+        }
 
         // then
         assertEquals(initialHp + 1, mob.calc(Attribute.HP))
@@ -94,12 +87,12 @@ class MobTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob2 = testService.withMob {
-            it.race(Elf())
-        }
+        val mob2 = testService.createMob()
+        transaction { mob2.race = Elf() }
 
         // when
-        prob.test({ mob1.savesAgainst(DamageType.NONE) }, { mob2.savesAgainst(DamageType.NONE) })
+        prob.test({ mob1.savesAgainst(DamageType.NONE) }, { mob2.savesAgainst(
+            DamageType.NONE) })
 
         // then
         assertThat(prob.getOutcome1()).isLessThan(prob.getOutcome2())
@@ -113,13 +106,14 @@ class MobTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob2 = testService.withMob {
-            it.affects(affects(AffectType.CURSE))
-        }
+        val mob2 = testService.createMob()
+        val affect = createAffect(AffectType.CURSE)
+        transaction { affect.mob = mob2 }
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(
+                DamageType.NONE))
         }
 
         // then
@@ -130,18 +124,22 @@ class MobTest {
     fun testBerserkSaveBonus() {
         // setup
         val testService = createTestService()
-        val mob1 = testService.withMob { it.level(50) }
+        val mob1 = testService.createMob()
+        val mob2 = testService.createMob()
         val prob = ProbabilityTest()
 
         // given
-        val mob2 = testService.withMob {
-            it.level(50)
-                .affects(affects(AffectType.BERSERK))
+        val affect = createAffect(AffectType.BERSERK)
+        transaction {
+            mob1.level = 50
+            mob2.level = 50
+            affect.mob = mob2
         }
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(
+                DamageType.NONE))
         }
 
         // then
@@ -155,16 +153,17 @@ class MobTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.withMob {
-            it.race(Faerie())
-        }
-        val mob2 = testService.withMob {
-            it.race(Ogre())
+        val mob1 = testService.createMob()
+        val mob2 = testService.createMob()
+        transaction {
+            mob1.race = Faerie()
+            mob2.race = Ogre()
         }
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(
+                DamageType.NONE))
         }
 
         // then
@@ -179,13 +178,13 @@ class MobTest {
 
         // given
         val mob1 = testService.createMob()
-        val mob2 = testService.withMob {
-            it.disposition(Disposition.FIGHTING)
-        }
+        val mob2 = testService.createMob()
+        transaction { mob2.disposition = Disposition.FIGHTING }
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(
+                DamageType.NONE))
         }
 
         // then
@@ -199,12 +198,17 @@ class MobTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.withMob { it.race(Goblin()) }
-        val mob2 = testService.withMob { it.race(Ogre()) }
+        val mob1 = testService.createMob()
+        val mob2 = testService.createMob()
+        transaction {
+            mob1.race = Goblin()
+            mob2.race = Ogre()
+        }
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.POISON), mob2.savesAgainst(DamageType.POISON))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.POISON), mob2.savesAgainst(
+                DamageType.POISON))
         }
 
         // then
@@ -217,14 +221,16 @@ class MobTest {
         // setup
         val testService = createTestService()
         val prob = ProbabilityTest()
+        val mob1 = testService.createMob()
+        val mob2 = testService.createMob()
 
         // given
-        val mob1 = testService.withMob { it.specialization(SpecializationType.MAGE) }
-        val mob2 = testService.createMob()
+        transaction { mob1.specialization = SpecializationType.MAGE }
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(
+                DamageType.NONE))
         }
 
         // then
@@ -235,15 +241,17 @@ class MobTest {
     fun testClericSaveBonus() {
         // setup
         val testService = createTestService()
-        val prob = ProbabilityTest(10000)
+        val prob = ProbabilityTest()
+        val mob1 = testService.createMob()
+        val mob2 = testService.createMob()
 
         // given
-        val mob1 = testService.withMob { it.specialization(SpecializationType.CLERIC) }
-        val mob2 = testService.createMob()
+        transaction { mob1.specialization = SpecializationType.CLERIC }
 
         // when
         while (prob.isIterating()) {
-            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(DamageType.NONE))
+            prob.decrementIteration(mob1.savesAgainst(DamageType.NONE), mob2.savesAgainst(
+                DamageType.NONE))
         }
 
         // then
@@ -257,18 +265,13 @@ class MobTest {
         val mob = testService.createMob()
 
         // given
-        mob.equipped.add(
-            testService.buildItem(
-                testService.itemBuilder()
-                    .position(Position.SHIELD)
-                    .attributes(
-                        AttributesBuilder()
-                            .hp(100)
-                            .build()
-                    ),
-                mob
-            )
-        )
+        val item = testService.createItem()
+        transaction {
+            item.mobInventory = mob
+            item.position = Position.SHIELD
+            item.attributes.hp = 100
+            item.mobEquipped = mob
+        }
 
         // expect
         assertThat(mob.calc(Attribute.HP)).isEqualTo(120)
@@ -278,16 +281,20 @@ class MobTest {
     fun testGoldTransfersWhenMobIsKilled() {
         // setup
         val testService = createTestService()
+        val mob1 = testService.createMob()
+        val mob2 = testService.createMob()
 
         // given
-        val mob1 = testService.withMob {
-            it.gold(5)
-                .hp(1)
+        transaction {
+            mob1.gold = 5
+            mob1.hp = 1
+            mob1.attributes.hit = 10
+            mob2.gold = 5
+            mob2.hp = 1
+            mob2.attributes.hit = 10
         }
-        val mob2 = testService.withMob {
-            it.gold(5)
-                .hp(1)
-        }
+
+        // and
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
 
@@ -298,23 +305,8 @@ class MobTest {
 
         // then
         val winner = fight.getWinner()!!
-        assertThat(winner.gold).isEqualTo(10)
-        assertThat(fight.getOpponentFor(winner)!!.gold).isEqualTo(0)
-    }
-
-    @Test
-    fun testLoadMobWithAffects() {
-        // setup
-        val test = createTestService()
-
-        // given
-        test.respawnWorld()
-
-        // when
-        val mob = test.getMobRooms().find { it.mob.id == 1 }!!.mob
-
-        // then
-        assertThat(mob.affects().getAffects()).hasSize(2)
+        assertThat(transaction { winner.gold }).isEqualTo(10)
+        assertThat(transaction { fight.getOpponentFor(winner)!!.gold }).isEqualTo(0)
     }
 
     @Test
@@ -324,8 +316,13 @@ class MobTest {
 
         // given
         val mob = test.createMob()
-        test.createItem(mob)
-        mob.equipped.add(test.itemBuilder().build())
+        val item1 = test.createItem()
+        val item2 = test.createItem()
+        transaction {
+            item1.mobInventory = mob
+            item2.mobInventory = mob
+            item2.mobEquipped = mob
+        }
         val inventoryAmount = test.countItemsFor(mob)
 
         // when
@@ -333,67 +330,7 @@ class MobTest {
 
         // then
         assertThat(test.countItemsFor(corpse)).isEqualTo(inventoryAmount)
-        assertThat(mob.equipped).hasSize(0)
+        assertThat(transaction { mob.equipped.toList() }).hasSize(0)
         assertThat(test.countItemsFor(mob)).isEqualTo(0)
-    }
-
-    @Test
-    fun testCanMapAndLoadMob() {
-        // setup
-        val test = createTestService()
-
-        // given
-        val mob = test.createPlayerMobBuilder()
-            .description("a mob of great refinement is here")
-            .brief("a mob of great refinement")
-            .disposition(Disposition.SITTING)
-            .gender(Gender.ANY)
-            .gold(2)
-            .goldMin(1)
-            .goldMax(3)
-            .hp(100)
-            .mana(101)
-            .mv(102)
-            .isNpc(false)
-            .race(Felid())
-            .job(JobType.SCAVENGER)
-            .specialization(SpecializationType.MAGE)
-            .id(1)
-            .level(8)
-            .savingThrows(13)
-            .wimpy(14)
-            .maxItems(21)
-            .maxWeight(22)
-            .skills(mutableMapOf(Pair(SkillType.ALCHEMY, 51)))
-            .affects(mutableListOf(AffectInstance(AffectType.BERSERK, 12)))
-            .attributes(AttributesBuilder()
-                .strength(1)
-                .intelligence(2)
-                .wisdom(3)
-                .dexterity(4)
-                .constitution(5)
-                .hit(6)
-                .dam(7)
-                .hp(8)
-                .mana(9)
-                .mv(10)
-                .acBash(11)
-                .acSlash(12)
-                .acPierce(13)
-                .acMagic(14)
-                .build()
-            )
-            .build()
-
-        // when
-        val data = mapMob(mob)
-        val model = MobLoader(Tokenizer(data), 10, false)
-            .load()
-            .build()
-
-        // then
-        val buf1 = buf(mob)
-        val buf2 = buf(model)
-        assertThat(buf2).isEqualTo(buf1)
     }
 }

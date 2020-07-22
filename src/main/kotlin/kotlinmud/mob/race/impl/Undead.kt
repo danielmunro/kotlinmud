@@ -1,8 +1,8 @@
 package kotlinmud.mob.race.impl
 
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.factory.createStats
-import kotlinmud.attributes.model.Attributes
-import kotlinmud.mob.fight.DamageType
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.type.Form
@@ -26,7 +26,7 @@ class Undead : Race {
     override val unarmedAttackVerb: String = "bite"
     override val unarmedDamageType: DamageType = DamageType.SLASH
     override val form: Form = Form.UNDEAD
-    override val attributes: Attributes =
+    override val attributes: AttributesDAO =
         createStats(2, -1, 0, -3, 4, 0, 1)
     override val size: Size = Size.MEDIUM
     override val maxAppetite: Int = 5

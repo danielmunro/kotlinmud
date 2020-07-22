@@ -3,17 +3,24 @@ package kotlinmud.generator
 import kotlinmud.biome.type.Biome
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.fs.loader.area.model.reset.MobReset
-import kotlinmud.helper.math.coinFlip
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.type.Rarity
 import kotlinmud.mob.type.Size
-import kotlinmud.room.model.Room
+import kotlinmud.room.dao.RoomDAO
 
 class MobGeneratorService(biomes: List<Biome>) {
-    private val biomeMobList = mutableMapOf<BiomeType, List<Mob>>()
+    private val biomeMobList: Map<BiomeType, Biome> = biomes.map {
+        Pair(it.biomeType, it)
+    }.toMap()
+
+    init {
+        biomes.forEach {
+            biomeMobList.plus(Pair(it.biomeType, it))
+        }
+    }
 
     companion object {
-        private fun getMaxInRoom(mob: Mob): Int {
+        private fun getMaxInRoom(mob: MobDAO): Int {
             return when (mob.race.size) {
                 Size.TINY -> 3
                 Size.SMALL -> 3
@@ -23,71 +30,62 @@ class MobGeneratorService(biomes: List<Biome>) {
             }
         }
 
-        private fun getMaxInRoomModifier(mob: Mob): Int {
+        private fun getMaxInRoomModifier(mob: MobDAO): Int {
             return when (mob.rarity) {
-                Rarity.COMMON -> 0
-                Rarity.UNCOMMON -> 2
-                Rarity.RARE -> 3
+                Rarity.COMMON -> 1
+                Rarity.UNCOMMON -> 1
+                Rarity.RARE -> 1
             }
         }
 
-        private fun getMaxInWorld(mob: Mob): Int {
+        private fun getMaxInWorld(mob: MobDAO): Int {
             return when (mob.rarity) {
-                Rarity.COMMON -> 2500
-                Rarity.UNCOMMON -> 500
-                Rarity.RARE -> 50
+                Rarity.COMMON -> 500
+                Rarity.UNCOMMON -> 100
+                Rarity.RARE -> 10
             }
         }
     }
 
-    init {
-        var autoIncrementId = 1
-        biomes.forEach {
-            biomeMobList[it.biomeType] = it.mobs.map { mobBuilder ->
-                mobBuilder
-                    .id(autoIncrementId++)
-                    .build()
-            }
-        }
+    fun generateMobResets(rooms: List<RoomDAO>): List<MobReset> {
+        return listOf()
+//        val resets = mutableListOf<MobReset>()
+//        var resetId = 0
+//        getRoomsToPopulate(rooms).forEach { room ->
+//            getRandomBiomeMob(room.biome)?.let { mob ->
+//                resetId++
+//                resets.add(
+//                    MobReset(
+//                        resetId,
+//                        mob.id.value,
+//                        room.id.value,
+//                        (getMaxInRoom(mob) - getMaxInRoomModifier(mob)).coerceAtLeast(1),
+//                        getMaxInWorld(mob)
+//                    )
+//                )
+//            }
+//        }
+//        return resets
     }
 
-    fun generateMobResets(rooms: List<Room>): List<MobReset> {
-        val resets = mutableListOf<MobReset>()
-        var resetId = 0
-        getRoomsToPopulate(rooms).forEach { room ->
-            getRandomBiomeMob(room.biome)?.let { mob ->
-                resetId++
-                resets.add(
-                    MobReset(
-                        resetId,
-                        mob.id,
-                        room.id,
-                        (getMaxInRoom(mob) - getMaxInRoomModifier(mob)).coerceAtLeast(1),
-                        getMaxInWorld(mob)
-                    )
-                )
-            }
-        }
-        return resets
+    fun getAllMobs(): List<MobDAO> {
+        return listOf()
+//        return biomeMobList.flatMap { it.value }
     }
 
-    fun getAllMobs(): List<Mob> {
-        return biomeMobList.flatMap { it.value }
-    }
-
-    private fun biomeHasMobs(biomeType: BiomeType): Boolean {
-        return biomeMobList[biomeType]?.isNotEmpty() ?: false
-    }
-
-    private fun getRandomBiomeMob(biomeType: BiomeType): Mob? {
-        return biomeMobList[biomeType]?.random()
-    }
-
-    private fun getRoomsToPopulate(rooms: List<Room>): List<Room> {
-        return rooms.filter {
-            it.biome.isSurface() && biomeHasMobs(it.biome)
-        }.filter {
-            coinFlip()
-        }
-    }
+//    private fun biomeHasMobs(biomeType: BiomeType): Boolean {
+//        return biomeMobList[biomeType]?.isNotEmpty() ?: false
+//    }
+//
+//    private fun getRandomBiomeMob(biomeType: BiomeType): MobDAO? {
+//        return biomeMobList[biomeType]?.random()
+//    }
+//
+//    private fun getRoomsToPopulate(rooms: List<RoomDAO>): List<RoomDAO> {
+//        return rooms.filter {
+//            it.biome.isSurface() && biomeHasMobs(it.biome)
+//        }.filter {
+//            coinFlip()
+//        }
+//    }
 }

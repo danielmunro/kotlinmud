@@ -1,5 +1,3 @@
 package kotlinmud.path
 
-import kotlinmud.room.model.Room
-
-class Explored(val room: Room, var explored: Boolean = false)
+class Explored(val id: Int, var explored: Boolean = false)

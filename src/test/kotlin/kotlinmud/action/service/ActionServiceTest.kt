@@ -8,18 +8,21 @@ import assertk.assertions.isNotNull
 import kotlin.test.Test
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.fight.Fight
+import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionServiceTest {
     @Test
     fun testMobCanLoseConcentration() {
         // setup
         val testService = createTestService()
-        val mob = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.BERSERK, 1)))
-        }
+        val mob = testService.createMob()
+
+        // given
+        createSkill(SkillType.BERSERK, mob)
 
         // when
         val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.FAILED)
@@ -32,12 +35,11 @@ class ActionServiceTest {
     fun testMobMustPayCostToUseSkill() {
         // setup
         val testService = createTestService()
-        val mob = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.BERSERK, 100)))
-        }
+        val mob = testService.createMob()
+        createSkill(SkillType.BERSERK, mob)
 
         // given
-        mob.mv = 0
+        transaction { mob.mv = 0 }
 
         // when
         val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)
@@ -50,9 +52,10 @@ class ActionServiceTest {
     fun testMobAppliesDelayWhenUsingSkill() {
         // setup
         val testService = createTestService()
-        val mob = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.BERSERK, 100)))
-        }
+        val mob = testService.createMob()
+
+        // given
+        createSkill(SkillType.BERSERK, mob, 100)
 
         // when
         val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)
@@ -66,9 +69,10 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val target = testService.createMob()
-        val mob = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.BITE, 100)))
-        }
+        val mob = testService.createMob()
+
+        // given
+        createSkill(SkillType.BITE, mob, 100)
 
         // when
         val response = testService.runActionForIOStatus(mob, "bite ${getIdentifyingWord(target)}", IOStatus.OK)
@@ -84,9 +88,8 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val target = testService.createMob()
-        val mob = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.BITE, 100)))
-        }
+        val mob = testService.createMob()
+        createSkill(SkillType.BITE, mob, 100)
 
         // given
         testService.addFight(Fight(mob, target))
@@ -105,9 +108,8 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val target = testService.createMob()
-        val mob = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.BITE, 100)))
-        }
+        val mob = testService.createMob()
+        createSkill(SkillType.BITE, mob, 100)
 
         // given
         testService.runActionForIOStatus(mob, "bite ${getIdentifyingWord(target)}", IOStatus.OK)
@@ -124,9 +126,8 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val target = testService.createMob()
-        val mob = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.BITE, 100)))
-        }
+        val mob = testService.createMob()
+        createSkill(SkillType.BITE, mob, 100)
 
         // given
         testService.runActionForIOStatus(mob, "bite ${getIdentifyingWord(target)}", IOStatus.OK)
@@ -143,10 +144,11 @@ class ActionServiceTest {
     fun testMobCanCastInvisibilityOnTarget() {
         // setup
         val testService = createTestService()
-        val mob = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.INVISIBILITY, 100)))
-        }
+        val mob = testService.createMob()
         val target = testService.createMob()
+
+        // given
+        createSkill(SkillType.INVISIBILITY, mob, 100)
 
         // when
         val response = testService.runAction(mob, "cast invis ${getIdentifyingWord(target)}")
@@ -159,9 +161,10 @@ class ActionServiceTest {
     fun testMobCanCastInvisibilityOnSelf() {
         // setup
         val testService = createTestService()
-        val mob = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.INVISIBILITY, 100)))
-        }
+        val mob = testService.createMob()
+
+        // given
+        createSkill(SkillType.INVISIBILITY, mob, 100)
 
         // when
         val response = testService.runAction(mob, "cast invis")
@@ -174,10 +177,12 @@ class ActionServiceTest {
     fun testMobCanCastInvisibilityOnItemInInventory() {
         // setup
         val testService = createTestService()
-        val mob = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.INVISIBILITY, 100)))
-        }
-        val item = testService.createItem(mob)
+        val mob = testService.createMob()
+
+        // given
+        createSkill(SkillType.INVISIBILITY, mob, 100)
+        val item = testService.createItem()
+        transaction { item.mobInventory = mob }
 
         // when
         val response = testService.runAction(mob, "cast invis ${getIdentifyingWord(item)}")

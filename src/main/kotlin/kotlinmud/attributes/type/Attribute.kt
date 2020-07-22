@@ -14,5 +14,9 @@ enum class Attribute {
     AC_BASH,
     AC_SLASH,
     AC_PIERCE,
-    AC_MAGIC,
+    AC_MAGIC;
+
+    fun isVitals(): Boolean {
+        return this == HP || this == MANA || this == MV
+    }
 }

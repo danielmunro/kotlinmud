@@ -5,6 +5,7 @@ import assertk.assertions.isEqualTo
 import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class SellTest {
@@ -13,10 +14,12 @@ class SellTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val shopkeeper = testService.createMob(JobType.SHOPKEEPER)
+        val shopkeeper = testService.createMob()
+        transaction { shopkeeper.job = JobType.SHOPKEEPER }
 
         // given
-        val item = testService.createItem(mob)
+        val item = testService.createItem()
+        transaction { item.mobInventory = mob }
 
         // when
         val response = testService.runAction(mob, "sell ${getIdentifyingWord(item)}")

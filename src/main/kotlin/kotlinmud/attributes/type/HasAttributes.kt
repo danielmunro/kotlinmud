@@ -1,7 +1,7 @@
 package kotlinmud.attributes.type
 
-import kotlinmud.attributes.model.Attributes
+import kotlinmud.attributes.dao.AttributesDAO
 
 interface HasAttributes {
-    val attributes: Attributes
+    val attributes: AttributesDAO
 }

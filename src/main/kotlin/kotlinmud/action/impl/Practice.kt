@@ -13,7 +13,11 @@ fun createPracticeAction(): Action {
         val skillType: SkillType = it.get(Syntax.SKILL_TO_PRACTICE)
         val card = it.getMobCard()
         card.practices -= 1
-        it.getMob().skills[skillType] = it.getMob().skills[skillType]!!.plus(1)
+        it.getMob().skills.find { skill ->
+            skill.type == skillType
+        }?.let { skill ->
+            skill.level += 1
+        }
         it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you practice $skillType.")

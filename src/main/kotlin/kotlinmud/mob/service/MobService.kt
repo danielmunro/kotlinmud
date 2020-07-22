@@ -1,12 +1,11 @@
 package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
-import java.lang.RuntimeException
+import kotlinmud.affect.table.Affects
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
-import kotlinmud.fs.factory.playerMobFile
 import kotlinmud.helper.logger
 import kotlinmud.helper.math.normalizeDouble
 import kotlinmud.io.factory.createArriveMessage
@@ -15,145 +14,153 @@ import kotlinmud.io.factory.createLeaveMessage
 import kotlinmud.io.factory.createSingleHitMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Message
-import kotlinmud.item.model.Item
-import kotlinmud.item.model.ItemOwner
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.service.ItemService
+import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Attack
-import kotlinmud.mob.fight.AttackResult
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.helper.getDispositionRegenRate
 import kotlinmud.mob.helper.getRoomRegenRate
-import kotlinmud.mob.mapper.mapMob
-import kotlinmud.mob.model.MAX_WALKABLE_ELEVATION
-import kotlinmud.mob.model.Mob
-import kotlinmud.mob.model.MobRoom
+import kotlinmud.mob.table.Mobs
+import kotlinmud.mob.type.Disposition
+import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.oppositeDirection
-import kotlinmud.room.model.Exit
 import kotlinmud.room.model.NewRoom
-import kotlinmud.room.model.Room
+import kotlinmud.room.table.Rooms
 import kotlinmud.room.type.Direction
-import kotlinmud.world.model.World
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.minus
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 
 class MobService(
     private val itemService: ItemService,
-    private val eventService: EventService,
-    private val world: World,
-    private val playerMobs: MutableList<Mob>
+    private val eventService: EventService
 ) {
     companion object {
-        private fun takeDamageFromFall(mob: Mob, elevationChange: Int) {
+        private fun takeDamageFromFall(mob: MobDAO, elevationChange: Int) {
             val damage = when {
                 elevationChange < MAX_WALKABLE_ELEVATION + 2 -> 3
                 elevationChange < MAX_WALKABLE_ELEVATION + 5 -> 10
                 elevationChange < MAX_WALKABLE_ELEVATION + 10 -> 50
                 else -> elevationChange * 10
             }
-            mob.hp -= damage
+            transaction { mob.hp -= damage }
         }
     }
 
-    private val mobRooms = mutableListOf<MobRoom>()
     private val newRooms = mutableListOf<NewRoom>()
     private val fights = mutableListOf<Fight>()
     private val logger = logger(this)
 
     fun regenMobs() {
-        logger.debug("regen mobs :: ${mobRooms.size} mobs")
-        mobRooms.filter { !it.mob.isIncapacitated() }.forEach {
-            it.mob.increaseByRegenRate(
-                normalizeDouble(
-                    0.0,
-                    getRoomRegenRate(it.room.regen) +
-                            getDispositionRegenRate(it.mob.disposition),
-                    1.0
+        transaction {
+            MobDAO.wrapRows(Mobs.selectAll()).forEach {
+                it.increaseByRegenRate(
+                    normalizeDouble(
+                        0.0,
+                        getRoomRegenRate(it.room.regenLevel) +
+                                getDispositionRegenRate(it.disposition),
+                        1.0
+                    )
                 )
-            )
+            }
         }
     }
 
-    fun createNewRoom(mob: Mob): NewRoom {
+    fun createNewRoom(mob: MobDAO): NewRoom {
         logger.debug("create new room :: $mob")
-        val roomBuilder = world.createRoomBuilder()
-        return mobRooms.find { it.mob == mob }?.let {
-            newRooms.add(NewRoom(it, roomBuilder))
-            NewRoom(it, roomBuilder)
-        } ?: throw RuntimeException("mob must be in a room to add a room")
+        val room = transaction {
+            RoomDAO.new {}
+        }
+        val newRoom = NewRoom(mob, room)
+        newRooms.add(newRoom)
+        return newRoom
     }
 
-    fun buildRoom(mob: Mob, direction: Direction): Room {
+    fun buildRoom(mob: MobDAO, direction: Direction): RoomDAO {
         // setup
-        val mobRoom = mobRooms.find { it.mob == mob }!!
-        val newRoom = newRooms.find { it.mobRoom == mobRoom }!!
-        val roomBuilder = newRoom.roomBuilder
-        val destRoom = roomBuilder.build()
+        val source = transaction { mob.room }
+        val newRoom = newRooms.find { it.mob.id.value == mob.id.value }!!
 
         // destination room exit hook up
-        val destExit = Exit(mobRoom.room, oppositeDirection(direction))
-        destRoom.exits.add(destExit)
+        val destination = newRoom.room
+        when (oppositeDirection(direction)) {
+            Direction.NORTH -> destination.north = source
+            Direction.SOUTH -> destination.south = source
+            Direction.EAST -> destination.east = source
+            Direction.WEST -> destination.west = source
+            Direction.UP -> destination.up = source
+            Direction.DOWN -> destination.down = source
+        }
 
         // source room exit hook up
-        val srcExit = Exit(destRoom, direction)
-        val srcRoom = mobRoom.room
-        srcRoom.exits.add(srcExit)
+        when (direction) {
+            Direction.NORTH -> source.north = destination
+            Direction.SOUTH -> source.south = destination
+            Direction.EAST -> source.east = destination
+            Direction.WEST -> source.west = destination
+            Direction.UP -> source.up = destination
+            Direction.DOWN -> source.down = destination
+        }
 
-        // add to world
-        world.rooms.add(destRoom)
-
-        return destRoom
+        return destination
     }
 
-    fun getNewRoom(mob: Mob): NewRoom? {
-        val mobRoom = mobRooms.find { it.mob == mob }
-        return newRooms.find { mobRoom == it.mobRoom }
+    fun getNewRoom(mob: MobDAO): NewRoom? {
+        return newRooms.find { mob == it.mob }
     }
 
-    fun getRooms(): List<Room> {
-        return world.rooms.toList()
-    }
-
-    fun getStartRoom(): Room {
-        return world.rooms.toList().first()
+    fun getStartRoom(): RoomDAO {
+        return transaction {
+            RoomDAO.wrapRow(
+                Rooms.select { Rooms.id eq 1 }.first()
+            )
+        }
     }
 
     fun addFight(fight: Fight) {
         fights.add(fight)
     }
 
-    fun endFightFor(mob: Mob) {
+    fun endFightFor(mob: MobDAO) {
         fights.find { it.isParticipant(mob) }?.end()
     }
 
-    fun findFightForMob(mob: Mob): Fight? {
+    fun findFightForMob(mob: MobDAO): Fight? {
         return fights.find { it.isParticipant(mob) }
     }
 
-    fun getRoomForMob(mob: Mob): Room {
-        return mobRooms.find { it.mob == mob }!!.room
+    fun getMobsForRoom(room: RoomDAO): List<MobDAO> {
+        return transaction {
+            MobDAO.wrapRows(
+                Mobs.select {
+                    Mobs.roomId eq room.id
+                }
+            ).toList()
+        }
     }
 
-    fun getMobsForRoom(room: Room): List<Mob> {
-        return mobRooms.filter { it.room == room }.map { it.mob }
+    fun getRoomById(id: Int): RoomDAO? {
+        return transaction {
+            RoomDAO.wrapRow(
+                Rooms.select { Rooms.id eq id }.first()
+            )
+        }
     }
 
-    fun getMobRooms(): List<MobRoom> {
-        return mobRooms
-    }
-
-    fun addMob(mob: Mob) {
+    fun addMob(mob: MobDAO) {
         putMobInRoom(mob, getStartRoom())
     }
 
-    fun addPlayerMob(mob: Mob) {
-        playerMobs.add(mob)
-    }
-
-    fun findPlayerMob(name: String): Mob? {
-        return playerMobs.find { it.name == name }
-    }
-
-    fun moveMob(mob: Mob, room: Room, direction: Direction) {
-        val leaving = getRoomForMob(mob)
+    fun moveMob(mob: MobDAO, room: RoomDAO, direction: Direction) {
+        val leaving = transaction { mob.room }
         sendMessageToRoom(createLeaveMessage(mob, direction), leaving, mob)
         putMobInRoom(mob, room)
         doFallCheck(mob, leaving, room)
@@ -175,48 +182,55 @@ class MobService(
     }
 
     fun decrementAffects() {
-        mobRooms.forEach {
-            it.mob.affects().decrement()
+        transaction {
+            // see: https://stackoverflow.com/questions/38779666/how-to-fix-overload-resolution-ambiguity-in-kotlin-no-lambda
+            Affects.deleteWhere(null as Int?, null as Int?) {
+                Affects.timeout.isNotNull() and (Affects.timeout eq 0)
+            }
+            Affects.update({ Affects.timeout.isNotNull() }) {
+                it.update(timeout, timeout - 1)
+            }
         }
     }
 
     fun pruneDeadMobs() {
-        mobRooms.removeIf {
-            if (it.mob.isIncapacitated()) {
-                itemService.add(ItemOwner(createCorpseFrom(it.mob), it.room))
+        transaction {
+            MobDAO.wrapRows(
+                Mobs.select {
+                    Mobs.disposition eq Disposition.DEAD.toString()
+                }
+            ).forEach {
+                val item = createCorpseFrom(it)
+                item.room = it.room
+                it.delete()
                 eventService.publishRoomMessage(
-                    createSendMessageToRoomEvent(createDeathMessage(it.mob), it.room, it.mob)
+                    createSendMessageToRoomEvent(createDeathMessage(it), it.room, it)
                 )
             }
-            it.mob.isIncapacitated()
         }
     }
 
-    fun removeMob(mob: Mob) {
-        mobRooms.removeIf { it.mob == mob }
+    fun removeMob(mob: MobDAO) {
+        transaction {
+            mob.delete()
+        }
     }
 
-    fun sendMessageToRoom(message: Message, room: Room, actionCreator: Mob, target: Mob? = null) {
+    fun sendMessageToRoom(message: Message, room: RoomDAO, actionCreator: MobDAO, target: MobDAO? = null) {
         eventService.publish(
             createSendMessageToRoomEvent(message, room, actionCreator, target)
         )
     }
 
-    fun putMobInRoom(mob: Mob, room: Room) {
-        mobRooms.find { it.mob == mob }?.let {
-            it.room = room
-        } ?: mobRooms.add(MobRoom(mob, room))
+    fun putMobInRoom(mob: MobDAO, room: RoomDAO) {
+        transaction { mob.room = room }
     }
 
-    fun createCorpseFrom(mob: Mob): Item {
+    fun createCorpseFrom(mob: MobDAO): ItemDAO {
         return itemService.createCorpseFromMob(mob)
     }
 
-    fun persistPlayerMobs() {
-        playerMobFile().writeText(playerMobs.joinToString("\n") { mapMob(it) })
-    }
-
-    private fun doFallCheck(mob: Mob, leaving: Room, arriving: Room) {
+    private fun doFallCheck(mob: MobDAO, leaving: RoomDAO, arriving: RoomDAO) {
         (leaving.elevation - arriving.elevation).let {
             if (it > MAX_WALKABLE_ELEVATION) {
                 takeDamageFromFall(mob, it)
@@ -225,7 +239,7 @@ class MobService(
     }
 
     private fun proceedFightRound(round: Round): Round {
-        val room = getRoomForMob(round.attacker)
+        val room = transaction { round.attacker.room }
         sendRoundMessage(round.attackerAttacks, room, round.attacker, round.defender)
         sendRoundMessage(round.defenderAttacks, room, round.defender, round.attacker)
         eventService.publishRoomMessage(
@@ -245,7 +259,7 @@ class MobService(
         return round
     }
 
-    private fun sendRoundMessage(attacks: List<Attack>, room: Room, attacker: Mob, defender: Mob) {
+    private fun sendRoundMessage(attacks: List<Attack>, room: RoomDAO, attacker: MobDAO, defender: MobDAO) {
         attacks.forEach {
             val verb = if (it.attackResult == AttackResult.HIT) it.attackVerb else "miss"
             val verbPlural = if (it.attackResult == AttackResult.HIT) it.attackVerb.pluralize() else "misses"

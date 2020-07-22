@@ -1,12 +1,10 @@
 package kotlinmud.helper
 
-import kotlinmud.affect.model.AffectInstance
-import kotlinmud.affect.service.AffectService
+import kotlinmud.affect.dao.AffectDAO
+import org.jetbrains.exposed.sql.SizedIterable
 
 interface Noun {
     val name: String
     val description: String
-    val affects: MutableList<AffectInstance>
-
-    fun affects(): AffectService
+    val affects: SizedIterable<AffectDAO>
 }

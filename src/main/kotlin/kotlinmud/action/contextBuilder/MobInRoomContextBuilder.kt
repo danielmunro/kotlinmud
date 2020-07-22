@@ -4,9 +4,9 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 
-class MobInRoomContextBuilder(private val mobs: List<Mob>) : ContextBuilder {
+class MobInRoomContextBuilder(private val mobs: List<MobDAO>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return mobs.find { matches(it.name, word) }?.let {
             Context<Any>(syntax, Status.OK, it)

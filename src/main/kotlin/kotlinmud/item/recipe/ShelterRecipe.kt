@@ -1,7 +1,6 @@
 package kotlinmud.item.recipe
 
-import kotlinmud.item.model.Item
-import kotlinmud.item.model.ItemBuilder
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Recipe
@@ -15,16 +14,15 @@ class ShelterRecipe : Recipe {
         )
     }
 
-    override fun getProducts(): List<Item> {
+    override fun getProducts(): List<ItemDAO> {
         return listOf(
-            ItemBuilder()
-                .id(0)
-                .type(ItemType.FURNITURE)
-                .name("a lean-to shelter")
-                .description("a lean-to has been constructed hastily here.")
-                .material(Material.WOOD)
-                .canOwn(false)
-                .build()
+            ItemDAO.new {
+                type = ItemType.FURNITURE
+                name = "a lean-to shelter"
+                description = "a lean-to has been constructed hastily here."
+                material = Material.WOOD
+                canOwn = false
+            }
         )
     }
 }

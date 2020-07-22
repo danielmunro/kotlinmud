@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class GetFromItemTest {
@@ -12,11 +13,15 @@ class GetFromItemTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val room = test.getStartRoom()
 
         // given
-        val itemWithInventory = test.buildItem(test.itemBuilder().hasInventory(true), room)
-        val item = test.createItem(itemWithInventory)
+        val itemWithInventory = test.createItem()
+        val item = test.createItem()
+        transaction {
+            itemWithInventory.isContainer = true
+            itemWithInventory.mobInventory = mob
+            item.container = itemWithInventory
+        }
 
         // when
         val response = test.runAction(mob, "get ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(item)}")
@@ -33,8 +38,13 @@ class GetFromItemTest {
         val mob = test.createMob()
 
         // given
-        val itemWithInventory = test.buildItem(test.itemBuilder().hasInventory(true), mob)
-        val item = test.createItem(itemWithInventory)
+        val itemWithInventory = test.createItem()
+        val item = test.createItem()
+        transaction {
+            itemWithInventory.isContainer = true
+            itemWithInventory.mobInventory = mob
+            item.container = itemWithInventory
+        }
 
         // when
         val response = test.runAction(mob, "get ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(item)}")

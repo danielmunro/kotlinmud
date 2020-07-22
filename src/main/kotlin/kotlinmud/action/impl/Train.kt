@@ -3,26 +3,24 @@ package kotlinmud.action.impl
 import kotlinmud.action.helper.mustBeStanding
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
-import kotlinmud.attributes.model.AttributesBuilder
-import kotlinmud.attributes.model.isVitals
-import kotlinmud.attributes.model.setAttribute
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.factory.trainable
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
+import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createTrainAction(): Action {
     return Action(Command.TRAIN, mustBeStanding(), trainable()) {
         val attribute: Attribute = it.get(Syntax.TRAINABLE)
         val card = it.getMobCard()
         card.trains -= 1
-        card.trainedAttributes.add(
-            setAttribute(
-                AttributesBuilder(),
-                attribute,
-                if (isVitals(attribute)) 10 else 1
-            ).build()
-        )
+        transaction {
+            val attributes = AttributesDAO.new {
+                mobCard = card
+            }
+            attributes.setAttribute(attribute, if (attribute.isVitals()) 10 else 1)
+        }
         it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you train your ${getImprove(attribute)}.")

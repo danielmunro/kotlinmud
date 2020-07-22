@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.doesNotContain
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.fs.saver.layerToString
+import kotlinmud.test.createTestService
 import org.junit.Test
 
 const val WIDTH = 1000
@@ -13,6 +14,9 @@ const val BIOME_COUNT = 50
 class BiomeServiceTest {
     @Test
     fun testCreateLayerSanityCheck() {
+        // setup
+        createTestService()
+
         // given
         val biomeService = BiomeService(
             WIDTH,

@@ -4,10 +4,10 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.player.service.PlayerService
 
-class SkillToPracticeContextBuilder(private val playerService: PlayerService, private val mob: Mob) : ContextBuilder {
+class SkillToPracticeContextBuilder(private val playerService: PlayerService, private val mob: MobDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val mobCard = playerService.findMobCardByName(mob.name)!!
         if (mobCard.practices == 0) {
@@ -17,10 +17,10 @@ class SkillToPracticeContextBuilder(private val playerService: PlayerService, pr
                 "you don't have any practices left."
             )
         }
-        mob.skills.keys.find {
-            matches(it.toString(), word)
+        mob.skills.find {
+            matches(it.type.toString(), word)
         }?.let {
-            if (mob.skills[it] == 100) {
+            if (it.level == 100) {
                 return Context(
                     syntax,
                     Status.ERROR,

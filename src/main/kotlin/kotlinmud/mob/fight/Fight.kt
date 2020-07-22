@@ -5,25 +5,31 @@ import kotlinmud.helper.math.d20
 import kotlinmud.helper.math.dN
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.type.Position
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.fight.type.AttackResult
+import kotlinmud.mob.fight.type.DamageType
+import kotlinmud.mob.fight.type.FightStatus
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.LoggerFactory
 
-class Fight(private val mob1: Mob, private val mob2: Mob) {
+class Fight(private val mob1: MobDAO, private val mob2: MobDAO) {
     private var status: FightStatus = FightStatus.FIGHTING
     private val logger = LoggerFactory.getLogger(Fight::class.java)
 
     init {
-        mob1.disposition = Disposition.FIGHTING
-        mob2.disposition = Disposition.FIGHTING
+        transaction {
+            mob1.disposition = Disposition.FIGHTING
+            mob2.disposition = Disposition.FIGHTING
+        }
     }
 
-    fun isParticipant(mob: Mob): Boolean {
+    fun isParticipant(mob: MobDAO): Boolean {
         return mob == mob1 || mob == mob2
     }
 
-    fun getOpponentFor(mob: Mob): Mob? {
+    fun getOpponentFor(mob: MobDAO): MobDAO? {
         if (mob == mob1) {
             return mob2
         }
@@ -47,7 +53,7 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
         return mob1.isIncapacitated() || mob2.isIncapacitated()
     }
 
-    fun getWinner(): Mob? {
+    fun getWinner(): MobDAO? {
         if (mob1.isIncapacitated()) {
             return mob2
         } else if (mob2.isIncapacitated()) {
@@ -73,25 +79,29 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
         return round
     }
 
-    private fun resetDisposition(mob: Mob) {
+    private fun resetDisposition(mob: MobDAO) {
         if (mob.disposition == Disposition.FIGHTING) {
-            mob.disposition = Disposition.STANDING
-        }
-    }
-
-    private fun applyRoundDamage(attacks: List<Attack>, mob: Mob) {
-        attacks.forEach {
-            if (it.attackResult == AttackResult.HIT) {
-                mob.hp -= it.damage
-                mob.disposition = Disposition.FIGHTING
+            transaction {
+                mob.disposition = Disposition.STANDING
             }
         }
-        if (mob.hp < 0) {
-            mob.disposition = Disposition.DEAD
+    }
+
+    private fun applyRoundDamage(attacks: List<Attack>, mob: MobDAO) {
+        transaction {
+            attacks.forEach {
+                if (it.attackResult == AttackResult.HIT) {
+                    mob.hp -= it.damage
+                    mob.disposition = Disposition.FIGHTING
+                }
+            }
+            if (mob.hp < 0) {
+                mob.disposition = Disposition.DEAD
+            }
         }
     }
 
-    private fun mapAttacks(attacker: Mob, defender: Mob): List<Attack> {
+    private fun mapAttacks(attacker: MobDAO, defender: MobDAO): List<Attack> {
         return attacker.getAttacks().map {
             val skillType = rollEvasiveSkills(defender)
             when {
@@ -107,39 +117,44 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
         }
     }
 
-    private fun rollEvasiveSkills(defender: Mob): SkillType? {
-        defender.equipped.find { it.position == Position.SHIELD }?.let { _ ->
-            defender.skills[SkillType.SHIELD_BLOCK]?.let {
-                if (percentRoll() < it / 3) {
-                    return SkillType.SHIELD_BLOCK
+    private fun rollEvasiveSkills(mob: MobDAO): SkillType? {
+        return transaction {
+//            val itemResult = Items.select { Items.mobEquippedId eq mob.id and (Items.position eq Position.SHIELD.toString()) }.singleOrNull()
+//            val skillResult = Skills.select { Skills.mobId eq mob.id and (Skills.type eq SkillType.SHIELD_BLOCK.toString()) }.singleOrNull()
+            mob.equipped.find { it.position == Position.SHIELD }?.let {
+                mob.skills.find { it.type == SkillType.SHIELD_BLOCK }?.let {
+                    if (percentRoll() < it.level / 3) {
+                        return@transaction SkillType.SHIELD_BLOCK
+                    }
                 }
             }
-        }
 
-        defender.equipped.find { it.position == Position.WEAPON }?.let { _ ->
-            defender.skills[SkillType.PARRY]?.let {
-                if (percentRoll() < it / 3) {
-                    return SkillType.PARRY
+            mob.equipped.find { it.position == Position.WEAPON }?.let { _ ->
+                mob.skills.find { it.type == SkillType.PARRY }?.let {
+                    if (percentRoll() < it.level / 3) {
+                        return@transaction SkillType.PARRY
+                    }
                 }
             }
-        }
 
-        defender.skills[SkillType.DODGE]?.let {
-            if (percentRoll() < it / 3) {
-                return SkillType.DODGE
+            mob.skills.find { it.type == SkillType.DODGE }?.let {
+                if (percentRoll() < it.level / 3) {
+                    return@transaction SkillType.DODGE
+                }
             }
+
+            return@transaction null
         }
-        return null
     }
 
-    private fun calculateDamage(attacker: Mob): Int {
+    private fun calculateDamage(attacker: MobDAO): Int {
         val hit = attacker.calc(Attribute.HIT)
         val dam = attacker.calc(Attribute.DAM)
 
         return dN(hit, dam) + dam
     }
 
-    private fun attackerDefeatsDefenderAC(attacker: Mob, defender: Mob): Boolean {
+    private fun attackerDefeatsDefenderAC(attacker: MobDAO, defender: MobDAO): Boolean {
         val roll = d20()
         val hit = attacker.calc(Attribute.HIT)
         val ac = getAc(defender, attacker.getDamageType())
@@ -147,7 +162,7 @@ class Fight(private val mob1: Mob, private val mob2: Mob) {
         return roll - hit + ac < 0
     }
 
-    private fun getAc(defender: Mob, damageType: DamageType): Int {
+    private fun getAc(defender: MobDAO, damageType: DamageType): Int {
         return when (damageType) {
             DamageType.SLASH -> defender.calc(Attribute.AC_SLASH)
             DamageType.POUND -> defender.calc(Attribute.AC_BASH)

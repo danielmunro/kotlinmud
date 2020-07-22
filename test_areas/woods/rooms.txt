@@ -4,8 +4,8 @@ A trail leads into the woods to the west. To the east is Midgaard.~
 woods~
 none~
 #0
-~
 NONE~
+~
 w: 1001~
 
 #1001
@@ -15,8 +15,8 @@ a habitat for forest critters.~
 woods~
 none~
 #0
-~
 NONE~
+~
 w: 1002~
 
 #1002
@@ -25,8 +25,8 @@ A well worn trail winds through a grove of old growth trees.~
 woods~
 none~
 #0
-~
 NONE~
+~
 n: 1003~
 
 #1003
@@ -35,8 +35,8 @@ A well worn trail winds through a grove of old growth trees.~
 woods~
 none~
 #0
-~
 NONE~
+~
 w: 1004, n: 1005~
 
 #1004
@@ -45,8 +45,8 @@ A well worn trail winds through a grove of old growth trees.~
 woods~
 none~
 #0
-~
 NONE~
+~
 ~
 
 #1005
@@ -55,6 +55,6 @@ A well worn trail winds through a grove of old growth trees.~
 woods~
 none~
 #0
-~
 NONE~
+~
 ~

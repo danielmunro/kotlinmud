@@ -1,18 +1,19 @@
 package kotlinmud.affect.impl
 
-import kotlinmud.affect.Affect
-import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.dao.AffectDAO
+import kotlinmud.affect.factory.createAffect
+import kotlinmud.affect.type.Affect
 import kotlinmud.affect.type.AffectType
-import kotlinmud.attributes.model.AttributesBuilder
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 
 class DrunkAffect : Affect {
     override val type: AffectType = AffectType.DRUNK
 
-    override fun messageFromInstantiation(mob: Mob, target: Noun?): Message {
+    override fun messageFromInstantiation(mob: MobDAO, target: Noun?): Message {
         return MessageBuilder()
             .toActionCreator("Your pulse speeds up as you are consumed by rage!")
             .toObservers("$mob's pulse speeds up as they are consumed by rage!")
@@ -26,14 +27,14 @@ class DrunkAffect : Affect {
             .build()
     }
 
-    override fun createInstance(timeout: Int): AffectInstance {
-        return AffectInstance(
+    override fun createInstance(timeout: Int): AffectDAO {
+        return createAffect(
             type,
             timeout,
-            AttributesBuilder()
-                .dexterity(-1)
-                .intelligence(-1)
-                .build()
+            AttributesDAO.new {
+                dexterity = -1
+                intelligence = -1
+            }
         )
     }
 }

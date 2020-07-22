@@ -6,7 +6,8 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.equipmentInInventory
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.model.Item
+import kotlinmud.item.dao.ItemDAO
+import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createWearAction(): Action {
     return Action(
@@ -14,14 +15,16 @@ fun createWearAction(): Action {
         mustBeAlert(),
         equipmentInInventory()
     ) { svc ->
-        val item = svc.get<Item>(Syntax.EQUIPMENT_IN_INVENTORY)
-        val removed = svc.getMob().equipped.find {
-            it.position == item.position
-        }?.let {
-            svc.getMob().equipped.remove(it)
-            it
+        val item = svc.get<ItemDAO>(Syntax.EQUIPMENT_IN_INVENTORY)
+        val removed = transaction {
+            svc.getMob().equipped.find {
+                it.position == item.position
+            }?.let {
+                it.mobEquipped = null
+                it
+            }
         }
-        svc.getMob().equipped.add(item)
+        transaction { item.mobEquipped = svc.getMob() }
         svc.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you ${if (removed != null) "remove $removed and " else ""}wear $item.")

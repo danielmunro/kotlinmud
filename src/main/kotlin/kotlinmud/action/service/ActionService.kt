@@ -2,8 +2,10 @@ package kotlinmud.action.service
 
 import kotlinmud.action.model.Action
 import kotlinmud.action.model.ActionContextList
+import kotlinmud.action.model.Context
 import kotlinmud.action.type.Command
 import kotlinmud.action.type.Invokable
+import kotlinmud.action.type.Status
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.helper.logger
 import kotlinmud.helper.math.percentRoll
@@ -13,15 +15,16 @@ import kotlinmud.io.model.Response
 import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.skill.SkillAction
-import kotlinmud.mob.skill.createSkillList
+import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.type.CostType
+import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.type.HasCosts
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.RequiresDisposition
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionService(
     private val mobService: MobService,
@@ -94,11 +97,11 @@ class ActionService(
     private fun executeSkill(request: Request, skill: SkillAction): Response {
         return dispositionCheck(request, skill)
             ?: deductCosts(request.mob, skill)
-            ?: skillRoll(request.mob.skills[skill.type] ?: error("no skill"))
+            ?: skillRoll(transaction { request.mob.skills.find { it.type == skill.type }?.level } ?: error("no skill"))
             ?: callInvokable(request, skill, buildActionContextList(request, skill))
     }
 
-    private fun deductCosts(mob: Mob, hasCosts: HasCosts): Response? {
+    private fun deductCosts(mob: MobDAO, hasCosts: HasCosts): Response? {
         val cost = hasCosts.costs.find {
             when (it.type) {
                 CostType.MV_AMOUNT -> mob.mv < it.amount
@@ -113,19 +116,21 @@ class ActionService(
                 messageToActionCreator("You are too tired")
             )
         }
-        hasCosts.costs.forEach {
-            when (it.type) {
-                CostType.DELAY -> return@forEach
-                CostType.MV_AMOUNT -> mob.mv -= it.amount
-                CostType.MV_PERCENT -> mob.mv -= (mob.calc(Attribute.MV) * (it.amount.toDouble() / 100)).toInt()
-                CostType.MANA_AMOUNT -> mob.mana -= it.amount
-                CostType.MANA_PERCENT -> mob.mana -= (mob.calc(Attribute.MANA) * (it.amount.toDouble() / 100)).toInt()
+        transaction {
+            hasCosts.costs.forEach {
+                when (it.type) {
+                    CostType.DELAY -> return@forEach
+                    CostType.MV_AMOUNT -> mob.mv -= it.amount
+                    CostType.MV_PERCENT -> mob.mv -= (mob.calc(Attribute.MV) * (it.amount.toDouble() / 100)).toInt()
+                    CostType.MANA_AMOUNT -> mob.mana -= it.amount
+                    CostType.MANA_PERCENT -> mob.mana -= (mob.calc(Attribute.MANA) * (it.amount.toDouble() / 100)).toInt()
+                }
             }
         }
         return null
     }
 
-    private fun triggerFightForOffensiveSkills(mob: Mob, target: Mob) {
+    private fun triggerFightForOffensiveSkills(mob: MobDAO, target: MobDAO) {
         mobService.findFightForMob(mob) ?: mobService.addFight(Fight(mob, target))
     }
 
@@ -163,23 +168,30 @@ class ActionService(
         }
     }
 
-    private fun createChainToRequest(mob: Mob, action: Action): Request {
+    private fun createChainToRequest(mob: MobDAO, action: Action): Request {
         return Request(
             mob,
             action.chainTo.toString(),
-            mobService.getRoomForMob(mob)
+            transaction { mob.room }
         )
     }
 
     private fun buildActionContextList(request: Request, invokable: Invokable): ActionContextList {
         logger.debug("${request.mob} building action context :: {}, {}", invokable.command, invokable.syntax)
         var i = 0
-        return ActionContextList(invokable.syntax.map {
-            contextBuilderService.createContext(
-                it,
-                request,
-                if (request.args.size > i) request.args[i++] else ""
-            )
-        }.toMutableList())
+        var successful = true
+        val contexts = mutableListOf<Context<out Any>>()
+        invokable.syntax.forEach {
+            if (successful) {
+                val context = contextBuilderService.createContext(
+                    it,
+                    request,
+                    if (request.args.size > i) request.args[i++] else ""
+                )
+                contexts.add(context)
+                successful = context.status == Status.OK
+            }
+        }
+        return ActionContextList(contexts)
     }
 }

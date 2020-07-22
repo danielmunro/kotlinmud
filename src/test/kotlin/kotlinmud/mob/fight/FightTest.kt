@@ -5,10 +5,13 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotEqualTo
 import kotlinmud.item.type.Position
+import kotlinmud.mob.fight.type.AttackResult
+import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class FightTest {
@@ -19,15 +22,10 @@ class FightTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob = testService.withMob {
-            it.skills(
-                mutableMapOf(
-                    Pair(SkillType.SHIELD_BLOCK, 100),
-                    Pair(SkillType.PARRY, 100),
-                    Pair(SkillType.DODGE, 100)
-                )
-            )
-        }
+        val mob = testService.createMob()
+        createSkill(SkillType.SHIELD_BLOCK, mob, 100)
+        createSkill(SkillType.PARRY, mob, 100)
+        createSkill(SkillType.DODGE, mob, 100)
 
         // when
         val fight = Fight(mob, testService.createMob())
@@ -52,14 +50,18 @@ class FightTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
-        }
+        val mob1 = testService.createMob()
+        val mob2 = testService.createMob()
+        createSkill(SkillType.SHIELD_BLOCK, mob1, 100)
+        createSkill(SkillType.SHIELD_BLOCK, mob2, 100)
 
-        val mob2 = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.SHIELD_BLOCK, 100)))
+        // and
+        val item = testService.createItem()
+        transaction {
+            item.mobInventory = mob2
+            item.position = Position.SHIELD
+            item.mobEquipped = mob2
         }
-        mob2.equipped.add(testService.buildItem(testService.itemBuilder().position(Position.SHIELD), mob2))
 
         // when
         val fight = Fight(mob1, mob2)
@@ -84,21 +86,23 @@ class FightTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.withMob { it.skills(mutableMapOf(Pair(SkillType.PARRY, 100))) }
-        mob1.equipped.removeAt(0)
-
-        val mob2 = testService.withMob {
-            it.skills(mutableMapOf(Pair(SkillType.PARRY, 100)))
+        val mob1 = testService.createMob()
+        createSkill(SkillType.PARRY, mob1, 100)
+        transaction {
+            mob1.equipped.forEach {
+                it.mobEquipped = null
+            }
         }
-        mob2.equipped.add(testService.buildItem(
-            testService.itemBuilder()
-                .position(Position.WEAPON), mob2))
+
+        val mob2 = testService.createMob()
+        createSkill(SkillType.PARRY, mob2, 100)
 
         val fight = Fight(mob1, mob2)
+
         testService.addFight(fight)
 
         // when
-        while (prob.isIterating()) {
+        while (prob.isIterating() && !fight.isOver()) {
             val round = fight.createRound()
             val outcome1 = round.attackerAttacks.find { it.attackResult == AttackResult.EVADE }
             val outcome2 = round.defenderAttacks.find { it.attackResult == AttackResult.EVADE }
@@ -115,11 +119,23 @@ class FightTest {
         // setup
         val hp = 100
         val testService = createTestService()
-        val mob1 = testService.withMob { it.hp(hp).wimpy(hp) }
-        val mob2 = testService.withMob { it.hp(hp).wimpy(hp) }
-        val fight = Fight(mob1, mob2)
+        val mob1 = testService.createMob()
+        val mob2 = testService.createMob()
+        val dst = testService.createRoom()
+        transaction { testService.getStartRoom().north = dst }
 
         // given
+        transaction {
+            mob1.hp = hp
+            mob1.wimpy = hp
+            mob1.attributes.hit = 10
+            mob2.hp = hp
+            mob2.wimpy = hp
+            mob2.attributes.hit = 10
+        }
+
+        // and
+        val fight = Fight(mob1, mob2)
         testService.addFight(fight)
 
         // when
@@ -136,8 +152,8 @@ class FightTest {
         assertThat(mob2.hp).isGreaterThan(0)
 
         // and
-        val room1 = testService.getRoomForMob(mob1)
-        val room2 = testService.getRoomForMob(mob2)
+        val room1 = transaction { mob1.room }
+        val room2 = transaction { mob2.room }
         assertThat(room1.id).isNotEqualTo(room2.id)
     }
 }

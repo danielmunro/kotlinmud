@@ -20,10 +20,8 @@ import kotlinmud.event.observer.impl.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.PruneDeadMobsPulseObserver
 import kotlinmud.event.observer.impl.RegenMobsObserver
 import kotlinmud.event.observer.impl.RemoveMobOnClientDisconnectObserver
-import kotlinmud.event.observer.impl.RespawnTickObserver
 import kotlinmud.event.observer.impl.SaveTimeObserver
 import kotlinmud.event.observer.impl.SaveVersionsObserver
-import kotlinmud.event.observer.impl.SaveWorldObserver
 import kotlinmud.event.observer.impl.ScavengerCollectsItemsObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
@@ -31,26 +29,18 @@ import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
 import kotlinmud.event.observer.type.Observers
 import kotlinmud.event.service.EventService
-import kotlinmud.fs.helper.loadVersionState
-import kotlinmud.fs.saver.WorldSaver
 import kotlinmud.fs.service.PersistenceService
 import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.service.ItemService
-import kotlinmud.mob.provider.loadMobs
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.skill.createSkillList
-import kotlinmud.player.loader.PlayerLoader
-import kotlinmud.player.provider.loadMobCards
+import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.player.service.EmailService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
-import kotlinmud.service.RespawnService
 import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
-import kotlinmud.world.helper.mapAreasToModel
-import kotlinmud.world.model.World
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
@@ -67,10 +57,6 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 port
             )
         }
-        bind<PersistenceService>() with singleton {
-            val versions = loadVersionState(isTest)
-            PersistenceService(versions[0], versions[1])
-        }
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
         bind<ItemService>() with singleton { ItemService() }
@@ -84,8 +70,6 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
         bind<PlayerService>() with singleton {
             PlayerService(
                 instance<EmailService>(),
-                PlayerLoader.loadAllPlayers().toMutableList(),
-                loadMobCards(),
                 instance<EventService>()
             )
         }
@@ -96,12 +80,8 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 if (isTest) 0 else persistenceService.loadTimeFile()
             )
         }
-        bind<World>() with singleton {
-            val persistenceService = instance<PersistenceService>()
-            mapAreasToModel(persistenceService.loadAreas(isTest))
-        }
-        bind<WorldSaver>() with singleton {
-            WorldSaver(instance<World>())
+        bind<PersistenceService>() with singleton {
+            PersistenceService()
         }
         bind<ActionService>() with singleton {
             ActionService(
@@ -115,23 +95,13 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                     instance<WeatherService>(),
                     instance<ServerService>()
                 ),
-                createActionsList(instance<WorldSaver>())
+                createActionsList()
             )
         }
         bind<MobService>() with singleton {
-            val persistenceService = instance<PersistenceService>()
             MobService(
                 instance<ItemService>(),
-                instance<EventService>(),
-                instance<World>(),
-                loadMobs(persistenceService.loadSchemaToUse)
-            )
-        }
-        bind<RespawnService>() with singleton {
-            RespawnService(
-                instance<World>(),
-                instance<MobService>(),
-                instance<ItemService>()
+                instance<EventService>()
             )
         }
         bind<ContextBuilderService>() with singleton {
@@ -160,23 +130,16 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 DecrementAffectTimeoutTickObserver(instance<MobService>()),
                 DecrementDelayObserver(instance<ClientService>()),
                 DecrementItemDecayTimerObserver(instance<ItemService>()),
-                SaveWorldObserver(
-                    instance<PersistenceService>(),
-                    instance<PlayerService>(),
-                    instance<MobService>(),
-                    instance<World>()
-                ),
                 SaveTimeObserver(instance<TimeService>(), instance<PersistenceService>()),
-                LogTickObserver(instance<MobService>(), instance<ServerService>()),
+                LogTickObserver(instance<ServerService>()),
                 PruneDeadMobsPulseObserver(instance<MobService>()),
-                RespawnTickObserver(instance<RespawnService>()),
                 SocialDistributorObserver(instance<ServerService>(), instance<MobService>()),
                 ChangeWeatherObserver(instance<WeatherService>()),
                 SaveVersionsObserver(instance<PersistenceService>()),
                 WimpyObserver(instance<MobService>()),
-                GrantExperienceOnKillObserver(instance<PlayerService>(), instance<ServerService>()),
+                GrantExperienceOnKillObserver(instance<ServerService>()),
                 TransferGoldOnKillObserver(),
-                IncreaseThirstAndHungerObserver(instance<PlayerService>(), instance<ServerService>()),
+                IncreaseThirstAndHungerObserver(instance<ServerService>()),
                 RegenMobsObserver(instance<MobService>()),
                 MoveMobsOnTickObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),
                 ScavengerCollectsItemsObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),

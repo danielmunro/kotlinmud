@@ -6,6 +6,7 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class FleeTest {
@@ -13,11 +14,17 @@ class FleeTest {
     fun testFleeEndsFight() {
         // setup
         val testService = createTestService()
+        val room = testService.getStartRoom()
+        val dest = testService.createRoom()
         val mob = testService.createMob()
         val target = testService.createMob()
         val fight = Fight(mob, target)
-        mob.disposition = Disposition.FIGHTING
-        target.disposition = Disposition.FIGHTING
+
+        transaction {
+            room.north = dest
+            mob.disposition = Disposition.FIGHTING
+            target.disposition = Disposition.FIGHTING
+        }
 
         // given
         testService.addFight(fight)

@@ -12,6 +12,7 @@ enum class ItemType {
     BUILDER_TABLE,
     FURNITURE,
     WOOD,
+    WOOD_LOG,
     LUMBER,
     STICK,
     DIRT,

@@ -4,6 +4,6 @@ You are in the courtyard of Midgard castle.~
 castle~
 none~
 #0
-~
 NONE~
+~
 ~

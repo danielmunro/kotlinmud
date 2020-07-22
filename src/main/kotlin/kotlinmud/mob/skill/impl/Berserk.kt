@@ -3,21 +3,22 @@ package kotlinmud.mob.skill.impl
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
+import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.impl.BerserkAffect
-import kotlinmud.affect.model.AffectInstance
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.skill.SkillAction
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.LearningDifficulty
+import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.SpecializationType
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class Berserk : SkillAction {
     override val type: SkillType = SkillType.BERSERK
@@ -40,12 +41,8 @@ class Berserk : SkillAction {
     override val affect = BerserkAffect()
 
     override fun invoke(actionContextService: ActionContextService): Response {
-        actionContextService.getMob().affects().add(
-            AffectInstance(
-                AffectType.BERSERK,
-                actionContextService.getLevel() / 8
-            )
-        )
+        val affect = createAffect(AffectType.BERSERK)
+        transaction { affect.mob = actionContextService.getMob() }
         return actionContextService.createOkResponse(
             MessageBuilder()
                 .toActionCreator("Your pulse speeds up as you are consumed by rage!")

@@ -2,24 +2,25 @@ package kotlinmud.mob.controller
 
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.service.EventService
+import kotlinmud.helper.logger
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.item.service.ItemService
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.path.Pathfinder
-import kotlinmud.room.model.Exit
-import kotlinmud.room.model.Room
+import kotlinmud.room.dao.DoorDAO
+import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.type.DoorDisposition
-import org.slf4j.LoggerFactory
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobController(
     private val mobService: MobService,
     private val itemService: ItemService,
     private val eventService: EventService,
-    private val mob: Mob
+    private val mob: MobDAO
 ) {
-    private val logger = LoggerFactory.getLogger(MobController::class.java)
+    private val logger = logger(this)
 
     fun move() {
         when (mob.job) {
@@ -30,12 +31,12 @@ class MobController(
     }
 
     fun pickUpAnyItem() {
-        val room = mobService.getRoomForMob(mob)
+        val room = transaction { mob.room }
         val items = itemService.findAllByOwner(room)
         if (mob.isStanding() && items.isNotEmpty()) {
             val item = items.random()
             logger.debug("$mob picks up $item")
-            itemService.changeItemOwner(item, mob)
+            itemService.giveItemToMob(item, mob)
             eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
                     MessageBuilder()
@@ -50,44 +51,57 @@ class MobController(
     }
 
     private fun proceedRoute() {
-        val nextRoomId = mob.route[mob.lastRoute]
-        val currentRoom = mobService.getRoomForMob(mob)
-        val nextRoom = mobService.getRooms().find { it.id == nextRoomId }!!
-        if (currentRoom.id == nextRoomId) {
-            mob.lastRoute += 1
-            if (mob.lastRoute == mob.route.size) {
+        transaction {
+            if (mob.lastRoute == null) {
                 mob.lastRoute = 0
+            }
+        }
+        val nextRoomId = mob.route?.get(mob.lastRoute!!)!!
+        val currentRoom = transaction { mob.room }
+        val nextRoom = mobService.getRoomById(nextRoomId)!!
+        val currentRoomId = transaction { currentRoom.id.value }
+        if (currentRoomId == nextRoomId) {
+            transaction {
+                mob.lastRoute = mob.lastRoute?.plus(1)
+                if (mob.lastRoute == mob.route?.size) {
+                    mob.lastRoute = 0
+                }
             }
             return proceedRoute()
         }
         logger.debug("mob $mob moving on route, index: ${mob.lastRoute}")
         val path = Pathfinder(currentRoom, nextRoom)
         val rooms = path.find()
-        val nextMove = currentRoom.exits.find { it.destination == rooms[1] }!!
-        if (openDoorIfExistsAndClosed(currentRoom, nextMove)) {
-            mobService.moveMob(mob, nextMove.destination, nextMove.direction)
+        val nextMove = currentRoom.getAllExits().entries.find {
+            it.value.id.value == rooms[1].id.value
+        }!!
+        val door = currentRoom.getDoors().entries.find {
+            it.key == nextMove.key
+        }?.value
+        if (openDoorIfExistsAndClosed(currentRoom, door)) {
+            mobService.moveMob(mob, nextMove.value, nextMove.key)
         }
     }
 
     private fun wander() {
         logger.debug("mob $mob moving via random choice")
-        val room = mobService.getRoomForMob(mob)
-        room.openExits().filter { it.destination.area == room.area }.random().let {
-            mobService.moveMob(mob, it.destination, it.direction)
+        val room = transaction { mob.room }
+        room.getAllExits().filter { it.value.area == room.area }.entries.random().let {
+            mobService.moveMob(mob, it.value, it.key)
         }
     }
 
-    private fun openDoorIfExistsAndClosed(room: Room, exit: Exit): Boolean {
-        if (exit.door != null && exit.door.disposition == DoorDisposition.LOCKED) {
+    private fun openDoorIfExistsAndClosed(room: RoomDAO, door: DoorDAO?): Boolean {
+        if (door != null && door.disposition == DoorDisposition.LOCKED) {
             return false
-        } else if (exit.door != null && exit.door.disposition == DoorDisposition.CLOSED) {
-            logger.debug("$mob opens ${exit.door} [${exit.direction}]")
-            exit.door.disposition = DoorDisposition.OPEN
+        } else if (door != null && door.disposition == DoorDisposition.CLOSED) {
+            logger.debug("$mob opens $door")
+            door.disposition = DoorDisposition.OPEN
             eventService.publishRoomMessage(
                 createSendMessageToRoomEvent(
                     MessageBuilder()
-                        .toActionCreator("you open ${exit.door}.")
-                        .toObservers("$mob opens ${exit.door}.")
+                        .toActionCreator("you open $door.")
+                        .toObservers("$mob opens $door.")
                         .build(),
                     room,
                     mob

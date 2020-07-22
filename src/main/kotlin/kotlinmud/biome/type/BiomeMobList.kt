@@ -1,5 +1,5 @@
 package kotlinmud.biome.type
 
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 
-typealias BiomeMobList = Map<BiomeType, List<Mob>>
+typealias BiomeMobList = Map<BiomeType, List<MobDAO>>

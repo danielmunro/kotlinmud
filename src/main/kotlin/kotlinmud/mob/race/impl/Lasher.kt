@@ -1,8 +1,8 @@
 package kotlinmud.mob.race.impl
 
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.factory.createStats
-import kotlinmud.attributes.model.Attributes
-import kotlinmud.mob.fight.DamageType
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.type.Form
@@ -16,7 +16,7 @@ data class Lasher(override val type: RaceType = RaceType.LASHER) : Race {
     override val unarmedAttackVerb: String = "claw"
     override val unarmedDamageType: DamageType = DamageType.SLASH
     override val form: Form = Form.MAMMAL
-    override val attributes: Attributes =
+    override val attributes: AttributesDAO =
         createStats(1, -1, -2, 1, 1, 1, 0)
     override val size: Size = Size.LARGE
     override val maxAppetite: Int = 4

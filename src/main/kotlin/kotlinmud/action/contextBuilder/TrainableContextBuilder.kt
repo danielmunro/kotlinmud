@@ -2,21 +2,21 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.attributes.model.isVitals
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.player.service.PlayerService
+import org.jetbrains.exposed.sql.transactions.transaction
 
-class TrainableContextBuilder(private val mobService: MobService, private val playerService: PlayerService, private val mob: Mob) : ContextBuilder {
+class TrainableContextBuilder(private val mobService: MobService, private val playerService: PlayerService, private val mob: MobDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val mobCard = playerService.findMobCardByName(mob.name)!!
         if (mobCard.trains == 0) {
             return Context(syntax, Status.ERROR, "you have no trains.")
         }
-        val room = mobService.getRoomForMob(mob)
+        val room = transaction { mob.room }
         mobService.getMobsForRoom(room).filter { it.job == JobType.TRAINER }.let {
             if (it.isEmpty()) {
                 return Context(
@@ -42,7 +42,7 @@ class TrainableContextBuilder(private val mobService: MobService, private val pl
             )
         }
         val amount = playerService.findMobCardByName(mob.name)!!.calcTrained(attribute)
-        val maxAmount = if (isVitals(attribute)) 10 else 4
+        val maxAmount = if (attribute.isVitals()) 10 else 4
         if (amount == maxAmount) {
             return Context(
                 syntax,

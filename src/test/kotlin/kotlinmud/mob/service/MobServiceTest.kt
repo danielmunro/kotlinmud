@@ -1,20 +1,19 @@
 package kotlinmud.mob.service
 
 import assertk.assertThat
-import assertk.assertions.hasMessage
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
-import assertk.assertions.isFailure
 import assertk.assertions.isNotNull
 import kotlin.test.Test
-import kotlinmud.affect.model.AffectInstance
+import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
-import kotlinmud.mob.model.MobBuilder
-import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobServiceTest {
     @Test
@@ -25,13 +24,13 @@ class MobServiceTest {
         val initial = 10
 
         // given
-        mob.affects().add(AffectInstance(AffectType.BLESS, initial))
+        transaction { createAffect(AffectType.BLESS, initial).mob = mob }
 
         // when
         testService.decrementAffects()
 
         // then
-        val affect = mob.affects().findByType(AffectType.BLESS)!!
+        val affect = transaction { mob.affects.find { it.type == AffectType.BLESS } }!!
         assertThat(affect.timeout).isEqualTo(initial - 1)
     }
 
@@ -43,27 +42,13 @@ class MobServiceTest {
         val initial = 0
 
         // given
-        mob.affects().add(AffectInstance(AffectType.BLESS, initial))
+        transaction { createAffect(AffectType.BLESS, initial).mob = mob }
 
         // when
         testService.decrementAffects()
 
         // then
-        assertThat(mob.affects().getAffects()).hasSize(0)
-    }
-
-    @Test
-    fun testRespawnRecreatesMobs() {
-        // setup
-        val testService = createTestService()
-        val room = testService.getStartRoom()
-        val resetNumbers = 2
-
-        // when
-        testService.respawnWorld()
-
-        // then
-        assertThat(testService.getMobsForRoom(room)).hasSize(resetNumbers)
+        assertThat(transaction { mob.affects.toList() }).hasSize(0)
     }
 
     @Test
@@ -93,16 +78,15 @@ class MobServiceTest {
         // setup
         val testService = createTestService()
         val mob1 = testService.createMob()
-        val mobCount = testService.getMobRooms().size
 
         // given
-        mob1.disposition = Disposition.DEAD
+        transaction { mob1.disposition = Disposition.DEAD }
 
         // when
         testService.pruneDeadMobs()
 
         // then
-        assertThat(testService.getMobRooms()).hasSize(mobCount - 1)
+        assertThat(transaction { Mobs.select { Mobs.id eq mob1.id }.count() }).isEqualTo(0)
     }
 
     @Test
@@ -111,33 +95,15 @@ class MobServiceTest {
         val testService = createTestService()
         val aggressor = testService.createMob()
         val defender = testService.createMob()
+        val guard = testService.createMob()
 
         // given
-        val guard = testService.createMob(JobType.GUARD)
+        transaction { guard.job = JobType.GUARD }
 
         // when
         testService.runAction(aggressor, "kill ${getIdentifyingWord(defender)}")
 
         // then
         assertThat(testService.findFightForMob(guard)).isNotNull()
-    }
-
-    @Test
-    fun testMobMustBeInRoomToCreateNewRoom() {
-        // setup
-        val test = createTestService()
-
-        // when
-        val mob = MobBuilder()
-            .id(0)
-            .name("foo")
-            .hp(0)
-            .mana(0)
-            .mv(0)
-            .race(Human())
-            .build()
-
-        // then
-        assertThat { test.addNewRoom(mob) }.isFailure().hasMessage("mob must be in a room to add a room")
     }
 }

@@ -5,6 +5,7 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class PutTest {
@@ -16,17 +17,20 @@ class PutTest {
         val room = test.getStartRoom()
 
         // given
-        val itemToPut = test.createItem(mob)
-        val itemWithInventory = test.buildItem(test.itemBuilder()
-            .hasInventory(true), room)
+        val itemToPut = test.createItem()
+        val itemWithInventory = test.createContainer()
+        transaction {
+            itemToPut.mobInventory = mob
+            itemWithInventory.room = room
+        }
 
         // when
-        val response = test.runAction(mob, "put ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(itemToPut)}")
+        val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you put $itemToPut into $itemWithInventory.")
         assertThat(response.message.toObservers).isEqualTo("$mob puts $itemToPut into $itemWithInventory.")
-        assertThat(test.getItemsFor(itemWithInventory)).hasSize(1)
+        assertThat(test.findAllItemsByOwner(itemWithInventory)).hasSize(1)
     }
 
     @Test
@@ -36,17 +40,20 @@ class PutTest {
         val mob = test.createMob()
 
         // given
-        val itemToPut = test.createItem(mob)
-        val itemWithInventory = test.buildItem(test.itemBuilder()
-            .hasInventory(true), mob)
+        val itemToPut = test.createItem()
+        val itemWithInventory = test.createContainer()
+        transaction {
+            itemToPut.mobInventory = mob
+            itemWithInventory.mobInventory = mob
+        }
 
         // when
-        val response = test.runAction(mob, "put ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(itemToPut)}")
+        val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you put $itemToPut into $itemWithInventory.")
         assertThat(response.message.toObservers).isEqualTo("$mob puts $itemToPut into $itemWithInventory.")
-        assertThat(test.getItemsFor(itemWithInventory)).hasSize(1)
+        assertThat(test.findAllItemsByOwner(itemWithInventory)).hasSize(1)
     }
 
     @Test
@@ -56,14 +63,17 @@ class PutTest {
         val mob = test.createMob()
 
         // given
-        val itemToPut = test.createItem(mob)
-        val itemWithInventory = test.buildItem(test.itemBuilder()
-            .hasInventory(false), mob)
+        val itemToPut = test.createItem()
+        val itemWithNoInventory = test.createItem()
+        transaction {
+            itemToPut.mobInventory = mob
+            itemWithNoInventory.mobInventory = mob
+        }
 
         // when
-        val response = test.runAction(mob, "put ${getIdentifyingWord(itemWithInventory)} ${getIdentifyingWord(itemToPut)}")
+        val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithNoInventory)}")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you don't see anywhere to put that.")
+        assertThat(response.message.toActionCreator).isEqualTo("you don't see that anywhere.")
     }
 }

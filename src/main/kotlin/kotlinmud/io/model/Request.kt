@@ -1,13 +1,13 @@
 package kotlinmud.io.model
 
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.type.Disposition
-import kotlinmud.room.model.Room
+import kotlinmud.room.dao.RoomDAO
 
 data class Request(
-    val mob: Mob,
+    val mob: MobDAO,
     val input: String,
-    val room: Room
+    val room: RoomDAO
 ) {
     val args: List<String> = input.toLowerCase().split(' ')
 

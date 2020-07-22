@@ -5,6 +5,7 @@ import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.createTestService
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class CloseTest {
@@ -15,13 +16,19 @@ class CloseTest {
         val mob = testService.createMob()
 
         // given
-        testService.getStartRoom().exits.find { it.door != null }?.let { it.door?.disposition = DoorDisposition.OPEN }
+        val name = "a door"
+        val room = testService.getStartRoom()
+        transaction {
+            val door = testService.createDoor()
+            door.disposition = DoorDisposition.OPEN
+            room.northDoor = door
+        }
 
         // when
         val response = testService.runAction(mob, "close door")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you close a heavy wooden door.")
+        assertThat(response.message.toActionCreator).isEqualTo("you close $name.")
     }
 
     @Test
@@ -31,7 +38,10 @@ class CloseTest {
         val mob = testService.createMob()
 
         // given
-        testService.getStartRoom().exits.find { it.door != null }?.let { it.door?.disposition = DoorDisposition.CLOSED }
+        val room = testService.getStartRoom()
+        transaction {
+            room.northDoor = testService.createDoor()
+        }
 
         // when
         val response = testService.runAction(mob, "close door")
@@ -46,9 +56,6 @@ class CloseTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-
-        // given
-        testService.getStartRoom().exits.find { it.door != null }?.let { it.door?.disposition = DoorDisposition.OPEN }
 
         // when
         val response = testService.runAction(mob, "close grate")

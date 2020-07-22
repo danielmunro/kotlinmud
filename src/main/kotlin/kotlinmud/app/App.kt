@@ -1,22 +1,24 @@
 package kotlinmud.app
 
 import kotlinmud.action.service.ActionService
+import kotlinmud.db.createConnection
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.DayEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
+import kotlinmud.helper.logger
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.TimeService
-import org.slf4j.LoggerFactory
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class App(
     private val eventService: EventService,
@@ -26,10 +28,11 @@ class App(
     private val actionService: ActionService,
     private val playerService: PlayerService
 ) {
-    private val logger = LoggerFactory.getLogger(App::class.java)
+    private val logger = logger(this)
 
     fun start() {
         logger.info("starting app on port ${serverService.port}")
+        createConnection()
         eventService.publish(Event(EventType.DAY, DayEvent()))
         mainLoop()
     }
@@ -61,21 +64,21 @@ class App(
             return
         }
         val request =
-            Request(client.mob!!, input, mobService.getRoomForMob(client.mob!!))
+            Request(client.mob!!, input, client.mob!!.room)
         val response = actionService.run(request)
         eventService.publishRoomMessage(
             createSendMessageToRoomEvent(
                 response.message,
-                mobService.getRoomForMob(request.mob),
+                transaction { request.mob.room },
                 request.mob,
                 getTarget(response)
             )
         )
     }
 
-    private fun getTarget(response: Response): Mob? {
+    private fun getTarget(response: Response): MobDAO? {
         return try {
-            response.actionContextList.getResultBySyntax<Mob>(Syntax.MOB_IN_ROOM)
+            response.actionContextList.getResultBySyntax<MobDAO>(Syntax.MOB_IN_ROOM)
         } catch (e: Exception) {
             null
         }

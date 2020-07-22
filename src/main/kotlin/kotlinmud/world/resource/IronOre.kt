@@ -1,8 +1,8 @@
 package kotlinmud.world.resource
 
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.biome.type.ResourceType
-import kotlinmud.item.model.Item
-import kotlinmud.item.service.ItemBuilderBuilder
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.type.ItemType
 
 class IronOre : Resource {
@@ -10,13 +10,14 @@ class IronOre : Resource {
     override val growable: Boolean = false
     override val toughness: Int = 3
 
-    override fun createProduct(builder: ItemBuilderBuilder): List<Item> {
+    override fun createProduct(): List<ItemDAO> {
         return listOf(
-            builder()
-                .name("a chunk of rock with hints of iron")
-                .description("iron ore rock is here")
-                .type(ItemType.IRON_ORE)
-                .build()
+            ItemDAO.new {
+                name = "a chunk of rock with hints of iron"
+                description = "iron ore rock is here"
+                type = ItemType.IRON_ORE
+                attributes = AttributesDAO.new {}
+            }
         )
     }
 }

@@ -10,6 +10,6 @@ fun createRoomInfoAction(): Action {
     return Action(Command.ROOM_INFO, mustBeAlert(), subcommand()) {
         val newRoom = it.getNewRoom()
             ?: return@Action it.createOkResponse(messageToActionCreator("You need to start creating a room first. Try 'room new'."))
-        it.createOkResponse(messageToActionCreator("your room: ${newRoom.roomBuilder}"))
+        it.createOkResponse(messageToActionCreator("your room: ${newRoom.room.name}"))
     }
 }

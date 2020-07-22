@@ -1,29 +1,27 @@
 package kotlinmud.path
 
-import kotlinmud.room.model.Room
+import kotlinmud.room.dao.RoomDAO
 
-class Pathfinder(private val src: Room, private val dest: Room) {
-    private val explored: MutableList<Explored> = mutableListOf()
+class Pathfinder(private val src: RoomDAO, private val dest: RoomDAO) {
+    private val explored = mutableListOf<Int>()
 
-    fun find(): List<Room> {
+    fun find(): List<RoomDAO> {
         return proceed(mutableListOf(src), 0) ?: listOf()
     }
 
-    private fun proceed(rooms: MutableList<Room>, moves: Int): List<Room>? {
+    private fun proceed(rooms: MutableList<RoomDAO>, moves: Int): List<RoomDAO>? {
         if (moves > 10) {
             return null
         }
         rooms.forEach {
-            if (it == dest) {
+            if (it.id.value == dest.id.value) {
                 return rooms.toList()
             }
-            if (!roomExplored(it)) {
-                if (!roomSeen(it)) {
-                    explored.add(Explored(it, true))
-                }
-                it.exits.forEach { exit ->
+            if (!roomSeen(it)) {
+                explored.add(it.id.value)
+                it.getAllExits().forEach { exit ->
                     val roomsToProceed = rooms.toMutableList()
-                    roomsToProceed.add(exit.destination)
+                    roomsToProceed.add(exit.value)
                     val dest = proceed(roomsToProceed, moves + 1)
                     if (dest != null) {
                         return dest
@@ -35,11 +33,7 @@ class Pathfinder(private val src: Room, private val dest: Room) {
         return null
     }
 
-    private fun roomSeen(room: Room): Boolean {
-        return explored.find { it.room == room } != null
-    }
-
-    private fun roomExplored(room: Room): Boolean {
-        return explored.find { it.room == room && it.explored } != null
+    private fun roomSeen(room: RoomDAO): Boolean {
+        return explored.find { it == room.id.value } != null
     }
 }

@@ -1,21 +1,20 @@
 package kotlinmud.world.resource
 
 import kotlinmud.biome.type.ResourceType
-import kotlinmud.item.model.Item
-import kotlinmud.item.service.ItemBuilderBuilder
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.type.ItemType
 
 class PineTree : Resource {
     override val resourceType: ResourceType = ResourceType.PINE_TREE
     override val growable: Boolean = true
     override val toughness: Int = 2
-    override fun createProduct(builder: ItemBuilderBuilder): List<Item> {
+    override fun createProduct(): List<ItemDAO> {
         return listOf(
-            builder()
-                .name("a lump of coal")
-                .description("a lump of coal is here")
-                .type(ItemType.WOOD)
-                .build()
+            ItemDAO.new {
+                name = "a pine tree log"
+                description = "a pine tree log is here"
+                type = ItemType.WOOD_LOG
+            }
         )
     }
 }

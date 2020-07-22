@@ -36,7 +36,7 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.skill.Skill
+import kotlinmud.mob.skill.type.Skill
 import kotlinmud.player.service.PlayerService
 
 class ContextBuilderService(
