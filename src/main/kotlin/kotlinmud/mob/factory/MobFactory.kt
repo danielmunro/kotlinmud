@@ -22,9 +22,10 @@ import kotlinmud.mob.race.impl.Undead
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.Rarity
+import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun mobBuilder(name: String): MobDAO {
+fun mobBuilder(name: String, room: RoomDAO): MobDAO {
     return transaction {
         MobDAO.new {
             this.name = name
@@ -42,21 +43,22 @@ fun mobBuilder(name: String): MobDAO {
                 mana = startingMana
                 mv = startingMv
             }
+            this.room = room
         }
     }
 }
 
-private fun npc(name: String): MobDAO {
+private fun npc(name: String, room: RoomDAO): MobDAO {
     return transaction {
-        mobBuilder(name).let {
+        mobBuilder(name, room).let {
             it.isNpc = true
             it
         }
     }
 }
 
-fun zombie(): MobDAO {
-    return npc("a zombie").let {
+fun zombie(room: RoomDAO): MobDAO {
+    return npc("a zombie", room).let {
         transaction {
             it.brief = "a zombie is here, ready to attack!"
             it.job = JobType.AGGRESSIVE
@@ -67,8 +69,8 @@ fun zombie(): MobDAO {
     }
 }
 
-fun skeletonWarrior(): MobDAO {
-    return npc("a skeleton warrior").let {
+fun skeletonWarrior(room: RoomDAO): MobDAO {
+    return npc("a skeleton warrior", room).let {
         transaction {
             it.brief = "a skeleton warrior is here, stalking you!"
             it.job = JobType.AGGRESSIVE
@@ -79,8 +81,8 @@ fun skeletonWarrior(): MobDAO {
     }
 }
 
-fun deer(): MobDAO {
-    return npc("a deer").let {
+fun deer(room: RoomDAO): MobDAO {
+    return npc("a deer", room).let {
         transaction {
             it.brief = "a deer weaves through the bushes, trying to avoid attention"
             it.description = "tbd"
@@ -91,9 +93,9 @@ fun deer(): MobDAO {
     }
 }
 
-fun goat(): MobDAO {
+fun goat(room: RoomDAO): MobDAO {
     return transaction {
-        npc("a goat").let {
+        npc("a goat", room).let {
             it.brief = "a goat is here, munching on foliage"
             it.description = "tbd"
             it.race = Goat()
@@ -102,8 +104,8 @@ fun goat(): MobDAO {
     }
 }
 
-fun sheep(): MobDAO {
-    return npc("a sheep").let {
+fun sheep(room: RoomDAO): MobDAO {
+    return npc("a sheep", room).let {
         it.brief = "a sheep is here, grazing on the grass"
         it.description = "tbd"
         it.race = Sheep()
@@ -111,8 +113,8 @@ fun sheep(): MobDAO {
     }
 }
 
-fun turkey(): MobDAO {
-    return npc("a wild turkey").let {
+fun turkey(room: RoomDAO): MobDAO {
+    return npc("a wild turkey", room).let {
         it.brief = "a wild turkey is here, better not get too close"
         it.description = "tbd"
         it.race = Avian()
@@ -120,16 +122,16 @@ fun turkey(): MobDAO {
     }
 }
 
-fun chicken(): MobDAO {
-    return npc("a chicken").let {
+fun chicken(room: RoomDAO): MobDAO {
+    return npc("a chicken", room).let {
         it.brief = "a chicken is here, scratching for worms"
         it.race = Avian()
         it
     }
 }
 
-fun rabbit(): MobDAO {
-    return npc("a rabbit").let {
+fun rabbit(room: RoomDAO): MobDAO {
+    return npc("a rabbit", room).let {
         it.brief = "a rabbit is here, scavenging for its burrow"
         it.race = Rabbit()
         it.wimpy = 5
@@ -137,16 +139,16 @@ fun rabbit(): MobDAO {
     }
 }
 
-fun fox(): MobDAO {
-    return npc("a fox").let {
+fun fox(room: RoomDAO): MobDAO {
+    return npc("a fox", room).let {
         it.brief = "a fox is here, darting through the brush"
         it.race = Canid()
         it
     }
 }
 
-fun lizard(): MobDAO {
-    return npc("a lizard").let {
+fun lizard(room: RoomDAO): MobDAO {
+    return npc("a lizard", room).let {
         it.brief = "a lizard is here, sunbathing on a rock"
         it.race = Lizard()
         it.rarity = Rarity.UNCOMMON
@@ -154,8 +156,8 @@ fun lizard(): MobDAO {
     }
 }
 
-fun ocelot(): MobDAO {
-    return npc("an ocelot").let {
+fun ocelot(room: RoomDAO): MobDAO {
+    return npc("an ocelot", room).let {
         it.brief = "an ocelot is here, creeping around"
         it.race = Felid()
         it.rarity = Rarity.RARE
@@ -163,8 +165,8 @@ fun ocelot(): MobDAO {
     }
 }
 
-fun polarBear(): MobDAO {
-    return npc("a polar bear").let {
+fun polarBear(room: RoomDAO): MobDAO {
+    return npc("a polar bear", room).let {
         it.brief = "a powerful polar bear is here, better not draw its attention"
         it.race = Bear()
         it.rarity = Rarity.UNCOMMON
@@ -172,8 +174,8 @@ fun polarBear(): MobDAO {
     }
 }
 
-fun brownBear(): MobDAO {
-    return npc("a brown bear").let {
+fun brownBear(room: RoomDAO): MobDAO {
+    return npc("a brown bear", room).let {
         it.brief = "a playful brown bear is here, looking for honey"
         it.race = Bear()
         it.rarity = Rarity.UNCOMMON
@@ -181,8 +183,8 @@ fun brownBear(): MobDAO {
     }
 }
 
-fun blackBear(): MobDAO {
-    return npc("a black bear").let {
+fun blackBear(room: RoomDAO): MobDAO {
+    return npc("a black bear", room).let {
         it.brief = "a bear is here, scrounging for food"
         it.race = Bear()
         it.rarity = Rarity.UNCOMMON
@@ -190,8 +192,8 @@ fun blackBear(): MobDAO {
     }
 }
 
-fun wolf(): MobDAO {
-    return npc("a wolf").let {
+fun wolf(room: RoomDAO): MobDAO {
+    return npc("a wolf", room).let {
         it.brief = "a wolf is here, looking for its next meal"
         it.job = JobType.AGGRESSIVE
         it.race = Canid()
@@ -200,8 +202,8 @@ fun wolf(): MobDAO {
     }
 }
 
-fun horse(): MobDAO {
-    return npc("a horse").let {
+fun horse(room: RoomDAO): MobDAO {
+    return npc("a horse", room).let {
         it.brief = "a wild horse is here, grazing on tall grass"
         it.race = Horse()
         it.rarity = Rarity.UNCOMMON

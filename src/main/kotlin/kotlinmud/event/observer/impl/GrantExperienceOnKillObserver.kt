@@ -5,11 +5,9 @@ import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.fight.Fight
-import kotlinmud.player.service.PlayerService
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class GrantExperienceOnKillObserver(
-    private val playerService: PlayerService,
     private val serverService: ServerService
 ) : Observer {
     override val eventType: EventType = EventType.KILL

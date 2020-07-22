@@ -10,6 +10,7 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Rarity
 import kotlinmud.player.table.MobCards
 import kotlinmud.player.table.Players
+import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.dao.IntIdTable
 
 object Mobs : IntIdTable() {
@@ -37,6 +38,7 @@ object Mobs : IntIdTable() {
     val maxWeight = integer("maxWeight").default(1000)
     val rarity = varchar("rarity", 50).default(Rarity.COMMON.toString())
     val attributesId = reference("attributes", Attributes)
+    val roomId = reference("roomId", Rooms)
     val affects = reference("affects", Affects).nullable()
     val skills = reference("skills", Skills).nullable()
     val playerId = reference("playerId", Players).nullable()

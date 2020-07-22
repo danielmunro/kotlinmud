@@ -27,7 +27,6 @@ import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
-import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.dao.MobCardDAO
@@ -132,6 +131,7 @@ class TestService(
                     mana = startingMana
                     mv = startingMana
                 }
+                room = getStartRoom()
             }
         }
         transaction {
@@ -200,18 +200,6 @@ class TestService(
         return MakeItemService(amount)
     }
 
-    fun getMobCardForMob(mob: MobDAO): MobCardDAO? {
-        return playerService.findMobCardByName(mob.name)
-    }
-
-    fun getMobRooms(): List<MobRoom> {
-        return mobService.getMobRooms()
-    }
-
-    fun getRoomForMob(mob: MobDAO): RoomDAO {
-        return mobService.getRoomForMob(mob)
-    }
-
     fun getMobsForRoom(room: RoomDAO): List<MobDAO> {
         return mobService.getMobsForRoom(room)
     }
@@ -233,7 +221,7 @@ class TestService(
             Request(
                 mob,
                 input,
-                mobService.getRoomForMob(mob)
+                transaction { mob.room }
             )
         )
     }

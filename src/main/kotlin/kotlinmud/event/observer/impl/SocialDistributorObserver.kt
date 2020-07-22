@@ -10,6 +10,7 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.social.SocialChannel
 import kotlinmud.room.dao.RoomDAO
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class SocialDistributorObserver(private val serverService: ServerService, private val mobService: MobService) :
     Observer {
@@ -28,7 +29,7 @@ class SocialDistributorObserver(private val serverService: ServerService, privat
 
     private fun yellToArea(mob: MobDAO, room: RoomDAO, message: Message) {
         serverService.getClients().forEach {
-            val clientRoom = mobService.getRoomForMob(it.mob!!)
+            val clientRoom = transaction { it.mob!!.room }
             if (it.mob != mob && clientRoom.area == room.area) {
                 it.write(message.toObservers)
             }

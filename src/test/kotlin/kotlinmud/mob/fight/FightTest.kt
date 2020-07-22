@@ -152,8 +152,8 @@ class FightTest {
         assertThat(mob2.hp).isGreaterThan(0)
 
         // and
-        val room1 = testService.getRoomForMob(mob1)
-        val room2 = testService.getRoomForMob(mob2)
+        val room1 = transaction { mob1.room }
+        val room2 = transaction { mob2.room }
         assertThat(room1.id).isNotEqualTo(room2.id)
     }
 }

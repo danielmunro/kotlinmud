@@ -29,6 +29,7 @@ import kotlinmud.mob.type.Rarity
 import kotlinmud.mob.type.SpecializationType
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
+import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -82,6 +83,7 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         { Rarity.valueOf(it) }
     )
     var attributes by AttributesDAO referencedOn Mobs.attributesId
+    var room by RoomDAO referencedOn Mobs.roomId
     val equipped by ItemDAO optionalReferrersOn Items.mobEquippedId
     override val items by ItemDAO optionalReferrersOn Items.mobInventoryId
     val skills by SkillDAO referrersOn Skills.mobId

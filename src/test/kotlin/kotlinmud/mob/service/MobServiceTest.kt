@@ -7,10 +7,12 @@ import assertk.assertions.isNotNull
 import kotlin.test.Test
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
+import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobServiceTest {
@@ -76,7 +78,7 @@ class MobServiceTest {
         // setup
         val testService = createTestService()
         val mob1 = testService.createMob()
-        val mobCount = testService.getMobRooms().size
+        val mobCount = transaction { Mobs.selectAll().count() }
 
         // given
         transaction { mob1.disposition = Disposition.DEAD }
@@ -85,7 +87,7 @@ class MobServiceTest {
         testService.pruneDeadMobs()
 
         // then
-        assertThat(testService.getMobRooms()).hasSize(mobCount - 1)
+        assertThat(transaction { Mobs.selectAll().count() }).isEqualTo(mobCount - 1)
     }
 
     @Test

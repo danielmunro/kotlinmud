@@ -172,7 +172,7 @@ class ActionService(
         return Request(
             mob,
             action.chainTo.toString(),
-            mobService.getRoomForMob(mob)
+            transaction { mob.room }
         )
     }
 

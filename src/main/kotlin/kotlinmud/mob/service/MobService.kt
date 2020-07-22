@@ -1,7 +1,6 @@
 package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
-import java.lang.RuntimeException
 import kotlinmud.affect.table.Affects
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
@@ -25,8 +24,8 @@ import kotlinmud.mob.fight.Round
 import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.helper.getDispositionRegenRate
 import kotlinmud.mob.helper.getRoomRegenRate
-import kotlinmud.mob.model.MobRoom
 import kotlinmud.mob.table.Mobs
+import kotlinmud.mob.type.Disposition
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.oppositeDirection
 import kotlinmud.room.model.NewRoom
@@ -36,6 +35,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.minus
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
@@ -55,19 +55,17 @@ class MobService(
         }
     }
 
-    private val mobRooms = mutableListOf<MobRoom>()
     private val newRooms = mutableListOf<NewRoom>()
     private val fights = mutableListOf<Fight>()
     private val logger = logger(this)
 
     fun regenMobs() {
-        logger.debug("regen mobs :: ${mobRooms.size} mobs")
-        mobRooms.filter { !it.mob.isIncapacitated() }.forEach {
-            it.mob.increaseByRegenRate(
+        MobDAO.wrapRows(Mobs.selectAll()).forEach {
+            it.increaseByRegenRate(
                 normalizeDouble(
                     0.0,
                     getRoomRegenRate(it.room.regenLevel) +
-                            getDispositionRegenRate(it.mob.disposition),
+                            getDispositionRegenRate(it.disposition),
                     1.0
                 )
             )
@@ -79,20 +77,17 @@ class MobService(
         val room = transaction {
             RoomDAO.new {}
         }
-        return mobRooms.find { it.mob == mob }?.let {
-            val newRoom = NewRoom(it, room)
-            newRooms.add(newRoom)
-            newRoom
-        } ?: throw RuntimeException("mob must be in a room to add a room")
+        val newRoom = NewRoom(mob, room)
+        newRooms.add(newRoom)
+        return newRoom
     }
 
     fun buildRoom(mob: MobDAO, direction: Direction): RoomDAO {
         // setup
-        val mobRoom = mobRooms.find { it.mob == mob }!!
-        val newRoom = newRooms.find { it.mobRoom == mobRoom }!!
+        val source = transaction { mob.room }
+        val newRoom = newRooms.find { it.mob.id.value == mob.id.value }!!
 
         // destination room exit hook up
-        val source = mobRoom.room
         val destination = newRoom.room
         when (oppositeDirection(direction)) {
             Direction.NORTH -> destination.north = source
@@ -117,8 +112,7 @@ class MobService(
     }
 
     fun getNewRoom(mob: MobDAO): NewRoom? {
-        val mobRoom = mobRooms.find { it.mob == mob }
-        return newRooms.find { mobRoom == it.mobRoom }
+        return newRooms.find { mob == it.mob }
     }
 
     fun getStartRoom(): RoomDAO {
@@ -141,16 +135,14 @@ class MobService(
         return fights.find { it.isParticipant(mob) }
     }
 
-    fun getRoomForMob(mob: MobDAO): RoomDAO {
-        return mobRooms.find { it.mob == mob }!!.room
-    }
-
     fun getMobsForRoom(room: RoomDAO): List<MobDAO> {
-        return mobRooms.filter { it.room == room }.map { it.mob }
-    }
-
-    fun getMobRooms(): List<MobRoom> {
-        return mobRooms
+        return transaction {
+            MobDAO.wrapRows(
+                Mobs.select {
+                    Mobs.roomId eq room.id
+                }
+            ).toList()
+        }
     }
 
     fun getRoomById(id: Int): RoomDAO? {
@@ -165,18 +157,8 @@ class MobService(
         putMobInRoom(mob, getStartRoom())
     }
 
-    fun findPlayerMob(name: String): MobDAO? {
-        return transaction {
-            MobDAO.wrapRow(
-                Mobs.select {
-                    Mobs.name eq name and (Mobs.isNpc eq false)
-                }.first()
-            )
-        }
-    }
-
     fun moveMob(mob: MobDAO, room: RoomDAO, direction: Direction) {
-        val leaving = getRoomForMob(mob)
+        val leaving = transaction { mob.room }
         sendMessageToRoom(createLeaveMessage(mob, direction), leaving, mob)
         putMobInRoom(mob, room)
         doFallCheck(mob, leaving, room)
@@ -210,20 +192,26 @@ class MobService(
     }
 
     fun pruneDeadMobs() {
-        mobRooms.removeIf {
-            if (it.mob.isIncapacitated()) {
-                val item = createCorpseFrom(it.mob)
-                transaction { item.room = it.room }
+        transaction {
+            MobDAO.wrapRows(
+                Mobs.select {
+                    Mobs.disposition eq Disposition.DEAD.toString()
+                }
+            ).forEach {
+                val item = createCorpseFrom(it)
+                item.room = it.room
+                it.delete()
                 eventService.publishRoomMessage(
-                    createSendMessageToRoomEvent(createDeathMessage(it.mob), it.room, it.mob)
+                    createSendMessageToRoomEvent(createDeathMessage(it), it.room, it)
                 )
             }
-            it.mob.isIncapacitated()
         }
     }
 
     fun removeMob(mob: MobDAO) {
-        mobRooms.removeIf { it.mob == mob }
+        transaction {
+            mob.delete()
+        }
     }
 
     fun sendMessageToRoom(message: Message, room: RoomDAO, actionCreator: MobDAO, target: MobDAO? = null) {
@@ -233,9 +221,7 @@ class MobService(
     }
 
     fun putMobInRoom(mob: MobDAO, room: RoomDAO) {
-        mobRooms.find { it.mob == mob }?.let {
-            it.room = room
-        } ?: mobRooms.add(MobRoom(mob, room))
+        transaction { mob.room = room }
     }
 
     fun createCorpseFrom(mob: MobDAO): ItemDAO {
@@ -251,7 +237,7 @@ class MobService(
     }
 
     private fun proceedFightRound(round: Round): Round {
-        val room = getRoomForMob(round.attacker)
+        val room = transaction { round.attacker.room }
         sendRoundMessage(round.attackerAttacks, room, round.attacker, round.defender)
         sendRoundMessage(round.defenderAttacks, room, round.defender, round.attacker)
         eventService.publishRoomMessage(

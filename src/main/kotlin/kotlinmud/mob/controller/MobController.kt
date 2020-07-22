@@ -31,7 +31,7 @@ class MobController(
     }
 
     fun pickUpAnyItem() {
-        val room = mobService.getRoomForMob(mob)
+        val room = transaction { mob.room }
         val items = itemService.findAllByOwner(room)
         if (mob.isStanding() && items.isNotEmpty()) {
             val item = items.random()
@@ -57,7 +57,7 @@ class MobController(
             }
         }
         val nextRoomId = mob.route?.get(mob.lastRoute!!)!!
-        val currentRoom = mobService.getRoomForMob(mob)
+        val currentRoom = transaction { mob.room }
         val nextRoom = mobService.getRoomById(nextRoomId)!!
         val currentRoomId = transaction { currentRoom.id.value }
         if (currentRoomId == nextRoomId) {
@@ -85,7 +85,7 @@ class MobController(
 
     private fun wander() {
         logger.debug("mob $mob moving via random choice")
-        val room = mobService.getRoomForMob(mob)
+        val room = transaction { mob.room }
         room.getAllExits().filter { it.value.area == room.area }.entries.random().let {
             mobService.moveMob(mob, it.value, it.key)
         }

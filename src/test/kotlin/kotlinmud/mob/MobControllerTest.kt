@@ -3,7 +3,6 @@ package kotlinmud.mob
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.mob.type.JobType
-import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
@@ -33,39 +32,18 @@ class MobControllerTest {
 
         controller.move()
 
-        assertThat(test.getRoomForMob(mob).id).isEqualTo(room2.id)
+        assertThat(transaction { mob.room }.id).isEqualTo(room2.id)
 
         controller.move()
 
-        assertThat(test.getRoomForMob(mob).id).isEqualTo(room3.id)
+        assertThat(transaction { mob.room }.id).isEqualTo(room3.id)
 
         controller.move()
 
-        assertThat(test.getRoomForMob(mob).id).isEqualTo(room2.id)
+        assertThat(transaction { mob.room }.id).isEqualTo(room2.id)
 
         controller.move()
 
-        assertThat(test.getRoomForMob(mob).id).isEqualTo(room1.id)
-    }
-
-    @Test
-    fun willNotWanderOutOfArea() {
-        // setup
-        val test = createTestService()
-        val mobs = test.getMobRooms()
-            .filter { it.mob.id.value == 9 }
-            .map { it.mob }
-        val prob = ProbabilityTest(1000)
-        val area = "warehouse"
-
-        while (prob.isIterating()) {
-            mobs.forEach {
-                test.createMobController(it).move()
-            }
-            val areas = mobs.map { test.getRoomForMob(it).area }
-            prob.decrementIteration(areas.all { it == area }, true)
-        }
-
-        assertThat(prob.getOutcome1()).isEqualTo(1000)
+        assertThat(transaction { mob.room }.id).isEqualTo(room1.id)
     }
 }

@@ -13,7 +13,7 @@ class GetTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val room = testService.getRoomForMob(mob)
+        val room = transaction { mob.room }
         val item = testService.createItem()
         transaction { item.room = room }
         val roomItemCount = testService.countItemsFor(room)
@@ -33,7 +33,7 @@ class GetTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val room = testService.getRoomForMob(mob)
+        val room = transaction { mob.room }
         val itemCount = testService.countItemsFor(room)
 
         // when

@@ -18,6 +18,7 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.TimeService
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class App(
     private val eventService: EventService,
@@ -63,12 +64,12 @@ class App(
             return
         }
         val request =
-            Request(client.mob!!, input, mobService.getRoomForMob(client.mob!!))
+            Request(client.mob!!, input, client.mob!!.room)
         val response = actionService.run(request)
         eventService.publishRoomMessage(
             createSendMessageToRoomEvent(
                 response.message,
-                mobService.getRoomForMob(request.mob),
+                transaction { request.mob.room },
                 request.mob,
                 getTarget(response)
             )

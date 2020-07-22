@@ -20,7 +20,7 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val room = testService.getRoomForMob(mob)
+        val room = transaction { mob.room }
         val observers = testService.getMobsForRoom(room).filter { it != mob }
 
         // when
@@ -59,7 +59,7 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val room = testService.getRoomForMob(mob)
+        val room = transaction { mob.room }
         val item = testService.createItem()
 
         // given
@@ -108,7 +108,7 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val room = testService.getRoomForMob(mob)
+        val room = transaction { mob.room }
 
         // given
         val door = transaction {

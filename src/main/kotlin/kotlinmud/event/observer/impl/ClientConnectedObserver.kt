@@ -31,7 +31,7 @@ class ClientConnectedObserver(
     }
 
     private fun loginDummyMob(client: Client) {
-        val mob = mobBuilder("foo")
+        val mob = mobBuilder("foo", mobService.getStartRoom())
         mobService.addMob(mob)
         playerService.createNewPlayerWithEmailAddress("dan@danmunro.com")
         transaction {
