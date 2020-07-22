@@ -60,15 +60,17 @@ class MobService(
     private val logger = logger(this)
 
     fun regenMobs() {
-        MobDAO.wrapRows(Mobs.selectAll()).forEach {
-            it.increaseByRegenRate(
-                normalizeDouble(
-                    0.0,
-                    getRoomRegenRate(it.room.regenLevel) +
-                            getDispositionRegenRate(it.disposition),
-                    1.0
+        transaction {
+            MobDAO.wrapRows(Mobs.selectAll()).forEach {
+                it.increaseByRegenRate(
+                    normalizeDouble(
+                        0.0,
+                        getRoomRegenRate(it.room.regenLevel) +
+                                getDispositionRegenRate(it.disposition),
+                        1.0
+                    )
                 )
-            )
+            }
         }
     }
 

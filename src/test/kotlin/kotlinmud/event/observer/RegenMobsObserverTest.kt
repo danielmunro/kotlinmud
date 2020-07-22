@@ -13,46 +13,23 @@ class RegenMobsObserverTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-
-        // given
-        val room1 = test.createRoom()
-        val room2 = test.createRoom()
-        val room3 = test.createRoom()
-        val room4 = test.createRoom()
-        val room5 = test.createRoom()
-        transaction {
-            room1.regenLevel = RegenLevel.NONE
-            room2.regenLevel = RegenLevel.LOW
-            room3.regenLevel = RegenLevel.NORMAL
-            room4.regenLevel = RegenLevel.HIGH
-            room5.regenLevel = RegenLevel.FULL
-        }
+        val room = test.getStartRoom()
 
         // when
-        transaction { mob.hp = 1 }
-        test.putMobInRoom(mob, room1)
-        test.regenMobs()
-        val gain1 = transaction { mob.hp }
+        val testCase = { regenLevel: RegenLevel ->
+            transaction {
+                mob.hp = 1
+                room.regenLevel = regenLevel
+                test.regenMobs()
+                mob.hp
+            }
+        }
 
-        transaction { mob.hp = 1 }
-        test.putMobInRoom(mob, room2)
-        test.regenMobs()
-        val gain2 = transaction { mob.hp }
-
-        transaction { mob.hp = 1 }
-        test.putMobInRoom(mob, room3)
-        test.regenMobs()
-        val gain3 = transaction { mob.hp }
-
-        transaction { mob.hp = 1 }
-        test.putMobInRoom(mob, room4)
-        test.regenMobs()
-        val gain4 = transaction { mob.hp }
-
-        transaction { mob.hp = 1 }
-        test.putMobInRoom(mob, room5)
-        test.regenMobs()
-        val gain5 = transaction { mob.hp }
+        val gain1 = testCase(RegenLevel.NONE)
+        val gain2 = testCase(RegenLevel.LOW)
+        val gain3 = testCase(RegenLevel.NORMAL)
+        val gain4 = testCase(RegenLevel.HIGH)
+        val gain5 = testCase(RegenLevel.FULL)
 
         // then
         assertThat(gain5).isGreaterThan(gain4)

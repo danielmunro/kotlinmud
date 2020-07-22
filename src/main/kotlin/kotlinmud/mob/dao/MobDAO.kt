@@ -228,6 +228,10 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         return name
     }
 
+    override fun equals(other: Any?): Boolean {
+        return if (other is MobDAO) other.id.value == id.value else super.equals(other)
+    }
+
     private fun getWeapon(): ItemDAO? {
         return transaction { equipped.find { it.position == Position.WEAPON } }
     }

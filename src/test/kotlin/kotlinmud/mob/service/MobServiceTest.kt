@@ -12,7 +12,7 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobServiceTest {
@@ -78,7 +78,6 @@ class MobServiceTest {
         // setup
         val testService = createTestService()
         val mob1 = testService.createMob()
-        val mobCount = transaction { Mobs.selectAll().count() }
 
         // given
         transaction { mob1.disposition = Disposition.DEAD }
@@ -87,7 +86,7 @@ class MobServiceTest {
         testService.pruneDeadMobs()
 
         // then
-        assertThat(transaction { Mobs.selectAll().count() }).isEqualTo(mobCount - 1)
+        assertThat(transaction { Mobs.select { Mobs.id eq mob1.id }.count() }).isEqualTo(0)
     }
 
     @Test

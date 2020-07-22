@@ -25,12 +25,12 @@ class GuardAttacksAggroMobsObserver(private val mobService: MobService) :
                 Mobs.select {
                     Mobs.roomId eq room.id
                 }
-            )
-        }.filter {
-            it != fight.aggressor &&
-                    it != fight.defender &&
-                    it.job == JobType.GUARD &&
-                    mobService.findFightForMob(it) == null
+            ).filter {
+                it != fight.aggressor &&
+                        it != fight.defender &&
+                        it.job == JobType.GUARD &&
+                        mobService.findFightForMob(it) == null
+            }
         }.forEach {
             mobService.addFight(Fight(it, fight.aggressor))
             mobService.sendMessageToRoom(
