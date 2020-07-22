@@ -21,6 +21,7 @@ import kotlinmud.mob.race.factory.createRaceFromType
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.table.Skills
+import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
@@ -199,10 +200,6 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         }
     }
 
-    fun wantsToMove(): Boolean {
-        return job?.wantsToMove() ?: false
-    }
-
     fun base(attribute: Attribute): Int {
         return when (attribute) {
             Attribute.STR -> BASE_STAT +
@@ -222,6 +219,14 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
                     race.attributes.constitution
             else -> 0
         }
+    }
+
+    fun getEquippedByPosition(position: Position): ItemDAO? {
+        return transaction { equipped.find { it.position == position } }
+    }
+
+    fun getSkill(skillType: SkillType): SkillDAO? {
+        return transaction { skills.find { it.type == skillType } }
     }
 
     override fun toString(): String {
