@@ -19,8 +19,14 @@ class Action(
     val chainTo: Command = Command.NOOP,
     val mutator: (ActionContextService) -> Response
 ) : RequiresDisposition, Invokable, HasCosts {
+
     fun isChained(): Boolean {
         return chainTo != Command.NOOP
+    }
+
+    fun getSubPart(): String {
+        val parts = command.value.split(" ")
+        return if (parts.size > 1) parts[1] else ""
     }
 
     override fun invoke(actionContextService: ActionContextService): Response {

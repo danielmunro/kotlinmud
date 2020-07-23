@@ -1,12 +1,12 @@
 package kotlinmud.action.service
 
+import kotlinmud.action.helper.costApply
 import kotlinmud.action.model.Action
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Command
 import kotlinmud.action.type.Invokable
 import kotlinmud.action.type.Status
-import kotlinmud.attributes.type.Attribute
 import kotlinmud.helper.logger
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.io.factory.messageToActionCreator
@@ -19,9 +19,7 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.helper.createSkillList
-import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.SkillAction
-import kotlinmud.mob.type.HasCosts
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.RequiresDisposition
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -78,56 +76,26 @@ class ActionService(
     }
 
     private fun runAction(request: Request): Response? {
-        return actions.find {
-            val parts = it.command.value.split(" ")
-            val subPart = if (parts.size > 1) parts[1] else ""
+        val action = actions.find {
             val syntax = if (it.syntax.size > 1) it.syntax[1] else Syntax.NOOP
             commandMatches(it.command, request.getCommand()) &&
                     argumentLengthMatches(it.syntax, request.args) &&
-                    subCommandMatches(syntax, subPart, request.getSubject())
-        }?.let {
-            val contextList = buildActionContextList(request, it)
-            dispositionCheck(request, it)
-                ?: checkForBadContext(contextList)
-                ?: deductCosts(request.mob, it)
-                ?: callInvokable(request, it, contextList)
-        }
+                    subCommandMatches(syntax, it.getSubPart(), request.getSubject())
+        } ?: return null
+
+        val contextList = buildActionContextList(request, action)
+
+        return dispositionCheck(request, action)
+            ?: checkForBadContext(contextList)
+            ?: costApply(request.mob, action)
+            ?: callInvokable(request, action, contextList)
     }
 
     private fun executeSkill(request: Request, skill: SkillAction): Response {
         return dispositionCheck(request, skill)
-            ?: deductCosts(request.mob, skill)
+            ?: costApply(request.mob, skill)
             ?: skillRoll(transaction { request.mob.skills.find { it.type == skill.type }?.level } ?: error("no skill"))
             ?: callInvokable(request, skill, buildActionContextList(request, skill))
-    }
-
-    private fun deductCosts(mob: MobDAO, hasCosts: HasCosts): Response? {
-        val cost = hasCosts.costs.find {
-            when (it.type) {
-                CostType.MV_AMOUNT -> mob.mv < it.amount
-                CostType.MV_PERCENT -> mob.mv < Math.max(mob.calc(Attribute.MV) * (it.amount.toDouble() / 100), 50.0)
-                CostType.MANA_AMOUNT -> mob.mana < it.amount
-                CostType.MANA_PERCENT -> mob.mana < mob.calc(Attribute.MANA) * (it.amount.toDouble() / 100)
-                else -> false
-            }
-        }
-        if (cost != null) {
-            return createResponseWithEmptyActionContext(
-                messageToActionCreator("You are too tired")
-            )
-        }
-        transaction {
-            hasCosts.costs.forEach {
-                when (it.type) {
-                    CostType.DELAY -> return@forEach
-                    CostType.MV_AMOUNT -> mob.mv -= it.amount
-                    CostType.MV_PERCENT -> mob.mv -= (mob.calc(Attribute.MV) * (it.amount.toDouble() / 100)).toInt()
-                    CostType.MANA_AMOUNT -> mob.mana -= it.amount
-                    CostType.MANA_PERCENT -> mob.mana -= (mob.calc(Attribute.MANA) * (it.amount.toDouble() / 100)).toInt()
-                }
-            }
-        }
-        return null
     }
 
     private fun triggerFightForOffensiveSkills(mob: MobDAO, target: MobDAO) {
