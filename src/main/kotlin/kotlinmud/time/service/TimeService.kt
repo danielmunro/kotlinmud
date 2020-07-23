@@ -1,4 +1,4 @@
-package kotlinmud.service
+package kotlinmud.time.service
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -8,15 +8,26 @@ import kotlinmud.event.impl.PulseEvent
 import kotlinmud.event.impl.TickEvent
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
-import org.slf4j.LoggerFactory
+import kotlinmud.helper.logger
+import kotlinmud.time.dao.TimeDAO
+import kotlinmud.time.table.Times
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
 
 const val TICKS_IN_DAY = 20
 const val TICK_LENGTH_IN_SECONDS = 40
 
-class TimeService(private val eventService: EventService, private var time: Int = 0) {
+class TimeService(private val eventService: EventService) {
     private var pulse = 0
     private var lastSecond = 0
-    private val logger = LoggerFactory.getLogger(TimeService::class.java)
+    private val logger = logger(this)
+    private var time = transaction {
+        Times.selectAll().firstOrNull()?.let {
+            TimeDAO.wrapRow(it)
+        } ?: TimeDAO.new {
+            time = 0
+        }
+    }
 
     init {
         logger.info("time service initialized at {} ticks", time)
@@ -31,7 +42,7 @@ class TimeService(private val eventService: EventService, private var time: Int 
     }
 
     fun getTime(): Int {
-        return time
+        return time.time
     }
 
     private fun pulse() {
@@ -44,9 +55,9 @@ class TimeService(private val eventService: EventService, private var time: Int 
     }
 
     private fun tick() {
-        time++
+        transaction { time.time += 1 }
         eventService.publish(Event(EventType.TICK, TickEvent()))
-        val hour = time % TICKS_IN_DAY
+        val hour = transaction { time.time } % TICKS_IN_DAY
         logger.info("tick occurred. hour of day :: {}, time :: {}", hour, time)
         if (hour == 0) {
             eventService.publish(Event(EventType.DAY, DayEvent()))

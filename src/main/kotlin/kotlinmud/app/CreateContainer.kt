@@ -20,8 +20,6 @@ import kotlinmud.event.observer.impl.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.PruneDeadMobsPulseObserver
 import kotlinmud.event.observer.impl.RegenMobsObserver
 import kotlinmud.event.observer.impl.RemoveMobOnClientDisconnectObserver
-import kotlinmud.event.observer.impl.SaveTimeObserver
-import kotlinmud.event.observer.impl.SaveVersionsObserver
 import kotlinmud.event.observer.impl.ScavengerCollectsItemsObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
@@ -29,7 +27,6 @@ import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
 import kotlinmud.event.observer.type.Observers
 import kotlinmud.event.service.EventService
-import kotlinmud.fs.service.PersistenceService
 import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.helper.createRecipeList
@@ -39,8 +36,8 @@ import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.player.service.EmailService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
-import kotlinmud.service.TimeService
 import kotlinmud.service.WeatherService
+import kotlinmud.time.service.TimeService
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
@@ -74,14 +71,7 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
             )
         }
         bind<TimeService>() with singleton {
-            val persistenceService = instance<PersistenceService>()
-            TimeService(
-                instance<EventService>(),
-                if (isTest) 0 else persistenceService.loadTimeFile()
-            )
-        }
-        bind<PersistenceService>() with singleton {
-            PersistenceService()
+            TimeService(instance<EventService>())
         }
         bind<ActionService>() with singleton {
             ActionService(
@@ -130,12 +120,10 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                 DecrementAffectTimeoutTickObserver(instance<MobService>()),
                 DecrementDelayObserver(instance<ClientService>()),
                 DecrementItemDecayTimerObserver(instance<ItemService>()),
-                SaveTimeObserver(instance<TimeService>(), instance<PersistenceService>()),
                 LogTickObserver(instance<ServerService>()),
                 PruneDeadMobsPulseObserver(instance<MobService>()),
                 SocialDistributorObserver(instance<ServerService>(), instance<MobService>()),
                 ChangeWeatherObserver(instance<WeatherService>()),
-                SaveVersionsObserver(instance<PersistenceService>()),
                 WimpyObserver(instance<MobService>()),
                 GrantExperienceOnKillObserver(instance<ServerService>()),
                 TransferGoldOnKillObserver(),

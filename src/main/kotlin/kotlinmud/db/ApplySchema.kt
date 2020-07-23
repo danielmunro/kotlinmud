@@ -9,6 +9,7 @@ import kotlinmud.player.table.MobCards
 import kotlinmud.player.table.Players
 import kotlinmud.room.table.Doors
 import kotlinmud.room.table.Rooms
+import kotlinmud.time.table.Times
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -23,7 +24,8 @@ fun applySchema() {
             Doors,
             Attributes,
             Players,
-            MobCards
+            MobCards,
+            Times
         )
     }
 }

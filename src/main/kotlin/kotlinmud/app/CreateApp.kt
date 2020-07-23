@@ -6,7 +6,7 @@ import kotlinmud.event.service.EventService
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
-import kotlinmud.service.TimeService
+import kotlinmud.time.service.TimeService
 import org.kodein.di.erased.instance
 
 fun createApp(port: Int): App {
