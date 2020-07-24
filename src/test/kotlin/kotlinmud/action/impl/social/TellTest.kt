@@ -11,13 +11,13 @@ class TellTest {
     fun testCanTellMob() {
         // setup
         val testService = createTestService()
-        val mob1 = testService.createMob()
-        val mob2 = testService.createMob()
+        val mob1 = testService.createMob { it.name = "foo" }
+        testService.createMob { it.name = "bar" }
 
         // when
-        val response = testService.runAction(mob1, "tell ${getIdentifyingWord(mob2)} hello world")
+        val response = testService.runAction(mob1, "tell bar hello world")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you tell $mob2, \"hello world\"")
+        assertThat(response.message.toActionCreator).isEqualTo("you tell bar, \"hello world\"")
     }
 }

@@ -12,9 +12,11 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class PlayerMobContextBuilder(private val mobService: MobService) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return transaction {
-            Mobs.select {
-                Mobs.name like "%$word%"
-            }.firstOrNull()?.let {
+            (Mobs.select {
+                Mobs.name eq word
+            }.firstOrNull() ?: Mobs.select {
+                Mobs.name like "$word%"
+            }.firstOrNull())?.let {
                 MobDAO.wrapRow(it)
             }
         }?.let {

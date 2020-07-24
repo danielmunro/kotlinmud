@@ -210,12 +210,6 @@ class MobService(
         }
     }
 
-    fun removeMob(mob: MobDAO) {
-        transaction {
-            mob.delete()
-        }
-    }
-
     fun sendMessageToRoom(message: Message, room: RoomDAO, actionCreator: MobDAO, target: MobDAO? = null) {
         eventService.publish(
             createSendMessageToRoomEvent(message, room, actionCreator, target)

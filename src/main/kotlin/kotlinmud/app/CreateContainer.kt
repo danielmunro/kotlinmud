@@ -19,7 +19,6 @@ import kotlinmud.event.observer.impl.MoveMobsOnTickObserver
 import kotlinmud.event.observer.impl.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.PruneDeadMobsPulseObserver
 import kotlinmud.event.observer.impl.RegenMobsObserver
-import kotlinmud.event.observer.impl.RemoveMobOnClientDisconnectObserver
 import kotlinmud.event.observer.impl.ScavengerCollectsItemsObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
@@ -114,7 +113,6 @@ fun createContainer(port: Int, isTest: Boolean = false): Kodein {
                     instance<ServerService>(),
                     instance<MobService>()
                 ),
-                RemoveMobOnClientDisconnectObserver(instance<MobService>()),
                 LogPlayerInObserver(instance<MobService>()),
                 ProceedFightsPulseObserver(instance<MobService>()),
                 DecrementAffectTimeoutTickObserver(instance<MobService>()),
