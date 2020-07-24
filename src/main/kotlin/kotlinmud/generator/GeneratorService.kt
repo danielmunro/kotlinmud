@@ -24,12 +24,10 @@ class GeneratorService(
         val elevationLayer = ElevationService(biomeLayer, biomes).buildLayer()
         val mobGeneratorService = MobGeneratorService(biomes)
         val matrix = transaction { buildMatrix(rooms, elevationLayer, biomeLayer) }
-        val mobResets = mobGeneratorService.generateMobResets(rooms)
         val world = World(
             rooms,
             matrix,
-            mobGeneratorService.getAllMobs(),
-            mobResets
+            mobGeneratorService.getAllMobs()
         )
         transaction { hookUpRoomExits(world) }
         return world
