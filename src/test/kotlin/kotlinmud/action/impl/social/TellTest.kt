@@ -3,7 +3,6 @@ package kotlinmud.action.impl.social
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.test.createTestService
-import kotlinmud.test.getIdentifyingWord
 import org.junit.Test
 
 class TellTest {
