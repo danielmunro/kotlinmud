@@ -49,58 +49,48 @@ fun mobBuilder(name: String, room: RoomDAO): MobDAO {
 }
 
 private fun npc(name: String, room: RoomDAO): MobDAO {
-    return transaction {
-        mobBuilder(name, room).let {
-            it.isNpc = true
-            it
-        }
+    return mobBuilder(name, room).let {
+        it.isNpc = true
+        it
     }
 }
 
 fun zombie(room: RoomDAO): MobDAO {
     return npc("a zombie", room).let {
-        transaction {
-            it.brief = "a zombie is here, ready to attack!"
-            it.job = JobType.AGGRESSIVE
-            it.race = Undead()
-            it.savingThrows = ZOMBIE_SAVING_THROWS
-        }
+        it.brief = "a zombie is here, ready to attack!"
+        it.job = JobType.AGGRESSIVE
+        it.race = Undead()
+        it.savingThrows = ZOMBIE_SAVING_THROWS
         it
     }
 }
 
 fun skeletonWarrior(room: RoomDAO): MobDAO {
     return npc("a skeleton warrior", room).let {
-        transaction {
-            it.brief = "a skeleton warrior is here, stalking you!"
-            it.job = JobType.AGGRESSIVE
-            it.race = Undead()
-            it.savingThrows = ZOMBIE_SAVING_THROWS
-        }
+        it.brief = "a skeleton warrior is here, stalking you!"
+        it.job = JobType.AGGRESSIVE
+        it.race = Undead()
+        it.savingThrows = ZOMBIE_SAVING_THROWS
         it
     }
 }
 
 fun deer(room: RoomDAO): MobDAO {
     return npc("a deer", room).let {
-        transaction {
-            it.brief = "a deer weaves through the bushes, trying to avoid attention"
-            it.description = "tbd"
-            it.race = Deer()
-            it.wimpy = 5
-        }
+        it.brief = "a deer weaves through the bushes, trying to avoid attention"
+        it.description = "tbd"
+        it.race = Deer()
+        it.wimpy = 5
         it
     }
 }
 
 fun goat(room: RoomDAO): MobDAO {
-    return transaction {
-        npc("a goat", room).let {
-            it.brief = "a goat is here, munching on foliage"
-            it.description = "tbd"
-            it.race = Goat()
-            it
-        }
+    return npc("a goat", room).let {
+        it.brief = "a goat is here, munching on foliage"
+        it.description = "tbd"
+        it.race = Goat()
+        it
     }
 }
 
