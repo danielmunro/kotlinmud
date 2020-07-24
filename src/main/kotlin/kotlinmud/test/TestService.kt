@@ -142,6 +142,13 @@ class TestService(
         return mob
     }
 
+    fun createMob(modifier: (MobDAO) -> Unit): MobDAO {
+        return createMob().let {
+            transaction { modifier(it) }
+            it
+        }
+    }
+
     fun createRoom(): RoomDAO {
         return transaction {
             RoomDAO.new {
@@ -187,6 +194,13 @@ class TestService(
                 description = "a nice looking herb is here"
                 attributes = AttributesDAO.new {}
             }
+        }
+    }
+
+    fun createItem(modifier: (ItemDAO) -> Unit): ItemDAO {
+        return createItem().let {
+            transaction { modifier(it) }
+            it
         }
     }
 
