@@ -20,11 +20,10 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val src = testService.getStartRoom()
         val dst = testService.createRoom()
 
         // given
-        transaction { src.north = dst }
+        testService.getStartRoom { it.north = dst }
 
         // when
         val response = testService.runAction(mob, "n")
@@ -40,11 +39,10 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val src = testService.getStartRoom()
         val dst = testService.createRoom()
 
         // given
-        transaction { src.south = dst }
+        testService.getStartRoom { it.south = dst }
 
         // when
         val response = testService.runAction(mob, "s")
@@ -60,11 +58,10 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val src = testService.getStartRoom()
         val dst = testService.createRoom()
 
         // given
-        transaction { src.east = dst }
+        testService.getStartRoom { it.east = dst }
 
         // when
         val response = testService.runAction(mob, "e")
@@ -80,11 +77,10 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val src = testService.getStartRoom()
         val dst = testService.createRoom()
 
         // given
-        transaction { src.west = dst }
+        testService.getStartRoom { it.west = dst }
 
         // when
         val response = testService.runAction(mob, "w")
@@ -100,11 +96,10 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val src = testService.getStartRoom()
         val dst = testService.createRoom()
 
         // given
-        transaction { src.up = dst }
+        testService.getStartRoom { it.up = dst }
 
         // when
         val response = testService.runAction(mob, "u")
@@ -120,11 +115,10 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val src = testService.getStartRoom()
         val dst = testService.createRoom()
 
         // given
-        transaction { src.down = dst }
+        testService.getStartRoom { it.down = dst }
 
         // when
         val response = testService.runAction(mob, "d")
@@ -152,10 +146,9 @@ class MoveTest {
     fun testMobCannotMoveWhileSitting() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
 
         // given
-        transaction { mob.disposition = Disposition.SITTING }
+        val mob = testService.createMob { it.disposition = Disposition.SITTING }
 
         // when
         val response = testService.runAction(mob, "n")
@@ -169,13 +162,12 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val src = testService.getStartRoom()
         val dst = testService.createRoom()
 
         // given
-        transaction {
-            src.west = dst
-            src.westDoor = DoorDAO.new {
+        testService.getStartRoom {
+            it.west = dst
+            it.westDoor = DoorDAO.new {
                 name = "a door"
                 description = "a door"
                 defaultDisposition = DoorDisposition.CLOSED
@@ -195,16 +187,15 @@ class MoveTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val src = test.getStartRoom()
         val dst = test.createRoom()
 
         // expect
         assertThat(mob.hp).isEqualTo(mob.calc(Attribute.HP))
 
         // given
-        transaction {
-            src.west = dst
-            dst.elevation = src.elevation + 5
+        test.getStartRoom {
+            it.west = dst
+            dst.elevation = it.elevation + 5
         }
 
         // when
@@ -219,16 +210,15 @@ class MoveTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val src = test.getStartRoom()
         val dst = test.createRoom()
 
         // expect
         assertThat(mob.hp).isEqualTo(mob.calc(Attribute.HP))
 
         // given
-        transaction {
-            src.west = dst
-            dst.elevation = src.elevation - 5
+        test.getStartRoom {
+            it.west = dst
+            it.elevation = dst.elevation + 5
         }
 
         // when
@@ -243,12 +233,11 @@ class MoveTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
-        val src = test.getStartRoom()
         val dst = test.createRoom()
 
         // given
-        transaction {
-            src.north = dst
+        test.getStartRoom {
+            it.north = dst
             dst.substrate = SubstrateType.DIRT
         }
 

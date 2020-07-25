@@ -5,7 +5,6 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class PutTest {
@@ -17,12 +16,8 @@ class PutTest {
         val room = test.getStartRoom()
 
         // given
-        val itemToPut = test.createItem()
-        val itemWithInventory = test.createContainer()
-        transaction {
-            itemToPut.mobInventory = mob
-            itemWithInventory.room = room
-        }
+        val itemToPut = test.createItem { it.mobInventory = mob }
+        val itemWithInventory = test.createContainer { it.room = room }
 
         // when
         val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
@@ -40,12 +35,8 @@ class PutTest {
         val mob = test.createMob()
 
         // given
-        val itemToPut = test.createItem()
-        val itemWithInventory = test.createContainer()
-        transaction {
-            itemToPut.mobInventory = mob
-            itemWithInventory.mobInventory = mob
-        }
+        val itemToPut = test.createItem { it.mobInventory = mob }
+        val itemWithInventory = test.createContainer { it.mobInventory = mob }
 
         // when
         val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
@@ -63,12 +54,8 @@ class PutTest {
         val mob = test.createMob()
 
         // given
-        val itemToPut = test.createItem()
-        val itemWithNoInventory = test.createItem()
-        transaction {
-            itemToPut.mobInventory = mob
-            itemWithNoInventory.mobInventory = mob
-        }
+        val itemToPut = test.createItem { it.mobInventory = mob }
+        val itemWithNoInventory = test.createItem { it.mobInventory = mob }
 
         // when
         val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithNoInventory)}")

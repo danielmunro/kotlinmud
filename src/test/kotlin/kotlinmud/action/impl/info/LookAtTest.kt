@@ -8,7 +8,6 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.io.type.IOStatus
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class LookAtTest {
@@ -18,9 +17,8 @@ class LookAtTest {
         val testService = createTestService()
 
         // given
-        val mob1 = testService.createMob()
-        transaction {
-            createAffect(AffectType.INVISIBILITY).mob = mob1
+        val mob1 = testService.createMob {
+            createAffect(AffectType.INVISIBILITY).mob = it
         }
         val mob2 = testService.createMob()
 
@@ -38,12 +36,8 @@ class LookAtTest {
         val testService = createTestService()
 
         // given
-        val mob = testService.createMob()
-        val item = testService.createItem()
-        transaction {
-            item.mobInventory = mob
-            createAffect(AffectType.INVISIBILITY).item = item
-        }
+        val item = testService.createItem { createAffect(AffectType.INVISIBILITY).item = it }
+        val mob = testService.createMob { item.mobInventory = it }
 
         // when
         val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")

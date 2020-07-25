@@ -4,7 +4,6 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class ListTest {
@@ -15,21 +14,21 @@ class ListTest {
         val mob = test.createMob()
 
         // given
-        val shopkeeper = test.createMob()
-        val item1 = test.createItem()
-        val item2 = test.createItem()
-        val item3 = test.createItem()
-        transaction {
-            shopkeeper.job = JobType.SHOPKEEPER
-            item1.mobInventory = shopkeeper
-            item1.level = 1
-            item1.worth = 100
-            item2.mobInventory = shopkeeper
-            item2.level = 10
-            item2.worth = 1
-            item3.mobInventory = shopkeeper
-            item3.level = 20
-            item3.worth = 3210
+        val shopkeeper = test.createMob { it.job = JobType.SHOPKEEPER }
+        val item1 = test.createItem {
+            it.mobInventory = shopkeeper
+            it.level = 1
+            it.worth = 100
+        }
+        val item2 = test.createItem {
+            it.mobInventory = shopkeeper
+            it.level = 10
+            it.worth = 1
+        }
+        val item3 = test.createItem {
+            it.mobInventory = shopkeeper
+            it.level = 20
+            it.worth = 3210
         }
 
         // when

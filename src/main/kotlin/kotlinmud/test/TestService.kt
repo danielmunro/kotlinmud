@@ -104,6 +104,14 @@ class TestService(
         return room
     }
 
+    fun getStartRoom(modifier: (RoomDAO) -> Unit): RoomDAO {
+        val room = getStartRoom()
+        transaction {
+            modifier(room)
+        }
+        return room
+    }
+
     fun createDoor(): DoorDAO {
         return transaction {
             DoorDAO.new {
@@ -164,6 +172,13 @@ class TestService(
         }
     }
 
+    fun createRoom(modifier: (RoomDAO) -> Unit): RoomDAO {
+        return createRoom().let {
+            transaction { modifier(it) }
+            it
+        }
+    }
+
     fun createCorpseFrom(mob: MobDAO): ItemDAO {
         return mobService.createCorpseFrom(mob)
     }
@@ -208,6 +223,13 @@ class TestService(
         val item = createItem()
         transaction { item.isContainer = true }
         return item
+    }
+
+    fun createContainer(modifier: (ItemDAO) -> Unit): ItemDAO {
+        return createContainer().let {
+            transaction { modifier(it) }
+            it
+        }
     }
 
     fun make(amount: Int): MakeItemService {

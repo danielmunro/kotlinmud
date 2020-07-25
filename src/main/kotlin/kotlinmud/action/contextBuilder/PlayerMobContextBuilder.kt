@@ -4,12 +4,11 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.service.MobService
 import kotlinmud.mob.table.Mobs
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class PlayerMobContextBuilder(private val mobService: MobService) : ContextBuilder {
+class PlayerMobContextBuilder() : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return transaction {
             (Mobs.select {
