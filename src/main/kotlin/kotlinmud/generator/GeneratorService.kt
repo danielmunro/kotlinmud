@@ -24,6 +24,7 @@ class GeneratorService(
         val elevationLayer = ElevationService(biomeLayer, biomes).buildLayer()
         val mobGeneratorService = MobGeneratorService(biomes)
         val matrix = transaction { buildMatrix(rooms, elevationLayer, biomeLayer) }
+
         val world = World(
             rooms,
             matrix,

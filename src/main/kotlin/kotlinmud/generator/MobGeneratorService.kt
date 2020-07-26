@@ -3,8 +3,15 @@ package kotlinmud.generator
 import kotlinmud.biome.type.Biome
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Rarity
 import kotlinmud.mob.type.Size
+import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.table.Rooms
+import org.jetbrains.exposed.sql.Random
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobGeneratorService(biomes: List<Biome>) {
     private val biomeMobList: Map<BiomeType, Biome> = biomes.map {
@@ -17,30 +24,14 @@ class MobGeneratorService(biomes: List<Biome>) {
         }
     }
 
-    companion object {
-        private fun getMaxInRoom(mob: MobDAO): Int {
-            return when (mob.race.size) {
-                Size.TINY -> 3
-                Size.SMALL -> 3
-                Size.MEDIUM -> 2
-                Size.LARGE -> 2
-                Size.HUGE -> 1
-            }
-        }
-
-        private fun getMaxInRoomModifier(mob: MobDAO): Int {
-            return when (mob.rarity) {
-                Rarity.COMMON -> 1
-                Rarity.UNCOMMON -> 1
-                Rarity.RARE -> 1
-            }
-        }
-
-        private fun getMaxInWorld(mob: MobDAO): Int {
-            return when (mob.rarity) {
-                Rarity.COMMON -> 500
-                Rarity.UNCOMMON -> 100
-                Rarity.RARE -> 10
+    fun respawnMobs() {
+        transaction {
+            biomeMobList.entries.forEach { biome ->
+                RoomDAO.wrapRows(Rooms.select {
+                    Rooms.biome eq biome.key.value
+                }.orderBy(Random())).forEach {
+                    biome.value.createMobInRoom(it)
+                }
             }
         }
     }
@@ -48,5 +39,21 @@ class MobGeneratorService(biomes: List<Biome>) {
     fun getAllMobs(): List<MobDAO> {
         return listOf()
 //        return biomeMobList.flatMap { it.value }
+    }
+
+    private fun countMobsInRoomByName(mob: MobDAO, room: RoomDAO): Int {
+        return transaction {
+            Mobs.select {
+                Mobs.name eq mob.name and (Mobs.roomId eq room.id)
+            }.count()
+        }
+    }
+
+    private fun countMobsInWorldByName(mob: MobDAO): Int {
+        return transaction {
+            Mobs.select {
+                Mobs.name eq mob.name
+            }.count()
+        }
     }
 }
