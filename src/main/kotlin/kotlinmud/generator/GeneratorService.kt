@@ -22,13 +22,11 @@ class GeneratorService(
         val rooms = mutableListOf<RoomDAO>()
         val biomeLayer = biomeService.createLayer((width * length) / (width * length / 10))
         val elevationLayer = ElevationService(biomeLayer, biomes).buildLayer()
-        val mobGeneratorService = MobGeneratorService(biomes)
         val matrix = transaction { buildMatrix(rooms, elevationLayer, biomeLayer) }
-
+        MobGeneratorService(biomes).respawnMobs()
         val world = World(
             rooms,
-            matrix,
-            mobGeneratorService.getAllMobs()
+            matrix
         )
         transaction { hookUpRoomExits(world) }
         return world
