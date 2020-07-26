@@ -101,12 +101,6 @@ class ItemService {
         }
     }
 
-    fun destroy(item: ItemDAO) {
-        transaction {
-            item.delete()
-        }
-    }
-
     fun createCorpseFromMob(mob: MobDAO): ItemDAO {
         val item = transaction {
             Items.update({ Items.mobEquippedId eq mob.id }) {

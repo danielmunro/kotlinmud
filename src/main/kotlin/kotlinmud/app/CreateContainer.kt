@@ -42,7 +42,7 @@ import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.singleton
 
-fun createContainer(port: Int, isTest: Boolean = false): Kodein {
+fun createContainer(port: Int): Kodein {
     return Kodein {
         bind<ServerSocket>() with singleton { ServerSocket(port) }
         bind<ClientService>() with singleton { ClientService() }

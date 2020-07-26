@@ -13,7 +13,7 @@ import kotlinmud.service.FixtureService
 import org.kodein.di.erased.instance
 
 fun createTestService(): TestService {
-    val container = createContainer(0, true)
+    val container = createContainer(0)
     val fix: FixtureService by container.instance<FixtureService>()
     val mob: MobService by container.instance<MobService>()
     val item: ItemService by container.instance<ItemService>()

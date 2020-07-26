@@ -15,9 +15,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class CraftingService(
-    private val itemService: ItemService
-) {
+class CraftingService(private val itemService: ItemService) {
     private val resources: List<Resource> = createResourceList()
     companion object {
         fun createListOfItemTypesFromMap(components: Map<ItemType, Int>): List<ItemType> {
@@ -44,38 +42,42 @@ class CraftingService(
     }
 
     fun craft(recipe: Recipe, mob: MobDAO): List<ItemDAO> {
-        val componentsList =
-            createListOfItemTypesFromMap(recipe.getComponents())
-        val toDestroy =
-            createListOfItemsToDestroy(
-                itemService.findAllByOwner(mob).sortedBy { it.type }, componentsList
-            )
+        val componentsList = createListOfItemTypesFromMap(recipe.getComponents())
+        val toDestroy = createListOfItemsToDestroy(
+            itemService.findAllByOwner(mob).sortedBy { it.type },
+            componentsList
+        )
 
         if (toDestroy.size < componentsList.size) {
             throw CraftException()
         }
 
-        toDestroy.forEach { itemService.destroy(it) }
-        val products = recipe.getProducts()
         transaction {
-            products.forEach {
-                it.mobInventory = mob
-            }
+            toDestroy.forEach { it.delete() }
         }
 
-        return products
+        return createNewProductsFor(mob, recipe.getProducts())
     }
 
     fun harvest(resource: ResourceDAO, mob: MobDAO): List<ItemDAO> {
         return transaction {
-            Resources.deleteWhere(null as Int?, null as Int?) { Resources.id eq resource.id }
+            removeResource(resource)
             resources.find { it.resourceType == resource.type }?.let {
-                val products = it.createProduct()
-                products.forEach { item ->
-                    item.mobInventory = mob
-                }
-                return@let products
+                createNewProductsFor(mob, it.createProduct())
             } ?: throw HarvestException()
         }
+    }
+
+    private fun removeResource(resource: ResourceDAO) {
+        Resources.deleteWhere(null as Int?, null as Int?) { Resources.id eq resource.id }
+    }
+
+    private fun createNewProductsFor(mob: MobDAO, items: List<ItemDAO>): List<ItemDAO> {
+        transaction {
+            items.forEach {
+                it.mobInventory = mob
+            }
+        }
+        return items
     }
 }

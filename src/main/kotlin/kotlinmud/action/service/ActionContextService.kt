@@ -165,7 +165,7 @@ class ActionContextService(
     }
 
     fun destroy(item: ItemDAO) {
-        itemService.destroy(item)
+        transaction { item.delete() }
     }
 
     fun createNewRoom(name: String): NewRoom {
