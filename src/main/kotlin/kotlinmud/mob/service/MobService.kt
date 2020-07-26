@@ -87,7 +87,7 @@ class MobService(
     fun buildRoom(mob: MobDAO, direction: Direction): RoomDAO {
         // setup
         val source = transaction { mob.room }
-        val newRoom = newRooms.find { it.mob.id.value == mob.id.value }!!
+        val newRoom = newRooms.find { it.mob == mob }!!
 
         // destination room exit hook up
         val destination = newRoom.room
@@ -156,13 +156,13 @@ class MobService(
     }
 
     fun addMob(mob: MobDAO) {
-        putMobInRoom(mob, getStartRoom())
+        transaction { mob.room = getStartRoom() }
     }
 
     fun moveMob(mob: MobDAO, room: RoomDAO, direction: Direction) {
         val leaving = transaction { mob.room }
         sendMessageToRoom(createLeaveMessage(mob, direction), leaving, mob)
-        putMobInRoom(mob, room)
+        transaction { mob.room = room }
         doFallCheck(mob, leaving, room)
         sendMessageToRoom(createArriveMessage(mob), room, mob)
     }
@@ -211,13 +211,7 @@ class MobService(
     }
 
     fun sendMessageToRoom(message: Message, room: RoomDAO, actionCreator: MobDAO, target: MobDAO? = null) {
-        eventService.publish(
-            createSendMessageToRoomEvent(message, room, actionCreator, target)
-        )
-    }
-
-    fun putMobInRoom(mob: MobDAO, room: RoomDAO) {
-        transaction { mob.room = room }
+        eventService.publish(createSendMessageToRoomEvent(message, room, actionCreator, target))
     }
 
     fun createCorpseFrom(mob: MobDAO): ItemDAO {

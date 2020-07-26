@@ -111,6 +111,10 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        return if (other is RoomDAO) other.id.value == id.value else super.equals(other)
+    }
+
     private fun isElevationPassable(room: RoomDAO?): Boolean {
         return room != null && room.elevation - elevation < MAX_WALKABLE_ELEVATION
     }

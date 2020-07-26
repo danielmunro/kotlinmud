@@ -32,7 +32,7 @@ class WimpyObserver(private val mobService: MobService) : Observer {
                 room,
                 mob
             )
-            mobService.putMobInRoom(mob, exit.value)
+            transaction { mob.room = exit.value }
             mobService.sendMessageToRoom(
                 MessageBuilder().toObservers("$mob arrives.").build(),
                 exit.value,

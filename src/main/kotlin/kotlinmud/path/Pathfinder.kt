@@ -14,7 +14,7 @@ class Pathfinder(private val src: RoomDAO, private val dest: RoomDAO) {
             return null
         }
         rooms.forEach {
-            if (it.id.value == dest.id.value) {
+            if (it == dest) {
                 return rooms.toList()
             }
             if (!roomSeen(it)) {

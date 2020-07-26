@@ -73,7 +73,7 @@ class MobController(
         val path = Pathfinder(currentRoom, nextRoom)
         val rooms = path.find()
         val nextMove = currentRoom.getAllExits().entries.find {
-            it.value.id.value == rooms[1].id.value
+            it.value == rooms[1]
         }!!
         val door = currentRoom.getDoors().entries.find {
             it.key == nextMove.key

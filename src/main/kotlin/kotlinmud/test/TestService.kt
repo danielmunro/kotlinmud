@@ -97,7 +97,7 @@ class TestService(
     }
 
     fun putMobInRoom(mob: MobDAO, room: RoomDAO) {
-        mobService.putMobInRoom(mob, room)
+        transaction { mob.room = room }
     }
 
     fun getStartRoom(): RoomDAO {

@@ -109,7 +109,7 @@ class ActionContextService(
     }
 
     fun putMobInRoom(room: RoomDAO) {
-        mobService.putMobInRoom(getMob(), room)
+        transaction { getMob().room = room }
     }
 
     fun createOkResponse(message: Message, delay: Int = 0): Response {
