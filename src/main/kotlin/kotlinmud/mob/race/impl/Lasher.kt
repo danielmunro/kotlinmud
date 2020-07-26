@@ -16,8 +16,7 @@ data class Lasher(override val type: RaceType = RaceType.LASHER) : Race {
     override val unarmedAttackVerb: String = "claw"
     override val unarmedDamageType: DamageType = DamageType.SLASH
     override val form: Form = Form.MAMMAL
-    override val attributes: AttributesDAO =
-        createStats(1, -1, -2, 1, 1, 1, 0)
+    override val attributes: AttributesDAO = createStats(1, -1, -2, 1, 1, 1, 0)
     override val size: Size = Size.LARGE
     override val maxAppetite: Int = 4
     override val maxThirst: Int = 3

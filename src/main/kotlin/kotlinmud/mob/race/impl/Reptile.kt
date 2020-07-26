@@ -16,8 +16,7 @@ data class Reptile(override val type: RaceType = RaceType.REPTILE) : Race {
     override val unarmedAttackVerb: String = "bite"
     override val unarmedDamageType: DamageType = DamageType.PIERCE
     override val form: Form = Form.REPTILE
-    override val attributes: AttributesDAO =
-        createStats(0, 0, 0, 0, 0, 0, 1)
+    override val attributes: AttributesDAO = createStats(0, 0, 0, 0, 0, 0, 1)
     override val size: Size = Size.SMALL
     override val maxAppetite: Int = 4
     override val maxThirst: Int = 4

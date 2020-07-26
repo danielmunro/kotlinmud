@@ -16,8 +16,7 @@ data class Ogre(override val type: RaceType = RaceType.OGRE) : Race {
     override val unarmedAttackVerb: String = "punch"
     override val unarmedDamageType: DamageType = DamageType.POUND
     override val form: Form = Form.MAMMAL
-    override val attributes: AttributesDAO =
-        createStats(2, -2, -2, 0, 2, 0, 1)
+    override val attributes: AttributesDAO = createStats(2, -2, -2, 0, 2, 0, 1)
     override val size: Size = Size.LARGE
     override val maxAppetite: Int = 4
     override val maxThirst: Int = 4

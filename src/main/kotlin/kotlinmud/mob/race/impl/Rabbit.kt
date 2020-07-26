@@ -1,12 +1,12 @@
 package kotlinmud.mob.race.impl
 
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.factory.emptyAttributes
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class Rabbit : Race {
     override val type: RaceType = RaceType.RABBIT
@@ -17,7 +17,7 @@ class Rabbit : Race {
     override val unarmedAttackVerb: String = "bite"
     override val unarmedDamageType: DamageType = DamageType.SLASH
     override val form: Form = Form.MAMMAL
-    override val attributes: AttributesDAO = transaction { AttributesDAO.new {} }
+    override val attributes: AttributesDAO = emptyAttributes()
     override val size: Size = Size.TINY
     override val maxAppetite: Int = 2
     override val maxThirst: Int = 2

@@ -16,8 +16,7 @@ data class Goblin(override val type: RaceType = RaceType.GOBLIN) : Race {
     override val unarmedAttackVerb: String = "bite"
     override val unarmedDamageType: DamageType = DamageType.PIERCE
     override val form: Form = Form.MAMMAL
-    override val attributes: AttributesDAO =
-        createStats(0, -1, -1, 1, 2, 0, 1)
+    override val attributes: AttributesDAO = createStats(0, -1, -1, 1, 2, 0, 1)
     override val size: Size = Size.LARGE
     override val maxAppetite: Int = 3
     override val maxThirst: Int = 2

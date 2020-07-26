@@ -16,8 +16,7 @@ data class Kender(override val type: RaceType = RaceType.KENDER) : Race {
     override val unarmedAttackVerb: String = "punch"
     override val unarmedDamageType: DamageType = DamageType.POUND
     override val form: Form = Form.MAMMAL
-    override val attributes: AttributesDAO =
-        createStats(-1, 0, 1, 2, 1, 1, 0)
+    override val attributes: AttributesDAO = createStats(-1, 0, 1, 2, 1, 1, 0)
     override val size: Size = Size.MEDIUM
     override val maxAppetite: Int = 2
     override val maxThirst: Int = 3

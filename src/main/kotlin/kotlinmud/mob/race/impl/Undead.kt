@@ -26,8 +26,7 @@ class Undead : Race {
     override val unarmedAttackVerb: String = "bite"
     override val unarmedDamageType: DamageType = DamageType.SLASH
     override val form: Form = Form.UNDEAD
-    override val attributes: AttributesDAO =
-        createStats(2, -1, 0, -3, 4, 0, 1)
+    override val attributes: AttributesDAO = createStats(2, -1, 0, -3, 4, 0, 1)
     override val size: Size = Size.MEDIUM
     override val maxAppetite: Int = 5
     override val maxThirst: Int = 4

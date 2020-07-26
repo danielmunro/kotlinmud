@@ -16,3 +16,7 @@ fun createStats(str: Int, int: Int, wis: Int, dex: Int, con: Int, hit: Int = 0, 
         }
     }
 }
+
+fun emptyAttributes(): AttributesDAO {
+    return transaction { AttributesDAO.new {} }
+}

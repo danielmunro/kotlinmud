@@ -16,8 +16,7 @@ data class Faerie(override val type: RaceType = RaceType.FAERIE) : Race {
     override val unarmedAttackVerb: String = "slap"
     override val unarmedDamageType: DamageType = DamageType.POUND
     override val form: Form = Form.MAMMAL
-    override val attributes: AttributesDAO =
-        createStats(-3, 2, 2, 2, -3, 1, -1)
+    override val attributes: AttributesDAO = createStats(-3, 2, 2, 2, -3, 1, -1)
     override val size: Size = Size.TINY
     override val maxAppetite: Int = 2
     override val maxThirst: Int = 2
