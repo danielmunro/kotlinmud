@@ -9,5 +9,5 @@ interface Biome {
     val resources: Map<Resource, Double>
     val substrate: SubstrateType
     val elevationChange: Double
-    fun createMobInRoom(room: RoomDAO): MobDAO
+    val mobs: List<(RoomDAO) -> MobDAO>
 }

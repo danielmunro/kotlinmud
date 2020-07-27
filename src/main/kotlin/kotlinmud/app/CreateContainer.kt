@@ -5,11 +5,14 @@ import kotlinmud.action.helper.createActionContextBuilder
 import kotlinmud.action.helper.createActionsList
 import kotlinmud.action.service.ActionService
 import kotlinmud.action.service.ContextBuilderService
+import kotlinmud.biome.helper.createBiomes
+import kotlinmud.db.createConnection
 import kotlinmud.event.observer.impl.ChangeWeatherObserver
 import kotlinmud.event.observer.impl.ClientConnectedObserver
 import kotlinmud.event.observer.impl.DecrementAffectTimeoutTickObserver
 import kotlinmud.event.observer.impl.DecrementDelayObserver
 import kotlinmud.event.observer.impl.DecrementItemDecayTimerObserver
+import kotlinmud.event.observer.impl.GenerateMobsObserver
 import kotlinmud.event.observer.impl.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
 import kotlinmud.event.observer.impl.IncreaseThirstAndHungerObserver
@@ -26,6 +29,7 @@ import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
 import kotlinmud.event.observer.type.Observers
 import kotlinmud.event.service.EventService
+import kotlinmud.generator.MobGeneratorService
 import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.helper.createRecipeList
@@ -44,6 +48,7 @@ import org.kodein.di.erased.singleton
 
 fun createContainer(port: Int): Kodein {
     return Kodein {
+        createConnection()
         bind<ServerSocket>() with singleton { ServerSocket(port) }
         bind<ClientService>() with singleton { ClientService() }
         bind<ServerService>() with singleton {
@@ -102,6 +107,9 @@ fun createContainer(port: Int): Kodein {
                 createRecipeList()
             )
         }
+        bind<MobGeneratorService>() with singleton {
+            MobGeneratorService(createBiomes())
+        }
         bind<Observers>() with singleton {
             listOf(
                 ClientConnectedObserver(
@@ -129,7 +137,8 @@ fun createContainer(port: Int): Kodein {
                 RegenMobsObserver(instance<MobService>()),
                 MoveMobsOnTickObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),
                 ScavengerCollectsItemsObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),
-                GuardAttacksAggroMobsObserver(instance<MobService>())
+                GuardAttacksAggroMobsObserver(instance<MobService>()),
+                GenerateMobsObserver(instance<MobGeneratorService>())
             )
         }
     }

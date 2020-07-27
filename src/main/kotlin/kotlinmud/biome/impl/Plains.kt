@@ -3,7 +3,6 @@ package kotlinmud.biome.impl
 import kotlinmud.biome.type.Biome
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.SubstrateType
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.factory.deer
 import kotlinmud.mob.factory.horse
 import kotlinmud.mob.factory.rabbit
@@ -19,14 +18,10 @@ class Plains : Biome {
     )
     override val substrate: SubstrateType = SubstrateType.DIRT
     override val elevationChange: Double = 0.1
-    val mobs = listOf(
+    override val mobs = listOf(
         { room: RoomDAO -> deer(room) },
         { room: RoomDAO -> rabbit(room) },
         { room: RoomDAO -> horse(room) },
         { room: RoomDAO -> sheep(room) }
     )
-
-    override fun createMobInRoom(room: RoomDAO): MobDAO {
-        return mobs.random().invoke(room)
-    }
 }
