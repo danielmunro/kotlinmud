@@ -2,6 +2,9 @@ package kotlinmud.test
 
 import kotlinmud.action.service.ActionService
 import kotlinmud.app.createContainer
+import kotlinmud.db.applySchema
+import kotlinmud.db.createConnection
+import kotlinmud.db.getTables
 import kotlinmud.event.observer.type.Observers
 import kotlinmud.event.service.EventService
 import kotlinmud.helper.Noun
@@ -10,9 +13,21 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.kodein.di.erased.instance
 
+fun createTestServiceWithResetDB(): TestService {
+    createConnection()
+    transaction {
+        SchemaUtils.drop(*getTables())
+        applySchema()
+    }
+    return createTestService()
+}
+
 fun createTestService(): TestService {
+    createConnection()
     val container = createContainer(0)
     val fix: FixtureService by container.instance<FixtureService>()
     val mob: MobService by container.instance<MobService>()

@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isGreaterThan
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.test.createTestService
+import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -11,7 +12,7 @@ class RegenMobsObserverTest {
     @Test
     fun testRegenRoomDifference() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
         val mob = test.createMob()
         val room = test.getStartRoom()
 

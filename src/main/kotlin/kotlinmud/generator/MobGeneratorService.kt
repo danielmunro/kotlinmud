@@ -15,23 +15,21 @@ class MobGeneratorService(biomes: List<Biome>) {
         Pair(it.biomeType, it)
     }.toMap()
 
-    init {
-        biomes.forEach {
-            biomeMobList.plus(Pair(it.biomeType, it))
-        }
-    }
-
     fun respawnMobs() {
         transaction {
             biomeMobList.entries.forEach { biome ->
                 RoomDAO.wrapRows(Rooms.select {
-                    Rooms.biome eq biome.key.value
+                    Rooms.biome eq biome.key.toString()
                 }).forEach {
-                    if (Mobs.select { Mobs.roomId eq it.id }.count() < MAX_MOBS_PER_ROOM) {
+                    if (countMobsInRoom(it) < MAX_MOBS_PER_ROOM) {
                         biome.value.mobs.random().invoke(it)
                     }
                 }
             }
         }
+    }
+
+    private fun countMobsInRoom(room: RoomDAO): Int {
+        return Mobs.select { Mobs.roomId eq room.id }.count()
     }
 }
