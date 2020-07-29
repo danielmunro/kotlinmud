@@ -115,7 +115,9 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = project.hasProperty('generateWorld') ? 'kotlinmud.GenerateWorldAppKt' : 'kotlinmud.AppKt'
+    mainClassName = project.hasProperty('generateWorld') ?
+            'kotlinmud.GenerateWorldAppKt' :
+            'kotlinmud.AppKt'
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {

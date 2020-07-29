@@ -70,6 +70,7 @@ class PlayerService(
         return transaction {
             PlayerDAO.new {
                 email = emailAddress
+                name = "foo"
             }
         }
     }

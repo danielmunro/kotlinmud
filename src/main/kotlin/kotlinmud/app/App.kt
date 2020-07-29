@@ -15,14 +15,12 @@ import kotlinmud.io.model.Response
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.time.service.TimeService
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class App(
     private val eventService: EventService,
-    private val mobService: MobService,
     private val timeService: TimeService,
     private val serverService: ServerService,
     private val actionService: ActionService,

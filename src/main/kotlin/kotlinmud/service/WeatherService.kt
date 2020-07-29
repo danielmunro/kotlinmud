@@ -1,5 +1,6 @@
 package kotlinmud.service
 
+import kotlinmud.weather.Temperature
 import kotlinmud.weather.Weather
 
 class WeatherService {
@@ -13,5 +14,15 @@ class WeatherService {
 
     fun getWeather(): Weather {
         return weather
+    }
+
+    fun getTemperature(): Temperature {
+        return when (weather) {
+            Weather.STORMING -> Temperature.COLD
+            Weather.OVERCAST -> Temperature.TEMPERATE
+            Weather.BLIZZARD -> Temperature.VERY_COLD
+            Weather.BLUSTERY -> Temperature.COLD
+            Weather.CLEAR -> Temperature.WARM
+        }
     }
 }

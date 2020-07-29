@@ -20,5 +20,5 @@ fun createApp(port: Int): App {
     val actionService by container.instance<ActionService>()
     val playerService by container.instance<PlayerService>()
 
-    return App(eventService, mobService, timeService, server, actionService, playerService)
+    return App(eventService, timeService, server, actionService, playerService)
 }

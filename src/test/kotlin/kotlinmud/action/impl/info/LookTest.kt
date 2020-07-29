@@ -20,21 +20,12 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val room = transaction { mob.room }
-        val observers = testService.getMobsForRoom(room).filter { it != mob }
 
         // when
         val response = testService.runAction(mob, "look")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(
-                room,
-                mob,
-                observers,
-                testService.findAllItemsByOwner(room)
-            )
-        )
+        assertThat(response.message.toActionCreator).contains("Exits [")
     }
 
     @Test

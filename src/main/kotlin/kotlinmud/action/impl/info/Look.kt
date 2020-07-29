@@ -2,6 +2,7 @@ package kotlinmud.action.impl.info
 
 import kotlinmud.action.helper.mustBeAwake
 import kotlinmud.action.model.Action
+import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.factory.messageToActionCreator
@@ -17,6 +18,7 @@ fun createLookAction(): Action {
         createResponseWithEmptyActionContext(
             messageToActionCreator(
                 describeRoom(
+                    it,
                     room,
                     it.getMob(),
                     it.getMobsInRoom(),
@@ -27,7 +29,7 @@ fun createLookAction(): Action {
     }
 }
 
-fun describeRoom(room: RoomDAO, mob: MobDAO, mobs: List<MobDAO>, roomItems: List<ItemDAO>): String {
+fun describeRoom(actionContextService: ActionContextService, room: RoomDAO, mob: MobDAO, mobs: List<MobDAO>, roomItems: List<ItemDAO>): String {
     return transaction {
         mob.affects.find { it.type == AffectType.BLIND }?.let {
             return@transaction "you can't see anything, you're blind!"
@@ -35,9 +37,8 @@ fun describeRoom(room: RoomDAO, mob: MobDAO, mobs: List<MobDAO>, roomItems: List
         val observers = mobs.filter {
             it != mob && it.affects.find { affect -> affect.type == AffectType.INVISIBILITY } == null
         }
-        return@transaction String.format("%s\n%s\n%sExits [%s]%s%s%s%s",
-            room.name,
-            room.description,
+        return@transaction String.format("%s\n%sExits [%s]%s%s%s%s",
+            actionContextService.getDynamicRoomDescription(),
             showDoors(room),
             reduceExits(room),
             if (roomItems.isNotEmpty()) "\n" else "",

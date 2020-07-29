@@ -3,7 +3,6 @@ package kotlinmud.event.observer
 import assertk.assertThat
 import assertk.assertions.isGreaterThan
 import kotlinmud.room.type.RegenLevel
-import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test

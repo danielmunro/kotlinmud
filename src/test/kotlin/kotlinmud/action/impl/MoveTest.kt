@@ -3,7 +3,6 @@ package kotlinmud.action.impl
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isLessThan
-import kotlinmud.action.impl.info.describeRoom
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.io.type.IOStatus
@@ -29,9 +28,7 @@ class MoveTest {
         val response = testService.runAction(mob, "n")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(dst, mob, testService.getMobsForRoom(dst), testService.findAllItemsByOwner(dst))
-        )
+        assertThat(response.status).isEqualTo(IOStatus.OK)
     }
 
     @Test
@@ -48,9 +45,7 @@ class MoveTest {
         val response = testService.runAction(mob, "s")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(dst, mob, testService.getMobsForRoom(dst), testService.findAllItemsByOwner(dst))
-        )
+        assertThat(response.status).isEqualTo(IOStatus.OK)
     }
 
     @Test
@@ -67,9 +62,7 @@ class MoveTest {
         val response = testService.runAction(mob, "e")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(dst, mob, testService.getMobsForRoom(dst), testService.findAllItemsByOwner(dst))
-        )
+        assertThat(response.status).isEqualTo(IOStatus.OK)
     }
 
     @Test
@@ -86,9 +79,7 @@ class MoveTest {
         val response = testService.runAction(mob, "w")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(dst, mob, testService.getMobsForRoom(dst), testService.findAllItemsByOwner(dst))
-        )
+        assertThat(response.status).isEqualTo(IOStatus.OK)
     }
 
     @Test
@@ -105,9 +96,7 @@ class MoveTest {
         val response = testService.runAction(mob, "u")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(dst, mob, testService.getMobsForRoom(dst), testService.findAllItemsByOwner(dst))
-        )
+        assertThat(response.status).isEqualTo(IOStatus.OK)
     }
 
     @Test
@@ -124,9 +113,7 @@ class MoveTest {
         val response = testService.runAction(mob, "d")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo(
-            describeRoom(dst, mob, testService.getMobsForRoom(dst), testService.findAllItemsByOwner(dst))
-        )
+        assertThat(response.status).isEqualTo(IOStatus.OK)
     }
 
     @Test
