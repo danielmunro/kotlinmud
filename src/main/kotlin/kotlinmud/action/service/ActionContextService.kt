@@ -108,7 +108,9 @@ class ActionContextService(
     }
 
     fun getRecall(): RoomDAO {
-        return mobService.getStartRoom()
+        return transaction {
+            if (request.mob.isNpc) mobService.getStartRoom() else request.mob.mobCard!!.respawnRoom
+        }
     }
 
     fun <T> get(syntax: Syntax): T {
