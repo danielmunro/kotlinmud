@@ -17,6 +17,5 @@ class LogPlayerInObserver(private val mobService: MobService) :
             playerLoggedInEvent.mobCard.mob
         }
         playerLoggedInEvent.client.mob = mob
-        mobService.addMob(mob)
     }
 }

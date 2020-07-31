@@ -22,7 +22,7 @@ class GeneratorService(
         val rooms = mutableListOf<RoomDAO>()
         val biomeLayer = biomeService.createLayer((width * length) / (width * length / 10))
         val elevationLayer = ElevationService(biomeLayer, biomes).buildLayer()
-        val matrix = transaction { buildMatrix(rooms, elevationLayer, biomeLayer) }
+        val matrix = buildMatrix(rooms, elevationLayer, biomeLayer)
         MobGeneratorService(biomes).respawnMobs()
         val world = World(
             rooms,
@@ -35,10 +35,12 @@ class GeneratorService(
     private fun buildMatrix(rooms: MutableList<RoomDAO>, elevationLayer: Layer, biomeLayer: Layer): Matrix3D {
         var index = 0
         return Array(DEPTH) { z ->
-            Array(length) { y ->
-                IntArray(width) { x ->
-                    addRoom(rooms, z, elevationLayer[y][x], BiomeType.fromIndex(biomeLayer[y][x]))
-                    index++
+            transaction {
+                Array(length) { y ->
+                    IntArray(width) { x ->
+                        addRoom(rooms, z, elevationLayer[y][x], BiomeType.fromIndex(biomeLayer[y][x]))
+                        index++
+                    }
                 }
             }
         }

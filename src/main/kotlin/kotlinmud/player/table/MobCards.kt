@@ -1,6 +1,7 @@
 package kotlinmud.player.table
 
 import kotlinmud.mob.table.Mobs
+import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.dao.IntIdTable
 
 object MobCards : IntIdTable() {
@@ -14,4 +15,5 @@ object MobCards : IntIdTable() {
     val thirst = integer("thirst").default(0)
     val skillPoints = integer("skillPoints").default(0)
     val mobId = reference("mobId", Mobs)
+    val respawnRoomId = reference("respawnRoomId", Rooms)
 }

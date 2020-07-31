@@ -58,11 +58,11 @@ class TestService(
                 name = "start room"
                 description = "tbd"
                 area = "midgaard"
+                biome = BiomeType.PLAINS
             }
         }
-        val item = createItem()
-        transaction {
-            room.items.plus(item)
+        createItem {
+            it.room = room
         }
     }
 
@@ -192,6 +192,7 @@ class TestService(
                 hunger = mob.race.maxAppetite
                 thirst = mob.race.maxThirst
                 this.mob = mob
+                respawnRoom = mobService.getStartRoom()
             }
             mob.mobCard = card
         }

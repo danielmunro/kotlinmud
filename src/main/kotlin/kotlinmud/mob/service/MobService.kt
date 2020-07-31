@@ -2,6 +2,7 @@ package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
 import kotlinmud.affect.table.Affects
+import kotlinmud.biome.type.BiomeType
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
@@ -34,6 +35,7 @@ import kotlinmud.room.type.Direction
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.minus
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -120,7 +122,12 @@ class MobService(
     fun getStartRoom(): RoomDAO {
         return transaction {
             RoomDAO.wrapRow(
-                Rooms.select { Rooms.id eq 1 }.first()
+                Rooms.select {
+                    Rooms.biome eq BiomeType.ARBOREAL.toString() or
+                            (Rooms.biome eq BiomeType.PLAINS.toString()) or
+                            (Rooms.biome eq BiomeType.JUNGLE.toString())
+                }.limit(1)
+                    .first()
             )
         }
     }
@@ -153,10 +160,6 @@ class MobService(
                 Rooms.select { Rooms.id eq id }.first()
             )
         }
-    }
-
-    fun addMob(mob: MobDAO) {
-        transaction { mob.room = getStartRoom() }
     }
 
     fun moveMob(mob: MobDAO, room: RoomDAO, direction: Direction) {

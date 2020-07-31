@@ -1,10 +1,12 @@
 package kotlinmud
 
-import kotlinmud.app.createContainer
 import kotlinmud.biome.helper.createBiomes
+import kotlinmud.db.applySchema
+import kotlinmud.db.createConnection
 import kotlinmud.generator.GeneratorService
 
 fun main() {
-    createContainer(0)
+    createConnection()
+    applySchema()
     GeneratorService(100, 100, createBiomes()).generate()
 }

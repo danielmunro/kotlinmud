@@ -1,5 +1,5 @@
 package kotlinmud.generator.constant
 
-const val DEPTH = 100
-const val DEPTH_GROUND = 50
-const val DEPTH_UNDERGROUND = 40
+const val DEPTH = 20
+const val DEPTH_GROUND = 15
+const val DEPTH_UNDERGROUND = 10

@@ -7,6 +7,7 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.AddExperience
 import kotlinmud.mob.race.type.Race
 import kotlinmud.player.table.MobCards
+import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -26,6 +27,7 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     var skillPoints by MobCards.skillPoints
     val trainedAttributes by AttributesDAO optionalReferrersOn Attributes.mobCardId
     var mob by MobDAO referencedOn MobCards.mobId
+    var respawnRoom by RoomDAO referencedOn MobCards.respawnRoomId
 
     fun calcTrained(attribute: Attribute): Int {
         return trainedAttributes.fold(0) { acc, it -> acc + it.getAttribute(attribute) }

@@ -16,11 +16,13 @@ class MobGeneratorService(biomes: List<Biome>) {
     }.toMap()
 
     fun respawnMobs() {
-        transaction {
-            biomeMobList.entries.forEach { biome ->
-                RoomDAO.wrapRows(Rooms.select {
-                    Rooms.biome eq biome.key.toString()
-                }).forEach {
+        biomeMobList.entries.forEach { biome ->
+            transaction {
+                RoomDAO.wrapRows(
+                    Rooms.select {
+                        Rooms.biome eq biome.key.toString()
+                    }
+                ).forEach {
                     if (countMobsInRoom(it) < MAX_MOBS_PER_ROOM) {
                         biome.value.mobs.random().invoke(it)
                     }

@@ -11,7 +11,6 @@ import kotlinmud.mob.factory.mobBuilder
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.service.PlayerService
-import kotlinmud.service.FixtureService
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ClientConnectedObserver(
@@ -20,7 +19,6 @@ class ClientConnectedObserver(
     private val actionService: ActionService
 ) : Observer {
     override val eventType: EventType = EventType.CLIENT_CONNECTED
-    private val fixtureService = FixtureService()
 
     override fun <T> processEvent(event: Event<T>) {
         val connectedEvent = event.subject as ClientConnectedEvent
@@ -32,9 +30,8 @@ class ClientConnectedObserver(
 
     private fun loginDummyMob(client: Client) {
         val mob = mobBuilder("foo", mobService.getStartRoom())
-        mobService.addMob(mob)
         playerService.createNewPlayerWithEmailAddress("dan@danmunro.com")
-        transaction {
+        val card = transaction {
             MobCardDAO.new {
                 trains = 5
                 practices = 5
@@ -42,6 +39,7 @@ class ClientConnectedObserver(
                 thirst = mob.race.maxThirst
                 experiencePerLevel = 1000
                 this.mob = mob
+                respawnRoom = mobService.getStartRoom()
             }
         }
         client.mob = mob
@@ -49,7 +47,7 @@ class ClientConnectedObserver(
             Request(
                 client.mob!!,
                 "look",
-                mobService.getStartRoom()
+                transaction { card.respawnRoom }
             )
         ).let {
             client.writePrompt(it.message.toActionCreator)
