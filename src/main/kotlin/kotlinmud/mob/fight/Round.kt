@@ -11,4 +11,8 @@ class Round(
     fun isActive(): Boolean {
         return !attacker.isIncapacitated() && !defender.isIncapacitated()
     }
+
+    fun getParticipants(): List<MobDAO> {
+        return listOf(attacker, defender)
+    }
 }

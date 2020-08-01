@@ -13,10 +13,10 @@ class WimpyObserver(private val mobService: MobService) : Observer {
 
     override fun <T> processEvent(event: Event<T>) {
         with(event.subject as Round) {
-            if (this.defender.isWimpyMode()) {
-                flee(this.defender)
-            } else if (this.attacker.isWimpyMode()) {
-                flee(this.attacker)
+            this.getParticipants().forEach {
+                if (it.isWimpyMode()) {
+                    flee(it)
+                }
             }
         }
     }
