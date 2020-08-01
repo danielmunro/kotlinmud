@@ -25,7 +25,7 @@ class MobController(
     fun move() {
         when (mob.job) {
             JobType.FODDER, JobType.SCAVENGER -> wander()
-            JobType.PATROL -> proceedRoute()
+            JobType.PATROL -> transaction { proceedRoute() }
             else -> return
         }
     }
@@ -51,22 +51,19 @@ class MobController(
     }
 
     private fun proceedRoute() {
-        transaction {
-            if (mob.lastRoute == null) {
-                mob.lastRoute = 0
-            }
+        if (mob.lastRoute == null) {
+            mob.lastRoute = 0
         }
         val nextRoomId = mob.route?.get(mob.lastRoute!!)!!
-        val currentRoom = transaction { mob.room }
+        val currentRoom = mob.room
         val nextRoom = mobService.getRoomById(nextRoomId)!!
-        val currentRoomId = transaction { currentRoom.id.value }
+        val currentRoomId = currentRoom.id.value
         if (currentRoomId == nextRoomId) {
-            transaction {
-                mob.lastRoute = mob.lastRoute?.plus(1)
-                if (mob.lastRoute == mob.route?.size) {
-                    mob.lastRoute = 0
-                }
+            mob.lastRoute = mob.lastRoute?.plus(1)
+            if (mob.lastRoute == mob.route?.size) {
+                mob.lastRoute = 0
             }
+
             return proceedRoute()
         }
         logger.debug("mob $mob moving on route, index: ${mob.lastRoute}")
