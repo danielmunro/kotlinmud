@@ -12,6 +12,7 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
@@ -93,7 +94,9 @@ class ItemService {
     fun decrementDecayTimer() {
         transaction {
             Items.update({ decayTimer.isNotNull() }) {
-                decayTimer less 1
+                with(SqlExpressionBuilder) {
+                    it.update(decayTimer, decayTimer - 1)
+                }
             }
             Items.deleteWhere(null as Int?, null as Int?) {
                 decayTimer.isNotNull() and (decayTimer less 0)
