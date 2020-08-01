@@ -5,7 +5,6 @@ import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.fight.Fight
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class GrantExperienceOnKillObserver(
     private val serverService: ServerService
@@ -27,7 +26,7 @@ class GrantExperienceOnKillObserver(
                 else -> it
             }
         }
-        val addExperience = transaction { winner.mobCard?.addExperience(winner.level, experience) }
+        val addExperience = winner.mobCard?.addExperience(winner.level, experience)
         serverService.getClientForMob(winner)?.let { client ->
             client.writePrompt("you gain $experience experience.")
             addExperience?.levelGained?.let {

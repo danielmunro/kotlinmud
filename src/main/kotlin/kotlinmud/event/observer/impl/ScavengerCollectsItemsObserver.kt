@@ -12,7 +12,6 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.JobType
 import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class ScavengerCollectsItemsObserver(
     private val mobService: MobService,
@@ -22,11 +21,9 @@ class ScavengerCollectsItemsObserver(
     override val eventType: EventType = EventType.TICK
 
     override fun <T> processEvent(event: Event<T>) {
-        transaction {
-            MobDAO.wrapRows(
-                Mobs.select { Mobs.job eq JobType.SCAVENGER.value }
-            )
-        }.forEach {
+        MobDAO.wrapRows(
+            Mobs.select { Mobs.job eq JobType.SCAVENGER.value }
+        ).forEach {
             eventually {
                 MobController(mobService, itemService, eventService, it).pickUpAnyItem()
             }

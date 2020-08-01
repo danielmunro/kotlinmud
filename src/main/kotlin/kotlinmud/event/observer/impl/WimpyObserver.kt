@@ -7,7 +7,6 @@ import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.service.MobService
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class WimpyObserver(private val mobService: MobService) : Observer {
     override val eventType: EventType = EventType.FIGHT_ROUND
@@ -21,7 +20,7 @@ class WimpyObserver(private val mobService: MobService) : Observer {
     }
 
     private fun checkWimpy(mob: MobDAO): Boolean {
-        val room = transaction { mob.room }
+        val room = mob.room
         if (mob.wimpy > mob.hp && room.getAllExits().isNotEmpty()) {
             mobService.endFightFor(mob)
             val exit = room.getAllExits().entries.random()
@@ -32,7 +31,7 @@ class WimpyObserver(private val mobService: MobService) : Observer {
                 room,
                 mob
             )
-            transaction { mob.room = exit.value }
+            mob.room = exit.value
             mobService.sendMessageToRoom(
                 MessageBuilder().toObservers("$mob arrives.").build(),
                 exit.value,

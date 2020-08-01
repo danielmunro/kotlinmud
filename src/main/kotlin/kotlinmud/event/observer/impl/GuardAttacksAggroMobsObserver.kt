@@ -12,14 +12,13 @@ import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class GuardAttacksAggroMobsObserver(private val mobService: MobService) : Observer {
     override val eventType: EventType = EventType.FIGHT_STARTED
 
     override fun <T> processEvent(event: Event<T>) {
         val fight = event.subject as FightStartedEvent
-        val room = transaction { fight.aggressor.room }
+        val room = fight.aggressor.room
         getMobsForRoomAndNotInFight(room, fight).forEach {
             mobService.addFight(Fight(it, fight.aggressor))
             mobService.sendMessageToRoom(
@@ -36,17 +35,15 @@ class GuardAttacksAggroMobsObserver(private val mobService: MobService) : Observ
     }
 
     private fun getMobsForRoomAndNotInFight(room: RoomDAO, fight: FightStartedEvent): List<MobDAO> {
-        return transaction {
-            MobDAO.wrapRows(
-                Mobs.select {
-                    Mobs.roomId eq room.id
-                }
-            ).filter {
-                it != fight.aggressor &&
-                        it != fight.defender &&
-                        it.job == JobType.GUARD &&
-                        mobService.findFightForMob(it) == null
+        return MobDAO.wrapRows(
+            Mobs.select {
+                Mobs.roomId eq room.id
             }
+        ).filter {
+            it != fight.aggressor &&
+                    it != fight.defender &&
+                    it.job == JobType.GUARD &&
+                    mobService.findFightForMob(it) == null
         }
     }
 }

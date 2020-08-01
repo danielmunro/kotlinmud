@@ -4,7 +4,6 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
 import kotlinmud.mob.fight.Fight
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class TransferGoldOnKillObserver : Observer {
     override val eventType: EventType = EventType.KILL
@@ -14,9 +13,7 @@ class TransferGoldOnKillObserver : Observer {
         val winner = fight.getWinner()!!
         val loser = fight.getOpponentFor(winner)!!
 
-        transaction {
-            winner.gold += loser.gold
-            loser.gold = 0
-        }
+        winner.gold += loser.gold
+        loser.gold = 0
     }
 }
