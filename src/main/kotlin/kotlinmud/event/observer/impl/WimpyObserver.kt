@@ -13,16 +13,12 @@ class WimpyObserver(private val mobService: MobService) : Observer {
 
     override fun <T> processEvent(event: Event<T>) {
         with(event.subject as Round) {
-            if (checkWimpy(this.defender)) {
+            if (this.defender.isWimpyMode()) {
                 flee(this.defender)
-            } else if (checkWimpy(this.attacker)) {
+            } else if (this.attacker.isWimpyMode()) {
                 flee(this.attacker)
             }
         }
-    }
-
-    private fun checkWimpy(mob: MobDAO): Boolean {
-        return mob.wimpy > mob.hp && mob.room.getAllExits().isNotEmpty()
     }
 
     private fun flee(mob: MobDAO) {

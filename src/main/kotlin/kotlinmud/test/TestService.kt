@@ -11,6 +11,7 @@ import kotlinmud.biome.type.SubstrateType
 import kotlinmud.db.applySchema
 import kotlinmud.db.createConnection
 import kotlinmud.event.impl.Event
+import kotlinmud.event.observer.impl.WimpyObserver
 import kotlinmud.event.service.EventService
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.Request
@@ -237,10 +238,6 @@ class TestService(
         return MakeItemService(amount)
     }
 
-    fun getMobsForRoom(room: RoomDAO): List<MobDAO> {
-        return mobService.getMobsForRoom(room)
-    }
-
     fun pruneDeadMobs() {
         mobService.pruneDeadMobs()
     }
@@ -285,6 +282,10 @@ class TestService(
 
     fun proceedFights(): List<Round> {
         return mobService.proceedFights()
+    }
+
+    fun getWimpyObserver(): WimpyObserver {
+        return WimpyObserver(mobService)
     }
 
     private fun weapon(mob: MobDAO): ItemDAO {

@@ -229,6 +229,10 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         return transaction { skills.find { it.type == skillType } }
     }
 
+    fun isWimpyMode(): Boolean {
+        return wimpy > hp && room.getAllExits().isNotEmpty()
+    }
+
     override fun toString(): String {
         return name
     }
