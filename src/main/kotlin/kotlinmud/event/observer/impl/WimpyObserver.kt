@@ -12,33 +12,35 @@ class WimpyObserver(private val mobService: MobService) : Observer {
     override val eventType: EventType = EventType.FIGHT_ROUND
 
     override fun <T> processEvent(event: Event<T>) {
-        val round = event.subject as Round
-
-        if (!checkWimpy(round.defender)) {
-            checkWimpy(round.attacker)
+        with(event.subject as Round) {
+            if (checkWimpy(this.defender)) {
+                flee(this.defender)
+            } else if (checkWimpy(this.attacker)) {
+                flee(this.attacker)
+            }
         }
     }
 
     private fun checkWimpy(mob: MobDAO): Boolean {
-        val room = mob.room
-        if (mob.wimpy > mob.hp && room.getAllExits().isNotEmpty()) {
-            mobService.endFightFor(mob)
-            val exit = room.getAllExits().entries.random()
+        return mob.wimpy > mob.hp && mob.room.getAllExits().isNotEmpty()
+    }
+
+    private fun flee(mob: MobDAO) {
+        mobService.endFightFor(mob)
+        mob.room.getAllExits().entries.random().let {
             mobService.sendMessageToRoom(MessageBuilder()
-                .toActionCreator("you flee heading ${exit.key.value}!")
-                .toTarget("$mob flees heading ${exit.key.value}!")
+                .toActionCreator("you flee heading ${it.key.value}!")
+                .toTarget("$mob flees heading ${it.key.value}!")
                 .build(),
-                room,
+                mob.room,
                 mob
             )
-            mob.room = exit.value
+            mob.room = it.value
             mobService.sendMessageToRoom(
                 MessageBuilder().toObservers("$mob arrives.").build(),
-                exit.value,
+                it.value,
                 mob
             )
-            return true
         }
-        return false
     }
 }
