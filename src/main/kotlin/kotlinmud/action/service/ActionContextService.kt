@@ -149,8 +149,8 @@ class ActionContextService(
         )
     }
 
-    fun endFight() {
-        mobService.endFightFor(getMob())
+    fun flee() {
+        mobService.flee(getMob())
     }
 
     fun publishSocial(social: Social) {

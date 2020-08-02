@@ -11,6 +11,7 @@ import kotlinmud.helper.logger
 import kotlinmud.helper.math.normalizeDouble
 import kotlinmud.io.factory.createArriveMessage
 import kotlinmud.io.factory.createDeathMessage
+import kotlinmud.io.factory.createFleeMessage
 import kotlinmud.io.factory.createLeaveMessage
 import kotlinmud.io.factory.createSingleHitMessage
 import kotlinmud.io.factory.messageToActionCreator
@@ -162,12 +163,12 @@ class MobService(
         }
     }
 
-    fun moveMob(mob: MobDAO, room: RoomDAO, direction: Direction) {
+    fun moveMob(mob: MobDAO, destinationRoom: RoomDAO, directionLeavingFrom: Direction) {
         val leaving = transaction { mob.room }
-        sendMessageToRoom(createLeaveMessage(mob, direction), leaving, mob)
-        transaction { mob.room = room }
-        doFallCheck(mob, leaving, room)
-        sendMessageToRoom(createArriveMessage(mob), room, mob)
+        sendMessageToRoom(createLeaveMessage(mob, directionLeavingFrom), leaving, mob)
+        transaction { mob.room = destinationRoom }
+        doFallCheck(mob, leaving, destinationRoom)
+        sendMessageToRoom(createArriveMessage(mob), destinationRoom, mob)
     }
 
     fun proceedFights(): List<Round> {
@@ -219,6 +220,25 @@ class MobService(
 
     fun createCorpseFrom(mob: MobDAO): ItemDAO {
         return itemService.createCorpseFromMob(mob)
+    }
+
+    fun flee(mob: MobDAO) {
+        endFightFor(mob)
+        transaction {
+            mob.room.getAllExits().entries.random().let {
+                sendMessageToRoom(
+                    createFleeMessage(mob, it.key),
+                    mob.room,
+                    mob
+                )
+                mob.room = it.value
+                sendMessageToRoom(
+                    createArriveMessage(mob),
+                    it.value,
+                    mob
+                )
+            }
+        }
     }
 
     private fun doFallCheck(mob: MobDAO, leaving: RoomDAO, arriving: RoomDAO) {

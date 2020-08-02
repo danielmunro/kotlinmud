@@ -42,3 +42,10 @@ fun createDeathMessage(mob: MobDAO): Message {
         .sendPrompt(false)
         .build()
 }
+
+fun createFleeMessage(mob: MobDAO, direction: Direction): Message {
+    return MessageBuilder()
+        .toActionCreator("you flee!")
+        .toTarget("$mob flees heading ${direction.value}!")
+        .build()
+}
