@@ -12,7 +12,8 @@ fun createGetFromItemAction(): Action {
     return Action(
         Command.GET,
         mustBeAwake(),
-        itemInInventoryAndAvailableInventory()
+        itemInInventoryAndAvailableInventory(),
+        listOf(0, 2, 1)
     ) {
         val item = it.get<ItemDAO>(Syntax.ITEM_IN_AVAILABLE_INVENTORY)
         val itemWithInventory = it.get<ItemDAO>(Syntax.AVAILABLE_ITEM_INVENTORY)

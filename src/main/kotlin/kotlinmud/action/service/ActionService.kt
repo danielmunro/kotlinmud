@@ -146,15 +146,14 @@ class ActionService(
 
     private fun buildActionContextList(request: Request, invokable: Invokable): ActionContextList {
         logger.debug("${request.mob} building action context :: {}, {}", invokable.command, invokable.syntax)
-        var i = 0
         var successful = true
         val contexts = mutableListOf<Context<out Any>>()
-        invokable.syntax.forEach {
+        invokable.argumentOrder.forEach {
             if (successful) {
                 val context = contextBuilderService.createContext(
-                    it,
+                    invokable.syntax[it],
                     request,
-                    if (request.args.size > i) request.args[i++] else ""
+                    if (request.args.size > it) request.args[it] else ""
                 )
                 contexts.add(context)
                 successful = context.status == Status.OK

@@ -77,8 +77,8 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         { it?.split(", ")?.map { value -> value.toInt() } }
     )
     var lastRoute by Mobs.lastRoute
-    var maxItems by Mobs.maxItems
-    var maxWeight by Mobs.maxWeight
+    override var maxItems by Mobs.maxItems
+    override var maxWeight by Mobs.maxWeight
     var rarity by Mobs.rarity.transform(
         { it.toString() },
         { Rarity.valueOf(it) }
@@ -180,7 +180,7 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
             }
 
             affects.find { it.type == AffectType.BERSERK }?.let {
-                base -= level / 10
+                base -= level / 8
             }
 
             base += when {

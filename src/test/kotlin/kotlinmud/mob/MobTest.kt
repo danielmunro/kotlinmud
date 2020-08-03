@@ -10,6 +10,8 @@ import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.event.impl.Event
+import kotlinmud.event.type.EventType
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.type.DamageType
@@ -288,29 +290,22 @@ class MobTest {
         val testService = createTestService()
 
         // given
-        val mob1 = testService.createMob {
-            it.gold = 5
-            it.hp = 1
-            it.attributes.hit = 10
-        }
+        val mob1 = testService.createMob()
         val mob2 = testService.createMob {
             it.gold = 5
-            it.hp = 1
-            it.attributes.hit = 10
         }
 
         // and
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
+        transaction { mob2.disposition = Disposition.DEAD }
 
         // when
-        while (!fight.isOver()) {
-            testService.proceedFights()
-        }
+        testService.publish(Event(EventType.KILL, fight))
 
         // then
         val winner = fight.getWinner()!!
-        assertThat(transaction { winner.gold }).isEqualTo(10)
+        assertThat(transaction { winner.gold }).isEqualTo(5)
         assertThat(transaction { fight.getOpponentFor(winner)!!.gold }).isEqualTo(0)
     }
 

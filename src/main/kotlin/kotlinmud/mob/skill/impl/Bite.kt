@@ -32,6 +32,7 @@ class Bite : SkillAction {
     )
     override val intent: Intent = Intent.OFFENSIVE
     override val syntax: List<Syntax> = listOf(Syntax.COMMAND, Syntax.TARGET_MOB)
+    override val argumentOrder: List<Int> = listOf(0, 1)
     override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
     override val affect: Affect? = null
 

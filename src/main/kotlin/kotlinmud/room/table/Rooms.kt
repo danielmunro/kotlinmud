@@ -15,6 +15,8 @@ object Rooms : IntIdTable() {
     val biome = varchar("biome", 50).default(BiomeType.NONE.toString())
     val substrate = varchar("substrate", 50).default(SubstrateType.DIRT.toString())
     val elevation = integer("elevation").default(1)
+    val maxItems = integer("maxItems").nullable()
+    val maxWeight = integer("maxWeight").nullable()
     val northId = reference("northId", Rooms).nullable()
     val northDoorId = reference("northDoorId", Doors).nullable()
     val southId = reference("southId", Rooms).nullable()

@@ -7,4 +7,6 @@ import org.jetbrains.exposed.sql.SizedIterable
 interface HasInventory {
     val id: EntityID<Int>
     val items: SizedIterable<ItemDAO>
+    val maxItems: Int?
+    val maxWeight: Int?
 }

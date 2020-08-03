@@ -17,6 +17,7 @@ fun createHarvestAction(): Action {
         Command.HARVEST,
         mustBeStanding(),
         resourceInRoom(),
+        listOf(0, 1),
         listOf(Cost(CostType.MV_PERCENT, 1))
     ) { svc ->
         val resource = svc.get<ResourceDAO>(Syntax.RESOURCE_IN_ROOM)

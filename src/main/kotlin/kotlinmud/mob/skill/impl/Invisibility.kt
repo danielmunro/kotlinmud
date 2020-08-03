@@ -39,6 +39,7 @@ class Invisibility : SpellAction {
     override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
     override val affect = InvisibilityAffect()
     override val syntax: List<Syntax> = listOf(Syntax.CAST, Syntax.SPELL, Syntax.OPTIONAL_TARGET)
+    override val argumentOrder: List<Int> = listOf(0, 1, 2)
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val target = actionContextService.get<Noun>(Syntax.OPTIONAL_TARGET)

@@ -6,6 +6,7 @@ import assertk.assertions.isFalse
 import assertk.assertions.isTrue
 import kotlinmud.event.impl.Event
 import kotlinmud.event.type.EventType
+import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.test.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -63,7 +64,7 @@ class WimpyObserverTest {
         // when
         transaction {
             test.getWimpyObserver().processEvent(
-                Event(EventType.FIGHT_ROUND, Round(mob, mob, listOf(), listOf()))
+                Event(EventType.FIGHT_ROUND, Round(Fight(mob, mob), mob, mob, listOf(), listOf()))
             )
         }
 

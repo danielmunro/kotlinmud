@@ -13,6 +13,7 @@ fun createRecallAction(): Action {
         Command.RECALL,
         mustBeAlert(),
         command(),
+        listOf(1),
         listOf(Cost(CostType.MV_PERCENT, 50)),
         Command.LOOK
     ) {

@@ -8,7 +8,7 @@ import assertk.assertions.isLessThan
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.room.dao.ResourceDAO
-import kotlinmud.test.createTestService
+import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -16,7 +16,7 @@ class HarvestTest {
     @Test
     fun testCanHarvestResource() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
         val mob = test.createMob()
         val room = test.getStartRoom()
         val itemCount = test.findAllItemsByOwner(mob).size
@@ -44,7 +44,7 @@ class HarvestTest {
     @Test
     fun testCannotHarvestResourceIfDoesNotExist() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
         val mob = test.createMob()
 
         // when

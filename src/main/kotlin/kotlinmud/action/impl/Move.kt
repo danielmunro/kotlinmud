@@ -16,6 +16,7 @@ private fun move(command: Command, direction: Direction): Action {
         command,
         mustBeStanding(),
         directionToExit(),
+        listOf(0),
         listOf(Cost(CostType.MV_AMOUNT, 1)),
         Command.LOOK
     ) {

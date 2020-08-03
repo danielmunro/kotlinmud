@@ -13,6 +13,7 @@ fun createFleeAction(): Action {
         Command.FLEE,
         mustBeFighting(),
         command(),
+        listOf(0),
         listOf(Cost(CostType.MV_PERCENT, 25)),
         Command.LOOK
     ) {

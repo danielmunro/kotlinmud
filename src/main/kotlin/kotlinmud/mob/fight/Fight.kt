@@ -123,6 +123,7 @@ class Fight(private val mob1: MobDAO, private val mob2: MobDAO) {
 
     fun createRound(): Round {
         val round = Round(
+            this,
             mob1,
             mob2,
             mapAttacks(mob1, mob2),

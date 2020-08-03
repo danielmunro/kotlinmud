@@ -37,6 +37,7 @@ class Berserk : SkillAction {
     )
     override val intent: Intent = Intent.NEUTRAL
     override val syntax: List<Syntax> = listOf(Syntax.COMMAND)
+    override val argumentOrder: List<Int> = listOf(0)
     override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
     override val affect = BerserkAffect()
 

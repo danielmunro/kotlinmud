@@ -10,7 +10,7 @@ import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.ProbabilityTest
-import kotlinmud.test.createTestService
+import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -18,7 +18,7 @@ class FightTest {
     @Test
     fun testEvasiveSkillsGetInvoked() {
         // setup
-        val testService = createTestService()
+        val testService = createTestServiceWithResetDB()
         val prob = ProbabilityTest()
 
         // given
@@ -46,8 +46,9 @@ class FightTest {
     @Test
     fun testShieldBlockRequiresShield() {
         // setup
-        val testService = createTestService()
+        val testService = createTestServiceWithResetDB()
         val prob = ProbabilityTest()
+        var invoked = false
 
         // given
         val mob1 = testService.createMob()
@@ -67,11 +68,12 @@ class FightTest {
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
 
-        while (prob.isIterating()) {
+        while (!invoked && prob.isIterating()) {
             val round = fight.createRound()
             val outcome1 = round.attackerAttacks.find { it.attackResult == AttackResult.EVADE }
             val outcome2 = round.defenderAttacks.find { it.attackResult == AttackResult.EVADE }
             prob.decrementIteration(outcome1 != null, outcome2 != null)
+            invoked = outcome1 != null || outcome2 != null
         }
 
         // then
@@ -82,7 +84,7 @@ class FightTest {
     @Test
     fun testParryRequiresWeapon() {
         // setup
-        val testService = createTestService()
+        val testService = createTestServiceWithResetDB()
         val prob = ProbabilityTest()
 
         // given
@@ -118,28 +120,31 @@ class FightTest {
     fun testWimpyIsInvoked() {
         // setup
         val hp = 100
-        val testService = createTestService()
-        val mob1 = testService.createMob()
-        val mob2 = testService.createMob()
+        val testService = createTestServiceWithResetDB()
+        val room = testService.getStartRoom()
+        val mob1 = testService.createMob {
+            it.wimpy = hp
+            it.attributes.hit = 10
+            it.room = room
+        }
+        val mob2 = testService.createMob {
+            it.wimpy = hp
+            it.attributes.hit = 10
+            it.room = room
+        }
         val dst = testService.createRoom()
         transaction { testService.getStartRoom().north = dst }
 
         // given
-        transaction {
-            mob1.hp = hp
-            mob1.wimpy = hp
-            mob1.attributes.hit = 10
-            mob2.hp = hp
-            mob2.wimpy = hp
-            mob2.attributes.hit = 10
-        }
-
-        // and
         val fight = Fight(mob1, mob2)
         testService.addFight(fight)
 
         // when
         while (!fight.isOver()) {
+            transaction {
+                mob1.hp = hp - 1
+                mob2.hp = hp - 1
+            }
             testService.proceedFights()
         }
 
@@ -154,6 +159,6 @@ class FightTest {
         // and
         val room1 = transaction { mob1.room }
         val room2 = transaction { mob2.room }
-        assertThat(room1.id).isNotEqualTo(room2.id)
+        assertThat(room1).isNotEqualTo(room2)
     }
 }

@@ -5,7 +5,6 @@ import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.io.factory.availableInventoryAndItem
 import kotlinmud.io.factory.createPutMessage
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 

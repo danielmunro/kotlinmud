@@ -6,6 +6,7 @@ import kotlinmud.io.type.Syntax
 
 interface Invokable {
     val syntax: List<Syntax>
+    val argumentOrder: List<Int>
     val command: Command
 
     fun invoke(actionContextService: ActionContextService): Response

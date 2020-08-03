@@ -32,6 +32,8 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
     var biome: BiomeType by Rooms.biome.transform({ it.toString() }, { BiomeType.valueOf(it) })
     var substrate: SubstrateType by Rooms.substrate.transform({ it.toString() }, { SubstrateType.valueOf(it) })
     var elevation by Rooms.elevation
+    override var maxWeight by Rooms.maxWeight
+    override var maxItems by Rooms.maxItems
     val resources by ResourceDAO referrersOn Resources.roomId
     override val items by ItemDAO optionalReferrersOn Items.roomId
     var north by RoomDAO optionalReferencedOn Rooms.northId

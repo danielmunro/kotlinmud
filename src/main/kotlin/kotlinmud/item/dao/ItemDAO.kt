@@ -56,6 +56,8 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInvent
     var quantity by Items.quantity
     var decayTimer by Items.decayTimer
     var canOwn by Items.canOwn
+    override var maxItems by Items.maxItems
+    override var maxWeight by Items.maxWeight
     override var attributes by AttributesDAO referencedOn Items.attributesId
     override val affects by AffectDAO optionalReferrersOn Affects.itemId
     var mobInventory by MobDAO optionalReferencedOn Items.mobInventoryId
