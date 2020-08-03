@@ -2,6 +2,7 @@ package kotlinmud.io.factory
 
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
+import kotlinmud.item.dao.ItemDAO
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.room.type.Direction
 
@@ -47,5 +48,12 @@ fun createFleeMessage(mob: MobDAO, direction: Direction): Message {
     return MessageBuilder()
         .toActionCreator("you flee!")
         .toTarget("$mob flees heading ${direction.value}!")
+        .build()
+}
+
+fun createPutMessage(mob: MobDAO, item: ItemDAO, container: ItemDAO): Message {
+    return MessageBuilder()
+        .toActionCreator("you put $item into $container.")
+        .toObservers("$mob puts $item into $container.")
         .build()
 }
