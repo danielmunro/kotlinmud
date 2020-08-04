@@ -10,8 +10,7 @@ import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.event.impl.Event
-import kotlinmud.event.type.EventType
+import kotlinmud.event.factory.createKillEvent
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.type.DamageType
@@ -301,7 +300,7 @@ class MobTest {
         transaction { mob2.disposition = Disposition.DEAD }
 
         // when
-        testService.publish(Event(EventType.KILL, fight))
+        testService.publish(createKillEvent(fight))
 
         // then
         val winner = fight.getWinner()!!

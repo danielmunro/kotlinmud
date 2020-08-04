@@ -3,6 +3,7 @@ package kotlinmud.mob.service
 import com.cesarferreira.pluralize.pluralize
 import kotlinmud.affect.table.Affects
 import kotlinmud.biome.type.BiomeType
+import kotlinmud.event.factory.createKillEvent
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
@@ -179,7 +180,7 @@ class MobService(
             eventService.publish(Event(EventType.FIGHT_ROUND, it))
         }
         fights.filter { it.hasFatality() }.forEach {
-            eventService.publish(Event(EventType.KILL, it))
+            eventService.publish(createKillEvent(it))
         }
         fights.removeIf { it.isOver() }
         return rounds

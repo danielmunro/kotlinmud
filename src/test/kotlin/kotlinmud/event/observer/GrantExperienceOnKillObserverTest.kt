@@ -4,8 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isTrue
-import kotlinmud.event.impl.Event
-import kotlinmud.event.type.EventType
+import kotlinmud.event.factory.createKillEvent
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.createTestService
@@ -26,7 +25,7 @@ class GrantExperienceOnKillObserverTest {
         transaction { mob2.disposition = Disposition.DEAD }
 
         // when
-        testService.publish(Event(EventType.KILL, fight))
+        testService.publish(createKillEvent(fight))
 
         // then
         assertThat(transaction { mob1.mobCard!!.experience }).isGreaterThan(0)
@@ -46,7 +45,7 @@ class GrantExperienceOnKillObserverTest {
 
         // given
         transaction { mobCard1.experience = 2000 }
-        testService.publish(Event(EventType.KILL, fight))
+        testService.publish(createKillEvent(fight))
         val addExperience = mobCard1.addExperience(mob1.level, 1)
 
         // then

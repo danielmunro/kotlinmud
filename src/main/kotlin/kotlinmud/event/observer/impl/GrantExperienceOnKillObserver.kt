@@ -1,10 +1,10 @@
 package kotlinmud.event.observer.impl
 
 import kotlinmud.event.impl.Event
+import kotlinmud.event.impl.KillEvent
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
 import kotlinmud.io.service.ServerService
-import kotlinmud.mob.fight.Fight
 
 class GrantExperienceOnKillObserver(
     private val serverService: ServerService
@@ -12,22 +12,22 @@ class GrantExperienceOnKillObserver(
     override val eventType: EventType = EventType.KILL
 
     override fun <T> processEvent(event: Event<T>) {
-        val fight = event.subject as Fight
-        val winner = fight.getWinner()!!
-        val killed = fight.getOpponentFor(winner)!!
-        if (winner.isNpc) {
+        val killEvent = event.subject as KillEvent
+        val victor = killEvent.victor
+        val vanquished = killEvent.vanquished
+        if (victor.isNpc) {
             return
         }
-        val experience = getBaseExperience(killed.level - winner.level)
+        val experience = getBaseExperience(vanquished.level - victor.level)
             .let {
             when {
-                winner.level < 11 -> 15 * it / (winner.level + 4)
-                winner.level > 40 -> 40 * it / (winner.level - 1)
+                victor.level < 11 -> 15 * it / (victor.level + 4)
+                victor.level > 40 -> 40 * it / (victor.level - 1)
                 else -> it
             }
         }
-        val addExperience = winner.mobCard?.addExperience(winner.level, experience)
-        serverService.getClientForMob(winner)?.let { client ->
+        val addExperience = victor.mobCard?.addExperience(victor.level, experience)
+        serverService.getClientForMob(victor)?.let { client ->
             client.writePrompt("you gain $experience experience.")
             addExperience?.levelGained?.let {
                 client.writePrompt("you gained a level!")

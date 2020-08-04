@@ -2,11 +2,13 @@ package kotlinmud.event.factory
 
 import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
+import kotlinmud.event.impl.KillEvent
 import kotlinmud.event.impl.SendMessageToRoomEvent
 import kotlinmud.event.type.EventType
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.Message
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.fight.Fight
 import kotlinmud.room.dao.RoomDAO
 
 fun createClientConnectedEvent(client: Client): Event<ClientConnectedEvent> {
@@ -27,4 +29,9 @@ fun createSendMessageToRoomEvent(
 
 fun createClientDisconnectedEvent(client: Client): Event<Client> {
     return Event(EventType.CLIENT_DISCONNECTED, client)
+}
+
+fun createKillEvent(fight: Fight): Event<KillEvent> {
+    val winner = fight.getWinner()!!
+    return Event(EventType.KILL, KillEvent(fight, winner, fight.getOpponentFor(winner)!!))
 }
