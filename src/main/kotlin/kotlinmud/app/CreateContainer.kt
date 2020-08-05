@@ -132,7 +132,7 @@ fun createContainer(port: Int): Kodein {
                 ChangeWeatherObserver(instance<WeatherService>()),
                 WimpyObserver(instance<MobService>()),
                 GrantExperienceOnKillObserver(instance<ServerService>()),
-                TransferGoldOnKillObserver(),
+                TransferGoldOnKillObserver(instance<MobService>()),
                 IncreaseThirstAndHungerObserver(instance<ServerService>()),
                 RegenMobsObserver(instance<MobService>()),
                 MoveMobsOnTickObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),

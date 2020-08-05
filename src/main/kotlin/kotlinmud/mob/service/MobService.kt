@@ -242,6 +242,13 @@ class MobService(
         }
     }
 
+    fun transferGold(src: MobDAO, dst: MobDAO, amount: Int = src.gold) {
+        transaction {
+            src.gold -= amount
+            dst.gold += amount
+        }
+    }
+
     private fun doFallCheck(mob: MobDAO, leaving: RoomDAO, arriving: RoomDAO) {
         (leaving.elevation - arriving.elevation).let {
             if (it > MAX_WALKABLE_ELEVATION) {

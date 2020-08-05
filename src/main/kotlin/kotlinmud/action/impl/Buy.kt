@@ -14,8 +14,7 @@ fun createBuyAction(): Action {
         val item = it.get<ItemDAO>(Syntax.ITEM_FROM_MERCHANT)
         val shopkeeper = it.getMobsInRoom().find { mob -> mob.job == JobType.SHOPKEEPER }!!
         it.giveItemToMob(item, it.getMob())
-        it.deductGold(item.worth)
-        shopkeeper.gold += item.worth
+        it.transferGold(it.getMob(), shopkeeper, item.worth)
         it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you buy $item from $shopkeeper for ${item.worth} gold.")

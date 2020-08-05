@@ -25,6 +25,6 @@ fun createGetFromItemAction(): Action {
             return@Action it.createErrorResponse(e.toMessage())
         }
 
-        it.createOkResponse(createGetFromContainerMessage(it.getMob(), itemWithInventory, item) )
+        it.createOkResponse(createGetFromContainerMessage(it.getMob(), itemWithInventory, item))
     }
 }
