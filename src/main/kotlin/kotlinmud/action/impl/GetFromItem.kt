@@ -1,5 +1,6 @@
 package kotlinmud.action.impl
 
+import java.lang.Exception
 import kotlinmud.action.helper.mustBeAwake
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
@@ -17,7 +18,13 @@ fun createGetFromItemAction(): Action {
     ) {
         val item = it.get<ItemDAO>(Syntax.ITEM_IN_AVAILABLE_INVENTORY)
         val itemWithInventory = it.get<ItemDAO>(Syntax.AVAILABLE_ITEM_INVENTORY)
-        it.giveItemToMob(item, it.getMob())
+
+        try {
+            it.giveItemToMob(item, it.getMob())
+        } catch (e: Exception) {
+            return@Action it.createErrorResponse(MessageBuilder().toActionCreator(e.message!!).build())
+        }
+
         it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you get $item from $itemWithInventory.")

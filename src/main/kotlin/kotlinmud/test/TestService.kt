@@ -141,6 +141,8 @@ class TestService(
                     mv = startingMana
                 }
                 room = getStartRoom()
+                maxWeight = 100
+                maxItems = 100
             }
         }
         transaction {

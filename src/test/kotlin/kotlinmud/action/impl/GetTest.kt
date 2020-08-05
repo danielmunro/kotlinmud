@@ -46,7 +46,7 @@ class GetTest {
     }
 
     @Test
-    fun testMobCannotGetMoreItemsThanTheyCanHold() {
+    fun testMobCannotGetMoreItemsFromARoomThanTheyCanHold() {
         // setup
         val test = createTestService()
 
@@ -58,7 +58,90 @@ class GetTest {
         val response = test.runAction(mob, "get ${getIdentifyingWord(item)}")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you cannot carry anymore.")
-        assertThat(response.status).isEqualTo(IOStatus.FAILED)
+        assertThat(response.message.toActionCreator).isEqualTo("you cannot carry any more.")
+        assertThat(response.status).isEqualTo(IOStatus.ERROR)
+    }
+
+    @Test
+    fun testMobCannotGetMoreWeightThanTheyCanHold() {
+        // setup
+        val test = createTestService()
+
+        // given
+        val mob = test.createMob { it.maxWeight = 0 }
+        val item = test.createItem {
+            it.room = test.getStartRoom()
+            it.weight = 1.0
+        }
+
+        // when
+        val response = test.runAction(mob, "get ${getIdentifyingWord(item)}")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("that is too heavy.")
+        assertThat(response.status).isEqualTo(IOStatus.ERROR)
+    }
+
+    @Test
+    fun testMobCannotGetMoreItemsFromAContainerThanTheyCanHold() {
+        // setup
+        val test = createTestService()
+
+        // given
+        val mob = test.createMob { it.maxItems = 1 }
+        val container = test.createContainer { it.mobInventory = mob }
+        val item = test.createItem { it.container = container }
+
+        // when
+        val response = test.runAction(mob, "get ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("you cannot carry any more.")
+        assertThat(response.status).isEqualTo(IOStatus.ERROR)
+    }
+
+    @Test
+    fun testMobCannotPutTooManyItemsIntoAContainer() {
+        // setup
+        val test = createTestService()
+
+        // given
+        val mob = test.createMob()
+        val container = test.createContainer {
+            it.mobInventory = mob
+            it.maxItems = 0
+        }
+        val item = test.createItem {
+            it.mobInventory = mob
+        }
+
+        // when
+        val response = test.runAction(mob, "put ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("that is full.")
+    }
+
+    @Test
+    fun testMobCannotPutTooMuchWeightIntoAContainer() {
+        // setup
+        val test = createTestService()
+
+        // given
+        val mob = test.createMob()
+        val container = test.createContainer {
+            it.mobInventory = mob
+            it.maxWeight = 0
+        }
+        val item = test.createItem {
+            it.mobInventory = mob
+            it.weight = 1.0
+        }
+
+        // when
+        val response = test.runAction(mob, "put ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("that is too heavy.")
     }
 }

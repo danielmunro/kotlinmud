@@ -18,7 +18,12 @@ fun createGetAction(): Action {
                     .build()
             )
         }
-        it.giveItemToMob(item, it.getMob())
+        try {
+            it.giveItemToMob(item, it.getMob())
+        } catch (e: Exception) {
+            return@Action it.createErrorResponse(MessageBuilder().toActionCreator(e.message!!).build())
+        }
+
         it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you pick up ${item.name}.")

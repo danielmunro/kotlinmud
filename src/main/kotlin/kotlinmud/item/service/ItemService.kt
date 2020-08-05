@@ -65,6 +65,8 @@ class ItemService {
     }
 
     fun giveItemToMob(item: ItemDAO, mob: MobDAO) {
+        checkItemCount(mob)
+        checkWeight(mob, item)
         transaction {
             item.mobInventory = mob
             item.room = null
@@ -83,6 +85,8 @@ class ItemService {
     }
 
     fun putItemInContainer(item: ItemDAO, container: ItemDAO) {
+        checkItemCount(container)
+        checkWeight(container, item)
         transaction {
             item.mobInventory = null
             item.mobEquipped = null
@@ -120,6 +124,25 @@ class ItemService {
         }
         transferAllItemsToItem(mob, item)
         return item
+    }
+
+    private fun checkItemCount(inventory: HasInventory) {
+        transaction {
+            val count = inventory.items.count()
+            if (inventory.maxItems != null && count + 1 > inventory.maxItems!!) {
+                throw Exception(if (inventory is MobDAO) "you cannot carry any more." else "that is full.")
+            }
+        }
+    }
+
+    private fun checkWeight(inventory: HasInventory, item: ItemDAO) {
+        transaction {
+            val weight = inventory.items.fold(0.0) { acc, it -> acc + it.weight }
+            val maxWeight = inventory.maxWeight
+            if (maxWeight != null && weight + item.weight > maxWeight) {
+                throw Exception("that is too heavy.")
+            }
+        }
     }
 
     private fun transferAllItemsToItem(from: HasInventory, to: HasInventory) {
