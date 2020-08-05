@@ -27,6 +27,7 @@ import kotlinmud.mob.fight.Round
 import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.helper.getDispositionRegenRate
 import kotlinmud.mob.helper.getRoomRegenRate
+import kotlinmud.mob.helper.takeDamageFromFall
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
 import kotlinmud.room.dao.RoomDAO
@@ -47,18 +48,6 @@ class MobService(
     private val itemService: ItemService,
     private val eventService: EventService
 ) {
-    companion object {
-        private fun takeDamageFromFall(mob: MobDAO, elevationChange: Int) {
-            val damage = when {
-                elevationChange < MAX_WALKABLE_ELEVATION + 2 -> 3
-                elevationChange < MAX_WALKABLE_ELEVATION + 5 -> 10
-                elevationChange < MAX_WALKABLE_ELEVATION + 10 -> 50
-                else -> elevationChange * 10
-            }
-            transaction { mob.hp -= damage }
-        }
-    }
-
     private val newRooms = mutableListOf<NewRoom>()
     private val fights = mutableListOf<Fight>()
     private val logger = logger(this)
