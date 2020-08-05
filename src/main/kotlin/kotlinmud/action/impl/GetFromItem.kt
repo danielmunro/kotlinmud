@@ -1,11 +1,11 @@
 package kotlinmud.action.impl
 
-import java.lang.Exception
+import kotlinmud.action.exception.InvokeException
 import kotlinmud.action.helper.mustBeAwake
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
+import kotlinmud.io.factory.createGetFromContainerMessage
 import kotlinmud.io.factory.itemInInventoryAndAvailableInventory
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 
@@ -21,15 +21,10 @@ fun createGetFromItemAction(): Action {
 
         try {
             it.giveItemToMob(item, it.getMob())
-        } catch (e: Exception) {
-            return@Action it.createErrorResponse(MessageBuilder().toActionCreator(e.message!!).build())
+        } catch (e: InvokeException) {
+            return@Action it.createErrorResponse(e.toMessage())
         }
 
-        it.createOkResponse(
-            MessageBuilder()
-                .toActionCreator("you get $item from $itemWithInventory.")
-                .toObservers("${it.getMob()} gets $item from $itemWithInventory.")
-                .build()
-        )
+        it.createOkResponse(createGetFromContainerMessage(it.getMob(), itemWithInventory, item) )
     }
 }

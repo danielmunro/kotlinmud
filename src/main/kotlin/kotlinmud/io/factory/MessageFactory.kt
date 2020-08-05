@@ -57,3 +57,17 @@ fun createPutMessage(mob: MobDAO, item: ItemDAO, container: ItemDAO): Message {
         .toObservers("$mob puts $item into $container.")
         .build()
 }
+
+fun createGetMessage(mob: MobDAO, item: ItemDAO): Message {
+    return MessageBuilder()
+        .toActionCreator("you pick up ${item.name}.")
+        .toObservers("$mob picks up ${item.name}.")
+        .build()
+}
+
+fun createGetFromContainerMessage(mob: MobDAO, inventory: ItemDAO, item: ItemDAO): Message {
+    return MessageBuilder()
+        .toActionCreator("you get $item from $inventory.")
+        .toObservers("$mob gets $item from $inventory.")
+        .build()
+}

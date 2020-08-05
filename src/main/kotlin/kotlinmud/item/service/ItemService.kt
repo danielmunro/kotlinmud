@@ -1,5 +1,6 @@
 package kotlinmud.item.service
 
+import kotlinmud.action.exception.InvokeException
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.table.Items
@@ -130,7 +131,7 @@ class ItemService {
         transaction {
             val count = inventory.items.count()
             if (inventory.maxItems != null && count + 1 > inventory.maxItems!!) {
-                throw Exception(if (inventory is MobDAO) "you cannot carry any more." else "that is full.")
+                throw InvokeException(if (inventory is MobDAO) "you cannot carry any more." else "that is full.")
             }
         }
     }
@@ -140,7 +141,7 @@ class ItemService {
             val weight = inventory.items.fold(0.0) { acc, it -> acc + it.weight }
             val maxWeight = inventory.maxWeight
             if (maxWeight != null && weight + item.weight > maxWeight) {
-                throw Exception("that is too heavy.")
+                throw InvokeException("that is too heavy.")
             }
         }
     }
