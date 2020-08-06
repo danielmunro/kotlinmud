@@ -10,7 +10,7 @@ fun createSitAction(): Action {
         Command.SIT,
         listOf(Disposition.SLEEPING, Disposition.STANDING)
     ) {
-        it.getMob().disposition = Disposition.SITTING
+        it.setDisposition(Disposition.SITTING)
         it.createOkResponse(createSitMessage(it.getMob()))
     }
 }

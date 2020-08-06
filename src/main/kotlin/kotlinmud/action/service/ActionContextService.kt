@@ -2,6 +2,7 @@ package kotlinmud.action.service
 
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.affect.dao.AffectDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.FightStartedEvent
@@ -22,6 +23,8 @@ import kotlinmud.item.type.Recipe
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.service.MobService
+import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.type.Disposition
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.player.social.Social
@@ -211,6 +214,18 @@ class ActionContextService(
 
     fun getDynamicRoomDescription(): String {
         return "${getRoomName()}\n${getRoomDescription()}"
+    }
+
+    fun train(attribute: Attribute) {
+        mobService.train(getMobCard(), attribute)
+    }
+
+    fun practice(skillType: SkillType) {
+        mobService.practice(getMob(), skillType)
+    }
+
+    fun setDisposition(disposition: Disposition) {
+        transaction { getMob().disposition = disposition }
     }
 
     private fun getRoomName(): String {

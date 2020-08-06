@@ -26,3 +26,7 @@ fun mustBeAlert(): List<Disposition> {
 fun mustBeFighting(): List<Disposition> {
     return listOf(Disposition.FIGHTING)
 }
+
+fun mustBeResting(): List<Disposition> {
+    return listOf(Disposition.SITTING, Disposition.SLEEPING)
+}

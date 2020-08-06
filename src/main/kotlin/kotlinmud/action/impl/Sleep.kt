@@ -12,7 +12,7 @@ fun createSleepAction(): Action {
         listOf(Disposition.STANDING, Disposition.SITTING),
         optionalFurniture()
     ) {
-        it.getMob().disposition = Disposition.SLEEPING
+        it.setDisposition(Disposition.SLEEPING)
         it.createOkResponse(createSleepMessage(it.getMob()))
     }
 }

@@ -2,6 +2,8 @@ package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
 import kotlinmud.affect.table.Affects
+import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.event.factory.createKillEvent
 import kotlinmud.event.factory.createSendMessageToRoomEvent
@@ -28,8 +30,10 @@ import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.helper.getDispositionRegenRate
 import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.helper.takeDamageFromFall
+import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
+import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.oppositeDirection
 import kotlinmud.room.model.NewRoom
@@ -231,6 +235,23 @@ class MobService(
         transaction {
             src.gold -= amount
             dst.gold += amount
+        }
+    }
+
+    fun train(card: MobCardDAO, attribute: Attribute) {
+        transaction {
+            card.trains -= 1
+            val attributes = AttributesDAO.new {
+                mobCard = card
+            }
+            attributes.setAttribute(attribute, if (attribute.isVitals()) 10 else 1)
+        }
+    }
+
+    fun practice(mob: MobDAO, skillType: SkillType) {
+        transaction {
+            mob.mobCard?.let { it.practices -= 1 }
+            mob.skills.find { it.type == skillType }?.let { it.level += 1 }
         }
     }
 

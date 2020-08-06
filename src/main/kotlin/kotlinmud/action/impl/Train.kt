@@ -3,25 +3,17 @@ package kotlinmud.action.impl
 import kotlinmud.action.helper.mustBeStanding
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.factory.createTrainMessage
 import kotlinmud.io.factory.trainable
 import kotlinmud.io.type.Syntax
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createTrainAction(): Action {
     return Action(Command.TRAIN, mustBeStanding(), trainable()) {
-        val attribute: Attribute = it.get(Syntax.TRAINABLE)
-        val card = it.getMobCard()
-        card.trains -= 1
-        transaction {
-            val attributes = AttributesDAO.new {
-                mobCard = card
-            }
-            attributes.setAttribute(attribute, if (attribute.isVitals()) 10 else 1)
+        with(it.get<Attribute>(Syntax.TRAINABLE)) {
+            it.train(this)
+            it.createOkResponse(createTrainMessage(it.getMob(), this))
         }
-        it.createOkResponse(createTrainMessage(it.getMob(), attribute))
     }
 }
 
