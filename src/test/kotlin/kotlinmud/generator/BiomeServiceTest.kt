@@ -3,7 +3,7 @@ package kotlinmud.generator
 import assertk.assertThat
 import assertk.assertions.doesNotContain
 import kotlinmud.biome.helper.createBiomes
-import kotlinmud.fs.saver.layerToString
+import kotlinmud.helper.layerToString
 import kotlinmud.test.createTestService
 import org.junit.Test
 
