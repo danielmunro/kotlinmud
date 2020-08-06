@@ -4,9 +4,9 @@ import kotlinmud.action.helper.mustBeStanding
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.exception.CraftException
+import kotlinmud.io.factory.createCraftMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.factory.recipe
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.type.Recipe
 
@@ -22,12 +22,6 @@ fun createCraftAction(): Action {
             )
         }
 
-        svc.createOkResponse(
-            MessageBuilder()
-                .toActionCreator("you craft ${recipe.name}.")
-                .toObservers("${svc.getMob()} crafts ${recipe.name}.")
-                .build(),
-            2
-        )
+        svc.createOkResponse(createCraftMessage(svc.getMob(), recipe), 2)
     }
 }

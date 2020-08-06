@@ -4,9 +4,9 @@ import kotlinmud.action.helper.mustBeStanding
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.exception.HarvestException
+import kotlinmud.io.factory.createHarvestMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.factory.resourceInRoom
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
@@ -24,10 +24,7 @@ fun createHarvestAction(): Action {
         try {
             svc.harvest(resource)
             svc.createOkResponse(
-                MessageBuilder()
-                    .toActionCreator("you successfully harvest ${resource.type.value}.")
-                    .toObservers("${svc.getMob()} harvests ${resource.type.value}.")
-                    .build(),
+                createHarvestMessage(svc.getMob(), resource),
                 2
             )
         } catch (exception: HarvestException) {

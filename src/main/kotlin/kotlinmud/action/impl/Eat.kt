@@ -3,9 +3,9 @@ package kotlinmud.action.impl
 import kotlinmud.action.helper.mustBeAwake
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
+import kotlinmud.io.factory.createEatMessage
 import kotlinmud.io.factory.foodInInventory
 import kotlinmud.io.factory.messageToActionCreator
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.helper.applyAffectFromItem
@@ -24,11 +24,6 @@ fun createEatAction(): Action {
         applyAffectFromItem(it.getMob(), item)
         it.destroy(item)
 
-        it.createOkResponse(
-            MessageBuilder()
-                .toActionCreator("you eat $item.")
-                .toObservers("${it.getMob()} eats $item.")
-                .build()
-        )
+        it.createOkResponse(createEatMessage(it.getMob(), item))
     }
 }

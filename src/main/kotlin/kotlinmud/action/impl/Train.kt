@@ -5,8 +5,8 @@ import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.io.factory.createTrainMessage
 import kotlinmud.io.factory.trainable
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -21,12 +21,7 @@ fun createTrainAction(): Action {
             }
             attributes.setAttribute(attribute, if (attribute.isVitals()) 10 else 1)
         }
-        it.createOkResponse(
-            MessageBuilder()
-                .toActionCreator("you train your ${getImprove(attribute)}.")
-                .toObservers("${it.getMob()} trains their ${getImprove(attribute)}.")
-                .build()
-        )
+        it.createOkResponse(createTrainMessage(it.getMob(), attribute))
     }
 }
 

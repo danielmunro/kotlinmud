@@ -3,8 +3,8 @@ package kotlinmud.action.impl
 import kotlinmud.action.helper.mustBeStanding
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
+import kotlinmud.io.factory.createPracticeMessage
 import kotlinmud.io.factory.skillToPractice
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.skill.type.SkillType
 
@@ -18,11 +18,6 @@ fun createPracticeAction(): Action {
         }?.let { skill ->
             skill.level += 1
         }
-        it.createOkResponse(
-            MessageBuilder()
-                .toActionCreator("you practice $skillType.")
-                .toObservers("${it.getMob()} practices $skillType.")
-                .build()
-        )
+        it.createOkResponse(createPracticeMessage(it.getMob(), skillType))
     }
 }

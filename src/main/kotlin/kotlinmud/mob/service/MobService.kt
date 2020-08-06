@@ -127,10 +127,6 @@ class MobService(
         fights.add(fight)
     }
 
-    fun endFightFor(mob: MobDAO) {
-        fights.find { it.isParticipant(mob) }?.end()
-    }
-
     fun findFightForMob(mob: MobDAO): Fight? {
         return fights.find { it.isParticipant(mob) }
     }
@@ -213,7 +209,7 @@ class MobService(
     }
 
     fun flee(mob: MobDAO) {
-        endFightFor(mob)
+        fights.find { it.isParticipant(mob) }?.end()
         transaction {
             mob.room.getAllExits().entries.random().let {
                 sendMessageToRoom(

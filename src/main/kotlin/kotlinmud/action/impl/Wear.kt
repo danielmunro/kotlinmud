@@ -3,8 +3,8 @@ package kotlinmud.action.impl
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
+import kotlinmud.io.factory.createWearMessage
 import kotlinmud.io.factory.equipmentInInventory
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -25,11 +25,6 @@ fun createWearAction(): Action {
             }
         }
         transaction { item.mobEquipped = svc.getMob() }
-        svc.createOkResponse(
-            MessageBuilder()
-                .toActionCreator("you ${if (removed != null) "remove $removed and " else ""}wear $item.")
-                .toObservers("${svc.getMob()} ${if (removed != null) "removes $removed and " else ""}wears $item.")
-                .build()
-        )
+        svc.createOkResponse(createWearMessage(svc.getMob(), item, removed))
     }
 }

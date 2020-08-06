@@ -3,9 +3,9 @@ package kotlinmud.action.impl
 import kotlinmud.action.helper.mustBeAwake
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
+import kotlinmud.io.factory.createDrinkMessage
 import kotlinmud.io.factory.drink
 import kotlinmud.io.factory.messageToActionCreator
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.helper.applyAffectFromItem
@@ -27,13 +27,6 @@ fun createDrinkAction(): Action {
         }
         applyAffectFromItem(it.getMob(), item)
 
-        val empty = if (item.quantity == 0) " $item is now empty." else ""
-
-        it.createOkResponse(
-            MessageBuilder()
-                .toActionCreator("you drink ${item.drink.toString().toLowerCase()} from $item.$empty")
-                .toObservers("you drink ${item.drink.toString().toLowerCase()} from $item.")
-                .build()
-        )
+        it.createOkResponse(createDrinkMessage(it.getMob(), item))
     }
 }

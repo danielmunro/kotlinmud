@@ -3,9 +3,9 @@ package kotlinmud.action.impl
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
+import kotlinmud.io.factory.createOpenMessage
 import kotlinmud.io.factory.doorInRoom
 import kotlinmud.io.factory.messageToActionCreator
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.type.DoorDisposition
@@ -24,12 +24,7 @@ fun createOpenAction(): Action {
                 )
                 DoorDisposition.CLOSED -> {
                     door.disposition = DoorDisposition.OPEN
-                    it.createOkResponse(
-                        MessageBuilder()
-                            .toActionCreator("you open $door.")
-                            .toObservers("${it.getMob()} opens $door.")
-                            .build()
-                    )
+                    it.createOkResponse(createOpenMessage(it.getMob(), door))
                 }
             }
         }

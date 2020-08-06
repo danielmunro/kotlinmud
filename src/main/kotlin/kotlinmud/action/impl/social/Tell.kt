@@ -3,9 +3,9 @@ package kotlinmud.action.impl.social
 import kotlinmud.action.helper.mustBeAlive
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
+import kotlinmud.io.factory.createTellMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.factory.playerFreeForm
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.player.social.Social
@@ -20,9 +20,7 @@ fun createTellAction(): Action {
                 SocialChannel.TELL,
                 it.getMob(),
                 it.getRoom(),
-                MessageBuilder()
-                    .toTarget("${it.getMob()} tells you, \"$text\"")
-                    .build(),
+                createTellMessage(it.getMob(), text),
                 target
             )
         )

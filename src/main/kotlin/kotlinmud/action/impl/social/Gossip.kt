@@ -3,9 +3,9 @@ package kotlinmud.action.impl.social
 import kotlinmud.action.helper.mustBeAlive
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
+import kotlinmud.io.factory.createGossipMessage
 import kotlinmud.io.factory.freeForm
 import kotlinmud.io.factory.messageToActionCreator
-import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.player.social.Social
 import kotlinmud.player.social.SocialChannel
@@ -18,9 +18,7 @@ fun createGossipAction(): Action {
                 SocialChannel.GOSSIP,
                 it.getMob(),
                 it.getRoom(),
-                MessageBuilder()
-                    .toTarget("${it.getMob()} gossips, \"$text\"")
-                    .build()
+                createGossipMessage(it.getMob(), text)
             )
         )
         it.createOkResponse(messageToActionCreator("you gossip, \"$text\""))
