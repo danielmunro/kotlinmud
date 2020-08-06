@@ -290,6 +290,10 @@ class TestService(
         return WimpyObserver(mobService)
     }
 
+    fun flee(mob: MobDAO) {
+        mobService.flee(mob)
+    }
+
     private fun weapon(mob: MobDAO): ItemDAO {
         return ItemDAO.new {
             name = "a sword"

@@ -213,22 +213,24 @@ class MobService(
     }
 
     fun flee(mob: MobDAO) {
-        fights.find { it.isParticipant(mob) }?.end()
-        transaction {
-            mob.room.getAllExits().entries.random().let {
-                sendMessageToRoom(
-                    createFleeMessage(mob, it.key),
-                    mob.room,
-                    mob
-                )
-                mob.room = it.value
-                sendMessageToRoom(
-                    createArriveMessage(mob),
-                    it.value,
-                    mob
-                )
+        fights.find { it.isParticipant(mob) }?.let {
+            it.end()
+            transaction {
+                mob.room.getAllExits().entries.random().let { exit ->
+                    sendMessageToRoom(
+                        createFleeMessage(mob, exit.key),
+                        mob.room,
+                        mob
+                    )
+                    mob.room = exit.value
+                    sendMessageToRoom(
+                        createArriveMessage(mob),
+                        exit.value,
+                        mob
+                    )
+                }
             }
-        }
+        } ?: logger.debug("flee :: no fight for mob :: {}", mob.id)
     }
 
     fun transferGold(src: MobDAO, dst: MobDAO, amount: Int = src.gold) {

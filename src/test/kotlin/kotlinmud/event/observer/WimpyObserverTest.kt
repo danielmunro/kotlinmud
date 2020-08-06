@@ -57,6 +57,7 @@ class WimpyObserverTest {
             it.wimpy = 10
             it.hp = 0
         }
+        test.addFight(Fight(mob, test.createMob()))
 
         // expect
         assertThat(transaction { mob.room }).isEqualTo(test.getStartRoom())
