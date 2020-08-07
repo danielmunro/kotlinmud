@@ -107,14 +107,4 @@ class MobServiceTest {
         // then
         assertThat(testService.findFightForMob(guard)).isNotNull()
     }
-
-    @Test
-    fun fleeRequiresFight() {
-        // setup
-        val test = createTestService()
-        val mob = test.createMob()
-
-        // expect
-        assertThat { test.flee(mob) }.isFailure()
-    }
 }
