@@ -56,7 +56,7 @@ class MobController(
         }
         val nextRoomId = mob.route?.get(mob.lastRoute!!)!!
         val currentRoom = mob.room
-        val nextRoom = mobService.getRoomById(nextRoomId)!!
+        val nextRoom = mobService.getRoomById(nextRoomId)
         val currentRoomId = currentRoom.id.value
         if (currentRoomId == nextRoomId) {
             mob.lastRoute = mob.lastRoute?.plus(1)

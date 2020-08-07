@@ -4,7 +4,6 @@ import com.cesarferreira.pluralize.pluralize
 import kotlinmud.affect.table.Affects
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.biome.type.BiomeType
 import kotlinmud.event.factory.createKillEvent
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
@@ -30,20 +29,20 @@ import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.helper.getDispositionRegenRate
 import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.helper.takeDamageFromFall
+import kotlinmud.mob.repository.findDeadMobs
+import kotlinmud.mob.repository.findMobsForRoom
+import kotlinmud.mob.repository.findPlayerMobs
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.mob.table.Mobs
-import kotlinmud.mob.type.Disposition
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.oppositeDirection
 import kotlinmud.room.model.NewRoom
-import kotlinmud.room.table.Rooms
+import kotlinmud.room.repository.findRoomById
+import kotlinmud.room.repository.findStartRoom
 import kotlinmud.room.type.Direction
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.minus
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.or
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
@@ -56,17 +55,15 @@ class MobService(
     private val logger = logger(this)
 
     fun regenMobs() {
-        transaction {
-            MobDAO.wrapRows(Mobs.select { Mobs.isNpc eq false }).forEach {
-                it.increaseByRegenRate(
-                    normalizeDouble(
-                        0.0,
-                        getRoomRegenRate(it.room.regenLevel) +
-                                getDispositionRegenRate(it.disposition),
-                        1.0
-                    )
+        findPlayerMobs().forEach {
+            it.increaseByRegenRate(
+                normalizeDouble(
+                    0.0,
+                    getRoomRegenRate(it.room.regenLevel) +
+                            getDispositionRegenRate(it.disposition),
+                    1.0
                 )
-            }
+            )
         }
     }
 
@@ -114,16 +111,7 @@ class MobService(
     }
 
     fun getStartRoom(): RoomDAO {
-        return transaction {
-            RoomDAO.wrapRow(
-                Rooms.select {
-                    Rooms.biome eq BiomeType.ARBOREAL.toString() or
-                            (Rooms.biome eq BiomeType.PLAINS.toString()) or
-                            (Rooms.biome eq BiomeType.JUNGLE.toString())
-                }.limit(1)
-                    .first()
-            )
-        }
+        return transaction { findStartRoom() }
     }
 
     fun addFight(fight: Fight) {
@@ -135,21 +123,11 @@ class MobService(
     }
 
     fun getMobsForRoom(room: RoomDAO): List<MobDAO> {
-        return transaction {
-            MobDAO.wrapRows(
-                Mobs.select {
-                    Mobs.roomId eq room.id
-                }
-            ).toList()
-        }
+        return findMobsForRoom(room)
     }
 
-    fun getRoomById(id: Int): RoomDAO? {
-        return transaction {
-            RoomDAO.wrapRow(
-                Rooms.select { Rooms.id eq id }.first()
-            )
-        }
+    fun getRoomById(id: Int): RoomDAO {
+        return findRoomById(id)
     }
 
     fun moveMob(mob: MobDAO, destinationRoom: RoomDAO, directionLeavingFrom: Direction) {
@@ -182,18 +160,15 @@ class MobService(
     }
 
     fun pruneDeadMobs() {
-        transaction {
-            MobDAO.wrapRows(
-                Mobs.select {
-                    Mobs.disposition eq Disposition.DEAD.toString()
+        findDeadMobs().forEach {
+            with(createCorpseFrom(it)) {
+                transaction {
+                    room = it.room
+                    it.delete()
+                    eventService.publishRoomMessage(
+                        createSendMessageToRoomEvent(createDeathMessage(it), it.room, it)
+                    )
                 }
-            ).forEach {
-                val item = createCorpseFrom(it)
-                item.room = it.room
-                it.delete()
-                eventService.publishRoomMessage(
-                    createSendMessageToRoomEvent(createDeathMessage(it), it.room, it)
-                )
             }
         }
     }
