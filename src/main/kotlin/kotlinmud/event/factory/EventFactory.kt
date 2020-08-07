@@ -9,6 +9,7 @@ import kotlinmud.io.model.Client
 import kotlinmud.io.model.Message
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
+import kotlinmud.mob.fight.Round
 import kotlinmud.room.dao.RoomDAO
 
 fun createClientConnectedEvent(client: Client): Event<ClientConnectedEvent> {
@@ -34,4 +35,8 @@ fun createClientDisconnectedEvent(client: Client): Event<Client> {
 fun createKillEvent(fight: Fight): Event<KillEvent> {
     val winner = fight.getWinner()!!
     return Event(EventType.KILL, KillEvent(fight, winner, fight.getOpponentFor(winner)!!))
+}
+
+fun createFightRoundEvent(round: Round): Event<Round> {
+    return Event(EventType.FIGHT_ROUND, round)
 }

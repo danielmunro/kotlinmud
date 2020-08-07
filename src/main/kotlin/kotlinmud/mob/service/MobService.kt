@@ -44,7 +44,6 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
@@ -58,7 +57,7 @@ class MobService(
 
     fun regenMobs() {
         transaction {
-            MobDAO.wrapRows(Mobs.selectAll()).forEach {
+            MobDAO.wrapRows(Mobs.select { Mobs.isNpc eq false }).forEach {
                 it.increaseByRegenRate(
                     normalizeDouble(
                         0.0,
@@ -162,17 +161,12 @@ class MobService(
     }
 
     fun proceedFights(): List<Round> {
-        val rounds = fights.filter { !it.isOver() }.map {
-            proceedFightRound(it.createRound())
+        return createNewFightRounds().also {
+            fights.filter { it.hasFatality() }.forEach {
+                eventService.publish(createKillEvent(it))
+                fights.remove(it)
+            }
         }
-        rounds.forEach {
-            eventService.publish(Event(EventType.FIGHT_ROUND, it))
-        }
-        fights.filter { it.hasFatality() }.forEach {
-            eventService.publish(createKillEvent(it))
-        }
-        fights.removeIf { it.isOver() }
-        return rounds
     }
 
     fun decrementAffects() {
@@ -254,6 +248,14 @@ class MobService(
         transaction {
             mob.mobCard?.let { it.practices -= 1 }
             mob.skills.find { it.type == skillType }?.let { it.level += 1 }
+        }
+    }
+
+    private fun createNewFightRounds(): List<Round> {
+        return fights.map {
+            proceedFightRound(it.createRound()).also { round ->
+                eventService.publish(Event(EventType.FIGHT_ROUND, round))
+            }
         }
     }
 

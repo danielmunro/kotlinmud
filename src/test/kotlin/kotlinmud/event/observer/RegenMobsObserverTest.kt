@@ -19,6 +19,7 @@ class RegenMobsObserverTest {
         val testCase = { regenLevel: RegenLevel ->
             transaction {
                 mob.hp = 1
+                mob.isNpc = false
                 room.regenLevel = regenLevel
                 test.regenMobs()
                 mob.hp
