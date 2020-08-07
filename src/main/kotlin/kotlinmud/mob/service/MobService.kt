@@ -30,15 +30,12 @@ import kotlinmud.mob.helper.getDispositionRegenRate
 import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.helper.takeDamageFromFall
 import kotlinmud.mob.repository.findDeadMobs
-import kotlinmud.mob.repository.findMobsForRoom
 import kotlinmud.mob.repository.findPlayerMobs
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.oppositeDirection
 import kotlinmud.room.model.NewRoom
-import kotlinmud.room.repository.findRoomById
-import kotlinmud.room.repository.findStartRoom
 import kotlinmud.room.type.Direction
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.minus
 import org.jetbrains.exposed.sql.and
@@ -110,24 +107,12 @@ class MobService(
         return newRooms.find { mob == it.mob }
     }
 
-    fun getStartRoom(): RoomDAO {
-        return transaction { findStartRoom() }
-    }
-
     fun addFight(fight: Fight) {
         fights.add(fight)
     }
 
     fun findFightForMob(mob: MobDAO): Fight? {
         return fights.find { it.isParticipant(mob) }
-    }
-
-    fun getMobsForRoom(room: RoomDAO): List<MobDAO> {
-        return findMobsForRoom(room)
-    }
-
-    fun getRoomById(id: Int): RoomDAO {
-        return findRoomById(id)
     }
 
     fun moveMob(mob: MobDAO, destinationRoom: RoomDAO, directionLeavingFrom: Direction) {

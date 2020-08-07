@@ -5,19 +5,19 @@ import kotlinmud.action.type.Status
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.service.MobService
+import kotlinmud.mob.repository.findMobsForRoom
 import kotlinmud.mob.type.JobType
 import kotlinmud.player.service.PlayerService
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class TrainableContextBuilder(private val mobService: MobService, private val playerService: PlayerService, private val mob: MobDAO) : ContextBuilder {
+class TrainableContextBuilder(private val playerService: PlayerService, private val mob: MobDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val mobCard = playerService.findMobCardByName(mob.name)!!
         if (mobCard.trains == 0) {
             return Context(syntax, Status.ERROR, "you have no trains.")
         }
         val room = transaction { mob.room }
-        mobService.getMobsForRoom(room).filter { it.job == JobType.TRAINER }.let {
+        findMobsForRoom(room).filter { it.job == JobType.TRAINER }.let {
             if (it.isEmpty()) {
                 return Context(
                     syntax,

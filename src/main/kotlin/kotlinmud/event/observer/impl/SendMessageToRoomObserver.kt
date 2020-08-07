@@ -5,15 +5,15 @@ import kotlinmud.event.impl.SendMessageToRoomEvent
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
 import kotlinmud.io.service.ServerService
-import kotlinmud.mob.service.MobService
+import kotlinmud.mob.repository.findMobsForRoom
 
-class SendMessageToRoomObserver(private val serverService: ServerService, private val mobService: MobService) :
+class SendMessageToRoomObserver(private val serverService: ServerService) :
     Observer {
     override val eventType: EventType = EventType.SEND_MESSAGE_TO_ROOM
 
     override fun <T> processEvent(event: Event<T>) {
         val messageEvent = event.subject as SendMessageToRoomEvent
-        val mobs = mobService.getMobsForRoom(messageEvent.room)
+        val mobs = findMobsForRoom(messageEvent.room)
         val message = messageEvent.message
         serverService.getClientsFromMobs(mobs)
             .filter { !it.mob!!.isSleeping() && !it.mob!!.isIncapacitated() }

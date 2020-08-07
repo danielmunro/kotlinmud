@@ -35,6 +35,7 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Recipe
+import kotlinmud.mob.repository.findMobsForRoom
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.type.Skill
 import kotlinmud.player.service.PlayerService
@@ -58,21 +59,21 @@ class ContextBuilderService(
             Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(itemService, request.room).build(syntax, word)
             Syntax.EQUIPMENT_IN_INVENTORY -> EquipmentInInventoryContextBuilder(itemService, request.mob).build(syntax, word)
             Syntax.EQUIPPED_ITEM -> EquippedItemContextBuilder(request.mob).build(syntax, word)
-            Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)
-            Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, itemService, request.mob, request.room).build(syntax, word)
+            Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(findMobsForRoom(request.room)).build(syntax, word)
+            Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(itemService, request.mob, request.room).build(syntax, word)
             Syntax.TARGET_MOB -> TargetMobContextBuilder(mobService, request.mob, request.room).build(syntax, word)
-            Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, mobService.getMobsForRoom(request.room) + itemService.findAllByOwner(request.mob)).build(syntax, word)
+            Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, findMobsForRoom(request.room) + itemService.findAllByOwner(request.mob)).build(syntax, word)
             Syntax.DOOR_IN_ROOM -> DoorInRoomContextBuilder(request.room).build(syntax, word)
             Syntax.FREE_FORM -> FreeFormContextBuilder(request.args).build(syntax, word)
-            Syntax.ITEM_FROM_MERCHANT -> ItemFromMerchantContextBuilder(itemService, request.mob, mobService.getMobsForRoom(request.room)).build(syntax, word)
-            Syntax.ITEM_TO_SELL -> ItemToSellContextBuilder(itemService, request.mob, mobService.getMobsForRoom(request.room)).build(syntax, word)
+            Syntax.ITEM_FROM_MERCHANT -> ItemFromMerchantContextBuilder(itemService, request.mob, findMobsForRoom(request.room)).build(syntax, word)
+            Syntax.ITEM_TO_SELL -> ItemToSellContextBuilder(itemService, request.mob, findMobsForRoom(request.room)).build(syntax, word)
             Syntax.SPELL -> SpellContextBuilder(skills).build(syntax, word)
-            Syntax.SPELL_FROM_HEALER -> SpellFromHealerContextBuilder(mobService.getMobsForRoom(request.room)).build(syntax, word)
+            Syntax.SPELL_FROM_HEALER -> SpellFromHealerContextBuilder(findMobsForRoom(request.room)).build(syntax, word)
             Syntax.CAST -> CastContextBuilder().build(syntax, word)
             Syntax.PLAYER_MOB -> PlayerMobContextBuilder().build(syntax, word)
             Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(itemService, request.mob, request.room).build(syntax, word)
             Syntax.AVAILABLE_FOOD -> AvailableFoodContextBuilder(itemService, request.mob).build(syntax, word)
-            Syntax.TRAINABLE -> TrainableContextBuilder(mobService, playerService, request.mob).build(syntax, word)
+            Syntax.TRAINABLE -> TrainableContextBuilder(playerService, request.mob).build(syntax, word)
             Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(playerService, request.mob).build(syntax, word)
             Syntax.RECIPE -> RecipeContextBuilder(recipes).build(syntax, word)
             Syntax.RESOURCE_IN_ROOM -> ResourceInRoomContextBuilder(request.room).build(syntax, word)

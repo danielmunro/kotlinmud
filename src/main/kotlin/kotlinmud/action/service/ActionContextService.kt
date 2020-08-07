@@ -22,6 +22,7 @@ import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Fight
+import kotlinmud.mob.repository.findMobsForRoom
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
@@ -31,6 +32,7 @@ import kotlinmud.player.social.Social
 import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.NewRoom
+import kotlinmud.room.repository.findStartRoom
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.service.WeatherService
@@ -116,7 +118,7 @@ class ActionContextService(
 
     fun getRecall(): RoomDAO {
         return transaction {
-            if (request.mob.isNpc) mobService.getStartRoom() else request.mob.mobCard!!.respawnRoom
+            if (request.mob.isNpc) findStartRoom() else request.mob.mobCard!!.respawnRoom
         }
     }
 
@@ -125,7 +127,7 @@ class ActionContextService(
     }
 
     fun getMobsInRoom(): List<MobDAO> {
-        return mobService.getMobsForRoom(getRoom())
+        return findMobsForRoom(getRoom())
     }
 
     fun moveMob(room: RoomDAO, direction: Direction) {

@@ -11,6 +11,7 @@ import kotlinmud.mob.factory.mobBuilder
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.service.PlayerService
+import kotlinmud.room.repository.findStartRoom
 
 class ClientConnectedObserver(
     private val playerService: PlayerService,
@@ -28,7 +29,7 @@ class ClientConnectedObserver(
     }
 
     private fun loginDummyMob(client: Client) {
-        val mob = mobBuilder("foo", mobService.getStartRoom())
+        val mob = mobBuilder("foo", findStartRoom())
         playerService.createNewPlayerWithEmailAddress("dan@danmunro.com")
         val card = MobCardDAO.new {
             trains = 5
@@ -37,7 +38,7 @@ class ClientConnectedObserver(
             thirst = mob.race.maxThirst
             experiencePerLevel = 1000
             this.mob = mob
-            respawnRoom = mobService.getStartRoom()
+            respawnRoom = findStartRoom()
         }
         client.mob = mob
         actionService.run(

@@ -34,6 +34,7 @@ import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.repository.findStartRoom
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.service.FixtureService
@@ -195,7 +196,7 @@ class TestService(
                 hunger = mob.race.maxAppetite
                 thirst = mob.race.maxThirst
                 this.mob = mob
-                respawnRoom = mobService.getStartRoom()
+                respawnRoom = findStartRoom()
             }
             mob.mobCard = card
         }

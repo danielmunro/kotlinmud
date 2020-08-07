@@ -7,13 +7,12 @@ import kotlinmud.event.type.EventType
 import kotlinmud.io.model.Message
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.service.MobService
+import kotlinmud.mob.repository.findMobsForRoom
 import kotlinmud.player.social.SocialChannel
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class SocialDistributorObserver(private val serverService: ServerService, private val mobService: MobService) :
-    Observer {
+class SocialDistributorObserver(private val serverService: ServerService) : Observer {
     override val eventType: EventType = EventType.SOCIAL
 
     override fun <T> processEvent(event: Event<T>) {
@@ -52,7 +51,7 @@ class SocialDistributorObserver(private val serverService: ServerService, privat
     }
 
     private fun sayToRoom(mob: MobDAO, room: RoomDAO, message: Message) {
-        val mobs = mobService.getMobsForRoom(room)
+        val mobs = findMobsForRoom(room)
         serverService.getClientsFromMobs(mobs).forEach {
             if (it.mob != mob) {
                 it.write(message.toObservers)

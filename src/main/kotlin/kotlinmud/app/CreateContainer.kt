@@ -118,8 +118,7 @@ fun createContainer(port: Int): Kodein {
                     instance<ActionService>()
                 ),
                 SendMessageToRoomObserver(
-                    instance<ServerService>(),
-                    instance<MobService>()
+                    instance<ServerService>()
                 ),
                 LogPlayerInObserver(instance<MobService>()),
                 ProceedFightsPulseObserver(instance<MobService>()),
@@ -128,7 +127,7 @@ fun createContainer(port: Int): Kodein {
                 DecrementItemDecayTimerObserver(instance<ItemService>()),
                 LogTickObserver(instance<ServerService>()),
                 PruneDeadMobsPulseObserver(instance<MobService>()),
-                SocialDistributorObserver(instance<ServerService>(), instance<MobService>()),
+                SocialDistributorObserver(instance<ServerService>()),
                 ChangeWeatherObserver(instance<WeatherService>()),
                 WimpyObserver(instance<MobService>()),
                 GrantExperienceOnKillObserver(instance<ServerService>()),

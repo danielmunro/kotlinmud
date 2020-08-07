@@ -7,19 +7,18 @@ import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.service.MobService
+import kotlinmud.mob.repository.findMobsForRoom
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class AvailableNounContextBuilder(
-    private val mobService: MobService,
     private val itemService: ItemService,
     private val mob: MobDAO,
     private val room: RoomDAO
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val target = transaction {
-            mobService.getMobsForRoom(room).find {
+            findMobsForRoom(room).find {
                 matches(it.name, word) && it.affects.find { affect -> affect.type == AffectType.INVISIBILITY } == null
             } ?: itemService.findByOwner(mob, word)
             ?: itemService.findByRoom(room, word)

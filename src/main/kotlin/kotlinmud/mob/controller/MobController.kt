@@ -11,6 +11,7 @@ import kotlinmud.mob.type.JobType
 import kotlinmud.path.Pathfinder
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.repository.findRoomById
 import kotlinmud.room.type.DoorDisposition
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -56,7 +57,7 @@ class MobController(
         }
         val nextRoomId = mob.route?.get(mob.lastRoute!!)!!
         val currentRoom = mob.room
-        val nextRoom = mobService.getRoomById(nextRoomId)
+        val nextRoom = findRoomById(nextRoomId)
         val currentRoomId = currentRoom.id.value
         if (currentRoomId == nextRoomId) {
             mob.lastRoute = mob.lastRoute?.plus(1)
