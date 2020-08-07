@@ -1,14 +1,14 @@
 package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
-import kotlinmud.affect.table.Affects
+import kotlinmud.affect.repository.decrementAffectsTimeout
+import kotlinmud.affect.repository.deleteTimedOutAffects
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.event.factory.createFightRoundEvent
 import kotlinmud.event.factory.createKillEvent
 import kotlinmud.event.factory.createSendMessageToRoomEvent
-import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
-import kotlinmud.event.type.EventType
 import kotlinmud.helper.logger
 import kotlinmud.helper.math.normalizeDouble
 import kotlinmud.io.factory.createArriveMessage
@@ -37,11 +37,7 @@ import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.oppositeDirection
 import kotlinmud.room.model.NewRoom
 import kotlinmud.room.type.Direction
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.minus
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 
 class MobService(
     private val itemService: ItemService,
@@ -134,13 +130,8 @@ class MobService(
 
     fun decrementAffects() {
         transaction {
-            // see: https://stackoverflow.com/questions/38779666/how-to-fix-overload-resolution-ambiguity-in-kotlin-no-lambda
-            Affects.deleteWhere(null as Int?, null as Int?) {
-                Affects.timeout.isNotNull() and (Affects.timeout eq 0)
-            }
-            Affects.update({ Affects.timeout.isNotNull() }) {
-                it.update(timeout, timeout - 1)
-            }
+            deleteTimedOutAffects()
+            decrementAffectsTimeout()
         }
     }
 
@@ -214,7 +205,7 @@ class MobService(
     private fun createNewFightRounds(): List<Round> {
         return fights.map {
             proceedFightRound(it.createRound()).also { round ->
-                eventService.publish(Event(EventType.FIGHT_ROUND, round))
+                eventService.publish(createFightRoundEvent(round))
             }
         }
     }

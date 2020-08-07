@@ -9,7 +9,11 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 fun findPlayerMobs(): List<MobDAO> {
     return transaction {
-        MobDAO.wrapRows(Mobs.select { Mobs.isNpc eq false }).toList()
+        MobDAO.wrapRows(
+            Mobs.select {
+                Mobs.isNpc eq false
+            }
+        ).toList()
     }
 }
 
