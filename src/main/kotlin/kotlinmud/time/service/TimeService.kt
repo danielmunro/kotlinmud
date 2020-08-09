@@ -1,16 +1,11 @@
 package kotlinmud.time.service
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import kotlinmud.event.factory.createDayEvent
 import kotlinmud.event.factory.createPulseEvent
 import kotlinmud.event.factory.createTickEvent
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import kotlinmud.event.impl.DayEvent
-import kotlinmud.event.impl.Event
-import kotlinmud.event.impl.PulseEvent
-import kotlinmud.event.impl.TickEvent
 import kotlinmud.event.service.EventService
-import kotlinmud.event.type.EventType
 import kotlinmud.helper.logger
 import kotlinmud.time.dao.TimeDAO
 import kotlinmud.time.table.Times
