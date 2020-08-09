@@ -25,6 +25,7 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     var hunger by MobCards.hunger
     var thirst by MobCards.thirst
     var skillPoints by MobCards.skillPoints
+    var loggedIn by MobCards.loggedIn
     val trainedAttributes by AttributesDAO optionalReferrersOn Attributes.mobCardId
     var mob by MobDAO referencedOn MobCards.mobId
     var respawnRoom by RoomDAO referencedOn MobCards.respawnRoomId

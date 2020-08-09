@@ -2,10 +2,8 @@ package kotlinmud.player.service
 
 import com.commit451.mailgun.Contact
 import com.commit451.mailgun.SendMessageRequest
-import kotlinmud.event.impl.Event
-import kotlinmud.event.impl.PlayerLoggedInEvent
+import kotlinmud.event.factory.createClientLoggedInEvent
 import kotlinmud.event.service.EventService
-import kotlinmud.event.type.EventType
 import kotlinmud.helper.logger
 import kotlinmud.helper.random.generateOTP
 import kotlinmud.io.model.Client
@@ -19,6 +17,7 @@ import kotlinmud.player.authStep.impl.CompleteAuthStep
 import kotlinmud.player.authStep.impl.EmailAuthStep
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
+import kotlinmud.player.repository.findLoggedInMobCards
 import kotlinmud.player.table.MobCards
 import kotlinmud.player.table.Players
 import org.jetbrains.exposed.sql.and
@@ -97,12 +96,15 @@ class PlayerService(
         preAuthClients[client] = EmailAuthStep(AuthStepService(this))
     }
 
+    fun logOutPlayers() {
+        transaction {
+            findLoggedInMobCards().forEach {
+                it.loggedIn = false
+            }
+        }
+    }
+
     private fun loginMob(client: Client, mobCard: MobCardDAO) {
-        eventService.publish(
-            Event(
-                EventType.CLIENT_LOGGED_IN,
-                PlayerLoggedInEvent(client, mobCard)
-            )
-        )
+        eventService.publish(createClientLoggedInEvent(client, mobCard))
     }
 }

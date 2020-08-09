@@ -2,11 +2,9 @@ package kotlinmud.app
 
 import kotlinmud.action.service.ActionService
 import kotlinmud.db.createConnection
+import kotlinmud.event.factory.createGameStartEvent
 import kotlinmud.event.factory.createSendMessageToRoomEvent
-import kotlinmud.event.impl.DayEvent
-import kotlinmud.event.impl.Event
 import kotlinmud.event.service.EventService
-import kotlinmud.event.type.EventType
 import kotlinmud.helper.logger
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
@@ -31,7 +29,7 @@ class App(
     fun start() {
         logger.info("starting app on port ${serverService.port}")
         createConnection()
-        eventService.publish(Event(EventType.DAY, DayEvent()))
+        eventService.publish(createGameStartEvent())
         mainLoop()
     }
 

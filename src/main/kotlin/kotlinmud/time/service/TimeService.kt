@@ -1,5 +1,8 @@
 package kotlinmud.time.service
 
+import kotlinmud.event.factory.createDayEvent
+import kotlinmud.event.factory.createPulseEvent
+import kotlinmud.event.factory.createTickEvent
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlinmud.event.impl.DayEvent
@@ -41,13 +44,9 @@ class TimeService(private val eventService: EventService) {
         }
     }
 
-    fun getTime(): Int {
-        return time.time
-    }
-
     private fun pulse() {
         pulse++
-        eventService.publish(Event(EventType.PULSE, PulseEvent()))
+        eventService.publish(createPulseEvent())
         if (pulse > TICK_LENGTH_IN_SECONDS) {
             pulse = 0
             tick()
@@ -56,11 +55,11 @@ class TimeService(private val eventService: EventService) {
 
     private fun tick() {
         transaction { time.time += 1 }
-        eventService.publish(Event(EventType.TICK, TickEvent()))
+        eventService.publish(createTickEvent())
         val hour = transaction { time.time } % TICKS_IN_DAY
         logger.info("tick occurred. hour of day :: {}, time :: {}", hour, time)
         if (hour == 0) {
-            eventService.publish(Event(EventType.DAY, DayEvent()))
+            eventService.publish(createDayEvent())
             logger.info("a new day has started")
         }
     }

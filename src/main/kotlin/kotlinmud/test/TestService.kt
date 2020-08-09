@@ -72,6 +72,10 @@ class TestService(
         eventService.publish(event)
     }
 
+    fun logOutPlayers() {
+        playerService.logOutPlayers()
+    }
+
     fun readIntoBuffers() {
         serverService.readIntoBuffers()
     }

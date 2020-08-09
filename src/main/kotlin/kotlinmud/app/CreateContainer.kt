@@ -16,7 +16,9 @@ import kotlinmud.event.observer.impl.GenerateMobsObserver
 import kotlinmud.event.observer.impl.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
 import kotlinmud.event.observer.impl.IncreaseThirstAndHungerObserver
+import kotlinmud.event.observer.impl.LogOutAllPlayersOnStartupObserver
 import kotlinmud.event.observer.impl.LogPlayerInObserver
+import kotlinmud.event.observer.impl.LogPlayerOutObserver
 import kotlinmud.event.observer.impl.LogTickObserver
 import kotlinmud.event.observer.impl.MoveMobsOnTickObserver
 import kotlinmud.event.observer.impl.ProceedFightsPulseObserver
@@ -120,7 +122,8 @@ fun createContainer(port: Int): Kodein {
                 SendMessageToRoomObserver(
                     instance<ServerService>()
                 ),
-                LogPlayerInObserver(instance<MobService>()),
+                LogPlayerInObserver(),
+                LogPlayerOutObserver(),
                 ProceedFightsPulseObserver(instance<MobService>()),
                 DecrementAffectTimeoutTickObserver(instance<MobService>()),
                 DecrementDelayObserver(instance<ClientService>()),
@@ -137,7 +140,8 @@ fun createContainer(port: Int): Kodein {
                 MoveMobsOnTickObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),
                 ScavengerCollectsItemsObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),
                 GuardAttacksAggroMobsObserver(instance<MobService>()),
-                GenerateMobsObserver(instance<MobGeneratorService>())
+                GenerateMobsObserver(instance<MobGeneratorService>()),
+                LogOutAllPlayersOnStartupObserver(instance<PlayerService>())
             )
         }
     }

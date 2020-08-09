@@ -4,11 +4,9 @@ import kotlinmud.action.model.ActionContextList
 import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.type.BiomeType
-import kotlinmud.event.impl.Event
-import kotlinmud.event.impl.FightStartedEvent
-import kotlinmud.event.impl.SocialEvent
+import kotlinmud.event.factory.createFightStartedEvent
+import kotlinmud.event.factory.createSocialEvent
 import kotlinmud.event.service.EventService
-import kotlinmud.event.type.EventType
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
@@ -150,12 +148,7 @@ class ActionContextService(
         val target: MobDAO = get(Syntax.MOB_IN_ROOM)
         val fight = Fight(getMob(), target)
         mobService.addFight(fight)
-        eventService.publish(
-            Event(
-                EventType.FIGHT_STARTED,
-                FightStartedEvent(fight, getMob(), target)
-            )
-        )
+        eventService.publish(createFightStartedEvent(fight, getMob(), target))
     }
 
     fun flee() {
@@ -163,7 +156,7 @@ class ActionContextService(
     }
 
     fun publishSocial(social: Social) {
-        eventService.publish(Event(EventType.SOCIAL, SocialEvent(social)))
+        eventService.publish(createSocialEvent(social))
     }
 
     fun getClients(): Clients {
