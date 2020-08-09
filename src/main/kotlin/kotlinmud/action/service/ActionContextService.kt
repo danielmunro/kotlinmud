@@ -94,14 +94,6 @@ class ActionContextService(
         return getMob().level
     }
 
-    fun addGold(amount: Int) {
-        transaction { getMob().gold += amount }
-    }
-
-    fun deductGold(amount: Int) {
-        transaction { getMob().gold -= amount }
-    }
-
     fun transferGold(src: MobDAO, dst: MobDAO, amount: Int) {
         mobService.transferGold(src, dst, amount)
     }
