@@ -131,16 +131,26 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         return transaction {
             when (attribute) {
                 Attribute.HP -> attributes.hp +
-                        accumulate { it.attributes.hp }
+                        accumulate { it.attributes.hp } + (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.MANA -> attributes.mana +
-                        accumulate { it.attributes.mana }
+                        accumulate { it.attributes.mana } + (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.MV -> attributes.mv +
-                        accumulate { it.attributes.mv }
-                Attribute.STR -> base(attribute) + accumulate { it.attributes.strength }
-                Attribute.INT -> base(attribute) + accumulate { it.attributes.intelligence }
-                Attribute.WIS -> base(attribute) + accumulate { it.attributes.wisdom }
-                Attribute.DEX -> base(attribute) + accumulate { it.attributes.dexterity }
-                Attribute.CON -> base(attribute) + accumulate { it.attributes.constitution }
+                        accumulate { it.attributes.mv } + (mobCard?.calcTrained(attribute) ?: 0)
+                Attribute.STR -> base(attribute) +
+                        accumulate { it.attributes.strength } +
+                        (mobCard?.calcTrained(attribute) ?: 0)
+                Attribute.INT -> base(attribute) +
+                        accumulate { it.attributes.intelligence } +
+                        (mobCard?.calcTrained(attribute) ?: 0)
+                Attribute.WIS -> base(attribute) +
+                        accumulate { it.attributes.wisdom } +
+                        (mobCard?.calcTrained(attribute) ?: 0)
+                Attribute.DEX -> base(attribute) +
+                        accumulate { it.attributes.dexterity } +
+                        (mobCard?.calcTrained(attribute) ?: 0)
+                Attribute.CON -> base(attribute) +
+                        accumulate { it.attributes.constitution } +
+                        (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.HIT -> attributes.hit + accumulate { it.attributes.hit }
                 Attribute.DAM -> attributes.dam + accumulate { it.attributes.dam }
                 Attribute.AC_BASH -> attributes.acBash + accumulate { it.attributes.acBash }

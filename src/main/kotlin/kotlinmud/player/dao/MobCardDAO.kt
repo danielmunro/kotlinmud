@@ -31,7 +31,7 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     var respawnRoom by RoomDAO referencedOn MobCards.respawnRoomId
 
     fun calcTrained(attribute: Attribute): Int {
-        return trainedAttributes.fold(0) { acc, it -> acc + it.getAttribute(attribute) }
+        return transaction { trainedAttributes.fold(0) { acc, it -> acc + it.getAttribute(attribute) } }
     }
 
     fun addExperience(level: Int, value: Int): AddExperience {

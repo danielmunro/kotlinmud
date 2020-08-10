@@ -6,6 +6,7 @@ import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.player.service.PlayerService
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class SkillToPracticeContextBuilder(private val playerService: PlayerService, private val mob: MobDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
@@ -17,18 +18,20 @@ class SkillToPracticeContextBuilder(private val playerService: PlayerService, pr
                 "you don't have any practices left."
             )
         }
-        mob.skills.find {
-            matches(it.type.toString(), word)
-        }?.let {
-            if (it.level == 100) {
-                return Context(
-                    syntax,
-                    Status.ERROR,
-                    "you cannot practice that anymore."
-                )
+        return transaction {
+            mob.skills.find {
+                matches(it.type.toString(), word)
+            }?.let {
+                if (it.level == 100) {
+                    return@transaction Context(
+                        syntax,
+                        Status.ERROR,
+                        "you cannot practice that anymore."
+                    )
+                }
+                return@transaction Context(syntax, Status.OK, it)
             }
-            return Context(syntax, Status.OK, it)
+            return@transaction Context(syntax, Status.ERROR, "you don't know that.")
         }
-        return Context(syntax, Status.ERROR, "you don't know that.")
     }
 }

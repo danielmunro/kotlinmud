@@ -1,6 +1,7 @@
 package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
+import kotlin.math.roundToInt
 import kotlinmud.affect.repository.decrementAffectsTimeout
 import kotlinmud.affect.repository.deleteTimedOutAffects
 import kotlinmud.attributes.dao.AttributesDAO
@@ -31,7 +32,10 @@ import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.helper.takeDamageFromFall
 import kotlinmud.mob.repository.findDeadMobs
 import kotlinmud.mob.repository.findPlayerMobs
-import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.skill.dao.SkillDAO
+import kotlinmud.mob.skill.helper.createSkillList
+import kotlinmud.mob.skill.helper.getLearningDifficultyPracticeAmount
+import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.oppositeDirection
@@ -46,6 +50,7 @@ class MobService(
     private val newRooms = mutableListOf<NewRoom>()
     private val fights = mutableListOf<Fight>()
     private val logger = logger(this)
+    private val skills = createSkillList()
 
     fun regenMobs() {
         findPlayerMobs().forEach {
@@ -195,11 +200,17 @@ class MobService(
         }
     }
 
-    fun practice(mob: MobDAO, skillType: SkillType) {
+    fun practice(mob: MobDAO, skill: SkillDAO) {
         transaction {
-            mob.mobCard?.let { it.practices -= 1 }
-            mob.skills.find { it.type == skillType }?.let { it.level += 1 }
+            mob.mobCard!!.practices -= 1
+            skill.level += calculatePracticeGain(mob, skill)
         }
+    }
+
+    private fun calculatePracticeGain(mob: MobDAO, skill: SkillDAO): Int {
+        val difficulty = skills.find { it.type == skill.type }!!.difficulty[mob.specialization] ?: LearningDifficulty.VERY_HARD
+        val max = 1 + getLearningDifficultyPracticeAmount(difficulty)
+        return (Math.random() * max + mob.calc(Attribute.INT) / 5).roundToInt()
     }
 
     private fun createNewFightRounds(): List<Round> {

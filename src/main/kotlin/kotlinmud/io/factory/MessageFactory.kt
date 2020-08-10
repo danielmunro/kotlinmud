@@ -114,9 +114,10 @@ fun createRemoveMessage(mob: MobDAO, item: ItemDAO): Message {
 }
 
 fun createPracticeMessage(mob: MobDAO, skillType: SkillType): Message {
+    val label = skillType.toString().toLowerCase()
     return MessageBuilder()
-        .toActionCreator("you practice $skillType.")
-        .toObservers("$mob practices $skillType.")
+        .toActionCreator("you practice $label.")
+        .toObservers("$mob practices $label.")
         .build()
 }
 

@@ -208,7 +208,7 @@ class ActionContextService(
     }
 
     fun practice(skillType: SkillType) {
-        mobService.practice(getMob(), skillType)
+        mobService.practice(getMob(), getMob().getSkill(skillType)!!)
     }
 
     fun setDisposition(disposition: Disposition) {
