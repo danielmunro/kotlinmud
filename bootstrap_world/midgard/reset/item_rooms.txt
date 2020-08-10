@@ -1,1 +1,0 @@
-itemId: 20, roomId: 1, maxInInventory: 1, maxInWorld: 1~

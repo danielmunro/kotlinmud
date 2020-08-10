@@ -1,9 +1,0 @@
-#1
-a heavy wooden door~
-A heavy wooden door is here.~
-closed~
-
-#2
-a warehouse door~
-a nondescript warehouse door is here.~
-closed~
