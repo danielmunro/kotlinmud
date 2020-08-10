@@ -5,6 +5,7 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
+import kotlin.math.roundToInt
 import kotlin.test.assertEquals
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
@@ -239,7 +240,7 @@ class MobTest {
         }
 
         // then
-        assertThat(prob.getOutcome1()).isGreaterThan(prob.getOutcome2())
+        assertThat(prob.getOutcome1()).isGreaterThan((prob.getOutcome2() * 0.8).roundToInt())
     }
 
     @Test
@@ -262,7 +263,7 @@ class MobTest {
         }
 
         // then
-        assertThat(prob.getOutcome1()).isGreaterThan(prob.getOutcome2())
+        assertThat(prob.getOutcome1()).isGreaterThan((prob.getOutcome2() * 0.8).roundToInt())
     }
 
     @Test

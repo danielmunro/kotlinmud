@@ -36,6 +36,9 @@ import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.helper.getLearningDifficultyPracticeAmount
 import kotlinmud.mob.skill.type.LearningDifficulty
+import kotlinmud.mob.skill.type.Skill
+import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.type.SpecializationType
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.oppositeDirection
@@ -208,9 +211,19 @@ class MobService(
     }
 
     private fun calculatePracticeGain(mob: MobDAO, skill: SkillDAO): Int {
-        val difficulty = skills.find { it.type == skill.type }!!.difficulty[mob.specialization] ?: LearningDifficulty.VERY_HARD
-        val max = 1 + getLearningDifficultyPracticeAmount(difficulty)
-        return (Math.random() * max + mob.calc(Attribute.INT) / 5).roundToInt()
+        return with(1 + getLearningDifficultyPracticeAmount(
+            getSkillDifficultyForSpecialization(skill.type, mob.specialization))
+        ) {
+            (Math.random() * this + mob.calc(Attribute.INT) / 5).roundToInt()
+        }
+    }
+
+    private fun getSkillDifficultyForSpecialization(type: SkillType, specialization: SpecializationType?): LearningDifficulty {
+        return findSkillByType(type).difficulty[specialization] ?: LearningDifficulty.VERY_HARD
+    }
+
+    private fun findSkillByType(type: SkillType): Skill {
+        return skills.find { it.type == type }!!
     }
 
     private fun createNewFightRounds(): List<Round> {
