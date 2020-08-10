@@ -133,6 +133,26 @@ class MobServiceTest {
     }
 
     @Test
+    fun testTrainVitalSanityCheck() {
+        // setup
+        val test = createTestService()
+
+        // given
+        val mob = test.createPlayerMob()
+        val hp = mob.calc(Attribute.HP)
+        transaction { mob.mobCard?.trains = 1 }
+        test.createMob { it.job = JobType.TRAINER }
+
+        // when
+        val response = test.runAction(mob, "train hp")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("you train your health.")
+        assertThat(mob.calc(Attribute.HP)).isEqualTo(hp + 10)
+        assertThat(transaction { mob.mobCard!!.trains }).isEqualTo(0)
+    }
+
+    @Test
     fun testPracticeSanityCheck() {
         // setup
         val test = createTestServiceWithResetDB()
