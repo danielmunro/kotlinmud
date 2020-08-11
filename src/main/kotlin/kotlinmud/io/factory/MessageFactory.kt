@@ -1,6 +1,6 @@
 package kotlinmud.io.factory
 
-import kotlinmud.action.impl.getImprove
+import kotlinmud.action.impl.player.getImprove
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
