@@ -52,6 +52,8 @@ enum class Command(val value: String) {
     // crafting
     CRAFT("craft"),
     HARVEST("harvest"),
+    RECIPES("recipes"),
+    RECIPE_OF("recipe of"),
 
     // mobs
     FOLLOW("follow"),

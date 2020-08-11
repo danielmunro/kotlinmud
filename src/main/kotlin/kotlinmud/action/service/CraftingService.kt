@@ -17,6 +17,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class CraftingService(private val itemService: ItemService) {
     private val resources: List<Resource> = createResourceList()
+
     companion object {
         fun createListOfItemTypesFromMap(components: Map<ItemType, Int>): List<ItemType> {
             val componentsList: MutableList<ItemType> = mutableListOf()

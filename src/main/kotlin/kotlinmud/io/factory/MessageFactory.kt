@@ -64,6 +64,20 @@ fun createPutMessage(mob: MobDAO, item: ItemDAO, container: ItemDAO): Message {
         .build()
 }
 
+fun createRecipesMessage(recipes: List<Recipe>): Message {
+    return messageToActionCreator(recipes.fold("Recipes:\n") {
+            acc, recipe -> acc + "\n${recipe.name}"
+    })
+}
+
+fun createRecipeOfMessage(recipe: Recipe): Message {
+    return messageToActionCreator(
+        recipe.getComponents().entries.fold("Recipe for ${recipe.name}:\n") { acc, entry ->
+            acc + "(${entry.value}) ${entry.key.toString().toLowerCase()}"
+        }
+    )
+}
+
 fun createGetMessage(mob: MobDAO, item: ItemDAO): Message {
     return MessageBuilder()
         .toActionCreator("you pick up ${item.name}.")

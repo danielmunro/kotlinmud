@@ -22,6 +22,10 @@ fun recipe(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.RECIPE)
 }
 
+fun subcommandWithRecipe(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.RECIPE)
+}
+
 fun itemFromMerchant(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.ITEM_FROM_MERCHANT)
 }
@@ -92,10 +96,6 @@ fun playerFreeForm(): List<Syntax> {
 
 fun optionalFurniture(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.OPTIONAL_FURNITURE)
-}
-
-fun subcommandWithFreeForm(): List<Syntax> {
-    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.FREE_FORM)
 }
 
 fun subcommandDirectionNoExit(): List<Syntax> {

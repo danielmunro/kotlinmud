@@ -6,7 +6,7 @@ import kotlinmud.item.type.Material
 import kotlinmud.item.type.Recipe
 
 class SleepingBagRecipe : Recipe {
-    override val name: String = "sleeping bag"
+    override val name: String = "a sleeping bag"
 
     override fun getComponents(): Map<ItemType, Int> {
         return mapOf(

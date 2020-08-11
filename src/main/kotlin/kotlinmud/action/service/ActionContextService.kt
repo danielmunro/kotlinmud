@@ -15,6 +15,7 @@ import kotlinmud.io.type.Clients
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Recipe
@@ -47,9 +48,8 @@ class ActionContextService(
     private val serverService: ServerService,
     private val request: Request
 ) {
-    private val craftingService = CraftingService(
-        itemService
-    )
+    private val craftingService = CraftingService(itemService)
+    val recipes = createRecipeList()
 
     companion object {
         fun getDirectionString(direction: Direction): String {
