@@ -41,8 +41,6 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.SpecializationType
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.helper.oppositeDirection
-import kotlinmud.room.model.NewRoom
 import kotlinmud.room.type.Direction
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -50,7 +48,6 @@ class MobService(
     private val itemService: ItemService,
     private val eventService: EventService
 ) {
-    private val newRooms = mutableListOf<NewRoom>()
     private val fights = mutableListOf<Fight>()
     private val logger = logger(this)
     private val skills = createSkillList()
@@ -66,49 +63,6 @@ class MobService(
                 )
             )
         }
-    }
-
-    fun createNewRoom(mob: MobDAO): NewRoom {
-        logger.debug("create new room :: $mob")
-        val room = transaction {
-            RoomDAO.new {}
-        }
-        val newRoom = NewRoom(mob, room)
-        newRooms.add(newRoom)
-        return newRoom
-    }
-
-    fun buildRoom(mob: MobDAO, direction: Direction): RoomDAO {
-        // setup
-        val source = transaction { mob.room }
-        val newRoom = newRooms.find { it.mob == mob }!!
-
-        // destination room exit hook up
-        val destination = newRoom.room
-        when (oppositeDirection(direction)) {
-            Direction.NORTH -> destination.north = source
-            Direction.SOUTH -> destination.south = source
-            Direction.EAST -> destination.east = source
-            Direction.WEST -> destination.west = source
-            Direction.UP -> destination.up = source
-            Direction.DOWN -> destination.down = source
-        }
-
-        // source room exit hook up
-        when (direction) {
-            Direction.NORTH -> source.north = destination
-            Direction.SOUTH -> source.south = destination
-            Direction.EAST -> source.east = destination
-            Direction.WEST -> source.west = destination
-            Direction.UP -> source.up = destination
-            Direction.DOWN -> source.down = destination
-        }
-
-        return destination
-    }
-
-    fun getNewRoom(mob: MobDAO): NewRoom? {
-        return newRooms.find { mob == it.mob }
     }
 
     fun addFight(fight: Fight) {

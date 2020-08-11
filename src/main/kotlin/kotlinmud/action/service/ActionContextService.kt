@@ -29,10 +29,8 @@ import kotlinmud.player.service.PlayerService
 import kotlinmud.player.social.Social
 import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.model.NewRoom
 import kotlinmud.room.repository.findStartRoom
 import kotlinmud.room.type.Direction
-import kotlinmud.room.type.RegenLevel
 import kotlinmud.service.WeatherService
 import kotlinmud.weather.Temperature
 import kotlinmud.weather.Weather
@@ -177,26 +175,6 @@ class ActionContextService(
 
     fun destroy(item: ItemDAO) {
         transaction { item.delete() }
-    }
-
-    fun createNewRoom(name: String): NewRoom {
-        val newRoom = mobService.createNewRoom(getMob())
-        val room = newRoom.room
-        room.name = name
-        room.area = getRoom().area
-        room.description = "A new room has been created"
-        room.isIndoor = getRoom().isIndoor
-        room.owner = getRoom().owner
-        room.regenLevel = RegenLevel.NORMAL
-        return newRoom
-    }
-
-    fun buildRoom(mob: MobDAO, direction: Direction): RoomDAO {
-        return mobService.buildRoom(mob, direction)
-    }
-
-    fun getNewRoom(): NewRoom? {
-        return mobService.getNewRoom(getMob())
     }
 
     fun getDynamicRoomDescription(): String {

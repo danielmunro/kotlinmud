@@ -40,10 +40,6 @@ import kotlinmud.action.impl.info.createLookAtAction
 import kotlinmud.action.impl.info.createScoreAction
 import kotlinmud.action.impl.info.createWeatherAction
 import kotlinmud.action.impl.info.createWhoAction
-import kotlinmud.action.impl.room.creation.createRoomBuildAction
-import kotlinmud.action.impl.room.creation.createRoomDescriptionAction
-import kotlinmud.action.impl.room.creation.createRoomInfoAction
-import kotlinmud.action.impl.room.creation.createRoomNewAction
 import kotlinmud.action.impl.room.owner.createOwnerInfoAction
 import kotlinmud.action.impl.room.owner.createOwnerSetAction
 import kotlinmud.action.impl.social.createAttributesAction
@@ -98,10 +94,6 @@ fun createActionsList(): List<Action> {
         createHealListAction(),
         createOwnerInfoAction(),
         createOwnerSetAction(),
-        createRoomNewAction(),
-        createRoomBuildAction(),
-        createRoomDescriptionAction(),
-        createRoomInfoAction(),
         createCraftAction(),
         createHarvestAction()
     )
