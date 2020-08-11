@@ -25,6 +25,7 @@ enum class ItemType {
     GRASS_SEED,
     TAR,
     ICE,
+    WOOL,
 
     OTHER,
 }
