@@ -7,8 +7,8 @@ import kotlinmud.mob.factory.fox
 import kotlinmud.mob.factory.polarBear
 import kotlinmud.mob.factory.rabbit
 import kotlinmud.mob.factory.wolf
+import kotlinmud.resource.type.Resource
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.world.resource.Resource
 
 class Tundra : Biome {
     override val biomeType: BiomeType = BiomeType.TUNDRA

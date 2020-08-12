@@ -6,10 +6,10 @@ import kotlinmud.biome.type.SubstrateType
 import kotlinmud.mob.factory.fox
 import kotlinmud.mob.factory.lizard
 import kotlinmud.mob.factory.rabbit
+import kotlinmud.resource.impl.Brush
+import kotlinmud.resource.impl.Tar
+import kotlinmud.resource.type.Resource
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.world.resource.Brush
-import kotlinmud.world.resource.Resource
-import kotlinmud.world.resource.Tar
 
 class Desert : Biome {
     override val biomeType: BiomeType = BiomeType.DESERT

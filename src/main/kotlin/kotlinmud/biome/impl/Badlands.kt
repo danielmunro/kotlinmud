@@ -5,8 +5,8 @@ import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.mob.factory.skeletonWarrior
 import kotlinmud.mob.factory.zombie
+import kotlinmud.resource.type.Resource
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.world.resource.Resource
 
 class Badlands : Biome {
     override val biomeType: BiomeType = BiomeType.BADLANDS

@@ -22,6 +22,7 @@ enum class ItemType {
     IRON_ORE,
     GOLD_ORE,
     GOLD_INGOT,
+    DIAMOND,
     GRASS_SEED,
     TAR,
     ICE,

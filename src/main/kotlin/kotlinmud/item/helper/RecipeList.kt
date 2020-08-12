@@ -6,6 +6,9 @@ import kotlinmud.item.recipe.ShelterRecipe
 import kotlinmud.item.recipe.SleepingBagRecipe
 import kotlinmud.item.recipe.StickRecipe
 import kotlinmud.item.recipe.TorchRecipe
+import kotlinmud.item.recipe.WoodenAxeRecipe
+import kotlinmud.item.recipe.WoodenPickaxeRecipe
+import kotlinmud.item.recipe.WoodenSwordRecipe
 import kotlinmud.item.type.Recipe
 
 fun createRecipeList(): List<Recipe> {
@@ -15,6 +18,9 @@ fun createRecipeList(): List<Recipe> {
         ShelterRecipe(),
         StickRecipe(),
         TorchRecipe(),
-        SleepingBagRecipe()
+        SleepingBagRecipe(),
+        WoodenSwordRecipe(),
+        WoodenAxeRecipe(),
+        WoodenPickaxeRecipe()
     )
 }

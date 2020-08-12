@@ -10,14 +10,16 @@ import kotlinmud.mob.factory.fox
 import kotlinmud.mob.factory.ocelot
 import kotlinmud.mob.factory.sheep
 import kotlinmud.mob.factory.turkey
+import kotlinmud.resource.impl.BlackberryBush
+import kotlinmud.resource.impl.PineTree
+import kotlinmud.resource.type.Resource
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.world.resource.PineTree
-import kotlinmud.world.resource.Resource
 
 class Arboreal : Biome {
     override val biomeType: BiomeType = BiomeType.ARBOREAL
     override val resources: Map<Resource, Double> = mapOf(
-        Pair(PineTree(), 0.80)
+        Pair(PineTree(), 0.80),
+        Pair(BlackberryBush(), 0.15)
     )
     override val substrate: SubstrateType = SubstrateType.DIRT
     override val elevationChange: Double = 0.45

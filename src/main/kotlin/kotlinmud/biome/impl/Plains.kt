@@ -7,9 +7,9 @@ import kotlinmud.mob.factory.deer
 import kotlinmud.mob.factory.horse
 import kotlinmud.mob.factory.rabbit
 import kotlinmud.mob.factory.sheep
+import kotlinmud.resource.impl.PineTree
+import kotlinmud.resource.type.Resource
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.world.resource.PineTree
-import kotlinmud.world.resource.Resource
 
 class Plains : Biome {
     override val biomeType: BiomeType = BiomeType.PLAINS

@@ -1,6 +1,5 @@
 package kotlinmud.action.service
 
-import kotlinmud.biome.helper.createResourceList
 import kotlinmud.exception.CraftException
 import kotlinmud.exception.HarvestException
 import kotlinmud.item.dao.ItemDAO
@@ -8,10 +7,10 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.resource.helper.createResourceList
+import kotlinmud.resource.type.Resource
 import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.table.Resources
-import kotlinmud.world.resource.Resource
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 

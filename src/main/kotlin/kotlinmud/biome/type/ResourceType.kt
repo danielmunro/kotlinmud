@@ -5,6 +5,7 @@ enum class ResourceType(val value: String) {
     COAL_ORE("coal ore"),
     GOLD_ORE("gold ore"),
     IRON_ORE("iron ore"),
+    DIAMOND_ORE("diamond ore"),
     JUNGLE_TREE("jungle tree"),
     PINE_TREE("pine tree"),
     TAR("tar"),
