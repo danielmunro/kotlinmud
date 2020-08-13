@@ -276,7 +276,7 @@ class MobTest {
         testService.createItem {
             it.mobInventory = mob
             it.position = Position.SHIELD
-            it.attributes.hp = 100
+            it.attributes?.hp = 100
             it.mobEquipped = mob
         }
 

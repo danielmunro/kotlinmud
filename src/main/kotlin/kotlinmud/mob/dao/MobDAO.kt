@@ -131,32 +131,32 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         return transaction {
             when (attribute) {
                 Attribute.HP -> attributes.hp +
-                        accumulate { it.attributes.hp } + (mobCard?.calcTrained(attribute) ?: 0)
+                        accumulate { it.attributes?.hp ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.MANA -> attributes.mana +
-                        accumulate { it.attributes.mana } + (mobCard?.calcTrained(attribute) ?: 0)
+                        accumulate { it.attributes?.mana ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.MV -> attributes.mv +
-                        accumulate { it.attributes.mv } + (mobCard?.calcTrained(attribute) ?: 0)
+                        accumulate { it.attributes?.mv ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.STR -> base(attribute) +
-                        accumulate { it.attributes.strength } +
+                        accumulate { it.attributes?.strength ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.INT -> base(attribute) +
-                        accumulate { it.attributes.intelligence } +
+                        accumulate { it.attributes?.intelligence ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.WIS -> base(attribute) +
-                        accumulate { it.attributes.wisdom } +
+                        accumulate { it.attributes?.wisdom ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.DEX -> base(attribute) +
-                        accumulate { it.attributes.dexterity } +
+                        accumulate { it.attributes?.dexterity ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.CON -> base(attribute) +
-                        accumulate { it.attributes.constitution } +
+                        accumulate { it.attributes?.constitution ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.HIT -> attributes.hit + accumulate { it.attributes.hit }
-                Attribute.DAM -> attributes.dam + accumulate { it.attributes.dam }
-                Attribute.AC_BASH -> attributes.acBash + accumulate { it.attributes.acBash }
-                Attribute.AC_PIERCE -> attributes.acPierce + accumulate { it.attributes.acPierce }
-                Attribute.AC_SLASH -> attributes.acSlash + accumulate { it.attributes.acSlash }
-                Attribute.AC_MAGIC -> attributes.acMagic + accumulate { it.attributes.acMagic }
+                Attribute.HIT -> attributes.hit + accumulate { it.attributes?.hit ?: 0 }
+                Attribute.DAM -> attributes.dam + accumulate { it.attributes?.dam ?: 0 }
+                Attribute.AC_BASH -> attributes.acBash + accumulate { it.attributes?.acBash ?: 0 }
+                Attribute.AC_PIERCE -> attributes.acPierce + accumulate { it.attributes?.acPierce ?: 0 }
+                Attribute.AC_SLASH -> attributes.acSlash + accumulate { it.attributes?.acSlash ?: 0 }
+                Attribute.AC_MAGIC -> attributes.acMagic + accumulate { it.attributes?.acMagic ?: 0 }
             }
         }
     }

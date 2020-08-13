@@ -1,6 +1,5 @@
 package kotlinmud.item.factory
 
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.helper.math.dN
 import kotlinmud.helper.random.randomAmount
 import kotlinmud.item.dao.ItemDAO
@@ -26,7 +25,6 @@ fun createLeather(roomDAO: RoomDAO): ItemDAO {
         weight = 0.2
         room = roomDAO
         worth = 20
-        attributes = AttributesDAO.new {}
     }
 }
 
@@ -39,7 +37,6 @@ fun createScale(roomDAO: RoomDAO): ItemDAO {
         weight = 0.1
         room = roomDAO
         worth = 1
-        attributes = AttributesDAO.new {}
     }
 }
 
@@ -52,7 +49,6 @@ fun createLargeFang(roomDAO: RoomDAO): ItemDAO {
         weight = 2.0
         room = roomDAO
         worth = 1
-        attributes = AttributesDAO.new {}
     }
 }
 
@@ -65,7 +61,6 @@ fun createSmallFang(roomDAO: RoomDAO): ItemDAO {
         weight = 0.1
         room = roomDAO
         worth = 1
-        attributes = AttributesDAO.new {}
     }
 }
 
@@ -78,7 +73,6 @@ fun createBlob(roomDAO: RoomDAO): ItemDAO {
         weight = 3.0
         room = roomDAO
         worth = 30
-        attributes = AttributesDAO.new {}
     }
 }
 
@@ -91,7 +85,6 @@ fun createThread(roomDAO: RoomDAO): ItemDAO {
         weight = 0.1
         room = roomDAO
         worth = 1
-        attributes = AttributesDAO.new {}
     }
 }
 
@@ -104,7 +97,6 @@ fun createFeather(mob: MobDAO, roomDAO: RoomDAO): ItemDAO {
         weight = 0.0
         room = roomDAO
         worth = 1
-        attributes = AttributesDAO.new {}
     }
 }
 
@@ -116,7 +108,6 @@ fun createBrains(mob: MobDAO, roomDAO: RoomDAO): ItemDAO {
         material = Material.ORGANIC
         weight = 2.5
         room = roomDAO
-        attributes = AttributesDAO.new {}
     }
 }
 
@@ -128,7 +119,6 @@ fun createEntrails(roomDAO: RoomDAO): ItemDAO {
         material = Material.ORGANIC
         weight = 5.0
         room = roomDAO
-        attributes = AttributesDAO.new {}
     }
 }
 
@@ -140,7 +130,6 @@ fun createHeart(mob: MobDAO, roomDAO: RoomDAO): ItemDAO {
         material = Material.ORGANIC
         weight = 2.0
         room = roomDAO
-        attributes = AttributesDAO.new {}
     }
 }
 
@@ -152,7 +141,6 @@ fun createLiver(roomDAO: RoomDAO): ItemDAO {
         material = Material.ORGANIC
         weight = 2.0
         room = roomDAO
-        attributes = AttributesDAO.new {}
     }
 }
 
@@ -164,6 +152,5 @@ fun createTail(mob: MobDAO, roomDAO: RoomDAO): ItemDAO {
         material = Material.ORGANIC
         weight = 1.0
         room = roomDAO
-        attributes = AttributesDAO.new {}
     }
 }

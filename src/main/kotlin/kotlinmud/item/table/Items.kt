@@ -28,7 +28,7 @@ object Items : IntIdTable() {
     val canOwn = bool("canOwn").default(true)
     val maxItems = integer("maxItems").nullable()
     val maxWeight = integer("maxWeight").nullable()
-    val attributesId = reference("attributes", Attributes)
+    val attributesId = reference("attributes", Attributes).nullable()
     val affects = reference("affects", Affects).nullable()
     val mobInventoryId = reference("mobInventoryId", Mobs).nullable()
     val mobEquippedId = reference("mobEquippedId", Mobs).nullable()
