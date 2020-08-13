@@ -7,8 +7,6 @@ enum class ItemType {
 
     FURNACE,
 
-    LAND_GRANT,
-
     BUILDER_TABLE,
     FURNITURE,
     WOOD,
@@ -27,6 +25,11 @@ enum class ItemType {
     TAR,
     ICE,
     WOOL,
+    LEATHER,
+    THREAD,
+    FEATHER,
+    BLOB,
+    ORGANS,
 
     OTHER,
 }

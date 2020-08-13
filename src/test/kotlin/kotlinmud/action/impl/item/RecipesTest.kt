@@ -25,6 +25,9 @@ class RecipesTest {
             sticks
             torch
             a sleeping bag
+            wooden sword
+            wooden axe
+            wooden pickaxe
         """.trimIndent())
     }
 }

@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
 import kotlinmud.test.createTestService
+import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.test.getIdentifyingWord
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
@@ -12,7 +13,7 @@ class GetTest {
     @Test
     fun testMobCanGetItemFromRoom() {
         // setup
-        val testService = createTestService()
+        val testService = createTestServiceWithResetDB()
         val mob = testService.createMob()
         val room = transaction { mob.room }
         val item = testService.createItem { it.room = room }

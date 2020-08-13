@@ -27,6 +27,39 @@ class DiceTest {
     }
 
     @Test
+    fun testDnWithMultipleProbabilities() {
+        // setup
+        val iterations = 1000
+        val prob1 = ProbabilityTest(iterations)
+        val prob2 = ProbabilityTest(iterations)
+
+        // when
+        while (prob1.isIterating()) {
+            val result = dN(1, 4)
+            prob1.decrementIteration(
+                result == 1,
+                result == 2
+            )
+            prob2.decrementIteration(
+                result == 3,
+                result == 4
+            )
+        }
+
+        // then
+        assertThat(prob1.getOutcome1()).isGreaterThan(0)
+        assertThat(prob1.getOutcome2()).isGreaterThan(0)
+        assertThat(prob2.getOutcome1()).isGreaterThan(0)
+        assertThat(prob2.getOutcome2()).isGreaterThan(0)
+        assertThat(
+            prob1.getOutcome1() +
+                    prob1.getOutcome2() +
+                    prob2.getOutcome1() +
+                    prob2.getOutcome2()
+        ).isEqualTo(iterations)
+    }
+
+    @Test
     fun testCoinFlip() {
         // setup
         val iterations = 1000
