@@ -1,4 +1,4 @@
-package kotlinmud.player.authStep
+package kotlinmud.player.authStep.service
 
 import kotlinmud.io.model.Client
 import kotlinmud.player.dao.MobCardDAO

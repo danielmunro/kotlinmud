@@ -11,10 +11,10 @@ import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.table.Mobs
-import kotlinmud.player.authStep.AuthStep
-import kotlinmud.player.authStep.AuthStepService
 import kotlinmud.player.authStep.impl.CompleteAuthStep
 import kotlinmud.player.authStep.impl.EmailAuthStep
+import kotlinmud.player.authStep.service.AuthStepService
+import kotlinmud.player.authStep.type.AuthStep
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.repository.findLoggedInMobCards

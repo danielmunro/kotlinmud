@@ -1,23 +1,38 @@
 package kotlinmud.player.authStep.impl
 
+import kotlinmud.helper.string.matches
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
-import kotlinmud.player.authStep.AuthStep
-import kotlinmud.player.authStep.AuthorizationStep
+import kotlinmud.io.type.IOStatus
+import kotlinmud.player.authStep.service.AuthStepService
+import kotlinmud.player.authStep.type.AuthStep
+import kotlinmud.player.authStep.type.AuthorizationStep
+import kotlinmud.player.dao.PlayerDAO
 
-class NewMobCardAuthStep : AuthStep {
-    override val authorizationStep: AuthorizationStep
-        get() = TODO("Not yet implemented")
-    override val promptMessage: String
-        get() = TODO("Not yet implemented")
-    override val errorMessage: String
-        get() = TODO("Not yet implemented")
+class NewMobCardAuthStep(
+    private val authService: AuthStepService,
+    private val player: PlayerDAO
+) : AuthStep {
+    override val authorizationStep = AuthorizationStep.NEW_MOB
+    override val promptMessage = "New mob. Is that right?"
+    override val errorMessage = "Please answer yes or no (y/n):"
+    private var proceed = false
 
     override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
-        TODO("Not yet implemented")
+        if (matches("yes", request.input)) {
+            return PreAuthResponse(request, IOStatus.OK, "Ok.")
+        } else if (matches("no", request.input)) {
+            return PreAuthResponse(request, IOStatus.OK, "Ok.")
+        }
+
+        return PreAuthResponse(request, IOStatus.ERROR, "Please respond with 'yes' or 'no'.")
     }
 
     override fun getNextAuthStep(): AuthStep {
-        TODO("Not yet implemented")
+        return if (proceed) {
+            RaceSelectAuthStep()
+        } else {
+            MobSelectAuthStep(authService, player)
+        }
     }
 }

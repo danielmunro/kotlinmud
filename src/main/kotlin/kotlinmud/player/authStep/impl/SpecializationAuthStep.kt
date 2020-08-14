@@ -4,12 +4,11 @@ import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
 import kotlinmud.player.authStep.type.AuthStep
 import kotlinmud.player.authStep.type.AuthorizationStep
-import kotlinmud.player.dao.MobCardDAO
 
-class CompleteAuthStep(val mobCard: MobCardDAO) : AuthStep {
-    override val authorizationStep = AuthorizationStep.COMPLETE
-    override val promptMessage = "you are logged in"
-    override val errorMessage = ""
+class SpecializationAuthStep : AuthStep {
+    override val authorizationStep = AuthorizationStep.SPECIALIZATION_SELECT
+    override val promptMessage = "select a specialization:"
+    override val errorMessage = "that is not a specialization."
 
     override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
         TODO("Not yet implemented")

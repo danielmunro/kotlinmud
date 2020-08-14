@@ -1,4 +1,4 @@
-package kotlinmud.player.authStep
+package kotlinmud.player.authStep.type
 
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
