@@ -23,11 +23,11 @@ class DoorInRoomContextBuilder(private val room: RoomDAO) : ContextBuilder {
 }
 
 fun matchExit(direction: Direction, door: DoorDAO, word: String): Boolean {
-    if (matches(door.name, word)) {
+    if (word.matches(door.name)) {
         return true
     }
 
-    if (matches(direction.value, word)) {
+    if (word.matches(direction.value)) {
         return true
     }
 

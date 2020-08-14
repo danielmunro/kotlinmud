@@ -19,7 +19,7 @@ class AvailableNounContextBuilder(
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val target = transaction {
             findMobsForRoom(room).find {
-                matches(it.name, word) && it.affects.find { affect -> affect.type == AffectType.INVISIBILITY } == null
+                word.matches(it.name) && it.affects.find { affect -> affect.type == AffectType.INVISIBILITY } == null
             } ?: itemService.findByOwner(mob, word)
             ?: itemService.findByRoom(room, word)
         } ?: return Context(

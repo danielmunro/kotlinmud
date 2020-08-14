@@ -9,7 +9,7 @@ import kotlinmud.item.type.Recipe
 class RecipeContextBuilder(private val recipeList: List<Recipe>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return recipeList.find {
-            matches(it.name, word)
+            word.matches(it.name)
         }?.let {
             Context<Any>(syntax, Status.OK, it)
         } ?: Context<Any>(syntax, Status.FAILED, "that's not a recipe")

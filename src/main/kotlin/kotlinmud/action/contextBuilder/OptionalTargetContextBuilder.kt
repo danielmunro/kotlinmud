@@ -16,7 +16,7 @@ class OptionalTargetContextBuilder(
             return Context(syntax, Status.OK, actionCreator)
         }
         return possibleTargets.find {
-            matches(it.name, word)
+            word.matches(it.name)
         }?.let {
             Context<Any>(syntax, Status.OK, it)
         } ?: Context<Any>(syntax, Status.ERROR, "you don't see it anywhere.")

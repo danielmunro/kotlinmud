@@ -17,7 +17,7 @@ class AvailableItemInventoryContextBuilder(
 ) : ContextBuilder {
     companion object {
         fun isMatch(item: ItemDAO, word: String): Boolean {
-            return matches(item.name, word)
+            return word.matches(item.name)
         }
     }
 

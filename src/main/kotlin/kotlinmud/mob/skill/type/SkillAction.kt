@@ -10,6 +10,6 @@ interface SkillAction : Skill, Invokable, HasCosts {
     val affect: Affect?
 
     fun matchesRequest(request: Request): Boolean {
-        return matches(type.toString(), request.getCommand())
+        return request.getCommand().matches(type.toString())
     }
 }

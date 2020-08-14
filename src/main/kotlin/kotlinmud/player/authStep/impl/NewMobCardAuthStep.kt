@@ -19,9 +19,9 @@ class NewMobCardAuthStep(
     private var proceed = false
 
     override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
-        if (matches("yes", request.input)) {
+        if (request.input.matches("yes")) {
             return PreAuthResponse(request, IOStatus.OK, "Ok.")
-        } else if (matches("no", request.input)) {
+        } else if (request.input.matches("no")) {
             return PreAuthResponse(request, IOStatus.OK, "Ok.")
         }
 

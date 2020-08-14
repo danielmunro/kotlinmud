@@ -2,13 +2,14 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
+import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 
 class OptionalFurnitureContextBuilder(private val itemsInRoom: List<ItemDAO>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return itemsInRoom.find {
-            kotlinmud.helper.string.matches(it.name, word)
+            word.matches(it.name)
         }?.let {
             Context<Any>(syntax, Status.OK, it)
         } ?: Context<Any>(

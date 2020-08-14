@@ -2,6 +2,7 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
+import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.type.JobType
@@ -16,7 +17,7 @@ class SpellFromHealerContextBuilder(private val mobs: List<MobDAO>) : ContextBui
             "you don't see any healers here."
         )
         return mob.skills.find {
-            kotlinmud.helper.string.matches(it.type.name, word)
+            word.matches(it.type.name)
         }?.let {
             Context<Any>(syntax, Status.OK, it)
         } ?: Context<Any>(syntax, Status.ERROR, "they don't know that.")

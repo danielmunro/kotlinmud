@@ -23,7 +23,7 @@ class TargetMobContextBuilder(private val mobService: MobService, private val mo
         }
 
         val mobs = findMobsForRoom(room)
-        return mobs.find { matches(it.name, word) }?.let {
+        return mobs.find { word.matches(it.name) }?.let {
             Context<Any>(
                 syntax,
                 Status.OK,

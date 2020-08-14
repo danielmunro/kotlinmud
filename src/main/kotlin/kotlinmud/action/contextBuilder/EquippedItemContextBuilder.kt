@@ -10,7 +10,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class EquippedItemContextBuilder(private val mob: MobDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return transaction {
-            mob.equipped.find { matches(it.name, word) }?.let {
+            mob.equipped.find { word.matches(it.name) }?.let {
                 Context<Any>(syntax, Status.OK, it)
             } ?: Context<Any>(
                 syntax,

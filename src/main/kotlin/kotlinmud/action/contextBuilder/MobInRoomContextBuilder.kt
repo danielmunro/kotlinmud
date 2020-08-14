@@ -8,7 +8,7 @@ import kotlinmud.mob.dao.MobDAO
 
 class MobInRoomContextBuilder(private val mobs: List<MobDAO>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        return mobs.find { matches(it.name, word) }?.let {
+        return mobs.find { word.matches(it.name) }?.let {
             Context<Any>(syntax, Status.OK, it)
         } ?: Context<Any>(
             syntax,

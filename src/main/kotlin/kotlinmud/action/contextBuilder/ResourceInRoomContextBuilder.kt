@@ -20,7 +20,7 @@ class ResourceInRoomContextBuilder(private val room: RoomDAO) : ContextBuilder {
             )
         }
 
-        val resource = transaction { resources.find { matches(it.type.toString(), word) } }
+        val resource = transaction { resources.find { word.matches(it.type.toString()) } }
 
         return resource?.let {
             Context<Any>(syntax, Status.OK, it)
