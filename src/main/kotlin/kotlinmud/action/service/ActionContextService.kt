@@ -3,7 +3,6 @@ package kotlinmud.action.service
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.biome.type.BiomeType
 import kotlinmud.event.factory.createFightStartedEvent
 import kotlinmud.event.factory.createSocialEvent
 import kotlinmud.event.service.EventService
@@ -30,10 +29,11 @@ import kotlinmud.player.service.PlayerService
 import kotlinmud.player.social.Social
 import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.helper.getRoomDescription
+import kotlinmud.room.helper.getRoomName
 import kotlinmud.room.repository.findStartRoom
 import kotlinmud.room.type.Direction
 import kotlinmud.service.WeatherService
-import kotlinmud.weather.Temperature
 import kotlinmud.weather.Weather
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -50,19 +50,6 @@ class ActionContextService(
 ) {
     private val craftingService = CraftingService(itemService)
     val recipes = createRecipeList()
-
-    companion object {
-        fun getDirectionString(direction: Direction): String {
-            return when (direction) {
-                Direction.DOWN -> "below you"
-                Direction.UP -> "above you"
-                Direction.EAST -> "to the east"
-                Direction.WEST -> "to the west"
-                Direction.NORTH -> "to the north"
-                Direction.SOUTH -> "to the south"
-            }
-        }
-    }
 
     fun craft(recipe: Recipe): List<ItemDAO> {
         return craftingService.craft(recipe, request.mob)
@@ -178,7 +165,7 @@ class ActionContextService(
     }
 
     fun getDynamicRoomDescription(): String {
-        return "${getRoomName()}\n${getRoomDescription()}"
+        return "${getRoomName(weatherService.getTemperature(), request.room.biome)}\n${getRoomDescription(request.room, weatherService.getWeather())}"
     }
 
     fun train(attribute: Attribute) {
@@ -191,81 +178,5 @@ class ActionContextService(
 
     fun setDisposition(disposition: Disposition) {
         transaction { getMob().disposition = disposition }
-    }
-
-    private fun getRoomName(): String {
-        return "A ${getTemperatureLabel()} ${getBiomeLabel()}"
-    }
-
-    private fun getTemperatureLabel(): String {
-        return when (weatherService.getTemperature()) {
-            Temperature.VERY_COLD -> "frozen"
-            Temperature.COLD -> "cold"
-            Temperature.TEMPERATE -> "mild"
-            Temperature.WARM -> "warm"
-            Temperature.HOT -> "hot"
-            Temperature.VERY_HOT -> "scorching"
-        }
-    }
-
-    private fun getBiomeLabel(): String {
-        return when (request.room.biome) {
-            BiomeType.TUNDRA -> "tundra"
-            BiomeType.PLAINS -> "plains"
-            BiomeType.MOUNTAIN -> "mountainous"
-            BiomeType.BADLANDS -> "sulfurous swamp"
-            BiomeType.JUNGLE -> "jungle"
-            BiomeType.DESERT -> "desert"
-            BiomeType.ARBOREAL -> "forest"
-            BiomeType.SKY -> "flight"
-            BiomeType.UNDERGROUND -> "cave"
-            BiomeType.NONE -> "ethereal realm"
-        }
-    }
-
-    private fun getRoomDescription(): String {
-        val room = request.room
-
-        val biomeSlug = when (room.biome) {
-            BiomeType.ARBOREAL -> "A forest of evergreen trees."
-            BiomeType.DESERT -> "Rolling dunes of sand spread out before you."
-            BiomeType.JUNGLE -> "A dense jungle."
-            BiomeType.BADLANDS -> "A sulphurous smell permeates rocky and unwelcoming terrain."
-            BiomeType.MOUNTAIN -> "Mountainous rocks."
-            BiomeType.PLAINS -> "A flat grassland."
-            BiomeType.TUNDRA -> "A cold, flat land."
-            BiomeType.UNDERGROUND -> "Surrounded by rock, deep underground."
-            BiomeType.SKY -> "Flying in the sky!"
-            BiomeType.NONE -> "Floating in nether."
-        }
-
-        val nearbySlug = room.getAllExits().entries.joinToString {
-            "${getDirectionString(it.key)} ${getRoomBrief(it.value)}."
-        }
-
-        val weatherSlug = when (weatherService.getWeather()) {
-            Weather.BLIZZARD -> "A strong blizzard is bearing down."
-            Weather.CLEAR -> "The sky is blue with barely a cloud in sight."
-            Weather.BLUSTERY -> "Mighty gusts of wind blast against you."
-            Weather.OVERCAST -> "A blanket of clouds gives a cover of gray skies."
-            Weather.STORMING -> "Angry storm clouds boom thunder and lightning from the heavens."
-        }
-
-        return "$biomeSlug\n$nearbySlug\n$weatherSlug"
-    }
-
-    private fun getRoomBrief(room: RoomDAO): String {
-        return when (room.biome) {
-            BiomeType.ARBOREAL -> "is a forest of evergreen trees."
-            BiomeType.DESERT -> "rolling dunes of sand spread out before you."
-            BiomeType.JUNGLE -> "is a dense jungle."
-            BiomeType.BADLANDS -> "a sulphurous smell permeates rocky and unwelcoming terrain."
-            BiomeType.MOUNTAIN -> "is a large mountain of rocks."
-            BiomeType.PLAINS -> "is a flat grassland."
-            BiomeType.TUNDRA -> "is a cold, flat land."
-            BiomeType.UNDERGROUND -> "is surrounded by rock, deep underground."
-            BiomeType.SKY -> "is the sky."
-            BiomeType.NONE -> "is nether."
-        }
     }
 }
