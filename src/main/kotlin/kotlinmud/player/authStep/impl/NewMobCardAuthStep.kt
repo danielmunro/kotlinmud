@@ -1,9 +1,10 @@
 package kotlinmud.player.authStep.impl
 
 import kotlinmud.helper.string.matches
+import kotlinmud.io.factory.createErrorPreAuthResponse
+import kotlinmud.io.factory.createOkPreAuthResponse
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
-import kotlinmud.io.type.IOStatus
 import kotlinmud.player.authStep.service.AuthStepService
 import kotlinmud.player.authStep.type.AuthStep
 import kotlinmud.player.authStep.type.AuthorizationStep
@@ -20,12 +21,12 @@ class NewMobCardAuthStep(
 
     override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
         if (request.input.matches("yes")) {
-            return PreAuthResponse(request, IOStatus.OK, "Ok.")
+            return createOkPreAuthResponse(request, "Ok.")
         } else if (request.input.matches("no")) {
-            return PreAuthResponse(request, IOStatus.OK, "Ok.")
+            return createOkPreAuthResponse(request, "Ok.")
         }
 
-        return PreAuthResponse(request, IOStatus.ERROR, "Please respond with 'yes' or 'no'.")
+        return createErrorPreAuthResponse(request, "Please respond with 'yes' or 'no'.")
     }
 
     override fun getNextAuthStep(): AuthStep {

@@ -2,6 +2,9 @@ package kotlinmud.player.service
 
 import com.commit451.mailgun.Contact
 import com.commit451.mailgun.SendMessageRequest
+import io.konform.validation.Invalid
+import io.konform.validation.Validation
+import io.konform.validation.jsonschema.pattern
 import kotlinmud.event.factory.createClientLoggedInEvent
 import kotlinmud.event.service.EventService
 import kotlinmud.helper.logger
@@ -17,6 +20,7 @@ import kotlinmud.player.authStep.service.AuthStepService
 import kotlinmud.player.authStep.type.AuthStep
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
+import kotlinmud.player.exception.EmailFormatException
 import kotlinmud.player.repository.findLoggedInMobCards
 import kotlinmud.player.table.MobCards
 import kotlinmud.player.table.Players
@@ -66,6 +70,13 @@ class PlayerService(
     }
 
     fun createNewPlayerWithEmailAddress(emailAddress: String): PlayerDAO {
+        val validateEmail = Validation<String> {
+            pattern(".+@.+..+")
+        }
+        val result = validateEmail(emailAddress)
+        if (result is Invalid) {
+            throw EmailFormatException()
+        }
         return transaction {
             PlayerDAO.new {
                 email = emailAddress

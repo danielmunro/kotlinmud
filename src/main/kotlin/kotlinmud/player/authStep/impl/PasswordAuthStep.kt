@@ -1,9 +1,10 @@
 package kotlinmud.player.authStep.impl
 
 import kotlinmud.helper.logger
+import kotlinmud.io.factory.createFailedPreAuthResponse
+import kotlinmud.io.factory.createOkPreAuthResponse
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
-import kotlinmud.io.type.IOStatus
 import kotlinmud.player.authStep.service.AuthStepService
 import kotlinmud.player.authStep.type.AuthStep
 import kotlinmud.player.authStep.type.AuthorizationStep
@@ -21,10 +22,10 @@ class PasswordAuthStep(private val authService: AuthStepService) : AuthStep {
             player = it
             logger.debug("success logging in :: {} as {}", request.client.socket.remoteAddress, it.email)
             authService.loginClientAsPlayer(request.client, it)
-            PreAuthResponse(request, IOStatus.OK, "Success. Please do something")
+            createOkPreAuthResponse(request, "Success. Please do something")
         } ?: run {
             logger.debug("player with supplied OTP not found")
-            PreAuthResponse(request, IOStatus.FAILED, "Player not found")
+            createFailedPreAuthResponse(request, "Player not found")
         }
     }
 

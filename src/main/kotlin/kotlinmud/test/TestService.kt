@@ -31,6 +31,7 @@ import kotlinmud.mob.fight.Round
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.dao.MobCardDAO
+import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
@@ -205,6 +206,10 @@ class TestService(
             mob.mobCard = card
         }
         return mob
+    }
+
+    fun createPlayer(emailAddress: String): PlayerDAO {
+        return playerService.createNewPlayerWithEmailAddress(emailAddress)
     }
 
     fun findMobCardByName(name: String): MobCardDAO? {

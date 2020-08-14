@@ -1,5 +1,6 @@
 package kotlinmud.player.authStep.impl
 
+import kotlinmud.io.factory.createOkPreAuthResponse
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
 import kotlinmud.io.type.IOStatus
@@ -24,7 +25,7 @@ class MobSelectAuthStep(
             val mob = player.mobs.find { mob -> mob.mobCard?.id?.value == mobCard?.id?.value }
             if (mob != null) {
                 mobCard = it
-                PreAuthResponse(request, IOStatus.OK, "ok")
+                createOkPreAuthResponse(request, "ok")
             } else {
                 PreAuthResponse(
                     request,
@@ -34,7 +35,7 @@ class MobSelectAuthStep(
             }
         } ?: run {
             newMob = true
-            PreAuthResponse(request, IOStatus.OK, "new mob.")
+            createOkPreAuthResponse(request, "new mob.")
         }
     }
 

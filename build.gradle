@@ -21,6 +21,7 @@ repositories {
     jcenter()
     maven { url "https://dl.bintray.com/serpro69/maven/" }
     maven { url "https://jitpack.io" }
+    maven { url "https://dl.bintray.com/konform-kt/konform" }
 }
 
 subprojects {
@@ -103,6 +104,8 @@ dependencies {
     implementation "com.tylerthrailkill.helpers:pretty-print:2.0.2"
 
     implementation "io.mockk:mockk:1.10.0"
+
+    implementation "io.konform:konform-jvm:0.2.0"
 }
 
 application {
