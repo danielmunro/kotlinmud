@@ -109,10 +109,6 @@ class ActionContextService(
         mobService.moveMob(getMob(), room, direction)
     }
 
-    fun putMobInRoom(room: RoomDAO) {
-        transaction { getMob().room = room }
-    }
-
     fun createOkResponse(message: Message, delay: Int = 0): Response {
         return Response(IOStatus.OK, actionContextList, message, delay)
     }

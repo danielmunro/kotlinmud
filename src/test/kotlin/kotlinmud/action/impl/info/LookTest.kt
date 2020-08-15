@@ -29,6 +29,28 @@ class LookTest {
     }
 
     @Test
+    fun testLookDescribesDirections() {
+        // setup
+        val testService = createTestService()
+        val startRoom = testService.getStartRoom()
+        testService.createRoom {
+            it.north = startRoom
+            startRoom.south = it
+        }
+        testService.createRoom {
+            it.south = startRoom
+            startRoom.north = it
+        }
+        val mob = testService.createMob()
+
+        // when
+        val response = testService.runAction(mob, "look")
+
+        // then
+        assertThat(response.message.toActionCreator).contains("[NS]")
+    }
+
+    @Test
     fun testCannotSeeRoomWhenBlind() {
         // setup
         val testService = createTestService()
