@@ -11,7 +11,10 @@ import kotlinmud.player.authStep.type.AuthStep
 import kotlinmud.player.authStep.type.AuthorizationStep
 import kotlinmud.player.dao.PlayerDAO
 
-class SpecializationAuthStep(private val authStepService: AuthStepService, private val player: PlayerDAO) : AuthStep {
+class SpecializationAuthStep(
+    private val authStepService: AuthStepService,
+    private val player: PlayerDAO
+) : AuthStep {
     override val authorizationStep = AuthorizationStep.SPECIALIZATION_SELECT
     override val promptMessage = "select a specialization:"
     override val errorMessage = "that is not a specialization."
