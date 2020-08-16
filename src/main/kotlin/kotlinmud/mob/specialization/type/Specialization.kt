@@ -1,4 +1,4 @@
-package kotlinmud.mob.type
+package kotlinmud.mob.specialization.type
 
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.type.Weapon

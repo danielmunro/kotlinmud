@@ -115,9 +115,7 @@ fun createContainer(port: Int): Kodein {
         bind<Observers>() with singleton {
             listOf(
                 ClientConnectedObserver(
-                    instance<PlayerService>(),
-                    instance<MobService>(),
-                    instance<ActionService>()
+                    instance<PlayerService>()
                 ),
                 SendMessageToRoomObserver(
                     instance<ServerService>()

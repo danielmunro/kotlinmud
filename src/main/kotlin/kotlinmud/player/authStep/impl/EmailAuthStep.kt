@@ -25,8 +25,6 @@ class EmailAuthStep(private val authService: AuthStepService) : AuthStep {
     }
 
     private fun createPlayer(input: String) {
-        authService.sendOTP(
-            authService.createPlayer(input)
-        )
+        authService.sendOTP(authService.createPlayer(input))
     }
 }

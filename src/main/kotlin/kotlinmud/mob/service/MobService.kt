@@ -38,7 +38,7 @@ import kotlinmud.mob.skill.helper.getLearningDifficultyPracticeAmount
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.mob.type.SpecializationType
+import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.type.Direction

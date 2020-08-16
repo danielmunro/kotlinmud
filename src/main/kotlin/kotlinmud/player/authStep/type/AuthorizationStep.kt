@@ -8,5 +8,6 @@ enum class AuthorizationStep {
     NEW_MOB,
     RACE_SELECT,
     SPECIALIZATION_SELECT,
-    CUSTOMIZATION_SELECT,
+    ASK_CUSTOMIZE,
+    CUSTOMIZE,
 }

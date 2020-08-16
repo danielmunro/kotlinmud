@@ -18,6 +18,7 @@ class MobSelectAuthStep(
     override val promptMessage = "by what name do you wish to be known?"
     override val errorMessage = "that name is not valid"
     private var newMob = false
+    private var name = ""
     private var mobCard: MobCardDAO? = null
 
     override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
@@ -35,11 +36,12 @@ class MobSelectAuthStep(
             }
         } ?: run {
             newMob = true
+            name = request.input
             createOkPreAuthResponse(request, "new mob.")
         }
     }
 
     override fun getNextAuthStep(): AuthStep {
-        return if (newMob) NewMobCardAuthStep(authStepService, player) else CompleteAuthStep(mobCard!!)
+        return if (newMob) NewMobCardAuthStep(authStepService, player, name) else CompleteAuthStep(mobCard!!)
     }
 }

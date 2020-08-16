@@ -6,9 +6,9 @@ import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
-import kotlinmud.mob.type.SpecializationType
 
 class ShieldBlock : Skill {
     override val type: SkillType = SkillType.SHIELD_BLOCK

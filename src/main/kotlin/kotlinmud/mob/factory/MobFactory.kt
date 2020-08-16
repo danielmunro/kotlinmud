@@ -1,6 +1,5 @@
 package kotlinmud.mob.factory
 
-import Horse
 import kotlinmud.attributes.constant.startingHp
 import kotlinmud.attributes.constant.startingMana
 import kotlinmud.attributes.constant.startingMv
@@ -14,6 +13,7 @@ import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Deer
 import kotlinmud.mob.race.impl.Felid
 import kotlinmud.mob.race.impl.Goat
+import kotlinmud.mob.race.impl.Horse
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.impl.Lizard
 import kotlinmud.mob.race.impl.Rabbit

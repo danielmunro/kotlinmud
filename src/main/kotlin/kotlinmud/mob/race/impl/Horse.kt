@@ -1,3 +1,5 @@
+package kotlinmud.mob.race.impl
+
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.factory.emptyAttributes
 import kotlinmud.mob.fight.type.DamageType

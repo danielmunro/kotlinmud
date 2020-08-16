@@ -17,17 +17,17 @@ import kotlinmud.item.type.Position
 import kotlinmud.mob.constant.BASE_STAT
 import kotlinmud.mob.fight.type.AttackType
 import kotlinmud.mob.fight.type.DamageType
-import kotlinmud.mob.race.factory.createRaceFromType
+import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.Rarity
-import kotlinmud.mob.type.SpecializationType
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.room.dao.RoomDAO
@@ -48,7 +48,7 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     var level by Mobs.level
     var race by Mobs.race.transform(
         { it.type.toString() },
-        { createRaceFromType(it) }
+        { createRaceFromString(it) }
     )
     var specialization by Mobs.specialization.transform(
         { it.toString() },
@@ -89,7 +89,7 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     override val items by ItemDAO optionalReferrersOn Items.mobInventoryId
     val skills by SkillDAO referrersOn Skills.mobId
     override val affects by AffectDAO optionalReferrersOn Affects.mobId
-    val player by PlayerDAO optionalReferencedOn Mobs.playerId
+    var player by PlayerDAO optionalReferencedOn Mobs.playerId
     var mobCard by MobCardDAO optionalReferencedOn Mobs.mobCardId
 
     fun isStanding(): Boolean {

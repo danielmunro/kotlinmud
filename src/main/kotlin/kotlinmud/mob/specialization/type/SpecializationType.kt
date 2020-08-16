@@ -1,4 +1,4 @@
-package kotlinmud.mob.type
+package kotlinmud.mob.specialization.type
 
 enum class SpecializationType(val value: String) {
     MAGE("mage"),

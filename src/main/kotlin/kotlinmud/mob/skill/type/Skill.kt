@@ -1,11 +1,11 @@
 package kotlinmud.mob.skill.type
 
 import kotlinmud.mob.skill.model.Cost
+import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.HasCosts
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.RequiresDisposition
-import kotlinmud.mob.type.SpecializationType
 
 interface Skill : RequiresDisposition, HasCosts {
     val type: SkillType
