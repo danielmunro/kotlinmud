@@ -22,8 +22,8 @@ import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.exception.EmailFormatException
 import kotlinmud.player.repository.findLoggedInMobCards
+import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
 import kotlinmud.player.table.MobCards
-import kotlinmud.player.table.Players
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -64,9 +64,7 @@ class PlayerService(
     }
 
     fun findPlayerByOTP(otp: String): PlayerDAO? {
-        return Players.select { Players.lastOTP eq otp }.firstOrNull()?.let {
-            PlayerDAO.wrapRow(it)
-        }
+        return findPlayerByOTPQuery(otp)
     }
 
     fun createNewPlayerWithEmailAddress(emailAddress: String): PlayerDAO {
@@ -96,7 +94,7 @@ class PlayerService(
                 .text("Hi,\n\n Here is your OTP login: \"$otp\"\n\nIt will expire five minutes from now.")
                 .build()
         )
-        player.lastOTP = otp
+        transaction { player.lastOTP = otp }
     }
 
     fun loginClientAsPlayer(client: Client, player: PlayerDAO) {

@@ -1,5 +1,6 @@
 package kotlinmud.test
 
+import io.mockk.mockk
 import java.nio.channels.SocketChannel
 import kotlinmud.action.service.ActionService
 import kotlinmud.attributes.constant.startingHp
@@ -14,6 +15,8 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.impl.WimpyObserver
 import kotlinmud.event.service.EventService
 import kotlinmud.io.model.Client
+import kotlinmud.io.model.PreAuthRequest
+import kotlinmud.io.model.PreAuthResponse
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
 import kotlinmud.io.service.ClientService
@@ -233,12 +236,6 @@ class TestService(
         }
     }
 
-    fun createContainer(): ItemDAO {
-        val item = createItem()
-        transaction { item.isContainer = true }
-        return item
-    }
-
     fun createContainer(modifier: (ItemDAO) -> Unit): ItemDAO {
         return createContainer().let {
             transaction { modifier(it) }
@@ -260,6 +257,11 @@ class TestService(
 
     fun decrementAffects() {
         mobService.decrementAffects()
+    }
+
+    fun runPreAuth(message: String): PreAuthResponse {
+        val client = mockk<Client>(relaxUnitFun = true)
+        return playerService.handlePreAuthRequest(PreAuthRequest(client, message))
     }
 
     fun runAction(mob: MobDAO, input: String): Response {
@@ -302,6 +304,12 @@ class TestService(
 
     fun flee(mob: MobDAO) {
         mobService.flee(mob)
+    }
+
+    private fun createContainer(): ItemDAO {
+        val item = createItem()
+        transaction { item.isContainer = true }
+        return item
     }
 
     private fun weapon(mob: MobDAO): ItemDAO {
