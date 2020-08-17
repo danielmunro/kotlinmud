@@ -1,9 +1,9 @@
-package kotlinmud.player.authStep.impl
+package kotlinmud.player.auth.impl
 
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
-import kotlinmud.player.authStep.type.AuthStep
-import kotlinmud.player.authStep.type.AuthorizationStep
+import kotlinmud.player.auth.type.AuthStep
+import kotlinmud.player.auth.type.AuthorizationStep
 import kotlinmud.player.dao.MobCardDAO
 
 class CompleteAuthStep(val mobCard: MobCardDAO) : AuthStep {

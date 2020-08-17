@@ -1,19 +1,21 @@
-package kotlinmud.player.authStep.impl
+package kotlinmud.player.auth.impl
 
 import kotlinmud.io.factory.createOkPreAuthResponse
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
-import kotlinmud.player.authStep.service.AuthStepService
-import kotlinmud.player.authStep.type.AuthStep
-import kotlinmud.player.authStep.type.AuthorizationStep
+import kotlinmud.player.auth.service.AuthStepService
+import kotlinmud.player.auth.type.AuthStep
+import kotlinmud.player.auth.type.AuthorizationStep
+import kotlinmud.player.dao.PlayerDAO
 
 class EmailAuthStep(private val authService: AuthStepService) : AuthStep {
     override val authorizationStep = AuthorizationStep.EMAIL
     override val promptMessage = "email address:"
     override val errorMessage = "sorry, try again."
+    private lateinit var player: PlayerDAO
 
     override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
-        authService.findPlayerByOTP(request.input)?.let {
+        player = authService.findPlayerByOTP(request.input)?.also {
             authService.sendOTP(it)
         } ?: createPlayer(request.input)
 
@@ -21,10 +23,12 @@ class EmailAuthStep(private val authService: AuthStepService) : AuthStep {
     }
 
     override fun getNextAuthStep(): AuthStep {
-        return PasswordAuthStep(authService)
+        return PasswordAuthStep(authService, player)
     }
 
-    private fun createPlayer(input: String) {
-        authService.sendOTP(authService.createPlayer(input))
+    private fun createPlayer(input: String): PlayerDAO {
+        return authService.createPlayer(input).also {
+            authService.sendOTP(it)
+        }
     }
 }

@@ -1,7 +1,7 @@
-package kotlinmud.player.authStep.service
+package kotlinmud.player.auth.service
 
 import kotlinmud.io.model.Client
-import kotlinmud.player.authStep.model.CreationFunnel
+import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService

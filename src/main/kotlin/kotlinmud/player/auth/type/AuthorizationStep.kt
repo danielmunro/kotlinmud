@@ -1,4 +1,4 @@
-package kotlinmud.player.authStep.type
+package kotlinmud.player.auth.type
 
 enum class AuthorizationStep {
     EMAIL,

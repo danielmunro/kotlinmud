@@ -1,14 +1,14 @@
-package kotlinmud.player.authStep.impl
+package kotlinmud.player.auth.impl
 
 import kotlinmud.helper.string.matches
 import kotlinmud.io.factory.createErrorPreAuthResponse
 import kotlinmud.io.factory.createOkPreAuthResponse
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
-import kotlinmud.player.authStep.model.CreationFunnel
-import kotlinmud.player.authStep.service.AuthStepService
-import kotlinmud.player.authStep.type.AuthStep
-import kotlinmud.player.authStep.type.AuthorizationStep
+import kotlinmud.player.auth.model.CreationFunnel
+import kotlinmud.player.auth.service.AuthStepService
+import kotlinmud.player.auth.type.AuthStep
+import kotlinmud.player.auth.type.AuthorizationStep
 import kotlinmud.player.dao.PlayerDAO
 
 class NewMobCardAuthStep(
