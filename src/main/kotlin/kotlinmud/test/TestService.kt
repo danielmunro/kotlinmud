@@ -1,6 +1,8 @@
 package kotlinmud.test
 
+import io.mockk.every
 import io.mockk.mockk
+import java.net.SocketAddress
 import java.nio.channels.SocketChannel
 import kotlinmud.action.service.ActionService
 import kotlinmud.attributes.constant.startingHp
@@ -55,6 +57,7 @@ class TestService(
 ) {
     private val clientService = ClientService()
     private val room: RoomDAO
+    private val client: Client = mockk(relaxUnitFun = true)
 
     init {
         createConnection()
@@ -70,6 +73,7 @@ class TestService(
         createItem {
             it.room = room
         }
+        every { client.socket.remoteAddress } returns mockk<SocketAddress>()
     }
 
     fun <T> publish(event: Event<T>) {
@@ -260,7 +264,6 @@ class TestService(
     }
 
     fun runPreAuth(message: String): PreAuthResponse {
-        val client = mockk<Client>(relaxUnitFun = true)
         return playerService.handlePreAuthRequest(PreAuthRequest(client, message))
     }
 

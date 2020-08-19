@@ -37,7 +37,7 @@ class PasswordAuthStep(private val authService: AuthStepService, private val pla
     private fun doLogin(request: PreAuthRequest): PreAuthResponse {
         logger.debug("success logging in :: {} as {}", request.client.socket.remoteAddress, player.email)
         authService.loginClientAsPlayer(request.client, player)
-        return createOkPreAuthResponse(request, "Success. Please do something")
+        return createOkPreAuthResponse(request, "Success.")
     }
 
     private fun otpNotFound(request: PreAuthRequest): PreAuthResponse {

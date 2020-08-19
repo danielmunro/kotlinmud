@@ -4,6 +4,7 @@ import kotlinmud.io.model.Client
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
+import kotlinmud.player.repository.findPlayerByEmail as findPlayerByEmailQuery
 import kotlinmud.player.service.PlayerService
 
 class AuthStepService(private val playerService: PlayerService) {
@@ -27,6 +28,10 @@ class AuthStepService(private val playerService: PlayerService) {
 
     fun findPlayerByOTP(otp: String): PlayerDAO? {
         return playerService.findPlayerByOTP(otp)
+    }
+
+    fun findPlayerByEmail(email: String): PlayerDAO? {
+        return findPlayerByEmailQuery(email)
     }
 
     fun sendOTP(player: PlayerDAO) {

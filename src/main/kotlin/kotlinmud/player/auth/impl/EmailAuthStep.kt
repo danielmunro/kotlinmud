@@ -15,9 +15,8 @@ class EmailAuthStep(private val authService: AuthStepService) : AuthStep {
     private lateinit var player: PlayerDAO
 
     override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
-        player = authService.findPlayerByOTP(request.input)?.also {
-            authService.sendOTP(it)
-        } ?: createPlayer(request.input)
+        player = authService.findPlayerByEmail(request.input)?.also(::sendOTP)
+            ?: createPlayer(request.input)
 
         return createOkPreAuthResponse(request, "ok")
     }
@@ -27,8 +26,10 @@ class EmailAuthStep(private val authService: AuthStepService) : AuthStep {
     }
 
     private fun createPlayer(input: String): PlayerDAO {
-        return authService.createPlayer(input).also {
-            authService.sendOTP(it)
-        }
+        return authService.createPlayer(input).also(::sendOTP)
+    }
+
+    private fun sendOTP(player: PlayerDAO) {
+        authService.sendOTP(player)
     }
 }
