@@ -22,6 +22,6 @@ class PasswordAuthStepTest {
         val response = test.runPreAuth(transaction { player.lastOTP!! })
 
         // then
-        assertThat(response.message).isEqualTo("Success.")
+        assertThat(response.message).isEqualTo("ok.")
     }
 }

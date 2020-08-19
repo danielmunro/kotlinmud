@@ -1,8 +1,6 @@
 package kotlinmud.player.auth.impl
 
-import kotlinmud.io.factory.createOkPreAuthResponse
 import kotlinmud.io.model.PreAuthRequest
-import kotlinmud.io.model.PreAuthResponse
 import kotlinmud.io.type.IOStatus
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
@@ -21,23 +19,19 @@ class MobSelectAuthStep(
     private var name = ""
     private var mobCard: MobCardDAO? = null
 
-    override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
+    override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         return authStepService.findMobCardByName(request.input)?.let {
             val mob = player.mobs.find { mob -> mob.mobCard?.id?.value == mobCard?.id?.value }
             if (mob != null) {
                 mobCard = it
-                createOkPreAuthResponse(request, "ok")
+                IOStatus.OK
             } else {
-                PreAuthResponse(
-                    request,
-                    IOStatus.ERROR,
-                    "that name is not available"
-                )
+                IOStatus.ERROR
             }
         } ?: run {
             newMob = true
             name = request.input
-            createOkPreAuthResponse(request, "new mob.")
+            IOStatus.OK
         }
     }
 

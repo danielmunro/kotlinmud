@@ -40,9 +40,9 @@ class PlayerService(
         val authStep = preAuthClients[request.client] ?: EmailAuthStep(
             AuthStepService(this)
         )
-        val response = authStep.handlePreAuthRequest(request)
-        logger.debug("pre-auth request :: {}, {}, {}", authStep.authorizationStep, request.input, response.status)
-        if (response.status == IOStatus.OK) {
+        val ioStatus = authStep.handlePreAuthRequest(request)
+        logger.debug("pre-auth request :: {}, {}, {}", authStep.authorizationStep, request.input, ioStatus)
+        if (ioStatus == IOStatus.OK) {
             val nextAuthStep = authStep.getNextAuthStep()
             if (nextAuthStep is CompleteAuthStep) {
                 loginMob(request.client, nextAuthStep.mobCard)
@@ -50,7 +50,7 @@ class PlayerService(
             preAuthClients[request.client] = nextAuthStep
             request.client.write(nextAuthStep.promptMessage)
         }
-        return response
+        return PreAuthResponse(request, ioStatus, if (ioStatus == IOStatus.OK) "ok." else authStep.errorMessage)
     }
 
     fun findMobCardByName(name: String): MobCardDAO? {

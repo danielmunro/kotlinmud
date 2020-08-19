@@ -1,10 +1,8 @@
 package kotlinmud.player.auth.impl
 
 import kotlinmud.helper.string.matches
-import kotlinmud.io.factory.createErrorPreAuthResponse
-import kotlinmud.io.factory.createOkPreAuthResponse
 import kotlinmud.io.model.PreAuthRequest
-import kotlinmud.io.model.PreAuthResponse
+import kotlinmud.io.type.IOStatus
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.auth.type.AuthorizationStep
@@ -16,15 +14,15 @@ class AskCustomizeAuthStep(private val authStepService: AuthStepService, private
     override val errorMessage = "please answer 'yes' or 'no'"
     private var customize = false
 
-    override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
+    override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         return if (request.input.matches("yes")) {
             customize = true
-            createOkPreAuthResponse(request, "ok.")
+            IOStatus.OK
         } else if (request.input.matches("no")) {
             customize = false
-            createOkPreAuthResponse(request, "ok.")
+            IOStatus.OK
         } else {
-            createErrorPreAuthResponse(request, "not understood")
+            IOStatus.ERROR
         }
     }
 

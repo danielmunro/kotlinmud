@@ -1,10 +1,8 @@
 package kotlinmud.player.auth.impl
 
 import kotlinmud.helper.string.matches
-import kotlinmud.io.factory.createErrorPreAuthResponse
-import kotlinmud.io.factory.createOkPreAuthResponse
 import kotlinmud.io.model.PreAuthRequest
-import kotlinmud.io.model.PreAuthResponse
+import kotlinmud.io.type.IOStatus
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
@@ -21,17 +19,17 @@ class NewMobCardAuthStep(
     override val errorMessage = "Please answer yes or no (y/n):"
     private var proceed = false
 
-    override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
+    override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         if (request.input.matches("yes")) {
             val creationFunnel = CreationFunnel(player.email)
             creationFunnel.name = name
             authService.addCreationFunnel(creationFunnel)
-            return createOkPreAuthResponse(request, "Ok.")
+            return IOStatus.OK
         } else if (request.input.matches("no")) {
-            return createOkPreAuthResponse(request, "Ok.")
+            return IOStatus.OK
         }
 
-        return createErrorPreAuthResponse(request, "Please respond with 'yes' or 'no'.")
+        return IOStatus.ERROR
     }
 
     override fun getNextAuthStep(): AuthStep {

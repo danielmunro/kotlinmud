@@ -20,7 +20,7 @@ class EmailAuthStepTest {
         val response = test.runPreAuth(emailAddress)
 
         // then
-        assertThat(response.message).isEqualTo("ok")
+        assertThat(response.message).isEqualTo("ok.")
         assertThat(findPlayerByEmail(emailAddress)).isNotNull()
     }
 
@@ -36,7 +36,7 @@ class EmailAuthStepTest {
         val response = test.runPreAuth(emailAddress)
 
         // then
-        assertThat(response.message).isEqualTo("ok")
+        assertThat(response.message).isEqualTo("ok.")
         assertThat(findPlayerByEmail(emailAddress)).isNotNull()
     }
 

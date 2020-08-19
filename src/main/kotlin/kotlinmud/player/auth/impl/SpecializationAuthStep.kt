@@ -1,10 +1,8 @@
 package kotlinmud.player.auth.impl
 
 import kotlinmud.helper.string.matches
-import kotlinmud.io.factory.createErrorPreAuthResponse
-import kotlinmud.io.factory.createOkPreAuthResponse
 import kotlinmud.io.model.PreAuthRequest
-import kotlinmud.io.model.PreAuthResponse
+import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.specialization.helper.createSpecializationList
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
@@ -20,11 +18,11 @@ class SpecializationAuthStep(
     override val errorMessage = "that is not a specialization."
     private val specializations = createSpecializationList()
 
-    override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
+    override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         return authStepService.findCreationFunnelForEmail(player.email)?.let { creation ->
             creation.specialization = specializations.find { request.input.matches(it.name) }!!
-            createOkPreAuthResponse(request, "${creation.specialization} chosen.")
-        } ?: createErrorPreAuthResponse(request, "that is not a valid specialization")
+            IOStatus.OK
+        } ?: IOStatus.ERROR
     }
 
     override fun getNextAuthStep(): AuthStep {

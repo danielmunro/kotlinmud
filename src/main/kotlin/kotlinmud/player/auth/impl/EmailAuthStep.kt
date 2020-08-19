@@ -1,8 +1,7 @@
 package kotlinmud.player.auth.impl
 
-import kotlinmud.io.factory.createOkPreAuthResponse
 import kotlinmud.io.model.PreAuthRequest
-import kotlinmud.io.model.PreAuthResponse
+import kotlinmud.io.type.IOStatus
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.auth.type.AuthorizationStep
@@ -14,11 +13,11 @@ class EmailAuthStep(private val authService: AuthStepService) : AuthStep {
     override val errorMessage = "sorry, try again."
     private lateinit var player: PlayerDAO
 
-    override fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
+    override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         player = authService.findPlayerByEmail(request.input)?.also(::sendOTP)
             ?: createPlayer(request.input)
 
-        return createOkPreAuthResponse(request, "ok")
+        return IOStatus.OK
     }
 
     override fun getNextAuthStep(): AuthStep {
