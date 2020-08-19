@@ -14,7 +14,8 @@ class EmailAuthStep(private val authService: AuthStepService) : AuthStep {
     private lateinit var player: PlayerDAO
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
-        player = authService.findPlayerByEmail(request.input)?.also(::sendOTP)
+        player = authService.findPlayerByEmail(request.input)
+            ?.also(::sendOTP)
             ?: createPlayer(request.input)
 
         return IOStatus.OK
