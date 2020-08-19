@@ -13,7 +13,6 @@ import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
 import kotlinmud.io.type.IOStatus
-import kotlinmud.mob.table.Mobs
 import kotlinmud.player.auth.impl.CompleteAuthStep
 import kotlinmud.player.auth.impl.EmailAuthStep
 import kotlinmud.player.auth.service.AuthStepService
@@ -22,45 +21,31 @@ import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.exception.EmailFormatException
 import kotlinmud.player.repository.findLoggedInMobCards
+import kotlinmud.player.repository.findMobCardByName as findMobCardByNameQuery
 import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
-import kotlinmud.player.table.MobCards
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class PlayerService(
-    private val emailService: EmailService,
-    private val eventService: EventService
-) {
+class PlayerService(private val emailService: EmailService, private val eventService: EventService) {
     private val preAuthClients: MutableMap<Client, AuthStep> = mutableMapOf()
     private val loggedInPlayers: MutableMap<Client, PlayerDAO> = mutableMapOf()
     private val logger = logger(this)
 
     fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
-        val authStep = preAuthClients[request.client] ?: EmailAuthStep(
-            AuthStepService(this)
-        )
+        val authStep = preAuthClients[request.client] ?: EmailAuthStep(AuthStepService(this))
         val ioStatus = authStep.handlePreAuthRequest(request)
         logger.debug("pre-auth request :: {}, {}, {}", authStep.authorizationStep, request.input, ioStatus)
         if (ioStatus == IOStatus.OK) {
-            val nextAuthStep = authStep.getNextAuthStep()
-            if (nextAuthStep is CompleteAuthStep) {
-                loginMob(request.client, nextAuthStep.mobCard)
-            }
-            preAuthClients[request.client] = nextAuthStep
-            request.client.write(nextAuthStep.promptMessage)
+            proceedAuth(request, authStep)
         }
-        return PreAuthResponse(request, ioStatus, if (ioStatus == IOStatus.OK) "ok." else authStep.errorMessage)
+        return PreAuthResponse(
+            request,
+            ioStatus,
+            if (ioStatus == IOStatus.OK) "ok." else authStep.errorMessage
+        )
     }
 
     fun findMobCardByName(name: String): MobCardDAO? {
-        return transaction {
-            (Mobs innerJoin MobCards).select {
-                Mobs.mobCardId eq MobCards.id and (Mobs.name eq name)
-            }.firstOrNull()?.let {
-                MobCardDAO.wrapRow(it)
-            }
-        }
+        return findMobCardByNameQuery(name)
     }
 
     fun findPlayerByOTP(otp: String): PlayerDAO? {
@@ -68,13 +53,7 @@ class PlayerService(
     }
 
     fun createNewPlayerWithEmailAddress(emailAddress: String): PlayerDAO {
-        val validateEmail = Validation<String> {
-            pattern(".+@.+..+")
-        }
-        val result = validateEmail(emailAddress)
-        if (result is Invalid) {
-            throw EmailFormatException()
-        }
+        validateEmailAddressFormat(emailAddress)
         return transaction {
             PlayerDAO.new {
                 email = emailAddress
@@ -110,6 +89,25 @@ class PlayerService(
             findLoggedInMobCards().forEach {
                 it.loggedIn = false
             }
+        }
+    }
+
+    private fun proceedAuth(request: PreAuthRequest, authStep: AuthStep) {
+        val nextAuthStep = authStep.getNextAuthStep()
+        if (nextAuthStep is CompleteAuthStep) {
+            loginMob(request.client, nextAuthStep.mobCard)
+        }
+        preAuthClients[request.client] = nextAuthStep
+        request.client.write(nextAuthStep.promptMessage)
+    }
+
+    private fun validateEmailAddressFormat(emailAddress: String) {
+        val validateEmail = Validation<String> {
+            pattern(".+@.+..+")
+        }
+        val result = validateEmail(emailAddress)
+        if (result is Invalid) {
+            throw EmailFormatException()
         }
     }
 
