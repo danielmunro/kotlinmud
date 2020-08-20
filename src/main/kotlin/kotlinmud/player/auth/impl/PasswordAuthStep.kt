@@ -24,12 +24,10 @@ class PasswordAuthStep(private val authService: AuthStepService, private val pla
         return MobSelectAuthStep(authService, player)
     }
 
-    private fun validateOTPBelongsToPlayer(request: PreAuthRequest, lastOTP: String): IOStatus {
+    private fun validateOTPBelongsToPlayer(request: PreAuthRequest, lastOTP: String): IOStatus? {
         return if (lastOTP == player.lastOTP) {
             doLogin(request)
-        } else {
-            otpNotFound()
-        }
+        } else null
     }
 
     private fun doLogin(request: PreAuthRequest): IOStatus {
