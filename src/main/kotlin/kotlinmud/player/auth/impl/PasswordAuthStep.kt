@@ -16,19 +16,19 @@ class PasswordAuthStep(private val authService: AuthStepService, private val pla
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         return authService.findPlayerByOTP(request.input)?.let {
-            validateOTPBelongsToPlayer(request, it.lastOTP)
-        } ?: otpNotFound(request)
+            validateOTPBelongsToPlayer(request, it.lastOTP!!)
+        } ?: otpNotFound()
     }
 
     override fun getNextAuthStep(): AuthStep {
         return MobSelectAuthStep(authService, player)
     }
 
-    private fun validateOTPBelongsToPlayer(request: PreAuthRequest, lastOTP: String?): IOStatus {
-        return if (lastOTP != null && lastOTP == player.lastOTP) {
+    private fun validateOTPBelongsToPlayer(request: PreAuthRequest, lastOTP: String): IOStatus {
+        return if (lastOTP == player.lastOTP) {
             doLogin(request)
         } else {
-            otpNotFound(request)
+            otpNotFound()
         }
     }
 
@@ -38,7 +38,7 @@ class PasswordAuthStep(private val authService: AuthStepService, private val pla
         return IOStatus.OK
     }
 
-    private fun otpNotFound(request: PreAuthRequest): IOStatus {
+    private fun otpNotFound(): IOStatus {
         logger.debug("player with supplied OTP not found")
         return IOStatus.ERROR
     }
