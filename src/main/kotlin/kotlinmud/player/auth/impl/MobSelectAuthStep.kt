@@ -15,7 +15,7 @@ class MobSelectAuthStep(
 ) : AuthStep {
     override val authorizationStep = AuthorizationStep.MOB_SELECT
     override val promptMessage = "by what name do you wish to be known?"
-    override val errorMessage = "that name is not valid"
+    override val errorMessage = "either that name is invalid or unavailable"
     private var newMob = false
     private var name = ""
     private var mobCard: MobCardDAO? = null

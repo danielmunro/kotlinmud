@@ -3,6 +3,7 @@ package kotlinmud.player.auth.impl
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.player.repository.findPlayerByEmail
+import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
@@ -26,5 +27,33 @@ class MobSelectAuthStepTest {
 
         // then
         assertThat(response.message).isEqualTo("ok.")
+    }
+
+    @Test
+    fun testCannotSelectOtherPlayerMob() {
+        // setup
+        val test = createTestService()
+        val p1 = test.createPlayer(emailAddress)
+        val p2 = test.createPlayer("p2@danmunro.com")
+
+        val mob1 = test.createPlayerMob()
+        val mob2 = test.createPlayerMob()
+
+        transaction {
+            mob1.name = "foo"
+            mob1.player = p1
+            mob2.name = "bar"
+            mob2.player = p2
+        }
+
+        // given
+        test.runPreAuth(emailAddress)
+        val player = findPlayerByEmail(emailAddress)!!
+        test.runPreAuth(transaction { player.lastOTP!! })
+
+        // when
+        val response = test.runPreAuth(mob2.name)
+
+        assertThat(response.message).isEqualTo("either that name is invalid or unavailable")
     }
 }
