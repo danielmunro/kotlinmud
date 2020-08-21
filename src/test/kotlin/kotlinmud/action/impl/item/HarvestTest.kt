@@ -30,7 +30,7 @@ class HarvestTest {
         }
 
         // when
-        val response = test.runAction(mob, "harvest iron")
+        val response = test.runAction("harvest iron")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you successfully harvest iron ore.")
@@ -48,7 +48,7 @@ class HarvestTest {
         val mob = test.createMob()
 
         // when
-        val response = test.runAction(mob, "harvest iron")
+        val response = test.runAction("harvest iron")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you don't see that anywhere.")

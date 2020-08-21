@@ -20,7 +20,7 @@ class PutTest {
         val itemWithInventory = test.createContainer { it.room = room }
 
         // when
-        val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
+        val response = test.runAction("put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you put $itemToPut into $itemWithInventory.")
@@ -39,7 +39,7 @@ class PutTest {
         val itemWithInventory = test.createContainer { it.mobInventory = mob }
 
         // when
-        val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
+        val response = test.runAction("put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you put $itemToPut into $itemWithInventory.")
@@ -58,7 +58,7 @@ class PutTest {
         val itemWithNoInventory = test.createItem { it.mobInventory = mob }
 
         // when
-        val response = test.runAction(mob, "put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithNoInventory)}")
+        val response = test.runAction("put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithNoInventory)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you don't see that anywhere.")

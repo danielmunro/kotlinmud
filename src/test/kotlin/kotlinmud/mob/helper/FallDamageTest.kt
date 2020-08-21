@@ -31,7 +31,7 @@ class FallDamageTest {
         transaction { src.elevation = HEIGHT_DIFFERENCE_LOW + 1 }
 
         // when
-        test.runAction(mob, "n")
+        test.runAction("n")
 
         // then
         assertThat(mob.hp).isEqualTo(hp - FALL_DAMAGE_LOW)
@@ -54,7 +54,7 @@ class FallDamageTest {
         transaction { src.elevation = HEIGHT_DIFFERENCE_MEDIUM + 1 }
 
         // when
-        test.runAction(mob, "n")
+        test.runAction("n")
 
         // then
         assertThat(mob.hp).isEqualTo(hp - FALL_DAMAGE_MEDIUM)
@@ -77,7 +77,7 @@ class FallDamageTest {
         transaction { src.elevation = HEIGHT_DIFFERENCE_HIGH + 1 }
 
         // when
-        test.runAction(mob, "n")
+        test.runAction("n")
 
         // then
         assertThat(mob.hp).isEqualTo(hp - FALL_DAMAGE_HIGH)
@@ -101,7 +101,7 @@ class FallDamageTest {
         transaction { src.elevation = difference }
 
         // when
-        test.runAction(mob, "n")
+        test.runAction("n")
 
         // then
         assertThat(mob.hp).isEqualTo(hp - (FALL_DAMAGE_EXTREME_MULTIPLIER * difference))

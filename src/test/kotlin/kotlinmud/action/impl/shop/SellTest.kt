@@ -22,7 +22,7 @@ class SellTest {
         transaction { item.mobInventory = mob }
 
         // when
-        val response = testService.runAction(mob, "sell ${getIdentifyingWord(item)}")
+        val response = testService.runAction("sell ${getIdentifyingWord(item)}")
 
         // then
         assertThat(response.message.toActionCreator)

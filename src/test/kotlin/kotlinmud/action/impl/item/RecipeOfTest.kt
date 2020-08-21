@@ -10,10 +10,9 @@ class RecipeOfTest {
     fun testRecipeOfCanDisplayForSleepingBag() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
 
         // when
-        val response = test.runAction(mob, "recipe of sleeping")
+        val response = test.runAction("recipe of sleeping")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("""

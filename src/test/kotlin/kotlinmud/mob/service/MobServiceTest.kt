@@ -98,7 +98,7 @@ class MobServiceTest {
     fun testGuardsAttackAggressors() {
         // setup
         val testService = createTestService()
-        val aggressor = testService.createMob()
+        testService.createMob()
         val defender = testService.createMob()
         val guard = testService.createMob()
 
@@ -106,7 +106,7 @@ class MobServiceTest {
         transaction { guard.job = JobType.GUARD }
 
         // when
-        testService.runAction(aggressor, "kill ${getIdentifyingWord(defender)}")
+        testService.runAction("kill ${getIdentifyingWord(defender)}")
 
         // then
         assertThat(testService.findFightForMob(guard)).isNotNull()
@@ -124,7 +124,7 @@ class MobServiceTest {
         test.createMob { it.job = JobType.TRAINER }
 
         // when
-        val response = test.runAction(mob, "train str")
+        val response = test.runAction("train str")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you train your strength.")
@@ -144,7 +144,7 @@ class MobServiceTest {
         test.createMob { it.job = JobType.TRAINER }
 
         // when
-        val response = test.runAction(mob, "train hp")
+        val response = test.runAction("train hp")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you train your health.")
@@ -169,7 +169,7 @@ class MobServiceTest {
         test.createMob { it.job = JobType.TRAINER }
 
         // when
-        val response = test.runAction(mob, "practice bash")
+        val response = test.runAction("practice bash")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you practice bash.")

@@ -25,7 +25,7 @@ class RemoveTest {
         val equippedAmount = transaction { mob.equipped.count() }
 
         // when
-        val response = test.runAction(mob, "remove shield")
+        val response = test.runAction("remove shield")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you remove a shield and put it in your inventory.")

@@ -17,7 +17,7 @@ class InventoryTest {
         val item2 = testService.createItem { it.mobInventory = mob }
 
         // when
-        val response = testService.runAction(mob, "inv")
+        val response = testService.runAction("inv")
 
         // then
         assertThat(response.message.toActionCreator).contains(item1.name)

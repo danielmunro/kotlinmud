@@ -36,7 +36,7 @@ class EatTest {
         }
 
         // when
-        val response = test.runAction(mob, "eat pie")
+        val response = test.runAction("eat pie")
 
         // then
         val affect = transaction { mob.affects.find { it.type == AffectType.STUNNED } }!!

@@ -11,7 +11,7 @@ class ListTest {
     fun testListSanity() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
+        test.createMob()
 
         // given
         val shopkeeper = test.createMob { it.job = JobType.SHOPKEEPER }
@@ -32,7 +32,7 @@ class ListTest {
         }
 
         // when
-        val response = test.runAction(mob, "list")
+        val response = test.runAction("list")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(

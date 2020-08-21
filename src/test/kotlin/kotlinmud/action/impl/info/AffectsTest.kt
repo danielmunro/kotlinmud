@@ -15,14 +15,14 @@ class AffectsTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMob {
+        test.createMob {
             InvisibilityAffect().createInstance(5).mob = it
             BlessAffect().createInstance(10).mob = it
             BlindAffect().createInstance(1).mob = it
         }
 
         // when
-        val response = test.runAction(mob, "affects")
+        val response = test.runAction("affects")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("You are affected by:\ninvisibility: 5 ticks\nbless: 10 ticks\nblind: 1 tick\n")

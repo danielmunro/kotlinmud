@@ -13,7 +13,6 @@ class CloseTest {
     fun testCanCloseDoors() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
 
         // given
         val name = "a door"
@@ -25,7 +24,7 @@ class CloseTest {
         }
 
         // when
-        val response = testService.runAction(mob, "close door")
+        val response = testService.runAction("close door")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you close $name.")
@@ -35,7 +34,6 @@ class CloseTest {
     fun testCannotCloseAClosedDoor() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
 
         // given
         val room = testService.getStartRoom()
@@ -44,7 +42,7 @@ class CloseTest {
         }
 
         // when
-        val response = testService.runAction(mob, "close door")
+        val response = testService.runAction("close door")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("it is already closed.")
@@ -55,10 +53,9 @@ class CloseTest {
     fun testCannotCloseDoorsThatDoNotExist() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
 
         // when
-        val response = testService.runAction(mob, "close grate")
+        val response = testService.runAction("close grate")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you don't see that anywhere.")

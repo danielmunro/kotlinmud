@@ -36,7 +36,7 @@ class DrinkTest {
         }
 
         // when
-        val response = test.runAction(mob, "drink beer")
+        val response = test.runAction("drink beer")
 
         // then
         val affect = transaction { mob.affects.find { it.type == AffectType.DRUNK }!! }
@@ -69,7 +69,7 @@ class DrinkTest {
         }
 
         // when
-        val response = test.runAction(mob, "drink milk")
+        val response = test.runAction("drink milk")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you don't see anything like that here.")

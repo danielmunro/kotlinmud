@@ -18,14 +18,13 @@ class MoveTest {
     fun testMobMovesNorth() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
         val dst = testService.createRoom()
 
         // given
         testService.getStartRoom { it.north = dst }
 
         // when
-        val response = testService.runAction(mob, "n")
+        val response = testService.runAction("n")
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.OK)
@@ -35,14 +34,13 @@ class MoveTest {
     fun testMobMovesSouth() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
         val dst = testService.createRoom()
 
         // given
         testService.getStartRoom { it.south = dst }
 
         // when
-        val response = testService.runAction(mob, "s")
+        val response = testService.runAction("s")
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.OK)
@@ -52,14 +50,13 @@ class MoveTest {
     fun testMobMovesEast() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
         val dst = testService.createRoom()
 
         // given
         testService.getStartRoom { it.east = dst }
 
         // when
-        val response = testService.runAction(mob, "e")
+        val response = testService.runAction("e")
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.OK)
@@ -69,14 +66,13 @@ class MoveTest {
     fun testMobMovesWest() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
         val dst = testService.createRoom()
 
         // given
         testService.getStartRoom { it.west = dst }
 
         // when
-        val response = testService.runAction(mob, "w")
+        val response = testService.runAction("w")
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.OK)
@@ -86,14 +82,13 @@ class MoveTest {
     fun testMobMovesUp() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
         val dst = testService.createRoom()
 
         // given
         testService.getStartRoom { it.up = dst }
 
         // when
-        val response = testService.runAction(mob, "u")
+        val response = testService.runAction("u")
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.OK)
@@ -103,14 +98,13 @@ class MoveTest {
     fun testMobMovesDown() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
         val dst = testService.createRoom()
 
         // given
         testService.getStartRoom { it.down = dst }
 
         // when
-        val response = testService.runAction(mob, "d")
+        val response = testService.runAction("d")
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.OK)
@@ -120,10 +114,9 @@ class MoveTest {
     fun testMobCannotMoveInAnInvalidDirection() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
 
         // when
-        val response = testService.runAction(mob, "u")
+        val response = testService.runAction("u")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("Alas, that direction does not exist.")
@@ -135,10 +128,10 @@ class MoveTest {
         val testService = createTestService()
 
         // given
-        val mob = testService.createMob { it.disposition = Disposition.SITTING }
+        testService.createMob { it.disposition = Disposition.SITTING }
 
         // when
-        val response = testService.runAction(mob, "n")
+        val response = testService.runAction("n")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you are sitting and cannot do that.")
@@ -148,7 +141,6 @@ class MoveTest {
     fun testMobCannotMoveDirectionIfDoorIsClosed() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
         val dst = testService.createRoom()
 
         // given
@@ -163,7 +155,7 @@ class MoveTest {
         }
 
         // when
-        val response = testService.runAction(mob, "w")
+        val response = testService.runAction("w")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you must open the door first.")
@@ -186,7 +178,7 @@ class MoveTest {
         }
 
         // when
-        val response = test.runAction(mob, "west")
+        val response = test.runAction("west")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you can't climb that elevation.")
@@ -209,7 +201,7 @@ class MoveTest {
         }
 
         // when
-        test.runAction(mob, "west")
+        test.runAction("west")
 
         // then
         assertThat(mob.hp).isLessThan(mob.calc(Attribute.HP))
@@ -219,7 +211,6 @@ class MoveTest {
     fun testMobCannotMoveIntoSolidSubstrates() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
         val dst = test.createRoom()
 
         // given
@@ -229,7 +220,7 @@ class MoveTest {
         }
 
         // when
-        val response = test.runAction(mob, "n")
+        val response = test.runAction("n")
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.ERROR)

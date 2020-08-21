@@ -15,7 +15,7 @@ class SitTest {
         val mob = test.createMob()
 
         // when
-        val response = test.runAction(mob, "sit")
+        val response = test.runAction("sit")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you sit down.")
@@ -27,13 +27,12 @@ class SitTest {
     fun testMobCannotSitWhenSitting() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
 
         // given
-        transaction { mob.disposition = Disposition.SITTING }
+        test.createMob { it.disposition = Disposition.SITTING }
 
         // when
-        val response = test.runAction(mob, "sit")
+        val response = test.runAction("sit")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you are sitting and cannot do that.")

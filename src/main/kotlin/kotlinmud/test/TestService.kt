@@ -60,6 +60,7 @@ class TestService(
     private val room: RoomDAO
     private val client: Client = mockk(relaxUnitFun = true)
     private val authStepService = AuthStepService(playerService)
+    private var mob: MobDAO? = null
 
     init {
         createConnection()
@@ -164,6 +165,9 @@ class TestService(
             weapon(mob)
         }
         putMobInRoom(mob, getStartRoom())
+        if (this.mob == null) {
+            this.mob = mob
+        }
 
         return mob
     }
@@ -269,14 +273,8 @@ class TestService(
         return playerService.handlePreAuthRequest(PreAuthRequest(client, message))
     }
 
-    fun runAction(mob: MobDAO, input: String): Response {
-        return actionService.run(
-            Request(
-                mob,
-                input,
-                transaction { mob.room }
-            )
-        )
+    fun runAction(input: String): Response {
+        return runAction(mob ?: createMob(), input)
     }
 
     fun runActionForIOStatus(mob: MobDAO, input: String, status: IOStatus): Response {
@@ -309,6 +307,16 @@ class TestService(
 
     fun flee(mob: MobDAO) {
         mobService.flee(mob)
+    }
+
+    private fun runAction(mob: MobDAO, input: String): Response {
+        return actionService.run(
+            Request(
+                mob,
+                input,
+                transaction { mob.room }
+            )
+        )
     }
 
     private fun createContainer(): ItemDAO {

@@ -20,7 +20,7 @@ class DropTest {
         val roomItemCount = testService.countItemsFor(room)
 
         // when
-        val response = testService.runAction(mob, "drop ${getIdentifyingWord(item)}")
+        val response = testService.runAction("drop ${getIdentifyingWord(item)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you drop $item.")

@@ -144,14 +144,15 @@ class ActionServiceTest {
     fun testMobCanCastInvisibilityOnTarget() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
-        val target = testService.createMob()
 
         // given
-        createSkill(SkillType.INVISIBILITY, mob, 100)
+        testService.createMob {
+            createSkill(SkillType.INVISIBILITY, it, 100)
+        }
+        val target = testService.createMob()
 
         // when
-        val response = testService.runAction(mob, "cast invis ${getIdentifyingWord(target)}")
+        val response = testService.runAction("cast invis ${getIdentifyingWord(target)}")
 
         // expect
         assertThat(response.message.toActionCreator).isEqualTo("$target fades out of existence.")
@@ -161,13 +162,14 @@ class ActionServiceTest {
     fun testMobCanCastInvisibilityOnSelf() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
 
         // given
-        createSkill(SkillType.INVISIBILITY, mob, 100)
+        val mob = testService.createMob {
+            createSkill(SkillType.INVISIBILITY, it, 100)
+        }
 
         // when
-        val response = testService.runAction(mob, "cast invis")
+        val response = testService.runAction("cast invis")
 
         // expect
         assertThat(response.message.toActionCreator).isEqualTo("$mob fades out of existence.")
@@ -185,7 +187,7 @@ class ActionServiceTest {
         transaction { item.mobInventory = mob }
 
         // when
-        val response = testService.runAction(mob, "cast invis ${getIdentifyingWord(item)}")
+        val response = testService.runAction("cast invis ${getIdentifyingWord(item)}")
 
         // expect
         assertThat(response.message.toActionCreator).isEqualTo("$item fades out of existence.")
@@ -195,10 +197,9 @@ class ActionServiceTest {
     fun testEmptyInputDoesNotCrash() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
 
         // when
-        val response = test.runAction(mob, "")
+        val response = test.runAction("")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("")
@@ -208,10 +209,9 @@ class ActionServiceTest {
     fun testUnknownInputGetsAResponse() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
 
         // when
-        val response = test.runAction(mob, "floodle")
+        val response = test.runAction("floodle")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("what was that?")

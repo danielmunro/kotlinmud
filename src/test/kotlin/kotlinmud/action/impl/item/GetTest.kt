@@ -21,7 +21,7 @@ class GetTest {
         val mobItemCount = testService.countItemsFor(mob)
 
         // when
-        val response = testService.runAction(mob, "get ${getIdentifyingWord(item)}")
+        val response = testService.runAction("get ${getIdentifyingWord(item)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you pick up $item.")
@@ -38,7 +38,7 @@ class GetTest {
         val itemCount = testService.countItemsFor(room)
 
         // when
-        val response = testService.runAction(mob, "get foo")
+        val response = testService.runAction("get foo")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you don't see that anywhere.")
@@ -52,11 +52,11 @@ class GetTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMob { it.maxItems = 1 }
+        test.createMob { it.maxItems = 1 }
         val item = test.createItem { it.room = test.getStartRoom() }
 
         // when
-        val response = test.runAction(mob, "get ${getIdentifyingWord(item)}")
+        val response = test.runAction("get ${getIdentifyingWord(item)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you cannot carry any more.")
@@ -69,14 +69,14 @@ class GetTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMob { it.maxWeight = 0 }
+        test.createMob { it.maxWeight = 0 }
         val item = test.createItem {
             it.room = test.getStartRoom()
             it.weight = 1.0
         }
 
         // when
-        val response = test.runAction(mob, "get ${getIdentifyingWord(item)}")
+        val response = test.runAction("get ${getIdentifyingWord(item)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("that is too heavy.")
@@ -94,7 +94,7 @@ class GetTest {
         val item = test.createItem { it.container = container }
 
         // when
-        val response = test.runAction(mob, "get ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
+        val response = test.runAction("get ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you cannot carry any more.")
@@ -117,7 +117,7 @@ class GetTest {
         }
 
         // when
-        val response = test.runAction(mob, "put ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
+        val response = test.runAction("put ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("that is full.")
@@ -140,7 +140,7 @@ class GetTest {
         }
 
         // when
-        val response = test.runAction(mob, "put ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
+        val response = test.runAction("put ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("that is too heavy.")

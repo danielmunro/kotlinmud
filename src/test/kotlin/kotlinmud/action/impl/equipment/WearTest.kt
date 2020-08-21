@@ -25,7 +25,7 @@ class WearTest {
         val count = transaction { mob.equipped.count() }
 
         // when
-        val response = test.runAction(mob, "wear shield")
+        val response = test.runAction("wear shield")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you wear a shield.")
@@ -50,7 +50,7 @@ class WearTest {
         }
 
         // when
-        val response = test.runAction(mob, "wear book")
+        val response = test.runAction("wear book")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you can't equip that.")

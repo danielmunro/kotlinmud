@@ -20,7 +20,7 @@ class CraftTest {
         val itemCount = test.findAllItemsByOwner(mob).size
 
         // when
-        val response = test.runAction(mob, "craft builder")
+        val response = test.runAction("craft builder")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you craft a builder's table.")
@@ -34,7 +34,7 @@ class CraftTest {
         val mob = test.createMob()
 
         // when
-        val response = test.runAction(mob, "craft builder")
+        val response = test.runAction("craft builder")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you don't have all the necessary components.")

@@ -4,7 +4,6 @@ import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
-import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.room.dao.DoorDAO
@@ -19,10 +18,9 @@ class LookTest {
     fun testLookDescribesARoom() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
 
         // when
-        val response = testService.runAction(mob, "look")
+        val response = testService.runAction("look")
 
         // then
         assertThat(response.message.toActionCreator).contains("Exits [")
@@ -41,10 +39,9 @@ class LookTest {
             it.south = startRoom
             startRoom.north = it
         }
-        val mob = testService.createMob()
 
         // when
-        val response = testService.runAction(mob, "look")
+        val response = testService.runAction("look")
 
         // then
         assertThat(response.message.toActionCreator).contains("[NS]")
@@ -61,7 +58,7 @@ class LookTest {
         transaction { affect.mob = mob }
 
         // when
-        val response = testService.runAction(mob, "look")
+        val response = testService.runAction("look")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you can't see anything, you're blind!")
@@ -79,7 +76,7 @@ class LookTest {
         transaction { item.room = room }
 
         // when
-        val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")
+        val response = testService.runAction("look ${getIdentifyingWord(item)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(item.description)
@@ -96,7 +93,7 @@ class LookTest {
         transaction { item.mobInventory = mob }
 
         // when
-        val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")
+        val response = testService.runAction("look ${getIdentifyingWord(item)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(item.description)
@@ -106,11 +103,11 @@ class LookTest {
     fun testCanLookAtMobInRoom() {
         // setup
         val testService = createTestService()
-        val mob1 = testService.createMob()
+        testService.createMob()
         val mob2 = testService.createMob()
 
         // when
-        val response = testService.runAction(mob1, "look ${getIdentifyingWord(mob2)}")
+        val response = testService.runAction("look ${getIdentifyingWord(mob2)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(mob2.description)
@@ -135,7 +132,7 @@ class LookTest {
         }
 
         // when
-        val response = testService.runAction(mob, "look")
+        val response = testService.runAction("look")
 
         // then
         assertThat(response.message.toActionCreator).contains(door.name)
@@ -147,18 +144,15 @@ class LookTest {
         val testService = createTestService()
 
         // given
-        val mob1 = testService.createMob()
-        transaction {
-            mob1.affects.plus(AffectDAO.new {
-                type = AffectType.INVISIBILITY
-            })
+        testService.createMob()
+        val mob = testService.createMob {
+            createAffect(AffectType.INVISIBILITY).mob = it
         }
-        val mob2 = testService.createMob()
 
         // when
-        val response = testService.runAction(mob2, "look")
+        val response = testService.runAction("look")
 
         // then
-        assertThat(response.message.toActionCreator).doesNotContain(mob1.name)
+        assertThat(response.message.toActionCreator).doesNotContain(mob.name)
     }
 }

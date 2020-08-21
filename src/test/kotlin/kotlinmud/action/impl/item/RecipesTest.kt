@@ -10,10 +10,9 @@ class RecipesTest {
     fun testRecipesCanDisplay() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
 
         // when
-        val response = test.runAction(mob, "recipes")
+        val response = test.runAction("recipes")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("""

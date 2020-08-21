@@ -21,7 +21,7 @@ class GetFromItemTest {
         val item = test.createItem { it.container = itemWithInventory }
 
         // when
-        val response = test.runAction(mob, "get ${getIdentifyingWord(item)} ${getIdentifyingWord(itemWithInventory)}")
+        val response = test.runAction("get ${getIdentifyingWord(item)} ${getIdentifyingWord(itemWithInventory)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you get $item from $itemWithInventory.")
@@ -42,7 +42,7 @@ class GetFromItemTest {
         val item = test.createItem { it.container = itemWithInventory }
 
         // when
-        val response = test.runAction(mob, "get ${getIdentifyingWord(item)} ${getIdentifyingWord(itemWithInventory)}")
+        val response = test.runAction("get ${getIdentifyingWord(item)} ${getIdentifyingWord(itemWithInventory)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you get $item from $itemWithInventory.")

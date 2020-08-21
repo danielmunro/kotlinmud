@@ -17,16 +17,16 @@ class LookAtTest {
         val testService = createTestService()
 
         // given
-        val mob1 = testService.createMob {
+        testService.createMob()
+        val mob = testService.createMob {
             createAffect(AffectType.INVISIBILITY).mob = it
         }
-        val mob2 = testService.createMob()
 
         // when
-        val response = testService.runAction(mob2, "look ${getIdentifyingWord(mob1)}")
+        val response = testService.runAction("look ${getIdentifyingWord(mob)}")
 
         // then
-        assertThat(response.message.toActionCreator).doesNotContain(mob1.name)
+        assertThat(response.message.toActionCreator).doesNotContain(mob.name)
         assertThat(response.status).isEqualTo(IOStatus.ERROR)
     }
 
@@ -37,10 +37,10 @@ class LookAtTest {
 
         // given
         val item = testService.createItem { createAffect(AffectType.INVISIBILITY).item = it }
-        val mob = testService.createMob { item.mobInventory = it }
+        testService.createMob { item.mobInventory = it }
 
         // when
-        val response = testService.runAction(mob, "look ${getIdentifyingWord(item)}")
+        val response = testService.runAction("look ${getIdentifyingWord(item)}")
 
         // then
         assertThat(response.message.toActionCreator).doesNotContain(item.name)
