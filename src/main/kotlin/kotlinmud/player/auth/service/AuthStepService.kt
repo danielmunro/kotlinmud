@@ -23,7 +23,10 @@ class AuthStepService(private val playerService: PlayerService) {
     }
 
     fun createPlayer(emailAddress: String): PlayerDAO {
-        return playerService.createNewPlayerWithEmailAddress(emailAddress)
+        playerService.createNewPlayerWithEmailAddress(emailAddress).also {
+            sendOTP(it)
+        }
+        return findPlayerByEmail(emailAddress)!!
     }
 
     fun findPlayerByOTP(otp: String): PlayerDAO? {

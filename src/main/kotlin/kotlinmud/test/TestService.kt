@@ -35,6 +35,7 @@ import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
+import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
@@ -58,6 +59,7 @@ class TestService(
     private val clientService = ClientService()
     private val room: RoomDAO
     private val client: Client = mockk(relaxUnitFun = true)
+    private val authStepService = AuthStepService(playerService)
 
     init {
         createConnection()
@@ -216,7 +218,7 @@ class TestService(
     }
 
     fun createPlayer(emailAddress: String): PlayerDAO {
-        return playerService.createNewPlayerWithEmailAddress(emailAddress)
+        return authStepService.createPlayer(emailAddress)
     }
 
     fun findMobCardByName(name: String): MobCardDAO? {

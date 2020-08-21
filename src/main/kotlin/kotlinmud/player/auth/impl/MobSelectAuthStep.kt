@@ -7,6 +7,7 @@ import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.auth.type.AuthorizationStep
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobSelectAuthStep(
     private val authStepService: AuthStepService,
@@ -21,21 +22,28 @@ class MobSelectAuthStep(
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         return authStepService.findMobCardByName(request.input)?.let {
-            val mob = player.mobs.find { mob -> mob.mobCard?.id?.value == mobCard?.id?.value }
-            if (mob != null) {
-                mobCard = it
-                IOStatus.OK
-            } else {
-                IOStatus.ERROR
-            }
-        } ?: run {
-            newMob = true
-            name = request.input
-            IOStatus.OK
-        }
+            validateMobBelongsToPlayer(it)
+        } ?: createNewMob(request.input)
     }
 
     override fun getNextAuthStep(): AuthStep {
-        return if (newMob) NewMobCardAuthStep(authStepService, player, name) else CompleteAuthStep(mobCard!!)
+        return if (newMob)
+            NewMobCardAuthStep(authStepService, player, name)
+        else
+            CompleteAuthStep(mobCard!!)
+    }
+
+    private fun validateMobBelongsToPlayer(mobCard: MobCardDAO): IOStatus {
+        val mob = transaction { player.mobs.find { mob -> mob.mobCard?.id?.value == mobCard.id.value } }
+        return if (mob != null) {
+            this.mobCard = mobCard
+            IOStatus.OK
+        } else IOStatus.ERROR
+    }
+
+    private fun createNewMob(name: String): IOStatus {
+        newMob = true
+        this.name = name
+        return IOStatus.OK
     }
 }
