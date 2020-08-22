@@ -3,6 +3,7 @@ package kotlinmud.player.auth.impl
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.player.repository.findPlayerByEmail
+import kotlinmud.test.TestService
 import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
@@ -13,14 +14,10 @@ class PasswordAuthStepTest {
     @Test
     fun testCanUseOTPToLogIn() {
         // setup
-        val test = createTestServiceWithResetDB()
-        test.createPlayer(emailAddress)
-
-        // given
-        test.runPreAuth(emailAddress)
+        val test = setup()
+        val player = findPlayerByEmail(emailAddress)!!
 
         // when
-        val player = findPlayerByEmail(emailAddress)!!
         val response = test.runPreAuth(transaction { player.lastOTP!! })
 
         // then
@@ -30,11 +27,7 @@ class PasswordAuthStepTest {
     @Test
     fun testCannotUseBadOTP() {
         // setup
-        val test = createTestServiceWithResetDB()
-        test.createPlayer(emailAddress)
-
-        // given
-        test.runPreAuth(emailAddress)
+        val test = setup()
 
         // when
         val response = test.runPreAuth(incorrectPassword)
@@ -46,11 +39,9 @@ class PasswordAuthStepTest {
     @Test
     fun testPlayerRequiresOTP() {
         // setup
-        val test = createTestServiceWithResetDB()
-        test.createPlayer(emailAddress)
+        val test = setup()
 
         // given
-        test.runPreAuth(emailAddress)
         val player = findPlayerByEmail(emailAddress)!!
         transaction { player.lastOTP = "" }
 
@@ -64,11 +55,7 @@ class PasswordAuthStepTest {
     @Test
     fun testRequiresTheRightOTP() {
         // setup
-        val test = createTestServiceWithResetDB()
-        test.createPlayer(emailAddress)
-
-        // given
-        test.runPreAuth(emailAddress)
+        val test = setup()
 
         // when
         val response = test.runPreAuth(incorrectPassword)
@@ -80,22 +67,30 @@ class PasswordAuthStepTest {
     @Test
     fun testCannotSwitchUsersWithADifferentOTP() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = setup()
         val emailAddress2 = "stealth@danmunro.com"
-        val player1 = test.createPlayer(emailAddress)
         val player2 = test.createPlayer(emailAddress2)
-        transaction {
-            player1.lastOTP = "1"
-            player2.lastOTP = "2"
-        }
 
         // given
-        test.runPreAuth(emailAddress)
+        transaction {
+            player2.lastOTP = "2"
+        }
 
         // when
         val response = test.runPreAuth("2")
 
         // then
         assertThat(response.message).isEqualTo("sorry, there was an error.")
+    }
+
+    private fun setup(): TestService {
+        val test = createTestServiceWithResetDB()
+        test.createPlayer(emailAddress)
+        setPreAuth(test)
+        return test
+    }
+
+    private fun setPreAuth(test: TestService) {
+        test.setPreAuth { authStepService, player -> PasswordAuthStep(authStepService, player) }
     }
 }

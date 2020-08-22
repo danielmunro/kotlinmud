@@ -2,7 +2,7 @@ package kotlinmud.player.auth.impl
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.player.repository.findPlayerByEmail
+import kotlinmud.test.TestService
 import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -16,11 +16,8 @@ class MobSelectAuthStepTest {
         test.createPlayer(emailAddress)
 
         // given
-        test.runPreAuth(emailAddress)
-        val player = findPlayerByEmail(emailAddress)!!
+        setPreAuth(test)
         val mob = test.createPlayerMob()
-        transaction { mob.player = player }
-        test.runPreAuth(transaction { player.lastOTP!! })
 
         // when
         val response = test.runPreAuth(mob.name)
@@ -39,21 +36,19 @@ class MobSelectAuthStepTest {
         val mob1 = test.createPlayerMob()
         val mob2 = test.createPlayerMob()
 
+        // given
         transaction {
             mob1.name = "foo"
             mob1.player = p1
             mob2.name = "bar"
             mob2.player = p2
         }
-
-        // given
-        test.runPreAuth(emailAddress)
-        val player = findPlayerByEmail(emailAddress)!!
-        test.runPreAuth(transaction { player.lastOTP!! })
+        setPreAuth(test)
 
         // when
         val response = test.runPreAuth(mob2.name)
 
+        // then
         assertThat(response.message).isEqualTo("either that name is invalid or unavailable")
     }
 
@@ -61,14 +56,17 @@ class MobSelectAuthStepTest {
     fun testCanCreateNewMob() {
         // setup
         val test = createTestServiceWithResetDB()
-        test.runPreAuth(emailAddress)
-        val player = findPlayerByEmail(emailAddress)!!
-        test.runPreAuth(transaction { player.lastOTP!! })
+        test.createPlayer(emailAddress)
+        setPreAuth(test)
 
         // when
         val response = test.runPreAuth("foobar")
 
         // then
         assertThat(response.message).isEqualTo("ok.")
+    }
+
+    private fun setPreAuth(test: TestService) {
+        test.setPreAuth { authStepService, player -> MobSelectAuthStep(authStepService, player) }
     }
 }

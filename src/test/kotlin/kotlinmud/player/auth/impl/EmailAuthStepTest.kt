@@ -4,10 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import kotlinmud.player.repository.findPlayerByEmail
-import kotlinmud.player.table.Players
 import kotlinmud.test.createTestServiceWithResetDB
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class EmailAuthStepTest {
@@ -50,9 +47,9 @@ class EmailAuthStepTest {
         test.runPreAuth(emailAddress)
 
         // when
-        val players = transaction { Players.select { Players.email eq emailAddress }.count() }
+        val player = findPlayerByEmail(emailAddress)
 
         // then
-        assertThat(players).isEqualTo(1)
+        assertThat(player).isNotNull()
     }
 }

@@ -30,6 +30,10 @@ class PlayerService(private val emailService: EmailService, private val eventSer
     private val loggedInPlayers: MutableMap<Client, PlayerDAO> = mutableMapOf()
     private val logger = logger(this)
 
+    fun setAuthStep(client: Client, authStep: AuthStep) {
+        preAuthClients[client] = authStep
+    }
+
     fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
         val authStep = preAuthClients[request.client] ?: EmailAuthStep(AuthStepService(this))
         val ioStatus = authStep.handlePreAuthRequest(request)

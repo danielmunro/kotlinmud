@@ -36,6 +36,7 @@ import kotlinmud.mob.fight.Round
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.service.AuthStepService
+import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
@@ -61,6 +62,7 @@ class TestService(
     private val client: Client = mockk(relaxUnitFun = true)
     private val authStepService = AuthStepService(playerService)
     private var mob: MobDAO? = null
+    private var player: PlayerDAO? = null
 
     init {
         createConnection()
@@ -209,6 +211,7 @@ class TestService(
         val mob = createMob()
         transaction {
             mob.isNpc = false
+            mob.player = player
             val card = MobCardDAO.new {
                 experiencePerLevel = 1000
                 hunger = mob.race.maxAppetite
@@ -222,7 +225,11 @@ class TestService(
     }
 
     fun createPlayer(emailAddress: String): PlayerDAO {
-        return authStepService.createPlayer(emailAddress)
+        return authStepService.createPlayer(emailAddress).also {
+            if (player == null) {
+                player = it
+            }
+        }
     }
 
     fun findMobCardByName(name: String): MobCardDAO? {
@@ -267,6 +274,10 @@ class TestService(
 
     fun decrementAffects() {
         mobService.decrementAffects()
+    }
+
+    fun setPreAuth(builder: (AuthStepService, PlayerDAO) -> AuthStep) {
+        playerService.setAuthStep(client, builder(AuthStepService(playerService), player!!))
     }
 
     fun runPreAuth(message: String): PreAuthResponse {
