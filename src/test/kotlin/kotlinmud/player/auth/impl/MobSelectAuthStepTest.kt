@@ -56,4 +56,19 @@ class MobSelectAuthStepTest {
 
         assertThat(response.message).isEqualTo("either that name is invalid or unavailable")
     }
+
+    @Test
+    fun testCanCreateNewMob() {
+        // setup
+        val test = createTestServiceWithResetDB()
+        test.runPreAuth(emailAddress)
+        val player = findPlayerByEmail(emailAddress)!!
+        test.runPreAuth(transaction { player.lastOTP!! })
+
+        // when
+        val response = test.runPreAuth("foobar")
+
+        // then
+        assertThat(response.message).isEqualTo("ok.")
+    }
 }
