@@ -38,13 +38,14 @@ class PlayerService(private val emailService: EmailService, private val eventSer
         val authStep = preAuthClients[request.client] ?: EmailAuthStep(AuthStepService(this))
         val ioStatus = authStep.handlePreAuthRequest(request)
         logger.debug("pre-auth request :: {}, {}, {}", authStep.authorizationStep, request.input, ioStatus)
-        if (ioStatus == IOStatus.OK) {
+        val nextAuthStep = if (ioStatus == IOStatus.OK) {
             proceedAuth(request, authStep)
-        }
+        } else authStep
         return PreAuthResponse(
             request,
             ioStatus,
-            if (ioStatus == IOStatus.OK) "ok." else authStep.errorMessage
+            if (ioStatus == IOStatus.OK) "ok." else authStep.errorMessage,
+            nextAuthStep
         )
     }
 
@@ -96,13 +97,14 @@ class PlayerService(private val emailService: EmailService, private val eventSer
         }
     }
 
-    private fun proceedAuth(request: PreAuthRequest, authStep: AuthStep) {
+    private fun proceedAuth(request: PreAuthRequest, authStep: AuthStep): AuthStep {
         val nextAuthStep = authStep.getNextAuthStep()
         if (nextAuthStep is CompleteAuthStep) {
             loginMob(request.client, nextAuthStep.mobCard)
         }
         preAuthClients[request.client] = nextAuthStep
         request.client.write(nextAuthStep.promptMessage)
+        return nextAuthStep
     }
 
     private fun validateEmailAddressFormat(emailAddress: String) {

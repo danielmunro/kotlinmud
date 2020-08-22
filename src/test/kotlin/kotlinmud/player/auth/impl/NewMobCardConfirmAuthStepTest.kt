@@ -2,6 +2,7 @@ package kotlinmud.player.auth.impl
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isInstanceOf
 import kotlinmud.test.TestService
 import kotlinmud.test.createTestService
 import org.junit.Test
@@ -19,6 +20,7 @@ class NewMobCardConfirmAuthStepTest {
 
         // then
         assertThat(response.message).isEqualTo("ok.")
+        assertThat(response.authStep).isInstanceOf(RaceSelectAuthStep::class)
     }
 
     @Test
@@ -31,6 +33,7 @@ class NewMobCardConfirmAuthStepTest {
 
         // then
         assertThat(response.message).isEqualTo("ok.")
+        assertThat(response.authStep).isInstanceOf(MobSelectAuthStep::class)
     }
 
     @Test
