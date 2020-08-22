@@ -9,7 +9,7 @@ import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.auth.type.AuthorizationStep
 import kotlinmud.player.dao.PlayerDAO
 
-class NewMobCardAuthStep(
+class NewMobCardConfirmAuthStep(
     private val authService: AuthStepService,
     private val player: PlayerDAO,
     private val name: String
@@ -24,6 +24,7 @@ class NewMobCardAuthStep(
             val creationFunnel = CreationFunnel(player.email)
             creationFunnel.name = name
             authService.addCreationFunnel(creationFunnel)
+            proceed = true
             return IOStatus.OK
         } else if (request.input.matches("no")) {
             return IOStatus.OK
