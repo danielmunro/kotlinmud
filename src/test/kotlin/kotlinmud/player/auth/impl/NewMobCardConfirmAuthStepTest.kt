@@ -20,7 +20,7 @@ class NewMobCardConfirmAuthStepTest {
 
         // then
         assertThat(response.message).isEqualTo("ok.")
-        assertThat(response.authStep).isInstanceOf(RaceSelectAuthStep::class)
+        assertThat(response.authStep).isInstanceOf(RaceSelectAuthStepTest::class)
     }
 
     @Test

@@ -2,7 +2,7 @@ package kotlinmud.player.auth.impl
 
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.type.IOStatus
-import kotlinmud.mob.race.factory.matchRace
+import kotlinmud.mob.race.factory.matchPlayableRace
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.auth.type.AuthorizationStep
@@ -14,7 +14,7 @@ class RaceSelectAuthStep(private val authStepService: AuthStepService, private v
     override val errorMessage = "that is not a race. Enter 'help race' for help."
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
-        return matchRace(request.input)?.let { race ->
+        return matchPlayableRace(request.input)?.let { race ->
             authStepService.findCreationFunnelForEmail(player.email)?.let {
                 it.race = race
             }
