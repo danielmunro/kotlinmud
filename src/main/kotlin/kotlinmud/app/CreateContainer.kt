@@ -38,6 +38,7 @@ import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.helper.createSkillList
+import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.EmailService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
@@ -75,6 +76,12 @@ fun createContainer(port: Int): Kodein {
                 instance<EmailService>(),
                 instance<EventService>()
             )
+        }
+        bind<AuthStepService>() with singleton {
+            val playerService = instance<PlayerService>()
+            AuthStepService(playerService).also {
+                playerService.setAuthStepService(it)
+            }
         }
         bind<TimeService>() with singleton {
             TimeService(instance<EventService>())

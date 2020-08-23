@@ -14,6 +14,7 @@ import kotlinmud.helper.Noun
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
+import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.EmailService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.service.FixtureService
@@ -53,6 +54,8 @@ fun createTestService(): TestService {
     val serverService: ServerService by container.instance<ServerService>()
     val observers: Observers by container.instance<Observers>()
     val playerService: PlayerService by container.instance<PlayerService>()
+    val authStepService: AuthStepService by container.instance<AuthStepService>()
+    playerService.setAuthStepService(authStepService)
     evt.observers = observers
     return TestService(
         fix,
@@ -61,6 +64,7 @@ fun createTestService(): TestService {
         act,
         evt,
         playerService,
+        authStepService,
         serverService
     )
 }

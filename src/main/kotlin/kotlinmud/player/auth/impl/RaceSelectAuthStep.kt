@@ -16,7 +16,7 @@ class RaceSelectAuthStep(private val authStepService: AuthStepService, private v
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         return matchPlayableRace(request.input)?.let { race ->
             authStepService.findCreationFunnelForEmail(player.email)?.let {
-                it.race = race
+                it.mobRace = race
             }
             IOStatus.OK
         } ?: IOStatus.ERROR

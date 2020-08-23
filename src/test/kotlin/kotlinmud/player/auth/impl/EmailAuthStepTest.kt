@@ -28,6 +28,7 @@ class EmailAuthStepTest {
 
         // given
         test.createPlayer(emailAddress)
+        test.setPreAuth { svc, _ -> EmailAuthStep(svc) }
 
         // when
         val response = test.runPreAuth(emailAddress)
@@ -42,6 +43,7 @@ class EmailAuthStepTest {
         // setup
         val test = createTestServiceWithResetDB()
         test.createPlayer(emailAddress)
+        test.setPreAuth { svc, _ -> EmailAuthStep(svc) }
 
         // given
         test.runPreAuth(emailAddress)

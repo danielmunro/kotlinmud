@@ -25,17 +25,25 @@ import kotlinmud.player.repository.findMobCardByName as findMobCardByNameQuery
 import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class PlayerService(private val emailService: EmailService, private val eventService: EventService) {
+class PlayerService(
+    private val emailService: EmailService,
+    private val eventService: EventService
+) {
     private val preAuthClients: MutableMap<Client, AuthStep> = mutableMapOf()
     private val loggedInPlayers: MutableMap<Client, PlayerDAO> = mutableMapOf()
+    private lateinit var authStepService: AuthStepService
     private val logger = logger(this)
 
     fun setAuthStep(client: Client, authStep: AuthStep) {
         preAuthClients[client] = authStep
     }
 
+    fun setAuthStepService(authStepService: AuthStepService) {
+        this.authStepService = authStepService
+    }
+
     fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
-        val authStep = preAuthClients[request.client] ?: EmailAuthStep(AuthStepService(this))
+        val authStep = preAuthClients[request.client] ?: EmailAuthStep(authStepService)
         val ioStatus = authStep.handlePreAuthRequest(request)
         logger.debug("pre-auth request :: {}, {}, {}", authStep.authorizationStep, request.input, ioStatus)
         val nextAuthStep = if (ioStatus == IOStatus.OK) {
@@ -86,7 +94,7 @@ class PlayerService(private val emailService: EmailService, private val eventSer
     }
 
     fun addPreAuthClient(client: Client) {
-        preAuthClients[client] = EmailAuthStep(AuthStepService(this))
+        preAuthClients[client] = EmailAuthStep(authStepService)
     }
 
     fun logOutPlayers() {

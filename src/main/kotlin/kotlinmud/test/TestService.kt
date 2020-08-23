@@ -35,6 +35,7 @@ import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
+import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.MobCardDAO
@@ -55,12 +56,12 @@ class TestService(
     private val actionService: ActionService,
     private val eventService: EventService,
     private val playerService: PlayerService,
+    private val authStepService: AuthStepService,
     private val serverService: ServerService
 ) {
     private val clientService = ClientService()
     private val room: RoomDAO
     private val client: Client = mockk(relaxUnitFun = true)
-    private val authStepService = AuthStepService(playerService)
     private var mob: MobDAO? = null
     private var player: PlayerDAO? = null
 
@@ -277,7 +278,12 @@ class TestService(
     }
 
     fun setPreAuth(builder: (AuthStepService, PlayerDAO) -> AuthStep) {
-        playerService.setAuthStep(client, builder(AuthStepService(playerService), player!!))
+        playerService.setAuthStep(client, builder(authStepService, player!!))
+        authStepService.addCreationFunnel(CreationFunnel(player!!.email).also {
+            it.mobName = "foo"
+            it.mobRace = Human()
+            it.mobRoom = getStartRoom()
+        })
     }
 
     fun runPreAuth(message: String): PreAuthResponse {

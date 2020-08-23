@@ -1,5 +1,6 @@
 package kotlinmud.player.auth.model
 
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.skill.dao.SkillDAO
@@ -9,12 +10,14 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.Specialization
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.player.dao.MobCardDAO
+import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class CreationFunnel(val email: String) {
-    lateinit var name: String
-    lateinit var race: Race
+    lateinit var mobName: String
+    lateinit var mobRace: Race
     lateinit var specialization: Specialization
+    lateinit var mobRoom: RoomDAO
     private val skills = mutableListOf<SkillType>()
     private val allSkills = createSkillList()
 
@@ -47,16 +50,23 @@ class CreationFunnel(val email: String) {
     private fun createMob(): MobDAO {
         return transaction {
             MobDAO.new {
-                this.name = name
+                name = mobName
                 isNpc = false
-                mobCard = MobCardDAO.new {
+                level = 1
+                brief = "a new mob"
+                description = "a new mob"
+                race = mobRace
+                attributes = AttributesDAO.new {}
+                room = mobRoom
+            }.also {
+                it.mobCard = MobCardDAO.new {
                     experiencePerLevel = 1000
                     experience = 1000
                     trains = 5
                     practices = 5
+                    mob = it
+                    respawnRoom = mobRoom
                 }
-                level = 1
-                this.player = player
             }
         }
     }

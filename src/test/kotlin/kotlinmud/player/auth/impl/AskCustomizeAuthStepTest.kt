@@ -4,12 +4,10 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import kotlinmud.test.TestService
-import kotlinmud.test.createTestService
+import kotlinmud.test.createTestServiceWithResetDB
 import org.junit.Test
 
-const val name = "foo"
-
-class NewMobCardConfirmAuthStepTest {
+class AskCustomizeAuthStepTest {
     @Test
     fun testCanConfirm() {
         // setup
@@ -20,20 +18,7 @@ class NewMobCardConfirmAuthStepTest {
 
         // then
         assertThat(response.message).isEqualTo("ok.")
-        assertThat(response.authStep).isInstanceOf(RaceSelectAuthStep::class)
-    }
-
-    @Test
-    fun testCanDeny() {
-        // setup
-        val test = setup()
-
-        // when
-        val response = test.runPreAuth("no")
-
-        // then
-        assertThat(response.message).isEqualTo("ok.")
-        assertThat(response.authStep).isInstanceOf(MobSelectAuthStep::class)
+        assertThat(response.authStep).isInstanceOf(CustomizeAuthStep::class)
     }
 
     @Test
@@ -46,6 +31,20 @@ class NewMobCardConfirmAuthStepTest {
 
         // then
         assertThat(response.message).isEqualTo("ok.")
+        assertThat(response.authStep).isInstanceOf(CustomizeAuthStep::class)
+    }
+
+    @Test
+    fun testCanDeny() {
+        // setup
+        val test = setup()
+
+        // when
+        val response = test.runPreAuth("no")
+
+        // then
+        assertThat(response.message).isEqualTo("ok.")
+        assertThat(response.authStep).isInstanceOf(CompleteAuthStep::class)
     }
 
     @Test
@@ -58,10 +57,11 @@ class NewMobCardConfirmAuthStepTest {
 
         // then
         assertThat(response.message).isEqualTo("ok.")
+        assertThat(response.authStep).isInstanceOf(CompleteAuthStep::class)
     }
 
     @Test
-    fun testBadInput() {
+    fun testCanHandleBadInput() {
         // setup
         val test = setup()
 
@@ -69,17 +69,18 @@ class NewMobCardConfirmAuthStepTest {
         val response = test.runPreAuth("foo")
 
         // then
-        assertThat(response.message).isEqualTo("Please answer yes or no (y/n):")
+        assertThat(response.message).isEqualTo("please answer 'yes' or 'no'")
+        assertThat(response.authStep).isInstanceOf(AskCustomizeAuthStep::class)
     }
 
     private fun setup(): TestService {
-        return createTestService().also {
+        return createTestServiceWithResetDB().also {
             it.createPlayer(emailAddress)
             setPreAuth(it)
         }
     }
 
     private fun setPreAuth(test: TestService) {
-        test.setPreAuth { authStepService, player -> NewMobCardConfirmAuthStep(authStepService, player, name) }
+        test.setPreAuth { authStepService, player -> AskCustomizeAuthStep(authStepService, player) }
     }
 }
