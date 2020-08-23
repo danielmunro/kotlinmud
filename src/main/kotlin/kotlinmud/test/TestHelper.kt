@@ -36,16 +36,7 @@ fun createTestServiceWithResetDB(): TestService {
 
 fun createTestService(): TestService {
     createConnection()
-    val parent = createContainer(0)
-    val container = Kodein {
-        extend(parent)
-        bind<EmailService>(overrides = true) with singleton {
-            val mock = mockk<EmailService>()
-            every { mock.sendEmail(request = any()) } returns SendMessageResponse()
-            mock
-        }
-        bind<PlayerService>(overrides = true) with singleton { PlayerService(instance<EmailService>(), instance<EventService>()) }
-    }
+    val container = createContainer(0, true)
     val fix: FixtureService by container.instance<FixtureService>()
     val mob: MobService by container.instance<MobService>()
     val item: ItemService by container.instance<ItemService>()

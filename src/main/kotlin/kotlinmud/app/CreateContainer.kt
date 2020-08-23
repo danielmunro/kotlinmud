@@ -1,5 +1,8 @@
 package kotlinmud.app
 
+import com.commit451.mailgun.SendMessageResponse
+import io.mockk.every
+import io.mockk.mockk
 import java.net.ServerSocket
 import kotlinmud.action.helper.createActionContextBuilder
 import kotlinmud.action.helper.createActionsList
@@ -49,7 +52,7 @@ import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.singleton
 
-fun createContainer(port: Int): Kodein {
+fun createContainer(port: Int, test: Boolean = false): Kodein {
     return Kodein {
         createConnection()
         bind<ServerSocket>() with singleton { ServerSocket(port) }
@@ -66,10 +69,16 @@ fun createContainer(port: Int): Kodein {
         bind<ItemService>() with singleton { ItemService() }
         bind<WeatherService>() with singleton { WeatherService() }
         bind<EmailService>() with singleton {
-            val dotenv = getDotenv()
-            val domain = dotenv["MAILGUN_DOMAIN"] ?: ""
-            val apiKey = dotenv["MAILGUN_API_KEY"] ?: ""
-            EmailService(getMailgunClient(domain, apiKey))
+            if (test) {
+                val mock = mockk<EmailService>()
+                every { mock.sendEmail(request = any()) } returns SendMessageResponse()
+                mock
+            } else {
+                val dotenv = getDotenv()
+                val domain = dotenv["MAILGUN_DOMAIN"] ?: ""
+                val apiKey = dotenv["MAILGUN_API_KEY"] ?: ""
+                EmailService(getMailgunClient(domain, apiKey))
+            }
         }
         bind<PlayerService>() with singleton {
             PlayerService(
