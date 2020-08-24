@@ -18,6 +18,10 @@ class AuthStepService(private val playerService: PlayerService) {
         return creationFunnels.find { it.email == email }
     }
 
+    fun getCreationFunnelForEmail(email: String): CreationFunnel {
+        return findCreationFunnelForEmail(email)!!
+    }
+
     fun findMobCardByName(name: String): MobCardDAO? {
         return playerService.findMobCardByName(name)
     }

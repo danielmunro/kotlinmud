@@ -14,10 +14,8 @@ class RaceSelectAuthStep(private val authStepService: AuthStepService, private v
     override val errorMessage = "that is not a race. Enter 'help race' for help."
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
-        return matchPlayableRace(request.input)?.let { race ->
-            authStepService.findCreationFunnelForEmail(player.email)?.let {
-                it.mobRace = race
-            }
+        return matchPlayableRace(request.input)?.let {
+            authStepService.getCreationFunnelForEmail(player.email).mobRace = it
             IOStatus.OK
         } ?: IOStatus.ERROR
     }
