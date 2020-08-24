@@ -19,10 +19,11 @@ class SpecializationAuthStep(
     private val specializations = createSpecializationList()
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
-        return authStepService.findCreationFunnelForEmail(player.email)?.let { creation ->
-            creation.specialization = specializations.find { request.input.matches(it.name) }!!
-            IOStatus.OK
-        } ?: IOStatus.ERROR
+        val specialization = specializations.find { spec -> request.input.matches(spec.name) } ?: return IOStatus.ERROR
+
+        authStepService.getCreationFunnelForEmail(player.email).specialization = specialization
+
+        return IOStatus.OK
     }
 
     override fun getNextAuthStep(): AuthStep {
