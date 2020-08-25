@@ -22,11 +22,4 @@ class CompleteAuthStepTest {
         assertThat { authStep.handlePreAuthRequest(PreAuthRequest(test.createClient(), "foo")) }.isFailure()
         assertThat { authStep.getNextAuthStep() }.isFailure()
     }
-
-    private fun setPreAuth(test: TestService) {
-        test.setPreAuth { authStepService, player ->
-            val mobCard = authStepService.findMobCardByName(player.name)!!
-            CompleteAuthStep(mobCard)
-        }
-    }
 }
