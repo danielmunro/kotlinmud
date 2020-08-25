@@ -8,7 +8,7 @@ import kotlinmud.player.dao.MobCardDAO
 
 class CompleteAuthStep(val mobCard: MobCardDAO) : AuthStep {
     override val authorizationStep = AuthorizationStep.COMPLETE
-    override val promptMessage = "you are logged in"
+    override val promptMessage = ""
     override val errorMessage = ""
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
