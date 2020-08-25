@@ -243,6 +243,17 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         return wimpy > hp && room.getAllExits().isNotEmpty()
     }
 
+    fun increaseHp(value: Int) {
+        transaction {
+            hp += value
+            with(calc(Attribute.HP)) {
+                if (hp > this) {
+                    hp = this
+                }
+            }
+        }
+    }
+
     override fun toString(): String {
         return name
     }
@@ -262,17 +273,6 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
                     .map { AttributeAffect(it) }
                     .map(accumulator)
                     .fold(0) { acc: Int, it: Int -> acc + it }
-    }
-
-    private fun increaseHp(value: Int) {
-        transaction {
-            hp += value
-            with(calc(Attribute.HP)) {
-                if (hp > this) {
-                    hp = this
-                }
-            }
-        }
     }
 
     private fun increaseMana(value: Int) {

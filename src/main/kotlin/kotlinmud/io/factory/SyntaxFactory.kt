@@ -58,6 +58,10 @@ fun foodInInventory(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.AVAILABLE_FOOD)
 }
 
+fun spell(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.SPELL, Syntax.OPTIONAL_TARGET)
+}
+
 fun spellFromHealer(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SPELL_FROM_HEALER)
 }

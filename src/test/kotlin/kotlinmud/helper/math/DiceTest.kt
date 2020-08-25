@@ -16,7 +16,7 @@ class DiceTest {
 
         // when
         while (prob.isIterating()) {
-            val result = dN(1, 2)
+            val result = dice(1, 2)
             prob.decrementIteration(result == 1, result == 2)
         }
 
@@ -35,7 +35,7 @@ class DiceTest {
 
         // when
         while (prob1.isIterating()) {
-            val result = dN(1, 4)
+            val result = dice(1, 4)
             prob1.decrementIteration(
                 result == 1,
                 result == 2

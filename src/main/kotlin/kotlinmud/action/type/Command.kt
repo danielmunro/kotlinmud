@@ -96,5 +96,5 @@ enum class Command(val value: String) {
     PARRY("parry"),
     SHIELD_BLOCK("shield block"),
     INVISIBILITY("invisibility"),
-    ;
+    CAST("cast"),
 }

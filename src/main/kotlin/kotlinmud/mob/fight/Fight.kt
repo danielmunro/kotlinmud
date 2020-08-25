@@ -3,7 +3,7 @@ package kotlinmud.mob.fight
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.helper.logger
 import kotlinmud.helper.math.d20
-import kotlinmud.helper.math.dN
+import kotlinmud.helper.math.dice
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.type.Position
 import kotlinmud.mob.dao.MobDAO
@@ -29,7 +29,7 @@ class Fight(private val mob1: MobDAO, private val mob2: MobDAO) {
             val hit = attacker.calc(Attribute.HIT)
             val dam = attacker.calc(Attribute.DAM)
 
-            return dN(hit, dam) + dam
+            return dice(hit, dam) + dam
         }
 
         private fun rollEvasiveSkills(mob: MobDAO): SkillType? {

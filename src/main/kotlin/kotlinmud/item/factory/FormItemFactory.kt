@@ -1,6 +1,6 @@
 package kotlinmud.item.factory
 
-import kotlinmud.helper.math.dN
+import kotlinmud.helper.math.dice
 import kotlinmud.helper.random.randomAmount
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.type.ItemType
@@ -9,7 +9,7 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.room.dao.RoomDAO
 
 fun createDropFromReptile(mob: MobDAO, room: RoomDAO) {
-    when (dN(1, 3)) {
+    when (dice(1, 3)) {
         1 -> randomAmount(3) { createScale(room) }
         2 -> createTail(mob, room)
         3 -> createSmallFang(room)

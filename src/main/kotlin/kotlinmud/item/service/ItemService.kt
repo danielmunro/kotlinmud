@@ -2,7 +2,7 @@ package kotlinmud.item.service
 
 import kotlinmud.action.exception.InvokeException
 import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.helper.math.dN
+import kotlinmud.helper.math.dice
 import kotlinmud.helper.random.randomAmount
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.factory.createBlob
@@ -139,7 +139,7 @@ class ItemService {
         }
         transferAllItemsToItem(mob, item)
         transaction {
-            when (dN(1, 3)) {
+            when (dice(1, 3)) {
                 1 -> evaluateMobBodyPartDrop(mob)
                 2 -> evaluateMobItemDrops(mob)
             }
@@ -164,7 +164,7 @@ class ItemService {
 
     private fun evaluateMobBodyPartDrop(mob: MobDAO) {
         val room = transaction { mob.room }
-        when (dN(1, 4)) {
+        when (dice(1, 4)) {
             1 -> createBrains(mob, room)
             2 -> createEntrails(room)
             3 -> createHeart(mob, room)

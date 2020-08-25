@@ -7,6 +7,9 @@ import kotlinmud.mob.skill.impl.Dodge
 import kotlinmud.mob.skill.impl.Invisibility
 import kotlinmud.mob.skill.impl.Parry
 import kotlinmud.mob.skill.impl.ShieldBlock
+import kotlinmud.mob.skill.impl.healing.CureLight
+import kotlinmud.mob.skill.impl.healing.CureSerious
+import kotlinmud.mob.skill.impl.healing.Heal
 import kotlinmud.mob.skill.type.Skill
 
 fun createSkillList(): List<Skill> {
@@ -17,6 +20,9 @@ fun createSkillList(): List<Skill> {
         ShieldBlock(),
         Parry(),
         Dodge(),
-        Invisibility()
+        Invisibility(),
+        CureLight(),
+        CureSerious(),
+        Heal()
     )
 }
