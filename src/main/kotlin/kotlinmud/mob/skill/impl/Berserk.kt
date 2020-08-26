@@ -9,6 +9,9 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
+import kotlinmud.mob.skill.factory.hardForWarrior
+import kotlinmud.mob.skill.factory.thiefAt
+import kotlinmud.mob.skill.factory.warriorAt
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.LearningDifficulty
@@ -24,12 +27,11 @@ class Berserk : SkillAction {
     override val type: SkillType = SkillType.BERSERK
     override val command: Command = Command.BERSERK
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
-        Pair(SpecializationType.WARRIOR, 1),
-        Pair(SpecializationType.THIEF, 45)
+        warriorAt(1),
+        thiefAt(45)
     )
     override val difficulty: Map<SpecializationType, LearningDifficulty> = mapOf(
-        Pair(SpecializationType.WARRIOR, LearningDifficulty.HARD),
-        Pair(SpecializationType.THIEF, LearningDifficulty.VERY_HARD)
+        hardForWarrior()
     )
     override val dispositions: List<Disposition> = mustBeAlert()
     override val costs: List<Cost> = listOf(

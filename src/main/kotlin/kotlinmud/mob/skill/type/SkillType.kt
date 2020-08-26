@@ -81,9 +81,13 @@ enum class SkillType {
     FUMBLE,
     BLUR,
     INVISIBILITY,
+    CURSE,
 
     // healing
     CURE_LIGHT,
     CURE_SERIOUS,
     HEAL,
+
+    // maladiction
+    BLIND,
 }

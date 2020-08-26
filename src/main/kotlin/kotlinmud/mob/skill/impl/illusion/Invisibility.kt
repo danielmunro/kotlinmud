@@ -1,4 +1,4 @@
-package kotlinmud.mob.skill.impl
+package kotlinmud.mob.skill.impl.illusion
 
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
