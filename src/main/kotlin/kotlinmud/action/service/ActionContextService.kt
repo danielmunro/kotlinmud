@@ -2,10 +2,12 @@ package kotlinmud.action.service
 
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.affect.dao.AffectDAO
+import kotlinmud.affect.type.Affect
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createFightStartedEvent
 import kotlinmud.event.factory.createSocialEvent
 import kotlinmud.event.service.EventService
+import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
@@ -107,6 +109,13 @@ class ActionContextService(
 
     fun moveMob(room: RoomDAO, direction: Direction) {
         mobService.moveMob(getMob(), room, direction)
+    }
+
+    fun createSpellInvokeResponse(target: Noun, affect: Affect, delay: Int = 1): Response {
+        return createOkResponse(
+            affect.messageFromInstantiation(getMob(), target),
+            delay
+        )
     }
 
     fun createOkResponse(message: Message, delay: Int = 0): Response {

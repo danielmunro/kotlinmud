@@ -10,7 +10,8 @@ import kotlinmud.mob.skill.type.SpellAction
 class SpellContextBuilder(private val skills: List<Skill>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return skills.find {
-            it is SpellAction && word.matches(it.type.toString())
+//            word.matches(it.type.toString()) // todo exclude skills (only spells)
+            it is SpellAction && word.matches(it.type.toString()) // todo exclude skills (only spells)
         }?.let {
             Context<Any>(syntax, Status.OK, it)
         } ?: Context<Any>(syntax, Status.ERROR, "you don't know that.")
