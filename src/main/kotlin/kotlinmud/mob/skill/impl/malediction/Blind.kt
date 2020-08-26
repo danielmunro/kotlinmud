@@ -1,4 +1,4 @@
-package kotlinmud.mob.skill.impl.healing
+package kotlinmud.mob.skill.impl.malediction
 
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
@@ -15,13 +15,13 @@ import kotlinmud.mob.skill.factory.easyForCleric
 import kotlinmud.mob.skill.factory.mageAt
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
-import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.skill.type.SpellAction
 import kotlinmud.mob.type.Intent
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class Blind : SkillAction {
+class Blind : SpellAction {
     override val affect = BlindAffect()
     override val type = SkillType.BLIND
     override val levelObtained = mapOf(mageAt(5))
