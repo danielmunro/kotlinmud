@@ -5,6 +5,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.helper.string.matches
 import kotlinmud.io.factory.spell
 import kotlinmud.io.model.Request
+import kotlinmud.mob.skill.factory.defaultSpellCost
 
 interface SpellAction : SkillAction {
     override fun matchesRequest(request: Request): Boolean {
@@ -25,4 +26,7 @@ interface SpellAction : SkillAction {
 
     override val argumentOrder
         get() = listOf(0, 1, 2)
+
+    override val costs
+        get() = defaultSpellCost()
 }

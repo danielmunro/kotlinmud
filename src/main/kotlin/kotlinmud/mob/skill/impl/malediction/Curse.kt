@@ -8,8 +8,10 @@ import kotlinmud.io.factory.offensiveSpell
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.skill.factory.delayCostOf
 import kotlinmud.mob.skill.factory.easyForMage
 import kotlinmud.mob.skill.factory.mageAt
+import kotlinmud.mob.skill.factory.manaCostOf
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.SkillType
@@ -27,8 +29,8 @@ class Curse : SpellAction {
         easyForMage()
     )
     override val costs = listOf(
-        Cost(CostType.DELAY, 1),
-        Cost(CostType.MANA_AMOUNT, 50)
+        delayCostOf(2),
+        manaCostOf(50)
     )
     override val intent = Intent.OFFENSIVE
     override val syntax = offensiveSpell()

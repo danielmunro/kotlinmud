@@ -7,7 +7,9 @@ import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.skill.factory.clericAt
+import kotlinmud.mob.skill.factory.delayCostOf
 import kotlinmud.mob.skill.factory.easyForCleric
+import kotlinmud.mob.skill.factory.manaCostOf
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.SkillType
@@ -20,8 +22,8 @@ class Heal : SpellAction {
     override val levelObtained = mapOf(clericAt(30))
     override val difficulty = mapOf(easyForCleric())
     override val costs = listOf(
-        Cost(CostType.DELAY, 1),
-        Cost(CostType.MANA_AMOUNT, 50)
+        delayCostOf(1),
+        manaCostOf(100)
     )
     override val intent = Intent.PROTECTIVE
 

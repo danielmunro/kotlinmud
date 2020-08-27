@@ -10,8 +10,6 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.skill.factory.easyForCleric
 import kotlinmud.mob.skill.factory.mageAt
-import kotlinmud.mob.skill.model.Cost
-import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.skill.type.SpellAction
 import kotlinmud.mob.type.Intent
@@ -25,10 +23,6 @@ class Blind : SpellAction {
     )
     override val difficulty = mapOf(
         easyForCleric()
-    )
-    override val costs = listOf(
-        Cost(CostType.DELAY, 1),
-        Cost(CostType.MANA_AMOUNT, 50)
     )
     override val intent = Intent.OFFENSIVE
     override val syntax = offensiveSpell()
