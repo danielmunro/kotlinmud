@@ -18,7 +18,7 @@ class AskCustomizeAuthStepTest {
 
         // then
         assertThat(response.message).isEqualTo("ok.")
-        assertThat(response.authStep).isInstanceOf(CustomizeAuthStep::class)
+        assertThat(response.authStep).isInstanceOf(CustomizationAuthStep::class)
     }
 
     @Test
@@ -31,7 +31,7 @@ class AskCustomizeAuthStepTest {
 
         // then
         assertThat(response.message).isEqualTo("ok.")
-        assertThat(response.authStep).isInstanceOf(CustomizeAuthStep::class)
+        assertThat(response.authStep).isInstanceOf(CustomizationAuthStep::class)
     }
 
     @Test

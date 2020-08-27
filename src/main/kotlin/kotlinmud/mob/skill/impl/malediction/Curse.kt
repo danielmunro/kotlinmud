@@ -12,8 +12,6 @@ import kotlinmud.mob.skill.factory.delayCostOf
 import kotlinmud.mob.skill.factory.easyForMage
 import kotlinmud.mob.skill.factory.mageAt
 import kotlinmud.mob.skill.factory.manaCostOf
-import kotlinmud.mob.skill.model.Cost
-import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.skill.type.SpellAction
 import kotlinmud.mob.type.Intent

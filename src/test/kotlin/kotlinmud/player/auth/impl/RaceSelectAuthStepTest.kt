@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import kotlinmud.test.TestService
-import kotlinmud.test.createTestService
+import kotlinmud.test.createTestServiceWithResetDB
 import org.junit.Test
 
 class RaceSelectAuthStepTest {
@@ -47,7 +47,7 @@ class RaceSelectAuthStepTest {
     }
 
     private fun setup(): TestService {
-        return createTestService().also {
+        return createTestServiceWithResetDB().also {
             it.createPlayer(emailAddress)
             setPreAuth(it)
         }

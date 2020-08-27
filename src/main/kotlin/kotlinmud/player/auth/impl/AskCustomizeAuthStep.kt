@@ -29,7 +29,7 @@ class AskCustomizeAuthStep(private val authStepService: AuthStepService, private
 
     override fun getNextAuthStep(): AuthStep {
         return if (customize) {
-            CustomizeAuthStep(authStepService, player)
+            CustomizationAuthStep(authStepService, player)
         } else {
             val funnel = authStepService.findCreationFunnelForEmail(player.email)!!
             val mob = funnel.build()

@@ -3,7 +3,7 @@ package kotlinmud.player.auth.impl
 import assertk.assertThat
 import assertk.assertions.isFailure
 import kotlinmud.io.model.PreAuthRequest
-import kotlinmud.test.createTestService
+import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -11,7 +11,7 @@ class CompleteAuthStepTest {
     @Test
     fun testSanity() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
         val playerMob = test.createPlayerMob()
 
         // given
