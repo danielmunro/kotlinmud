@@ -1,5 +1,6 @@
 package kotlinmud.player.auth.impl
 
+import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.type.IOStatus
 import kotlinmud.player.auth.service.AuthStepService
@@ -25,10 +26,10 @@ class CustomizationAuthStep(private val authStepService: AuthStepService, privat
         when (request.input.split(" ").first()) {
             "add" -> TODO()
             "remove" -> TODO()
-            "list" -> TODO()
-            "help" -> TODO()
+            "list" -> list(request.client)
+            "help" -> help(request.client)
             "done" -> done = true
-            else -> TODO()
+            else -> return IOStatus.ERROR
         }
 
         return IOStatus.OK
@@ -42,5 +43,31 @@ class CustomizationAuthStep(private val authStepService: AuthStepService, privat
         } else {
             this
         }
+    }
+
+    private fun help(client: Client) {
+        client.write("help text!1")
+    }
+
+    private fun list(client: Client) {
+        client.write(
+"""
+Skills
+======
+
+
+Spells
+======
+
+
+Current experience to level: ${customizationService.getPoints() * 1000}
+"""
+        )
+    }
+
+    private fun add() {
+    }
+
+    private fun remove() {
     }
 }

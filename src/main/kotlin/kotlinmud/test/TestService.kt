@@ -2,6 +2,7 @@ package kotlinmud.test
 
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.spyk
 import java.net.SocketAddress
 import java.nio.channels.SocketChannel
 import kotlinmud.action.service.ActionService
@@ -61,7 +62,7 @@ class TestService(
 ) {
     private val clientService = ClientService()
     private val room: RoomDAO
-    private val client: Client = mockk(relaxUnitFun = true)
+    private val client: Client = spyk(Client(mockk(relaxed = true)))
     private var mob: MobDAO? = null
     private var player: PlayerDAO? = null
 
@@ -98,6 +99,14 @@ class TestService(
         val client = Client(SocketChannel.open())
         clientService.addClient(client)
         return client
+    }
+
+    fun getClient(): Client {
+        return client
+    }
+
+    fun getPlayer(): PlayerDAO? {
+        return player
     }
 
     fun createMobController(mob: MobDAO): MobController {
