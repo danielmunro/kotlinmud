@@ -1,7 +1,7 @@
 package kotlinmud.mob.skill.type
 
-interface CreationGroup {
+interface Customization {
     val name: String
-    val skills: List<SkillAction>
     val points: Int
+    val creationGroupType: CreationGroupType
 }

@@ -15,6 +15,8 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
+import kotlinmud.mob.skill.type.CreationGroupType
+import kotlinmud.mob.skill.type.Customization
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.skill.type.SkillInvokesOn
@@ -23,9 +25,12 @@ import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
 
-class Bash : SkillAction {
+class Bash : SkillAction, Customization {
     override val type: SkillType = SkillType.BASH
     override val command: Command = Command.BASH
+    override val creationGroupType = CreationGroupType.SKILL
+    override val name = "bash"
+    override val points = 6
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
         Pair(SpecializationType.WARRIOR, 1),
         Pair(SpecializationType.THIEF, 30),

@@ -1,8 +1,11 @@
 package kotlinmud.player.auth.impl
 
+import kotlinmud.helper.string.leftPad
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.type.IOStatus
+import kotlinmud.mob.skill.type.CreationGroupType
+import kotlinmud.mob.skill.type.Customization
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.service.CustomizationService
 import kotlinmud.player.auth.type.AuthStep
@@ -50,15 +53,23 @@ class CustomizationAuthStep(private val authStepService: AuthStepService, privat
     }
 
     private fun list(client: Client) {
+        val unlearned = customizationService.getUnlearned()
+        val spells = unlearned.filter { it.creationGroupType == CreationGroupType.SPELL_GROUP }
+        val skills = unlearned.filter { it.creationGroupType == CreationGroupType.SKILL }
+        val defaults = unlearned.filter { it.creationGroupType == CreationGroupType.DEFAULT_GROUP }
         client.write(
 """
+Spell Groups
+============
+${format(spells)}
+
 Skills
 ======
+${format(skills)}
 
-
-Spells
-======
-
+Defaults
+========
+${format(defaults)}
 
 Current experience to level: ${customizationService.getPoints() * 1000}
 """
@@ -69,5 +80,13 @@ Current experience to level: ${customizationService.getPoints() * 1000}
     }
 
     private fun remove() {
+    }
+
+    private fun format(spellGroups: List<Customization>): String {
+        var i = 0
+        return spellGroups.fold("") { acc, it ->
+            i++
+            acc + leftPad(it.name + "  " + it.points, 25) + (if (i % 2 == 0) "\n" else "")
+        }
     }
 }

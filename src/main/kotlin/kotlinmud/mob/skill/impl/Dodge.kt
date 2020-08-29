@@ -2,6 +2,8 @@ package kotlinmud.mob.skill.impl
 
 import kotlinmud.action.helper.mustBeFighting
 import kotlinmud.mob.skill.model.Cost
+import kotlinmud.mob.skill.type.CreationGroupType
+import kotlinmud.mob.skill.type.Customization
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillInvokesOn
@@ -10,8 +12,11 @@ import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
 
-class Dodge : Skill {
+class Dodge : Skill, Customization {
     override val type: SkillType = SkillType.DODGE
+    override val creationGroupType = CreationGroupType.SKILL
+    override val name = "dodge"
+    override val points = 8
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
         Pair(SpecializationType.THIEF, 5),
         Pair(SpecializationType.WARRIOR, 5),

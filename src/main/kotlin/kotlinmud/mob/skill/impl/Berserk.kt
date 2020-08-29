@@ -14,6 +14,8 @@ import kotlinmud.mob.skill.factory.thiefAt
 import kotlinmud.mob.skill.factory.warriorAt
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
+import kotlinmud.mob.skill.type.CreationGroupType
+import kotlinmud.mob.skill.type.Customization
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.skill.type.SkillInvokesOn
@@ -23,8 +25,11 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class Berserk : SkillAction {
+class Berserk : SkillAction, Customization {
     override val type: SkillType = SkillType.BERSERK
+    override val creationGroupType = CreationGroupType.SKILL
+    override val name = "berserk"
+    override val points = 8
     override val command: Command = Command.BERSERK
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
         warriorAt(1),

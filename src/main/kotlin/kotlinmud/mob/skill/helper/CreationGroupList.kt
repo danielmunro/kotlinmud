@@ -1,14 +1,32 @@
 package kotlinmud.mob.skill.helper
 
-import kotlinmud.mob.skill.creationGroup.HealingCreationGroup
-import kotlinmud.mob.skill.creationGroup.IllusionCreationGroup
-import kotlinmud.mob.skill.creationGroup.MaledictionCreationGroup
-import kotlinmud.mob.skill.type.CreationGroup
+import kotlinmud.mob.skill.creationGroup.ClericDefaultCreationGroup
+import kotlinmud.mob.skill.creationGroup.MageDefaultCreationGroup
+import kotlinmud.mob.skill.creationGroup.ThiefDefaultCreationGroup
+import kotlinmud.mob.skill.creationGroup.WarriorDefaultCreationGroup
+import kotlinmud.mob.skill.creationGroup.spell.HealingSpellGroup
+import kotlinmud.mob.skill.creationGroup.spell.IllusionSpellGroup
+import kotlinmud.mob.skill.creationGroup.spell.MaledictionSpellGroup
+import kotlinmud.mob.skill.impl.Bash
+import kotlinmud.mob.skill.impl.Berserk
+import kotlinmud.mob.skill.impl.Dodge
+import kotlinmud.mob.skill.impl.Parry
+import kotlinmud.mob.skill.impl.ShieldBlock
+import kotlinmud.mob.skill.type.Customization
 
-fun createCreationGroupList(): List<CreationGroup> {
+fun createCreationGroupList(): List<Customization> {
     return listOf(
-        HealingCreationGroup(),
-        IllusionCreationGroup(),
-        MaledictionCreationGroup()
+        HealingSpellGroup(),
+        IllusionSpellGroup(),
+        MaledictionSpellGroup(),
+        Bash(),
+        Berserk(),
+        Dodge(),
+        Parry(),
+        ShieldBlock(),
+        WarriorDefaultCreationGroup(),
+        ThiefDefaultCreationGroup(),
+        ClericDefaultCreationGroup(),
+        MageDefaultCreationGroup()
     )
 }

@@ -37,18 +37,29 @@ class CustomizationAuthStepTest {
         // then
         verify { client.write(
 """
+Spell Groups
+============
+                healing  8               illusion  8
+            malediction  8
+
 Skills
 ======
+                   bash  6                berserk  8
+                  dodge  8                  parry  8
+           shield block  4
 
-
-Spells
-======
+Defaults
+========
+       warrior default  12          thief default  8
+         cleric default  6                   mage  8
 
 
 Current experience to level: 0
 """
         ) }
         confirmVerified()
+
+        // and
         assertThat(response.message).isEqualTo("ok.")
         assertThat(response.authStep).isInstanceOf(CustomizationAuthStep::class)
     }

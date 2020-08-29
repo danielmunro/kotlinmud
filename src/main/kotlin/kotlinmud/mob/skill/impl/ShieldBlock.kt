@@ -2,6 +2,8 @@ package kotlinmud.mob.skill.impl
 
 import kotlinmud.action.helper.mustBeFighting
 import kotlinmud.mob.skill.model.Cost
+import kotlinmud.mob.skill.type.CreationGroupType
+import kotlinmud.mob.skill.type.Customization
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillInvokesOn
@@ -10,8 +12,11 @@ import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
 
-class ShieldBlock : Skill {
+class ShieldBlock : Skill, Customization {
     override val type: SkillType = SkillType.SHIELD_BLOCK
+    override val creationGroupType = CreationGroupType.SKILL
+    override val name = "shield block"
+    override val points = 4
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
         Pair(SpecializationType.WARRIOR, 1),
         Pair(SpecializationType.THIEF, 15)
