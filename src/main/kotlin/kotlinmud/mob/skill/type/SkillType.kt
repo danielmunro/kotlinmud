@@ -70,6 +70,7 @@ enum class SkillType {
     SPEAR,
     SWORD,
     WHIP,
+    WAND,
 
     // spells
     STEEL_SKIN,

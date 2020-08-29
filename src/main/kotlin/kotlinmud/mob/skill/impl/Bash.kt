@@ -13,6 +13,9 @@ import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.type.DamageType
+import kotlinmud.mob.skill.factory.clericAt
+import kotlinmud.mob.skill.factory.thiefAt
+import kotlinmud.mob.skill.factory.warriorAt
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.CreationGroupType
@@ -32,9 +35,9 @@ class Bash : SkillAction, Customization {
     override val name = "bash"
     override val points = 6
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
-        Pair(SpecializationType.WARRIOR, 1),
-        Pair(SpecializationType.THIEF, 30),
-        Pair(SpecializationType.CLERIC, 45)
+        warriorAt(1),
+        thiefAt(30),
+        clericAt(45)
     )
     override val difficulty: Map<SpecializationType, LearningDifficulty> = mapOf(
         Pair(SpecializationType.WARRIOR, LearningDifficulty.NORMAL),

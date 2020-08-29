@@ -12,6 +12,10 @@ import kotlinmud.mob.skill.impl.Berserk
 import kotlinmud.mob.skill.impl.Dodge
 import kotlinmud.mob.skill.impl.Parry
 import kotlinmud.mob.skill.impl.ShieldBlock
+import kotlinmud.mob.skill.impl.weapon.Dagger
+import kotlinmud.mob.skill.impl.weapon.Mace
+import kotlinmud.mob.skill.impl.weapon.Sword
+import kotlinmud.mob.skill.impl.weapon.Wand
 import kotlinmud.mob.skill.type.Customization
 
 fun createCreationGroupList(): List<Customization> {
@@ -24,6 +28,10 @@ fun createCreationGroupList(): List<Customization> {
         Dodge(),
         Parry(),
         ShieldBlock(),
+        Sword(),
+        Mace(),
+        Dagger(),
+        Wand(),
         WarriorDefaultCreationGroup(),
         ThiefDefaultCreationGroup(),
         ClericDefaultCreationGroup(),
