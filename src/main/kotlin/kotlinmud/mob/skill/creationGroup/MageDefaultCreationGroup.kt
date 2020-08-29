@@ -7,7 +7,7 @@ import kotlinmud.mob.skill.type.Customization
 import kotlinmud.mob.skill.type.CustomizationGroup
 
 class MageDefaultCreationGroup : Customization, CustomizationGroup {
-    override val name = "mage"
+    override val name = "mage default"
     override val customizations = listOf(
         MaledictionSpellGroup(),
         Wand()

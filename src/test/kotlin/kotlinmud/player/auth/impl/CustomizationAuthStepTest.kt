@@ -40,7 +40,8 @@ class CustomizationAuthStepTest {
 Spell Groups
 ============
                 healing  8               illusion  8
-            malediction  8
+            malediction  8            benediction  8
+            enhancement  8
 
 Skills
 ======
@@ -53,7 +54,7 @@ Skills
 Defaults
 ========
        warrior default  12          thief default  8
-         cleric default  6                   mage  8
+         cleric default  6           mage default  8
 
 
 Current experience to level: 0

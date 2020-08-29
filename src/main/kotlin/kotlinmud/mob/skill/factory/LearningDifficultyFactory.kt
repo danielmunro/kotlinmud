@@ -15,6 +15,10 @@ fun easyForMage(): Pair<SpecializationType, LearningDifficulty> {
     return Pair(SpecializationType.CLERIC, LearningDifficulty.EASY)
 }
 
+fun normalForMage(): Pair<SpecializationType, LearningDifficulty> {
+    return Pair(SpecializationType.MAGE, LearningDifficulty.NORMAL)
+}
+
 fun hardForWarrior(): Pair<SpecializationType, LearningDifficulty> {
     return Pair(SpecializationType.CLERIC, LearningDifficulty.EASY)
 }

@@ -4,6 +4,8 @@ import kotlinmud.mob.skill.creationGroup.ClericDefaultCreationGroup
 import kotlinmud.mob.skill.creationGroup.MageDefaultCreationGroup
 import kotlinmud.mob.skill.creationGroup.ThiefDefaultCreationGroup
 import kotlinmud.mob.skill.creationGroup.WarriorDefaultCreationGroup
+import kotlinmud.mob.skill.creationGroup.spell.BenedictionSpellGroup
+import kotlinmud.mob.skill.creationGroup.spell.EnhancementSpellGroup
 import kotlinmud.mob.skill.creationGroup.spell.HealingSpellGroup
 import kotlinmud.mob.skill.creationGroup.spell.IllusionSpellGroup
 import kotlinmud.mob.skill.creationGroup.spell.MaledictionSpellGroup
@@ -23,6 +25,8 @@ fun createCreationGroupList(): List<Customization> {
         HealingSpellGroup(),
         IllusionSpellGroup(),
         MaledictionSpellGroup(),
+        BenedictionSpellGroup(),
+        EnhancementSpellGroup(),
         Bash(),
         Berserk(),
         Dodge(),
