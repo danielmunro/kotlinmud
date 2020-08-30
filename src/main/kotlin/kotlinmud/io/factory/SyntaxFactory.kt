@@ -66,6 +66,10 @@ fun offensiveSpell(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SPELL, Syntax.TARGET_MOB)
 }
 
+fun target(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.TARGET_MOB)
+}
+
 fun spellFromHealer(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SPELL_FROM_HEALER)
 }

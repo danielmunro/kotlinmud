@@ -16,36 +16,33 @@ import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.skill.type.CreationGroupType
 import kotlinmud.mob.skill.type.Customization
-import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.mob.specialization.type.SpecializationType
-import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class Berserk : SkillAction, Customization {
-    override val type: SkillType = SkillType.BERSERK
+    override val type = SkillType.BERSERK
     override val creationGroupType = CreationGroupType.SKILL
     override val name = "berserk"
     override val points = 8
-    override val command: Command = Command.BERSERK
-    override val levelObtained: Map<SpecializationType, Int> = mapOf(
+    override val command = Command.BERSERK
+    override val levelObtained = mapOf(
         warriorAt(1),
         thiefAt(45)
     )
-    override val difficulty: Map<SpecializationType, LearningDifficulty> = mapOf(
+    override val difficulty = mapOf(
         hardForWarrior()
     )
-    override val dispositions: List<Disposition> = mustBeAlert()
-    override val costs: List<Cost> = listOf(
+    override val dispositions = mustBeAlert()
+    override val costs = listOf(
         Cost(CostType.MV_PERCENT, 20)
     )
-    override val intent: Intent = Intent.NEUTRAL
-    override val syntax: List<Syntax> = listOf(Syntax.COMMAND)
-    override val argumentOrder: List<Int> = listOf(0)
-    override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
+    override val intent = Intent.NEUTRAL
+    override val syntax = listOf(Syntax.COMMAND)
+    override val argumentOrder = listOf(0)
+    override val invokesOn = SkillInvokesOn.INPUT
     override val affect = BerserkAffect()
 
     override fun invoke(actionContextService: ActionContextService): Response {

@@ -16,7 +16,7 @@ import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Intent
 
 class Mace : Skill, Customization {
-    override val type: SkillType = SkillType.MACE
+    override val type = SkillType.MACE
     override val levelObtained = mapOf(
         warriorAt(1),
         thiefAt(25),

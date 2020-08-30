@@ -1,32 +1,33 @@
 package kotlinmud.mob.skill.impl
 
 import kotlinmud.action.helper.mustBeFighting
+import kotlinmud.mob.skill.factory.normalForThief
+import kotlinmud.mob.skill.factory.normalForWarrior
+import kotlinmud.mob.skill.factory.thiefAt
+import kotlinmud.mob.skill.factory.warriorAt
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CreationGroupType
 import kotlinmud.mob.skill.type.Customization
-import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.mob.specialization.type.SpecializationType
-import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
 
 class ShieldBlock : Skill, Customization {
-    override val type: SkillType = SkillType.SHIELD_BLOCK
+    override val type = SkillType.SHIELD_BLOCK
     override val creationGroupType = CreationGroupType.SKILL
     override val name = "shield block"
     override val points = 4
-    override val levelObtained: Map<SpecializationType, Int> = mapOf(
-        Pair(SpecializationType.WARRIOR, 1),
-        Pair(SpecializationType.THIEF, 15)
+    override val levelObtained = mapOf(
+        warriorAt(1),
+        thiefAt(15)
     )
-    override val difficulty: Map<SpecializationType, LearningDifficulty> = mapOf(
-        Pair(SpecializationType.WARRIOR, LearningDifficulty.NORMAL),
-        Pair(SpecializationType.THIEF, LearningDifficulty.NORMAL)
+    override val difficulty = mapOf(
+        normalForThief(),
+        normalForWarrior()
     )
-    override val dispositions: List<Disposition> = mustBeFighting()
-    override val costs: List<Cost> = listOf()
-    override val intent: Intent = Intent.PROTECTIVE
-    override val invokesOn: SkillInvokesOn = SkillInvokesOn.ATTACK_ROUND
+    override val dispositions = mustBeFighting()
+    override val costs = listOf<Cost>()
+    override val intent = Intent.PROTECTIVE
+    override val invokesOn = SkillInvokesOn.ATTACK_ROUND
 }

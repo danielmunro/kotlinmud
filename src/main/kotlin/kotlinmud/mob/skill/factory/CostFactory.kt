@@ -11,6 +11,10 @@ fun manaCostOf(amount: Int): Cost {
     return Cost(CostType.MANA_AMOUNT, amount)
 }
 
+fun mvCostOf(amount: Int): Cost {
+    return Cost(CostType.MV_AMOUNT, amount)
+}
+
 fun defaultSpellCost(): List<Cost> {
     return listOf(
         delayCostOf(1),

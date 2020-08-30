@@ -51,7 +51,7 @@ class ActionService(
         if (request.input == "") {
             return createResponseWithEmptyActionContext(messageToActionCreator(""))
         }
-        return runSkill(request)
+        return (if (request.input.length > 1) runSkill(request) else null)
             ?: runAction(request)
             ?: createResponseWithEmptyActionContext(
                 messageToActionCreator("what was that?"),

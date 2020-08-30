@@ -70,6 +70,7 @@ enum class SkillType {
     MACE,
     POLEARM,
     SPEAR,
+    STAFF,
     SWORD,
     WHIP,
     WAND,

@@ -10,30 +10,28 @@ import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.type.DamageType
-import kotlinmud.mob.skill.model.Cost
-import kotlinmud.mob.skill.type.CostType
+import kotlinmud.mob.skill.factory.mvCostOf
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.SpecializationType
-import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class Bite : SkillAction {
-    override val type: SkillType = SkillType.BITE
-    override val command: Command = Command.BITE
+    override val type = SkillType.BITE
+    override val command = Command.BITE
     override val levelObtained: Map<SpecializationType, Int> = mapOf()
     override val difficulty: Map<SpecializationType, LearningDifficulty> = mapOf()
-    override val dispositions: List<Disposition> = mustBeAlert()
-    override val costs: List<Cost> = listOf(
-        Cost(CostType.MV_AMOUNT, 20)
+    override val dispositions = mustBeAlert()
+    override val costs = listOf(
+        mvCostOf(20)
     )
-    override val intent: Intent = Intent.OFFENSIVE
-    override val syntax: List<Syntax> = listOf(Syntax.COMMAND, Syntax.TARGET_MOB)
-    override val argumentOrder: List<Int> = listOf(0, 1)
-    override val invokesOn: SkillInvokesOn = SkillInvokesOn.INPUT
+    override val intent = Intent.OFFENSIVE
+    override val syntax = listOf(Syntax.COMMAND, Syntax.TARGET_MOB)
+    override val argumentOrder = listOf(0, 1)
+    override val invokesOn = SkillInvokesOn.INPUT
     override val affect: Affect? = null
 
     override fun invoke(actionContextService: ActionContextService): Response {

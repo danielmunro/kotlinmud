@@ -16,7 +16,7 @@ import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Intent
 
 class Wand : Skill, Customization {
-    override val type: SkillType = SkillType.WAND
+    override val type = SkillType.WAND
     override val levelObtained = mapOf(
         warriorAt(30),
         thiefAt(30),

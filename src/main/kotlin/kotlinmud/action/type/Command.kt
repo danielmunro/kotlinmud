@@ -72,6 +72,7 @@ enum class Command(val value: String) {
     // fighting
     KILL("kill"),
     FLEE("flee"),
+    DISARM("disarm"),
 
     // door
     OPEN("open"),
