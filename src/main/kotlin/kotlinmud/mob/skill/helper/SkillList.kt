@@ -7,6 +7,7 @@ import kotlinmud.mob.skill.impl.Disarm
 import kotlinmud.mob.skill.impl.Dodge
 import kotlinmud.mob.skill.impl.Parry
 import kotlinmud.mob.skill.impl.ShieldBlock
+import kotlinmud.mob.skill.impl.Trip
 import kotlinmud.mob.skill.impl.benediction.Bless
 import kotlinmud.mob.skill.impl.enhancement.GiantStrength
 import kotlinmud.mob.skill.impl.healing.CureLight
@@ -31,6 +32,7 @@ fun createSkillList(): List<Skill> {
         Parry(),
         Dodge(),
         Disarm(),
+        Trip(),
 
         // weapon
         Dagger(),

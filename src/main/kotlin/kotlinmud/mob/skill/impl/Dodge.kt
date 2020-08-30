@@ -15,7 +15,6 @@ import kotlinmud.mob.skill.type.Customization
 import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Intent
 
 class Dodge : Skill, Customization {
@@ -35,8 +34,8 @@ class Dodge : Skill, Customization {
         normalForCleric(),
         hardForMage()
     )
-    override val dispositions: List<Disposition> = mustBeFighting()
-    override val costs: List<Cost> = listOf()
-    override val intent: Intent = Intent.PROTECTIVE
-    override val invokesOn: SkillInvokesOn = SkillInvokesOn.ATTACK_ROUND
+    override val dispositions = mustBeFighting()
+    override val costs = listOf<Cost>()
+    override val intent = Intent.PROTECTIVE
+    override val invokesOn = SkillInvokesOn.ATTACK_ROUND
 }

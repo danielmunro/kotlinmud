@@ -15,6 +15,7 @@ import kotlinmud.mob.skill.impl.Disarm
 import kotlinmud.mob.skill.impl.Dodge
 import kotlinmud.mob.skill.impl.Parry
 import kotlinmud.mob.skill.impl.ShieldBlock
+import kotlinmud.mob.skill.impl.Trip
 import kotlinmud.mob.skill.impl.weapon.Dagger
 import kotlinmud.mob.skill.impl.weapon.Mace
 import kotlinmud.mob.skill.impl.weapon.Staff
@@ -40,6 +41,7 @@ fun createCreationGroupList(): List<Customization> {
         Wand(),
         Disarm(),
         Staff(),
+        Trip(),
         WarriorDefaultCreationGroup(),
         ThiefDefaultCreationGroup(),
         ClericDefaultCreationGroup(),
