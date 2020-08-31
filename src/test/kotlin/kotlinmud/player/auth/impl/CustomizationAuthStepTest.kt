@@ -46,11 +46,12 @@ Spell Groups
 Skills
 ======
                    bash  6                berserk  8
-                  dodge  8                  parry  8
-           shield block  4                  sword  4
-                   mace  4                 dagger  4
-                   wand  4                 disarm  6
-                  sword  4
+           shield block  4                  parry  8
+                  dodge  8                 disarm  6
+                   trip  4                 dagger  4
+                   mace  4                  sword  4
+                  sword  4                   wand  4
+
 
 Defaults
 ========

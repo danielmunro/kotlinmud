@@ -77,9 +77,11 @@ Current experience to level: ${customizationService.getPoints() * 1000}
     }
 
     private fun add() {
+        TODO()
     }
 
     private fun remove() {
+        TODO()
     }
 
     private fun format(spellGroups: List<Customization>): String {

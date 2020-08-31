@@ -9,18 +9,6 @@ import kotlinmud.mob.skill.creationGroup.spell.EnhancementSpellGroup
 import kotlinmud.mob.skill.creationGroup.spell.HealingSpellGroup
 import kotlinmud.mob.skill.creationGroup.spell.IllusionSpellGroup
 import kotlinmud.mob.skill.creationGroup.spell.MaledictionSpellGroup
-import kotlinmud.mob.skill.impl.Bash
-import kotlinmud.mob.skill.impl.Berserk
-import kotlinmud.mob.skill.impl.Disarm
-import kotlinmud.mob.skill.impl.Dodge
-import kotlinmud.mob.skill.impl.Parry
-import kotlinmud.mob.skill.impl.ShieldBlock
-import kotlinmud.mob.skill.impl.Trip
-import kotlinmud.mob.skill.impl.weapon.Dagger
-import kotlinmud.mob.skill.impl.weapon.Mace
-import kotlinmud.mob.skill.impl.weapon.Staff
-import kotlinmud.mob.skill.impl.weapon.Sword
-import kotlinmud.mob.skill.impl.weapon.Wand
 import kotlinmud.mob.skill.type.Customization
 
 fun createCreationGroupList(): List<Customization> {
@@ -30,21 +18,13 @@ fun createCreationGroupList(): List<Customization> {
         MaledictionSpellGroup(),
         BenedictionSpellGroup(),
         EnhancementSpellGroup(),
-        Bash(),
-        Berserk(),
-        Dodge(),
-        Parry(),
-        ShieldBlock(),
-        Sword(),
-        Mace(),
-        Dagger(),
-        Wand(),
-        Disarm(),
-        Staff(),
-        Trip(),
         WarriorDefaultCreationGroup(),
         ThiefDefaultCreationGroup(),
         ClericDefaultCreationGroup(),
         MageDefaultCreationGroup()
-    )
+    ) + getSkillsAsCustomizations()
+}
+
+fun getSkillsAsCustomizations(): List<Customization> {
+    return createSkillList().filterIsInstance(Customization::class.java)
 }
