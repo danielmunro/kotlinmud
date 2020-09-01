@@ -12,8 +12,12 @@ class CustomizationService(private val mobName: String) {
         return added.fold(0) { acc, it -> acc + it.points }
     }
 
-    fun findCreationGroup(name: String): Customization? {
-        return customizations.find { name.matches(it.name) } ?: added.find { name.matches(it.name) }
+    fun findAddedCustomization(name: String): Customization? {
+        return added.find { name.matches(it.name) }
+    }
+
+    fun findCustomizationFromPool(name: String): Customization? {
+        return customizations.find { name.matches(it.name) }
     }
 
     fun getUnlearned(): List<Customization> {
@@ -24,13 +28,13 @@ class CustomizationService(private val mobName: String) {
         return added
     }
 
-    fun add(spellGroup: Customization) {
-        customizations.remove(spellGroup)
-        added.add(spellGroup)
+    fun add(customization: Customization) {
+        customizations.remove(customization)
+        added.add(customization)
     }
 
-    fun remove(spellGroup: Customization) {
-        added.remove(spellGroup)
-        customizations.add(spellGroup)
+    fun remove(customization: Customization) {
+        added.remove(customization)
+        customizations.add(customization)
     }
 }

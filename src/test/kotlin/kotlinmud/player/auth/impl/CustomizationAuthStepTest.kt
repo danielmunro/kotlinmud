@@ -1,10 +1,12 @@
 package kotlinmud.player.auth.impl
 
 import assertk.assertThat
+import assertk.assertions.contains
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import io.mockk.confirmVerified
 import io.mockk.verify
+import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.test.TestService
@@ -35,7 +37,8 @@ class CustomizationAuthStepTest {
         val response = test.runPreAuth("list")
 
         // then
-        verify { client.write(
+        verify {
+            client.write(
 """
 Spell Groups
 ============
@@ -61,12 +64,81 @@ Defaults
 
 Current experience to level: 0
 """
-        ) }
-        confirmVerified()
+        )
+            client.write(any())
+        }
+        confirmVerified(client)
 
         // and
         assertThat(response.message).isEqualTo("ok.")
         assertThat(response.authStep).isInstanceOf(CustomizationAuthStep::class)
+    }
+
+    @Test
+    fun testCanAdd() {
+        // setup
+        val test = setup()
+
+        // when
+        val response = test.runPreAuth("add trip")
+
+        // then
+        assertThat(response.status).isEqualTo(IOStatus.OK)
+    }
+
+    @Test
+    fun testCannotAddTwice() {
+        // setup
+        val test = setup()
+
+        // given
+        test.runPreAuth("add trip")
+
+        // when
+        val response = test.runPreAuth("add trip")
+
+        // then
+        assertThat(response.status).isEqualTo(IOStatus.ERROR)
+    }
+
+    @Test
+    fun testAddingRemovesFromList() {
+        // setup
+        val test = setup()
+        val client = test.getClient()
+
+        // given
+        test.runPreAuth("add trip")
+
+        // when
+        test.runPreAuth("list")
+
+        // then
+        verify { client.write(match { !it.contains("trip") }) }
+        confirmVerified(client)
+    }
+
+    @Test
+    fun testCanRemoveFromList() {
+        // setup
+        val test = setup()
+        val client = test.getClient()
+
+        // given
+        test.runPreAuth("add trip")
+        test.runPreAuth("remove trip")
+
+        // when
+        test.runPreAuth("list")
+
+        // then
+        verify {
+            client.write(any())
+            client.write(any())
+            client.write(match { it.contains("trip") })
+            client.write(any())
+        }
+        confirmVerified(client)
     }
 
     private fun setup(): TestService {

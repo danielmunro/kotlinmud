@@ -27,8 +27,8 @@ class CustomizationAuthStep(private val authStepService: AuthStepService, privat
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         when (request.input.split(" ").first()) {
-            "add" -> TODO()
-            "remove" -> TODO()
+            "add" -> add(prepareFromPool(request) ?: return IOStatus.ERROR)
+            "remove" -> remove(prepareFromAdded(request) ?: return IOStatus.ERROR)
             "list" -> list(request.client)
             "help" -> help(request.client)
             "done" -> done = true
@@ -76,12 +76,12 @@ Current experience to level: ${customizationService.getPoints() * 1000}
         )
     }
 
-    private fun add() {
-        TODO()
+    private fun add(customization: Customization) {
+        customizationService.add(customization)
     }
 
-    private fun remove() {
-        TODO()
+    private fun remove(customization: Customization) {
+        customizationService.remove(customization)
     }
 
     private fun format(spellGroups: List<Customization>): String {
@@ -90,5 +90,19 @@ Current experience to level: ${customizationService.getPoints() * 1000}
             i++
             acc + leftPad(it.name + "  " + it.points, 25) + (if (i % 2 == 0) "\n" else "")
         }
+    }
+
+    private fun prepareFromPool(request: PreAuthRequest): Customization? {
+        return customizationService.findCustomizationFromPool(request.arg(1) ?: run {
+            request.client.write("that customization is not available from the pool.")
+            return null
+        })
+    }
+
+    private fun prepareFromAdded(request: PreAuthRequest): Customization? {
+        return customizationService.findAddedCustomization(request.arg(1) ?: run {
+            request.client.write("that customization has not been added.")
+            return null
+        })
     }
 }
