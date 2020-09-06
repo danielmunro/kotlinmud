@@ -1,10 +1,12 @@
 package kotlinmud.mob.skill.impl
 
-import kotlinmud.action.helper.mustBeFighting
+import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
 import kotlinmud.affect.impl.StunnedAffect
+import kotlinmud.helper.math.dice
 import kotlinmud.io.factory.target
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
@@ -29,7 +31,7 @@ class Trip : SkillAction, Customization {
     override val affect = StunnedAffect()
     override val syntax = target()
     override val command = Command.TRIP
-    override val argumentOrder = listOf(1, 2)
+    override val argumentOrder = listOf(0, 1)
     override val levelObtained = mapOf(
         thiefAt(15),
         warriorAt(5)
@@ -38,7 +40,7 @@ class Trip : SkillAction, Customization {
         easyForWarrior(),
         easyForThief()
     )
-    override val dispositions = mustBeFighting()
+    override val dispositions = mustBeAlert()
     override val costs = listOf(
         mvCostOf(20)
     )
@@ -51,8 +53,13 @@ class Trip : SkillAction, Customization {
         transaction {
             affect.createInstance(1).mob = target
         }
+        transaction { target.hp -= dice(2, 4) }
         return actionContextService.createOkResponse(
-            affect.messageFromInstantiation(mob, target)
+            MessageBuilder()
+                .toActionCreator("you trip $target and they go down hard.")
+                .toTarget("$mob trips you!")
+                .toObservers("$mob trips $target.")
+                .build()
         )
     }
 }

@@ -4,6 +4,7 @@ import kotlinmud.action.service.ActionService
 import kotlinmud.event.observer.type.Observers
 import kotlinmud.event.service.EventService
 import kotlinmud.io.service.ServerService
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.time.service.TimeService
 import org.kodein.di.erased.instance
@@ -17,6 +18,7 @@ fun createApp(port: Int): App {
     eventService.observers = observers
     val actionService by container.instance<ActionService>()
     val playerService by container.instance<PlayerService>()
+    val mobService by container.instance<MobService>()
 
-    return App(eventService, timeService, server, actionService, playerService)
+    return App(eventService, timeService, server, actionService, playerService, mobService)
 }

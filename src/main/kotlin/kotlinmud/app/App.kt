@@ -8,11 +8,12 @@ import kotlinmud.event.service.EventService
 import kotlinmud.helper.logger
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
-import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
+import kotlinmud.io.service.RequestService
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.time.service.TimeService
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -22,7 +23,8 @@ class App(
     private val timeService: TimeService,
     private val serverService: ServerService,
     private val actionService: ActionService,
-    private val playerService: PlayerService
+    private val playerService: PlayerService,
+    private val mobService: MobService
 ) {
     private val logger = logger(this)
 
@@ -59,7 +61,7 @@ class App(
             playerService.handlePreAuthRequest(PreAuthRequest(client, input))
             return
         }
-        val request = Request(client.mob!!, input, transaction { client.mob!!.room })
+        val request = RequestService(client.mob!!, client.mob!!.id.value, mobService, input, transaction { client.mob!!.room })
         val response = actionService.run(request)
         eventService.publishRoomMessage(
             createSendMessageToRoomEvent(

@@ -1,11 +1,14 @@
-package kotlinmud.io.model
+package kotlinmud.io.service
 
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.Disposition
 import kotlinmud.room.dao.RoomDAO
 
-data class Request(
+class RequestService(
     val mob: MobDAO,
+    val mobId: Int,
+    private val mobService: MobService,
     val input: String,
     val room: RoomDAO
 ) {

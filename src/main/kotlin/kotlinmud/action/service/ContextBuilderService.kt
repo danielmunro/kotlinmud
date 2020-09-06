@@ -30,7 +30,7 @@ import kotlinmud.action.contextBuilder.TargetMobContextBuilder
 import kotlinmud.action.contextBuilder.TrainableContextBuilder
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.io.model.Request
+import kotlinmud.io.service.RequestService
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
@@ -49,7 +49,7 @@ class ContextBuilderService(
 ) {
     private var previous: Context<out Any>? = null
 
-    fun createContext(syntax: Syntax, request: Request, word: String): Context<out Any> {
+    fun createContext(syntax: Syntax, request: RequestService, word: String): Context<out Any> {
         val context = when (syntax) {
             Syntax.DIRECTION_TO_EXIT -> DirectionToExitContextBuilder(request.room).build(syntax, word)
             Syntax.DIRECTION_WITH_NO_EXIT -> DirectionWithNoExitContextBuilder(request.room).build(syntax, word)

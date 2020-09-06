@@ -4,11 +4,11 @@ import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.type.Command
 import kotlinmud.helper.string.matches
 import kotlinmud.io.factory.spell
-import kotlinmud.io.model.Request
+import kotlinmud.io.service.RequestService
 import kotlinmud.mob.skill.factory.defaultSpellCost
 
 interface SpellAction : SkillAction {
-    override fun matchesRequest(request: Request): Boolean {
+    override fun matchesRequest(request: RequestService): Boolean {
         return request.args.size > 1 && request.getSubject().matches(type.toString())
     }
 

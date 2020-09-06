@@ -20,9 +20,9 @@ import kotlinmud.event.service.EventService
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
-import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
 import kotlinmud.io.service.ClientService
+import kotlinmud.io.service.RequestService
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.IOStatus
 import kotlinmud.item.dao.ItemDAO
@@ -337,8 +337,10 @@ class TestService(
 
     private fun runAction(mob: MobDAO, input: String): Response {
         return actionService.run(
-            Request(
+            RequestService(
                 mob,
+                mob.id.value,
+                mobService,
                 input,
                 transaction { mob.room }
             )

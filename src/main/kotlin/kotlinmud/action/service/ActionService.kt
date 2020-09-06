@@ -10,9 +10,9 @@ import kotlinmud.action.type.Status
 import kotlinmud.helper.logger
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.io.factory.messageToActionCreator
-import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
 import kotlinmud.io.model.createResponseWithEmptyActionContext
+import kotlinmud.io.service.RequestService
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
@@ -27,7 +27,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class ActionService(
     private val mobService: MobService,
     private val contextBuilderService: ContextBuilderService,
-    private val actionContextBuilder: (request: Request, actionContextList: ActionContextList) -> ActionContextService,
+    private val actionContextBuilder: (request: RequestService, actionContextList: ActionContextList) -> ActionContextService,
     private val actions: List<Action>
 ) {
     companion object {
@@ -47,7 +47,7 @@ class ActionService(
     private val skills = createSkillList()
     private val logger = logger(this)
 
-    fun run(request: Request): Response {
+    fun run(request: RequestService): Response {
         if (request.input == "") {
             return createResponseWithEmptyActionContext(messageToActionCreator(""))
         }
@@ -59,7 +59,7 @@ class ActionService(
             )
     }
 
-    private fun runSkill(request: Request): Response? {
+    private fun runSkill(request: RequestService): Response? {
         val skill = (skills.find {
             it is SkillAction && it.matchesRequest(request)
         } ?: return null) as SkillAction
@@ -75,7 +75,7 @@ class ActionService(
         return response
     }
 
-    private fun runAction(request: Request): Response? {
+    private fun runAction(request: RequestService): Response? {
         val action = actions.find {
             val syntax = if (it.syntax.size > 1) it.syntax[1] else Syntax.NOOP
             commandMatches(it.command, request.getCommand()) &&
@@ -91,7 +91,7 @@ class ActionService(
             ?: callInvokable(request, action, contextList)
     }
 
-    private fun executeSkill(request: Request, skill: SkillAction): Response {
+    private fun executeSkill(request: RequestService, skill: SkillAction): Response {
         return dispositionCheck(request, skill)
             ?: costApply(request.mob, skill)
             ?: skillRoll(transaction { request.mob.skills.find { it.type == skill.type }?.level } ?: error("no skill"))
@@ -109,7 +109,7 @@ class ActionService(
         )
     }
 
-    private fun dispositionCheck(request: Request, requiresDisposition: RequiresDisposition): Response? {
+    private fun dispositionCheck(request: RequestService, requiresDisposition: RequiresDisposition): Response? {
         return if (!requiresDisposition.dispositions.contains(request.getDisposition()))
             createResponseWithEmptyActionContext(
                 messageToActionCreator("you are ${request.getDisposition().value} and cannot do that.")
@@ -118,7 +118,7 @@ class ActionService(
                 null
     }
 
-    private fun callInvokable(request: Request, invokable: Invokable, list: ActionContextList): Response {
+    private fun callInvokable(request: RequestService, invokable: Invokable, list: ActionContextList): Response {
         return checkForBadContext(list) ?: with(invokable.invoke(actionContextBuilder(request, list))) {
             if (invokable is Action && invokable.isChained())
                 run(createChainToRequest(request.mob, invokable))
@@ -136,15 +136,17 @@ class ActionService(
         }
     }
 
-    private fun createChainToRequest(mob: MobDAO, action: Action): Request {
-        return Request(
+    private fun createChainToRequest(mob: MobDAO, action: Action): RequestService {
+        return RequestService(
             mob,
+            mob.id.value,
+            mobService,
             action.chainTo.toString(),
             transaction { mob.room }
         )
     }
 
-    private fun buildActionContextList(request: Request, invokable: Invokable): ActionContextList {
+    private fun buildActionContextList(request: RequestService, invokable: Invokable): ActionContextList {
         logger.debug("${request.mob} building action context :: {}, {}", invokable.command, invokable.syntax)
         var successful = true
         val contexts = mutableListOf<Context<out Any>>()

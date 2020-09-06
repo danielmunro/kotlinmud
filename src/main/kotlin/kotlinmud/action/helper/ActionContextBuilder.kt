@@ -3,7 +3,7 @@ package kotlinmud.action.helper
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.event.service.EventService
-import kotlinmud.io.model.Request
+import kotlinmud.io.service.RequestService
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
@@ -17,7 +17,7 @@ fun createActionContextBuilder(
     eventService: EventService,
     weatherService: WeatherService,
     serverService: ServerService
-): (request: Request, actionContextList: ActionContextList) -> ActionContextService {
+): (request: RequestService, actionContextList: ActionContextList) -> ActionContextService {
     return { request, actionContextList ->
         ActionContextService(
             mobService,

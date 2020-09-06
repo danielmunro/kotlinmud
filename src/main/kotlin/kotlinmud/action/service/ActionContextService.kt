@@ -9,8 +9,8 @@ import kotlinmud.event.factory.createSocialEvent
 import kotlinmud.event.service.EventService
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
-import kotlinmud.io.model.Request
 import kotlinmud.io.model.Response
+import kotlinmud.io.service.RequestService
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.Clients
 import kotlinmud.io.type.IOStatus
@@ -48,7 +48,7 @@ class ActionContextService(
     private val weatherService: WeatherService,
     private val actionContextList: ActionContextList,
     private val serverService: ServerService,
-    private val request: Request
+    private val request: RequestService
 ) {
     private val craftingService = CraftingService(itemService)
     val recipes = createRecipeList()
