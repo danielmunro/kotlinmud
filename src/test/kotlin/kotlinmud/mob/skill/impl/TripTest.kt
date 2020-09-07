@@ -12,7 +12,6 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.test.getIdentifyingWord
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class TripTest {
@@ -65,6 +64,8 @@ class TripTest {
         test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(target)}", IOStatus.OK)
 
         // then
-        assertThat(transaction { target.affects.first().type }).isEqualTo(AffectType.STUNNED)
+        with(findMobById(target.id.value)) {
+            assertThat(this.affects.first().type).isEqualTo(AffectType.STUNNED)
+        }
     }
 }
