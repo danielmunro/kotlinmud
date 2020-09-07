@@ -7,6 +7,14 @@ import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
+fun findMobById(id: Int): MobDAO {
+    return transaction {
+        MobDAO.wrapRow(
+            Mobs.select { Mobs.id eq id }.first()
+        )
+    }
+}
+
 fun findPlayerMobs(): List<MobDAO> {
     return transaction {
         MobDAO.wrapRows(

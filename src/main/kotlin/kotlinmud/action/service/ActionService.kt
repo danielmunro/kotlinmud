@@ -68,7 +68,7 @@ class ActionService(
 
         if (skill.intent == Intent.OFFENSIVE) {
             triggerFightForOffensiveSkills(
-                request.mob,
+                request.getMob(),
                 response.actionContextList.getResultBySyntax(Syntax.TARGET_MOB)
             )
         }
@@ -87,14 +87,14 @@ class ActionService(
 
         return dispositionCheck(request, action)
             ?: checkForBadContext(contextList)
-            ?: costApply(request.mob, action)
+            ?: costApply(request.getMob(), action)
             ?: callInvokable(request, action, contextList)
     }
 
     private fun executeSkill(request: RequestService, skill: SkillAction): Response {
         return dispositionCheck(request, skill)
-            ?: costApply(request.mob, skill)
-            ?: skillRoll(transaction { request.mob.skills.find { it.type == skill.type }?.level } ?: error("no skill"))
+            ?: costApply(request.getMob(), skill)
+            ?: skillRoll(transaction { request.getMob().skills.find { it.type == skill.type }?.level } ?: error("no skill"))
             ?: callInvokable(request, skill, buildActionContextList(request, skill))
     }
 
@@ -121,7 +121,7 @@ class ActionService(
     private fun callInvokable(request: RequestService, invokable: Invokable, list: ActionContextList): Response {
         return checkForBadContext(list) ?: with(invokable.invoke(actionContextBuilder(request, list))) {
             if (invokable is Action && invokable.isChained())
-                run(createChainToRequest(request.mob, invokable))
+                run(createChainToRequest(request.getMob(), invokable))
             else
                 this
         }
@@ -138,7 +138,6 @@ class ActionService(
 
     private fun createChainToRequest(mob: MobDAO, action: Action): RequestService {
         return RequestService(
-            mob,
             mob.id.value,
             mobService,
             action.chainTo.toString(),
@@ -147,7 +146,7 @@ class ActionService(
     }
 
     private fun buildActionContextList(request: RequestService, invokable: Invokable): ActionContextList {
-        logger.debug("${request.mob} building action context :: {}, {}", invokable.command, invokable.syntax)
+        logger.debug("${request.getMob()} building action context :: {}, {}", invokable.command, invokable.syntax)
         var successful = true
         val contexts = mutableListOf<Context<out Any>>()
         invokable.argumentOrder.forEach {

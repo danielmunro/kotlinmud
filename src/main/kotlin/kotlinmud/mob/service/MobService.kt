@@ -31,6 +31,7 @@ import kotlinmud.mob.helper.getDispositionRegenRate
 import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.helper.takeDamageFromFall
 import kotlinmud.mob.repository.findDeadMobs
+import kotlinmud.mob.repository.findMobById
 import kotlinmud.mob.repository.findPlayerMobs
 import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.helper.createSkillList
@@ -162,6 +163,10 @@ class MobService(
             mob.mobCard!!.practices -= 1
             skill.level += calculatePracticeGain(mob, skill)
         }
+    }
+
+    fun getMob(id: Int): MobDAO {
+        return findMobById(id)
     }
 
     private fun calculatePracticeGain(mob: MobDAO, skill: SkillDAO): Int {

@@ -188,11 +188,8 @@ class MoveTest {
     fun testMobTakesDamageWhenFalling() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
+        test.createMob()
         val dst = test.createRoom()
-
-        // expect
-        assertThat(mob.hp).isEqualTo(mob.calc(Attribute.HP))
 
         // given
         test.getStartRoom {
@@ -204,6 +201,7 @@ class MoveTest {
         test.runAction("west")
 
         // then
+        val mob = test.getMob()
         assertThat(mob.hp).isLessThan(mob.calc(Attribute.HP))
     }
 

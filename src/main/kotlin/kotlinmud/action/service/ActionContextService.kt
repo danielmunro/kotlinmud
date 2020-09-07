@@ -54,11 +54,11 @@ class ActionContextService(
     val recipes = createRecipeList()
 
     fun craft(recipe: Recipe): List<ItemDAO> {
-        return craftingService.craft(recipe, request.mob)
+        return craftingService.craft(recipe, request.getMob())
     }
 
     fun harvest(resource: ResourceDAO): List<ItemDAO> {
-        return craftingService.harvest(resource, request.mob)
+        return craftingService.harvest(resource, request.getMob())
     }
 
     fun getWeather(): Weather {
@@ -66,7 +66,7 @@ class ActionContextService(
     }
 
     fun getMob(): MobDAO {
-        return request.mob
+        return request.getMob()
     }
 
     fun getMobCard(): MobCardDAO {
@@ -95,7 +95,8 @@ class ActionContextService(
 
     fun getRecall(): RoomDAO {
         return transaction {
-            if (request.mob.isNpc) findStartRoom() else request.mob.mobCard!!.respawnRoom
+            val mob = request.getMob()
+            if (mob.isNpc) findStartRoom() else mob.mobCard!!.respawnRoom
         }
     }
 

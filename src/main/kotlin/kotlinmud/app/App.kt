@@ -61,13 +61,13 @@ class App(
             playerService.handlePreAuthRequest(PreAuthRequest(client, input))
             return
         }
-        val request = RequestService(client.mob!!, client.mob!!.id.value, mobService, input, transaction { client.mob!!.room })
+        val request = RequestService(client.mob!!.id.value, mobService, input, transaction { client.mob!!.room })
         val response = actionService.run(request)
         eventService.publishRoomMessage(
             createSendMessageToRoomEvent(
                 response.message,
-                transaction { request.mob.room },
-                request.mob,
+                transaction { request.getMob().room },
+                request.getMob(),
                 getTarget(response)
             )
         )

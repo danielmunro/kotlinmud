@@ -191,6 +191,10 @@ class TestService(
         }
     }
 
+    fun getMob(): MobDAO {
+        return mobService.getMob(this.mob!!.id.value)
+    }
+
     fun createRoom(): RoomDAO {
         return transaction {
             RoomDAO.new {
@@ -338,7 +342,6 @@ class TestService(
     private fun runAction(mob: MobDAO, input: String): Response {
         return actionService.run(
             RequestService(
-                mob,
                 mob.id.value,
                 mobService,
                 input,

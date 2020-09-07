@@ -2,7 +2,8 @@ package kotlinmud.mob.helper
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.mob.constant.FALL_DAMAGE_EXTREME_MULTIPLIER
+import assertk.assertions.isLessThan
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.constant.FALL_DAMAGE_HIGH
 import kotlinmud.mob.constant.FALL_DAMAGE_LOW
 import kotlinmud.mob.constant.FALL_DAMAGE_MEDIUM
@@ -18,14 +19,13 @@ class FallDamageTest {
     fun testFallSmallHeight() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
+        test.createMob()
         val dst = test.createRoom {
             it.elevation = 0
         }
         val src = test.getStartRoom {
             it.north = dst
         }
-        val hp = transaction { mob.hp }
 
         // given
         transaction { src.elevation = HEIGHT_DIFFERENCE_LOW + 1 }
@@ -34,21 +34,21 @@ class FallDamageTest {
         test.runAction("n")
 
         // then
-        assertThat(mob.hp).isEqualTo(hp - FALL_DAMAGE_LOW)
+        val mob = test.getMob()
+        assertThat(mob.hp).isEqualTo(mob.calc(Attribute.HP) - FALL_DAMAGE_LOW)
     }
 
     @Test
     fun testFallMediumHeight() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
+        test.createMob()
         val dst = test.createRoom {
             it.elevation = 0
         }
         val src = test.getStartRoom {
             it.north = dst
         }
-        val hp = transaction { mob.hp }
 
         // given
         transaction { src.elevation = HEIGHT_DIFFERENCE_MEDIUM + 1 }
@@ -57,21 +57,21 @@ class FallDamageTest {
         test.runAction("n")
 
         // then
-        assertThat(mob.hp).isEqualTo(hp - FALL_DAMAGE_MEDIUM)
+        val mob = test.getMob()
+        assertThat(mob.hp).isEqualTo(mob.calc(Attribute.HP) - FALL_DAMAGE_MEDIUM)
     }
 
     @Test
     fun testFallHighHeight() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
+        test.createMob()
         val dst = test.createRoom {
             it.elevation = 0
         }
         val src = test.getStartRoom {
             it.north = dst
         }
-        val hp = transaction { mob.hp }
 
         // given
         transaction { src.elevation = HEIGHT_DIFFERENCE_HIGH + 1 }
@@ -80,21 +80,21 @@ class FallDamageTest {
         test.runAction("n")
 
         // then
-        assertThat(mob.hp).isEqualTo(hp - FALL_DAMAGE_HIGH)
+        val mob = test.getMob()
+        assertThat(mob.hp).isEqualTo(mob.calc(Attribute.HP) - FALL_DAMAGE_HIGH)
     }
 
     @Test
     fun testFallExtremeHeight() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
+        test.createMob()
         val dst = test.createRoom {
             it.elevation = 0
         }
         val src = test.getStartRoom {
             it.north = dst
         }
-        val hp = transaction { mob.hp }
         val difference = HEIGHT_DIFFERENCE_HIGH + 10
 
         // given
@@ -104,6 +104,7 @@ class FallDamageTest {
         test.runAction("n")
 
         // then
-        assertThat(mob.hp).isEqualTo(hp - (FALL_DAMAGE_EXTREME_MULTIPLIER * difference))
+        val mob = test.getMob()
+        assertThat(mob.hp).isLessThan(mob.calc(Attribute.HP))
     }
 }

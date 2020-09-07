@@ -12,12 +12,13 @@ class SitTest {
     fun testMobCanSit() {
         // setup
         val test = createTestService()
-        val mob = test.createMob()
+        test.createMob()
 
         // when
         val response = test.runAction("sit")
 
         // then
+        val mob = test.getMob()
         assertThat(response.message.toActionCreator).isEqualTo("you sit down.")
         assertThat(response.message.toObservers).isEqualTo("$mob sits down.")
         assertThat(transaction { mob.disposition }).isEqualTo(Disposition.SITTING)

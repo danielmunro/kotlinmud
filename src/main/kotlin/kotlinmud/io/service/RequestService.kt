@@ -6,13 +6,16 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.room.dao.RoomDAO
 
 class RequestService(
-    val mob: MobDAO,
     val mobId: Int,
     private val mobService: MobService,
     val input: String,
     val room: RoomDAO
 ) {
     val args: List<String> = input.toLowerCase().split(' ')
+
+    fun getMob(): MobDAO {
+        return mobService.getMob(mobId)
+    }
 
     fun getCommand(): String {
         return args[0]
@@ -23,6 +26,6 @@ class RequestService(
     }
 
     fun getDisposition(): Disposition {
-        return mob.disposition
+        return getMob().disposition
     }
 }

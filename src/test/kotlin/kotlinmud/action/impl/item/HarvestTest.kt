@@ -17,9 +17,8 @@ class HarvestTest {
     fun testCanHarvestResource() {
         // setup
         val test = createTestServiceWithResetDB()
-        val mob = test.createMob()
         val room = test.getStartRoom()
-        val itemCount = test.findAllItemsByOwner(mob).size
+        val itemCount = test.findAllItemsByOwner(test.createMob()).size
 
         // given
         transaction {
@@ -33,6 +32,7 @@ class HarvestTest {
         val response = test.runAction("harvest iron")
 
         // then
+        val mob = test.getMob()
         assertThat(response.message.toActionCreator).isEqualTo("you successfully harvest iron ore.")
         assertThat(response.message.toObservers).isEqualTo("$mob harvests iron ore.")
         assertThat(response.delay).isGreaterThan(0)
