@@ -2,7 +2,6 @@ package kotlinmud.room.repository
 
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.mob.table.Mobs
-import kotlinmud.player.table.MobCards
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.sql.and
