@@ -140,8 +140,7 @@ class ActionService(
         return RequestService(
             mob.id.value,
             mobService,
-            action.chainTo.toString(),
-            transaction { mob.room }
+            action.chainTo.toString()
         )
     }
 

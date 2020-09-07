@@ -344,8 +344,7 @@ class TestService(
             RequestService(
                 mob.id.value,
                 mobService,
-                input,
-                transaction { mob.room }
+                input
             )
         )
     }

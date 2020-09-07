@@ -86,11 +86,11 @@ class ActionContextService(
     }
 
     fun getRoom(): RoomDAO {
-        return request.room
+        return request.getRoom()
     }
 
     fun getExits(): Map<Direction, RoomDAO> {
-        return request.room.getAllExits()
+        return request.getRoom().getAllExits()
     }
 
     fun getRecall(): RoomDAO {
@@ -171,7 +171,8 @@ class ActionContextService(
     }
 
     fun getDynamicRoomDescription(): String {
-        return "${getRoomName(weatherService.getTemperature(), request.room.biome)}\n${getRoomDescription(request.room, weatherService.getWeather())}"
+        val room = request.getRoom()
+        return "${getRoomName(weatherService.getTemperature(), room.biome)}\n${getRoomDescription(room, weatherService.getWeather())}"
     }
 
     fun train(attribute: Attribute) {

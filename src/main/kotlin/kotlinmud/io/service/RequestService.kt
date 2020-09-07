@@ -4,17 +4,17 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.Disposition
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.repository.findRoomByMobId
 
-class RequestService(
-    val mobId: Int,
-    private val mobService: MobService,
-    val input: String,
-    val room: RoomDAO
-) {
-    val args: List<String> = input.toLowerCase().split(' ')
+class RequestService(val mobId: Int, private val mobService: MobService, val input: String) {
+    val args = input.toLowerCase().split(' ')
 
     fun getMob(): MobDAO {
         return mobService.getMob(mobId)
+    }
+
+    fun getRoom(): RoomDAO {
+        return findRoomByMobId(mobId)
     }
 
     fun getCommand(): String {
