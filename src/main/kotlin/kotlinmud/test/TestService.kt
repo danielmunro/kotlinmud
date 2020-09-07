@@ -64,6 +64,7 @@ class TestService(
     private val room: RoomDAO
     private val client: Client = spyk(Client(mockk(relaxed = true)))
     private var mob: MobDAO? = null
+    private var target: MobDAO? = null
     private var player: PlayerDAO? = null
 
     init {
@@ -179,6 +180,8 @@ class TestService(
         putMobInRoom(mob, getStartRoom())
         if (this.mob == null) {
             this.mob = mob
+        } else if (this.target == null) {
+            this.target = mob
         }
 
         return mob
@@ -193,6 +196,10 @@ class TestService(
 
     fun getMob(): MobDAO {
         return mobService.getMob(this.mob!!.id.value)
+    }
+
+    fun getTarget(): MobDAO {
+        return mobService.getMob(this.target!!.id.value)
     }
 
     fun createRoom(): RoomDAO {

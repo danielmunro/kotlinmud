@@ -6,12 +6,12 @@ import assertk.assertions.isLessThan
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.type.IOStatus
-import kotlinmud.mob.repository.findMobById
 import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.test.getIdentifyingWord
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class TripTest {
@@ -22,12 +22,12 @@ class TripTest {
 
         // given
         val mob = test.createMob { createSkill(SkillType.TRIP, it, 100) }
-        val target = test.createMob()
 
         // when
-        val response = test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(target)}", IOStatus.OK)
+        val response = test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(test.createMob())}", IOStatus.OK)
 
         // then
+        val target = test.getTarget()
         assertThat(response.message.toActionCreator).isEqualTo("you trip $target and they go down hard.")
         assertThat(response.message.toTarget).isEqualTo("$mob trips you!")
         assertThat(response.message.toObservers).isEqualTo("$mob trips $target.")
@@ -40,14 +40,13 @@ class TripTest {
 
         // given
         val mob = test.createMob { createSkill(SkillType.TRIP, it, 100) }
-        val target = test.createMob()
 
         // when
-        test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(target)}", IOStatus.OK)
+        test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(test.createMob())}", IOStatus.OK)
 
         // then
-        with(findMobById(target.id.value)) {
-            assertThat(this.hp).isLessThan(this.calc(Attribute.HP))
+        test.getTarget().let {
+            assertThat(it.hp).isLessThan(it.calc(Attribute.HP))
         }
     }
 
@@ -58,14 +57,13 @@ class TripTest {
 
         // given
         val mob = test.createMob { createSkill(SkillType.TRIP, it, 100) }
-        val target = test.createMob()
 
         // when
-        test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(target)}", IOStatus.OK)
+        test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(test.createMob())}", IOStatus.OK)
 
         // then
-        with(findMobById(target.id.value)) {
-            assertThat(this.affects.first().type).isEqualTo(AffectType.STUNNED)
+        test.getTarget().let {
+            assertThat(transaction { it.affects.first().type }).isEqualTo(AffectType.STUNNED)
         }
     }
 }
