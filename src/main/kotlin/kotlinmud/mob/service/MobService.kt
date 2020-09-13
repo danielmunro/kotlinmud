@@ -68,7 +68,7 @@ class MobService(
     }
 
     fun addFight(mob1: MobDAO, mob2: MobDAO): FightService {
-        return FightService.create(mob1, mob2)
+        return FightService.create(mob1, mob2, eventService)
     }
 
     fun getMobFight(mob: MobDAO): FightDAO? {
@@ -116,7 +116,7 @@ class MobService(
 
     fun flee(mob: MobDAO) {
         getMobFight(mob)?.let {
-            makeMobFlee(FightService(it), mob)
+            makeMobFlee(FightService(it, eventService), mob)
         } ?: logger.debug("flee :: no fight for mob :: {}", mob.id)
     }
 
@@ -182,7 +182,7 @@ class MobService(
 
     private fun createNewFightRounds(): List<Round> {
         return findFights().map {
-            proceedFightRound(FightService(it).createRound())
+            proceedFightRound(FightService(it, eventService).createRound())
         }
     }
 

@@ -5,8 +5,10 @@ import kotlinmud.event.factory.createFightRoundEvent as createFightRoundEventFac
 import kotlinmud.event.factory.createFightStartedEvent as createFightStartedEventFactory
 import kotlinmud.event.factory.createKillEvent as createKillEventFactory
 import kotlinmud.event.impl.Event
+import kotlinmud.event.impl.FightRoundEvent
 import kotlinmud.event.impl.FightStartedEvent
 import kotlinmud.event.impl.KillEvent
+import kotlinmud.event.service.EventService
 import kotlinmud.helper.math.d20
 import kotlinmud.helper.math.dice
 import kotlinmud.helper.math.percentRoll
@@ -23,9 +25,9 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class FightService(private val fight: FightDAO) {
+class FightService(private val fight: FightDAO, private val eventService: EventService) {
     companion object {
-        fun create(mob1: MobDAO, mob2: MobDAO): FightService {
+        fun create(mob1: MobDAO, mob2: MobDAO, eventService: EventService): FightService {
             return FightService(transaction {
                 mob1.disposition = Disposition.FIGHTING
                 mob2.disposition = Disposition.FIGHTING
@@ -33,7 +35,7 @@ class FightService(private val fight: FightDAO) {
                     this.mob1 = mob1
                     this.mob2 = mob2
                 }
-            })
+            }, eventService)
         }
 
         private fun getAc(defender: MobDAO, damageType: DamageType): Int {
@@ -136,6 +138,7 @@ class FightService(private val fight: FightDAO) {
                 mapAttacks(fight.mob2, fight.mob1)
             )
         }
+        eventService.publish(FightRoundEvent(round))
         transaction { applyRoundDamage(round.attackerAttacks, round.defender) }
         if (round.isActive()) {
             applyRoundDamage(round.defenderAttacks, round.attacker)

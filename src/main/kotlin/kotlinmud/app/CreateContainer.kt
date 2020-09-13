@@ -29,6 +29,7 @@ import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.WimpyObserver
+import kotlinmud.event.observer.impl.round.EnhancedDamageObserver
 import kotlinmud.event.observer.type.Observers
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.MobGeneratorService
@@ -149,7 +150,8 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
                 ScavengerCollectsItemsObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),
                 GuardAttacksAggroMobsObserver(instance<MobService>()),
                 GenerateMobsObserver(instance<MobGeneratorService>()),
-                LogOutAllPlayersOnStartupObserver(instance<PlayerService>())
+                LogOutAllPlayersOnStartupObserver(instance<PlayerService>()),
+                EnhancedDamageObserver()
             )
         }
     }
