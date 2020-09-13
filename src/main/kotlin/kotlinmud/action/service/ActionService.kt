@@ -16,7 +16,6 @@ import kotlinmud.io.service.RequestService
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.type.SkillAction
@@ -99,7 +98,7 @@ class ActionService(
     }
 
     private fun triggerFightForOffensiveSkills(mob: MobDAO, target: MobDAO) {
-        mobService.findFightForMob(mob) ?: mobService.addFight(Fight(mob, target))
+        mobService.getMobFight(mob) ?: mobService.addFight(mob, target)
     }
 
     private fun skillRoll(level: Int): Response? {

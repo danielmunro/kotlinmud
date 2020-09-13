@@ -6,7 +6,6 @@ import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.JobType
@@ -20,7 +19,7 @@ class GuardAttacksAggroMobsObserver(private val mobService: MobService) : Observ
         val fight = event.subject as FightStartedEvent
         val room = fight.aggressor.room
         getMobsForRoomAndNotInFight(room, fight).forEach {
-            mobService.addFight(Fight(it, fight.aggressor))
+            mobService.addFight(it, fight.aggressor)
             mobService.sendMessageToRoom(
                 MessageBuilder()
                     .toActionCreator("You scream and attack ${fight.aggressor}!")
@@ -43,7 +42,7 @@ class GuardAttacksAggroMobsObserver(private val mobService: MobService) : Observ
             it != fight.aggressor &&
                     it != fight.defender &&
                     it.job == JobType.GUARD &&
-                    mobService.findFightForMob(it) == null
+                    mobService.getMobFight(it) == null
         }
     }
 }

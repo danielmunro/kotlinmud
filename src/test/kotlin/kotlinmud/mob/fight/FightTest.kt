@@ -6,9 +6,12 @@ import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotEqualTo
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.type.AttackResult
+import kotlinmud.mob.repository.findFightForMob
+import kotlinmud.mob.repository.findMobById
 import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
+import kotlinmud.room.repository.findRoomByMobId
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -28,13 +31,20 @@ class FightTest {
         createSkill(SkillType.DODGE, mob, 100)
 
         // when
-        val fight = Fight(mob, testService.createMob())
-        testService.addFight(fight)
+        testService.addFight(mob, testService.createMob())
 
         while (prob.isIterating()) {
-            val round = fight.createRound()
-            val outcome1 = round.attackerAttacks.find { it.attackResult == AttackResult.EVADE }
-            val outcome2 = round.defenderAttacks.find { it.attackResult == AttackResult.EVADE }
+            val rounds = testService.proceedFights()
+            val outcome1 = rounds.find { round ->
+                round.attackerAttacks.find {
+                    it.attackResult == AttackResult.EVADE
+                } != null
+            }
+            val outcome2 = rounds.find { round ->
+                round.defenderAttacks.find {
+                    it.attackResult == AttackResult.EVADE
+                } != null
+            }
             prob.decrementIteration(outcome1 != null, outcome2 != null)
         }
 
@@ -65,13 +75,20 @@ class FightTest {
         }
 
         // when
-        val fight = Fight(mob1, mob2)
-        testService.addFight(fight)
+        testService.addFight(mob1, mob2)
 
         while (!invoked && prob.isIterating()) {
-            val round = fight.createRound()
-            val outcome1 = round.attackerAttacks.find { it.attackResult == AttackResult.EVADE }
-            val outcome2 = round.defenderAttacks.find { it.attackResult == AttackResult.EVADE }
+            val rounds = testService.proceedFights()
+            val outcome1 = rounds.find { round ->
+                round.attackerAttacks.find {
+                    it.attackResult == AttackResult.EVADE
+                } != null
+            }
+            val outcome2 = rounds.find { round ->
+                round.defenderAttacks.find {
+                    it.attackResult == AttackResult.EVADE
+                } != null
+            }
             prob.decrementIteration(outcome1 != null, outcome2 != null)
             invoked = outcome1 != null || outcome2 != null
         }
@@ -99,15 +116,21 @@ class FightTest {
         val mob2 = testService.createMob()
         createSkill(SkillType.PARRY, mob2, 100)
 
-        val fight = Fight(mob1, mob2)
-
-        testService.addFight(fight)
+        val fight = testService.addFight(mob1, mob2)
 
         // when
         while (prob.isIterating() && !fight.isOver()) {
-            val round = fight.createRound()
-            val outcome1 = round.attackerAttacks.find { it.attackResult == AttackResult.EVADE }
-            val outcome2 = round.defenderAttacks.find { it.attackResult == AttackResult.EVADE }
+            val rounds = testService.proceedFights()
+            val outcome1 = rounds.find { round ->
+                round.attackerAttacks.find {
+                    it.attackResult == AttackResult.EVADE
+                } != null
+            }
+            val outcome2 = rounds.find { round ->
+                round.defenderAttacks.find {
+                    it.attackResult == AttackResult.EVADE
+                } != null
+            }
             prob.decrementIteration(outcome1 != null, outcome2 != null)
         }
 
@@ -128,7 +151,7 @@ class FightTest {
             it.room = room
         }
         val mob2 = testService.createMob {
-            it.wimpy = hp
+            it.wimpy = 0
             it.attributes.hit = 10
             it.room = room
         }
@@ -136,29 +159,24 @@ class FightTest {
         transaction { testService.getStartRoom().north = dst }
 
         // given
-        val fight = Fight(mob1, mob2)
-        testService.addFight(fight)
+        testService.addFight(mob1, mob2)
 
         // when
-        while (!fight.isOver()) {
-            transaction {
-                mob1.hp = hp - 1
-                mob2.hp = hp - 1
-            }
+        while (findFightForMob(mob1) != null) {
             testService.proceedFights()
         }
 
         // then
-        assertThat(mob1.disposition).isEqualTo(Disposition.STANDING)
-        assertThat(mob2.disposition).isEqualTo(Disposition.STANDING)
+        findMobById(mob1.id.value).let { assertThat(it.disposition).isEqualTo(Disposition.STANDING) }
+        findMobById(mob2.id.value).let { assertThat(it.disposition).isEqualTo(Disposition.STANDING) }
 
         // and
         assertThat(mob1.hp).isGreaterThan(0)
         assertThat(mob2.hp).isGreaterThan(0)
 
         // and
-        val room1 = transaction { mob1.room }
-        val room2 = transaction { mob2.room }
+        val room1 = transaction { findRoomByMobId(mob1.id.value) }
+        val room2 = transaction { findRoomByMobId(mob2.id.value) }
         assertThat(room1).isNotEqualTo(room2)
     }
 }

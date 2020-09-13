@@ -13,12 +13,12 @@ import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createKillEvent
 import kotlinmud.item.type.Position
-import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Elf
 import kotlinmud.mob.race.impl.Faerie
 import kotlinmud.mob.race.impl.Goblin
 import kotlinmud.mob.race.impl.Ogre
+import kotlinmud.mob.repository.findMobById
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.ProbabilityTest
@@ -296,17 +296,15 @@ class MobTest {
         }
 
         // and
-        val fight = Fight(mob1, mob2)
-        testService.addFight(fight)
+        val fight = testService.addFight(mob1, mob2)
         transaction { mob2.disposition = Disposition.DEAD }
 
         // when
-        testService.publish(createKillEvent(fight))
+        testService.publish(fight.createKillEvent())
 
         // then
-        val winner = fight.getWinner()!!
-        assertThat(transaction { winner.gold }).isEqualTo(5)
-        assertThat(transaction { fight.getOpponentFor(winner)!!.gold }).isEqualTo(0)
+        findMobById(mob1.id.value).let { assertThat(it.gold).isEqualTo(5) }
+        findMobById(mob2.id.value).let { assertThat(it.gold).isEqualTo(0) }
     }
 
     @Test

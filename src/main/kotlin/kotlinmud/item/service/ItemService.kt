@@ -135,6 +135,7 @@ class ItemService {
                 weight = 100.0
                 decayTimer = 20
                 attributes = AttributesDAO.new {}
+                room = mob.room
             }
         }
         transferAllItemsToItem(mob, item)

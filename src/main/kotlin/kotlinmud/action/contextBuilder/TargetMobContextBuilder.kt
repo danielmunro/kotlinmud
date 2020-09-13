@@ -12,7 +12,7 @@ import kotlinmud.room.dao.RoomDAO
 class TargetMobContextBuilder(private val mobService: MobService, private val mob: MobDAO, private val room: RoomDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         if (word == "") {
-            return mobService.findFightForMob(mob)?.let {
+            return mobService.getMobFight(mob)?.let {
                 Context<Any>(
                     syntax,
                     Status.OK,

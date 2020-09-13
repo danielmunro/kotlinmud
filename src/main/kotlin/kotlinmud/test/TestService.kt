@@ -31,10 +31,11 @@ import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Position
 import kotlinmud.mob.controller.MobController
+import kotlinmud.mob.dao.FightDAO
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.service.FightService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.auth.service.AuthStepService
@@ -326,12 +327,12 @@ class TestService(
         throw Exception("cannot generate desired IOStatus")
     }
 
-    fun addFight(fight: Fight) {
-        mobService.addFight(fight)
+    fun addFight(mob1: MobDAO, mob2: MobDAO): FightService {
+        return mobService.addFight(mob1, mob2)
     }
 
-    fun findFightForMob(mob: MobDAO): Fight? {
-        return mobService.findFightForMob(mob)
+    fun findFightForMob(mob: MobDAO): FightDAO? {
+        return mobService.getMobFight(mob)
     }
 
     fun proceedFights(): List<Round> {

@@ -74,6 +74,7 @@ enum class Command(val value: String) {
     FLEE("flee"),
     DISARM("disarm"),
     TRIP("trip"),
+    HAMSTRING("hamstring"),
 
     // door
     OPEN("open"),

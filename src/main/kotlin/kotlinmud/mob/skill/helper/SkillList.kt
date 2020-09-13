@@ -5,7 +5,11 @@ import kotlinmud.mob.skill.impl.Berserk
 import kotlinmud.mob.skill.impl.Bite
 import kotlinmud.mob.skill.impl.Disarm
 import kotlinmud.mob.skill.impl.Dodge
+import kotlinmud.mob.skill.impl.EnhancedDamage
+import kotlinmud.mob.skill.impl.Hamstring
+import kotlinmud.mob.skill.impl.Meditation
 import kotlinmud.mob.skill.impl.Parry
+import kotlinmud.mob.skill.impl.SecondAttack
 import kotlinmud.mob.skill.impl.ShieldBlock
 import kotlinmud.mob.skill.impl.Trip
 import kotlinmud.mob.skill.impl.benediction.Bless
@@ -20,6 +24,7 @@ import kotlinmud.mob.skill.impl.weapon.Dagger
 import kotlinmud.mob.skill.impl.weapon.Mace
 import kotlinmud.mob.skill.impl.weapon.Staff
 import kotlinmud.mob.skill.impl.weapon.Sword
+import kotlinmud.mob.skill.impl.weapon.Unarmed
 import kotlinmud.mob.skill.impl.weapon.Wand
 import kotlinmud.mob.skill.type.Skill
 
@@ -33,6 +38,10 @@ fun createSkillList(): List<Skill> {
         Dodge(),
         Disarm(),
         Trip(),
+        Hamstring(),
+        EnhancedDamage(),
+        Meditation(),
+        SecondAttack(),
 
         // weapon
         Dagger(),
@@ -40,6 +49,7 @@ fun createSkillList(): List<Skill> {
         Staff(),
         Sword(),
         Wand(),
+        Unarmed(),
 
         // healing
         CureLight(),

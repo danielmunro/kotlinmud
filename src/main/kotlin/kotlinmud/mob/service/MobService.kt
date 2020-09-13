@@ -13,7 +13,6 @@ import kotlinmud.event.service.EventService
 import kotlinmud.helper.logger
 import kotlinmud.helper.math.normalizeDouble
 import kotlinmud.io.factory.createArriveMessage
-import kotlinmud.io.factory.createDeathMessage
 import kotlinmud.io.factory.createFleeMessage
 import kotlinmud.io.factory.createLeaveMessage
 import kotlinmud.io.factory.createSingleHitMessage
@@ -22,15 +21,18 @@ import kotlinmud.io.model.Message
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
+import kotlinmud.mob.dao.FightDAO
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Attack
-import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.helper.getDispositionRegenRate
 import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.helper.takeDamageFromFall
+import kotlinmud.mob.repository.deleteFinishedFights
 import kotlinmud.mob.repository.findDeadMobs
+import kotlinmud.mob.repository.findFightForMob
+import kotlinmud.mob.repository.findFights
 import kotlinmud.mob.repository.findMobById
 import kotlinmud.mob.repository.findPlayerMobs
 import kotlinmud.mob.skill.dao.SkillDAO
@@ -49,7 +51,6 @@ class MobService(
     private val itemService: ItemService,
     private val eventService: EventService
 ) {
-    private val fights = mutableListOf<Fight>()
     private val logger = logger(this)
     private val skills = createSkillList()
 
@@ -66,12 +67,12 @@ class MobService(
         }
     }
 
-    fun addFight(fight: Fight) {
-        fights.add(fight)
+    fun addFight(mob1: MobDAO, mob2: MobDAO): FightService {
+        return FightService.create(mob1, mob2)
     }
 
-    fun findFightForMob(mob: MobDAO): Fight? {
-        return fights.find { it.isParticipant(mob) }
+    fun getMobFight(mob: MobDAO): FightDAO? {
+        return findFightForMob(mob)
     }
 
     fun moveMob(mob: MobDAO, destinationRoom: RoomDAO, directionLeavingFrom: Direction) {
@@ -83,12 +84,9 @@ class MobService(
     }
 
     fun proceedFights(): List<Round> {
-        return createNewFightRounds().also {
-            fights.filter { it.hasFatality() }.forEach {
-                eventService.publish(createKillEvent(it))
-                fights.remove(it)
-            }
-        }
+        val rounds = createNewFightRounds()
+        deleteFinishedFights()
+        return rounds
     }
 
     fun decrementAffects() {
@@ -100,14 +98,10 @@ class MobService(
 
     fun pruneDeadMobs() {
         findDeadMobs().forEach {
-            with(createCorpseFrom(it)) {
-                transaction {
-                    room = it.room
-                    it.delete()
-                    eventService.publishRoomMessage(
-                        createSendMessageToRoomEvent(createDeathMessage(it), it.room, it)
-                    )
-                }
+            createCorpseFrom(it)
+            transaction {
+                eventService.publishDeath(it)
+                it.delete()
             }
         }
     }
@@ -121,23 +115,8 @@ class MobService(
     }
 
     fun flee(mob: MobDAO) {
-        fights.find { it.isParticipant(mob) }?.let {
-            it.end()
-            transaction {
-                mob.room.getAllExits().entries.random().let { exit ->
-                    sendMessageToRoom(
-                        createFleeMessage(mob, exit.key),
-                        mob.room,
-                        mob
-                    )
-                    mob.room = exit.value
-                    sendMessageToRoom(
-                        createArriveMessage(mob),
-                        exit.value,
-                        mob
-                    )
-                }
-            }
+        getMobFight(mob)?.let {
+            makeMobFlee(FightService(it), mob)
         } ?: logger.debug("flee :: no fight for mob :: {}", mob.id)
     }
 
@@ -169,6 +148,22 @@ class MobService(
         return findMobById(id)
     }
 
+    private fun makeMobFlee(fight: FightService, mob: MobDAO) {
+        fight.end()
+        val exit = mob.room.getAllExits().entries.random()
+        sendMessageToRoom(
+            createFleeMessage(mob, exit.key),
+            mob.room,
+            mob
+        )
+        fight.makeMobFlee(mob.id.value, exit.value)
+        sendMessageToRoom(
+            createArriveMessage(mob),
+            exit.value,
+            mob
+        )
+    }
+
     private fun calculatePracticeGain(mob: MobDAO, skill: SkillDAO): Int {
         return with(1 + getLearningDifficultyPracticeAmount(
             getSkillDifficultyForSpecialization(skill.type, mob.specialization))
@@ -186,10 +181,8 @@ class MobService(
     }
 
     private fun createNewFightRounds(): List<Round> {
-        return fights.map {
-            proceedFightRound(it.createRound()).also { round ->
-                eventService.publish(createFightRoundEvent(round))
-            }
+        return findFights().map {
+            proceedFightRound(FightService(it).createRound())
         }
     }
 
@@ -219,6 +212,10 @@ class MobService(
                 round.defender
             )
         )
+        eventService.publish(createFightRoundEvent(round))
+        if (round.hasFatality()) {
+            eventService.publish(createKillEvent(round.fight))
+        }
         return round
     }
 

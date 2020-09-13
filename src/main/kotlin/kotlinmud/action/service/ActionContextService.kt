@@ -21,7 +21,6 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.fight.Fight
 import kotlinmud.mob.repository.findMobsForRoom
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.type.SkillType
@@ -129,13 +128,12 @@ class ActionContextService(
 
     fun createFight() {
         val target: MobDAO = get(Syntax.MOB_IN_ROOM)
-        val fight = Fight(getMob(), target)
-        mobService.addFight(fight)
-        eventService.publish(createFightStartedEvent(fight, getMob(), target))
+        val fight = mobService.addFight(getMob(), target)
+        eventService.publish(fight.createFightStartedEvent())
     }
 
     fun flee() {
-        mobService.flee(getMob())
+        transaction { mobService.flee(getMob()) }
     }
 
     fun publishSocial(social: Social) {

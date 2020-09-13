@@ -3,7 +3,7 @@ package kotlinmud.action.impl.fight
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
-import kotlinmud.mob.fight.Fight
+import kotlinmud.mob.repository.findFightForMob
 import kotlinmud.test.createTestService
 import org.junit.Test
 
@@ -16,16 +16,15 @@ class FleeTest {
         testService.createRoom { room.north = it }
         val mob = testService.createMob()
         val target = testService.createMob()
-        val fight = Fight(mob, target)
 
         // given
-        testService.addFight(fight)
+        testService.addFight(mob, target)
 
         // when
         testService.runActionForIOStatus(mob, "flee", IOStatus.OK)
 
         // then
-        assertThat(fight.isOver()).isEqualTo(true)
+        findFightForMob(mob).let { assertThat(it!!.isOver()).isEqualTo(true) }
     }
 
     @Test
