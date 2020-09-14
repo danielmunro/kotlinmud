@@ -3,7 +3,6 @@ package kotlinmud.action.impl.item
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
-import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.test.getIdentifyingWord
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -32,7 +31,7 @@ class GetTest {
     @Test
     fun testMobCannotGetNonexistentItemFromRoom() {
         // setup
-        val testService = createTestService()
+        val testService = createTestServiceWithResetDB()
         val mob = testService.createMob()
         val room = transaction { mob.room }
         val itemCount = testService.countItemsFor(room)
@@ -49,7 +48,7 @@ class GetTest {
     @Test
     fun testMobCannotGetMoreItemsFromARoomThanTheyCanHold() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
 
         // given
         test.createMob { it.maxItems = 1 }
@@ -66,7 +65,7 @@ class GetTest {
     @Test
     fun testMobCannotGetMoreWeightThanTheyCanHold() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
 
         // given
         test.createMob { it.maxWeight = 0 }
@@ -86,7 +85,7 @@ class GetTest {
     @Test
     fun testMobCannotGetMoreItemsFromAContainerThanTheyCanHold() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
 
         // given
         val mob = test.createMob { it.maxItems = 1 }
@@ -104,7 +103,7 @@ class GetTest {
     @Test
     fun testMobCannotPutTooManyItemsIntoAContainer() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
 
         // given
         val mob = test.createMob()
@@ -126,7 +125,7 @@ class GetTest {
     @Test
     fun testMobCannotPutTooMuchWeightIntoAContainer() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
 
         // given
         val mob = test.createMob()
