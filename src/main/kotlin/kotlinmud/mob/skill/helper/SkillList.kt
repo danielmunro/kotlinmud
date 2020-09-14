@@ -5,6 +5,7 @@ import kotlinmud.mob.skill.impl.Berserk
 import kotlinmud.mob.skill.impl.Bite
 import kotlinmud.mob.skill.impl.Disarm
 import kotlinmud.mob.skill.impl.EnhancedDamage
+import kotlinmud.mob.skill.impl.FastHealing
 import kotlinmud.mob.skill.impl.Hamstring
 import kotlinmud.mob.skill.impl.Meditation
 import kotlinmud.mob.skill.impl.SecondAttack
@@ -41,6 +42,7 @@ fun createSkillList(): List<Skill> {
         Hamstring(),
         EnhancedDamage(),
         Meditation(),
+        FastHealing(),
         SecondAttack(),
 
         // weapon

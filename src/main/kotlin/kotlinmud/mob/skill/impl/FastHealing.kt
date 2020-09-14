@@ -1,10 +1,10 @@
 package kotlinmud.mob.skill.impl
 
 import kotlinmud.action.helper.mustBeResting
-import kotlinmud.mob.skill.factory.clericAt
-import kotlinmud.mob.skill.factory.mageAt
-import kotlinmud.mob.skill.factory.normalForCleric
-import kotlinmud.mob.skill.factory.normalForMage
+import kotlinmud.mob.skill.factory.normalForThief
+import kotlinmud.mob.skill.factory.normalForWarrior
+import kotlinmud.mob.skill.factory.thiefAt
+import kotlinmud.mob.skill.factory.warriorAt
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CreationGroupType
 import kotlinmud.mob.skill.type.Customization
@@ -13,18 +13,18 @@ import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Intent
 
-class Meditation : Skill, Customization {
-    override val type = SkillType.MEDITATION
+class FastHealing : Skill, Customization {
+    override val type = SkillType.FAST_HEALING
     override val creationGroupType = CreationGroupType.SKILL
-    override val name = "meditation"
+    override val name = "fast healing"
     override val points = 8
     override val levelObtained = mapOf(
-        clericAt(5),
-        mageAt(5)
+        warriorAt(20),
+        thiefAt(20)
     )
     override val difficulty = mapOf(
-        normalForCleric(),
-        normalForMage()
+        normalForThief(),
+        normalForWarrior()
     )
     override val dispositions = mustBeResting()
     override val costs = listOf<Cost>()
