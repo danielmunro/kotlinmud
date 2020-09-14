@@ -15,10 +15,13 @@ import kotlinmud.item.table.Items
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
 import kotlinmud.mob.constant.BASE_STAT
+import kotlinmud.mob.fight.Attack
+import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.fight.type.AttackType
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.race.type.RaceType
+import kotlinmud.mob.service.FightService
 import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.skill.type.SkillType
@@ -124,7 +127,18 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     }
 
     fun getAttacks(): List<AttackType> {
-        return listOf(AttackType.FIRST)
+        return listOf(
+            AttackType.FIRST
+        )
+    }
+
+    fun createAttack(): Attack {
+        return Attack(
+            AttackResult.HIT,
+            getAttackVerb(),
+            FightService.calculateDamage(this),
+            getDamageType()
+        )
     }
 
     fun calc(attribute: Attribute): Int {

@@ -8,8 +8,8 @@ class Round(
     val fight: FightDAO,
     val attacker: MobDAO,
     val defender: MobDAO,
-    val attackerAttacks: List<Attack>,
-    val defenderAttacks: List<Attack>
+    val attackerAttacks: MutableList<Attack>,
+    val defenderAttacks: MutableList<Attack>
 ) {
     fun isActive(): Boolean {
         return !fight.isOver()

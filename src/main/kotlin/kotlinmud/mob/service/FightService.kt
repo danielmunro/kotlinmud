@@ -47,7 +47,7 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
             }
         }
 
-        private fun calculateDamage(attacker: MobDAO): Int {
+        fun calculateDamage(attacker: MobDAO): Int {
             val hit = attacker.calc(Attribute.HIT)
             val dam = attacker.calc(Attribute.DAM)
 
@@ -161,7 +161,7 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
         }
     }
 
-    private fun mapAttacks(attacker: MobDAO, defender: MobDAO): List<Attack> {
+    private fun mapAttacks(attacker: MobDAO, defender: MobDAO): MutableList<Attack> {
         return attacker.getAttacks().map {
             val skillType = rollEvasiveSkills(defender)
             when {
@@ -174,7 +174,7 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
                 )
                 else -> Attack(AttackResult.MISS, attacker.getAttackVerb(), 0, attacker.getDamageType())
             }
-        }
+        }.toMutableList()
     }
 
     private fun attackerDefeatsDefenderAC(attacker: MobDAO, defender: MobDAO): Boolean {

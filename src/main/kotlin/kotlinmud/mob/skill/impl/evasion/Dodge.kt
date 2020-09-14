@@ -1,4 +1,4 @@
-package kotlinmud.mob.skill.impl
+package kotlinmud.mob.skill.impl.evasion
 
 import kotlinmud.action.helper.mustBeFighting
 import kotlinmud.mob.skill.factory.clericAt
