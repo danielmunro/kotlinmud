@@ -10,11 +10,13 @@ import kotlinmud.event.impl.FightStartedEvent
 import kotlinmud.event.impl.KillEvent
 import kotlinmud.event.service.EventService
 import kotlinmud.helper.math.d20
-import kotlinmud.helper.math.dice
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.type.Position
 import kotlinmud.mob.dao.FightDAO
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.factory.createEvadeAttack
+import kotlinmud.mob.factory.createHitAttack
+import kotlinmud.mob.factory.createMissAttack
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.fight.type.AttackResult
@@ -45,13 +47,6 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
                 DamageType.PIERCE -> defender.calc(Attribute.AC_PIERCE)
                 else -> defender.calc(Attribute.AC_MAGIC)
             }
-        }
-
-        fun calculateDamage(attacker: MobDAO): Int {
-            val hit = attacker.calc(Attribute.HIT)
-            val dam = attacker.calc(Attribute.DAM)
-
-            return dice(hit, dam) + dam
         }
 
         private fun rollEvasiveSkills(mob: MobDAO): SkillType? {
@@ -162,19 +157,14 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
     }
 
     private fun mapAttacks(attacker: MobDAO, defender: MobDAO): MutableList<Attack> {
-        return attacker.getAttacks().map {
-            val skillType = rollEvasiveSkills(defender)
+        val skillType = rollEvasiveSkills(defender)
+        return mutableListOf(
             when {
-                skillType != null -> Attack(AttackResult.EVADE, attacker.getAttackVerb(), 0, attacker.getDamageType(), skillType)
-                attackerDefeatsDefenderAC(attacker, defender) -> Attack(
-                    AttackResult.HIT,
-                    attacker.getAttackVerb(),
-                    calculateDamage(attacker),
-                    attacker.getDamageType()
-                )
-                else -> Attack(AttackResult.MISS, attacker.getAttackVerb(), 0, attacker.getDamageType())
+                skillType != null -> createEvadeAttack(attacker, skillType)
+                attackerDefeatsDefenderAC(attacker, defender) -> createHitAttack(attacker)
+                else -> createMissAttack(attacker)
             }
-        }.toMutableList()
+        )
     }
 
     private fun attackerDefeatsDefenderAC(attacker: MobDAO, defender: MobDAO): Boolean {

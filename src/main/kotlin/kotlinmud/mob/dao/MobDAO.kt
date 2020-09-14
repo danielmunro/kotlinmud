@@ -8,6 +8,7 @@ import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.helper.Noun
+import kotlinmud.helper.math.dice
 import kotlinmud.helper.math.normalizeInt
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.dao.ItemDAO
@@ -15,13 +16,9 @@ import kotlinmud.item.table.Items
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
 import kotlinmud.mob.constant.BASE_STAT
-import kotlinmud.mob.fight.Attack
-import kotlinmud.mob.fight.type.AttackResult
-import kotlinmud.mob.fight.type.AttackType
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.race.type.RaceType
-import kotlinmud.mob.service.FightService
 import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.skill.type.SkillType
@@ -126,19 +123,11 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         increaseMv((rate * calc(Attribute.MV)).toInt())
     }
 
-    fun getAttacks(): List<AttackType> {
-        return listOf(
-            AttackType.FIRST
-        )
-    }
+    fun calculateDamage(): Int {
+        val hit = calc(Attribute.HIT)
+        val dam = calc(Attribute.DAM)
 
-    fun createAttack(): Attack {
-        return Attack(
-            AttackResult.HIT,
-            getAttackVerb(),
-            FightService.calculateDamage(this),
-            getDamageType()
-        )
+        return dice(hit, dam) + dam
     }
 
     fun calc(attribute: Attribute): Int {
@@ -274,6 +263,10 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
 
     override fun equals(other: Any?): Boolean {
         return if (other is MobDAO) other.id.value == id.value else super.equals(other)
+    }
+
+    override fun hashCode(): Int {
+        return id.value
     }
 
     private fun getWeapon(): ItemDAO? {
