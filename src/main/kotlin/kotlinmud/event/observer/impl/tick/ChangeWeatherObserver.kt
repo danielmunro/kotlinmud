@@ -1,15 +1,14 @@
-package kotlinmud.event.observer.impl
+package kotlinmud.event.observer.impl.tick
 
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
-import kotlinmud.mob.service.MobService
+import kotlinmud.service.WeatherService
 
-class DecrementAffectTimeoutTickObserver(private val mobService: MobService) :
-    Observer {
+class ChangeWeatherObserver(private val weatherService: WeatherService) : Observer {
     override val eventType: EventType = EventType.TICK
 
     override fun <T> processEvent(event: Event<T>) {
-        mobService.decrementAffects()
+        weatherService.changeWeather()
     }
 }

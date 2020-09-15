@@ -1,4 +1,4 @@
-package kotlinmud.event.observer.impl
+package kotlinmud.event.observer.impl.kill
 
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.KillEvent
@@ -6,9 +6,7 @@ import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
 import kotlinmud.io.service.ServerService
 
-class GrantExperienceOnKillObserver(
-    private val serverService: ServerService
-) : Observer {
+class GrantExperienceOnKillObserver(private val serverService: ServerService) : Observer {
     override val eventType: EventType = EventType.KILL
 
     override fun <T> processEvent(event: Event<T>) {

@@ -1,4 +1,4 @@
-package kotlinmud.event.observer.impl
+package kotlinmud.event.observer.impl.round
 
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer

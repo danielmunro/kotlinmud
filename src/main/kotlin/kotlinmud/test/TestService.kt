@@ -15,7 +15,7 @@ import kotlinmud.biome.type.SubstrateType
 import kotlinmud.db.applySchema
 import kotlinmud.db.createConnection
 import kotlinmud.event.impl.Event
-import kotlinmud.event.observer.impl.WimpyObserver
+import kotlinmud.event.observer.impl.round.WimpyObserver
 import kotlinmud.event.service.EventService
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest

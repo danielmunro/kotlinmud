@@ -1,4 +1,4 @@
-package kotlinmud.event.observer.impl
+package kotlinmud.event.observer.impl.tick
 
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
@@ -15,8 +15,7 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
 
-class MoveMobsOnTickObserver(private val mobService: MobService, private val itemService: ItemService, private val eventService: EventService) :
-    Observer {
+class MoveMobsOnTickObserver(private val mobService: MobService, private val itemService: ItemService, private val eventService: EventService) : Observer {
     override val eventType: EventType = EventType.TICK
 
     override fun <T> processEvent(event: Event<T>) {

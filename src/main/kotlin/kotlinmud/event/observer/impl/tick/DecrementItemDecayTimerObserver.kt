@@ -1,15 +1,14 @@
-package kotlinmud.event.observer.impl
+package kotlinmud.event.observer.impl.tick
 
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
-import kotlinmud.io.service.ClientService
+import kotlinmud.item.service.ItemService
 
-class DecrementDelayObserver(private val clientService: ClientService) :
-    Observer {
+class DecrementItemDecayTimerObserver(private val itemService: ItemService) : Observer {
     override val eventType: EventType = EventType.TICK
 
     override fun <T> processEvent(event: Event<T>) {
-        clientService.decrementDelays()
+        itemService.decrementDecayTimer()
     }
 }

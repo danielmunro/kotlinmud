@@ -1,4 +1,4 @@
-package kotlinmud.event.observer.impl
+package kotlinmud.event.observer.impl.tick
 
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
@@ -8,8 +8,7 @@ import kotlinmud.io.service.ServerService
 import kotlinmud.mob.table.Mobs
 import org.jetbrains.exposed.sql.selectAll
 
-class LogTickObserver(private val serverService: ServerService) :
-    Observer {
+class LogTickObserver(private val serverService: ServerService) : Observer {
     private val logger = logger(this)
     override val eventType: EventType = EventType.TICK
 

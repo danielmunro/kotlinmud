@@ -7,8 +7,7 @@ import kotlinmud.event.type.EventType
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.repository.findMobsForRoom
 
-class SendMessageToRoomObserver(private val serverService: ServerService) :
-    Observer {
+class SendMessageToRoomObserver(private val serverService: ServerService) : Observer {
     override val eventType: EventType = EventType.SEND_MESSAGE_TO_ROOM
 
     override fun <T> processEvent(event: Event<T>) {
