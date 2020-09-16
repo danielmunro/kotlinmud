@@ -18,6 +18,8 @@ import kotlinmud.event.observer.impl.kill.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.kill.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.pulse.PruneDeadMobsPulseObserver
+import kotlinmud.event.observer.impl.regen.FastHealingObserver
+import kotlinmud.event.observer.impl.regen.MeditationObserver
 import kotlinmud.event.observer.impl.round.EnhancedDamageObserver
 import kotlinmud.event.observer.impl.round.SecondAttackObserver
 import kotlinmud.event.observer.impl.round.WimpyObserver
@@ -154,7 +156,9 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
                 GenerateMobsObserver(instance<MobGeneratorService>()),
                 LogOutAllPlayersOnStartupObserver(instance<PlayerService>()),
                 EnhancedDamageObserver(),
-                SecondAttackObserver()
+                SecondAttackObserver(),
+                FastHealingObserver(),
+                MeditationObserver()
             )
         }
     }
