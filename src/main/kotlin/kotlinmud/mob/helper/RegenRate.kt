@@ -1,5 +1,9 @@
 package kotlinmud.mob.helper
 
+import kotlinmud.attributes.type.Attribute
+import kotlinmud.helper.math.dice
+import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.room.type.RegenLevel
 
@@ -21,4 +25,16 @@ fun getDispositionRegenRate(disposition: Disposition): Double {
         Disposition.STANDING -> 0.0
         Disposition.FIGHTING -> -0.15
     }
+}
+
+fun getSkillBoostRegenRate(mob: MobDAO, attribute: Attribute): Double {
+    return when (attribute) {
+        Attribute.HP -> mob.getSkill(SkillType.FAST_HEALING)?.let { if (rollRegen(it.level)) 0.1 else 0.0 } ?: 0.0
+        Attribute.MANA -> mob.getSkill(SkillType.MEDITATION)?.let { if (rollRegen(it.level)) 0.1 else 0.0 } ?: 0.0
+        else -> 0.0
+    }
+}
+
+fun rollRegen(skillLevel: Int): Boolean {
+    return dice(1, skillLevel) > 50
 }

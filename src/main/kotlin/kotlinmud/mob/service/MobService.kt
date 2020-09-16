@@ -9,7 +9,10 @@ import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createFightRoundEvent
 import kotlinmud.event.factory.createKillEvent
 import kotlinmud.event.factory.createSendMessageToRoomEvent
+import kotlinmud.event.impl.Event
+import kotlinmud.event.impl.RegenEvent
 import kotlinmud.event.service.EventService
+import kotlinmud.event.type.EventType
 import kotlinmud.helper.logger
 import kotlinmud.helper.math.normalizeDouble
 import kotlinmud.io.factory.createArriveMessage
@@ -36,7 +39,6 @@ import kotlinmud.mob.repository.findFights
 import kotlinmud.mob.repository.findMobById
 import kotlinmud.mob.repository.findPlayerMobs
 import kotlinmud.mob.skill.dao.SkillDAO
-import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.helper.getLearningDifficultyPracticeAmount
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.Skill
@@ -49,20 +51,20 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobService(
     private val itemService: ItemService,
-    private val eventService: EventService
+    private val eventService: EventService,
+    private val skills: List<Skill>
 ) {
     private val logger = logger(this)
-    private val skills = createSkillList()
 
     fun regenMobs() {
         findPlayerMobs().forEach {
+            val baseRegen = getRoomRegenRate(it.room.regenLevel) + getDispositionRegenRate(it.disposition)
+            val event = RegenEvent(it, baseRegen, baseRegen, baseRegen)
+            eventService.publish(Event(EventType.REGEN, event))
             it.increaseByRegenRate(
-                normalizeDouble(
-                    0.0,
-                    getRoomRegenRate(it.room.regenLevel) +
-                            getDispositionRegenRate(it.disposition),
-                    1.0
-                )
+                normalizeDouble(0.0, event.hpRegenRate, 1.0),
+                normalizeDouble(0.0, event.manaRegenRate, 1.0),
+                normalizeDouble(0.0, event.mvRegenRate, 1.0)
             )
         }
     }

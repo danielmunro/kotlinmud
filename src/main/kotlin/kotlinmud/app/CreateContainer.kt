@@ -109,7 +109,8 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
         bind<MobService>() with singleton {
             MobService(
                 instance<ItemService>(),
-                instance<EventService>()
+                instance<EventService>(),
+                createSkillList()
             )
         }
         bind<ContextBuilderService>() with singleton {

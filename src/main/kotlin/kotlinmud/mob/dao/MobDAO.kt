@@ -17,6 +17,7 @@ import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
 import kotlinmud.mob.constant.BASE_STAT
 import kotlinmud.mob.fight.type.DamageType
+import kotlinmud.mob.helper.getSkillBoostRegenRate
 import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.skill.dao.SkillDAO
@@ -117,10 +118,10 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         }
     }
 
-    fun increaseByRegenRate(rate: Double) {
-        increaseHp((rate * calc(Attribute.HP)).toInt())
-        increaseMana((rate * calc(Attribute.MANA)).toInt())
-        increaseMv((rate * calc(Attribute.MV)).toInt())
+    fun increaseByRegenRate(hpRate: Double, manaRate: Double, mvRate: Double) {
+        increaseHp(((hpRate + getSkillBoostRegenRate(this, Attribute.HP)) * calc(Attribute.HP)).toInt())
+        increaseMana(((manaRate + getSkillBoostRegenRate(this, Attribute.MANA)) * calc(Attribute.MANA)).toInt())
+        increaseMv((mvRate * calc(Attribute.MV)).toInt())
     }
 
     fun calculateDamage(): Int {
