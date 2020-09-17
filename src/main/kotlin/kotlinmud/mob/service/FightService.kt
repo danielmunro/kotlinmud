@@ -5,7 +5,6 @@ import kotlinmud.event.factory.createFightRoundEvent as createFightRoundEventFac
 import kotlinmud.event.factory.createFightStartedEvent as createFightStartedEventFactory
 import kotlinmud.event.factory.createKillEvent as createKillEventFactory
 import kotlinmud.event.impl.Event
-import kotlinmud.event.impl.FightRoundEvent
 import kotlinmud.event.impl.FightStartedEvent
 import kotlinmud.event.impl.KillEvent
 import kotlinmud.event.service.EventService
@@ -133,7 +132,7 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
                 mapAttacks(fight.mob2, fight.mob1)
             )
         }
-        eventService.publish(FightRoundEvent(round))
+        eventService.publishFightRound(round)
         transaction { applyRoundDamage(round.attackerAttacks, round.defender) }
         if (round.isActive()) {
             applyRoundDamage(round.defenderAttacks, round.attacker)

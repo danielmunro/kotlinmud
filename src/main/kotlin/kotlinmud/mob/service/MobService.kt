@@ -6,7 +6,6 @@ import kotlinmud.affect.repository.decrementAffectsTimeout
 import kotlinmud.affect.repository.deleteTimedOutAffects
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.event.factory.createFightRoundEvent
 import kotlinmud.event.factory.createKillEvent
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
@@ -214,7 +213,6 @@ class MobService(
                 round.defender
             )
         )
-        eventService.publish(createFightRoundEvent(round))
         if (round.hasFatality()) {
             eventService.publish(createKillEvent(round.fight))
         }
