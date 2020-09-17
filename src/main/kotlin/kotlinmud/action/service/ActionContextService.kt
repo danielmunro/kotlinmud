@@ -4,7 +4,6 @@ import kotlinmud.action.model.ActionContextList
 import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.type.Affect
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.event.factory.createFightStartedEvent
 import kotlinmud.event.factory.createSocialEvent
 import kotlinmud.event.service.EventService
 import kotlinmud.helper.Noun
@@ -34,8 +33,8 @@ import kotlinmud.room.helper.getRoomDescription
 import kotlinmud.room.helper.getRoomName
 import kotlinmud.room.repository.findStartRoom
 import kotlinmud.room.type.Direction
-import kotlinmud.service.WeatherService
-import kotlinmud.weather.Weather
+import kotlinmud.weather.service.WeatherService
+import kotlinmud.weather.type.Weather
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.sql.transactions.transaction
 

@@ -1,7 +1,7 @@
-package kotlinmud.service
+package kotlinmud.weather.service
 
-import kotlinmud.weather.Temperature
-import kotlinmud.weather.Weather
+import kotlinmud.weather.type.Temperature
+import kotlinmud.weather.type.Weather
 
 class WeatherService {
     private var weather: Weather = Weather.CLEAR

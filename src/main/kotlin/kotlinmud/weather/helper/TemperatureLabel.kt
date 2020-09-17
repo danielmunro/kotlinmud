@@ -1,6 +1,6 @@
 package kotlinmud.weather.helper
 
-import kotlinmud.weather.Temperature
+import kotlinmud.weather.type.Temperature
 
 fun getTemperatureLabel(temperature: Temperature): String {
     return when (temperature) {

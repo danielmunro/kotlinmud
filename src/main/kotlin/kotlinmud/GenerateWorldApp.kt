@@ -3,7 +3,7 @@ package kotlinmud
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.db.applySchema
 import kotlinmud.db.createConnection
-import kotlinmud.generator.GeneratorService
+import kotlinmud.generator.service.GeneratorService
 
 fun main() {
     createConnection()

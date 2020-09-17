@@ -3,6 +3,8 @@ package kotlinmud.generator
 import assertk.assertThat
 import assertk.assertions.hasSize
 import kotlinmud.biome.helper.createBiomes
+import kotlinmud.generator.service.BiomeService
+import kotlinmud.generator.service.ElevationService
 import kotlinmud.test.createTestService
 import org.junit.Test
 

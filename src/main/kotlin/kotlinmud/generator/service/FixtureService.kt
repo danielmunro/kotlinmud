@@ -1,4 +1,4 @@
-package kotlinmud.service
+package kotlinmud.generator.service
 
 import io.github.serpro69.kfaker.Faker
 

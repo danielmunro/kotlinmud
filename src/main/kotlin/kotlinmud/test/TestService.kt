@@ -17,6 +17,7 @@ import kotlinmud.db.createConnection
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.impl.round.WimpyObserver
 import kotlinmud.event.service.EventService
+import kotlinmud.generator.service.FixtureService
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
@@ -48,7 +49,6 @@ import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.repository.findStartRoom
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
-import kotlinmud.service.FixtureService
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class TestService(

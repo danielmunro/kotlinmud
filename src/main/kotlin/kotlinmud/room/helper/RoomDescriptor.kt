@@ -2,9 +2,9 @@ package kotlinmud.room.helper
 
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.weather.Temperature
-import kotlinmud.weather.Weather
 import kotlinmud.weather.helper.getTemperatureLabel
+import kotlinmud.weather.type.Temperature
+import kotlinmud.weather.type.Weather
 
 fun getRoomName(temperature: Temperature, biomeType: BiomeType): String {
     return "A ${getTemperatureLabel(temperature)} ${getBiomeLabel(biomeType)}"

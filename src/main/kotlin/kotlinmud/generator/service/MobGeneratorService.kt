@@ -1,4 +1,4 @@
-package kotlinmud.generator
+package kotlinmud.generator.service
 
 import kotlinmud.biome.type.Biome
 import kotlinmud.biome.type.BiomeType

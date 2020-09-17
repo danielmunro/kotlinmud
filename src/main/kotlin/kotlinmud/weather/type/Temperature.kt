@@ -1,4 +1,4 @@
-package kotlinmud.weather
+package kotlinmud.weather.type
 
 enum class Temperature {
     VERY_COLD,

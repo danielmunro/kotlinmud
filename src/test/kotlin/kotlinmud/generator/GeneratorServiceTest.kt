@@ -7,6 +7,7 @@ import assertk.assertions.isTrue
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.generator.constant.DEPTH
+import kotlinmud.generator.service.GeneratorService
 import kotlinmud.test.createTestService
 import org.junit.Test
 

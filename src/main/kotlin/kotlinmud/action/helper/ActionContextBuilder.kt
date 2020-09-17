@@ -8,7 +8,7 @@ import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
-import kotlinmud.service.WeatherService
+import kotlinmud.weather.service.WeatherService
 
 fun createActionContextBuilder(
     mobService: MobService,

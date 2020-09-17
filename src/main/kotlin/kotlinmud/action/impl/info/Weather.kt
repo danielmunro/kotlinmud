@@ -4,7 +4,7 @@ import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.createResponseWithEmptyActionContext
-import kotlinmud.weather.Weather
+import kotlinmud.weather.type.Weather
 
 fun createWeatherAction(): Action {
     return Action(Command.WEATHER) {

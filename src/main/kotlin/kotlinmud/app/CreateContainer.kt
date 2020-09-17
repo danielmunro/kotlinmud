@@ -35,7 +35,8 @@ import kotlinmud.event.observer.impl.tick.RegenMobsObserver
 import kotlinmud.event.observer.impl.tick.ScavengerCollectsItemsObserver
 import kotlinmud.event.observer.type.Observers
 import kotlinmud.event.service.EventService
-import kotlinmud.generator.MobGeneratorService
+import kotlinmud.generator.service.FixtureService
+import kotlinmud.generator.service.MobGeneratorService
 import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.helper.createRecipeList
@@ -47,9 +48,8 @@ import kotlinmud.player.factory.createEmailService
 import kotlinmud.player.factory.createEmailServiceMock
 import kotlinmud.player.service.EmailService
 import kotlinmud.player.service.PlayerService
-import kotlinmud.service.FixtureService
-import kotlinmud.service.WeatherService
 import kotlinmud.time.service.TimeService
+import kotlinmud.weather.service.WeatherService
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance

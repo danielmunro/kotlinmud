@@ -7,13 +7,13 @@ import kotlinmud.db.createConnection
 import kotlinmud.db.getTables
 import kotlinmud.event.observer.type.Observers
 import kotlinmud.event.service.EventService
+import kotlinmud.generator.service.FixtureService
 import kotlinmud.helper.Noun
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.PlayerService
-import kotlinmud.service.FixtureService
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.kodein.di.erased.instance

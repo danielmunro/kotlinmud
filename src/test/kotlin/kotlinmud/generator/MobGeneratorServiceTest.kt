@@ -3,6 +3,7 @@ package kotlinmud.generator
 import assertk.assertThat
 import assertk.assertions.isGreaterThan
 import kotlinmud.biome.helper.createBiomes
+import kotlinmud.generator.service.GeneratorService
 import kotlinmud.mob.table.Mobs
 import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.selectAll
