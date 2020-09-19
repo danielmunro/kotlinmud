@@ -12,4 +12,5 @@ class EnhancementSpellGroup : SpellGroup, Customization {
     )
     override val points: Int = 8
     override val creationGroupType = CreationGroupType.SPELL_GROUP
+    override val helpText = "tbd"
 }

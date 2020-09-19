@@ -14,4 +14,5 @@ class ClericDefaultCreationGroup : Customization, CustomizationGroup {
     )
     override val points = 6
     override val creationGroupType = CreationGroupType.DEFAULT_GROUP
+    override val helpText = "tbd"
 }

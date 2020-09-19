@@ -30,7 +30,10 @@ class CustomizationAuthStep(private val authStepService: AuthStepService, privat
             "add" -> add(prepareFromPool(request) ?: return IOStatus.ERROR)
             "remove" -> remove(prepareFromAdded(request) ?: return IOStatus.ERROR)
             "list" -> list(request.client)
-            "help" -> help(request.client)
+            "help" -> help(
+                request.client,
+                customizationService.findAddedCustomization(request.input)
+                    ?: customizationService.findCustomizationFromPool(request.input) ?: return IOStatus.ERROR)
             "done" -> done = true
             else -> return IOStatus.ERROR
         }
@@ -48,8 +51,8 @@ class CustomizationAuthStep(private val authStepService: AuthStepService, privat
         }
     }
 
-    private fun help(client: Client) {
-        client.write("help text!1")
+    private fun help(client: Client, customization: Customization) {
+        client.write(customization.helpText)
     }
 
     private fun list(client: Client) {

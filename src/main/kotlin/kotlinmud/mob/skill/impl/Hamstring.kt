@@ -43,6 +43,7 @@ class Hamstring : SkillAction, Customization {
     override val creationGroupType = CreationGroupType.SKILL
     override val name = "hamstring"
     override val points = 6
+    override val helpText = "tbd"
 
     override fun invoke(actionContextService: ActionContextService): Response {
         createAffect(AffectType.STUNNED, Math.max(actionContextService.getLevel() / 10, 3))

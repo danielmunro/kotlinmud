@@ -15,6 +15,7 @@ import kotlinmud.biome.type.SubstrateType
 import kotlinmud.db.applySchema
 import kotlinmud.db.createConnection
 import kotlinmud.event.impl.Event
+import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.round.WimpyObserver
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.service.FixtureService
@@ -341,6 +342,10 @@ class TestService(
 
     fun getWimpyObserver(): WimpyObserver {
         return WimpyObserver(mobService)
+    }
+
+    fun getProceedFightsPulseObserver(): ProceedFightsPulseObserver {
+        return ProceedFightsPulseObserver(mobService)
     }
 
     fun flee(mob: MobDAO) {

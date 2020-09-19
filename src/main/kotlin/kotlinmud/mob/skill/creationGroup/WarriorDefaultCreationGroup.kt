@@ -16,4 +16,5 @@ class WarriorDefaultCreationGroup : CustomizationGroup, Customization {
     )
     override val points = 12
     override val creationGroupType = CreationGroupType.DEFAULT_GROUP
+    override val helpText = "tbd"
 }

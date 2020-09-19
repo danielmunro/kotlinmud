@@ -36,4 +36,5 @@ class Unarmed : Skill, Customization {
     override val name = "unarmed"
     override val points = 4
     override val creationGroupType = CreationGroupType.SKILL
+    override val helpText = "tbd"
 }

@@ -30,4 +30,5 @@ class FastHealing : Skill, Customization {
     override val costs = listOf<Cost>()
     override val intent = Intent.NEUTRAL
     override val invokesOn = SkillInvokesOn.TICK
+    override val helpText = "tbd"
 }

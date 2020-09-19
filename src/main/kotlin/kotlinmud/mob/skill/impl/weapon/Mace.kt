@@ -36,4 +36,5 @@ class Mace : Skill, Customization {
     override val name = "mace"
     override val points = 4
     override val creationGroupType = CreationGroupType.SKILL
+    override val helpText = "tbd"
 }

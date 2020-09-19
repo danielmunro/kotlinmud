@@ -30,4 +30,5 @@ class SecondAttack : Skill, Customization {
     override val costs = listOf<Cost>()
     override val intent = Intent.OFFENSIVE
     override val invokesOn = SkillInvokesOn.ATTACK_ROUND
+    override val helpText = "tbd"
 }

@@ -44,6 +44,7 @@ class Berserk : SkillAction, Customization {
     override val argumentOrder = listOf(0)
     override val invokesOn = SkillInvokesOn.INPUT
     override val affect = BerserkAffect()
+    override val helpText = "tbd"
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val affect = createAffect(AffectType.BERSERK)

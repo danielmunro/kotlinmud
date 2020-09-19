@@ -46,6 +46,7 @@ class Disarm : SkillAction, Customization {
     override val creationGroupType = CreationGroupType.SKILL
     override val name = "disarm"
     override val points = 6
+    override val helpText = "tbd"
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val mob = actionContextService.getMob()

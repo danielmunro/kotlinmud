@@ -16,4 +16,5 @@ class HealingSpellGroup : SpellGroup, Customization {
     )
     override val points = 8
     override val creationGroupType = CreationGroupType.SPELL_GROUP
+    override val helpText = "tbd"
 }

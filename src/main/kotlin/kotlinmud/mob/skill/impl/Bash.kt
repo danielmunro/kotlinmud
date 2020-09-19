@@ -53,6 +53,7 @@ class Bash : SkillAction, Customization {
     override val argumentOrder = listOf(1, 2)
     override val invokesOn = SkillInvokesOn.INPUT
     override val affect = StunnedAffect()
+    override val helpText = "tbd"
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val target = actionContextService.get<MobDAO>(Syntax.TARGET_MOB)

@@ -36,4 +36,5 @@ class Dagger : Skill, Customization {
     override val name = "dagger"
     override val points = 4
     override val creationGroupType = CreationGroupType.SKILL
+    override val helpText = "tbd"
 }

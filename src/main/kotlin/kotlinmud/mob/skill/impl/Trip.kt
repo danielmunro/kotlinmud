@@ -46,6 +46,7 @@ class Trip : SkillAction, Customization {
     )
     override val intent = Intent.OFFENSIVE
     override val invokesOn = SkillInvokesOn.ATTACK_ROUND
+    override val helpText = "tbd"
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val mob = actionContextService.getMob()

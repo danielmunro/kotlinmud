@@ -36,4 +36,5 @@ class Wand : Skill, Customization {
     override val name = "wand"
     override val points = 4
     override val creationGroupType = CreationGroupType.SKILL
+    override val helpText = "tbd"
 }

@@ -36,4 +36,5 @@ class Sword : Skill, Customization {
     override val name = "sword"
     override val points = 4
     override val creationGroupType = CreationGroupType.SKILL
+    override val helpText = "tbd"
 }

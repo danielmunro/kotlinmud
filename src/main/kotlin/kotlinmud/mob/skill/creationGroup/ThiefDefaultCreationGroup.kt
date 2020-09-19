@@ -16,4 +16,5 @@ class ThiefDefaultCreationGroup : Customization, CustomizationGroup {
     )
     override val points = 8
     override val creationGroupType = CreationGroupType.DEFAULT_GROUP
+    override val helpText = "tbd"
 }
