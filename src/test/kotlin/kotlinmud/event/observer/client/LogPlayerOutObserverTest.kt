@@ -2,10 +2,10 @@ package kotlinmud.event.observer.client
 
 import assertk.assertThat
 import assertk.assertions.isFalse
+import assertk.assertions.isNull
 import assertk.assertions.isTrue
-import kotlinmud.event.impl.Event
+import kotlinmud.event.factory.createClientDisconnectedEvent
 import kotlinmud.event.observer.impl.client.LogPlayerOutObserver
-import kotlinmud.event.type.EventType
 import kotlinmud.player.repository.findMobCardByName
 import kotlinmud.test.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -29,11 +29,26 @@ class LogPlayerOutObserverTest {
 
         // when
         transaction {
-            LogPlayerOutObserver().processEvent(Event(EventType.CLIENT_DISCONNECTED, client1))
+            LogPlayerOutObserver().processEvent(createClientDisconnectedEvent(client1))
         }
 
         // then
         findMobCardByName(client1.mob!!.name)!!.let { assertThat(it.loggedIn).isFalse() }
         findMobCardByName(client2.mob!!.name)!!.let { assertThat(it.loggedIn).isTrue() }
+    }
+
+    @Test
+    fun testWorksWithClientWithoutMobs() {
+        // setup
+        val test = createTestService()
+        val client = test.createClient()
+
+        // when
+        transaction {
+            LogPlayerOutObserver().processEvent(createClientDisconnectedEvent(client))
+        }
+
+        // then
+        assertThat(client.mob).isNull()
     }
 }

@@ -11,9 +11,7 @@ class LogPlayerOutObserver : Observer {
 
     override fun <T> processEvent(event: Event<T>) {
         with(event.subject as Client) {
-            findMobCardByName(this.mob?.name ?: return)?.let {
-                it.loggedIn = false
-            }
+            findMobCardByName(this.mob?.name ?: return)!!.loggedIn = false
         }
     }
 }
