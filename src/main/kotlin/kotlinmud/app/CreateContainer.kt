@@ -7,13 +7,13 @@ import kotlinmud.action.service.ActionService
 import kotlinmud.action.service.ContextBuilderService
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.db.createConnection
-import kotlinmud.event.observer.impl.ClientConnectedObserver
 import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
 import kotlinmud.event.observer.impl.LogOutAllPlayersOnStartupObserver
-import kotlinmud.event.observer.impl.LogPlayerInObserver
-import kotlinmud.event.observer.impl.LogPlayerOutObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
+import kotlinmud.event.observer.impl.client.ClientConnectedObserver
+import kotlinmud.event.observer.impl.client.LogPlayerInObserver
+import kotlinmud.event.observer.impl.client.LogPlayerOutObserver
 import kotlinmud.event.observer.impl.kill.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.kill.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
