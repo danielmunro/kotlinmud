@@ -15,6 +15,7 @@ import kotlinmud.biome.type.SubstrateType
 import kotlinmud.db.applySchema
 import kotlinmud.db.createConnection
 import kotlinmud.event.impl.Event
+import kotlinmud.event.observer.impl.client.ClientConnectedObserver
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.round.WimpyObserver
 import kotlinmud.event.service.EventService
@@ -342,6 +343,14 @@ class TestService(
 
     fun getWimpyObserver(): WimpyObserver {
         return WimpyObserver(mobService)
+    }
+
+    fun getClientConnectedObserver(): ClientConnectedObserver {
+        return ClientConnectedObserver(playerService)
+    }
+
+    fun getAuthStep(client: Client): AuthStep? {
+        return playerService.getAuthStepForClient(client)
     }
 
     fun getProceedFightsPulseObserver(): ProceedFightsPulseObserver {

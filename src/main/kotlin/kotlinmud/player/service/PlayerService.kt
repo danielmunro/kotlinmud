@@ -97,6 +97,10 @@ class PlayerService(
         preAuthClients[client] = EmailAuthStep(authStepService)
     }
 
+    fun getAuthStepForClient(client: Client): AuthStep? {
+        return preAuthClients[client]
+    }
+
     fun logOutPlayers() {
         transaction {
             findLoggedInMobCards().forEach {
