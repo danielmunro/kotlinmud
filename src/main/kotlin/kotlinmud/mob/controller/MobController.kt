@@ -6,9 +6,9 @@ import kotlinmud.helper.logger
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.path.Pathfinder
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
-import kotlinmud.path.Pathfinder
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.repository.findRoomById

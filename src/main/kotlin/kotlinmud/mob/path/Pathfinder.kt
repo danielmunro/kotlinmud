@@ -1,4 +1,4 @@
-package kotlinmud.path
+package kotlinmud.mob.path
 
 import kotlinmud.room.dao.RoomDAO
 
