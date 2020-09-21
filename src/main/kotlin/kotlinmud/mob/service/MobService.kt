@@ -44,6 +44,7 @@ import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.player.dao.MobCardDAO
+import kotlinmud.player.repository.findMobCardByName
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.type.Direction
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -147,6 +148,13 @@ class MobService(
 
     fun getMob(id: Int): MobDAO {
         return findMobById(id)
+    }
+
+    fun decreaseThirstAndHunger(mobName: String): MobCardDAO? {
+        return findMobCardByName(mobName)?.also {
+            it.hunger -= 1
+            it.thirst -= 1
+        }
     }
 
     private fun makeMobFlee(fight: FightService, mob: MobDAO) {

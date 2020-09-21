@@ -24,11 +24,11 @@ import kotlinmud.event.observer.impl.round.EnhancedDamageObserver
 import kotlinmud.event.observer.impl.round.SecondAttackObserver
 import kotlinmud.event.observer.impl.round.WimpyObserver
 import kotlinmud.event.observer.impl.tick.ChangeWeatherObserver
+import kotlinmud.event.observer.impl.tick.DecreaseThirstAndHungerObserver
 import kotlinmud.event.observer.impl.tick.DecrementAffectTimeoutTickObserver
 import kotlinmud.event.observer.impl.tick.DecrementDelayObserver
 import kotlinmud.event.observer.impl.tick.DecrementItemDecayTimerObserver
 import kotlinmud.event.observer.impl.tick.GenerateMobsObserver
-import kotlinmud.event.observer.impl.tick.IncreaseThirstAndHungerObserver
 import kotlinmud.event.observer.impl.tick.LogTickObserver
 import kotlinmud.event.observer.impl.tick.MoveMobsOnTickObserver
 import kotlinmud.event.observer.impl.tick.RegenMobsObserver
@@ -148,7 +148,7 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
                 WimpyObserver(instance<MobService>()),
                 GrantExperienceOnKillObserver(instance<ServerService>()),
                 TransferGoldOnKillObserver(instance<MobService>()),
-                IncreaseThirstAndHungerObserver(instance<ServerService>()),
+                DecreaseThirstAndHungerObserver(instance<ServerService>(), instance<MobService>()),
                 RegenMobsObserver(instance<MobService>()),
                 MoveMobsOnTickObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),
                 ScavengerCollectsItemsObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),

@@ -19,6 +19,7 @@ import kotlinmud.event.observer.impl.LogOutAllPlayersOnStartupObserver
 import kotlinmud.event.observer.impl.client.ClientConnectedObserver
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.round.WimpyObserver
+import kotlinmud.event.observer.impl.tick.DecreaseThirstAndHungerObserver
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.service.FixtureService
 import kotlinmud.io.model.Client
@@ -86,6 +87,7 @@ class TestService(
             it.room = room
         }
         every { client.socket.remoteAddress } returns mockk<SocketAddress>()
+        serverService.getClients().add(client)
     }
 
     fun <T> publish(event: Event<T>) {
@@ -352,6 +354,10 @@ class TestService(
 
     fun getLogOutAllPlayersOnStartupObserver(): LogOutAllPlayersOnStartupObserver {
         return LogOutAllPlayersOnStartupObserver(playerService)
+    }
+
+    fun getDecreaseThirstAndHungerObserver(): DecreaseThirstAndHungerObserver {
+        return DecreaseThirstAndHungerObserver(serverService, mobService)
     }
 
     fun getAuthStep(client: Client): AuthStep? {
