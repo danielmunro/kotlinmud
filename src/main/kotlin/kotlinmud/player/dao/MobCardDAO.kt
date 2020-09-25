@@ -55,6 +55,6 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     }
 
     private fun getExperienceToLevel(level: Int): Int {
-        return transaction { experiencePerLevel - experience + (experiencePerLevel * level) }
+        return transaction { experiencePerLevel - experience + (experiencePerLevel * level - 1) }
     }
 }

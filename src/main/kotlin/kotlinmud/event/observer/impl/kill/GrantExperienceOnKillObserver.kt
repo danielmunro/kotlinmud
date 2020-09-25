@@ -4,7 +4,12 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.KillEvent
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.type.EventType
+import kotlinmud.io.model.Client
 import kotlinmud.io.service.ServerService
+import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.helper.getExperienceGain
+import kotlinmud.mob.model.AddExperience
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class GrantExperienceOnKillObserver(private val serverService: ServerService) : Observer {
     override val eventType: EventType = EventType.KILL
@@ -16,45 +21,23 @@ class GrantExperienceOnKillObserver(private val serverService: ServerService) : 
         if (victor.isNpc) {
             return
         }
-        val experience = getBaseExperience(vanquished.level - victor.level)
-            .let {
-            when {
-                victor.level < 11 -> 15 * it / (victor.level + 4)
-                victor.level > 40 -> 40 * it / (victor.level - 1)
-                else -> it
-            }
-        }
-        val addExperience = victor.mobCard?.addExperience(victor.level, experience)
-        serverService.getClientForMob(victor)?.let { client ->
-            client.writePrompt("you gain $experience experience.")
-            addExperience?.levelGained?.let {
-                client.writePrompt("you gained a level!")
+        val gain = getExperienceGain(victor, vanquished)
+        val experienceAddedResponse = addExperience(victor, gain)
+        serverService.getClientForMob(victor)?.let { sendClientUpdates(it, experienceAddedResponse) }
+    }
+
+    private fun addExperience(mob: MobDAO, amountOfExperienceGained: Int): AddExperience {
+        return mob.mobCard!!.addExperience(mob.level, amountOfExperienceGained).also {
+            if (it.levelGained) {
+                transaction { mob.level += 1 }
             }
         }
     }
-}
 
-fun getBaseExperience(levelDifference: Int): Int {
-    return when (levelDifference) {
-        -8 -> 2
-        -7 -> 7
-        -6 -> 13
-        -5 -> 20
-        -4 -> 26
-        -3 -> 40
-        -2 -> 60
-        -1 -> 80
-        0 -> 100
-        1 -> 140
-        2 -> 180
-        3 -> 220
-        4 -> 280
-        5 -> 320
-        else -> {
-            if (levelDifference > 5) {
-                return 320 + 30 * (levelDifference - 5)
-            }
-            0
+    private fun sendClientUpdates(client: Client, experienceAddedResponse: AddExperience) {
+        client.write("you gain ${experienceAddedResponse.experienceAdded} experience.")
+        if (experienceAddedResponse.levelGained) {
+            client.writePrompt("you gained a level!")
         }
     }
 }

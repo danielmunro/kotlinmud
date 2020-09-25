@@ -17,6 +17,7 @@ import kotlinmud.db.createConnection
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.impl.LogOutAllPlayersOnStartupObserver
 import kotlinmud.event.observer.impl.client.ClientConnectedObserver
+import kotlinmud.event.observer.impl.kill.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.round.WimpyObserver
 import kotlinmud.event.observer.impl.tick.DecreaseThirstAndHungerObserver
@@ -241,6 +242,7 @@ class TestService(
             mob.player = player
             val card = MobCardDAO.new {
                 experiencePerLevel = 1000
+                experience = 1000
                 hunger = mob.race.maxAppetite
                 thirst = mob.race.maxThirst
                 this.mob = mob
@@ -358,6 +360,10 @@ class TestService(
 
     fun getDecreaseThirstAndHungerObserver(): DecreaseThirstAndHungerObserver {
         return DecreaseThirstAndHungerObserver(serverService, mobService)
+    }
+
+    fun getGrantExperienceOnKillObserver(): GrantExperienceOnKillObserver {
+        return GrantExperienceOnKillObserver(serverService)
     }
 
     fun getAuthStep(client: Client): AuthStep? {
