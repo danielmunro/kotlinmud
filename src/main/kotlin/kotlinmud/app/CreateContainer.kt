@@ -150,7 +150,7 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
                 TransferGoldOnKillObserver(instance<MobService>()),
                 DecreaseThirstAndHungerObserver(instance<ServerService>(), instance<MobService>()),
                 RegenMobsObserver(instance<MobService>()),
-                MoveMobsOnTickObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),
+                MoveMobsOnTickObserver(instance<MobService>()),
                 ScavengerCollectsItemsObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),
                 GuardAttacksAggroMobsObserver(instance<MobService>()),
                 GenerateMobsObserver(instance<MobGeneratorService>()),

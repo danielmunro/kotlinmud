@@ -23,6 +23,7 @@ import kotlinmud.io.model.Message
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
+import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.dao.FightDAO
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Attack
@@ -67,6 +68,10 @@ class MobService(
                 normalizeDouble(0.0, event.mvRegenRate, 1.0)
             )
         }
+    }
+
+    fun createMobController(mob: MobDAO): MobController {
+        return MobController(this, itemService, eventService, mob)
     }
 
     fun addFight(mob1: MobDAO, mob2: MobDAO): FightService {

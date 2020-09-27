@@ -3,7 +3,10 @@ package kotlinmud.mob.repository
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
+import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.RoomDAO
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -42,5 +45,16 @@ fun findDeadMobs(): List<MobDAO> {
                 Mobs.disposition eq Disposition.DEAD.toString()
             }
         ).toList()
+    }
+}
+
+fun findMobsWantingToMoveOnTick(): List<MobDAO> {
+    return transaction {
+        MobDAO.wrapRows(Mobs.select {
+            Mobs.isNpc eq true and
+                    (Mobs.job eq JobType.SCAVENGER.value or
+                            (Mobs.job eq JobType.FODDER.value or
+                                    (Mobs.job eq JobType.PATROL.value)))
+        }).toList()
     }
 }
