@@ -63,11 +63,7 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
         bind<ServerSocket>() with singleton { ServerSocket(port) }
         bind<ClientService>() with singleton { ClientService() }
         bind<ServerService>() with singleton {
-            ServerService(
-                instance<ClientService>(),
-                instance<EventService>(),
-                port
-            )
+            ServerService(instance(), instance(), port)
         }
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
@@ -81,10 +77,7 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
             }
         }
         bind<PlayerService>() with singleton {
-            PlayerService(
-                instance<EmailService>(),
-                instance<EventService>()
-            )
+            PlayerService(instance(), instance())
         }
         bind<AuthStepService>() with singleton {
             val playerService = instance<PlayerService>()
@@ -93,35 +86,35 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
             }
         }
         bind<TimeService>() with singleton {
-            TimeService(instance<EventService>())
+            TimeService(instance())
         }
         bind<ActionService>() with singleton {
             ActionService(
-                instance<MobService>(),
-                instance<ContextBuilderService>(),
+                instance(),
+                instance(),
                 createActionContextBuilder(
-                    instance<MobService>(),
-                    instance<PlayerService>(),
-                    instance<ItemService>(),
-                    instance<EventService>(),
-                    instance<WeatherService>(),
-                    instance<ServerService>()
+                    instance(),
+                    instance(),
+                    instance(),
+                    instance(),
+                    instance(),
+                    instance()
                 ),
                 createActionsList()
             )
         }
         bind<MobService>() with singleton {
             MobService(
-                instance<ItemService>(),
-                instance<EventService>(),
+                instance(),
+                instance(),
                 createSkillList()
             )
         }
         bind<ContextBuilderService>() with singleton {
             ContextBuilderService(
-                instance<ItemService>(),
-                instance<MobService>(),
-                instance<PlayerService>(),
+                instance(),
+                instance(),
+                instance(),
                 createSkillList(),
                 createRecipeList()
             )
@@ -131,14 +124,14 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
         }
         bind<ObserverV2>() with singleton {
             mapOf(
-                Pair(EventType.GAME_START, listOf { event: Event<*> ->
-                    logoutAllPlayersOnStartupEvent(instance<PlayerService>())
+                Pair(EventType.GAME_START, listOf { _ ->
+                    logoutAllPlayersOnStartupEvent(instance())
                 }),
                 Pair(EventType.CLIENT_CONNECTED, listOf { event: Event<*> ->
-                    clientConnectedEvent(instance<PlayerService>(), event)
+                    clientConnectedEvent(instance(), event)
                 }),
                 Pair(EventType.SEND_MESSAGE_TO_ROOM, listOf { event: Event<*> ->
-                    sendMessageToRoomEvent(instance<ServerService>(), event)
+                    sendMessageToRoomEvent(instance(), event)
                 }),
                 Pair(EventType.CLIENT_LOGGED_IN, listOf { event: Event<*> ->
                     logPlayerInEvent(event)
@@ -147,77 +140,39 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
                     logPlayerInEvent(event)
                 }),
                 Pair(EventType.SOCIAL, listOf { event: Event<*> ->
-                    SocialDistributorObserver(instance<ServerService>()).event(event)
+                    SocialDistributorObserver(instance()).event(event)
                 }),
                 Pair(EventType.PULSE, listOf(
-                    { _: Event<*> ->
-                        proceedFightsEvent(instance<MobService>())
-                    },
-                    {
-                        decrementAffectTimeoutEvent(instance<MobService>())
-                    },
-                    {
-                        pruneDeadMobsEvent(instance<MobService>())
-                    }
+                    { _: Event<*> -> proceedFightsEvent(instance()) },
+                    { decrementAffectTimeoutEvent(instance()) },
+                    { pruneDeadMobsEvent(instance()) }
                 )),
                 Pair(EventType.TICK, listOf(
-                    { _: Event<*> ->
-                        decrementDelayEvent(instance<ClientService>())
-                    },
-                    {
-                        decrementItemDecayTimerEvent(instance<ItemService>())
-                    },
-                    {
-                        decreaseThirstAndHungerEvent(instance<ServerService>(), instance<MobService>(), it)
-                    },
-                    {
-                        logTickObserver(instance<ServerService>(), logger(this))
-                    },
-                    {
-                        changeWeatherEvent(instance<WeatherService>())
-                    },
-                    {
-                        regenMobsEvent(instance<MobService>())
-                    },
-                    {
-                        moveMobsOnTickEvent(instance<MobService>())
-                    },
-                    {
-                        scavengerCollectsItemEvent(instance<MobService>(), instance<ItemService>(), instance<EventService>())
-                    },
-                    {
-                        generateMobsEvent(instance<MobGeneratorService>())
-                    }
+                    { _: Event<*> -> decrementDelayEvent(instance()) },
+                    { decrementItemDecayTimerEvent(instance()) },
+                    { decreaseThirstAndHungerEvent(instance(), instance(), it) },
+                    { logTickObserver(instance(), logger(this)) },
+                    { changeWeatherEvent(instance()) },
+                    { regenMobsEvent(instance()) },
+                    { moveMobsOnTickEvent(instance()) },
+                    { scavengerCollectsItemEvent(instance(), instance(), instance()) },
+                    { generateMobsEvent(instance()) }
                 )),
                 Pair(EventType.REGEN, listOf(
-                    { event: Event<*> ->
-                        fastHealingEvent(event)
-                    },
-                    { event: Event<*> ->
-                        meditationEvent(event)
-                    }
+                    { event: Event<*> -> fastHealingEvent(event) },
+                    { event: Event<*> -> meditationEvent(event) }
                 )),
                 Pair(EventType.FIGHT_STARTED, listOf { event: Event<*> ->
-                    guardAttacksAggroMobEvent(instance<MobService>(), event)
+                    guardAttacksAggroMobEvent(instance(), event)
                 }),
                 Pair(EventType.FIGHT_ROUND, listOf(
-                    { event: Event<*> ->
-                        wimpyEvent(instance<MobService>(), event)
-                    },
-                    { event: Event<*> ->
-                        enhancedDamageEvent(event)
-                    },
-                    { event: Event<*> ->
-                        secondAttackEvent(event)
-                    }
+                    { event: Event<*> -> wimpyEvent(instance(), event) },
+                    { event: Event<*> -> enhancedDamageEvent(event) },
+                    { event: Event<*> -> secondAttackEvent(event) }
                 )),
                 Pair(EventType.KILL, listOf(
-                    { event: Event<*> ->
-                        GrantExperienceOnKillObserver(instance<ServerService>()).event(event)
-                    },
-                    { event: Event<*> ->
-                        transferGoldOnKillEvent(instance<MobService>(), event)
-                    }
+                    { event: Event<*> -> GrantExperienceOnKillObserver(instance()).event(event) },
+                    { event: Event<*> -> transferGoldOnKillEvent(instance(), event) }
                 ))
             )
         }
