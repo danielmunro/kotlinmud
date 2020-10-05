@@ -11,6 +11,7 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.client.clientConnectedEvent
 import kotlinmud.event.observer.impl.client.logPlayerInEvent
+import kotlinmud.event.observer.impl.client.logPlayerOutEvent
 import kotlinmud.event.observer.impl.guardAttacksAggroMobEvent
 import kotlinmud.event.observer.impl.kill.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.kill.transferGoldOnKillEvent
@@ -21,6 +22,7 @@ import kotlinmud.event.observer.impl.regen.fastHealingEvent
 import kotlinmud.event.observer.impl.regen.meditationEvent
 import kotlinmud.event.observer.impl.round.enhancedDamageEvent
 import kotlinmud.event.observer.impl.round.secondAttackEvent
+import kotlinmud.event.observer.impl.round.thirdAttackEvent
 import kotlinmud.event.observer.impl.round.wimpyEvent
 import kotlinmud.event.observer.impl.sendMessageToRoomEvent
 import kotlinmud.event.observer.impl.tick.changeWeatherEvent
@@ -137,7 +139,7 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
                     logPlayerInEvent(event)
                 }),
                 Pair(EventType.CLIENT_DISCONNECTED, listOf { event: Event<*> ->
-                    logPlayerInEvent(event)
+                    logPlayerOutEvent(event)
                 }),
                 Pair(EventType.SOCIAL, listOf { event: Event<*> ->
                     SocialDistributorObserver(instance()).event(event)
@@ -168,7 +170,8 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
                 Pair(EventType.FIGHT_ROUND, listOf(
                     { event: Event<*> -> wimpyEvent(instance(), event) },
                     { event: Event<*> -> enhancedDamageEvent(event) },
-                    { event: Event<*> -> secondAttackEvent(event) }
+                    { event: Event<*> -> secondAttackEvent(event) },
+                    { event: Event<*> -> thirdAttackEvent(event) }
                 )),
                 Pair(EventType.KILL, listOf(
                     { event: Event<*> -> GrantExperienceOnKillObserver(instance()).event(event) },
