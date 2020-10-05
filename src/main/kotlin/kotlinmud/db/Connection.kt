@@ -1,10 +1,10 @@
 package kotlinmud.db
 
+import java.sql.Connection
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.transactions.TransactionManager
 
 fun createConnection() {
-//    Database.connect("jdbc:postgresql://127.0.0.1:5432/kotlinmud", driver = "org.postgresql.Driver",
-//        user = "kotlinmud", password = "kotlinmud")
-//    Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;", driver = "org.h2.Driver")
-    Database.connect("jdbc:h2:./myh2file", "org.h2.Driver")
+    Database.connect("jdbc:sqlite:./data.db", "org.sqlite.JDBC")
+    TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE
 }

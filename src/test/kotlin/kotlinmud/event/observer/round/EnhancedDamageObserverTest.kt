@@ -17,7 +17,7 @@ class EnhancedDamageObserverTest {
     fun testDamageIsEnhanced() {
         // setup
         val test = createTestService()
-        val prob = ProbabilityTest()
+        val prob = ProbabilityTest(100)
 
         // given
         val mob = test.createMob {
