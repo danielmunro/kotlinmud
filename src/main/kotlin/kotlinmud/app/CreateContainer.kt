@@ -7,36 +7,38 @@ import kotlinmud.action.service.ActionService
 import kotlinmud.action.service.ContextBuilderService
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.db.createConnection
-import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
-import kotlinmud.event.observer.impl.LogOutAllPlayersOnStartupObserver
-import kotlinmud.event.observer.impl.SendMessageToRoomObserver
+import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.impl.SocialDistributorObserver
-import kotlinmud.event.observer.impl.client.ClientConnectedObserver
-import kotlinmud.event.observer.impl.client.LogPlayerInObserver
-import kotlinmud.event.observer.impl.client.LogPlayerOutObserver
+import kotlinmud.event.observer.impl.client.clientConnectedEvent
+import kotlinmud.event.observer.impl.client.logPlayerInEvent
+import kotlinmud.event.observer.impl.guardAttacksAggroMobEvent
 import kotlinmud.event.observer.impl.kill.GrantExperienceOnKillObserver
-import kotlinmud.event.observer.impl.kill.TransferGoldOnKillObserver
-import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
-import kotlinmud.event.observer.impl.pulse.PruneDeadMobsPulseObserver
-import kotlinmud.event.observer.impl.regen.FastHealingObserver
-import kotlinmud.event.observer.impl.regen.MeditationObserver
-import kotlinmud.event.observer.impl.round.EnhancedDamageObserver
-import kotlinmud.event.observer.impl.round.SecondAttackObserver
-import kotlinmud.event.observer.impl.round.WimpyObserver
-import kotlinmud.event.observer.impl.tick.ChangeWeatherObserver
-import kotlinmud.event.observer.impl.tick.DecreaseThirstAndHungerObserver
-import kotlinmud.event.observer.impl.tick.DecrementAffectTimeoutTickObserver
-import kotlinmud.event.observer.impl.tick.DecrementDelayObserver
-import kotlinmud.event.observer.impl.tick.DecrementItemDecayTimerObserver
-import kotlinmud.event.observer.impl.tick.GenerateMobsObserver
-import kotlinmud.event.observer.impl.tick.LogTickObserver
-import kotlinmud.event.observer.impl.tick.MoveMobsOnTickObserver
-import kotlinmud.event.observer.impl.tick.RegenMobsObserver
-import kotlinmud.event.observer.impl.tick.ScavengerCollectsItemsObserver
-import kotlinmud.event.observer.type.Observers
+import kotlinmud.event.observer.impl.kill.transferGoldOnKillEvent
+import kotlinmud.event.observer.impl.logoutAllPlayersOnStartupEvent
+import kotlinmud.event.observer.impl.pulse.proceedFightsEvent
+import kotlinmud.event.observer.impl.pulse.pruneDeadMobsEvent
+import kotlinmud.event.observer.impl.regen.fastHealingEvent
+import kotlinmud.event.observer.impl.regen.meditationEvent
+import kotlinmud.event.observer.impl.round.enhancedDamageEvent
+import kotlinmud.event.observer.impl.round.secondAttackEvent
+import kotlinmud.event.observer.impl.round.wimpyEvent
+import kotlinmud.event.observer.impl.sendMessageToRoomEvent
+import kotlinmud.event.observer.impl.tick.changeWeatherEvent
+import kotlinmud.event.observer.impl.tick.decreaseThirstAndHungerEvent
+import kotlinmud.event.observer.impl.tick.decrementAffectTimeoutEvent
+import kotlinmud.event.observer.impl.tick.decrementDelayEvent
+import kotlinmud.event.observer.impl.tick.decrementItemDecayTimerEvent
+import kotlinmud.event.observer.impl.tick.generateMobsEvent
+import kotlinmud.event.observer.impl.tick.logTickObserver
+import kotlinmud.event.observer.impl.tick.moveMobsOnTickEvent
+import kotlinmud.event.observer.impl.tick.regenMobsEvent
+import kotlinmud.event.observer.impl.tick.scavengerCollectsItemEvent
+import kotlinmud.event.observer.type.ObserverV2
 import kotlinmud.event.service.EventService
+import kotlinmud.event.type.EventType
 import kotlinmud.generator.service.FixtureService
 import kotlinmud.generator.service.MobGeneratorService
+import kotlinmud.helper.logger
 import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.helper.createRecipeList
@@ -127,38 +129,96 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
         bind<MobGeneratorService>() with singleton {
             MobGeneratorService(createBiomes())
         }
-        bind<Observers>() with singleton {
-            listOf(
-                ClientConnectedObserver(
-                    instance<PlayerService>()
-                ),
-                SendMessageToRoomObserver(
-                    instance<ServerService>()
-                ),
-                LogPlayerInObserver(),
-                LogPlayerOutObserver(),
-                ProceedFightsPulseObserver(instance<MobService>()),
-                DecrementAffectTimeoutTickObserver(instance<MobService>()),
-                DecrementDelayObserver(instance<ClientService>()),
-                DecrementItemDecayTimerObserver(instance<ItemService>()),
-                LogTickObserver(instance<ServerService>()),
-                PruneDeadMobsPulseObserver(instance<MobService>()),
-                SocialDistributorObserver(instance<ServerService>()),
-                ChangeWeatherObserver(instance<WeatherService>()),
-                WimpyObserver(instance<MobService>()),
-                GrantExperienceOnKillObserver(instance<ServerService>()),
-                TransferGoldOnKillObserver(instance<MobService>()),
-                DecreaseThirstAndHungerObserver(instance<ServerService>(), instance<MobService>()),
-                RegenMobsObserver(instance<MobService>()),
-                MoveMobsOnTickObserver(instance<MobService>()),
-                ScavengerCollectsItemsObserver(instance<MobService>(), instance<ItemService>(), instance<EventService>()),
-                GuardAttacksAggroMobsObserver(instance<MobService>()),
-                GenerateMobsObserver(instance<MobGeneratorService>()),
-                LogOutAllPlayersOnStartupObserver(instance<PlayerService>()),
-                EnhancedDamageObserver(),
-                SecondAttackObserver(),
-                FastHealingObserver(),
-                MeditationObserver()
+        bind<ObserverV2>() with singleton {
+            mapOf(
+                Pair(EventType.GAME_START, listOf { event: Event<*> ->
+                    logoutAllPlayersOnStartupEvent(instance<PlayerService>())
+                }),
+                Pair(EventType.CLIENT_CONNECTED, listOf { event: Event<*> ->
+                    clientConnectedEvent(instance<PlayerService>(), event)
+                }),
+                Pair(EventType.SEND_MESSAGE_TO_ROOM, listOf { event: Event<*> ->
+                    sendMessageToRoomEvent(instance<ServerService>(), event)
+                }),
+                Pair(EventType.CLIENT_LOGGED_IN, listOf { event: Event<*> ->
+                    logPlayerInEvent(event)
+                }),
+                Pair(EventType.CLIENT_DISCONNECTED, listOf { event: Event<*> ->
+                    logPlayerInEvent(event)
+                }),
+                Pair(EventType.SOCIAL, listOf { event: Event<*> ->
+                    SocialDistributorObserver(instance<ServerService>()).event(event)
+                }),
+                Pair(EventType.PULSE, listOf(
+                    { _: Event<*> ->
+                        proceedFightsEvent(instance<MobService>())
+                    },
+                    {
+                        decrementAffectTimeoutEvent(instance<MobService>())
+                    },
+                    {
+                        pruneDeadMobsEvent(instance<MobService>())
+                    }
+                )),
+                Pair(EventType.TICK, listOf(
+                    { _: Event<*> ->
+                        decrementDelayEvent(instance<ClientService>())
+                    },
+                    {
+                        decrementItemDecayTimerEvent(instance<ItemService>())
+                    },
+                    {
+                        decreaseThirstAndHungerEvent(instance<ServerService>(), instance<MobService>(), it)
+                    },
+                    {
+                        logTickObserver(instance<ServerService>(), logger(this))
+                    },
+                    {
+                        changeWeatherEvent(instance<WeatherService>())
+                    },
+                    {
+                        regenMobsEvent(instance<MobService>())
+                    },
+                    {
+                        moveMobsOnTickEvent(instance<MobService>())
+                    },
+                    {
+                        scavengerCollectsItemEvent(instance<MobService>(), instance<ItemService>(), instance<EventService>())
+                    },
+                    {
+                        generateMobsEvent(instance<MobGeneratorService>())
+                    }
+                )),
+                Pair(EventType.REGEN, listOf(
+                    { event: Event<*> ->
+                        fastHealingEvent(event)
+                    },
+                    { event: Event<*> ->
+                        meditationEvent(event)
+                    }
+                )),
+                Pair(EventType.FIGHT_STARTED, listOf { event: Event<*> ->
+                    guardAttacksAggroMobEvent(instance<MobService>(), event)
+                }),
+                Pair(EventType.FIGHT_ROUND, listOf(
+                    { event: Event<*> ->
+                        wimpyEvent(instance<MobService>(), event)
+                    },
+                    { event: Event<*> ->
+                        enhancedDamageEvent(event)
+                    },
+                    { event: Event<*> ->
+                        secondAttackEvent(event)
+                    }
+                )),
+                Pair(EventType.KILL, listOf(
+                    { event: Event<*> ->
+                        GrantExperienceOnKillObserver(instance<ServerService>()).event(event)
+                    },
+                    { event: Event<*> ->
+                        transferGoldOnKillEvent(instance<MobService>(), event)
+                    }
+                ))
             )
         }
     }

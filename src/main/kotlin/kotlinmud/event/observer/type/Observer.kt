@@ -7,3 +7,5 @@ interface Observer {
     val eventType: EventType
     fun <T> processEvent(event: Event<T>)
 }
+
+typealias ObserverV2 = Map<EventType, List<(Event<*>) -> Unit>>

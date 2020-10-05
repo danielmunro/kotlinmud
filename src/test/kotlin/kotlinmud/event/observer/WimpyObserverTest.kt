@@ -64,7 +64,7 @@ class WimpyObserverTest {
         // when
         val fight = test.addFight(mob, mob)
         transaction {
-            test.getWimpyObserver().processEvent(fight.createFightRoundEvent())
+            test.callWimpyEvent(fight.createFightRoundEvent())
         }
 
         // then

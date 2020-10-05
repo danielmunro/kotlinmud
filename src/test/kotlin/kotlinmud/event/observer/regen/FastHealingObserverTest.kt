@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isGreaterThan
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.RegenEvent
-import kotlinmud.event.observer.impl.regen.FastHealingObserver
+import kotlinmud.event.observer.impl.regen.fastHealingEvent
 import kotlinmud.event.type.EventType
 import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
@@ -17,7 +17,6 @@ class FastHealingObserverTest {
     fun testFastHealingIncreasesHpRegen() {
         // setup
         val test = createTestService()
-        val observer = FastHealingObserver()
         val prob = ProbabilityTest()
 
         // given
@@ -28,7 +27,7 @@ class FastHealingObserverTest {
         // when
         while (prob.isIterating()) {
             val event = Event(EventType.REGEN, RegenEvent(mob, 0.0, 0.0, 0.0))
-            observer.processEvent(event)
+            fastHealingEvent(event)
             prob.decrementIteration(event.subject.hpRegenRate > 0.0, event.subject.hpRegenRate == 0.0)
         }
 

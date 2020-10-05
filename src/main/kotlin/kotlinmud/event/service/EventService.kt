@@ -4,18 +4,17 @@ import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.FightRoundEvent
 import kotlinmud.event.impl.SendMessageToRoomEvent
-import kotlinmud.event.observer.type.Observer
+import kotlinmud.event.observer.type.ObserverV2
 import kotlinmud.io.factory.createDeathMessage
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Round
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class EventService {
-    var observers: List<Observer> = listOf()
+    var observersV2: ObserverV2 = mapOf()
 
     fun <T> publish(event: Event<T>) {
-        observers.filter { it.eventType == event.eventType }
-            .forEach { transaction { it.processEvent(event) } }
+        (observersV2[event.eventType] ?: return).forEach { transaction { it(event) } }
     }
 
     fun publishRoomMessage(event: Event<SendMessageToRoomEvent>) {

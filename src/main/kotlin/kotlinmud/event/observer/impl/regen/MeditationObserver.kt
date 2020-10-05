@@ -2,20 +2,14 @@ package kotlinmud.event.observer.impl.regen
 
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.RegenEvent
-import kotlinmud.event.observer.type.Observer
-import kotlinmud.event.type.EventType
 import kotlinmud.helper.math.dice
 import kotlinmud.mob.skill.type.SkillType
 
-class MeditationObserver : Observer {
-    override val eventType = EventType.REGEN
-
-    override fun <T> processEvent(event: Event<T>) {
-        with(event.subject as RegenEvent) {
-            this.mob.getSkill(SkillType.MEDITATION)?.let {
-                if (it.level > dice(1, 100)) {
-                    event.subject.manaRegenRate += 0.1
-                }
+fun meditationEvent(event: Event<*>) {
+    with(event.subject as RegenEvent) {
+        this.mob.getSkill(SkillType.MEDITATION)?.let {
+            if (it.level > dice(1, 100)) {
+                event.subject.manaRegenRate += 0.1
             }
         }
     }

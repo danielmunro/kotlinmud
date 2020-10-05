@@ -15,7 +15,7 @@ class ClientConnectedObserverTest {
         val client = test.getClient()
 
         // when
-        test.getClientConnectedObserver().processEvent(createClientConnectedEvent(client))
+        test.callClientConnectedEvent(createClientConnectedEvent(client))
 
         // then
         assertThat(test.getAuthStep(client)!!.authorizationStep).isEqualTo(AuthorizationStep.EMAIL)

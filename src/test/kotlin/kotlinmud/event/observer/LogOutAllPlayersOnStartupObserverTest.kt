@@ -2,7 +2,6 @@ package kotlinmud.event.observer
 
 import assertk.assertThat
 import assertk.assertions.isFalse
-import kotlinmud.event.factory.createGameStartEvent
 import kotlinmud.player.repository.findMobCardByName
 import kotlinmud.test.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -23,7 +22,7 @@ class LogOutAllPlayersOnStartupObserverTest {
         }
 
         // when
-        test.getLogOutAllPlayersOnStartupObserver().processEvent(createGameStartEvent())
+        test.callLogoutPlayersOnStartupEvent()
 
         // then
         transaction {

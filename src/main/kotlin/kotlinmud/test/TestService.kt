@@ -12,15 +12,14 @@ import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.SubstrateType
-import kotlinmud.db.applySchema
-import kotlinmud.db.createConnection
+import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
-import kotlinmud.event.observer.impl.LogOutAllPlayersOnStartupObserver
-import kotlinmud.event.observer.impl.client.ClientConnectedObserver
+import kotlinmud.event.observer.impl.client.clientConnectedEvent
 import kotlinmud.event.observer.impl.kill.GrantExperienceOnKillObserver
-import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
-import kotlinmud.event.observer.impl.round.WimpyObserver
-import kotlinmud.event.observer.impl.tick.DecreaseThirstAndHungerObserver
+import kotlinmud.event.observer.impl.logoutAllPlayersOnStartupEvent
+import kotlinmud.event.observer.impl.pulse.proceedFightsEvent
+import kotlinmud.event.observer.impl.round.wimpyEvent
+import kotlinmud.event.observer.impl.tick.decreaseThirstAndHungerEvent
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.service.FixtureService
 import kotlinmud.io.model.Client
@@ -74,8 +73,6 @@ class TestService(
     private var player: PlayerDAO? = null
 
     init {
-        createConnection()
-        applySchema()
         room = transaction {
             RoomDAO.new {
                 name = "start room"
@@ -84,9 +81,9 @@ class TestService(
                 biome = BiomeType.PLAINS
             }
         }
-        createItem {
-            it.room = room
-        }
+//        createItem {
+//            it.room = room
+//        }
         every { client.socket.remoteAddress } returns mockk<SocketAddress>()
         serverService.getClients().add(client)
     }
@@ -346,20 +343,20 @@ class TestService(
         return mobService.proceedFights()
     }
 
-    fun getWimpyObserver(): WimpyObserver {
-        return WimpyObserver(mobService)
+    fun callWimpyEvent(event: Event<*>) {
+        wimpyEvent(mobService, event)
     }
 
-    fun getClientConnectedObserver(): ClientConnectedObserver {
-        return ClientConnectedObserver(playerService)
+    fun callClientConnectedEvent(event: Event<ClientConnectedEvent>) {
+        clientConnectedEvent(playerService, event)
     }
 
-    fun getLogOutAllPlayersOnStartupObserver(): LogOutAllPlayersOnStartupObserver {
-        return LogOutAllPlayersOnStartupObserver(playerService)
+    fun callLogoutPlayersOnStartupEvent() {
+        logoutAllPlayersOnStartupEvent(playerService)
     }
 
-    fun getDecreaseThirstAndHungerObserver(): DecreaseThirstAndHungerObserver {
-        return DecreaseThirstAndHungerObserver(serverService, mobService)
+    fun callDecreaseThirstAndHungerEvent(event: Event<*>) {
+        decreaseThirstAndHungerEvent(serverService, mobService, event)
     }
 
     fun getGrantExperienceOnKillObserver(): GrantExperienceOnKillObserver {
@@ -370,8 +367,8 @@ class TestService(
         return playerService.getAuthStepForClient(client)
     }
 
-    fun getProceedFightsPulseObserver(): ProceedFightsPulseObserver {
-        return ProceedFightsPulseObserver(mobService)
+    fun callProceedFightsEvent() {
+        proceedFightsEvent(mobService)
     }
 
     fun flee(mob: MobDAO) {

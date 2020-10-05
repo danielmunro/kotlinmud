@@ -23,7 +23,7 @@ class GrantExperienceOnKillObserverTest {
         test.addFight(mob, target)
 
         // when
-        test.getGrantExperienceOnKillObserver().processEvent(createKillEvent(test.findFightForMob(mob)!!))
+        test.getGrantExperienceOnKillObserver().event(createKillEvent(test.findFightForMob(mob)!!))
 
         // then
         assertThat(mob.mobCard).isNull()
@@ -44,7 +44,7 @@ class GrantExperienceOnKillObserverTest {
         assertThat(transaction { mob.mobCard!!.experience }).isEqualTo(1000)
 
         // when
-        transaction { test.getGrantExperienceOnKillObserver().processEvent(createKillEvent(test.findFightForMob(mob)!!)) }
+        transaction { test.getGrantExperienceOnKillObserver().event(createKillEvent(test.findFightForMob(mob)!!)) }
 
         // then
         assertThat(transaction { mob.mobCard!!.experience }).isGreaterThan(1000)
@@ -65,7 +65,7 @@ class GrantExperienceOnKillObserverTest {
         assertThat(mob.level).isEqualTo(1)
 
         // when
-        transaction { test.getGrantExperienceOnKillObserver().processEvent(createKillEvent(test.findFightForMob(mob)!!)) }
+        transaction { test.getGrantExperienceOnKillObserver().event(createKillEvent(test.findFightForMob(mob)!!)) }
 
         // then
         assertThat(findMobById(mob.id.value).level).isGreaterThan(1)
