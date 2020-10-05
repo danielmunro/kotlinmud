@@ -1,4 +1,4 @@
-package kotlinmud.item.recipe
+package kotlinmud.item.recipe.equipment
 
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.item.dao.ItemDAO

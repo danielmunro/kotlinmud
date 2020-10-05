@@ -1,4 +1,4 @@
-package kotlinmud.item.recipe
+package kotlinmud.item.recipe.shelter
 
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.type.ItemType
