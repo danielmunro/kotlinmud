@@ -27,6 +27,12 @@ class RecipesTest {
             wooden sword
             wooden axe
             wooden pickaxe
+            stone axe
+            stone pickaxe
+            stone sword
+            iron sword
+            iron pickaxe
+            stone axe
         """.trimIndent())
     }
 }

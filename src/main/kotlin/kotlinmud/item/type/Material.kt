@@ -18,6 +18,7 @@ enum class Material(val value: String) {
     CONDUCTOR("conductor"),
     CONCRETE("concrete"),
     GLASS("glass"),
+    STONE("stone"),
     VULN_SHATTER("vuln_shatter"),
     VULN_COLD("vuln_cold"),
     VULN_RUST("vuln_rust"),

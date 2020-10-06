@@ -4,6 +4,12 @@ import kotlinmud.item.recipe.BuilderTableRecipe
 import kotlinmud.item.recipe.LumberRecipe
 import kotlinmud.item.recipe.StickRecipe
 import kotlinmud.item.recipe.TorchRecipe
+import kotlinmud.item.recipe.equipment.IronAxeRecipe
+import kotlinmud.item.recipe.equipment.IronPickaxeRecipe
+import kotlinmud.item.recipe.equipment.IronSwordRecipe
+import kotlinmud.item.recipe.equipment.StoneAxeRecipe
+import kotlinmud.item.recipe.equipment.StonePickaxeRecipe
+import kotlinmud.item.recipe.equipment.StoneSwordRecipe
 import kotlinmud.item.recipe.equipment.WoodenAxeRecipe
 import kotlinmud.item.recipe.equipment.WoodenPickaxeRecipe
 import kotlinmud.item.recipe.equipment.WoodenSwordRecipe
@@ -19,8 +25,20 @@ fun createRecipeList(): List<Recipe> {
         StickRecipe(),
         TorchRecipe(),
         SleepingBagRecipe(),
+
+        // wooden tools
         WoodenSwordRecipe(),
         WoodenAxeRecipe(),
-        WoodenPickaxeRecipe()
+        WoodenPickaxeRecipe(),
+
+        // stone tools
+        StoneAxeRecipe(),
+        StonePickaxeRecipe(),
+        StoneSwordRecipe(),
+
+        // iron
+        IronSwordRecipe(),
+        IronPickaxeRecipe(),
+        IronAxeRecipe()
     )
 }
