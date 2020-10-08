@@ -20,10 +20,12 @@ class RecipesTest {
 
             a builder's table
             lumber
-            shelter
             sticks
             torch
+            glass block
+            bed
             a sleeping bag
+            shelter
             wooden sword
             wooden axe
             wooden pickaxe

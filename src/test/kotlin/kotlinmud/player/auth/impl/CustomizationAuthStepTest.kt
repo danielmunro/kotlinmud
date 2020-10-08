@@ -54,10 +54,10 @@ Skills
                    trip  4              hamstring  6
         enhanced damage  8             meditation  8
            fast healing  8          second attack  8
-                 dagger  4                   mace  4
-                  sword  4                  sword  4
-                   wand  4                unarmed  4
-
+          third attack  10                 dagger  4
+                   mace  4                  sword  4
+                  sword  4                   wand  4
+                unarmed  4
 
 Defaults
 ========
