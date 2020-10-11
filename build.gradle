@@ -108,6 +108,8 @@ dependencies {
     implementation "io.mockk:mockk:1.10.0"
 
     implementation "io.konform:konform-jvm:0.2.0"
+
+    implementation 'com.tinder.statemachine:statemachine:0.2.0'
 }
 
 application {

@@ -3,10 +3,22 @@ package kotlinmud
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.db.applySchema
 import kotlinmud.db.createConnection
-import kotlinmud.generator.service.GeneratorService
+import kotlinmud.generator.config.GeneratorConfig
+import kotlinmud.generator.service.BiomeService
+import kotlinmud.generator.service.WorldGeneration
+import kotlinmud.generator.statemachine.createStateMachine
+import kotlinmud.generator.statemachine.runStateMachine
+
+const val width = 100
+const val length = 100
 
 fun main() {
     createConnection()
     applySchema()
-    GeneratorService(100, 100, createBiomes()).generate()
+    val stateMachine = createStateMachine(
+        GeneratorConfig(width, length),
+        BiomeService(width, length, createBiomes()),
+        WorldGeneration()
+    )
+    runStateMachine(stateMachine)
 }

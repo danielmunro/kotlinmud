@@ -3,7 +3,7 @@ package kotlinmud.generator
 import assertk.assertThat
 import assertk.assertions.isGreaterThan
 import kotlinmud.biome.helper.createBiomes
-import kotlinmud.generator.service.GeneratorService
+import kotlinmud.generator.service.MobGeneratorService
 import kotlinmud.mob.table.Mobs
 import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.selectAll
@@ -19,10 +19,10 @@ class MobGeneratorServiceTest {
         val initialCount = transaction { Mobs.selectAll().count() }
 
         // given
-        val generatorService = GeneratorService(10, 10, biomes)
+        val generatorService = MobGeneratorService(biomes)
 
         // when
-        generatorService.generate()
+        generatorService.respawnMobs()
 
         // then
         assertThat(transaction { Mobs.selectAll().count() }).isGreaterThan(initialCount)

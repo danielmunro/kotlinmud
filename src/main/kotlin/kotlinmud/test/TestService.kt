@@ -10,6 +10,7 @@ import kotlinmud.attributes.constant.startingHp
 import kotlinmud.attributes.constant.startingMana
 import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.biome.helper.createBiomes
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.event.impl.ClientConnectedEvent
@@ -21,7 +22,12 @@ import kotlinmud.event.observer.impl.pulse.proceedFightsEvent
 import kotlinmud.event.observer.impl.round.wimpyEvent
 import kotlinmud.event.observer.impl.tick.decreaseThirstAndHungerEvent
 import kotlinmud.event.service.EventService
+import kotlinmud.generator.config.GeneratorConfig
+import kotlinmud.generator.service.BiomeService
 import kotlinmud.generator.service.FixtureService
+import kotlinmud.generator.service.WorldGeneration
+import kotlinmud.generator.statemachine.createStateMachine
+import kotlinmud.generator.statemachine.runStateMachine
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
@@ -90,6 +96,16 @@ class TestService(
 
     fun <T> publish(event: Event<T>) {
         eventService.publish(event)
+    }
+
+    fun createWorldGeneration(width: Int, length: Int): WorldGeneration {
+        val worldGeneration = WorldGeneration()
+        createStateMachine(
+            GeneratorConfig(width, length),
+            BiomeService(width, length, createBiomes()),
+            worldGeneration
+        ).also { runStateMachine(it) }
+        return worldGeneration
     }
 
     fun logOutPlayers() {

@@ -21,7 +21,7 @@ class MobGeneratorService(biomes: List<Biome>) {
                 RoomDAO.wrapRows(
                     Rooms.select {
                         Rooms.biome eq biome.key.toString()
-                    }
+                    }.limit(100)
                 ).forEach {
                     if (countMobsInRoom(it) < MAX_MOBS_PER_ROOM) {
                         biome.value.mobs.random().invoke(it)
