@@ -18,15 +18,9 @@ fun createStateMachine(
     worldGeneration: WorldGeneration
 ): WorldGeneratorStateMachine {
     return StateMachine.create {
-        initialState(State.Init)
+        initialState(State.Biomes)
         val biomes = createBiomes()
         val createRoomService = CreateRoomService()
-        state<State.Init> {
-            on<Event.OnReadyToStart> {
-                // ???
-                transitionTo(State.Biomes)
-            }
-        }
         state<State.Biomes> {
             on<Event.OnReadyForBiomes> {
                 worldGeneration.biomeLayer =
@@ -70,7 +64,6 @@ fun createStateMachine(
 }
 
 fun runStateMachine(stateMachine: WorldGeneratorStateMachine) {
-    stateMachine.transition(Event.OnReadyToStart)
     stateMachine.transition(Event.OnReadyForBiomes)
     stateMachine.transition(Event.OnReadyForElevation)
     stateMachine.transition(Event.OnReadyForRooms)

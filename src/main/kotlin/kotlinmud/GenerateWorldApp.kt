@@ -15,10 +15,11 @@ const val length = 100
 fun main() {
     createConnection()
     applySchema()
-    val stateMachine = createStateMachine(
-        GeneratorConfig(width, length),
-        BiomeService(width, length, createBiomes()),
-        WorldGeneration()
+    runStateMachine(
+        createStateMachine(
+            GeneratorConfig(width, length),
+            BiomeService(width, length, createBiomes()),
+            WorldGeneration()
+        )
     )
-    runStateMachine(stateMachine)
 }

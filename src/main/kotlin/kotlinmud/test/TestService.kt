@@ -99,13 +99,14 @@ class TestService(
     }
 
     fun createWorldGeneration(width: Int, length: Int): WorldGeneration {
-        val worldGeneration = WorldGeneration()
-        createStateMachine(
-            GeneratorConfig(width, length),
-            BiomeService(width, length, createBiomes()),
-            worldGeneration
-        ).also { runStateMachine(it) }
-        return worldGeneration
+        with(WorldGeneration()) {
+            createStateMachine(
+                GeneratorConfig(width, length),
+                BiomeService(width, length, createBiomes()),
+                this
+            ).also { runStateMachine(it) }
+            return this
+        }
     }
 
     fun logOutPlayers() {
