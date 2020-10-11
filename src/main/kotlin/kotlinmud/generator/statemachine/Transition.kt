@@ -3,13 +3,14 @@ package kotlinmud.generator.statemachine
 import com.tinder.StateMachine
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.generator.config.GeneratorConfig
-import kotlinmud.generator.model.World
 import kotlinmud.generator.service.BiomeService
 import kotlinmud.generator.service.CreateRoomService
-import kotlinmud.generator.service.ElevationService
-import kotlinmud.generator.service.ExitCreationService
-import kotlinmud.generator.service.MobGeneratorService
 import kotlinmud.generator.service.WorldGeneration
+import kotlinmud.generator.statemachine.transition.biomeTransition
+import kotlinmud.generator.statemachine.transition.createExitTransition
+import kotlinmud.generator.statemachine.transition.createMobsTransition
+import kotlinmud.generator.statemachine.transition.createRoomsTransition
+import kotlinmud.generator.statemachine.transition.elevationTransition
 import kotlinmud.generator.type.WorldGeneratorStateMachine
 
 fun createStateMachine(
@@ -23,38 +24,31 @@ fun createStateMachine(
         val createRoomService = CreateRoomService()
         state<State.Biomes> {
             on<Event.OnReadyForBiomes> {
-                worldGeneration.biomeLayer =
-                    biomeService.createLayer((config.width * config.length) / (config.width * config.length / 10))
+                biomeTransition(worldGeneration, biomeService, config)
                 transitionTo(State.Elevation)
             }
         }
         state<State.Elevation> {
             on<Event.OnReadyForElevation> {
-                worldGeneration.elevationLayer =
-                    ElevationService(worldGeneration.biomeLayer!!, biomes).buildLayer()
+                elevationTransition(worldGeneration, biomes)
                 transitionTo(State.CreateRooms)
             }
         }
         state<State.CreateRooms> {
             on<Event.OnReadyForRooms> {
-                worldGeneration.matrix =
-                    createRoomService.generate(config, worldGeneration.elevationLayer!!, worldGeneration.biomeLayer!!)
+                createRoomsTransition(worldGeneration, createRoomService, config)
                 transitionTo(State.CreateMobs)
             }
         }
         state<State.CreateMobs> {
             on<Event.OnReadyToCreateMobs> {
-                MobGeneratorService(biomes).respawnMobs()
+                createMobsTransition(biomes)
                 transitionTo(State.CreateExits)
             }
         }
         state<State.CreateExits> {
             on<Event.OnReadyToCreateExits> {
-                worldGeneration.world = World(
-                    createRoomService.rooms,
-                    worldGeneration.matrix!!
-                )
-                ExitCreationService(worldGeneration.world!!).hookUpRoomExits()
+                createExitTransition(worldGeneration, createRoomService)
                 transitionTo(State.Done)
             }
         }
