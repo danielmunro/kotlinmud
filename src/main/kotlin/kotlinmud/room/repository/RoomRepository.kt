@@ -39,3 +39,19 @@ fun findRoomById(id: Int): RoomDAO {
         )
     }
 }
+
+fun findJungleRooms(): List<RoomDAO> {
+    return transaction {
+        RoomDAO.wrapRows(
+            Rooms.select { Rooms.biome eq BiomeType.JUNGLE.toString() }
+        ).toList()
+    }
+}
+
+fun findArborealRooms(): List<RoomDAO> {
+    return transaction {
+        RoomDAO.wrapRows(
+            Rooms.select { Rooms.biome eq BiomeType.ARBOREAL.toString() }
+        ).toList()
+    }
+}

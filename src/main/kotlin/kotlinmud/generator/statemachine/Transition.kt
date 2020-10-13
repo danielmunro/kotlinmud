@@ -7,7 +7,9 @@ import kotlinmud.generator.service.BiomeService
 import kotlinmud.generator.service.CreateRoomService
 import kotlinmud.generator.service.WorldGeneration
 import kotlinmud.generator.statemachine.transition.biomeTransition
+import kotlinmud.generator.statemachine.transition.createArborealForestTransition
 import kotlinmud.generator.statemachine.transition.createExitTransition
+import kotlinmud.generator.statemachine.transition.createJungleTransition
 import kotlinmud.generator.statemachine.transition.createMobsTransition
 import kotlinmud.generator.statemachine.transition.createRoomsTransition
 import kotlinmud.generator.statemachine.transition.elevationTransition
@@ -37,6 +39,18 @@ fun createStateMachine(
         state<State.CreateRooms> {
             on<Event.OnReadyForRooms> {
                 createRoomsTransition(worldGeneration, createRoomService, config)
+                transitionTo(State.CreateArborealForest)
+            }
+        }
+        state<State.CreateArborealForest> {
+            on<Event.OnReadyForArborealForest> {
+                createArborealForestTransition()
+                transitionTo(State.CreateJungle)
+            }
+        }
+        state<State.CreateJungle> {
+            on<Event.OnReadyForJungle> {
+                createJungleTransition()
                 transitionTo(State.CreateMobs)
             }
         }
@@ -52,8 +66,7 @@ fun createStateMachine(
                 transitionTo(State.Done)
             }
         }
-        state<State.Done> {
-        }
+        state<State.Done> {}
     }
 }
 
@@ -61,6 +74,8 @@ fun runStateMachine(stateMachine: WorldGeneratorStateMachine) {
     stateMachine.transition(Event.OnReadyForBiomes)
     stateMachine.transition(Event.OnReadyForElevation)
     stateMachine.transition(Event.OnReadyForRooms)
+    stateMachine.transition(Event.OnReadyForArborealForest)
+    stateMachine.transition(Event.OnReadyForJungle)
     stateMachine.transition(Event.OnReadyToCreateMobs)
     stateMachine.transition(Event.OnReadyToCreateExits)
 }

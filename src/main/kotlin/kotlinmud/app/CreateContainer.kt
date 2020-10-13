@@ -130,7 +130,7 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
                     logoutAllPlayersOnStartupEvent(instance())
                 }),
                 Pair(EventType.CLIENT_CONNECTED, listOf { event: Event<*> ->
-                    clientConnectedEvent(instance(), event)
+                    clientConnectedEvent(instance(), instance(), event)
                 }),
                 Pair(EventType.SEND_MESSAGE_TO_ROOM, listOf { event: Event<*> ->
                     sendMessageToRoomEvent(instance(), event)

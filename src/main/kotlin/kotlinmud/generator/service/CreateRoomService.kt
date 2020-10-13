@@ -1,6 +1,7 @@
 package kotlinmud.generator.service
 
 import kotlinmud.biome.type.BiomeType
+import kotlinmud.biome.type.SubstrateType
 import kotlinmud.generator.config.GeneratorConfig
 import kotlinmud.generator.constant.DEPTH
 import kotlinmud.generator.constant.DEPTH_GROUND
@@ -37,15 +38,17 @@ class CreateRoomService {
     }
 
     private fun buildRoom(z: Int, elevation: Int, biomeType: BiomeType): RoomDAO {
+        val biome = when {
+            z < DEPTH_UNDERGROUND -> BiomeType.UNDERGROUND
+            z < DEPTH_GROUND + elevation -> biomeType
+            else -> BiomeType.SKY
+        }
         return RoomDAO.new {
             name = "todo"
             description = "todo"
             area = "todo"
-            biome = when {
-                z < DEPTH_UNDERGROUND -> BiomeType.UNDERGROUND
-                z < DEPTH_GROUND + elevation -> biomeType
-                else -> BiomeType.SKY
-            }
+            this.biome = biome
+            substrate = if (biome == BiomeType.UNDERGROUND) { SubstrateType.ROCK } else { SubstrateType.NONE }
         }
     }
 }

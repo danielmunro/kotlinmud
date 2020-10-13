@@ -6,11 +6,13 @@ import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.repository.findPlayerByEmail as findPlayerByEmailQuery
 import kotlinmud.player.service.PlayerService
+import kotlinmud.room.repository.findStartRoom
 
 class AuthStepService(private val playerService: PlayerService) {
     private val creationFunnels = mutableListOf<CreationFunnel>()
 
     fun addCreationFunnel(creationFunnel: CreationFunnel) {
+        creationFunnel.mobRoom = findStartRoom()
         creationFunnels.add(creationFunnel)
     }
 

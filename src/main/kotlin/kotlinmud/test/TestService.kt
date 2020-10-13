@@ -104,7 +104,9 @@ class TestService(
                 GeneratorConfig(width, length),
                 BiomeService(width, length, createBiomes()),
                 this
-            ).also { runStateMachine(it) }
+            ).also {
+                runStateMachine(it)
+            }
             return this
         }
     }
@@ -365,7 +367,7 @@ class TestService(
     }
 
     fun callClientConnectedEvent(event: Event<ClientConnectedEvent>) {
-        clientConnectedEvent(playerService, event)
+        clientConnectedEvent(playerService, authStepService, event)
     }
 
     fun callLogoutPlayersOnStartupEvent() {
