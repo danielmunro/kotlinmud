@@ -19,16 +19,21 @@ fun findRoomByMobId(mobId: Int): RoomDAO {
     }
 }
 
-fun findStartRoom(): RoomDAO {
+fun findStartRoom(): RoomDAO? {
     return transaction {
-        RoomDAO.wrapRow(
-            Rooms.select {
-                Rooms.biome eq BiomeType.ARBOREAL.toString() or
-                        (Rooms.biome eq BiomeType.PLAINS.toString()) or
-                        (Rooms.biome eq BiomeType.JUNGLE.toString())
-            }.limit(1)
-                .first()
-        )
+        Rooms.select {
+            (Rooms.biome eq BiomeType.ARBOREAL.toString() or
+                    (Rooms.biome eq BiomeType.PLAINS.toString()) or
+                    (Rooms.biome eq BiomeType.JUNGLE.toString())) and
+                    ((Rooms.northId.isNotNull()) or
+                    (Rooms.southId.isNotNull()) or
+                    (Rooms.eastId.isNotNull()) or
+                    (Rooms.westId.isNotNull()) or
+                    (Rooms.upId.isNotNull()) or
+                    (Rooms.downId.isNotNull()))
+        }.firstOrNull()?.let {
+            RoomDAO.wrapRow(it)
+        }
     }
 }
 

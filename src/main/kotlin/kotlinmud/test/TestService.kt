@@ -262,7 +262,7 @@ class TestService(
                 hunger = mob.race.maxAppetite
                 thirst = mob.race.maxThirst
                 this.mob = mob
-                respawnRoom = findStartRoom()
+                respawnRoom = findStartRoom() ?: createRoom()
             }
             mob.mobCard = card
         }
