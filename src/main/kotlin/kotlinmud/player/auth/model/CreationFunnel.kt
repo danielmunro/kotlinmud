@@ -1,5 +1,8 @@
 package kotlinmud.player.auth.model
 
+import kotlinmud.attributes.constant.startingHp
+import kotlinmud.attributes.constant.startingMana
+import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.type.Race
@@ -56,8 +59,15 @@ class CreationFunnel(val email: String) {
                 brief = "a new mob"
                 description = "a new mob"
                 race = mobRace
-                attributes = AttributesDAO.new {}
+                attributes = AttributesDAO.new {
+                    hp = startingHp
+                    mana = startingMana
+                    mv = startingMv
+                }
                 room = mobRoom
+                hp = startingHp
+                mana = startingMana
+                mv = startingMv
             }.also {
                 it.mobCard = MobCardDAO.new {
                     experiencePerLevel = 1000
