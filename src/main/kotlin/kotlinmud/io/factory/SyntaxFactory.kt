@@ -30,6 +30,10 @@ fun itemFromMerchant(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.ITEM_FROM_MERCHANT)
 }
 
+fun itemToSell(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.ITEM_TO_SELL)
+}
+
 fun itemInInventory(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.ITEM_IN_INVENTORY)
 }
