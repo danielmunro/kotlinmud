@@ -4,7 +4,6 @@ import kotlinmud.action.contextBuilder.AvailableDrinkContextBuilder
 import kotlinmud.action.contextBuilder.AvailableFoodContextBuilder
 import kotlinmud.action.contextBuilder.AvailableItemInventoryContextBuilder
 import kotlinmud.action.contextBuilder.AvailableNounContextBuilder
-import kotlinmud.action.contextBuilder.CastContextBuilder
 import kotlinmud.action.contextBuilder.CommandContextBuilder
 import kotlinmud.action.contextBuilder.DirectionToExitContextBuilder
 import kotlinmud.action.contextBuilder.DirectionWithNoExitContextBuilder
@@ -69,7 +68,6 @@ class ContextBuilderService(
             Syntax.ITEM_TO_SELL -> ItemToSellContextBuilder(itemService, request.getMob(), findMobsForRoom(request.getRoom())).build(syntax, word)
             Syntax.SPELL -> SpellContextBuilder(skills).build(syntax, word)
             Syntax.SPELL_FROM_HEALER -> SpellFromHealerContextBuilder(findMobsForRoom(request.getRoom())).build(syntax, word)
-            Syntax.CAST -> CastContextBuilder().build(syntax, word)
             Syntax.PLAYER_MOB -> PlayerMobContextBuilder().build(syntax, word)
             Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(itemService, request.getMob(), request.getRoom()).build(syntax, word)
             Syntax.AVAILABLE_FOOD -> AvailableFoodContextBuilder(itemService, request.getMob()).build(syntax, word)
