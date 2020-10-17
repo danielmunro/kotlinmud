@@ -73,6 +73,10 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInvent
         return transaction { affects.find { it.type == AffectType.INVISIBILITY } } == null
     }
 
+    fun isFood(): Boolean {
+        return food != null
+    }
+
     override fun toString(): String {
         return name
     }

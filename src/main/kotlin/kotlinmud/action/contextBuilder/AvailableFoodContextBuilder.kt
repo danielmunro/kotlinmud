@@ -4,7 +4,6 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
-import kotlinmud.item.type.Food
 import kotlinmud.mob.dao.MobDAO
 
 class AvailableFoodContextBuilder(private val itemService: ItemService, private val mob: MobDAO) : ContextBuilder {
@@ -15,7 +14,7 @@ class AvailableFoodContextBuilder(private val itemService: ItemService, private 
             return notFound(syntax)
         }
 
-        if (target.food == Food.NONE) {
+        if (!target.isFood()) {
             return Context(syntax, Status.ERROR, "That's not food.")
         }
 
