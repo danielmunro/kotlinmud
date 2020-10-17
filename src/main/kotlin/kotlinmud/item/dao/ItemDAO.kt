@@ -2,6 +2,7 @@ package kotlinmud.item.dao
 
 import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.table.Affects
+import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.helper.Noun
@@ -18,6 +19,7 @@ import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInventory {
     companion object : IntEntityClass<ItemDAO>(Items)
@@ -66,6 +68,10 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInvent
     override val items by ItemDAO optionalReferrersOn Items.itemId
     var container by ItemDAO optionalReferencedOn Items.itemId
 //    var doorKey by ItemDAO optionalReferencedOn Doors.keyItemId
+
+    fun isVisible(): Boolean {
+        return transaction { affects.find { it.type == AffectType.INVISIBILITY } } == null
+    }
 
     override fun toString(): String {
         return name

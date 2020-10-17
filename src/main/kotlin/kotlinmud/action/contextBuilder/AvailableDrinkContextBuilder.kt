@@ -2,7 +2,6 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.affect.helper.isInvisible
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
@@ -21,7 +20,7 @@ class AvailableDrinkContextBuilder(
             ?: itemService.findByRoom(room, word)
             ?: return notFound(syntax)
 
-        if (isInvisible(target)) {
+        if (!target.isVisible()) {
             return notFound(syntax)
         }
 

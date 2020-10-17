@@ -2,7 +2,6 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
-import kotlinmud.affect.helper.isInvisible
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
@@ -12,7 +11,7 @@ class AvailableFoodContextBuilder(private val itemService: ItemService, private 
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val target = itemService.findByOwner(mob, word) ?: return notFound(syntax)
 
-        if (isInvisible(target)) {
+        if (!target.isVisible()) {
             return notFound(syntax)
         }
 
