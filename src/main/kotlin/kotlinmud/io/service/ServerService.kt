@@ -88,6 +88,10 @@ class ServerService(
         }.toMutableList()
     }
 
+    fun isConnected(): Boolean {
+        return socket.isOpen
+    }
+
     private fun handleAccept(newSocket: ServerSocketChannel) {
         val socket = configureAndAcceptSocket(newSocket)
         val client = Client(socket)

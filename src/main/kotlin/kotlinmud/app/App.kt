@@ -1,7 +1,6 @@
 package kotlinmud.app
 
 import kotlinmud.action.service.ActionService
-import kotlinmud.db.createConnection
 import kotlinmud.event.factory.createGameStartEvent
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.service.EventService
@@ -27,22 +26,25 @@ class App(
     private val mobService: MobService
 ) {
     private val logger = logger(this)
+    private var running = true
 
-    fun start() {
+    init {
         logger.info("starting app on port ${serverService.port}")
-        createConnection()
         eventService.publish(createGameStartEvent())
-        mainLoop()
     }
 
-    private fun mainLoop() {
-        logger.info("starting main loop")
-        while (true) {
-            serverService.readIntoBuffers()
-            processClientBuffers()
-            serverService.removeDisconnectedClients()
-            timeService.loop()
+    fun loop() {
+        serverService.readIntoBuffers()
+        processClientBuffers()
+        serverService.removeDisconnectedClients()
+        timeService.loop()
+        if (!serverService.isConnected()) {
+            running = false
         }
+    }
+
+    fun isRunning(): Boolean {
+        return running
     }
 
     private fun processClientBuffers() {

@@ -5,7 +5,7 @@ import kotlinmud.app.createContainer
 import kotlinmud.db.applySchema
 import kotlinmud.db.createConnection
 import kotlinmud.db.getTables
-import kotlinmud.event.observer.type.ObserverV2
+import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.service.FixtureService
 import kotlinmud.helper.Noun
@@ -37,11 +37,11 @@ fun createTestService(): TestService {
     val act: ActionService by container.instance<ActionService>()
     val evt: EventService by container.instance<EventService>()
     val serverService: ServerService by container.instance<ServerService>()
-    val observersV2: ObserverV2 by container.instance<ObserverV2>()
+    val observers: Observer by container.instance<Observer>()
     val playerService: PlayerService by container.instance<PlayerService>()
     val authStepService: AuthStepService by container.instance<AuthStepService>()
     playerService.setAuthStepService(authStepService)
-    evt.observersV2 = observersV2
+    evt.observers = observers
     return TestService(
         fix,
         mob,

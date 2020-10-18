@@ -35,7 +35,7 @@ import kotlinmud.event.observer.impl.tick.logTickObserver
 import kotlinmud.event.observer.impl.tick.moveMobsOnTickEvent
 import kotlinmud.event.observer.impl.tick.regenMobsEvent
 import kotlinmud.event.observer.impl.tick.scavengerCollectsItemEvent
-import kotlinmud.event.observer.type.ObserverV2
+import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
 import kotlinmud.generator.service.FixtureService
@@ -124,7 +124,7 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
         bind<MobGeneratorService>() with singleton {
             MobGeneratorService(createBiomes())
         }
-        bind<ObserverV2>() with singleton {
+        bind<Observer>() with singleton {
             mapOf(
                 Pair(EventType.GAME_START, listOf { _ ->
                     logoutAllPlayersOnStartupEvent(instance())

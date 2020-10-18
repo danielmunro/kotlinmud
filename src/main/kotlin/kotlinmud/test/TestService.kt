@@ -87,9 +87,6 @@ class TestService(
                 biome = BiomeType.PLAINS
             }
         }
-//        createItem {
-//            it.room = room
-//        }
         every { client.socket.remoteAddress } returns mockk<SocketAddress>()
         serverService.getClients().add(client)
     }
