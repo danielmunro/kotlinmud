@@ -5,6 +5,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import kotlinmud.test.TestService
 import kotlinmud.test.createTestServiceWithResetDB
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 const val name = "foo"
@@ -16,7 +17,7 @@ class NewMobCardConfirmAuthStepTest {
         val test = setup()
 
         // when
-        val response = test.runPreAuth("yes")
+        val response = runBlocking { test.runPreAuth("yes") }
 
         // then
         assertThat(response.message).isEqualTo("ok.")
@@ -29,7 +30,7 @@ class NewMobCardConfirmAuthStepTest {
         val test = setup()
 
         // when
-        val response = test.runPreAuth("no")
+        val response = runBlocking { test.runPreAuth("no") }
 
         // then
         assertThat(response.message).isEqualTo("ok.")
@@ -42,7 +43,7 @@ class NewMobCardConfirmAuthStepTest {
         val test = setup()
 
         // when
-        val response = test.runPreAuth("y")
+        val response = runBlocking { test.runPreAuth("y") }
 
         // then
         assertThat(response.message).isEqualTo("ok.")
@@ -54,7 +55,7 @@ class NewMobCardConfirmAuthStepTest {
         val test = setup()
 
         // when
-        val response = test.runPreAuth("n")
+        val response = runBlocking { test.runPreAuth("n") }
 
         // then
         assertThat(response.message).isEqualTo("ok.")
@@ -66,7 +67,7 @@ class NewMobCardConfirmAuthStepTest {
         val test = setup()
 
         // when
-        val response = test.runPreAuth("foo")
+        val response = runBlocking { test.runPreAuth("foo") }
 
         // then
         assertThat(response.message).isEqualTo("Please answer yes or no (y/n):")

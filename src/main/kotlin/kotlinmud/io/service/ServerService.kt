@@ -15,6 +15,7 @@ import kotlinmud.helper.logger
 import kotlinmud.io.model.Client
 import kotlinmud.io.type.Clients
 import kotlinmud.mob.dao.MobDAO
+import kotlinx.coroutines.runBlocking
 import okhttp3.internal.closeQuietly
 
 const val SELECT_TIMEOUT_MS: Long = 1
@@ -44,7 +45,7 @@ class ServerService(
         socket.register(selector, ops, null)
     }
 
-    fun removeDisconnectedClients() {
+    suspend fun removeDisconnectedClients() {
         val lost = clients.filter { !it.connected }
         lost.forEach {
             eventService.publish(createClientDisconnectedEvent(it))
@@ -60,7 +61,7 @@ class ServerService(
         while (i.hasNext()) {
             val key = i.next()
             if (key.isAcceptable) {
-                handleAccept(socket)
+                runBlocking { handleAccept(socket) }
             } else if (key.isReadable) {
                 handleRead(key)
             }
@@ -92,7 +93,7 @@ class ServerService(
         return socket.isOpen
     }
 
-    private fun handleAccept(newSocket: ServerSocketChannel) {
+    private suspend fun handleAccept(newSocket: ServerSocketChannel) {
         val socket = configureAndAcceptSocket(newSocket)
         val client = Client(socket)
         eventService.publish(createClientConnectedEvent(client))

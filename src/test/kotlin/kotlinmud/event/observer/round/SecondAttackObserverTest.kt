@@ -8,6 +8,7 @@ import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class SecondAttackObserverTest {
@@ -25,7 +26,7 @@ class SecondAttackObserverTest {
         val prob = ProbabilityTest()
 
         while (prob.isIterating() && findFightForMob(mob) != null) {
-            val round = test.proceedFights()
+            val round = runBlocking { test.proceedFights() }
             round.forEach {
                 prob.decrementIteration(
                     it.attackerAttacks.size > 1,

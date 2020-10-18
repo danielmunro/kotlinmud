@@ -11,6 +11,7 @@ import kotlinmud.mob.race.impl.Human
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.test.TestService
 import kotlinmud.test.createTestServiceWithResetDB
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class CustomizationAuthStepTest {
@@ -20,7 +21,7 @@ class CustomizationAuthStepTest {
         val test = setup()
 
         // when
-        val response = test.runPreAuth("done")
+        val response = runBlocking { test.runPreAuth("done") }
 
         // then
         assertThat(response.message).isEqualTo("ok.")
@@ -34,7 +35,7 @@ class CustomizationAuthStepTest {
         val client = test.getClient()
 
         // when
-        val response = test.runPreAuth("list")
+        val response = runBlocking { test.runPreAuth("list") }
 
         // then
         verify {
@@ -83,7 +84,7 @@ Current experience to level: 0
         val test = setup()
 
         // when
-        val response = test.runPreAuth("add trip")
+        val response = runBlocking { test.runPreAuth("add trip") }
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.OK)
@@ -95,10 +96,10 @@ Current experience to level: 0
         val test = setup()
 
         // given
-        test.runPreAuth("add trip")
+        runBlocking { test.runPreAuth("add trip") }
 
         // when
-        val response = test.runPreAuth("add trip")
+        val response = runBlocking { test.runPreAuth("add trip") }
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.ERROR)
@@ -111,10 +112,12 @@ Current experience to level: 0
         val client = test.getClient()
 
         // given
-        test.runPreAuth("add trip")
+        runBlocking {
+            test.runPreAuth("add trip")
 
-        // when
-        test.runPreAuth("list")
+            // when
+            test.runPreAuth("list")
+        }
 
         // then
         verify { client.write(match { !it.contains("trip") }) }
@@ -128,11 +131,13 @@ Current experience to level: 0
         val client = test.getClient()
 
         // given
-        test.runPreAuth("add trip")
-        test.runPreAuth("remove trip")
+        runBlocking {
+            test.runPreAuth("add trip")
+            test.runPreAuth("remove trip")
 
-        // when
-        test.runPreAuth("list")
+            // when
+            test.runPreAuth("list")
+        }
 
         // then
         verify {

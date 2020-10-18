@@ -10,6 +10,7 @@ import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.type.Direction
+import kotlinx.coroutines.runBlocking
 
 private fun move(command: Command, direction: Direction): Action {
     return Action(
@@ -21,7 +22,7 @@ private fun move(command: Command, direction: Direction): Action {
         Command.LOOK
     ) {
         val destination = it.get<RoomDAO>(Syntax.DIRECTION_TO_EXIT)
-        it.moveMob(destination, direction)
+        runBlocking { it.moveMob(destination, direction) }
         EmptyResponse()
     }
 }

@@ -8,6 +8,7 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.JobType
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.select
 
 fun scavengerCollectsItemEvent(mobService: MobService, itemService: ItemService, eventService: EventService) {
@@ -15,7 +16,9 @@ fun scavengerCollectsItemEvent(mobService: MobService, itemService: ItemService,
         Mobs.select { Mobs.job eq JobType.SCAVENGER.value }
     ).forEach {
         eventually {
-            MobController(mobService, itemService, eventService, it).pickUpAnyItem()
+            runBlocking {
+                MobController(mobService, itemService, eventService, it).pickUpAnyItem()
+            }
         }
     }
 }

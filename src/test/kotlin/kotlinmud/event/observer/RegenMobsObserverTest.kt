@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isGreaterThan
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.test.createTestServiceWithResetDB
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -21,7 +22,7 @@ class RegenMobsObserverTest {
                 mob.hp = 1
                 mob.isNpc = false
                 room.regenLevel = regenLevel
-                test.regenMobs()
+                runBlocking { test.regenMobs() }
                 mob.hp
             }
         }

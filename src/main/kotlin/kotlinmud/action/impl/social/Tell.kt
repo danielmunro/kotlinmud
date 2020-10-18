@@ -10,20 +10,23 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.player.social.Social
 import kotlinmud.player.social.SocialChannel
+import kotlinx.coroutines.runBlocking
 
 fun createTellAction(): Action {
     return Action(Command.TELL, mustBeAlive(), playerFreeForm()) {
         val text = it.get<String>(Syntax.FREE_FORM)
         val target = it.get<MobDAO>(Syntax.PLAYER_MOB)
-        it.publishSocial(
-            Social(
-                SocialChannel.TELL,
-                it.getMob(),
-                it.getRoom(),
-                createTellMessage(it.getMob(), text),
-                target
+        runBlocking {
+            it.publishSocial(
+                Social(
+                    SocialChannel.TELL,
+                    it.getMob(),
+                    it.getRoom(),
+                    createTellMessage(it.getMob(), text),
+                    target
+                )
             )
-        )
+        }
         it.createOkResponse(messageToActionCreator("you tell $target, \"$text\""))
     }
 }

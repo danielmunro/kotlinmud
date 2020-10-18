@@ -1,6 +1,7 @@
 package kotlinmud.app
 
 import kotlinmud.test.createTestService
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class AppTest {
@@ -11,6 +12,6 @@ class AppTest {
         val app = createApp(0)
 
         // expect
-        app.loop()
+        runBlocking { app.loop() }
     }
 }

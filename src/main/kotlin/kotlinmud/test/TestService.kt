@@ -59,6 +59,7 @@ import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.repository.findStartRoom
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class TestService(
@@ -92,7 +93,7 @@ class TestService(
     }
 
     fun <T> publish(event: Event<T>) {
-        eventService.publish(event)
+        runBlocking { eventService.publish(event) }
     }
 
     fun createWorldGeneration(width: Int, length: Int): WorldGeneration {
@@ -142,7 +143,7 @@ class TestService(
         return itemService.findAllByOwner(hasInventory)
     }
 
-    fun regenMobs() {
+    suspend fun regenMobs() {
         mobService.regenMobs()
     }
 
@@ -306,7 +307,7 @@ class TestService(
         return MakeItemService(amount)
     }
 
-    fun pruneDeadMobs() {
+    suspend fun pruneDeadMobs() {
         mobService.pruneDeadMobs()
     }
 
@@ -328,7 +329,7 @@ class TestService(
     }
 
     fun runPreAuth(message: String): PreAuthResponse {
-        return playerService.handlePreAuthRequest(PreAuthRequest(client, message))
+        return runBlocking { playerService.handlePreAuthRequest(PreAuthRequest(client, message)) }
     }
 
     fun runAction(input: String): Response {
@@ -356,7 +357,7 @@ class TestService(
     }
 
     fun proceedFights(): List<Round> {
-        return mobService.proceedFights()
+        return runBlocking { mobService.proceedFights() }
     }
 
     fun callWimpyEvent(event: Event<*>) {
@@ -387,7 +388,7 @@ class TestService(
         proceedFightsEvent(mobService)
     }
 
-    fun flee(mob: MobDAO) {
+    suspend fun flee(mob: MobDAO) {
         mobService.flee(mob)
     }
 

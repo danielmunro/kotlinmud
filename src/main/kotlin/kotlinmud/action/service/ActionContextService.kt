@@ -106,7 +106,7 @@ class ActionContextService(
         return findMobsForRoom(getRoom())
     }
 
-    fun moveMob(room: RoomDAO, direction: Direction) {
+    suspend fun moveMob(room: RoomDAO, direction: Direction) {
         mobService.moveMob(getMob(), room, direction)
     }
 
@@ -125,17 +125,17 @@ class ActionContextService(
         return Response(IOStatus.ERROR, actionContextList, message, delay)
     }
 
-    fun createFight() {
+    suspend fun createFight() {
         val target: MobDAO = get(Syntax.MOB_IN_ROOM)
         val fight = mobService.addFight(getMob(), target)
         eventService.publish(fight.createFightStartedEvent())
     }
 
-    fun flee() {
-        transaction { mobService.flee(getMob()) }
+    suspend fun flee() {
+        mobService.flee(getMob())
     }
 
-    fun publishSocial(social: Social) {
+    suspend fun publishSocial(social: Social) {
         eventService.publish(createSocialEvent(social))
     }
 

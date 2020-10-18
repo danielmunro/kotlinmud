@@ -13,6 +13,7 @@ import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.repository.findRoomById
 import kotlinmud.room.type.DoorDisposition
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobController(
@@ -25,13 +26,13 @@ class MobController(
 
     fun move() {
         when (mob.job) {
-            JobType.FODDER, JobType.SCAVENGER -> wander()
-            JobType.PATROL -> transaction { proceedRoute() }
+            JobType.FODDER, JobType.SCAVENGER -> runBlocking { wander() }
+            JobType.PATROL -> transaction { runBlocking { proceedRoute() } }
             else -> return
         }
     }
 
-    fun pickUpAnyItem() {
+    suspend fun pickUpAnyItem() {
         val room = transaction { mob.room }
         val items = itemService.findAllByOwner(room)
         if (mob.isStanding() && items.isNotEmpty()) {
@@ -51,7 +52,7 @@ class MobController(
         }
     }
 
-    private fun proceedRoute() {
+    private suspend fun proceedRoute() {
         if (mob.lastRoute == null) {
             mob.lastRoute = 0
         }
@@ -81,7 +82,7 @@ class MobController(
         }
     }
 
-    private fun wander() {
+    private suspend fun wander() {
         logger.debug("mob $mob moving via random choice")
         val room = transaction { mob.room }
         room.getAllExits().filter { it.value.area == room.area }.entries.random().let {
@@ -89,7 +90,7 @@ class MobController(
         }
     }
 
-    private fun openDoorIfExistsAndClosed(room: RoomDAO, door: DoorDAO?): Boolean {
+    private suspend fun openDoorIfExistsAndClosed(room: RoomDAO, door: DoorDAO?): Boolean {
         if (door != null && door.disposition == DoorDisposition.LOCKED) {
             return false
         } else if (door != null && door.disposition == DoorDisposition.CLOSED) {

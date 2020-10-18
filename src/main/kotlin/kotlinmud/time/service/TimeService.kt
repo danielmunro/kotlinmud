@@ -23,7 +23,7 @@ class TimeService(private val eventService: EventService) {
         logger.info("time service initialized at {} ticks", time)
     }
 
-    fun loop() {
+    suspend fun loop() {
         getSeconds().let {
             if (it != lastSecond) {
                 lastSecond = it
@@ -36,12 +36,12 @@ class TimeService(private val eventService: EventService) {
         }
     }
 
-    private fun pulse() {
+    private suspend fun pulse() {
         pulse++
         eventService.publish(createPulseEvent())
     }
 
-    private fun tick() {
+    private suspend fun tick() {
         transaction { time.time += 1 }
         eventService.publish(createTickEvent())
         val hour = transaction { time.time } % TICKS_IN_DAY

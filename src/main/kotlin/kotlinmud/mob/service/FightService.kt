@@ -85,9 +85,11 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
     }
 
     fun end() {
-        fight.status = FightStatus.OVER
-        resetDisposition(fight.mob1)
-        resetDisposition(fight.mob2)
+        transaction {
+            fight.status = FightStatus.OVER
+            resetDisposition(fight.mob1)
+            resetDisposition(fight.mob2)
+        }
     }
 
     fun makeMobFlee(mobId: Int, room: RoomDAO) {
@@ -122,7 +124,7 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
         return fight.isOver()
     }
 
-    fun createRound(): Round {
+    suspend fun createRound(): Round {
         val round = transaction {
             Round(
                 fight,

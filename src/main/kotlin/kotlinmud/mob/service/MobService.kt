@@ -48,6 +48,7 @@ import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.repository.findMobCardByName
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.type.Direction
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobService(
@@ -57,7 +58,7 @@ class MobService(
 ) {
     private val logger = logger(this)
 
-    fun regenMobs() {
+    suspend fun regenMobs() {
         findPlayerMobs().forEach {
             val baseRegen = getRoomRegenRate(it.room.regenLevel) + getDispositionRegenRate(it.disposition)
             val event = RegenEvent(it, baseRegen, baseRegen, baseRegen)
@@ -82,7 +83,7 @@ class MobService(
         return findFightForMob(mob)
     }
 
-    fun moveMob(mob: MobDAO, destinationRoom: RoomDAO, directionLeavingFrom: Direction) {
+    suspend fun moveMob(mob: MobDAO, destinationRoom: RoomDAO, directionLeavingFrom: Direction) {
         val leaving = transaction { mob.room }
         sendMessageToRoom(createLeaveMessage(mob, directionLeavingFrom), leaving, mob)
         transaction { mob.room = destinationRoom }
@@ -90,7 +91,7 @@ class MobService(
         sendMessageToRoom(createArriveMessage(mob), destinationRoom, mob)
     }
 
-    fun proceedFights(): List<Round> {
+    suspend fun proceedFights(): List<Round> {
         val rounds = createNewFightRounds()
         deleteFinishedFights()
         return rounds
@@ -103,17 +104,15 @@ class MobService(
         }
     }
 
-    fun pruneDeadMobs() {
+    suspend fun pruneDeadMobs() {
         findDeadMobs().forEach {
             createCorpseFrom(it)
-            transaction {
-                eventService.publishDeath(it)
-                it.delete()
-            }
+            eventService.publishDeath(it)
+            transaction { it.delete() }
         }
     }
 
-    fun sendMessageToRoom(message: Message, room: RoomDAO, actionCreator: MobDAO, target: MobDAO? = null) {
+    suspend fun sendMessageToRoom(message: Message, room: RoomDAO, actionCreator: MobDAO, target: MobDAO? = null) {
         eventService.publish(createSendMessageToRoomEvent(message, room, actionCreator, target))
     }
 
@@ -121,7 +120,7 @@ class MobService(
         return itemService.createCorpseFromMob(mob)
     }
 
-    fun flee(mob: MobDAO) {
+    suspend fun flee(mob: MobDAO) {
         getMobFight(mob)?.let {
             makeMobFlee(FightService(it, eventService), mob)
         } ?: logger.debug("flee :: no fight for mob :: {}", mob.id)
@@ -164,18 +163,22 @@ class MobService(
 
     private fun makeMobFlee(fight: FightService, mob: MobDAO) {
         fight.end()
-        val exit = mob.room.getAllExits().entries.random()
-        sendMessageToRoom(
-            createFleeMessage(mob, exit.key),
-            mob.room,
-            mob
-        )
-        fight.makeMobFlee(mob.id.value, exit.value)
-        sendMessageToRoom(
-            createArriveMessage(mob),
-            exit.value,
-            mob
-        )
+        transaction {
+            val exit = mob.room.getAllExits().entries.random()
+            runBlocking {
+                sendMessageToRoom(
+                    createFleeMessage(mob, exit.key),
+                    mob.room,
+                    mob
+                )
+                fight.makeMobFlee(mob.id.value, exit.value)
+                sendMessageToRoom(
+                    createArriveMessage(mob),
+                    exit.value,
+                    mob
+                )
+            }
+        }
     }
 
     private fun calculatePracticeGain(mob: MobDAO, skill: SkillDAO): Int {
@@ -194,7 +197,7 @@ class MobService(
         return skills.find { it.type == type }!!
     }
 
-    private fun createNewFightRounds(): List<Round> {
+    private suspend fun createNewFightRounds(): List<Round> {
         return findFights().map {
             proceedFightRound(FightService(it, eventService).createRound())
         }
@@ -208,7 +211,7 @@ class MobService(
         }
     }
 
-    private fun proceedFightRound(round: Round): Round {
+    private suspend fun proceedFightRound(round: Round): Round {
         val room = transaction { round.attacker.room }
         sendRoundMessage(round.attackerAttacks, room, round.attacker, round.defender)
         sendRoundMessage(round.defenderAttacks, room, round.defender, round.attacker)
@@ -232,7 +235,7 @@ class MobService(
         return round
     }
 
-    private fun sendRoundMessage(attacks: List<Attack>, room: RoomDAO, attacker: MobDAO, defender: MobDAO) {
+    private suspend fun sendRoundMessage(attacks: List<Attack>, room: RoomDAO, attacker: MobDAO, defender: MobDAO) {
         attacks.forEach {
             val verb = if (it.attackResult == AttackResult.HIT) it.attackVerb else "miss"
             val verbPlural = if (it.attackResult == AttackResult.HIT) it.attackVerb.pluralize() else "misses"

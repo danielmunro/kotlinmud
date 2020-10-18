@@ -8,6 +8,7 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.RoomDAO
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.select
 
 fun guardAttacksAggroMobEvent(mobService: MobService, event: Event<*>) {
@@ -15,16 +16,18 @@ fun guardAttacksAggroMobEvent(mobService: MobService, event: Event<*>) {
     val room = fight.aggressor.room
     getMobsForRoomAndNotInFight(mobService, room, fight).forEach {
         mobService.addFight(it, fight.aggressor)
-        mobService.sendMessageToRoom(
-            MessageBuilder()
-                .toActionCreator("You scream and attack ${fight.aggressor}!")
-                .toTarget("$it screams and attacks you!")
-                .toObservers("$it screams and attacks ${fight.aggressor}")
-                .build(),
-            room,
-            it,
-            fight.aggressor
-        )
+        runBlocking {
+            mobService.sendMessageToRoom(
+                MessageBuilder()
+                    .toActionCreator("You scream and attack ${fight.aggressor}!")
+                    .toTarget("$it screams and attacks you!")
+                    .toObservers("$it screams and attacks ${fight.aggressor}")
+                    .build(),
+                room,
+                it,
+                fight.aggressor
+            )
+        }
     }
 }
 

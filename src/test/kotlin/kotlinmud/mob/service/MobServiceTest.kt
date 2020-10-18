@@ -17,6 +17,7 @@ import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.test.getIdentifyingWord
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -88,7 +89,7 @@ class MobServiceTest {
         transaction { mob1.disposition = Disposition.DEAD }
 
         // when
-        testService.pruneDeadMobs()
+        runBlocking { testService.pruneDeadMobs() }
 
         // then
         assertThat(transaction { Mobs.select { Mobs.id eq mob1.id }.count() }).isEqualTo(0)

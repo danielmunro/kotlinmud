@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -30,19 +31,19 @@ class MobControllerTest {
             )
         }
 
-        controller.move()
+        runBlocking { controller.move() }
 
         assertThat(transaction { mob.room }.id).isEqualTo(room2.id)
 
-        controller.move()
+        runBlocking { controller.move() }
 
         assertThat(transaction { mob.room }.id).isEqualTo(room3.id)
 
-        controller.move()
+        runBlocking { controller.move() }
 
         assertThat(transaction { mob.room }.id).isEqualTo(room2.id)
 
-        controller.move()
+        runBlocking { controller.move() }
 
         assertThat(transaction { mob.room }.id).isEqualTo(room1.id)
     }

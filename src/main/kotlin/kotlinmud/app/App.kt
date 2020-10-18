@@ -28,12 +28,12 @@ class App(
     private val logger = logger(this)
     private var running = true
 
-    init {
+    suspend fun startGame() {
         logger.info("starting app on port ${serverService.port}")
         eventService.publish(createGameStartEvent())
     }
 
-    fun loop() {
+    suspend fun loop() {
         serverService.readIntoBuffers()
         processClientBuffers()
         serverService.removeDisconnectedClients()
@@ -47,13 +47,13 @@ class App(
         return running
     }
 
-    private fun processClientBuffers() {
+    private suspend fun processClientBuffers() {
         serverService.getClientsWithBuffers().forEach {
             processRequest(it)
         }
     }
 
-    private fun processRequest(client: Client) {
+    private suspend fun processRequest(client: Client) {
         if (client.delay > 0) {
             return
         }

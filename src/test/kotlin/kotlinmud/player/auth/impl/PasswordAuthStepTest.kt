@@ -5,6 +5,7 @@ import assertk.assertions.isEqualTo
 import kotlinmud.player.repository.findPlayerByEmail
 import kotlinmud.test.TestService
 import kotlinmud.test.createTestServiceWithResetDB
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -18,7 +19,7 @@ class PasswordAuthStepTest {
         val player = findPlayerByEmail(emailAddress)!!
 
         // when
-        val response = test.runPreAuth(transaction { player.lastOTP!! })
+        val response = runBlocking { test.runPreAuth(transaction { player.lastOTP!! }) }
 
         // then
         assertThat(response.message).isEqualTo("ok.")
@@ -30,7 +31,7 @@ class PasswordAuthStepTest {
         val test = setup()
 
         // when
-        val response = test.runPreAuth(incorrectPassword)
+        val response = runBlocking { test.runPreAuth(incorrectPassword) }
 
         // then
         assertThat(response.message).isEqualTo("sorry, there was an error.")
@@ -46,7 +47,7 @@ class PasswordAuthStepTest {
         transaction { player.lastOTP = "" }
 
         // when
-        val response = test.runPreAuth(incorrectPassword)
+        val response = runBlocking { test.runPreAuth(incorrectPassword) }
 
         // then
         assertThat(response.message).isEqualTo("sorry, there was an error.")
@@ -58,7 +59,7 @@ class PasswordAuthStepTest {
         val test = setup()
 
         // when
-        val response = test.runPreAuth(incorrectPassword)
+        val response = runBlocking { test.runPreAuth(incorrectPassword) }
 
         // then
         assertThat(response.message).isEqualTo("sorry, there was an error.")
@@ -77,7 +78,7 @@ class PasswordAuthStepTest {
         }
 
         // when
-        val response = test.runPreAuth("2")
+        val response = runBlocking { test.runPreAuth("2") }
 
         // then
         assertThat(response.message).isEqualTo("sorry, there was an error.")

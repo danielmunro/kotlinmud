@@ -9,6 +9,7 @@ import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -28,7 +29,7 @@ class EnhancedDamageObserverTest {
 
         // when
         while (prob.isIterating() && findFightForMob(mob) != null) {
-            test.proceedFights().forEach {
+            runBlocking { test.proceedFights() }.forEach {
                 val dam1 = it.attackerAttacks.fold(0) { acc, attack -> acc + attack.damage }
                 val dam2 = it.defenderAttacks.fold(0) { acc, attack -> acc + attack.damage }
                 prob.decrementIteration(

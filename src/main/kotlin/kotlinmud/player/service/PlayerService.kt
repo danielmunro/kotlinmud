@@ -42,7 +42,7 @@ class PlayerService(
         this.authStepService = authStepService
     }
 
-    fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
+    suspend fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
         val authStep = preAuthClients[request.client] ?: EmailAuthStep(authStepService)
         val ioStatus = authStep.handlePreAuthRequest(request)
         logger.debug("pre-auth request :: {}, {}, {}", authStep.authorizationStep, request.input, ioStatus)
@@ -109,7 +109,7 @@ class PlayerService(
         }
     }
 
-    private fun proceedAuth(request: PreAuthRequest, authStep: AuthStep): AuthStep {
+    private suspend fun proceedAuth(request: PreAuthRequest, authStep: AuthStep): AuthStep {
         val nextAuthStep = authStep.getNextAuthStep()
         if (nextAuthStep is CompleteAuthStep) {
             loginMob(request.client, nextAuthStep.mobCard)
@@ -129,7 +129,7 @@ class PlayerService(
         }
     }
 
-    private fun loginMob(client: Client, mobCard: MobCardDAO) {
+    private suspend fun loginMob(client: Client, mobCard: MobCardDAO) {
         eventService.publish(createClientLoggedInEvent(client, mobCard))
     }
 }

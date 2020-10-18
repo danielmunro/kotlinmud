@@ -2,6 +2,7 @@ package kotlinmud
 
 import kotlinmud.app.createApp
 import kotlinmud.db.createConnection
+import kotlinx.coroutines.runBlocking
 
 fun main() {
     val env = System.getenv("ENV") ?: "dev"
@@ -9,8 +10,9 @@ fun main() {
     System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "debug")
     createConnection()
     with(createApp(port)) {
+        runBlocking { startGame() }
         while (isRunning()) {
-            loop()
+            runBlocking { loop() }
         }
     }
 }

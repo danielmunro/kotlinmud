@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.test.TestService
 import kotlinmud.test.createTestServiceWithResetDB
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -19,7 +20,7 @@ class MobSelectAuthStepTest {
         val mob = test.createPlayerMob()
 
         // when
-        val response = test.runPreAuth(mob.name)
+        val response = runBlocking { test.runPreAuth(mob.name) }
 
         // then
         assertThat(response.message).isEqualTo("ok.")
@@ -45,7 +46,7 @@ class MobSelectAuthStepTest {
         setPreAuth(test)
 
         // when
-        val response = test.runPreAuth(mob2.name)
+        val response = runBlocking { test.runPreAuth(mob2.name) }
 
         // then
         assertThat(response.message).isEqualTo("either that name is invalid or unavailable")
@@ -59,7 +60,7 @@ class MobSelectAuthStepTest {
         setPreAuth(test)
 
         // when
-        val response = test.runPreAuth("foobar")
+        val response = runBlocking { test.runPreAuth("foobar") }
 
         // then
         assertThat(response.message).isEqualTo("ok.")
