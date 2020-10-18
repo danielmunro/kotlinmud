@@ -5,15 +5,22 @@ import kotlinmud.item.recipe.GlassBlockRecipe
 import kotlinmud.item.recipe.LumberRecipe
 import kotlinmud.item.recipe.StickRecipe
 import kotlinmud.item.recipe.TorchRecipe
-import kotlinmud.item.recipe.equipment.IronAxeRecipe
-import kotlinmud.item.recipe.equipment.IronPickaxeRecipe
-import kotlinmud.item.recipe.equipment.IronSwordRecipe
-import kotlinmud.item.recipe.equipment.StoneAxeRecipe
-import kotlinmud.item.recipe.equipment.StonePickaxeRecipe
-import kotlinmud.item.recipe.equipment.StoneSwordRecipe
-import kotlinmud.item.recipe.equipment.WoodenAxeRecipe
-import kotlinmud.item.recipe.equipment.WoodenPickaxeRecipe
-import kotlinmud.item.recipe.equipment.WoodenSwordRecipe
+import kotlinmud.item.recipe.equipment.chest.StoneChestPlateRecipe
+import kotlinmud.item.recipe.equipment.feet.StoneShoesRecipe
+import kotlinmud.item.recipe.equipment.helmet.StoneHelmetRecipe
+import kotlinmud.item.recipe.equipment.leggings.StoneLeggingsRecipe
+import kotlinmud.item.recipe.equipment.wield.DiamondAxeRecipe
+import kotlinmud.item.recipe.equipment.wield.DiamondPickAxeRecipe
+import kotlinmud.item.recipe.equipment.wield.DiamondSwordRecipe
+import kotlinmud.item.recipe.equipment.wield.IronAxeRecipe
+import kotlinmud.item.recipe.equipment.wield.IronPickAxeRecipe
+import kotlinmud.item.recipe.equipment.wield.IronSwordRecipe
+import kotlinmud.item.recipe.equipment.wield.StoneAxeRecipe
+import kotlinmud.item.recipe.equipment.wield.StonePickaxeRecipe
+import kotlinmud.item.recipe.equipment.wield.StoneSwordRecipe
+import kotlinmud.item.recipe.equipment.wield.WoodenAxeRecipe
+import kotlinmud.item.recipe.equipment.wield.WoodenPickAxeRecipe
+import kotlinmud.item.recipe.equipment.wield.WoodenSwordRecipe
 import kotlinmud.item.recipe.shelter.BedRecipe
 import kotlinmud.item.recipe.shelter.ShelterRecipe
 import kotlinmud.item.recipe.shelter.SleepingBagRecipe
@@ -35,7 +42,7 @@ fun createRecipeList(): List<Recipe> {
         // wooden tools
         WoodenSwordRecipe(),
         WoodenAxeRecipe(),
-        WoodenPickaxeRecipe(),
+        WoodenPickAxeRecipe(),
 
         // stone tools
         StoneAxeRecipe(),
@@ -44,7 +51,24 @@ fun createRecipeList(): List<Recipe> {
 
         // iron
         IronSwordRecipe(),
-        IronPickaxeRecipe(),
-        IronAxeRecipe()
+        IronPickAxeRecipe(),
+        IronAxeRecipe(),
+
+        // diamond
+        DiamondAxeRecipe(),
+        DiamondPickAxeRecipe(),
+        DiamondSwordRecipe(),
+
+        // helmet
+        StoneHelmetRecipe(),
+
+        // chest plates
+        StoneChestPlateRecipe(),
+
+        // leggings
+        StoneLeggingsRecipe(),
+
+        // feet
+        StoneShoesRecipe()
     )
 }

@@ -35,6 +35,13 @@ class RecipesTest {
             iron sword
             iron pickaxe
             stone axe
+            diamond axe
+            diamond pickaxe
+            diamond sword
+            stone helmet
+            stone chest plate
+            stone leggings
+            stone shoes
         """.trimIndent())
     }
 }

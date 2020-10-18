@@ -1,4 +1,4 @@
-package kotlinmud.item.recipe.equipment
+package kotlinmud.item.recipe.equipment.wield
 
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.item.dao.ItemDAO
@@ -8,28 +8,29 @@ import kotlinmud.item.type.Position
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.fight.type.DamageType
 
-class WoodenSwordRecipe : Recipe {
-    override val name = "wooden sword"
+class IronPickAxeRecipe : Recipe {
+    override val name = "iron pickaxe"
 
     override fun getComponents(): Map<ItemType, Int> {
         return mapOf(
-            Pair(ItemType.STICK, 2)
+            Pair(ItemType.STICK, 2),
+            Pair(ItemType.IRON_INGOT, 3)
         )
     }
 
     override fun getProducts(): List<ItemDAO> {
         return listOf(
             ItemDAO.new {
-                name = "a wooden sword"
-                description = "a wooden sword is here."
+                name = "an iron pick axe"
+                description = "an iron pick axe is here."
                 type = ItemType.EQUIPMENT
+                material = Material.IRON
                 position = Position.WEAPON
-                material = Material.WOOD
-                damageType = DamageType.SLASH
-                attackVerb = "slash"
+                damageType = DamageType.PIERCE
+                attackVerb = "stab"
                 attributes = AttributesDAO.new {
-                    hit = 1
-                    dam = 1
+                    hit = 2
+                    dam = 3
                 }
             }
         )
