@@ -15,7 +15,9 @@ import kotlinmud.helper.logger
 import kotlinmud.io.model.Client
 import kotlinmud.io.type.Clients
 import kotlinmud.mob.dao.MobDAO
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import okhttp3.internal.closeQuietly
 
 const val SELECT_TIMEOUT_MS: Long = 1
@@ -46,22 +48,24 @@ class ServerService(
     }
 
     suspend fun removeDisconnectedClients() {
-        val lost = clients.filter { !it.connected }
-        lost.forEach {
-            eventService.publish(createClientDisconnectedEvent(it))
-            logger.info("remove disconnected client :: {}", it.socket.remoteAddress)
-        }
-        clients.removeAll(lost)
+        clients.removeAll(
+            clients.filter { !it.connected }.also {
+                it.forEach {
+                    eventService.publish(createClientDisconnectedEvent(it))
+                    logger.info("remove disconnected client :: {}", it.socket.remoteAddress)
+                }
+            }
+        )
     }
 
-    fun readIntoBuffers() {
-        selector.select(SELECT_TIMEOUT_MS)
+    suspend fun readIntoBuffers() {
+        withContext(Dispatchers.IO) { selector.select(SELECT_TIMEOUT_MS) }
         val selectedKeys: MutableSet<SelectionKey> = selector.selectedKeys()
         val i = selectedKeys.iterator()
         while (i.hasNext()) {
             val key = i.next()
             if (key.isAcceptable) {
-                runBlocking { handleAccept(socket) }
+                handleAccept(socket)
             } else if (key.isReadable) {
                 handleRead(key)
             }

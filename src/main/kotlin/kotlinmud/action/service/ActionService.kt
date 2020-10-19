@@ -46,7 +46,7 @@ class ActionService(
     private val skills = createSkillList()
     private val logger = logger(this)
 
-    fun run(request: RequestService): Response {
+    suspend fun run(request: RequestService): Response {
         if (request.input == "") {
             return createResponseWithEmptyActionContext(messageToActionCreator(""))
         }
@@ -58,7 +58,7 @@ class ActionService(
             )
     }
 
-    private fun runSkill(request: RequestService): Response? {
+    private suspend fun runSkill(request: RequestService): Response? {
         val skill = (skills.find {
             it is SkillAction && it.matchesRequest(request)
         } ?: return null) as SkillAction
@@ -74,7 +74,7 @@ class ActionService(
         return response
     }
 
-    private fun runAction(request: RequestService): Response? {
+    private suspend fun runAction(request: RequestService): Response? {
         val action = actions.find {
             val syntax = if (it.syntax.size > 1) it.syntax[1] else Syntax.NOOP
             commandMatches(it.command, request.getCommand()) &&
@@ -90,7 +90,7 @@ class ActionService(
             ?: callInvokable(request, action, contextList)
     }
 
-    private fun executeSkill(request: RequestService, skill: SkillAction): Response {
+    private suspend fun executeSkill(request: RequestService, skill: SkillAction): Response {
         return dispositionCheck(request, skill)
             ?: costApply(request.getMob(), skill)
             ?: skillRoll(transaction { request.getMob().skills.find { it.type == skill.type }?.level } ?: error("no skill"))
@@ -117,7 +117,7 @@ class ActionService(
                 null
     }
 
-    private fun callInvokable(request: RequestService, invokable: Invokable, list: ActionContextList): Response {
+    private suspend fun callInvokable(request: RequestService, invokable: Invokable, list: ActionContextList): Response {
         return checkForBadContext(list) ?: with(invokable.invoke(actionContextBuilder(request, list))) {
             if (invokable is Action && invokable.isChained())
                 run(createChainToRequest(request.getMob(), invokable))

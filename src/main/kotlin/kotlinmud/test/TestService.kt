@@ -114,7 +114,7 @@ class TestService(
     }
 
     fun readIntoBuffers() {
-        serverService.readIntoBuffers()
+        runBlocking { serverService.readIntoBuffers() }
     }
 
     fun createClient(): Client {
@@ -388,18 +388,20 @@ class TestService(
         proceedFightsEvent(mobService)
     }
 
-    suspend fun flee(mob: MobDAO) {
+    fun flee(mob: MobDAO) {
         mobService.flee(mob)
     }
 
     private fun runAction(mob: MobDAO, input: String): Response {
-        return actionService.run(
-            RequestService(
-                mob.id.value,
-                mobService,
-                input
+        return runBlocking {
+            actionService.run(
+                RequestService(
+                    mob.id.value,
+                    mobService,
+                    input
+                )
             )
-        )
+        }
     }
 
     private fun createContainer(): ItemDAO {
