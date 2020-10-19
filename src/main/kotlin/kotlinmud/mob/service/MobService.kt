@@ -120,7 +120,7 @@ class MobService(
         return itemService.createCorpseFromMob(mob)
     }
 
-    suspend fun flee(mob: MobDAO) {
+    fun flee(mob: MobDAO) {
         getMobFight(mob)?.let {
             makeMobFlee(FightService(it, eventService), mob)
         } ?: logger.debug("flee :: no fight for mob :: {}", mob.id)
