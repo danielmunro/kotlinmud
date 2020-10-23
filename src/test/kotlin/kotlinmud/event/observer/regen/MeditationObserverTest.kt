@@ -4,12 +4,13 @@ import assertk.assertThat
 import assertk.assertions.isGreaterThan
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.RegenEvent
-import kotlinmud.event.observer.impl.regen.meditationEvent
+import kotlinmud.event.observer.impl.regen.MeditationObserver
 import kotlinmud.event.type.EventType
 import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class MeditationObserverTest {
@@ -27,7 +28,7 @@ class MeditationObserverTest {
         // when
         while (prob.isIterating()) {
             val event = Event(EventType.REGEN, RegenEvent(mob, 0.0, 0.0, 0.0))
-            meditationEvent(event)
+            runBlocking { MeditationObserver().invokeAsync(event) }
             prob.decrementIteration(event.subject.manaRegenRate > 0.0, event.subject.manaRegenRate == 0.0)
         }
 

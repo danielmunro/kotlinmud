@@ -4,22 +4,21 @@ import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.FightRoundEvent
 import kotlinmud.event.impl.SendMessageToRoomEvent
-import kotlinmud.event.observer.type.Observer
+import kotlinmud.event.observer.type.ObserverList
 import kotlinmud.io.factory.createDeathMessage
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Round
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.joinAll
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.async
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class EventService {
-    var observers: Observer = mapOf()
+    var observers: ObserverList = mapOf()
 
     suspend fun <T> publish(event: Event<T>) {
         (observers[event.eventType] ?: return).map {
-            GlobalScope.launch { transaction { it(event) } }
-        }.joinAll()
+            GlobalScope.async { it.invokeAsync(event) }
+        }.forEach { it.await() }
     }
 
     suspend fun publishRoomMessage(event: Event<SendMessageToRoomEvent>) {

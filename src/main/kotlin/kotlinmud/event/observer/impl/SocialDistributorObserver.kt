@@ -2,6 +2,7 @@ package kotlinmud.event.observer.impl
 
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.SocialEvent
+import kotlinmud.event.observer.type.Observer
 import kotlinmud.io.model.Message
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.dao.MobDAO
@@ -10,8 +11,8 @@ import kotlinmud.player.social.SocialChannel
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class SocialDistributorObserver(private val serverService: ServerService) {
-    fun event(event: Event<*>) {
+class SocialDistributorObserver(private val serverService: ServerService) : Observer {
+    override suspend fun <T> invokeAsync(event: Event<T>) {
         val socialEvent = event.subject as SocialEvent
         val soc = socialEvent.social
         when (soc.channel) {

@@ -20,9 +20,9 @@ import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.exception.EmailFormatException
-import kotlinmud.player.repository.findLoggedInMobCards
 import kotlinmud.player.repository.findMobCardByName as findMobCardByNameQuery
 import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
+import kotlinmud.player.repository.updateAllMobCardsLoggedOut
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class PlayerService(
@@ -102,11 +102,7 @@ class PlayerService(
     }
 
     fun logOutPlayers() {
-        transaction {
-            findLoggedInMobCards().forEach {
-                it.loggedIn = false
-            }
-        }
+        updateAllMobCardsLoggedOut()
     }
 
     private suspend fun proceedAuth(request: PreAuthRequest, authStep: AuthStep): AuthStep {

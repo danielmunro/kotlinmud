@@ -1,8 +1,11 @@
 package kotlinmud.event.observer.impl.pulse
 
+import kotlinmud.event.impl.Event
+import kotlinmud.event.observer.type.Observer
 import kotlinmud.mob.service.MobService
-import kotlinx.coroutines.runBlocking
 
-fun proceedFightsEvent(mobService: MobService) {
-    runBlocking { mobService.proceedFights() }
+class ProceedFightsPulseObserver(private val mobService: MobService) : Observer {
+    override suspend fun <T> invokeAsync(event: Event<T>) {
+        mobService.proceedFights()
+    }
 }

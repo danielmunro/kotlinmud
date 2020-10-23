@@ -15,13 +15,14 @@ import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
-import kotlinmud.event.observer.impl.client.clientConnectedEvent
+import kotlinmud.event.observer.impl.client.ClientConnectedObserver
 import kotlinmud.event.observer.impl.kill.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.logoutAllPlayersOnStartupEvent
-import kotlinmud.event.observer.impl.pulse.proceedFightsEvent
-import kotlinmud.event.observer.impl.round.wimpyEvent
-import kotlinmud.event.observer.impl.tick.decreaseThirstAndHungerEvent
+import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
+import kotlinmud.event.observer.impl.round.WimpyObserver
+import kotlinmud.event.observer.impl.tick.DecreaseThirstAndHungerObserver
 import kotlinmud.event.service.EventService
+import kotlinmud.event.type.EventType
 import kotlinmud.generator.config.GeneratorConfig
 import kotlinmud.generator.service.BiomeService
 import kotlinmud.generator.service.FixtureService
@@ -361,11 +362,11 @@ class TestService(
     }
 
     fun callWimpyEvent(event: Event<*>) {
-        wimpyEvent(mobService, event)
+        runBlocking { WimpyObserver(mobService).invokeAsync(event) }
     }
 
     fun callClientConnectedEvent(event: Event<ClientConnectedEvent>) {
-        clientConnectedEvent(playerService, authStepService, event)
+        runBlocking { ClientConnectedObserver(playerService).invokeAsync(event) }
     }
 
     fun callLogoutPlayersOnStartupEvent() {
@@ -373,7 +374,7 @@ class TestService(
     }
 
     fun callDecreaseThirstAndHungerEvent(event: Event<*>) {
-        decreaseThirstAndHungerEvent(serverService, mobService, event)
+        runBlocking { DecreaseThirstAndHungerObserver(serverService, mobService).invokeAsync(event) }
     }
 
     fun getGrantExperienceOnKillObserver(): GrantExperienceOnKillObserver {
@@ -385,7 +386,7 @@ class TestService(
     }
 
     fun callProceedFightsEvent() {
-        proceedFightsEvent(mobService)
+        runBlocking { ProceedFightsPulseObserver(mobService).invokeAsync(Event(EventType.PULSE, null)) }
     }
 
     fun flee(mob: MobDAO) {

@@ -2,12 +2,14 @@ package kotlinmud.event.observer.impl.client
 
 import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
-import kotlinmud.player.auth.service.AuthStepService
+import kotlinmud.event.observer.type.Observer
 import kotlinmud.player.service.PlayerService
 
-fun <T> clientConnectedEvent(playerService: PlayerService, authStepService: AuthStepService, event: Event<T>) {
-    with(event.subject as ClientConnectedEvent) {
-        playerService.addPreAuthClient(this.client)
-        this.client.write("email: ")
+class ClientConnectedObserver(private val playerService: PlayerService) : Observer {
+    override suspend fun <T> invokeAsync(event: Event<T>) {
+        with(event.subject as ClientConnectedEvent) {
+            playerService.addPreAuthClient(this.client)
+            this.client.write("email: ")
+        }
     }
 }

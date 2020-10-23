@@ -5,9 +5,10 @@ import assertk.assertions.isFalse
 import assertk.assertions.isNull
 import assertk.assertions.isTrue
 import kotlinmud.event.factory.createClientDisconnectedEvent
-import kotlinmud.event.observer.impl.client.logPlayerOutEvent
+import kotlinmud.event.observer.impl.client.LogPlayerOutObserver
 import kotlinmud.player.repository.findMobCardByName
 import kotlinmud.test.createTestService
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -29,7 +30,11 @@ class LogPlayerOutObserverTest {
 
         // when
         transaction {
-            logPlayerOutEvent(createClientDisconnectedEvent(client1))
+            runBlocking {
+                LogPlayerOutObserver().invokeAsync(
+                    createClientDisconnectedEvent(client1)
+                )
+            }
         }
 
         // then
@@ -45,7 +50,11 @@ class LogPlayerOutObserverTest {
 
         // when
         transaction {
-            logPlayerOutEvent(createClientDisconnectedEvent(client))
+            runBlocking {
+                LogPlayerOutObserver().invokeAsync(
+                    createClientDisconnectedEvent(client)
+                )
+            }
         }
 
         // then

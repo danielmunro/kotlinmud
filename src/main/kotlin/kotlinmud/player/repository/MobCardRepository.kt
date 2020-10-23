@@ -7,6 +7,15 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
+
+fun updateAllMobCardsLoggedOut() {
+    transaction {
+        MobCards.update({ MobCards.loggedIn eq true }) {
+            it[loggedIn] = false
+        }
+    }
+}
 
 fun findLoggedInMobCards(): List<MobCardDAO> {
     return transaction {

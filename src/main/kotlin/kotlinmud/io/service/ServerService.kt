@@ -16,7 +16,6 @@ import kotlinmud.io.model.Client
 import kotlinmud.io.type.Clients
 import kotlinmud.mob.dao.MobDAO
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import okhttp3.internal.closeQuietly
 
