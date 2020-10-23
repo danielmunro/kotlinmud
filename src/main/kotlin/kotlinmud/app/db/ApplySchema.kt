@@ -1,4 +1,4 @@
-package kotlinmud.db
+package kotlinmud.app.db
 
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.StdOutSqlLogger

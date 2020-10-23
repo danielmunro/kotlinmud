@@ -1,4 +1,4 @@
-package kotlinmud.db
+package kotlinmud.app.db
 
 import java.sql.Connection
 import org.jetbrains.exposed.sql.Database

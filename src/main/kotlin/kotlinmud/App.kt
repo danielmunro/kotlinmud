@@ -1,7 +1,7 @@
 package kotlinmud
 
 import kotlinmud.app.createApp
-import kotlinmud.db.createConnection
+import kotlinmud.app.db.createConnection
 import kotlinx.coroutines.runBlocking
 
 fun main() {

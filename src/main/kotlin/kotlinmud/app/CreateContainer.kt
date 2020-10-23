@@ -6,7 +6,7 @@ import kotlinmud.action.helper.createActionsList
 import kotlinmud.action.service.ActionService
 import kotlinmud.action.service.ContextBuilderService
 import kotlinmud.biome.helper.createBiomes
-import kotlinmud.db.createConnection
+import kotlinmud.app.db.createConnection
 import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
 import kotlinmud.event.observer.impl.LogOutAllPlayersOnStartupObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver

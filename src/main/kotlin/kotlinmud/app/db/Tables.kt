@@ -1,4 +1,4 @@
-package kotlinmud.db
+package kotlinmud.app.db
 
 import kotlinmud.affect.table.Affects
 import kotlinmud.attributes.table.Attributes
