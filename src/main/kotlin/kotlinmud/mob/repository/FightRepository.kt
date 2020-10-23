@@ -18,16 +18,6 @@ fun findFights(): List<FightDAO> {
     }
 }
 
-fun findFinishedFights(): List<FightDAO> {
-    return transaction {
-        FightDAO.wrapRows(
-            (Fights innerJoin Mobs).select {
-                Fights.status eq FightStatus.FIGHTING.toString() and (Mobs.hp less 0)
-            }
-        ).toList()
-    }
-}
-
 fun deleteFinishedFights() {
     transaction {
         Fights.deleteWhere(null as Int?, null as Int?) {
