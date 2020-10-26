@@ -244,7 +244,7 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
         }
 
         bind<Observer>(tag = "generateGrass") with provider {
-            GenerateGrassObserver()
+            GenerateGrassObserver(instance())
         }
 
         bind<ObserverList>() with singleton {

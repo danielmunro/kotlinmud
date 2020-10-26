@@ -16,11 +16,11 @@ import kotlinmud.biome.type.SubstrateType
 import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.impl.client.ClientConnectedObserver
-import kotlinmud.event.observer.impl.kill.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.logoutAllPlayersOnStartupEvent
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.round.WimpyObserver
 import kotlinmud.event.observer.impl.tick.DecreaseThirstAndHungerObserver
+import kotlinmud.event.observer.impl.tick.GenerateGrassObserver
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
 import kotlinmud.generator.config.GeneratorConfig
@@ -55,6 +55,7 @@ import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
+import kotlinmud.resource.service.ResourceService
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.repository.findStartRoom
@@ -377,8 +378,8 @@ class TestService(
         runBlocking { DecreaseThirstAndHungerObserver(serverService, mobService).invokeAsync(event) }
     }
 
-    fun getGrantExperienceOnKillObserver(): GrantExperienceOnKillObserver {
-        return GrantExperienceOnKillObserver(serverService)
+    fun callGenerateGrassObserver() {
+        runBlocking { GenerateGrassObserver(ResourceService()).invokeAsync(Event(EventType.TICK, null)) }
     }
 
     fun getAuthStep(client: Client): AuthStep? {
