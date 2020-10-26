@@ -23,6 +23,11 @@ class TimeService(private val eventService: EventService) {
         logger.info("time service initialized at {} ticks", time)
     }
 
+    fun isDaylight(): Boolean {
+        val hour = getHour()
+        return hour > 5 && hour < 21
+    }
+
     suspend fun loop() {
         getSeconds().let {
             if (it != lastSecond) {
@@ -44,12 +49,16 @@ class TimeService(private val eventService: EventService) {
     private suspend fun tick() {
         transaction { time.time += 1 }
         eventService.publish(createTickEvent())
-        val hour = transaction { time.time } % TICKS_IN_DAY
+        val hour = getHour()
         logger.info("tick occurred. hour of day :: {}, time :: {}", hour, time)
         if (hour == 0) {
             eventService.publish(createDayEvent())
             logger.info("a new day has started")
         }
+    }
+
+    private fun getHour(): Int {
+        return transaction { time.time } % TICKS_IN_DAY
     }
 
     private fun getSeconds(): Int {

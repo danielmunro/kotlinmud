@@ -76,6 +76,10 @@ class ServerService(
         return clients
     }
 
+    fun getLoggedInClients(): List<Client> {
+        return clients.filter { it.mob != null }
+    }
+
     fun getClientsWithBuffers(): Clients {
         return clients.stream()
             .filter { it.buffers.isNotEmpty() }

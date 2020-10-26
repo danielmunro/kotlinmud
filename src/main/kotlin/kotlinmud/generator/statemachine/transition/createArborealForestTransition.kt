@@ -12,6 +12,7 @@ fun createArborealForestTransition() {
             repeat(dice(1, 3) - 1) {
                 ResourceDAO.new {
                     type = ResourceType.PINE_TREE
+                    name = "a pine tree"
                     this.room = room
                 }
             }

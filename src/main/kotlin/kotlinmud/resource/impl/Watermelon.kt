@@ -10,6 +10,7 @@ import kotlinmud.resource.type.Resource
 
 class Watermelon : Resource {
     override val resourceType = ResourceType.WATERMELON
+    override val maturity = 4
     override val growable = false
     override val consumesResource = true
     override val toughness = 3

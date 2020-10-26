@@ -1,8 +1,8 @@
 package kotlinmud
 
-import kotlinmud.biome.helper.createBiomes
 import kotlinmud.app.db.applySchema
 import kotlinmud.app.db.createConnection
+import kotlinmud.biome.helper.createBiomes
 import kotlinmud.generator.config.GeneratorConfig
 import kotlinmud.generator.service.BiomeService
 import kotlinmud.generator.service.WorldGeneration

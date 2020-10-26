@@ -4,8 +4,6 @@ import kotlinmud.mob.dao.FightDAO
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.type.FightStatus
 import kotlinmud.mob.table.Fights
-import kotlinmud.mob.table.Mobs
-import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select

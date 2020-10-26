@@ -24,6 +24,7 @@ class HarvestTest {
         transaction {
             ResourceDAO.new {
                 type = ResourceType.IRON_ORE
+                name = "iron ore"
                 this.room = room
             }
         }

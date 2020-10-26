@@ -12,6 +12,7 @@ fun createJungleTransition() {
             repeat(dice(1, 3) - 1) {
                 ResourceDAO.new {
                     type = ResourceType.JUNGLE_TREE
+                    name = "a jungle tree"
                     this.room = room
                 }
             }

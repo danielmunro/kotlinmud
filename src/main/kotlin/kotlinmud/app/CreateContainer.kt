@@ -5,8 +5,8 @@ import kotlinmud.action.helper.createActionContextBuilder
 import kotlinmud.action.helper.createActionsList
 import kotlinmud.action.service.ActionService
 import kotlinmud.action.service.ContextBuilderService
-import kotlinmud.biome.helper.createBiomes
 import kotlinmud.app.db.createConnection
+import kotlinmud.biome.helper.createBiomes
 import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
 import kotlinmud.event.observer.impl.LogOutAllPlayersOnStartupObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
@@ -29,7 +29,9 @@ import kotlinmud.event.observer.impl.tick.DecreaseThirstAndHungerObserver
 import kotlinmud.event.observer.impl.tick.DecrementAffectTimeoutTickObserver
 import kotlinmud.event.observer.impl.tick.DecrementDelayObserver
 import kotlinmud.event.observer.impl.tick.DecrementItemDecayTimerObserver
+import kotlinmud.event.observer.impl.tick.GenerateGrassObserver
 import kotlinmud.event.observer.impl.tick.GenerateMobsObserver
+import kotlinmud.event.observer.impl.tick.GrowResourcesObserver
 import kotlinmud.event.observer.impl.tick.LogTickObserver
 import kotlinmud.event.observer.impl.tick.MoveMobsOnTickObserver
 import kotlinmud.event.observer.impl.tick.RegenMobsObserver
@@ -51,6 +53,7 @@ import kotlinmud.player.factory.createEmailService
 import kotlinmud.player.factory.createEmailServiceMock
 import kotlinmud.player.service.EmailService
 import kotlinmud.player.service.PlayerService
+import kotlinmud.resource.service.ResourceService
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
 import org.kodein.di.Kodein
@@ -123,6 +126,9 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
         }
         bind<MobGeneratorService>() with singleton {
             MobGeneratorService(createBiomes())
+        }
+        bind<ResourceService>() with singleton {
+            ResourceService()
         }
 
         bind<Observer>(tag = "logoutAllPlayersOnStartup") with provider {
@@ -233,6 +239,14 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
             TransferGoldOnKillObserver(instance())
         }
 
+        bind<Observer>(tag = "growResources") with provider {
+            GrowResourcesObserver(instance())
+        }
+
+        bind<Observer>(tag = "generateGrass") with provider {
+            GenerateGrassObserver()
+        }
+
         bind<ObserverList>() with singleton {
             mapOf(
                 Pair(EventType.GAME_START, listOf(
@@ -267,7 +281,9 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
                     instance(tag = "regenMobs"),
                     instance(tag = "moveMobsOnTick"),
                     instance(tag = "scavengerCollectsItem"),
-                    instance(tag = "generateMobs")
+                    instance(tag = "generateMobs"),
+                    instance(tag = "growResources"),
+                    instance(tag = "generateGrass")
                 )),
                 Pair(EventType.REGEN, listOf(
                     instance(tag = "fastHealing"),

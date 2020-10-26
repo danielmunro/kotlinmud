@@ -9,6 +9,7 @@ import kotlinmud.resource.type.Resource
 class IronOre : Resource {
     override val resourceType = ResourceType.IRON_ORE
     override val growable = false
+    override val maturity: Int? = null
     override val consumesResource = true
     override val toughness = 3
 

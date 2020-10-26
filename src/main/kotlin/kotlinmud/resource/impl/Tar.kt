@@ -8,6 +8,7 @@ import kotlinmud.resource.type.Resource
 class Tar : Resource {
     override val resourceType = ResourceType.TAR
     override val growable = false
+    override val maturity: Int? = null
     override val consumesResource = true
     override val toughness = 2
 

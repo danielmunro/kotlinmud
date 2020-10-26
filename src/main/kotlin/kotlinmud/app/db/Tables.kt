@@ -9,6 +9,7 @@ import kotlinmud.mob.table.Mobs
 import kotlinmud.player.table.MobCards
 import kotlinmud.player.table.Players
 import kotlinmud.room.table.Doors
+import kotlinmud.room.table.Resources
 import kotlinmud.room.table.Rooms
 import kotlinmud.time.table.Times
 import org.jetbrains.exposed.dao.IntIdTable
@@ -25,6 +26,7 @@ fun getTables(): Array<IntIdTable> {
         Players,
         MobCards,
         Times,
-        Fights
+        Fights,
+        Resources
     )
 }

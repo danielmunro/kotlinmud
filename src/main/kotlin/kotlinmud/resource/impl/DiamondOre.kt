@@ -8,6 +8,7 @@ import kotlinmud.resource.type.Resource
 class DiamondOre : Resource {
     override val resourceType = ResourceType.DIAMOND_ORE
     override val growable = false
+    override val maturity: Int? = null
     override val consumesResource = true
     override val toughness = 4
 

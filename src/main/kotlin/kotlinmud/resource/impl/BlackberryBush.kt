@@ -7,8 +7,9 @@ import kotlinmud.item.type.ItemType
 import kotlinmud.resource.type.Resource
 
 class BlackberryBush : Resource {
-    override val resourceType: ResourceType = ResourceType.BRUSH
-    override val growable: Boolean = true
+    override val resourceType = ResourceType.BRUSH
+    override val growable = true
+    override val maturity = 5
     override val consumesResource = false
     override val toughness = 1
 

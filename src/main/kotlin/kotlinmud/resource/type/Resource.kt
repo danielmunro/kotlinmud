@@ -6,6 +6,7 @@ import kotlinmud.item.dao.ItemDAO
 interface Resource {
     val resourceType: ResourceType
     val growable: Boolean
+    val maturity: Int?
     val consumesResource: Boolean
     val toughness: Int
     fun createProduct(): List<ItemDAO>

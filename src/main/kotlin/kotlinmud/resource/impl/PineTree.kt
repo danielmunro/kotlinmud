@@ -7,6 +7,7 @@ import kotlinmud.resource.type.Resource
 
 class PineTree : Resource {
     override val resourceType = ResourceType.PINE_TREE
+    override val maturity = 10
     override val growable = true
     override val consumesResource = true
     override val toughness = 2
