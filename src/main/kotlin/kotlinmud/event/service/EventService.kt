@@ -10,15 +10,17 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Round
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.collect
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class EventService {
     var observers: ObserverList = mapOf()
 
     suspend fun <T> publish(event: Event<T>) {
-        (observers[event.eventType] ?: return).map {
+        return (observers[event.eventType] ?: return).map {
             GlobalScope.async { it.invokeAsync(event) }
-        }.forEach { it.await() }
+        }.asFlow().collect { it.await() }
     }
 
     suspend fun publishRoomMessage(event: Event<SendMessageToRoomEvent>) {
