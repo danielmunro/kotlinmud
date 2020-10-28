@@ -51,9 +51,13 @@ jacocoTestReport.dependsOn {
     subprojects*.test
 }
 
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {
+    kotlinOptions.freeCompilerArgs += ["-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi"]
+}
+
 dependencies {
     // coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0-M1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0'
 
     // postgres
     implementation 'org.postgresql:postgresql:42.2.2'

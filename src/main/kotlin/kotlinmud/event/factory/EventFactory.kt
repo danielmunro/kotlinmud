@@ -25,6 +25,10 @@ fun createGameStartEvent(): Event<Any?> {
     return Event(EventType.GAME_START, null)
 }
 
+fun createGameLoopEvent(): Event<Any?> {
+    return Event(EventType.GAME_LOOP, null)
+}
+
 fun createSocialEvent(social: Social): Event<SocialEvent> {
     return Event(EventType.SOCIAL, SocialEvent(social))
 }

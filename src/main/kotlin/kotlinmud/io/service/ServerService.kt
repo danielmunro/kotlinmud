@@ -16,6 +16,8 @@ import kotlinmud.io.model.Client
 import kotlinmud.io.type.Clients
 import kotlinmud.mob.dao.MobDAO
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.withContext
 import okhttp3.internal.closeQuietly
 
@@ -47,14 +49,12 @@ class ServerService(
     }
 
     suspend fun removeDisconnectedClients() {
-        clients.removeAll(
-            clients.filter { !it.connected }.also {
-                it.forEach {
-                    eventService.publish(createClientDisconnectedEvent(it))
-                    logger.info("remove disconnected client :: {}", it.socket.remoteAddress)
-                }
-            }
-        )
+        val disconnected = clients.filter { !it.connected }
+        clients.removeAll(disconnected)
+        disconnected.forEach {
+            eventService.publish(createClientDisconnectedEvent(it))
+            logger.info("remove disconnected client :: {}", it.socket.remoteAddress)
+        }
     }
 
     suspend fun readIntoBuffers() {

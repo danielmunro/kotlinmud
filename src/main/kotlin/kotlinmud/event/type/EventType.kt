@@ -15,5 +15,6 @@ enum class EventType {
     KILL,
     SOCIAL,
     CLIENT_LOGGED_IN,
-    GAME_START
+    GAME_START,
+    GAME_LOOP
 }

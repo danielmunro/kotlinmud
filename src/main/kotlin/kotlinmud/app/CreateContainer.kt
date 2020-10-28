@@ -14,6 +14,10 @@ import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.client.ClientConnectedObserver
 import kotlinmud.event.observer.impl.client.LogPlayerInObserver
 import kotlinmud.event.observer.impl.client.LogPlayerOutObserver
+import kotlinmud.event.observer.impl.gameLoop.ProcessClientBuffersObserver
+import kotlinmud.event.observer.impl.gameLoop.ReadIntoClientBuffersObserver
+import kotlinmud.event.observer.impl.gameLoop.RemoveDisconnectedClients
+import kotlinmud.event.observer.impl.gameLoop.TimeServiceLoopObserver
 import kotlinmud.event.observer.impl.kill.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.kill.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
@@ -247,10 +251,32 @@ fun createContainer(port: Int, test: Boolean = false): Kodein {
             GenerateGrassObserver(instance())
         }
 
+        bind<Observer>(tag = "processClientBuffers") with provider {
+            ProcessClientBuffersObserver(instance(), instance(), instance(), instance(), instance())
+        }
+
+        bind<Observer>(tag = "readIntoClientBuffers") with provider {
+            ReadIntoClientBuffersObserver(instance())
+        }
+
+        bind<Observer>(tag = "removeDisconnectedClients") with provider {
+            RemoveDisconnectedClients(instance())
+        }
+
+        bind<Observer>(tag = "timeServiceLoop") with provider {
+            TimeServiceLoopObserver(instance())
+        }
+
         bind<ObserverList>() with singleton {
             mapOf(
                 Pair(EventType.GAME_START, listOf(
                     instance(tag = "logoutAllPlayersOnStartup")
+                )),
+                Pair(EventType.GAME_LOOP, listOf(
+                    instance(tag = "processClientBuffers"),
+                    instance(tag = "readIntoClientBuffers"),
+                    instance(tag = "removeDisconnectedClients"),
+                    instance(tag = "timeServiceLoop")
                 )),
                 Pair(EventType.CLIENT_CONNECTED, listOf(
                     instance(tag = "clientConnected")
