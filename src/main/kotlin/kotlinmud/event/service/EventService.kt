@@ -18,7 +18,7 @@ class EventService {
     var observers: ObserverList = mapOf()
 
     suspend fun <T> publish(event: Event<T>) {
-        return (observers[event.eventType] ?: return).map {
+        (observers[event.eventType] ?: return).map {
             GlobalScope.async { it.invokeAsync(event) }
         }.asFlow().collect { it.await() }
     }
