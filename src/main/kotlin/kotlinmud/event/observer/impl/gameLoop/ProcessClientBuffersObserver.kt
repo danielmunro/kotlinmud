@@ -45,7 +45,7 @@ class ProcessClientBuffersObserver(
         }
         val request = RequestService(client.mob!!.id.value, mobService, input)
         val response = actionService.run(request)
-        eventService.publishRoomMessage(
+        eventService.publish(
             createSendMessageToRoomEvent(
                 response.message,
                 transaction { request.getMob().room },

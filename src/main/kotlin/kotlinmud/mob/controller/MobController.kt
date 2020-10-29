@@ -39,7 +39,7 @@ class MobController(
             val item = items.random()
             logger.debug("$mob picks up $item")
             itemService.giveItemToMob(item, mob)
-            eventService.publishRoomMessage(
+            eventService.publish(
                 createSendMessageToRoomEvent(
                     MessageBuilder()
                         .toActionCreator("you pick up $item.")
@@ -96,7 +96,7 @@ class MobController(
         } else if (door != null && door.disposition == DoorDisposition.CLOSED) {
             logger.debug("$mob opens $door")
             door.disposition = DoorDisposition.OPEN
-            eventService.publishRoomMessage(
+            eventService.publish(
                 createSendMessageToRoomEvent(
                     MessageBuilder()
                         .toActionCreator("you open $door.")

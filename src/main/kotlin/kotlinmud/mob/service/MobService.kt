@@ -6,6 +6,7 @@ import kotlinmud.affect.repository.decrementAffectsTimeout
 import kotlinmud.affect.repository.deleteTimedOutAffects
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.event.factory.createDeathEvent
 import kotlinmud.event.factory.createKillEvent
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
@@ -107,7 +108,7 @@ class MobService(
     suspend fun pruneDeadMobs() {
         findDeadMobs().forEach {
             createCorpseFrom(it)
-            eventService.publishDeath(it)
+            eventService.publish(createDeathEvent(it))
             transaction { it.delete() }
         }
     }
@@ -215,14 +216,14 @@ class MobService(
         val room = transaction { round.attacker.room }
         sendRoundMessage(round.attackerAttacks, room, round.attacker, round.defender)
         sendRoundMessage(round.defenderAttacks, room, round.defender, round.attacker)
-        eventService.publishRoomMessage(
+        eventService.publish(
             createSendMessageToRoomEvent(
                 messageToActionCreator(round.defender.getHealthIndication()),
                 room,
                 round.attacker
             )
         )
-        eventService.publishRoomMessage(
+        eventService.publish(
             createSendMessageToRoomEvent(
                 messageToActionCreator(round.attacker.getHealthIndication()),
                 room,
@@ -239,7 +240,7 @@ class MobService(
         attacks.forEach {
             val verb = if (it.attackResult == AttackResult.HIT) it.attackVerb else "miss"
             val verbPlural = if (it.attackResult == AttackResult.HIT) it.attackVerb.pluralize() else "misses"
-            eventService.publishRoomMessage(
+            eventService.publish(
                 createSendMessageToRoomEvent(
                     createSingleHitMessage(attacker, defender, verb, verbPlural),
                     room,

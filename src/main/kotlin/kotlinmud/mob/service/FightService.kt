@@ -134,7 +134,7 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
                 mapAttacks(fight.mob2, fight.mob1)
             )
         }
-        eventService.publishFightRound(round)
+        eventService.publish(createFightRoundEventFactory(round))
         transaction { applyRoundDamage(round.attackerAttacks, round.defender) }
         if (round.isActive()) {
             applyRoundDamage(round.defenderAttacks, round.attacker)
