@@ -75,7 +75,7 @@ class BuyTest {
         test.createMob()
 
         // given
-        val mob = test.createMob {
+        test.createMob {
             it.job = JobType.SHOPKEEPER
         }
 
