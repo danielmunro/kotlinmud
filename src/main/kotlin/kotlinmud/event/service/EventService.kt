@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.collect
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class EventService {
-    var observers: ObserverList = mapOf()
+    lateinit var observers: ObserverList
 
     suspend fun <T> publish(event: Event<T>) {
         (observers[event.eventType] ?: return).map {
