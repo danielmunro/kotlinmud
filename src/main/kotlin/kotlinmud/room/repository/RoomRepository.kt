@@ -9,26 +9,34 @@ import kotlinmud.room.table.Resources
 import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.sql.Join
 import org.jetbrains.exposed.sql.JoinType
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.asLiteral
 import org.jetbrains.exposed.sql.StdOutSqlLogger
 import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun findRoomsForGrassGeneration(): List<RoomDAO> {
-    return transaction {
+fun insertGrassResource() {
+    transaction {
         addLogger(StdOutSqlLogger)
         val complex = Join(
             Rooms, Resources,
             joinType = JoinType.LEFT,
             additionalConstraint = { Resources.type eq ResourceType.BRUSH.toString() }
         )
-        RoomDAO.wrapRows(
-            complex.select {
+        Resources.insert(
+            complex.slice(
+                Resources.type.asLiteral(ResourceType.BRUSH),
+                Resources.name.asLiteral("grass"),
+                Resources.maturity.asLiteral(0),
+                Resources.maturesAt.asLiteral(4),
+                Rooms.id
+            ).select {
                 Rooms.substrate eq SubstrateType.DIRT.toString() and (Resources.id.isNull())
             }
-        ).toList()
+        )
     }
 }
 
