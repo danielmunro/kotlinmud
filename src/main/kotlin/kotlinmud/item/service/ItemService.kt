@@ -17,8 +17,12 @@ import kotlinmud.item.factory.createLiver
 import kotlinmud.item.factory.createScale
 import kotlinmud.item.factory.createSmallFang
 import kotlinmud.item.factory.createThread
-import kotlinmud.item.table.Items
-import kotlinmud.item.table.Items.decayTimer
+import kotlinmud.item.repository.decrementAllItemDecayTimers
+import kotlinmud.item.repository.findAllItemsByOwner
+import kotlinmud.item.repository.findOneByMob
+import kotlinmud.item.repository.findOneByRoom
+import kotlinmud.item.repository.removeAllEquipmentForMob
+import kotlinmud.item.repository.transferAllItemsToItemContainer
 import kotlinmud.item.table.Items.itemId
 import kotlinmud.item.table.Items.mobInventoryId
 import kotlinmud.item.table.Items.roomId
@@ -28,14 +32,7 @@ import kotlinmud.mob.type.Form
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.sql.Column
-import org.jetbrains.exposed.sql.SqlExpressionBuilder
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 
 class ItemService {
     companion object {
@@ -50,29 +47,15 @@ class ItemService {
     }
 
     fun findAllByOwner(hasInventory: HasInventory): List<ItemDAO> {
-        return transaction {
-            ItemDAO.wrapRows(
-                Items.select {
-                    getColumn(hasInventory) eq hasInventory.id
-                }
-            ).toList()
-        }
+        return findAllItemsByOwner(hasInventory)
     }
 
     fun findByOwner(mob: MobDAO, input: String): ItemDAO? {
-        return transaction {
-            ItemDAO.wrapRows(
-                Items.select(mobInventoryId eq mob.id and (Items.name like "%$input%"))
-            ).firstOrNull()
-        }
+        return findOneByMob(mob, input)
     }
 
     fun findByRoom(room: RoomDAO, input: String): ItemDAO? {
-        return transaction {
-            ItemDAO.wrapRows(
-                Items.select(roomId eq room.id and (Items.name like "%$input%"))
-            ).firstOrNull()
-        }
+        return findOneByRoom(room, input)
     }
 
     fun getItemGroups(mob: MobDAO): Map<EntityID<Int>, List<ItemDAO>> {
@@ -111,23 +94,12 @@ class ItemService {
     }
 
     fun decrementDecayTimer() {
-        transaction {
-            Items.update({ decayTimer.isNotNull() }) {
-                with(SqlExpressionBuilder) {
-                    it.update(decayTimer, decayTimer - 1)
-                }
-            }
-            Items.deleteWhere(null as Int?, null as Int?) {
-                decayTimer.isNotNull() and (decayTimer less 0)
-            }
-        }
+        decrementAllItemDecayTimers()
     }
 
     fun createCorpseFromMob(mob: MobDAO): ItemDAO {
         val item = transaction {
-            Items.update({ Items.mobEquippedId eq mob.id }) {
-                it[mobEquippedId] = null
-            }
+            removeAllEquipmentForMob(mob)
             ItemDAO.new {
                 name = "a corpse of $mob"
                 description = "a corpse of $mob is here."
@@ -195,14 +167,7 @@ class ItemService {
         }
     }
 
-    private fun transferAllItemsToItem(from: HasInventory, to: HasInventory) {
-        transaction {
-            Items.update({ getColumn(from) eq from.id }) {
-                it[mobEquippedId] = null
-                it[mobInventoryId] = null
-                it[roomId] = null
-                it[itemId] = to.id
-            }
-        }
+    private fun transferAllItemsToItem(from: HasInventory, to: ItemDAO) {
+        transferAllItemsToItemContainer(from, to)
     }
 }
