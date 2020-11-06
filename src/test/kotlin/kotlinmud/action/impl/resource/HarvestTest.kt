@@ -1,4 +1,4 @@
-package kotlinmud.action.impl.item
+package kotlinmud.action.impl.resource
 
 import assertk.assertThat
 import assertk.assertions.hasSize

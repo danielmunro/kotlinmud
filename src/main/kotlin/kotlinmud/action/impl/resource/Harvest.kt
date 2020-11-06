@@ -1,4 +1,4 @@
-package kotlinmud.action.impl.item
+package kotlinmud.action.impl.resource
 
 import kotlinmud.action.helper.mustBeStanding
 import kotlinmud.action.model.Action

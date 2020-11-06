@@ -34,6 +34,7 @@ enum class ItemType {
     FEATHER,
     BLOB,
     ORGANS,
+    GRASS,
 
     OTHER,
 }

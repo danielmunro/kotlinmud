@@ -5,6 +5,7 @@ import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.type.Affect
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createSocialEvent
+import kotlinmud.event.factory.createTillEvent
 import kotlinmud.event.service.EventService
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
@@ -131,12 +132,16 @@ class ActionContextService(
         eventService.publish(fight.createFightStartedEvent())
     }
 
-    suspend fun flee() {
+    fun flee() {
         mobService.flee(getMob())
     }
 
     suspend fun publishSocial(social: Social) {
         eventService.publish(createSocialEvent(social))
+    }
+
+    suspend fun publishTillEvent(room: RoomDAO) {
+        eventService.publish(createTillEvent(room))
     }
 
     fun getClients(): Clients {

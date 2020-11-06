@@ -101,4 +101,7 @@ enum class Command(val value: String) {
     SHIELD_BLOCK("shield block"),
     INVISIBILITY("invisibility"),
     CAST("cast"),
+
+    // resources
+    TILL("till"),
 }

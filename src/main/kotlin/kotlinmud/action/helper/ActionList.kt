@@ -28,7 +28,6 @@ import kotlinmud.action.impl.item.createCraftAction
 import kotlinmud.action.impl.item.createDropAction
 import kotlinmud.action.impl.item.createGetAction
 import kotlinmud.action.impl.item.createGetFromItemAction
-import kotlinmud.action.impl.item.createHarvestAction
 import kotlinmud.action.impl.item.createPutAction
 import kotlinmud.action.impl.item.createRecipeOfAction
 import kotlinmud.action.impl.item.createRecipesAction
@@ -39,6 +38,8 @@ import kotlinmud.action.impl.player.createHealListAction
 import kotlinmud.action.impl.player.createPracticeAction
 import kotlinmud.action.impl.player.createRecallAction
 import kotlinmud.action.impl.player.createTrainAction
+import kotlinmud.action.impl.resource.createHarvestAction
+import kotlinmud.action.impl.resource.createTillAction
 import kotlinmud.action.impl.room.createOwnerInfoAction
 import kotlinmud.action.impl.room.createOwnerSetAction
 import kotlinmud.action.impl.shop.createBuyAction
@@ -99,6 +100,7 @@ fun createActionsList(): List<Action> {
         createCraftAction(),
         createHarvestAction(),
         createRecipesAction(),
-        createRecipeOfAction()
+        createRecipeOfAction(),
+        createTillAction()
     )
 }

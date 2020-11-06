@@ -5,6 +5,7 @@ import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
 import kotlinmud.event.observer.impl.LogOutAllPlayersOnStartupObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
+import kotlinmud.event.observer.impl.TillRoomObserver
 import kotlinmud.event.observer.impl.client.ClientConnectedObserver
 import kotlinmud.event.observer.impl.client.LogPlayerInObserver
 import kotlinmud.event.observer.impl.client.LogPlayerOutObserver
@@ -176,6 +177,10 @@ val ObserverModule = Kodein.Module {
         TimeServiceLoopObserver(instance())
     }
 
+    bind<Observer>(tag = Tag.TILL_ROOM) with provider {
+        TillRoomObserver(instance())
+    }
+
     bind<ObserverList>() with singleton {
         mapOf(
             Pair(EventType.GAME_START, listOf(
@@ -248,6 +253,10 @@ val ObserverModule = Kodein.Module {
                 EventType.KILL, listOf(
                 instance(tag = Tag.GRANT_EXPERIENCE_ON_KILL),
                 instance(tag = Tag.TRANSFER_GOLD_ON_KILL)
+            )),
+            Pair(
+                EventType.TILL, listOf(
+                instance(tag = Tag.TILL_ROOM)
             ))
         )
     }

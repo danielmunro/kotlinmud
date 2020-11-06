@@ -32,6 +32,7 @@ fun insertGrassResource() {
                 Resources.name.asLiteral("grass"),
                 Resources.maturity.asLiteral(0),
                 Resources.maturesAt.asLiteral(4),
+                Resources.isPlanted.asLiteral(true),
                 Rooms.id
             ).select {
                 Rooms.substrate eq SubstrateType.DIRT.toString() and (Resources.id.isNull())

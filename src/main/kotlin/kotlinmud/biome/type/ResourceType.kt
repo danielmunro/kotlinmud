@@ -11,11 +11,5 @@ enum class ResourceType(val value: String) {
     TAR("tar"),
     CLAY("clay"),
     WATERMELON("watermelon"),
-    PUMPKIN("pumpkin");
-
-    companion object {
-        fun fromString(value: String): ResourceType {
-            return valueOf(value.toUpperCase().replace(" ", "_"))
-        }
-    }
+    PUMPKIN("pumpkin")
 }

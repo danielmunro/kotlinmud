@@ -38,3 +38,7 @@ fun createGameLoopEvent(): Event<Any?> {
 fun createSocialEvent(social: Social): Event<SocialEvent> {
     return Event(EventType.SOCIAL, SocialEvent(social))
 }
+
+fun createTillEvent(room: RoomDAO): Event<RoomDAO> {
+    return Event(EventType.TILL, room)
+}

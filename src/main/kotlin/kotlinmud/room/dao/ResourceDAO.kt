@@ -16,5 +16,6 @@ class ResourceDAO(id: EntityID<Int>) : IntEntity(id) {
     var name by Resources.name
     var maturity by Resources.maturity
     var maturesAt by Resources.maturesAt
+    var isPlanted by Resources.isPlanted
     var room by RoomDAO referencedOn Resources.roomId
 }
