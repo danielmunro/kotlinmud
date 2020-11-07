@@ -24,8 +24,8 @@ jobs:
           name: danielmunro/kotlinmud/kotlinmud-docker-image
           username: ${{ secrets.DOCKER_USERNAME_2 }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          tagging: true
+          registry: quay.io
+          tags: latest
       - name: Restart service
         uses: appleboy/ssh-action@master
         if: contains(github.ref, 'refs/tags/v')
