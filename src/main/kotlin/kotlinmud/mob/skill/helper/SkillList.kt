@@ -1,5 +1,6 @@
 package kotlinmud.mob.skill.helper
 
+import kotlinmud.mob.skill.impl.Backstab
 import kotlinmud.mob.skill.impl.Bash
 import kotlinmud.mob.skill.impl.Berserk
 import kotlinmud.mob.skill.impl.Bite
@@ -35,6 +36,7 @@ fun createSkillList(): List<Skill> {
         Bash(),
         Berserk(),
         Bite(),
+        Backstab(),
         ShieldBlock(),
         Parry(),
         Dodge(),

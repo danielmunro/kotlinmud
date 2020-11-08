@@ -20,7 +20,7 @@ import kotlinmud.mob.type.Intent
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class Backstab : SkillAction {
-    override val type = SkillType.BACK_STAB
+    override val type = SkillType.BACKSTAB
     override val command = Command.BACK_STAB
     override val levelObtained = mapOf(
         thiefAt(1)
@@ -40,16 +40,16 @@ class Backstab : SkillAction {
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val target = actionContextService.get<MobDAO>(Syntax.TARGET_MOB)
-        val limit = (actionContextService.getLevel() / 10).coerceAtLeast(2)
+        val limit = (actionContextService.getLevel() / 10).coerceAtLeast(10)
         transaction {
             target.hp -= Random.nextInt(1, limit) +
                     if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)
         }
         return actionContextService.createOkResponse(
             MessageBuilder()
-                .toActionCreator("You bite $target.")
-                .toTarget("${actionContextService.getMob()} bites you.")
-                .toObservers("${actionContextService.getMob()} bites $target.")
+                .toActionCreator("You stab $target in the back.")
+                .toTarget("${actionContextService.getMob()} stabs you in the back.")
+                .toObservers("${actionContextService.getMob()} stabs $target in the back.")
                 .build(),
             1
         )

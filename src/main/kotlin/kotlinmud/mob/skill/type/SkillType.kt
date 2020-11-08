@@ -36,7 +36,7 @@ enum class SkillType {
     MEDITATION,
     FAST_HEALING,
     INFUSE,
-    BACK_STAB,
+    BACKSTAB,
     DODGE,
     ENVENOM,
     HIDE,
