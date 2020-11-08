@@ -338,13 +338,14 @@ class TestService(
         return runAction(mob ?: createMob(), input)
     }
 
-    fun runActionForIOStatus(mob: MobDAO, input: String, status: IOStatus): Response {
+    fun runActionForIOStatus(mob: MobDAO, input: String, status: IOStatus, doBetween: () -> Unit = fun() {}): Response {
         var i = 0
         while (i < 100) {
             val response = runAction(mob, input)
             if (response.status == status) {
                 return response
             }
+            doBetween()
             i++
         }
         throw Exception("cannot generate desired IOStatus")

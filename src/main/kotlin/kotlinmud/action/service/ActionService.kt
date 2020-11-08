@@ -91,20 +91,22 @@ class ActionService(
     }
 
     private suspend fun executeSkill(request: RequestService, skill: SkillAction): Response {
+        val context = buildActionContextList(request, skill)
         return dispositionCheck(request, skill)
             ?: costApply(request.getMob(), skill)
-            ?: skillRoll(transaction { request.getMob().skills.find { it.type == skill.type }?.level } ?: error("no skill"))
-            ?: callInvokable(request, skill, buildActionContextList(request, skill))
+            ?: skillRoll(transaction { request.getMob().skills.find { it.type == skill.type }?.level } ?: error("no skill"), context)
+            ?: callInvokable(request, skill, context)
     }
 
     private fun triggerFightForOffensiveSkills(mob: MobDAO, target: MobDAO) {
         mobService.getMobFight(mob) ?: mobService.addFight(mob, target)
     }
 
-    private fun skillRoll(level: Int): Response? {
-        return if (percentRoll() < level) null else createResponseWithEmptyActionContext(
-            messageToActionCreator("You lost your concentration."),
-            IOStatus.FAILED
+    private fun skillRoll(level: Int, context: ActionContextList): Response? {
+        return if (percentRoll() < level) null else Response(
+            IOStatus.FAILED,
+            context,
+            messageToActionCreator("You lost your concentration.")
         )
     }
 
