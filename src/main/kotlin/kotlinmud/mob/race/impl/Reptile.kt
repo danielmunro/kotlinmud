@@ -8,16 +8,15 @@ import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size
 
-data class Reptile(override val type: RaceType = RaceType.REPTILE) : Race {
-    override val playable: Boolean = false
-    override val immuneTo: List<DamageType> = listOf()
-    override val resist: List<DamageType> = listOf(DamageType.FIRE, DamageType.SLASH)
-    override val vulnerableTo: List<DamageType> = listOf(DamageType.COLD, DamageType.PIERCE)
-    override val unarmedAttackVerb: String = "bite"
-    override val unarmedDamageType: DamageType = DamageType.PIERCE
-    override val form: Form = Form.REPTILE
-    override val attributes: AttributesDAO = createStats(0, 0, 0, 0, 0, 0, 1)
-    override val size: Size = Size.SMALL
-    override val maxAppetite: Int = 4
-    override val maxThirst: Int = 4
+class Reptile : Race() {
+    override val type = RaceType.REPTILE
+    override val resist = listOf(DamageType.FIRE, DamageType.SLASH)
+    override val vulnerableTo = listOf(DamageType.COLD, DamageType.PIERCE)
+    override val unarmedAttackVerb = "bite"
+    override val unarmedDamageType = DamageType.PIERCE
+    override val form = Form.REPTILE
+    override val attributes = createStats(0, 0, 0, 0, 0, 0, 1)
+    override val size = Size.SMALL
+    override val maxAppetite = 4
+    override val maxThirst = 4
 }

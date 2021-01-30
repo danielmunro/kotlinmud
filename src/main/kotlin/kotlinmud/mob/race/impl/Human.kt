@@ -8,16 +8,12 @@ import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size
 
-data class Human(override val type: RaceType = RaceType.HUMAN) : Race {
-    override val playable: Boolean = true
-    override val immuneTo: List<DamageType> = listOf()
-    override val resist: List<DamageType> = listOf()
-    override val vulnerableTo: List<DamageType> = listOf()
-    override val unarmedAttackVerb: String = "punch"
-    override val unarmedDamageType: DamageType = DamageType.POUND
-    override val form: Form = Form.MAMMAL
-    override val attributes: AttributesDAO = emptyAttributes()
-    override val size: Size = Size.MEDIUM
-    override val maxAppetite: Int = 3
-    override val maxThirst: Int = 3
+class Human : Race() {
+    override val type = RaceType.HUMAN
+    override val unarmedAttackVerb = "punch"
+    override val unarmedDamageType = DamageType.POUND
+    override val form = Form.MAMMAL
+    override val size = Size.MEDIUM
+    override val maxAppetite = 3
+    override val maxThirst = 3
 }
