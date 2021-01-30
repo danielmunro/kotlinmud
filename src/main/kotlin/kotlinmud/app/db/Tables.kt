@@ -6,6 +6,7 @@ import kotlinmud.item.table.Items
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.table.Fights
 import kotlinmud.mob.table.Mobs
+import kotlinmud.player.table.FactionScores
 import kotlinmud.player.table.MobCards
 import kotlinmud.player.table.Players
 import kotlinmud.room.table.Doors
@@ -27,6 +28,7 @@ fun getTables(): Array<IntIdTable> {
         MobCards,
         Times,
         Fights,
-        Resources
+        Resources,
+        FactionScores,
     )
 }
