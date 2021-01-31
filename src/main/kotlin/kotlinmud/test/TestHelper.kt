@@ -2,9 +2,9 @@ package kotlinmud.test
 
 import kotlinmud.action.service.ActionService
 import kotlinmud.app.createContainer
-import kotlinmud.app.db.applySchema
-import kotlinmud.app.db.createConnection
-import kotlinmud.app.db.getTables
+import kotlinmud.db.applySchema
+import kotlinmud.db.createConnection
+import kotlinmud.db.getTables
 import kotlinmud.event.observer.type.ObserverList
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.service.FixtureService

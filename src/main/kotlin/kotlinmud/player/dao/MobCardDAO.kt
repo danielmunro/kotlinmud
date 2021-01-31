@@ -5,6 +5,8 @@ import kotlinmud.attributes.table.Attributes
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.AddExperience
+import kotlinmud.mob.quest.dao.QuestDAO
+import kotlinmud.mob.quest.table.Quests
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.table.Mobs
 import kotlinmud.player.dao.PlayerDAO.Companion.optionalReferrersOn
@@ -33,6 +35,7 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     var mob by MobDAO referencedOn MobCards.mobId
     var respawnRoom by RoomDAO referencedOn MobCards.respawnRoomId
     val factionScores by FactionScoreDAO referrersOn FactionScores.mobCardId
+    val quests by QuestDAO referrersOn Quests.mobCardId
 
     fun calcTrained(attribute: Attribute): Int {
         return transaction { trainedAttributes.fold(0) { acc, it -> acc + it.getAttribute(attribute) } }

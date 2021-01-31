@@ -52,9 +52,9 @@ fun findMobsWantingToMoveOnTick(): List<MobDAO> {
     return transaction {
         MobDAO.wrapRows(Mobs.select {
             Mobs.isNpc eq true and
-                    (Mobs.job eq JobType.SCAVENGER.value or
-                            (Mobs.job eq JobType.FODDER.value or
-                                    (Mobs.job eq JobType.PATROL.value)))
+                    (Mobs.job eq JobType.SCAVENGER.toString() or
+                            (Mobs.job eq JobType.FODDER.toString() or
+                                    (Mobs.job eq JobType.PATROL.toString())))
         }).toList()
     }
 }

@@ -1,8 +1,9 @@
-package kotlinmud.app.db
+package kotlinmud.db
 
 import kotlinmud.affect.table.Affects
 import kotlinmud.attributes.table.Attributes
 import kotlinmud.item.table.Items
+import kotlinmud.mob.quest.table.Quests
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.table.Fights
 import kotlinmud.mob.table.Mobs
@@ -30,5 +31,6 @@ fun getTables(): Array<IntIdTable> {
         Fights,
         Resources,
         FactionScores,
+        Quests,
     )
 }
