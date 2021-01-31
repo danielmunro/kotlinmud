@@ -38,6 +38,7 @@ import kotlinmud.action.impl.player.createHealListAction
 import kotlinmud.action.impl.player.createPracticeAction
 import kotlinmud.action.impl.player.createRecallAction
 import kotlinmud.action.impl.player.createTrainAction
+import kotlinmud.action.impl.quest.createQuestListAction
 import kotlinmud.action.impl.resource.createHarvestAction
 import kotlinmud.action.impl.resource.createTillAction
 import kotlinmud.action.impl.room.createOwnerInfoAction
@@ -101,6 +102,7 @@ fun createActionsList(): List<Action> {
         createHarvestAction(),
         createRecipesAction(),
         createRecipeOfAction(),
-        createTillAction()
+        createTillAction(),
+        createQuestListAction(),
     )
 }

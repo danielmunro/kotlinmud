@@ -104,4 +104,10 @@ enum class Command(val value: String) {
 
     // resources
     TILL("till"),
+
+    // questing
+    QUEST_LIST("quest list"),
+    QUEST_ACCEPT("quest accept"),
+    QUEST_ABANDON("quest abandon"),
+    QUEST_SUBMIT("quest submit"),
 }
