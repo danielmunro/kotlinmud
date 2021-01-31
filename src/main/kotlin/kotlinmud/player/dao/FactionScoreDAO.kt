@@ -1,6 +1,6 @@
 package kotlinmud.player.dao
 
-import kotlinmud.mob.faction.type.FactionType
+import kotlinmud.faction.type.FactionType
 import kotlinmud.player.table.FactionScores
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity

@@ -5,11 +5,9 @@ import kotlinmud.attributes.table.Attributes
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.AddExperience
-import kotlinmud.mob.quest.dao.QuestDAO
-import kotlinmud.mob.quest.table.Quests
+import kotlinmud.quest.dao.QuestDAO
+import kotlinmud.quest.table.Quests
 import kotlinmud.mob.race.type.Race
-import kotlinmud.mob.table.Mobs
-import kotlinmud.player.dao.PlayerDAO.Companion.optionalReferrersOn
 import kotlinmud.player.table.FactionScores
 import kotlinmud.player.table.MobCards
 import kotlinmud.room.dao.RoomDAO
