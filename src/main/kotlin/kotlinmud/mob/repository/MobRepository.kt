@@ -2,10 +2,10 @@ package kotlinmud.mob.repository
 
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.table.Mobs
-import kotlinmud.mob.type.CanonicalId
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
@@ -74,10 +74,12 @@ fun findMobInRoomWithJobType(room: RoomDAO, job: JobType): MobDAO? {
     }
 }
 
-fun findMobByCanonicalId(id: CanonicalId): MobDAO? {
+fun findMobByCanonicalId(id: CanonicalId): MobDAO {
     return transaction {
-        Mobs.select {
-            Mobs.canonicalId eq id.toString()
-        }.firstOrNull()?.let { MobDAO.wrapRow(it) }
+        MobDAO.wrapRow(
+            Mobs.select {
+                Mobs.canonicalId eq id.toString()
+            }.first()
+        )
     }
 }

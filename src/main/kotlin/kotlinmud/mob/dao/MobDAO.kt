@@ -25,7 +25,6 @@ import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.table.Mobs
-import kotlinmud.mob.type.CanonicalId
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
@@ -33,6 +32,7 @@ import kotlinmud.mob.type.Rarity
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -97,6 +97,16 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     override val affects by AffectDAO optionalReferrersOn Affects.mobId
     var player by PlayerDAO optionalReferencedOn Mobs.playerId
     var mobCard by MobCardDAO optionalReferencedOn Mobs.mobCardId
+
+    fun canTargetForFight(): Boolean {
+        return job == JobType.AGGRESSIVE ||
+            job == JobType.FODDER ||
+            job == JobType.GUARD ||
+            job == JobType.PATROL ||
+            job == JobType.SCAVENGER ||
+            job == JobType.NONE ||
+            job == null
+    }
 
     fun isStanding(): Boolean {
         return disposition == Disposition.STANDING

@@ -7,6 +7,7 @@ import kotlinmud.mob.table.Mobs
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.table.Resources
 import kotlinmud.room.table.Rooms
+import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.Join
 import org.jetbrains.exposed.sql.JoinType
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.asLiteral
@@ -70,6 +71,14 @@ fun findStartRoom(): RoomDAO? {
         }.firstOrNull()?.let {
             RoomDAO.wrapRow(it)
         }
+    }
+}
+
+fun findRoomByCanonicalId(id: CanonicalId): RoomDAO {
+    return transaction {
+        RoomDAO.wrapRow(
+            Rooms.select { Rooms.canonicalId eq id.toString() }.first()
+        )
     }
 }
 

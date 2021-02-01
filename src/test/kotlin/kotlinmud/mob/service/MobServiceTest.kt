@@ -96,7 +96,7 @@ class MobServiceTest {
     }
 
     @Test
-    fun testGuardsAttackAggressors() {
+    fun testGuardAttackAggressor() {
         // setup
         val testService = createTestService()
         testService.createMob()

@@ -1,4 +1,4 @@
-package kotlinmud.mob.type
+package kotlinmud.type
 
 enum class CanonicalId {
     PRAETORIAN_RECRUITER_1,
