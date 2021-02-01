@@ -9,7 +9,7 @@ import kotlinmud.room.dao.RoomDAO
 class ItemInRoomContextBuilder(private val itemService: ItemService, private val room: RoomDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return itemService.findByRoom(room, word)
-                ?.let { Context<Any>(syntax, Status.OK, it) }
+            ?.let { Context<Any>(syntax, Status.OK, it) }
             ?: Context<Any>(
                 syntax,
                 Status.FAILED,

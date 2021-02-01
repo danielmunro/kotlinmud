@@ -1,8 +1,8 @@
 package kotlinmud.db
 
-import java.sql.Connection
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.transactions.TransactionManager
+import java.sql.Connection
 
 fun createConnection() {
     Database.connect("jdbc:sqlite:./data.db", "org.sqlite.JDBC")

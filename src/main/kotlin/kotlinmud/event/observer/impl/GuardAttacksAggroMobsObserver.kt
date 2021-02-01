@@ -38,9 +38,9 @@ class GuardAttacksAggroMobsObserver(private val mobService: MobService) : Observ
     private fun getMobsForRoomAndNotInFight(mobService: MobService, room: RoomDAO, fight: FightStartedEvent): List<MobDAO> {
         return findMobsForRoom(room).filter {
             it != fight.aggressor &&
-                    it != fight.defender &&
-                    it.job == JobType.GUARD &&
-                    mobService.getMobFight(it) == null
+                it != fight.defender &&
+                it.job == JobType.GUARD &&
+                mobService.getMobFight(it) == null
         }
     }
 }

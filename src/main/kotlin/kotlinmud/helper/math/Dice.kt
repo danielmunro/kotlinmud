@@ -8,7 +8,7 @@ fun d20(): Int {
 
 fun dice(rolls: Int, number: Int): Int {
     return Random.nextInt(1, Math.max(1, number) + 1) +
-            if (rolls > 1) dice(rolls - 1, number) else 0
+        if (rolls > 1) dice(rolls - 1, number) else 0
 }
 
 fun coinFlip(): Boolean {

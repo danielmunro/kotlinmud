@@ -33,7 +33,8 @@ class CustomizationAuthStep(private val authStepService: AuthStepService, privat
             "help" -> help(
                 request.client,
                 customizationService.findAddedCustomization(request.input)
-                    ?: customizationService.findCustomizationFromPool(request.input) ?: return IOStatus.ERROR)
+                    ?: customizationService.findCustomizationFromPool(request.input) ?: return IOStatus.ERROR
+            )
             "done" -> done = true
             else -> return IOStatus.ERROR
         }
@@ -96,16 +97,20 @@ Current experience to level: ${customizationService.getPoints() * 1000}
     }
 
     private fun prepareFromPool(request: PreAuthRequest): Customization? {
-        return customizationService.findCustomizationFromPool(request.arg(1) ?: run {
-            request.client.write("that customization is not available from the pool.")
-            return null
-        })
+        return customizationService.findCustomizationFromPool(
+            request.arg(1) ?: run {
+                request.client.write("that customization is not available from the pool.")
+                return null
+            }
+        )
     }
 
     private fun prepareFromAdded(request: PreAuthRequest): Customization? {
-        return customizationService.findAddedCustomization(request.arg(1) ?: run {
-            request.client.write("that customization has not been added.")
-            return null
-        })
+        return customizationService.findAddedCustomization(
+            request.arg(1) ?: run {
+                request.client.write("that customization has not been added.")
+                return null
+            }
+        )
     }
 }

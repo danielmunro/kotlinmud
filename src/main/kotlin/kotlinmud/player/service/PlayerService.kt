@@ -20,10 +20,10 @@ import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.exception.EmailFormatException
-import kotlinmud.player.repository.findMobCardByName as findMobCardByNameQuery
-import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
 import kotlinmud.player.repository.updateAllMobCardsLoggedOut
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlinmud.player.repository.findMobCardByName as findMobCardByNameQuery
+import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
 
 class PlayerService(
     private val emailService: EmailService,

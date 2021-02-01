@@ -37,7 +37,8 @@ fun describeRoom(actionContextService: ActionContextService, room: RoomDAO, mob:
         val observers = mobs.filter {
             it != mob && it.affects.find { affect -> affect.type == AffectType.INVISIBILITY } == null
         }
-        return@transaction String.format("%s\n%sExits [%s]%s%s%s%s",
+        return@transaction String.format(
+            "%s\n%sExits [%s]%s%s%s%s",
             actionContextService.getDynamicRoomDescription(),
             showDoors(room),
             reduceExits(room),

@@ -1,10 +1,10 @@
 package kotlinmud.quest.dao
 
+import kotlinmud.player.dao.MobCardDAO
+import kotlinmud.player.table.MobCards
 import kotlinmud.quest.table.Quests
 import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
-import kotlinmud.player.dao.MobCardDAO
-import kotlinmud.player.table.MobCards
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

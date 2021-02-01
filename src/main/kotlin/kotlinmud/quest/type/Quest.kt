@@ -6,6 +6,7 @@ interface Quest {
     val type: QuestType
     val name: String
     val description: String
-    val requirements: List<QuestRequirement>
+    val acceptConditions: List<QuestRequirement>
+    val submitConditions: List<QuestRequirement>
     fun reward(requestService: RequestService)
 }

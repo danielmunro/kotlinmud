@@ -5,11 +5,11 @@ import kotlinmud.attributes.table.Attributes
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.AddExperience
-import kotlinmud.quest.dao.QuestDAO
-import kotlinmud.quest.table.Quests
 import kotlinmud.mob.race.type.Race
 import kotlinmud.player.table.FactionScores
 import kotlinmud.player.table.MobCards
+import kotlinmud.quest.dao.QuestDAO
+import kotlinmud.quest.table.Quests
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity

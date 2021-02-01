@@ -1,6 +1,5 @@
 package kotlinmud.mob.skill.impl
 
-import kotlin.random.Random
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
@@ -18,6 +17,7 @@ import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Intent
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.random.Random
 
 class Backstab : SkillAction {
     override val type = SkillType.BACKSTAB
@@ -43,7 +43,7 @@ class Backstab : SkillAction {
         val limit = (actionContextService.getLevel() / 10).coerceAtLeast(10)
         transaction {
             target.hp -= Random.nextInt(1, limit) +
-                    if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)
+                if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)
         }
         return actionContextService.createOkResponse(
             MessageBuilder()

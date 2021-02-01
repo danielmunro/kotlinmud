@@ -1,6 +1,5 @@
 package kotlinmud.mob.skill.impl
 
-import kotlin.random.Random
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
@@ -18,6 +17,7 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Intent
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.random.Random
 
 class Bite : SkillAction {
     override val type = SkillType.BITE
@@ -39,7 +39,7 @@ class Bite : SkillAction {
         val limit = (actionContextService.getLevel() / 10).coerceAtLeast(2)
         transaction {
             target.hp -= Random.nextInt(1, limit) +
-                    if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)
+                if (target.savesAgainst(DamageType.PIERCE)) 0 else Random.nextInt(1, limit)
         }
         return actionContextService.createOkResponse(
             MessageBuilder()

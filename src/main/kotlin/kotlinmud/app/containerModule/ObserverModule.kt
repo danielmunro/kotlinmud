@@ -183,81 +183,110 @@ val ObserverModule = Kodein.Module {
 
     bind<ObserverList>() with singleton {
         mapOf(
-            Pair(EventType.GAME_START, listOf(
-                instance(tag = Tag.LOGOUT_ALL_PLAYERS_ON_STARTUP)
-            )),
             Pair(
-                EventType.GAME_LOOP, listOf(
-                instance(tag = Tag.PROCESS_CLIENT_BUFFERS),
-                instance(tag = Tag.READ_INTO_CLIENT_BUFFERS),
-                instance(tag = Tag.TIME_SERVICE_LOOP)
-            )),
+                EventType.GAME_START,
+                listOf(
+                    instance(tag = Tag.LOGOUT_ALL_PLAYERS_ON_STARTUP)
+                )
+            ),
             Pair(
-                EventType.CLIENT_CONNECTED, listOf(
-                instance(tag = Tag.CLIENT_CONNECTED)
-            )),
+                EventType.GAME_LOOP,
+                listOf(
+                    instance(tag = Tag.PROCESS_CLIENT_BUFFERS),
+                    instance(tag = Tag.READ_INTO_CLIENT_BUFFERS),
+                    instance(tag = Tag.TIME_SERVICE_LOOP)
+                )
+            ),
             Pair(
-                EventType.SEND_MESSAGE_TO_ROOM, listOf(
-                instance(tag = Tag.SEND_MESSAGE_TO_ROOM)
-            )),
+                EventType.CLIENT_CONNECTED,
+                listOf(
+                    instance(tag = Tag.CLIENT_CONNECTED)
+                )
+            ),
             Pair(
-                EventType.CLIENT_LOGGED_IN, listOf(
-                instance(tag = Tag.LOG_PLAYER_IN)
-            )),
+                EventType.SEND_MESSAGE_TO_ROOM,
+                listOf(
+                    instance(tag = Tag.SEND_MESSAGE_TO_ROOM)
+                )
+            ),
             Pair(
-                EventType.CLIENT_DISCONNECTED, listOf(
-                instance(tag = Tag.LOG_PLAYER_OUT)
-            )),
+                EventType.CLIENT_LOGGED_IN,
+                listOf(
+                    instance(tag = Tag.LOG_PLAYER_IN)
+                )
+            ),
             Pair(
-                EventType.SOCIAL, listOf(
-                instance(tag = Tag.SOCIAL)
-            )),
+                EventType.CLIENT_DISCONNECTED,
+                listOf(
+                    instance(tag = Tag.LOG_PLAYER_OUT)
+                )
+            ),
             Pair(
-                EventType.PULSE, listOf(
-                instance(tag = Tag.PROCEED_FIGHTS),
-                instance(tag = Tag.DECREMENT_AFFECT_TIMEOUT),
-                instance(tag = Tag.PRUNE_DEAD_MOBS),
-                instance(tag = Tag.REMOVE_DISCONNECTED_CLIENTS)
-            )),
+                EventType.SOCIAL,
+                listOf(
+                    instance(tag = Tag.SOCIAL)
+                )
+            ),
             Pair(
-                EventType.TICK, listOf(
-                instance(tag = Tag.DECREMENT_DELAY),
-                instance(tag = Tag.DECREMENT_ITEM_DECAY_TIMER),
-                instance(tag = Tag.DECREASE_HUNGER_AND_THIRST),
-                instance(tag = Tag.LOG_TICK),
-                instance(tag = Tag.CHANGE_WEATHER),
-                instance(tag = Tag.REGEN_MOBS),
-                instance(tag = Tag.MOVE_MOBS_ON_TICK),
-                instance(tag = Tag.SCAVENGER_COLLECTS_ITEM),
-                instance(tag = Tag.GENERATE_MOBS),
-                instance(tag = Tag.GROW_RESOURCES),
-                instance(tag = Tag.GENERATE_GRASS)
-            )),
+                EventType.PULSE,
+                listOf(
+                    instance(tag = Tag.PROCEED_FIGHTS),
+                    instance(tag = Tag.DECREMENT_AFFECT_TIMEOUT),
+                    instance(tag = Tag.PRUNE_DEAD_MOBS),
+                    instance(tag = Tag.REMOVE_DISCONNECTED_CLIENTS)
+                )
+            ),
             Pair(
-                EventType.REGEN, listOf(
-                instance(tag = Tag.FAST_HEALING),
-                instance(tag = Tag.MEDITATION)
-            )),
+                EventType.TICK,
+                listOf(
+                    instance(tag = Tag.DECREMENT_DELAY),
+                    instance(tag = Tag.DECREMENT_ITEM_DECAY_TIMER),
+                    instance(tag = Tag.DECREASE_HUNGER_AND_THIRST),
+                    instance(tag = Tag.LOG_TICK),
+                    instance(tag = Tag.CHANGE_WEATHER),
+                    instance(tag = Tag.REGEN_MOBS),
+                    instance(tag = Tag.MOVE_MOBS_ON_TICK),
+                    instance(tag = Tag.SCAVENGER_COLLECTS_ITEM),
+                    instance(tag = Tag.GENERATE_MOBS),
+                    instance(tag = Tag.GROW_RESOURCES),
+                    instance(tag = Tag.GENERATE_GRASS)
+                )
+            ),
             Pair(
-                EventType.FIGHT_STARTED, listOf(
-                instance(tag = Tag.GUARD_ATTACKS_AGGRO_MOBS)
-            )),
+                EventType.REGEN,
+                listOf(
+                    instance(tag = Tag.FAST_HEALING),
+                    instance(tag = Tag.MEDITATION)
+                )
+            ),
             Pair(
-                EventType.FIGHT_ROUND, listOf(
-                instance(tag = Tag.WIMPY),
-                instance(tag = Tag.ENHANCED_DAMAGE),
-                instance(tag = Tag.SECOND_ATTACK),
-                instance(tag = Tag.THIRD_ATTACK)
-            )),
+                EventType.FIGHT_STARTED,
+                listOf(
+                    instance(tag = Tag.GUARD_ATTACKS_AGGRO_MOBS)
+                )
+            ),
             Pair(
-                EventType.KILL, listOf(
-                instance(tag = Tag.GRANT_EXPERIENCE_ON_KILL),
-                instance(tag = Tag.TRANSFER_GOLD_ON_KILL)
-            )),
+                EventType.FIGHT_ROUND,
+                listOf(
+                    instance(tag = Tag.WIMPY),
+                    instance(tag = Tag.ENHANCED_DAMAGE),
+                    instance(tag = Tag.SECOND_ATTACK),
+                    instance(tag = Tag.THIRD_ATTACK)
+                )
+            ),
             Pair(
-                EventType.TILL, listOf(
-                instance(tag = Tag.TILL_ROOM)
-            ))
+                EventType.KILL,
+                listOf(
+                    instance(tag = Tag.GRANT_EXPERIENCE_ON_KILL),
+                    instance(tag = Tag.TRANSFER_GOLD_ON_KILL)
+                )
+            ),
+            Pair(
+                EventType.TILL,
+                listOf(
+                    instance(tag = Tag.TILL_ROOM)
+                )
+            )
         )
     }
 }

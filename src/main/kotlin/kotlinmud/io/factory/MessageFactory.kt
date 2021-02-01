@@ -65,9 +65,12 @@ fun createPutMessage(mob: MobDAO, item: ItemDAO, container: ItemDAO): Message {
 }
 
 fun createRecipesMessage(recipes: List<Recipe>): Message {
-    return messageToActionCreator(recipes.fold("Recipes:\n") {
-            acc, recipe -> acc + "\n${recipe.name}"
-    })
+    return messageToActionCreator(
+        recipes.fold("Recipes:\n") {
+            acc, recipe ->
+            acc + "\n${recipe.name}"
+        }
+    )
 }
 
 fun createRecipeOfMessage(recipe: Recipe): Message {
@@ -222,13 +225,16 @@ fun createGossipMessage(mob: MobDAO, text: String): Message {
 fun createAttributesMessage(mob: MobDAO): Message {
     val message =
         "Your attributes are:\nStr: ${mob.base(Attribute.STR)}/${mob.calc(
-            Attribute.STR)} Int: ${mob.base(Attribute.INT)}/${mob.calc(
+            Attribute.STR
+        )} Int: ${mob.base(Attribute.INT)}/${mob.calc(
             Attribute.INT
         )} Wis: ${mob.base(Attribute.WIS)}/${mob.calc(
-            Attribute.WIS)} Dex: ${mob.base(Attribute.DEX)}/${mob.calc(
+            Attribute.WIS
+        )} Dex: ${mob.base(Attribute.DEX)}/${mob.calc(
             Attribute.DEX
         )} Con: ${mob.base(Attribute.CON)}/${mob.calc(
-            Attribute.CON)}"
+            Attribute.CON
+        )}"
     return MessageBuilder()
         .toActionCreator(message)
         .toObservers(message)

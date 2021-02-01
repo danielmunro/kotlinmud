@@ -55,11 +55,12 @@ class BackstabTest {
         val response = test.runActionForIOStatus(
             mob,
             "backstab ${getIdentifyingWord(target)}",
-            IOStatus.FAILED) {
-                transaction {
-                    findMobById(mob.id.value).mv = 100
-                }
+            IOStatus.FAILED
+        ) {
+            transaction {
+                findMobById(mob.id.value).mv = 100
             }
+        }
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("You lost your concentration.")

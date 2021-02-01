@@ -1,6 +1,5 @@
 package kotlinmud.mob.race.type
 
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.factory.emptyAttributes
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.type.Form

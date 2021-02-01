@@ -1,7 +1,6 @@
 package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
-import kotlin.math.roundToInt
 import kotlinmud.affect.repository.decrementAffectsTimeout
 import kotlinmud.affect.repository.deleteTimedOutAffects
 import kotlinmud.attributes.dao.AttributesDAO
@@ -51,6 +50,7 @@ import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.math.roundToInt
 
 class MobService(
     private val itemService: ItemService,
@@ -183,8 +183,10 @@ class MobService(
     }
 
     private fun calculatePracticeGain(mob: MobDAO, skill: SkillDAO): Int {
-        return with(1 + getLearningDifficultyPracticeAmount(
-            getSkillDifficultyForSpecialization(skill.type, mob.specialization))
+        return with(
+            1 + getLearningDifficultyPracticeAmount(
+                getSkillDifficultyForSpecialization(skill.type, mob.specialization)
+            )
         ) {
             (Math.random() * this + mob.calc(Attribute.INT) / 5).roundToInt()
         }

@@ -5,7 +5,6 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotNull
-import kotlin.test.Test
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.type.Attribute
@@ -20,6 +19,7 @@ import kotlinmud.test.getIdentifyingWord
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.test.Test
 
 class MobServiceTest {
     @Test
@@ -160,11 +160,13 @@ class MobServiceTest {
 
         // given
         val mob = test.createPlayerMob()
-        val skill = transaction { SkillDAO.new {
-            this.mob = mob
-            type = SkillType.BASH
-            level = 1
-        } }
+        val skill = transaction {
+            SkillDAO.new {
+                this.mob = mob
+                type = SkillType.BASH
+                level = 1
+            }
+        }
         val level = transaction { skill.level }
         transaction { mob.mobCard?.practices = 1 }
         test.createMob { it.job = JobType.TRAINER }

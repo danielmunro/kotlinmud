@@ -68,7 +68,7 @@ Defaults
 
 Current experience to level: 0
 """
-        )
+            )
             client.write(any())
         }
         confirmVerified(client)

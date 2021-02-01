@@ -1,6 +1,5 @@
 package kotlinmud.mob.race.impl
 
-import kotlinmud.attributes.factory.emptyAttributes
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.race.type.RaceType

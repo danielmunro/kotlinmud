@@ -1,6 +1,5 @@
 package kotlinmud.app.containerModule
 
-import java.net.ServerSocket
 import kotlinmud.action.helper.createActionContextBuilder
 import kotlinmud.action.helper.createActionsList
 import kotlinmud.action.service.ActionService
@@ -27,6 +26,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.singleton
+import java.net.ServerSocket
 
 fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
     return Kodein.Module {

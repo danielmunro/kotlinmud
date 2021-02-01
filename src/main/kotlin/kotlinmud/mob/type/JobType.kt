@@ -11,5 +11,5 @@ enum class JobType {
     HEALER,
     AGGRESSIVE,
     NONE,
-    QUEST_GIVER,
+    QUEST,
 }

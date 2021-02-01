@@ -1,9 +1,6 @@
 package kotlinmud.mob.service
 
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.event.factory.createFightRoundEvent as createFightRoundEventFactory
-import kotlinmud.event.factory.createFightStartedEvent as createFightStartedEventFactory
-import kotlinmud.event.factory.createKillEvent as createKillEventFactory
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.FightStartedEvent
 import kotlinmud.event.impl.KillEvent
@@ -25,18 +22,24 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlinmud.event.factory.createFightRoundEvent as createFightRoundEventFactory
+import kotlinmud.event.factory.createFightStartedEvent as createFightStartedEventFactory
+import kotlinmud.event.factory.createKillEvent as createKillEventFactory
 
 class FightService(private val fight: FightDAO, private val eventService: EventService) {
     companion object {
         fun create(mob1: MobDAO, mob2: MobDAO, eventService: EventService): FightService {
-            return FightService(transaction {
-                mob1.disposition = Disposition.FIGHTING
-                mob2.disposition = Disposition.FIGHTING
-                FightDAO.new {
-                    this.mob1 = mob1
-                    this.mob2 = mob2
-                }
-            }, eventService)
+            return FightService(
+                transaction {
+                    mob1.disposition = Disposition.FIGHTING
+                    mob2.disposition = Disposition.FIGHTING
+                    FightDAO.new {
+                        this.mob1 = mob1
+                        this.mob2 = mob2
+                    }
+                },
+                eventService
+            )
         }
 
         private fun getAc(defender: MobDAO, damageType: DamageType): Int {

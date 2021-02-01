@@ -1,7 +1,7 @@
 package kotlinmud.quest.requirement
 
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.faction.type.Faction
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.quest.type.QuestRequirement
 import kotlinmud.quest.type.QuestRequirementType
 

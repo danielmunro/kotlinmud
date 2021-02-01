@@ -15,7 +15,8 @@ class RecipesTest {
         val response = test.runAction("recipes")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("""
+        assertThat(response.message.toActionCreator).isEqualTo(
+            """
             Recipes:
 
             a builder's table
@@ -42,6 +43,7 @@ class RecipesTest {
             stone chest plate
             stone leggings
             stone shoes
-        """.trimIndent())
+            """.trimIndent()
+        )
     }
 }

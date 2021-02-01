@@ -1,10 +1,10 @@
 package kotlinmud.helper.time
 
+import kotlinmud.time.service.TICK_LENGTH_IN_SECONDS
 import java.util.Random
 import java.util.Timer
 import java.util.TimerTask
 import kotlin.concurrent.schedule
-import kotlinmud.time.service.TICK_LENGTH_IN_SECONDS
 
 fun eventually(doThis: TimerTask.() -> Unit) {
     Timer()

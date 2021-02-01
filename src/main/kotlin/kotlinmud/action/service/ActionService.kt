@@ -59,9 +59,11 @@ class ActionService(
     }
 
     private suspend fun runSkill(request: RequestService): Response? {
-        val skill = (skills.find {
-            it is SkillAction && it.matchesRequest(request)
-        } ?: return null) as SkillAction
+        val skill = (
+            skills.find {
+                it is SkillAction && it.matchesRequest(request)
+            } ?: return null
+            ) as SkillAction
 
         val response = executeSkill(request, skill)
 
@@ -78,8 +80,8 @@ class ActionService(
         val action = actions.find {
             val syntax = if (it.syntax.size > 1) it.syntax[1] else Syntax.NOOP
             commandMatches(it.command, request.getCommand()) &&
-                    argumentLengthMatches(it.syntax, request.args) &&
-                    subCommandMatches(syntax, it.getSubPart(), request.getSubject())
+                argumentLengthMatches(it.syntax, request.args) &&
+                subCommandMatches(syntax, it.getSubPart(), request.getSubject())
         } ?: return null
 
         val contextList = buildActionContextList(request, action)
@@ -115,8 +117,8 @@ class ActionService(
             createResponseWithEmptyActionContext(
                 messageToActionCreator("you are ${request.getDisposition().value} and cannot do that.")
             )
-            else
-                null
+        else
+            null
     }
 
     private suspend fun callInvokable(request: RequestService, invokable: Invokable, list: ActionContextList): Response {

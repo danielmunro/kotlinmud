@@ -3,8 +3,6 @@ package kotlinmud.test
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
-import java.net.SocketAddress
-import java.nio.channels.SocketChannel
 import kotlinmud.action.service.ActionService
 import kotlinmud.attributes.constant.startingHp
 import kotlinmud.attributes.constant.startingMana
@@ -63,6 +61,8 @@ import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.net.SocketAddress
+import java.nio.channels.SocketChannel
 
 class TestService(
     private val fixtureService: FixtureService,
@@ -323,11 +323,13 @@ class TestService(
 
     fun setPreAuth(builder: (AuthStepService, PlayerDAO) -> AuthStep) {
         playerService.setAuthStep(client, builder(authStepService, player!!))
-        authStepService.addCreationFunnel(CreationFunnel(player!!.email).also {
-            it.mobName = "foo"
-            it.mobRace = Human()
-            it.mobRoom = getStartRoom()
-        })
+        authStepService.addCreationFunnel(
+            CreationFunnel(player!!.email).also {
+                it.mobName = "foo"
+                it.mobRace = Human()
+                it.mobRoom = getStartRoom()
+            }
+        )
     }
 
     fun runPreAuth(message: String): PreAuthResponse {

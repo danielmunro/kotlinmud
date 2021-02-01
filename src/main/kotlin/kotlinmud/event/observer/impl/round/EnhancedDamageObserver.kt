@@ -1,7 +1,5 @@
 package kotlinmud.event.observer.impl.round
 
-import kotlin.math.roundToInt
-import kotlin.random.Random
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.helper.math.dice
@@ -10,6 +8,8 @@ import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.skill.type.SkillType
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.math.roundToInt
+import kotlin.random.Random
 
 class EnhancedDamageObserver : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {

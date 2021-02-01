@@ -1,8 +1,8 @@
 package kotlinmud.generator.service
 
-import kotlin.random.Random
 import kotlinmud.biome.type.Biome
 import kotlinmud.generator.type.Layer
+import kotlin.random.Random
 
 class ElevationService(
     private val biomeLayer: Layer,
@@ -64,6 +64,6 @@ class ElevationService(
 
     private fun isInBounds(x: Int, y: Int): Boolean {
         return y in biomeLayer.indices &&
-                x in biomeLayer[y].indices
+            x in biomeLayer[y].indices
     }
 }
