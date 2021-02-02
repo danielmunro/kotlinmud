@@ -7,21 +7,18 @@ import kotlinmud.test.createTestService
 import kotlinmud.type.CanonicalId
 import org.junit.Test
 
-class QuestListTest {
+class QuestAcceptTest {
     @Test
-    fun testCanListQuests() {
+    fun testCanAcceptAQuest() {
         // setup
         val test = createTestService()
 
-        // given
         test.createPlayerMob {
             it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_RECRUITER_1)
         }
 
-        // when
-        val response = test.runAction("quest list")
+        val response = test.runAction("quest accept recruiter")
 
-        // then
-        assertThat(response.message.toActionCreator).isEqualTo("Find Recruiter Bartok for the Praetorian Guard\n")
+        assertThat(response.message.toActionCreator).isEqualTo("you accept the quest: `Find Recruiter Bartok for the Praetorian Guard`")
     }
 }

@@ -4,28 +4,31 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.quest.dao.QuestDAO
 import kotlinmud.quest.helper.createQuestList
-import kotlinmud.quest.repository.findQuestByMobCardAndType
 import kotlinmud.quest.requirement.MobInRoomQuestRequirement
 import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestStatus
+import kotlinmud.quest.type.QuestType
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class QuestService {
     private val quests = createQuestList()
 
     fun getAcceptableQuestsForMob(mob: MobDAO): List<Quest> {
+        val mobQuests = transaction { mob.mobCard!!.quests }
+        val questMap = mutableMapOf<QuestType, Int>()
+        transaction {
+            mobQuests.forEach {
+                questMap[it.quest] = 1
+            }
+        }
         return quests.filter {
-            it.acceptConditions.find { req ->
+            !questMap.containsKey(it.type) && it.acceptConditions.find { req ->
                 req is MobInRoomQuestRequirement && req.doesSatisfy(mob)
             } != null
         }
     }
 
     fun accept(mobCard: MobCardDAO, quest: Quest) {
-        findQuestByMobCardAndType(mobCard, quest.type)?.let {
-            return
-        }
-
         transaction {
             QuestDAO.new {
                 this.mobCard = mobCard

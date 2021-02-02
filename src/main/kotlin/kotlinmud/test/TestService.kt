@@ -269,6 +269,12 @@ class TestService(
         return mob
     }
 
+    fun createPlayerMob(mutator: (mob: MobDAO) -> Unit): MobDAO {
+        val mob = createPlayerMob()
+        transaction { mutator(mob) }
+        return mob
+    }
+
     fun createPlayer(emailAddress: String): PlayerDAO {
         return authStepService.createPlayer(emailAddress).also {
             if (player == null) {

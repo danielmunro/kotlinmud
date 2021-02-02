@@ -10,15 +10,11 @@ import kotlinmud.mob.repository.findMobInRoomWithJobType
 import kotlinmud.mob.type.JobType
 
 fun createQuestListAction(): Action {
-    return Action(
-        Command.QUEST_LIST,
-        mustBeAlert(),
-        subcommand(),
-    ) { svc ->
+    return Action(Command.QUEST_LIST, mustBeAlert(), subcommand()) { svc ->
         findMobInRoomWithJobType(svc.getRoom(), JobType.QUEST)?.let {
             svc.createOkResponse(
                 MessageBuilder()
-                    .toActionCreator(svc.getQuests().joinToString { it.name + "\n" })
+                    .toActionCreator(svc.getAcceptableQuests().joinToString { it.name + "\n" })
                     .build()
             )
         } ?: svc.createErrorResponse(messageToActionCreator("you don't see a quest giver here."))
