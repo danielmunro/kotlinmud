@@ -12,7 +12,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class FindARecruiter : Quest {
     override val type = QuestType.JOIN_PRAETORIAN_GUARD
     override val name = "Find Recruiter Bartok for the Praetorian Guard"
-    override val description = ""
+    override val description = "yolo"
     override val acceptConditions = listOf(
         createMobInRoomQuestRequirement(CanonicalId.PRAETORIAN_RECRUITER_1),
     )

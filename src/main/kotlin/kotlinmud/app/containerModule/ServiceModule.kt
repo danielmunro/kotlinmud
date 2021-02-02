@@ -19,6 +19,7 @@ import kotlinmud.player.factory.createEmailService
 import kotlinmud.player.factory.createEmailServiceMock
 import kotlinmud.player.service.EmailService
 import kotlinmud.player.service.PlayerService
+import kotlinmud.quest.service.QuestService
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
@@ -58,6 +59,9 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         bind<TimeService>() with singleton {
             TimeService(instance())
         }
+        bind<QuestService>() with singleton {
+            QuestService()
+        }
         bind<ActionService>() with singleton {
             ActionService(
                 instance(),
@@ -68,7 +72,8 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
                     instance(),
                     instance(),
                     instance(),
-                    instance()
+                    instance(),
+                    instance(),
                 ),
                 createActionsList()
             )

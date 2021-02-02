@@ -3,11 +3,13 @@ package kotlinmud.quest.requirement
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.quest.type.QuestRequirement
 import kotlinmud.quest.type.QuestRequirementType
+import org.jetbrains.exposed.sql.transactions.transaction
 
-class MobInRoomQuestRequirement(private val mob: MobDAO) : QuestRequirement {
+class MobInRoomQuestRequirement(val mob: MobDAO) : QuestRequirement {
     override val questRequirementType = QuestRequirementType.MOB_IN_ROOM
 
     override fun doesSatisfy(mob: MobDAO): Boolean {
-        return mob.room == this.mob.room
+        val checkMob = this.mob
+        return transaction { mob.room == checkMob.room }
     }
 }

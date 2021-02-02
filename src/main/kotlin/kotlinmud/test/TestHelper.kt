@@ -14,6 +14,7 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.PlayerService
+import kotlinmud.world.createWorld
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.kodein.di.erased.instance
@@ -30,6 +31,7 @@ fun createTestServiceWithResetDB(): TestService {
 fun createTestService(): TestService {
     createConnection()
     applySchema()
+    createWorld()
     val container = createContainer(0, true)
     val fix: FixtureService by container.instance<FixtureService>()
     val mob: MobService by container.instance<MobService>()

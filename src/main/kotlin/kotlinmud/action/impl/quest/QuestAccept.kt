@@ -4,16 +4,16 @@ import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.io.factory.messageToActionCreator
-import kotlinmud.io.factory.subcommand
+import kotlinmud.io.factory.subcommandWithModifier
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.repository.findMobInRoomWithJobType
 import kotlinmud.mob.type.JobType
 
-fun createQuestListAction(): Action {
+fun createQuestAcceptAction(): Action {
     return Action(
-        Command.QUEST_LIST,
+        Command.QUEST_ACCEPT,
         mustBeAlert(),
-        subcommand(),
+        subcommandWithModifier(),
     ) { svc ->
         findMobInRoomWithJobType(svc.getRoom(), JobType.QUEST)?.let {
             svc.createOkResponse(

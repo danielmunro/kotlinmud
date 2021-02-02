@@ -28,6 +28,8 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.player.social.Social
+import kotlinmud.quest.service.QuestService
+import kotlinmud.quest.type.Quest
 import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.getRoomDescription
@@ -47,7 +49,8 @@ class ActionContextService(
     private val weatherService: WeatherService,
     private val actionContextList: ActionContextList,
     private val serverService: ServerService,
-    private val request: RequestService
+    private val request: RequestService,
+    private val questService: QuestService,
 ) {
     private val craftingService = CraftingService(itemService)
     val recipes = createRecipeList()
@@ -187,5 +190,9 @@ class ActionContextService(
 
     fun setDisposition(disposition: Disposition) {
         transaction { getMob().disposition = disposition }
+    }
+
+    fun getQuests(): List<Quest> {
+        return questService.getAcceptableQuestsForMob(getMob())
     }
 }
