@@ -38,6 +38,7 @@ import kotlinmud.action.impl.player.createHealListAction
 import kotlinmud.action.impl.player.createPracticeAction
 import kotlinmud.action.impl.player.createRecallAction
 import kotlinmud.action.impl.player.createTrainAction
+import kotlinmud.action.impl.quest.createQuestAbandonAction
 import kotlinmud.action.impl.quest.createQuestAcceptAction
 import kotlinmud.action.impl.quest.createQuestListAction
 import kotlinmud.action.impl.resource.createHarvestAction
@@ -106,5 +107,6 @@ fun createActionsList(): List<Action> {
         createTillAction(),
         createQuestListAction(),
         createQuestAcceptAction(),
+        createQuestAbandonAction(),
     )
 }

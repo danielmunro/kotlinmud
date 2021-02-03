@@ -14,6 +14,7 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.PlayerService
+import kotlinmud.quest.service.QuestService
 import kotlinmud.world.createWorld
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -40,6 +41,7 @@ fun createTestService(): TestService {
     val evt: EventService by container.instance<EventService>()
     val serverService: ServerService by container.instance<ServerService>()
     val observers: ObserverList by container.instance<ObserverList>()
+    val questService: QuestService by container.instance<QuestService>()
     val playerService: PlayerService by container.instance<PlayerService>()
     val authStepService: AuthStepService by container.instance<AuthStepService>()
     playerService.setAuthStepService(authStepService)
@@ -52,7 +54,8 @@ fun createTestService(): TestService {
         evt,
         playerService,
         authStepService,
-        serverService
+        serverService,
+        questService,
     )
 }
 

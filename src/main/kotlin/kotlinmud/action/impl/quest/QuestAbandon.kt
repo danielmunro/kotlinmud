@@ -11,22 +11,18 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.mob.repository.findMobInRoomWithJobType
 import kotlinmud.mob.type.JobType
 
-fun createQuestAcceptAction(): Action {
-    return Action(
-        Command.QUEST_ACCEPT,
-        mustBeAlert(),
-        subcommandWithModifier(),
-    ) { svc ->
+fun createQuestAbandonAction(): Action {
+    return Action(Command.QUEST_ABANDON, mustBeAlert(), subcommandWithModifier()) { svc ->
         findMobInRoomWithJobType(svc.getRoom(), JobType.QUEST)?.let {
             val input = svc.get<String>(Syntax.FREE_FORM)
-            svc.getAcceptableQuests().find {
+            svc.getAcceptedQuests().find {
                 input.matches(it.name)
             }?.let {
-                svc.acceptQuest(it)
+                svc.abandonQuest(it)
                 svc.createOkResponse(
                     MessageBuilder()
-                        .toActionCreator("you accept the quest: `${it.name}`")
-                        .toObservers("${svc.getMob()} accepts the quest: `${it.name}`")
+                        .toActionCreator("you abandon the quest: `${it.name}`")
+                        .toObservers("${svc.getMob()} abandons the quest: `${it.name}`")
                         .build()
                 )
             } ?: svc.createErrorResponse(messageToActionCreator("they cannot grant you that."))

@@ -53,6 +53,7 @@ import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
+import kotlinmud.quest.service.QuestService
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
@@ -72,7 +73,8 @@ class TestService(
     private val eventService: EventService,
     private val playerService: PlayerService,
     private val authStepService: AuthStepService,
-    private val serverService: ServerService
+    private val serverService: ServerService,
+    private val questService: QuestService,
 ) {
     private val clientService = ClientService()
     private val room: RoomDAO

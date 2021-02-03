@@ -28,10 +28,8 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.player.social.Social
-import kotlinmud.quest.dao.QuestDAO
 import kotlinmud.quest.service.QuestService
 import kotlinmud.quest.type.Quest
-import kotlinmud.quest.type.QuestType
 import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.getRoomDescription
@@ -198,11 +196,15 @@ class ActionContextService(
         return questService.getAcceptableQuestsForMob(getMob())
     }
 
+    fun getAcceptedQuests(): List<Quest> {
+        return questService.getAcceptedQuestsForMob(getMob())
+    }
+
     fun acceptQuest(quest: Quest) {
         questService.accept(getMobCard(), quest)
     }
 
-    fun getQuestByType(type: QuestType): QuestDAO? {
-        return transaction { getMobCard().quests.find { it.quest == type } }
+    fun abandonQuest(quest: Quest) {
+        questService.abandon(getMobCard(), quest)
     }
 }
