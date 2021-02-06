@@ -1,6 +1,5 @@
 package kotlinmud.app
 
-import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

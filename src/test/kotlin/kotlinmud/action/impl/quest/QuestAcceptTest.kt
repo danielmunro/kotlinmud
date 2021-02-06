@@ -20,7 +20,7 @@ class QuestAcceptTest {
 
         // given
         val mob = test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.FIND_PRAETORIAN_CAPTAIN)
+            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
         }
         val count = transaction { mob.mobCard!!.quests.count() }
 
@@ -49,7 +49,7 @@ class QuestAcceptTest {
         // setup
         val test = createTestService()
         val mob = test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.FIND_PRAETORIAN_CAPTAIN)
+            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_CAPTAIN_FOUND)
         }
 
         // given

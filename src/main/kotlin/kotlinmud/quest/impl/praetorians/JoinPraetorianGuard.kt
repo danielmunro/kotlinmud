@@ -14,7 +14,7 @@ class JoinPraetorianGuard : Quest {
     override val name = "Talk to Captain Bartok of the Praetorian Guard"
     override val description = "yolo"
     override val acceptConditions = listOf(
-        createMobInRoomQuestRequirement(CanonicalId.FIND_PRAETORIAN_CAPTAIN),
+        createMobInRoomQuestRequirement(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND),
     )
     override val submitConditions = listOf(
         createMobInRoomQuestRequirement(CanonicalId.PRAETORIAN_CAPTAIN_FOUND),

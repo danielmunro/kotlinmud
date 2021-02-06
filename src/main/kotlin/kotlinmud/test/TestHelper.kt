@@ -9,7 +9,6 @@ import kotlinmud.event.observer.type.ObserverList
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.service.FixtureService
 import kotlinmud.helper.Identifiable
-import kotlinmud.helper.Noun
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService

@@ -8,55 +8,43 @@ import kotlinmud.room.dao.RoomDAO
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun createLorimirForestOutpost() {
-    transaction {
+fun createLorimirForestOutpost(): RoomDAO {
+    return transaction {
         val room1 = RoomDAO.new {
             name = "Around a fire pit"
-            description = "foo"
+            description = "A small firepit is here. A sign is here with available quests."
             canonicalId = CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
             area = "Lorimir Forest Outpost"
         }
 
         val room2 = RoomDAO.new {
-            name = "Outside the camp"
+            name = "Inside a lean-to shelter"
             description = "bar"
             canonicalId = CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
             area = "Lorimir Forest Outpost"
         }
 
         val room3 = RoomDAO.new {
-            name = "Outside the camp"
+            name = "A trail near the camp"
             description = "bar"
-            canonicalId = CanonicalId.FIND_PRAETORIAN_CAPTAIN
             area = "Lorimir Forest Outpost"
         }
 
         val room4 = RoomDAO.new {
             name = "Outside the camp"
             description = "bar"
-            canonicalId = CanonicalId.PRAETORIAN_CAPTAIN_FOUND
             area = "Lorimir Forest Outpost"
         }
 
         room1.north = room2
         room2.south = room1
+        room1.east = room3
+        room1.south = room4
 
         MobDAO.new {
             name = "Recruiter Esmer"
             brief = "a cloaked figure sits against a log, facing the fire, reading a leaflet"
-            description = "Recruiter Bartok is here"
-            room = room1
-            job = JobType.QUEST
-            canonicalId = CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
-            race = Human()
-            isNpc = true
-            attributes = AttributesDAO.new {}
-        }
-
-        MobDAO.new {
-            name = "Recruiter Esmer"
-            brief = "a cloaked figure sits against a log, facing the fire, reading a leaflet"
-            description = "Recruiter Bartok is here"
+            description = "Recruiter Esmer is here"
             room = room2
             job = JobType.QUEST
             canonicalId = CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
@@ -64,29 +52,6 @@ fun createLorimirForestOutpost() {
             isNpc = true
             attributes = AttributesDAO.new {}
         }
-
-        MobDAO.new {
-            name = "Captain Bartok"
-            brief = "yolo"
-            description = "Captain Bartok is here"
-            room = room3
-            job = JobType.QUEST
-            canonicalId = CanonicalId.FIND_PRAETORIAN_CAPTAIN
-            race = Human()
-            isNpc = true
-            attributes = AttributesDAO.new {}
-        }
-
-        MobDAO.new {
-            name = "Captain Bartok"
-            brief = "yolo"
-            description = "Captain Bartok is here"
-            room = room4
-            job = JobType.QUEST
-            canonicalId = CanonicalId.PRAETORIAN_CAPTAIN_FOUND
-            race = Human()
-            isNpc = true
-            attributes = AttributesDAO.new {}
-        }
+        return@transaction room4
     }
 }

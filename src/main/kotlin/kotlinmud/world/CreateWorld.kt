@@ -1,5 +1,6 @@
 package kotlinmud.world
 
 fun createWorld() {
-    createLorimirForestOutpost()
+    val connection1 = createLorimirForestOutpost()
+    createLorimirForest(connection1)
 }

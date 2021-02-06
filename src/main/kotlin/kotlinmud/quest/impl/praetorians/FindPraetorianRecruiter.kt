@@ -4,6 +4,7 @@ import kotlinmud.faction.type.FactionType
 import kotlinmud.io.service.RequestService
 import kotlinmud.player.dao.FactionScoreDAO
 import kotlinmud.quest.factory.createMobInRoomQuestRequirement
+import kotlinmud.quest.factory.createRoomQuestRequirement
 import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestType
 import kotlinmud.type.CanonicalId
@@ -14,7 +15,7 @@ class FindPraetorianRecruiter : Quest {
     override val name = "Find a recruiter for the Praetorian Guard"
     override val description = "yolo"
     override val acceptConditions = listOf(
-        createMobInRoomQuestRequirement(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD),
+        createRoomQuestRequirement(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD),
     )
     override val submitConditions = listOf(
         createMobInRoomQuestRequirement(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND),

@@ -15,7 +15,7 @@ class QuestListTest {
 
         // given
         test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.FIND_PRAETORIAN_CAPTAIN)
+            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
         }
 
         // when
