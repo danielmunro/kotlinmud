@@ -9,15 +9,15 @@ import kotlinmud.quest.type.QuestType
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class FindARecruiter : Quest {
-    override val type = QuestType.JOIN_PRAETORIAN_GUARD
-    override val name = "Find Recruiter Bartok for the Praetorian Guard"
+class FindPraetorianRecruiter : Quest {
+    override val type = QuestType.FIND_CAPTAIN_BARTOK_PRAETORIANS
+    override val name = "Find a recruiter for the Praetorian Guard"
     override val description = "yolo"
     override val acceptConditions = listOf(
-        createMobInRoomQuestRequirement(CanonicalId.PRAETORIAN_RECRUITER_1),
+        createMobInRoomQuestRequirement(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD),
     )
     override val submitConditions = listOf(
-        createMobInRoomQuestRequirement(CanonicalId.PRAETORIAN_RECRUITER_2),
+        createMobInRoomQuestRequirement(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND),
     )
 
     override fun reward(requestService: RequestService) {

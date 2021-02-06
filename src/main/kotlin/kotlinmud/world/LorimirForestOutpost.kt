@@ -13,13 +13,28 @@ fun createLorimirForestOutpost() {
         val room1 = RoomDAO.new {
             name = "Around a fire pit"
             description = "foo"
-            canonicalId = CanonicalId.PRAETORIAN_RECRUITER_1
+            canonicalId = CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
             area = "Lorimir Forest Outpost"
         }
+
         val room2 = RoomDAO.new {
             name = "Outside the camp"
             description = "bar"
-            canonicalId = CanonicalId.PRAETORIAN_RECRUITER_2
+            canonicalId = CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
+            area = "Lorimir Forest Outpost"
+        }
+
+        val room3 = RoomDAO.new {
+            name = "Outside the camp"
+            description = "bar"
+            canonicalId = CanonicalId.FIND_PRAETORIAN_CAPTAIN
+            area = "Lorimir Forest Outpost"
+        }
+
+        val room4 = RoomDAO.new {
+            name = "Outside the camp"
+            description = "bar"
+            canonicalId = CanonicalId.PRAETORIAN_CAPTAIN_FOUND
             area = "Lorimir Forest Outpost"
         }
 
@@ -27,24 +42,48 @@ fun createLorimirForestOutpost() {
         room2.south = room1
 
         MobDAO.new {
-            name = "Recruiter Bartok"
+            name = "Recruiter Esmer"
             brief = "a cloaked figure sits against a log, facing the fire, reading a leaflet"
             description = "Recruiter Bartok is here"
             room = room1
             job = JobType.QUEST
-            canonicalId = CanonicalId.PRAETORIAN_RECRUITER_1
+            canonicalId = CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
             race = Human()
             isNpc = true
             attributes = AttributesDAO.new {}
         }
 
         MobDAO.new {
-            name = "Recruiter Bartok"
+            name = "Recruiter Esmer"
             brief = "a cloaked figure sits against a log, facing the fire, reading a leaflet"
             description = "Recruiter Bartok is here"
             room = room2
             job = JobType.QUEST
-            canonicalId = CanonicalId.PRAETORIAN_RECRUITER_2
+            canonicalId = CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
+            race = Human()
+            isNpc = true
+            attributes = AttributesDAO.new {}
+        }
+
+        MobDAO.new {
+            name = "Captain Bartok"
+            brief = "yolo"
+            description = "Captain Bartok is here"
+            room = room3
+            job = JobType.QUEST
+            canonicalId = CanonicalId.FIND_PRAETORIAN_CAPTAIN
+            race = Human()
+            isNpc = true
+            attributes = AttributesDAO.new {}
+        }
+
+        MobDAO.new {
+            name = "Captain Bartok"
+            brief = "yolo"
+            description = "Captain Bartok is here"
+            room = room4
+            job = JobType.QUEST
+            canonicalId = CanonicalId.PRAETORIAN_CAPTAIN_FOUND
             race = Human()
             isNpc = true
             attributes = AttributesDAO.new {}

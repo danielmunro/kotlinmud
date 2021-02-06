@@ -207,4 +207,8 @@ class ActionContextService(
     fun abandonQuest(quest: Quest) {
         questService.abandon(getMobCard(), quest)
     }
+
+    fun getQuestLog(): List<Quest> {
+        return questService.getLog(getMobCard())
+    }
 }

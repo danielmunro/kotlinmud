@@ -2,8 +2,7 @@ package kotlinmud.action.impl.quest
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.quest.dao.QuestDAO
-import kotlinmud.quest.type.QuestStatus
+import kotlinmud.quest.helper.createQuestEntity
 import kotlinmud.quest.type.QuestType
 import kotlinmud.room.repository.findRoomByCanonicalId
 import kotlinmud.test.createTestService
@@ -19,15 +18,15 @@ class QuestAcceptTest {
 
         // given
         val mob = test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_RECRUITER_1)
+            it.room = findRoomByCanonicalId(CanonicalId.FIND_PRAETORIAN_CAPTAIN)
         }
         val count = transaction { mob.mobCard!!.quests.count() }
 
         // when
-        val response = test.runAction("quest accept recruiter")
+        val response = test.runAction("quest accept captain")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you accept the quest: `Find Recruiter Bartok for the Praetorian Guard`")
+        assertThat(response.message.toActionCreator).isEqualTo("you accept the quest: `Talk to Captain Bartok of the Praetorian Guard`")
         assertThat(transaction { mob.mobCard!!.quests.count() }).isEqualTo(count + 1)
     }
 
@@ -48,17 +47,11 @@ class QuestAcceptTest {
         // setup
         val test = createTestService()
         val mob = test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_RECRUITER_1)
+            it.room = findRoomByCanonicalId(CanonicalId.FIND_PRAETORIAN_CAPTAIN)
         }
 
         // given
-        transaction {
-            QuestDAO.new {
-                mobCard = mob.mobCard!!
-                quest = QuestType.JOIN_PRAETORIAN_GUARD
-                status = QuestStatus.INITIALIZED
-            }
-        }
+        createQuestEntity(transaction { mob.mobCard!! }, QuestType.JOIN_PRAETORIAN_GUARD)
 
         // when
         val response = test.runAction("quest accept recruiter")

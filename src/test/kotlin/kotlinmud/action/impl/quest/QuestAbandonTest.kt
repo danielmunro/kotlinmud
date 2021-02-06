@@ -31,10 +31,10 @@ class QuestAbandonTest {
         val count = transaction { mob.mobCard!!.quests.count() }
 
         // when
-        val response = test.runAction("quest abandon recruiter")
+        val response = test.runAction("quest abandon captain")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you abandon the quest: `Find Recruiter Bartok for the Praetorian Guard`")
+        assertThat(response.message.toActionCreator).isEqualTo("you abandon the quest: `Talk to Captain Bartok of the Praetorian Guard`")
         assertThat(transaction { mob.mobCard!!.quests.count() }).isEqualTo(count - 1)
     }
 }

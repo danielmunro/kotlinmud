@@ -26,7 +26,11 @@ class QuestService {
     }
 
     fun getAcceptedQuestsForMob(mob: MobDAO): List<Quest> {
-        val questMap = createQuestMap(transaction { mob.mobCard!!.quests.toList() })
+        val questMap = createQuestMap(
+            transaction {
+                mob.mobCard!!.quests.toList().filter { it.status != QuestStatus.SUBMITTED }
+            }
+        )
         return quests.filter { questMap.containsKey(it.type) }
     }
 
@@ -48,6 +52,11 @@ class QuestService {
                 }.first()
             ).delete()
         }
+    }
+
+    fun getLog(mobCard: MobCardDAO): List<Quest> {
+        val questMap = createQuestMap(transaction { mobCard.quests.toList() })
+        return quests.filter { questMap[it.type] !== null }
     }
 
     private fun createQuestMap(mobQuests: List<QuestDAO>): MutableMap<QuestType, Int> {

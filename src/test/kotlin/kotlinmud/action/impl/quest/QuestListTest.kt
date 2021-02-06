@@ -15,13 +15,13 @@ class QuestListTest {
 
         // given
         test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_RECRUITER_1)
+            it.room = findRoomByCanonicalId(CanonicalId.FIND_PRAETORIAN_CAPTAIN)
         }
 
         // when
         val response = test.runAction("quest list")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("Find Recruiter Bartok for the Praetorian Guard\n")
+        assertThat(response.message.toActionCreator).isEqualTo("Talk to Captain Bartok of the Praetorian Guard\n")
     }
 }
