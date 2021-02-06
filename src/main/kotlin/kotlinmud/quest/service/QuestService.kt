@@ -16,6 +16,10 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class QuestService {
     private val quests = createQuestList()
 
+    fun findByType(type: QuestType): Quest? {
+        return quests.find { it.type == type }
+    }
+
     fun getAcceptableQuestsForMob(mob: MobDAO): List<Quest> {
         val questMap = createQuestMap(transaction { mob.mobCard!!.quests.toList() })
         return quests.filter {

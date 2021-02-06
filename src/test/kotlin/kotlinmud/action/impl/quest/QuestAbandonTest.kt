@@ -4,9 +4,11 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.mob.type.JobType
 import kotlinmud.quest.dao.QuestDAO
+import kotlinmud.quest.helper.createQuestEntity
 import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.createTestService
+import kotlinmud.test.getIdentifyingWord
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -19,22 +21,17 @@ class QuestAbandonTest {
         test.createMob {
             it.job = JobType.QUEST
         }
+        val quest = test.findQuest(QuestType.JOIN_PRAETORIAN_GUARD)!!
 
         // given
-        transaction {
-            QuestDAO.new {
-                mobCard = mob.mobCard!!
-                quest = QuestType.JOIN_PRAETORIAN_GUARD
-                status = QuestStatus.INITIALIZED
-            }
-        }
+        createQuestEntity(transaction { mob.mobCard!! }, quest.type)
         val count = transaction { mob.mobCard!!.quests.count() }
 
         // when
-        val response = test.runAction("quest abandon captain")
+        val response = test.runAction("quest abandon ${getIdentifyingWord(quest)}")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you abandon the quest: `Talk to Captain Bartok of the Praetorian Guard`")
+        assertThat(response.message.toActionCreator).isEqualTo("you abandon the quest: `${quest.name}`")
         assertThat(transaction { mob.mobCard!!.quests.count() }).isEqualTo(count - 1)
     }
 }

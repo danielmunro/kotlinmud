@@ -54,6 +54,8 @@ import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.service.QuestService
+import kotlinmud.quest.type.Quest
+import kotlinmud.quest.type.QuestType
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
@@ -129,10 +131,6 @@ class TestService(
 
     fun getClient(): Client {
         return client
-    }
-
-    fun getPlayer(): PlayerDAO? {
-        return player
     }
 
     fun createMobController(mob: MobDAO): MobController {
@@ -401,8 +399,8 @@ class TestService(
         runBlocking { ProceedFightsPulseObserver(mobService).invokeAsync(Event(EventType.PULSE, null)) }
     }
 
-    fun flee(mob: MobDAO) {
-        mobService.flee(mob)
+    fun findQuest(type: QuestType): Quest? {
+        return questService.findByType(type)
     }
 
     private fun runAction(mob: MobDAO, input: String): Response {

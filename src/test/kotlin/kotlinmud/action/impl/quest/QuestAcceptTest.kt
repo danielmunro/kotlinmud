@@ -6,6 +6,7 @@ import kotlinmud.quest.helper.createQuestEntity
 import kotlinmud.quest.type.QuestType
 import kotlinmud.room.repository.findRoomByCanonicalId
 import kotlinmud.test.createTestService
+import kotlinmud.test.getIdentifyingWord
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
@@ -15,6 +16,7 @@ class QuestAcceptTest {
     fun testCanAcceptAQuest() {
         // setup
         val test = createTestService()
+        val quest = test.findQuest(QuestType.JOIN_PRAETORIAN_GUARD)!!
 
         // given
         val mob = test.createPlayerMob {
@@ -23,10 +25,10 @@ class QuestAcceptTest {
         val count = transaction { mob.mobCard!!.quests.count() }
 
         // when
-        val response = test.runAction("quest accept captain")
+        val response = test.runAction("quest accept ${getIdentifyingWord(quest)}")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you accept the quest: `Talk to Captain Bartok of the Praetorian Guard`")
+        assertThat(response.message.toActionCreator).isEqualTo("you accept the quest: `${quest.name}`")
         assertThat(transaction { mob.mobCard!!.quests.count() }).isEqualTo(count + 1)
     }
 
@@ -51,7 +53,7 @@ class QuestAcceptTest {
         }
 
         // given
-        createQuestEntity(transaction { mob.mobCard!! }, QuestType.JOIN_PRAETORIAN_GUARD)
+        createQuestEntity(transaction { mob.mobCard!! }, QuestType.FIND_CAPTAIN_BARTOK_PRAETORIANS)
 
         // when
         val response = test.runAction("quest accept recruiter")

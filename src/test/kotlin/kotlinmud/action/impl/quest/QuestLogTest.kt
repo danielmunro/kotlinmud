@@ -15,15 +15,17 @@ class QuestLogTest {
         val test = createTestService()
         val mob = test.createPlayerMob()
         val mobCard = transaction { mob.mobCard!! }
+        val quest1 = test.findQuest(QuestType.JOIN_PRAETORIAN_GUARD)!!
+        val quest2 = test.findQuest(QuestType.FIND_CAPTAIN_BARTOK_PRAETORIANS)!!
 
         // given
-        createQuestEntity(mobCard, QuestType.FIND_CAPTAIN_BARTOK_PRAETORIANS)
-        createQuestEntity(mobCard, QuestType.JOIN_PRAETORIAN_GUARD)
+        createQuestEntity(mobCard, quest1.type)
+        createQuestEntity(mobCard, quest2.type)
 
         // when
         val response = test.runAction("quest log")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("Talk to Captain Bartok of the Praetorian Guard\n, Find a recruiter for the Praetorian Guard\n")
+        assertThat(response.message.toActionCreator).isEqualTo("${quest1.name}\n, ${quest2.name}\n")
     }
 }
