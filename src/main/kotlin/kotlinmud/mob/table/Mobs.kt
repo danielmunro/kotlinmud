@@ -42,7 +42,7 @@ object Mobs : IntIdTable() {
     val attributesId = reference("attributes", Attributes)
     val roomId = reference("roomId", Rooms)
     val affects = reference("affects", Affects).nullable()
-    val skills = reference("skills", Skills, ReferenceOption.CASCADE).nullable()
+    val skills = reference("skills", Skills).nullable()
     val playerId = reference("playerId", Players).nullable()
     val mobCardId = reference("mobCardId", MobCards).nullable()
 }
