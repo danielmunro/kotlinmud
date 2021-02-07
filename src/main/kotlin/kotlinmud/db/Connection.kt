@@ -7,6 +7,6 @@ import java.sql.Connection
 fun createConnection() {
 //    Database.connect("jdbc:sqlite:./data.db", "org.sqlite.JDBC")
 //    TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE
-    Database.connect("jdbc:postgresql://localhost:5432/postgres", driver = "org.postgresql.Driver",
+    Database.connect("jdbc:postgresql://postgres:5432/postgres", driver = "org.postgresql.Driver",
         user = "postgres", password = "postgres")
 }
