@@ -12,6 +12,7 @@ import kotlinmud.player.table.MobCards
 import kotlinmud.player.table.Players
 import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.dao.IntIdTable
+import org.jetbrains.exposed.sql.ReferenceOption
 
 object Mobs : IntIdTable() {
     val name = varchar("name", 50)
@@ -41,7 +42,7 @@ object Mobs : IntIdTable() {
     val attributesId = reference("attributes", Attributes)
     val roomId = reference("roomId", Rooms)
     val affects = reference("affects", Affects).nullable()
-    val skills = reference("skills", Skills).nullable()
+    val skills = reference("skills", Skills, ReferenceOption.CASCADE).nullable()
     val playerId = reference("playerId", Players).nullable()
     val mobCardId = reference("mobCardId", MobCards).nullable()
 }
