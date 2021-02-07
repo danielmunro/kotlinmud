@@ -13,13 +13,13 @@ fun createListAction(): Action {
         svc.createOkResponse(
             messageToActionCreator(
                 "[lvl cost name]\n" +
-                        svc.getItemGroupsFor(shopkeeper).map {
-                            val level = it.value[0].level.toString()
-                            val cost = it.value[0].worth.toString()
-                            leftPad(level, 3) +
-                                    " " + leftPad(cost, 3) +
-                                    " " + it.value[0].name
-                        }.joinToString("\n")
+                    svc.getItemGroupsFor(shopkeeper).map {
+                        val level = it.value[0].level.toString()
+                        val cost = it.value[0].worth.toString()
+                        leftPad(level, 3) +
+                            " " + leftPad(cost, 3) +
+                            " " + it.value[0].name
+                    }.joinToString("\n")
             )
         )
     }

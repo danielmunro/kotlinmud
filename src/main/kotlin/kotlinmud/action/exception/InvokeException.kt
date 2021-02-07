@@ -1,8 +1,8 @@
 package kotlinmud.action.exception
 
-import java.lang.Exception
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
+import java.lang.Exception
 
 class InvokeException(message: String) : Exception(message) {
     fun toMessage(): Message {

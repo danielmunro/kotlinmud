@@ -9,7 +9,7 @@ import kotlinmud.mob.dao.MobDAO
 class ItemInInventoryContextBuilder(private val itemService: ItemService, private val mob: MobDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return itemService.findByOwner(mob, word)
-                ?.let { Context<Any>(syntax, Status.OK, it) }
+            ?.let { Context<Any>(syntax, Status.OK, it) }
             ?: Context<Any>(syntax, Status.FAILED, "you don't have that.")
     }
 }

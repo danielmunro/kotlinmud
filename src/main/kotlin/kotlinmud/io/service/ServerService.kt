@@ -1,13 +1,5 @@
 package kotlinmud.io.service
 
-import java.io.IOException
-import java.net.InetSocketAddress
-import java.nio.ByteBuffer
-import java.nio.channels.SelectionKey
-import java.nio.channels.Selector
-import java.nio.channels.ServerSocketChannel
-import java.nio.channels.SocketChannel
-import java.util.stream.Collectors
 import kotlinmud.event.factory.createClientConnectedEvent
 import kotlinmud.event.factory.createClientDisconnectedEvent
 import kotlinmud.event.service.EventService
@@ -20,6 +12,14 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.withContext
 import okhttp3.internal.closeQuietly
+import java.io.IOException
+import java.net.InetSocketAddress
+import java.nio.ByteBuffer
+import java.nio.channels.SelectionKey
+import java.nio.channels.Selector
+import java.nio.channels.ServerSocketChannel
+import java.nio.channels.SocketChannel
+import java.util.stream.Collectors
 
 const val SELECT_TIMEOUT_MS: Long = 1
 const val READ_BUFFER_SIZE_IN_BYTES = 1024

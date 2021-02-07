@@ -1,6 +1,5 @@
 package kotlinmud.mob.skill.impl
 
-import kotlin.random.Random
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
@@ -27,6 +26,7 @@ import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Intent
+import kotlin.random.Random
 
 class Bash : SkillAction, Customization {
     override val type = SkillType.BASH
@@ -59,16 +59,17 @@ class Bash : SkillAction, Customization {
         val target = actionContextService.get<MobDAO>(Syntax.TARGET_MOB)
         val limit = (actionContextService.getLevel() / 10).coerceAtLeast(2)
         val modifier = Random.nextInt(1, limit) +
-                if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)
+            if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)
         target.hp -= modifier
         target.affects.plus(
             createAffect(AffectType.STUNNED, modifier / 5, AttributesDAO.new { intelligence = -1 })
         )
-        return actionContextService.createOkResponse(MessageBuilder()
-            .toActionCreator("you slam into $target and send them flying!")
-            .toTarget("${actionContextService.getMob()} slams into you and sends you flying!")
-            .toObservers("${actionContextService.getMob()} slams into $target and sends them flying!")
-            .build(),
+        return actionContextService.createOkResponse(
+            MessageBuilder()
+                .toActionCreator("you slam into $target and send them flying!")
+                .toTarget("${actionContextService.getMob()} slams into you and sends you flying!")
+                .toObservers("${actionContextService.getMob()} slams into $target and sends them flying!")
+                .build(),
             1
         )
     }

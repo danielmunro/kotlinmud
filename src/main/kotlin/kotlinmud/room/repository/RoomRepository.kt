@@ -7,6 +7,7 @@ import kotlinmud.mob.table.Mobs
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.table.Resources
 import kotlinmud.room.table.Rooms
+import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.Join
 import org.jetbrains.exposed.sql.JoinType
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.asLiteral
@@ -54,18 +55,30 @@ fun findRoomByMobId(mobId: Int): RoomDAO {
 fun findStartRoom(): RoomDAO? {
     return transaction {
         Rooms.select {
-            (Rooms.biome eq BiomeType.ARBOREAL.toString() or
+            (
+                Rooms.biome eq BiomeType.ARBOREAL.toString() or
                     (Rooms.biome eq BiomeType.PLAINS.toString()) or
-                    (Rooms.biome eq BiomeType.JUNGLE.toString())) and
-                    ((Rooms.northId.isNotNull()) or
-                    (Rooms.southId.isNotNull()) or
-                    (Rooms.eastId.isNotNull()) or
-                    (Rooms.westId.isNotNull()) or
-                    (Rooms.upId.isNotNull()) or
-                    (Rooms.downId.isNotNull()))
+                    (Rooms.biome eq BiomeType.JUNGLE.toString())
+                ) and
+                (
+                    (Rooms.northId.isNotNull()) or
+                        (Rooms.southId.isNotNull()) or
+                        (Rooms.eastId.isNotNull()) or
+                        (Rooms.westId.isNotNull()) or
+                        (Rooms.upId.isNotNull()) or
+                        (Rooms.downId.isNotNull())
+                    )
         }.firstOrNull()?.let {
             RoomDAO.wrapRow(it)
         }
+    }
+}
+
+fun findRoomByCanonicalId(id: CanonicalId): RoomDAO {
+    return transaction {
+        RoomDAO.wrapRow(
+            Rooms.select { Rooms.canonicalId eq id.toString() }.first()
+        )
     }
 }
 

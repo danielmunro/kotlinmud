@@ -15,9 +15,11 @@ class RecipeOfTest {
         val response = test.runAction("recipe of sleeping")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("""
+        assertThat(response.message.toActionCreator).isEqualTo(
+            """
             Recipe for a sleeping bag:
             (4) wool
-        """.trimIndent())
+            """.trimIndent()
+        )
     }
 }

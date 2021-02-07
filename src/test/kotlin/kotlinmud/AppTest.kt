@@ -3,11 +3,11 @@
  */
 package kotlinmud
 
-import kotlin.test.Test
-import kotlin.test.assertNotNull
 import kotlinmud.app.App
 import kotlinmud.app.createContainer
 import org.kodein.di.erased.instance
+import kotlin.test.Test
+import kotlin.test.assertNotNull
 
 class AppTest {
     @Test

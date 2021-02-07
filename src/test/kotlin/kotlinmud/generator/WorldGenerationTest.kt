@@ -41,8 +41,10 @@ class WorldGenerationTest {
         val world = generation.world!!
 
         // then
-        assertThat(world.rooms.all {
-            it.biome != BiomeType.NONE
-        }).isTrue()
+        assertThat(
+            world.rooms.all {
+                it.biome != BiomeType.NONE
+            }
+        ).isTrue()
     }
 }

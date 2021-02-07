@@ -3,8 +3,6 @@ package kotlinmud.test
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
-import java.net.SocketAddress
-import java.nio.channels.SocketChannel
 import kotlinmud.action.service.ActionService
 import kotlinmud.attributes.constant.startingHp
 import kotlinmud.attributes.constant.startingMana
@@ -55,6 +53,9 @@ import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
+import kotlinmud.quest.service.QuestService
+import kotlinmud.quest.type.Quest
+import kotlinmud.quest.type.QuestType
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
@@ -63,6 +64,8 @@ import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.net.SocketAddress
+import java.nio.channels.SocketChannel
 
 class TestService(
     private val fixtureService: FixtureService,
@@ -72,7 +75,8 @@ class TestService(
     private val eventService: EventService,
     private val playerService: PlayerService,
     private val authStepService: AuthStepService,
-    private val serverService: ServerService
+    private val serverService: ServerService,
+    private val questService: QuestService,
 ) {
     private val clientService = ClientService()
     private val room: RoomDAO
@@ -127,10 +131,6 @@ class TestService(
 
     fun getClient(): Client {
         return client
-    }
-
-    fun getPlayer(): PlayerDAO? {
-        return player
     }
 
     fun createMobController(mob: MobDAO): MobController {
@@ -269,6 +269,12 @@ class TestService(
         return mob
     }
 
+    fun createPlayerMob(mutator: (mob: MobDAO) -> Unit): MobDAO {
+        val mob = createPlayerMob()
+        transaction { mutator(mob) }
+        return mob
+    }
+
     fun createPlayer(emailAddress: String): PlayerDAO {
         return authStepService.createPlayer(emailAddress).also {
             if (player == null) {
@@ -323,11 +329,13 @@ class TestService(
 
     fun setPreAuth(builder: (AuthStepService, PlayerDAO) -> AuthStep) {
         playerService.setAuthStep(client, builder(authStepService, player!!))
-        authStepService.addCreationFunnel(CreationFunnel(player!!.email).also {
-            it.mobName = "foo"
-            it.mobRace = Human()
-            it.mobRoom = getStartRoom()
-        })
+        authStepService.addCreationFunnel(
+            CreationFunnel(player!!.email).also {
+                it.mobName = "foo"
+                it.mobRace = Human()
+                it.mobRoom = getStartRoom()
+            }
+        )
     }
 
     fun runPreAuth(message: String): PreAuthResponse {
@@ -391,8 +399,8 @@ class TestService(
         runBlocking { ProceedFightsPulseObserver(mobService).invokeAsync(Event(EventType.PULSE, null)) }
     }
 
-    fun flee(mob: MobDAO) {
-        mobService.flee(mob)
+    fun findQuest(type: QuestType): Quest? {
+        return questService.findByType(type)
     }
 
     private fun runAction(mob: MobDAO, input: String): Response {

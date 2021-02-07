@@ -32,6 +32,7 @@ import kotlinmud.mob.type.Rarity
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -84,6 +85,10 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         { it.toString() },
         { Rarity.valueOf(it) }
     )
+    var canonicalId by Mobs.canonicalId.transform(
+        { it.toString() },
+        { it?.let { CanonicalId.valueOf(it) } }
+    )
     var attributes by AttributesDAO referencedOn Mobs.attributesId
     var room by RoomDAO referencedOn Mobs.roomId
     val equipped by ItemDAO optionalReferrersOn Items.mobEquippedId
@@ -92,6 +97,16 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     override val affects by AffectDAO optionalReferrersOn Affects.mobId
     var player by PlayerDAO optionalReferencedOn Mobs.playerId
     var mobCard by MobCardDAO optionalReferencedOn Mobs.mobCardId
+
+    fun canTargetForFight(): Boolean {
+        return job == JobType.AGGRESSIVE ||
+            job == JobType.FODDER ||
+            job == JobType.GUARD ||
+            job == JobType.PATROL ||
+            job == JobType.SCAVENGER ||
+            job == JobType.NONE ||
+            job == null
+    }
 
     fun isStanding(): Boolean {
         return disposition == Disposition.STANDING
@@ -134,25 +149,33 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     fun calc(attribute: Attribute): Int {
         return transaction {
             when (attribute) {
-                Attribute.HP -> attributes.hp +
+                Attribute.HP ->
+                    attributes.hp +
                         accumulate { it.attributes?.hp ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.MANA -> attributes.mana +
+                Attribute.MANA ->
+                    attributes.mana +
                         accumulate { it.attributes?.mana ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.MV -> attributes.mv +
+                Attribute.MV ->
+                    attributes.mv +
                         accumulate { it.attributes?.mv ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.STR -> base(attribute) +
+                Attribute.STR ->
+                    base(attribute) +
                         accumulate { it.attributes?.strength ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.INT -> base(attribute) +
+                Attribute.INT ->
+                    base(attribute) +
                         accumulate { it.attributes?.intelligence ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.WIS -> base(attribute) +
+                Attribute.WIS ->
+                    base(attribute) +
                         accumulate { it.attributes?.wisdom ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.DEX -> base(attribute) +
+                Attribute.DEX ->
+                    base(attribute) +
                         accumulate { it.attributes?.dexterity ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.CON -> base(attribute) +
+                Attribute.CON ->
+                    base(attribute) +
                         accumulate { it.attributes?.constitution ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.HIT -> attributes.hit + accumulate { it.attributes?.hit ?: 0 }
@@ -216,19 +239,24 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
 
     fun base(attribute: Attribute): Int {
         return when (attribute) {
-            Attribute.STR -> BASE_STAT +
+            Attribute.STR ->
+                BASE_STAT +
                     attributes.strength +
                     race.attributes.strength
-            Attribute.INT -> BASE_STAT +
+            Attribute.INT ->
+                BASE_STAT +
                     attributes.intelligence +
                     race.attributes.intelligence
-            Attribute.WIS -> BASE_STAT +
+            Attribute.WIS ->
+                BASE_STAT +
                     attributes.wisdom +
                     race.attributes.wisdom
-            Attribute.DEX -> BASE_STAT +
+            Attribute.DEX ->
+                BASE_STAT +
                     attributes.dexterity +
                     race.attributes.dexterity
-            Attribute.CON -> BASE_STAT +
+            Attribute.CON ->
+                BASE_STAT +
                     attributes.constitution +
                     race.attributes.constitution
             else -> 0
@@ -276,11 +304,11 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
 
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {
         return equipped.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it } +
-                affects.asSequence().toList()
-                    .filter { it.attributes != null }
-                    .map { AttributeAffect(it) }
-                    .map(accumulator)
-                    .fold(0) { acc: Int, it: Int -> acc + it }
+            affects.asSequence().toList()
+                .filter { it.attributes != null }
+                .map { AttributeAffect(it) }
+                .map(accumulator)
+                .fold(0) { acc: Int, it: Int -> acc + it }
     }
 
     private fun increaseMana(value: Int) {

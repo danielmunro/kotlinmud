@@ -149,10 +149,12 @@ class ItemService {
         transaction {
             val count = inventory.items.count()
             if (inventory.maxItems != null && count + 1 > inventory.maxItems!!) {
-                throw InvokeException(if (inventory is MobDAO)
-                    "you cannot carry any more."
-                else
-                    "that is full.")
+                throw InvokeException(
+                    if (inventory is MobDAO)
+                        "you cannot carry any more."
+                    else
+                        "that is full."
+                )
             }
         }
     }

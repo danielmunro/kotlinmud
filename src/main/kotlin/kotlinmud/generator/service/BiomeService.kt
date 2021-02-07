@@ -1,8 +1,8 @@
 package kotlinmud.generator.service
 
-import kotlin.random.Random
 import kotlinmud.biome.type.Biome
 import kotlinmud.generator.type.Layer
+import kotlin.random.Random
 
 class BiomeService(
     private val width: Int,

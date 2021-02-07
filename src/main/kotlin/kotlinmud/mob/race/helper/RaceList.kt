@@ -45,6 +45,21 @@ fun createRaceList(): List<Race> {
         Horse(),
         Sheep(),
         Bear(),
-        Lizard()
+        Lizard(),
+    )
+}
+
+fun createPlayableRaceList(): List<Race> {
+    return listOf(
+        Human(),
+        Elf(),
+        Kender(),
+        Dwarf(),
+        Ogre(),
+        Giant(),
+        Faerie(),
+        Lasher(),
+        Goblin(),
+        Undead(),
     )
 }

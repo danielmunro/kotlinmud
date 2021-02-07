@@ -2,7 +2,6 @@ package kotlinmud.event.observer.round
 
 import assertk.assertThat
 import assertk.assertions.isGreaterThan
-import kotlin.math.roundToInt
 import kotlinmud.mob.repository.findFightForMob
 import kotlinmud.mob.repository.findMobById
 import kotlinmud.mob.skill.factory.createSkill
@@ -12,6 +11,7 @@ import kotlinmud.test.createTestService
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
+import kotlin.math.roundToInt
 
 class EnhancedDamageObserverTest {
     @Test

@@ -21,7 +21,7 @@ class AvailableNounContextBuilder(
             findMobsForRoom(room).find {
                 word.matches(it.name) && it.affects.find { affect -> affect.type == AffectType.INVISIBILITY } == null
             } ?: itemService.findByOwner(mob, word)
-            ?: itemService.findByRoom(room, word)
+                ?: itemService.findByRoom(room, word)
         } ?: return Context(
             syntax,
             Status.FAILED,

@@ -53,9 +53,9 @@ class DiceTest {
         assertThat(prob2.getOutcome2()).isGreaterThan(0)
         assertThat(
             prob1.getOutcome1() +
-                    prob1.getOutcome2() +
-                    prob2.getOutcome1() +
-                    prob2.getOutcome2()
+                prob1.getOutcome2() +
+                prob2.getOutcome1() +
+                prob2.getOutcome2()
         ).isEqualTo(iterations)
     }
 

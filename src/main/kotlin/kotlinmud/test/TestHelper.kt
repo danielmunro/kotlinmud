@@ -2,18 +2,20 @@ package kotlinmud.test
 
 import kotlinmud.action.service.ActionService
 import kotlinmud.app.createContainer
-import kotlinmud.app.db.applySchema
-import kotlinmud.app.db.createConnection
-import kotlinmud.app.db.getTables
+import kotlinmud.db.applySchema
+import kotlinmud.db.createConnection
+import kotlinmud.db.getTables
 import kotlinmud.event.observer.type.ObserverList
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.service.FixtureService
-import kotlinmud.helper.Noun
+import kotlinmud.helper.Identifiable
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.PlayerService
+import kotlinmud.quest.service.QuestService
+import kotlinmud.world.createWorld
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.kodein.di.erased.instance
@@ -30,6 +32,7 @@ fun createTestServiceWithResetDB(): TestService {
 fun createTestService(): TestService {
     createConnection()
     applySchema()
+    createWorld()
     val container = createContainer(0, true)
     val fix: FixtureService by container.instance<FixtureService>()
     val mob: MobService by container.instance<MobService>()
@@ -38,6 +41,7 @@ fun createTestService(): TestService {
     val evt: EventService by container.instance<EventService>()
     val serverService: ServerService by container.instance<ServerService>()
     val observers: ObserverList by container.instance<ObserverList>()
+    val questService: QuestService by container.instance<QuestService>()
     val playerService: PlayerService by container.instance<PlayerService>()
     val authStepService: AuthStepService by container.instance<AuthStepService>()
     playerService.setAuthStepService(authStepService)
@@ -50,10 +54,11 @@ fun createTestService(): TestService {
         evt,
         playerService,
         authStepService,
-        serverService
+        serverService,
+        questService,
     )
 }
 
-fun getIdentifyingWord(noun: Noun): String {
-    return noun.name.split(" ").first { it.length > 3 }
+fun getIdentifyingWord(identifiable: Identifiable): String {
+    return identifiable.name.split(" ").first { it.length > 3 }
 }

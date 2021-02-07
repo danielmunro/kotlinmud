@@ -7,11 +7,13 @@ import kotlinmud.item.table.Items
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.dao.MobDAO.Companion.transform
 import kotlinmud.room.table.Resources
 import kotlinmud.room.table.Rooms
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
+import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -31,6 +33,10 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
     var regenLevel: RegenLevel by Rooms.regenLevel.transform({ it.toString() }, { RegenLevel.valueOf(it) })
     var biome: BiomeType by Rooms.biome.transform({ it.toString() }, { BiomeType.valueOf(it) })
     var substrate: SubstrateType by Rooms.substrate.transform({ it.toString() }, { SubstrateType.valueOf(it) })
+    var canonicalId by Rooms.canonicalId.transform(
+        { it.toString() },
+        { it?.let { CanonicalId.valueOf(it) } }
+    )
     var elevation by Rooms.elevation
     override var maxWeight by Rooms.maxWeight
     override var maxItems by Rooms.maxItems

@@ -5,7 +5,6 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotNull
-import kotlin.test.Test
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
@@ -13,6 +12,7 @@ import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.test.getIdentifyingWord
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.test.Test
 
 class ActionServiceTest {
     @Test

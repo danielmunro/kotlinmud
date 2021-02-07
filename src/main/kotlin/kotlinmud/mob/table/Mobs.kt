@@ -12,6 +12,7 @@ import kotlinmud.player.table.MobCards
 import kotlinmud.player.table.Players
 import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.dao.IntIdTable
+import org.jetbrains.exposed.sql.ReferenceOption
 
 object Mobs : IntIdTable() {
     val name = varchar("name", 50)
@@ -37,6 +38,7 @@ object Mobs : IntIdTable() {
     val maxItems = integer("maxItems").default(100)
     val maxWeight = integer("maxWeight").default(1000)
     val rarity = varchar("rarity", 50).default(Rarity.COMMON.toString())
+    val canonicalId = varchar("canonicalId", 255).nullable()
     val attributesId = reference("attributes", Attributes)
     val roomId = reference("roomId", Rooms)
     val affects = reference("affects", Affects).nullable()

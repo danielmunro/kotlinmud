@@ -5,6 +5,7 @@ import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
@@ -50,11 +51,35 @@ fun findDeadMobs(): List<MobDAO> {
 
 fun findMobsWantingToMoveOnTick(): List<MobDAO> {
     return transaction {
-        MobDAO.wrapRows(Mobs.select {
-            Mobs.isNpc eq true and
-                    (Mobs.job eq JobType.SCAVENGER.value or
-                            (Mobs.job eq JobType.FODDER.value or
-                                    (Mobs.job eq JobType.PATROL.value)))
-        }).toList()
+        MobDAO.wrapRows(
+            Mobs.select {
+                Mobs.isNpc eq true and
+                    (
+                        Mobs.job eq JobType.SCAVENGER.toString() or
+                            (
+                                Mobs.job eq JobType.FODDER.toString() or
+                                    (Mobs.job eq JobType.PATROL.toString())
+                                )
+                        )
+            }
+        ).toList()
+    }
+}
+
+fun findMobInRoomWithJobType(room: RoomDAO, job: JobType): MobDAO? {
+    return transaction {
+        Mobs.select {
+            Mobs.roomId eq room.id and (Mobs.job eq job.toString())
+        }.firstOrNull()?.let { MobDAO.wrapRow(it) }
+    }
+}
+
+fun findMobByCanonicalId(id: CanonicalId): MobDAO {
+    return transaction {
+        MobDAO.wrapRow(
+            Mobs.select {
+                Mobs.canonicalId eq id.toString()
+            }.first()
+        )
     }
 }

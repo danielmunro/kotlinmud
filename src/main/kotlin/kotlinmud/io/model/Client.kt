@@ -1,11 +1,11 @@
 package kotlinmud.io.model
 
+import kotlinmud.mob.dao.MobDAO
+import kotlinmud.player.dao.PlayerDAO
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.channels.ClosedChannelException
 import java.nio.channels.SocketChannel
-import kotlinmud.mob.dao.MobDAO
-import kotlinmud.player.dao.PlayerDAO
 
 class Client(val socket: SocketChannel) {
     val buffers: MutableList<String> = mutableListOf()

@@ -10,13 +10,13 @@ fun createWhoAction(): Action {
         svc.createOkResponse(
             messageToActionCreator(
                 "MORTALS\n---------------\n" +
-                        svc.getClients().fold("") { acc, it ->
-                            acc +
-                                    it.mob!!.level + " " +
-                                    it.mob!!.race.type.toString().toLowerCase() + " " +
-                                    it.mob!!.job.toString().toLowerCase() + " " +
-                                    it.mob!!.name + "\n"
-                        }
+                    svc.getClients().fold("") { acc, it ->
+                        acc +
+                            it.mob!!.level + " " +
+                            it.mob!!.race.type.toString().toLowerCase() + " " +
+                            it.mob!!.job.toString().toLowerCase() + " " +
+                            it.mob!!.name + "\n"
+                    }
             )
         )
     }

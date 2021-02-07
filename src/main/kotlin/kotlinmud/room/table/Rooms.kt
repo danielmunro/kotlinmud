@@ -17,6 +17,7 @@ object Rooms : IntIdTable() {
     val elevation = integer("elevation").default(1)
     val maxItems = integer("maxItems").nullable()
     val maxWeight = integer("maxWeight").nullable()
+    val canonicalId = varchar("canonicalId", 255).nullable()
     val northId = reference("northId", Rooms).nullable()
     val northDoorId = reference("northDoorId", Doors).nullable()
     val southId = reference("southId", Rooms).nullable()

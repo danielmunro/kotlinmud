@@ -5,8 +5,6 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
-import kotlin.math.roundToInt
-import kotlin.test.assertEquals
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
@@ -25,6 +23,8 @@ import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
+import kotlin.math.roundToInt
+import kotlin.test.assertEquals
 
 class MobTest {
     @Test

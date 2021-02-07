@@ -20,7 +20,7 @@ class ScavengerCollectsItemsObserver(
 ) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         MobDAO.wrapRows(
-            Mobs.select { Mobs.job eq JobType.SCAVENGER.value }
+            Mobs.select { Mobs.job eq JobType.SCAVENGER.toString() }
         ).forEach {
             eventually {
                 runBlocking {
