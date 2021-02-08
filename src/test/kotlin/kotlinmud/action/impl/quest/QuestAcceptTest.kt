@@ -49,7 +49,7 @@ class QuestAcceptTest {
         // setup
         val test = createTestService()
         val mob = test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_CAPTAIN_FOUND)
+            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
         }
 
         // given

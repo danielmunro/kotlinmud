@@ -5,41 +5,37 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.helper.RoomBuilder
+import kotlinmud.room.helper.connect
+import kotlinmud.room.type.Direction
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createLorimirForestOutpost(): RoomDAO {
     return transaction {
-        val room1 = RoomDAO.new {
-            name = "Around a fire pit"
-            description = "A small firepit is here. A sign is here with available quests."
-            canonicalId = CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
-            area = "Lorimir Forest Outpost"
-        }
+        val builder = RoomBuilder().area("Lorimir Forest Outpost")
 
-        val room2 = RoomDAO.new {
-            name = "Inside a lean-to shelter"
-            description = "bar"
-            canonicalId = CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
-            area = "Lorimir Forest Outpost"
-        }
+        val room1 = builder.name("Around a fire pit")
+            .description("A small firepit is here. A sign is here with available quests.")
+            .canonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
+            .build()
 
-        val room3 = RoomDAO.new {
-            name = "A trail near the camp"
-            description = "bar"
-            area = "Lorimir Forest Outpost"
-        }
+        val room2 = builder.name("Inside a lean-to shelter")
+            .description("bar")
+            .canonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
+            .build()
 
-        val room4 = RoomDAO.new {
-            name = "Outside the camp"
-            description = "bar"
-            area = "Lorimir Forest Outpost"
-        }
+        val room3 = builder.name("A trail near the camp").build()
+        val room4 = builder.name("Outside the camp").build()
 
-        room1.north = room2
-        room2.south = room1
-        room1.east = room3
-        room1.south = room4
+        connect(room1)
+            .to(
+                listOf(
+                    Pair(room2, Direction.NORTH),
+                    Pair(room3, Direction.EAST),
+                    Pair(room4, Direction.SOUTH),
+                )
+            )
 
         MobDAO.new {
             name = "Recruiter Esmer"
@@ -52,6 +48,7 @@ fun createLorimirForestOutpost(): RoomDAO {
             isNpc = true
             attributes = AttributesDAO.new {}
         }
+
         return@transaction room4
     }
 }

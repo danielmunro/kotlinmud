@@ -12,7 +12,6 @@ import kotlinmud.player.table.MobCards
 import kotlinmud.player.table.Players
 import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.dao.IntIdTable
-import org.jetbrains.exposed.sql.ReferenceOption
 
 object Mobs : IntIdTable() {
     val name = varchar("name", 50)

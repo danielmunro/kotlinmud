@@ -97,7 +97,7 @@ class MobTest {
         )
 
         // then
-        assertThat(prob.getOutcome1()).isLessThan(prob.getOutcome2())
+        assertThat(prob.getOutcome1() * 0.75).isLessThan(prob.getOutcome2() * 1.25)
     }
 
     @Test
@@ -216,8 +216,8 @@ class MobTest {
         }
 
         // then
-        assertThat(prob.getOutcome1()).isEqualTo(1000)
-        assertThat(prob.getOutcome2()).isLessThan(1000)
+        assertThat(prob.getOutcome1()).isEqualTo(100)
+        assertThat(prob.getOutcome2()).isLessThan(100)
     }
 
     @Test

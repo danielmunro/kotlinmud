@@ -7,7 +7,6 @@ import kotlinmud.item.table.Items
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.dao.MobDAO.Companion.transform
 import kotlinmud.room.table.Resources
 import kotlinmud.room.table.Rooms
 import kotlinmud.room.type.Direction

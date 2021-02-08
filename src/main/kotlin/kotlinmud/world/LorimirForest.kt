@@ -5,34 +5,44 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.helper.RoomBuilder
+import kotlinmud.room.helper.connect
+import kotlinmud.room.type.Direction
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createLorimirForest(connection: RoomDAO) {
     transaction {
-        val room1 = RoomDAO.new {
-            name = "Deep in the Lorimir Forest"
-            description = "foo"
-            area = "Lorimir Forest"
-        }
-        val room2 = RoomDAO.new {
-            name = "Deep in the Lorimir Forest"
-            description = "foo"
-            area = "Lorimir Forest"
-        }
-        val room3 = RoomDAO.new {
-            name = "Deep in the Lorimir Forest"
-            description = "foo"
-            canonicalId = CanonicalId.PRAETORIAN_CAPTAIN_FOUND
-            area = "Lorimir Forest"
-        }
+        val builder = RoomBuilder()
+            .area("Lorimir Forest")
+            .name("Deep in the heart of Lorimir Forest.")
+            .description("foo")
 
-        connection.south = room1
-        room1.north = connection
-        room1.south = room2
-        room2.north = room1
-        room2.south = room3
-        room3.north = room2
+        val room1 = builder.build()
+        val room2 = builder.build()
+        val room3 = builder.build()
+        val room4 = builder.build()
+        val room5 = builder.build()
+
+        builder.description("Around a massive tree.")
+        val room6 = builder.build()
+        val room7 = builder.build()
+        val room8 = builder.build()
+        val room9 = builder.canonicalId(CanonicalId.PRAETORIAN_CAPTAIN_FOUND).build()
+
+        connect(connection).to(room1, Direction.SOUTH)
+            .to(room2, Direction.SOUTH)
+            .to(
+                listOf(
+                    Pair(room3, Direction.WEST),
+                    Pair(room4, Direction.EAST)
+                )
+            )
+        connect(room3).to(room5, Direction.WEST)
+            .to(room6, Direction.WEST)
+            .to(room7, Direction.SOUTH)
+            .to(room8, Direction.WEST)
+            .to(room9, Direction.NORTH)
 
         MobDAO.new {
             name = "Captain Bartok"

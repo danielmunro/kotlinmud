@@ -1,6 +1,6 @@
 package kotlinmud.test
 
-class ProbabilityTest(private var iterations: Int = 1000) {
+class ProbabilityTest(private var iterations: Int = 100) {
     private var outcome1: Int = 0
     private var outcome2: Int = 0
 
