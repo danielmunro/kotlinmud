@@ -12,6 +12,7 @@ import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.JobType
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class ScavengerCollectsItemsObserver(
     private val mobService: MobService,
@@ -19,9 +20,11 @@ class ScavengerCollectsItemsObserver(
     private val eventService: EventService
 ) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
-        MobDAO.wrapRows(
-            Mobs.select { Mobs.job eq JobType.SCAVENGER.toString() }
-        ).forEach {
+        transaction {
+            MobDAO.wrapRows(
+                Mobs.select { Mobs.job eq JobType.SCAVENGER.toString() }
+            )
+        }.forEach {
             eventually {
                 runBlocking {
                     MobController(mobService, itemService, eventService, it).pickUpAnyItem()

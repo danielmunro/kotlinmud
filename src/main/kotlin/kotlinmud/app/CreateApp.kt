@@ -5,6 +5,7 @@ import kotlinmud.event.observer.type.ObserverList
 import kotlinmud.event.service.EventService
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.service.MobService
+import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.time.service.TimeService
 import org.kodein.di.erased.instance
@@ -19,6 +20,8 @@ fun createApp(port: Int): App {
     val actionService by container.instance<ActionService>()
     val playerService by container.instance<PlayerService>()
     val mobService by container.instance<MobService>()
+    val authStepService by container.instance<AuthStepService>()
+    playerService.setAuthStepService(authStepService)
 
     return App(eventService, server)
 }
