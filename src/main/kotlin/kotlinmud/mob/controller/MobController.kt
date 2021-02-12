@@ -33,12 +33,16 @@ class MobController(
     }
 
     suspend fun pickUpAnyItem() {
+        println("debug sanity -- pickUpAnyItem")
         val room = transaction { mob.room }
         val items = itemService.findAllByOwner(room)
+        println("pre-conditional")
         if (mob.isStanding() && items.isNotEmpty()) {
+            println("inside conditional")
             val item = items.random()
             logger.debug("$mob picks up $item")
             itemService.giveItemToMob(item, mob)
+            println("pre-event publish")
             eventService.publish(
                 createSendMessageToRoomEvent(
                     MessageBuilder()
@@ -49,6 +53,7 @@ class MobController(
                     mob
                 )
             )
+            println("woot")
         }
     }
 

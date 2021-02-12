@@ -13,7 +13,7 @@ object Rooms : IntIdTable() {
     val regenLevel = varchar("regenLevel", 50).default(RegenLevel.NORMAL.toString())
     val isIndoor = bool("isIndoor").default(false)
     val biome = varchar("biome", 50).default(BiomeType.NONE.toString())
-    val substrate = varchar("substrate", 50).default(SubstrateType.DIRT.toString())
+    val substrate = varchar("substrate", 50).default(SubstrateType.NONE.toString())
     val elevation = integer("elevation").default(1)
     val maxItems = integer("maxItems").nullable()
     val maxWeight = integer("maxWeight").nullable()

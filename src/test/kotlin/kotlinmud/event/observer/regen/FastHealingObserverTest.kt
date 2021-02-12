@@ -30,7 +30,10 @@ class FastHealingObserverTest {
         while (prob.isIterating()) {
             val event = Event(EventType.REGEN, RegenEvent(mob, 0.0, 0.0, 0.0))
             runBlocking { fastHealing.invokeAsync(event) }
-            prob.decrementIteration(event.subject.hpRegenRate > 0.0, event.subject.hpRegenRate == 0.0)
+            prob.decrementIteration(
+                event.subject.hpRegenRate > 0.0,
+                event.subject.hpRegenRate == 0.0
+            )
         }
 
         // then

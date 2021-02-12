@@ -1,9 +1,8 @@
 package kotlinmud.event.observer.client
 
 import assertk.assertThat
-import assertk.assertions.isEqualTo
+import assertk.assertions.isNull
 import kotlinmud.event.factory.createClientConnectedEvent
-import kotlinmud.player.auth.type.AuthorizationStep
 import kotlinmud.test.createTestService
 import org.junit.Test
 
@@ -18,6 +17,6 @@ class ClientConnectedObserverTest {
         test.callClientConnectedEvent(createClientConnectedEvent(client))
 
         // then
-        assertThat(test.getAuthStep(client)!!.authorizationStep).isEqualTo(AuthorizationStep.EMAIL)
+        assertThat(test.getAuthStep(client)).isNull()
     }
 }

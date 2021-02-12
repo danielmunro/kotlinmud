@@ -1,6 +1,7 @@
 package kotlinmud.world
 
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.JobType
@@ -28,7 +29,10 @@ fun createLorimirForest(connection: RoomDAO) {
         val room6 = builder.build()
         val room7 = builder.build()
         val room8 = builder.build()
+
+        builder.description("Deep in the heart of Lorimir Forest.")
         val room9 = builder.canonicalId(CanonicalId.PRAETORIAN_CAPTAIN_FOUND).build()
+        val matrix = SimpleMatrixService(builder).build(5, 5)
 
         connect(connection).to(room1, Direction.SOUTH)
             .to(room2, Direction.SOUTH)
@@ -43,6 +47,7 @@ fun createLorimirForest(connection: RoomDAO) {
             .to(room7, Direction.SOUTH)
             .to(room8, Direction.WEST)
             .to(room9, Direction.NORTH)
+            .to(matrix[4][2], Direction.EAST)
 
         MobDAO.new {
             name = "Captain Bartok"

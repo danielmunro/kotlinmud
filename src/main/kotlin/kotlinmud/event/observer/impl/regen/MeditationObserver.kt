@@ -10,7 +10,7 @@ class MeditationObserver : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         with(event.subject as RegenEvent) {
             this.mob.getSkill(SkillType.MEDITATION)?.let {
-                if (it.level > dice(1, 100)) {
+                if (it.level / 2 > dice(1, 100)) {
                     event.subject.manaRegenRate += 0.1
                 }
             }

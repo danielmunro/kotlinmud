@@ -32,8 +32,6 @@ import kotlinmud.quest.service.QuestService
 import kotlinmud.quest.type.Quest
 import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.helper.getRoomDescription
-import kotlinmud.room.helper.getRoomName
 import kotlinmud.room.repository.findStartRoom
 import kotlinmud.room.type.Direction
 import kotlinmud.weather.service.WeatherService
@@ -177,7 +175,9 @@ class ActionContextService(
 
     fun getDynamicRoomDescription(): String {
         val room = request.getRoom()
-        return "${getRoomName(weatherService.getTemperature(), room.biome)}\n${getRoomDescription(room, weatherService.getWeather())}"
+        return "${room.name}\n${room.description}\n"
+//        val room = request.getRoom()
+//        return "${getRoomName(weatherService.getTemperature(), room.biome)}\n${getRoomDescription(room, weatherService.getWeather())}"
     }
 
     fun train(attribute: Attribute) {

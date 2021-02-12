@@ -74,6 +74,14 @@ fun findMobInRoomWithJobType(room: RoomDAO, job: JobType): MobDAO? {
     }
 }
 
+fun findMobsByJobType(job: JobType): List<MobDAO> {
+    return transaction {
+        MobDAO.wrapRows(
+            Mobs.select { Mobs.job eq job.toString() }
+        ).toList()
+    }
+}
+
 fun findMobByCanonicalId(id: CanonicalId): MobDAO {
     return transaction {
         MobDAO.wrapRow(
