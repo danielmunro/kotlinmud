@@ -286,7 +286,7 @@ class MobTest {
     }
 
     @Test
-    fun testGoldTransfersWhenMobIsKilled() {
+    fun testCurrencyTransfersWhenMobIsKilled() {
         // setup
         val testService = createTestService()
 
@@ -294,6 +294,8 @@ class MobTest {
         val mob1 = testService.createMob()
         val mob2 = testService.createMob {
             it.addCurrency(CurrencyType.Gold, 5)
+            it.addCurrency(CurrencyType.Silver, 23)
+            it.addCurrency(CurrencyType.Copper, 231)
         }
 
         // and
@@ -304,8 +306,17 @@ class MobTest {
         testService.publish(fight.createKillEvent())
 
         // then
-        findMobById(mob1.id.value).let { assertThat(it.getCurrency(CurrencyType.Gold)).isEqualTo(5) }
-        findMobById(mob2.id.value).let { assertThat(it.getCurrency(CurrencyType.Gold)).isEqualTo(0) }
+        findMobById(mob1.id.value).let {
+            assertThat(it.getCurrency(CurrencyType.Gold)).isEqualTo(5)
+            assertThat(it.getCurrency(CurrencyType.Silver)).isEqualTo(23)
+            assertThat(it.getCurrency(CurrencyType.Copper)).isEqualTo(231)
+
+        }
+        findMobById(mob2.id.value).let {
+            assertThat(it.getCurrency(CurrencyType.Gold)).isEqualTo(0)
+            assertThat(it.getCurrency(CurrencyType.Silver)).isEqualTo(0)
+            assertThat(it.getCurrency(CurrencyType.Copper)).isEqualTo(0)
+        }
     }
 
     @Test
