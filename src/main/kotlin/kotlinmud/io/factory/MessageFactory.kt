@@ -20,7 +20,6 @@ fun messageToActionCreator(message: String): Message {
 
 fun createLeaveMessage(mob: MobDAO, direction: Direction): Message {
     return MessageBuilder()
-        .toActionCreator("you leave heading ${direction.value}.")
         .toObservers("${mob.name} leaves heading ${direction.value}.")
         .sendPrompt(false)
         .build()

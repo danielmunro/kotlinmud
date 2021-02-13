@@ -61,7 +61,7 @@ class MobService(
 
     suspend fun regenMobs() {
         findPlayerMobs().forEach {
-            val baseRegen = getRoomRegenRate(it.room.regenLevel) + getDispositionRegenRate(it.disposition)
+            val baseRegen = transaction { getRoomRegenRate(it.room.regenLevel) + getDispositionRegenRate(it.disposition) }
             val event = RegenEvent(it, baseRegen, baseRegen, baseRegen)
             eventService.publish(Event(EventType.REGEN, event))
             it.increaseByRegenRate(
@@ -157,8 +157,10 @@ class MobService(
 
     fun decreaseThirstAndHunger(mobName: String): MobCardDAO? {
         return findMobCardByName(mobName)?.also {
-            it.hunger -= 1
-            it.thirst -= 1
+            transaction {
+                it.hunger -= 1
+                it.thirst -= 1
+            }
         }
     }
 

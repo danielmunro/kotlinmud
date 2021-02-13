@@ -22,7 +22,7 @@ class ClientConnectedObserver(private val playerService: PlayerService) : Observ
                     PlayerDAO.new {
                         email = "dan@danmunro.com"
                         name = "foo"
-                    } 
+                    }
                 }
                 playerService.loginClientAsPlayer(this.client, player)
                 val funnel = CreationFunnel("dan@danmunro.com")

@@ -30,7 +30,9 @@ fun createLorimirForest(connection: RoomDAO) {
         val room7 = builder.build()
         val room8 = builder.build()
 
-        builder.description("Deep in the heart of Lorimir Forest.")
+        builder
+            .name("A dark forest")
+            .description("Deep in the heart of Lorimir Forest.")
         val room9 = builder.canonicalId(CanonicalId.PRAETORIAN_CAPTAIN_FOUND).build()
         val matrix = SimpleMatrixService(builder).build(5, 5)
 
@@ -47,7 +49,7 @@ fun createLorimirForest(connection: RoomDAO) {
             .to(room7, Direction.SOUTH)
             .to(room8, Direction.WEST)
             .to(room9, Direction.NORTH)
-            .to(matrix[4][2], Direction.EAST)
+            .to(matrix[0][0], Direction.DOWN)
 
         MobDAO.new {
             name = "Captain Bartok"
