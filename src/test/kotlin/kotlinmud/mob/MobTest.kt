@@ -18,6 +18,7 @@ import kotlinmud.mob.race.impl.Goblin
 import kotlinmud.mob.race.impl.Ogre
 import kotlinmud.mob.repository.findMobById
 import kotlinmud.mob.specialization.type.SpecializationType
+import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
@@ -292,7 +293,7 @@ class MobTest {
         // given
         val mob1 = testService.createMob()
         val mob2 = testService.createMob {
-            it.gold = 5
+            it.addCurrency(CurrencyType.Gold, 5)
         }
 
         // and
@@ -303,8 +304,8 @@ class MobTest {
         testService.publish(fight.createKillEvent())
 
         // then
-        findMobById(mob1.id.value).let { assertThat(it.gold).isEqualTo(5) }
-        findMobById(mob2.id.value).let { assertThat(it.gold).isEqualTo(0) }
+        findMobById(mob1.id.value).let { assertThat(it.getCurrency(CurrencyType.Gold)).isEqualTo(5) }
+        findMobById(mob2.id.value).let { assertThat(it.getCurrency(CurrencyType.Gold)).isEqualTo(0) }
     }
 
     @Test

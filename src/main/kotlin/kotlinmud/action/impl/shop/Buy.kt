@@ -7,6 +7,7 @@ import kotlinmud.io.factory.createBuyMessage
 import kotlinmud.io.factory.itemFromMerchant
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.mob.service.CurrencyService
 import kotlinmud.mob.type.JobType
 
 fun createBuyAction(): Action {
@@ -14,7 +15,7 @@ fun createBuyAction(): Action {
         val item = it.get<ItemDAO>(Syntax.ITEM_FROM_MERCHANT)
         val shopkeeper = it.getMobsInRoom().find { mob -> mob.job == JobType.SHOPKEEPER }!!
         it.giveItemToMob(item, it.getMob())
-        it.transferGold(it.getMob(), shopkeeper, item.worth)
+        CurrencyService(it.getMob()).transferTo(shopkeeper, item.worth)
         it.createOkResponse(createBuyMessage(it.getMob(), shopkeeper, item))
     }
 }

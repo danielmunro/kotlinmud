@@ -5,6 +5,7 @@ import kotlinmud.action.type.Status
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.service.CurrencyService
 import kotlinmud.mob.type.JobType
 
 class ItemFromMerchantContextBuilder(
@@ -25,7 +26,8 @@ class ItemFromMerchantContextBuilder(
                 Status.ERROR,
                 "they don't have anything like that."
             )
-        if (item.worth > mob.gold) {
+        val currencyService = CurrencyService(mob)
+        if (!currencyService.canAfford(item)) {
             return Context(
                 Syntax.ITEM_FROM_MERCHANT,
                 Status.ERROR,

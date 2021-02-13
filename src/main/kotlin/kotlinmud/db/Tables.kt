@@ -4,6 +4,7 @@ import kotlinmud.affect.table.Affects
 import kotlinmud.attributes.table.Attributes
 import kotlinmud.item.table.Items
 import kotlinmud.mob.skill.table.Skills
+import kotlinmud.mob.table.Currencies
 import kotlinmud.mob.table.Fights
 import kotlinmud.mob.table.Mobs
 import kotlinmud.player.table.FactionScores
@@ -19,6 +20,7 @@ import org.jetbrains.exposed.dao.IntIdTable
 fun getTables(): Array<IntIdTable> {
     return arrayOf(
         Mobs,
+        Currencies,
         Skills,
         Affects,
         Items,

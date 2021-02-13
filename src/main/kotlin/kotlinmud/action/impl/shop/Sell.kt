@@ -7,6 +7,7 @@ import kotlinmud.io.factory.createSellMessage
 import kotlinmud.io.factory.itemToSell
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.mob.service.CurrencyService
 import kotlinmud.mob.type.JobType
 
 fun createSellAction(): Action {
@@ -14,7 +15,7 @@ fun createSellAction(): Action {
         val item = it.get<ItemDAO>(Syntax.ITEM_TO_SELL)
         val shopkeeper = it.getMobsInRoom().find { mob -> mob.job == JobType.SHOPKEEPER }!!
         it.giveItemToMob(item, shopkeeper)
-        it.transferGold(shopkeeper, it.getMob(), item.worth)
+        CurrencyService(shopkeeper).transferTo(it.getMob(), item.worth)
         it.createOkResponse(createSellMessage(it.getMob(), shopkeeper, item))
     }
 }

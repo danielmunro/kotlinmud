@@ -75,7 +75,6 @@ class SellTest {
         val mob = testService.createMob()
         testService.createMob {
             it.job = JobType.SHOPKEEPER
-            it.gold = 0
         }
 
         // given

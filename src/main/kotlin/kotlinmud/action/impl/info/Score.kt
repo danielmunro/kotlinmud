@@ -6,6 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.createResponseWithEmptyActionContext
+import kotlinmud.mob.type.CurrencyType
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createScoreAction(): Action {
@@ -56,7 +57,7 @@ fun createScoreAction(): Action {
                             Attribute.CON
                         )
                         }\n" +
-                        "You have ${mobCard.experience} exp, ${mob.gold} gold, 0 silver.\n" +
+                        "You have ${mobCard.experience} exp, ${mob.getCurrency(CurrencyType.Gold)} gold, ${mob.getCurrency(CurrencyType.Silver)} silver, ${mob.getCurrency(CurrencyType.Copper)} copper.\n" +
                         "You need 0 exp to level.\n" +
                         "Wimpy set to ${mob.wimpy}.\n" +
                         "You are ${mob.disposition.toString().toLowerCase()}.\n" +

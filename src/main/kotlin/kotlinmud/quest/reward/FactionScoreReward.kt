@@ -1,4 +1,3 @@
 package kotlinmud.quest.reward
 
-class FactionScoreReward {
-}
+class FactionScoreReward

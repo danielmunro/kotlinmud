@@ -81,10 +81,6 @@ class ActionContextService(
         return getMob().level
     }
 
-    fun transferGold(src: MobDAO, dst: MobDAO, amount: Int) {
-        mobService.transferGold(src, dst, amount)
-    }
-
     fun getRoom(): RoomDAO {
         return request.getRoom()
     }

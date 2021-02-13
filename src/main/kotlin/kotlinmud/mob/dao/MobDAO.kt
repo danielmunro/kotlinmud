@@ -102,21 +102,25 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     val currencies by CurrencyDAO referrersOn Currencies.mobId
 
     fun getCurrency(currencyType: CurrencyType): Int {
-        return currencies.find {
-            it.currencyType == currencyType
-        }?.amount ?: 0
+        return transaction {
+            currencies.find {
+                it.currencyType == currencyType
+            }?.amount ?: 0
+        }
     }
 
     fun addCurrency(currencyType: CurrencyType, amount: Int) {
-        currencies.find {
-            it.currencyType == currencyType
-        }?.let {
-            it.amount += amount
-        } ?: run {
-            CurrencyDAO.new {
-                mob = this@MobDAO
-                this.amount = amount
-                this.currencyType = currencyType
+        transaction {
+            currencies.find {
+                it.currencyType == currencyType
+            }?.let {
+                it.amount += amount
+            } ?: run {
+                CurrencyDAO.new {
+                    mob = this@MobDAO
+                    this.amount = amount
+                    this.currencyType = currencyType
+                }
             }
         }
     }

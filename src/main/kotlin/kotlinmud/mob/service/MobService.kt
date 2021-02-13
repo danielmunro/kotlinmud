@@ -127,13 +127,6 @@ class MobService(
         } ?: logger.debug("flee :: no fight for mob :: {}", mob.id)
     }
 
-    fun transferGold(src: MobDAO, dst: MobDAO, amount: Int = src.gold) {
-        transaction {
-            src.gold -= amount
-            dst.gold += amount
-        }
-    }
-
     fun train(card: MobCardDAO, attribute: Attribute) {
         transaction {
             card.trains -= 1

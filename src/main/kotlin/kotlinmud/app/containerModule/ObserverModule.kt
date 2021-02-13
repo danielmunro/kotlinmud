@@ -150,7 +150,7 @@ val ObserverModule = Kodein.Module {
     }
 
     bind<Observer>(tag = Tag.TRANSFER_GOLD_ON_KILL) with provider {
-        TransferGoldOnKillObserver(instance())
+        TransferGoldOnKillObserver()
     }
 
     bind<Observer>(tag = Tag.GROW_RESOURCES) with provider {
