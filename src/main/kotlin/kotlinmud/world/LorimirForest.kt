@@ -4,6 +4,7 @@ import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.RoomBuilder
@@ -53,9 +54,11 @@ fun createLorimirForest(connection: RoomDAO) {
 
         MobDAO.new {
             name = "Captain Bartok"
-            brief = "yolo"
+            brief = "an imposing figure stands here. Her armor bears the emblem of the Praetorian Guard"
             description = "Captain Bartok is here"
-            room = room3
+            gender = Gender.FEMALE
+            room = room9
+            level = 45
             job = JobType.QUEST
             canonicalId = CanonicalId.PRAETORIAN_CAPTAIN_FOUND
             race = Human()
