@@ -4,6 +4,7 @@ import kotlinmud.affect.table.Affects
 import kotlinmud.attributes.constant.startingHp
 import kotlinmud.attributes.constant.startingMana
 import kotlinmud.attributes.constant.startingMv
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.table.Attributes
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.type.Disposition
@@ -31,7 +32,7 @@ object Mobs : IntIdTable() {
     val goldMax = integer("goldMax").nullable()
     val wimpy = integer("wimpy").default(0)
     val savingThrows = integer("savingThrows").default(0)
-    val isNpc = bool("isNpc")
+    val isNpc = bool("isNpc").default(true)
     val route = varchar("route", 255).nullable()
     val lastRoute = integer("lastRoute").nullable()
     val maxItems = integer("maxItems").default(100)

@@ -2,6 +2,8 @@ package kotlinmud.world
 
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.helper.MobBuilder
+import kotlinmud.mob.race.impl.Giant
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.RoomDAO
@@ -25,29 +27,38 @@ fun createLorimirForestOutpost(): RoomDAO {
             .canonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
             .build()
 
-        val room3 = builder.name("A trail near the camp").build()
-        val room4 = builder.name("Outside the camp").build()
+        val room3 = builder.name("A blacksmith shack").build()
+        val room4 = builder.name("A trail near the camp").build()
+        val room5 = builder.name("Outside the camp").build()
 
         connect(room1)
             .to(
                 listOf(
                     Pair(room2, Direction.NORTH),
-                    Pair(room3, Direction.EAST),
-                    Pair(room4, Direction.SOUTH),
+                    Pair(room3, Direction.WEST),
+                    Pair(room4, Direction.EAST),
+                    Pair(room5, Direction.SOUTH),
                 )
             )
 
-        MobDAO.new {
-            name = "Recruiter Esmer"
-            brief = "a cloaked figure sits against a log, facing the fire, reading a leaflet"
-            description = "Recruiter Esmer is here"
-            room = room2
-            job = JobType.QUEST
-            canonicalId = CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
-            race = Human()
-            isNpc = true
-            attributes = AttributesDAO.new {}
-        }
+        MobBuilder()
+            .name("Blacksmith Felig")
+            .brief("a blacksmith stands over a forge, monitoring his work")
+            .description("a large giant is here, forging a weapon")
+            .room(room3)
+            .job(JobType.SHOPKEEPER)
+            .race(Giant())
+            .build()
+
+        MobBuilder()
+            .name("Recruiter Esmer")
+            .brief("a cloaked figure sits against a log, facing the fire, reading a leaflet")
+            .description("Recruiter Esmer is here")
+            .room(room2)
+            .job(JobType.QUEST)
+            .race(Human())
+            .canonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
+            .build()
 
         return@transaction room4
     }

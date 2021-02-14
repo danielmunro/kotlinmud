@@ -6,6 +6,7 @@ import kotlinmud.quest.helper.createQuestEntity
 import kotlinmud.quest.type.QuestType
 import kotlinmud.room.repository.findRoomByCanonicalId
 import kotlinmud.test.createTestService
+import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.test.getIdentifyingWord
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -15,7 +16,7 @@ class QuestAcceptTest {
     @Test
     fun testCanAcceptAQuest() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
         val quest = test.findQuest(QuestType.JOIN_PRAETORIAN_GUARD)!!
 
         // given
@@ -35,7 +36,7 @@ class QuestAcceptTest {
     @Test
     fun testAcceptRequiresAQuestGiver() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
 
         // when
         val response = test.runAction("quest accept recruiter")
@@ -47,7 +48,7 @@ class QuestAcceptTest {
     @Test
     fun testCannotAcceptAQuestTwice() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
         val mob = test.createPlayerMob {
             it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
         }
