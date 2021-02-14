@@ -4,4 +4,5 @@ enum class QuestRewardType {
     Experience,
     FactionScore,
     Item,
+    Currency,
 }
