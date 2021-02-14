@@ -1,7 +1,5 @@
 package kotlinmud.world
 
-import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.race.impl.Giant
 import kotlinmud.mob.race.impl.Human

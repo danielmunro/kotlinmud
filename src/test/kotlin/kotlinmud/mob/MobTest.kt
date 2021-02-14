@@ -310,7 +310,6 @@ class MobTest {
             assertThat(it.getCurrency(CurrencyType.Gold)).isEqualTo(5)
             assertThat(it.getCurrency(CurrencyType.Silver)).isEqualTo(23)
             assertThat(it.getCurrency(CurrencyType.Copper)).isEqualTo(231)
-
         }
         findMobById(mob2.id.value).let {
             assertThat(it.getCurrency(CurrencyType.Gold)).isEqualTo(0)

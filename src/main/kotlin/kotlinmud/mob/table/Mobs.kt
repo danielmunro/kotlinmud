@@ -4,7 +4,6 @@ import kotlinmud.affect.table.Affects
 import kotlinmud.attributes.constant.startingHp
 import kotlinmud.attributes.constant.startingMana
 import kotlinmud.attributes.constant.startingMv
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.table.Attributes
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.type.Disposition

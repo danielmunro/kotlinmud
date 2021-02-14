@@ -4,7 +4,6 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.player.dao.FactionScoreDAO
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.repository.findFactionScoreByType
-import kotlinmud.player.table.FactionScores
 import kotlinmud.quest.dao.QuestDAO
 import kotlinmud.quest.helper.createQuestList
 import kotlinmud.quest.requirement.MobInRoomQuestRequirement

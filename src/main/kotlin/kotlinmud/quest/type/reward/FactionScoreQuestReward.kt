@@ -5,7 +5,8 @@ import kotlinmud.quest.type.QuestRewardType
 
 class FactionScoreQuestReward(
     val factionType: FactionType,
-    val score: Int) : QuestReward {
+    val score: Int
+) : QuestReward {
     override val rewardType: QuestRewardType
         get() = QuestRewardType.FactionScore
 }

@@ -15,5 +15,3 @@ fun findQuestByMobCardAndType(mobCard: MobCardDAO, type: QuestType): QuestDAO? {
         }.firstOrNull()?.let { QuestDAO.wrapRow(it) }
     }
 }
-
-

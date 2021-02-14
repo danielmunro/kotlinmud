@@ -5,7 +5,6 @@ import assertk.assertions.isEqualTo
 import kotlinmud.quest.helper.createQuestEntity
 import kotlinmud.quest.type.QuestType
 import kotlinmud.room.repository.findRoomByCanonicalId
-import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.test.getIdentifyingWord
 import kotlinmud.type.CanonicalId

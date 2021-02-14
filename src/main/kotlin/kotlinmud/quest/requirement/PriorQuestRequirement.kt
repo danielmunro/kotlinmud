@@ -2,7 +2,6 @@ package kotlinmud.quest.requirement
 
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.quest.repository.findQuestByMobCardAndType
-import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestRequirement
 import kotlinmud.quest.type.QuestRequirementType
 import kotlinmud.quest.type.QuestStatus
