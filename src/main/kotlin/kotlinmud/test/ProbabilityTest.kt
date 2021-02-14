@@ -1,8 +1,9 @@
 package kotlinmud.test
 
-class ProbabilityTest(private var iterations: Int = 100) {
+class ProbabilityTest(private var iterations: Int = 10) {
     private var outcome1: Int = 0
     private var outcome2: Int = 0
+    val totalIterations = iterations
 
     fun isIterating(): Boolean {
         return iterations > 0

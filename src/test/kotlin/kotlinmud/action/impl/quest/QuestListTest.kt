@@ -9,7 +9,7 @@ import org.junit.Test
 
 class QuestListTest {
     @Test
-    fun testCanListQuests() {
+    fun testCanListQuestsFromAMobQuestGiver() {
         // setup
         val test = createTestService()
 
@@ -23,5 +23,22 @@ class QuestListTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("Talk to Captain Bartok of the Praetorian Guard\n")
+    }
+
+    @Test
+    fun testCanListQuestsFromARoom() {
+        // setup
+        val test = createTestService()
+
+        // given
+        test.createPlayerMob {
+            it.room = findRoomByCanonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
+        }
+
+        // when
+        val response = test.runAction("quest list")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("Find a recruiter for the Praetorian Guard\n")
     }
 }

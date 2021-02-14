@@ -6,7 +6,6 @@ import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.repository.findFactionScoreByType
 import kotlinmud.quest.dao.QuestDAO
 import kotlinmud.quest.helper.createQuestList
-import kotlinmud.quest.requirement.MobInRoomQuestRequirement
 import kotlinmud.quest.table.Quests
 import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestStatus
@@ -30,7 +29,7 @@ class QuestService {
         val questMap = createQuestMap(transaction { mob.mobCard!!.quests.toList() })
         return quests.filter {
             !questMap.containsKey(it.type) && it.acceptConditions.find { req ->
-                req is MobInRoomQuestRequirement && req.doesSatisfy(mob)
+                req.doesSatisfy(mob)
             } != null
         }
     }
