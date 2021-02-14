@@ -33,6 +33,23 @@ class QuestAcceptTest {
     }
 
     @Test
+    fun testAcceptQuestFromRoom() {
+        // setup
+        val test = createTestServiceWithResetDB()
+
+        // given
+        test.createPlayerMob {
+            it.room = findRoomByCanonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
+        }
+
+        // when
+        val response = test.runAction("quest accept recruiter")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("you accept the quest: `Find a recruiter for the Praetorian Guard`")
+    }
+
+    @Test
     fun testAcceptRequiresAQuestGiver() {
         // setup
         val test = createTestServiceWithResetDB()
