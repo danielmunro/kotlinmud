@@ -53,7 +53,7 @@ class QuestAcceptTest {
         }
 
         // given
-        createQuestEntity(transaction { mob.mobCard!! }, QuestType.FIND_CAPTAIN_BARTOK_PRAETORIANS)
+        createQuestEntity(transaction { mob.mobCard!! }, QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)
 
         // when
         val response = test.runAction("quest accept recruiter")

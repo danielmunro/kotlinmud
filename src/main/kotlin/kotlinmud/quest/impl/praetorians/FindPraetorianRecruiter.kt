@@ -12,7 +12,8 @@ import kotlinmud.quest.type.reward.FactionScoreQuestReward
 import kotlinmud.type.CanonicalId
 
 class FindPraetorianRecruiter : Quest {
-    override val type = QuestType.FIND_CAPTAIN_BARTOK_PRAETORIANS
+    override val type = QuestType.FIND_PRAETORIAN_GUARD_RECRUITER
+    override val level = 5
     override val name = "Find a recruiter for the Praetorian Guard"
     override val description = "yolo"
     override val acceptConditions = listOf(

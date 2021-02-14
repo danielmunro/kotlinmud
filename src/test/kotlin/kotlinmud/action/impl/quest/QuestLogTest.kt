@@ -16,7 +16,7 @@ class QuestLogTest {
         val mob = test.createPlayerMob()
         val mobCard = transaction { mob.mobCard!! }
         val quest1 = test.findQuest(QuestType.JOIN_PRAETORIAN_GUARD)!!
-        val quest2 = test.findQuest(QuestType.FIND_CAPTAIN_BARTOK_PRAETORIANS)!!
+        val quest2 = test.findQuest(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)!!
 
         // given
         createQuestEntity(mobCard, quest1.type)
