@@ -15,6 +15,7 @@ class MobBuilder {
     private var attributes: AttributesDAO? = null
     private var job: JobType? = null
     private var canonicalId: CanonicalId? = null
+    private var level = 1
     private lateinit var race: Race
     private lateinit var room: RoomDAO
 
@@ -58,12 +59,18 @@ class MobBuilder {
         return this
     }
 
+    fun level(value: Int): MobBuilder {
+        level = value
+        return this
+    }
+
     fun build(): MobDAO {
         return transaction {
             MobDAO.new {
                 this.name = this@MobBuilder.name
                 this.brief = this@MobBuilder.brief
                 this.description = this@MobBuilder.description
+                this.level = this@MobBuilder.level
                 this.room = this@MobBuilder.room
                 this.job = this@MobBuilder.job
                 this.race = this@MobBuilder.race

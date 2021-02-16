@@ -28,6 +28,6 @@ fun createQuestAcceptAction(): Action {
                     .toObservers("${svc.getMob()} accepts the quest: `${it.name}`")
                     .build()
             )
-        } ?: svc.createErrorResponse(messageToActionCreator("they cannot grant you that."))
+        } ?: svc.createErrorResponse(messageToActionCreator("you can't find that quest."))
     }
 }

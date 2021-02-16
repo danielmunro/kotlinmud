@@ -27,8 +27,6 @@ object Mobs : IntIdTable() {
     val job = varchar("job", 50).nullable()
     val gender = varchar("gender", 50).nullable()
     val gold = integer("gold").default(0)
-    val goldMin = integer("goldMin").nullable()
-    val goldMax = integer("goldMax").nullable()
     val wimpy = integer("wimpy").default(0)
     val savingThrows = integer("savingThrows").default(0)
     val isNpc = bool("isNpc").default(true)

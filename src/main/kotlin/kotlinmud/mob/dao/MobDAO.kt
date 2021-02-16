@@ -71,8 +71,6 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         { it?.let { Gender.valueOf(it) } }
     )
     var gold by Mobs.gold
-    var goldMin by Mobs.goldMin
-    var goldMax by Mobs.goldMax
     var wimpy by Mobs.wimpy
     var savingThrows by Mobs.savingThrows
     var isNpc by Mobs.isNpc

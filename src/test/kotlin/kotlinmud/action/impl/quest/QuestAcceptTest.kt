@@ -54,11 +54,14 @@ class QuestAcceptTest {
         // setup
         val test = createTestServiceWithResetDB()
 
+        // given
+        test.createPlayerMob()
+
         // when
         val response = test.runAction("quest accept recruiter")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you don't see a quest giver here.")
+        assertThat(response.message.toActionCreator).isEqualTo("you can't find that quest.")
     }
 
     @Test

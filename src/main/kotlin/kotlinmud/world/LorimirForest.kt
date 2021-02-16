@@ -3,6 +3,8 @@ package kotlinmud.world
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.helper.MobBuilder
+import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
@@ -36,6 +38,21 @@ fun createLorimirForest(connection: RoomDAO) {
             .description("Deep in the heart of Lorimir Forest.")
         val room9 = builder.canonicalId(CanonicalId.PRAETORIAN_CAPTAIN_FOUND).build()
         val matrix = SimpleMatrixService(builder).build(5, 5)
+
+        val foxBuilder = MobBuilder()
+            .name("a small fox")
+            .brief("a small fox darts through the underbrush")
+            .description("a small fox is here.")
+            .level(3)
+            .race(Canid())
+
+        foxBuilder.room(room4).build()
+        foxBuilder.room(room6).build()
+        foxBuilder.room(room8).build()
+        foxBuilder.room(matrix[1][0]).build()
+        foxBuilder.room(matrix[0][3]).build()
+        foxBuilder.room(matrix[3][4]).build()
+        foxBuilder.room(matrix[4][2]).build()
 
         connect(connection).to(room1, Direction.SOUTH)
             .to(room2, Direction.SOUTH)
