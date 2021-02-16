@@ -147,7 +147,7 @@ class MobTest {
         }
 
         // then
-        assertThat(prob.getOutcome1()).isLessThan(prob.getOutcome2())
+        assertThat(prob.getOutcome1()).isLessThan((prob.getOutcome2() * 1.5).roundToInt())
     }
 
     @Test
@@ -191,7 +191,7 @@ class MobTest {
         }
 
         // then
-        assertThat(prob.getOutcome1()).isGreaterThan((prob.getOutcome2() * 0.8).roundToInt())
+        assertThat(prob.getOutcome1()).isGreaterThan((prob.getOutcome2() * 0.5).roundToInt())
     }
 
     @Test
@@ -241,7 +241,7 @@ class MobTest {
         }
 
         // then
-        assertThat(prob.getOutcome1()).isGreaterThan((prob.getOutcome2() * 0.6).roundToInt())
+        assertThat(prob.getOutcome1()).isGreaterThan((prob.getOutcome2() * 0.5).roundToInt())
     }
 
     @Test

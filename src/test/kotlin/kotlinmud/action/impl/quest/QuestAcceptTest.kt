@@ -79,6 +79,6 @@ class QuestAcceptTest {
         val response = test.runAction("quest accept recruiter")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("they cannot grant you that.")
+        assertThat(response.message.toActionCreator).isEqualTo("you can't find that quest.")
     }
 }
