@@ -1,5 +1,7 @@
 package kotlinmud.world
 
+import kotlinmud.item.helper.ItemBuilder
+import kotlinmud.item.type.Material
 import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.race.impl.Giant
 import kotlinmud.mob.race.impl.Human
@@ -16,8 +18,34 @@ fun createLorimirForestOutpost(): RoomDAO {
         val builder = RoomBuilder().area("Lorimir Forest Outpost")
 
         val room1 = builder.name("Around a fire pit")
-            .description("A small firepit is here. A sign is here with available quests.")
+            .description(
+"""A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
+
+A sign flickers against the light of the fire.""".trimMargin())
             .canonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
+            .build()
+
+        ItemBuilder("a cobblestone fire-pit")
+            .description("a fire emanates from the circular pit.")
+            .room(room1)
+            .cannotOwn()
+            .material(Material.STONE)
+            .build()
+
+        ItemBuilder("a large wooden sign on a post")
+            .description(
+"""The sign reads:
+
++-------------------------------------------------+
+|                                                 |
+|        Type `quest list` in order to see        |
+|        an available quest.                      |
+|                                                 |
++-------------------------------------------------+
+""".trimMargin())
+            .room(room1)
+            .cannotOwn()
+            .material(Material.WOOD)
             .build()
 
         val room2 = builder.name("Inside a lean-to shelter")
