@@ -265,7 +265,7 @@ class MobTest {
         }
 
         // then
-        assertThat(prob.getOutcome1()).isGreaterThan(prob.getOutcome2() / 2)
+        assertThat(prob.getOutcome1()).isGreaterThanOrEqualTo(prob.getOutcome2() / 2)
     }
 
     @Test
