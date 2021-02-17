@@ -28,9 +28,8 @@ class QuestService {
     fun getAcceptableQuestsForMob(mob: MobDAO): List<Quest> {
         val questMap = createQuestMap(transaction { mob.mobCard!!.quests.toList() })
         return quests.filter {
-            !questMap.containsKey(it.type) && it.acceptConditions.find { req ->
-                req.doesSatisfy(mob)
-            } != null
+            val notAccepted = it.acceptConditions.find { req -> !req.doesSatisfy(mob) }
+            !questMap.containsKey(it.type) && notAccepted == null
         }
     }
 

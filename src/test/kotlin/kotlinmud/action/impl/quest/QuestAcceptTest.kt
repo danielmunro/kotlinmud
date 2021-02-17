@@ -16,11 +16,11 @@ class QuestAcceptTest {
     fun testCanAcceptAQuest() {
         // setup
         val test = createTestServiceWithResetDB()
-        val quest = test.findQuest(QuestType.JOIN_PRAETORIAN_GUARD)!!
+        val quest = test.findQuest(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)!!
 
         // given
         val mob = test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
+            it.room = findRoomByCanonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
         }
         val count = transaction { mob.mobCard!!.quests.count() }
 
@@ -74,6 +74,23 @@ class QuestAcceptTest {
 
         // given
         createQuestEntity(transaction { mob.mobCard!! }, QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)
+
+        // when
+        val response = test.runAction("quest accept recruiter")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("you can't find that quest.")
+    }
+
+    @Test
+    fun testMustSatisfyAllConditions() {
+        // setup
+        val test = createTestServiceWithResetDB()
+
+        // given
+        test.createPlayerMob {
+            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
+        }
 
         // when
         val response = test.runAction("quest accept recruiter")
