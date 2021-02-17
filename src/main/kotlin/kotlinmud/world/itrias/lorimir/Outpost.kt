@@ -1,4 +1,4 @@
-package kotlinmud.world
+package kotlinmud.world.itrias.lorimir
 
 import kotlinmud.item.helper.ItemBuilder
 import kotlinmud.item.type.Material
@@ -21,7 +21,8 @@ fun createLorimirForestOutpost(): RoomDAO {
             .description(
 """A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
 
-A sign flickers against the light of the fire.""".trimMargin())
+A sign flickers against the light of the fire.""".trimMargin()
+            )
             .canonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
             .build()
 
@@ -41,8 +42,8 @@ A sign flickers against the light of the fire.""".trimMargin())
 |        Type `quest list` in order to see        |
 |        an available quest.                      |
 |                                                 |
-+-------------------------------------------------+
-""".trimMargin())
++-------------------------------------------------+"""
+            )
             .room(room1)
             .cannotOwn()
             .material(Material.WOOD)

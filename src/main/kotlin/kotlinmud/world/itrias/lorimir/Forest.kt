@@ -1,4 +1,4 @@
-package kotlinmud.world
+package kotlinmud.world.itrias.lorimir
 
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.generator.service.SimpleMatrixService
@@ -15,8 +15,8 @@ import kotlinmud.room.type.Direction
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun createLorimirForest(connection: RoomDAO) {
-    transaction {
+fun createLorimirForest(connection: RoomDAO): RoomDAO {
+    return transaction {
         val builder = RoomBuilder()
             .area("Lorimir Forest")
             .name("Deep in the heart of Lorimir Forest.")
@@ -82,5 +82,7 @@ fun createLorimirForest(connection: RoomDAO) {
             isNpc = true
             attributes = AttributesDAO.new {}
         }
+
+        return@transaction matrix[2][4]
     }
 }

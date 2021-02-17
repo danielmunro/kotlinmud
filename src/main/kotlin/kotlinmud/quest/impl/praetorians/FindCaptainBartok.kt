@@ -4,7 +4,6 @@ import kotlinmud.faction.type.FactionType
 import kotlinmud.mob.type.CurrencyType
 import kotlinmud.quest.factory.createMobInRoomQuestRequirement
 import kotlinmud.quest.factory.createPriorQuestRequirement
-import kotlinmud.quest.requirement.PriorQuestRequirement
 import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestType
 import kotlinmud.quest.type.reward.CurrencyQuestReward
