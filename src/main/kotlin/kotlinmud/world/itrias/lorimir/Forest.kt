@@ -3,14 +3,13 @@ package kotlinmud.world.itrias.lorimir
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.helper.MobBuilder
-import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.RoomBuilder
 import kotlinmud.room.helper.connect
+import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -18,7 +17,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 fun createLorimirForest(connection: RoomDAO): RoomDAO {
     return transaction {
         val builder = RoomBuilder()
-            .area("Lorimir Forest")
+            .area(Area.LorimirForest)
             .name("Deep in the heart of Lorimir Forest.")
             .description("foo")
 
@@ -38,21 +37,6 @@ fun createLorimirForest(connection: RoomDAO): RoomDAO {
             .description("Deep in the heart of Lorimir Forest.")
         val room9 = builder.canonicalId(CanonicalId.PRAETORIAN_CAPTAIN_FOUND).build()
         val matrix = SimpleMatrixService(builder).build(5, 5)
-
-        val foxBuilder = MobBuilder()
-            .name("a small fox")
-            .brief("a small fox darts through the underbrush")
-            .description("a small fox is here.")
-            .level(3)
-            .race(Canid())
-
-        foxBuilder.room(room4).build()
-        foxBuilder.room(room6).build()
-        foxBuilder.room(room8).build()
-        foxBuilder.room(matrix[1][0]).build()
-        foxBuilder.room(matrix[0][3]).build()
-        foxBuilder.room(matrix[3][4]).build()
-        foxBuilder.room(matrix[4][2]).build()
 
         connect(connection).to(room1, Direction.SOUTH)
             .to(room2, Direction.SOUTH)

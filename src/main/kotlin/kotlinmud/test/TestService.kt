@@ -60,6 +60,7 @@ import kotlinmud.resource.service.ResourceService
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.repository.findStartRoom
+import kotlinmud.room.type.Area
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
 import kotlinx.coroutines.runBlocking
@@ -90,7 +91,7 @@ class TestService(
             RoomDAO.new {
                 name = "start room"
                 description = "tbd"
-                area = "midgaard"
+                area = Area.LorimirForest
                 biome = BiomeType.PLAINS
             }
         }
@@ -230,7 +231,7 @@ class TestService(
             RoomDAO.new {
                 name = "a test room"
                 description = "this is a test room"
-                area = "test"
+                area = Area.LorimirForest
                 isIndoor = false
                 regenLevel = RegenLevel.NORMAL
                 biome = BiomeType.NONE

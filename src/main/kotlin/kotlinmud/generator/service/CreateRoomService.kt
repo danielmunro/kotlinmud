@@ -9,6 +9,7 @@ import kotlinmud.generator.constant.DEPTH_UNDERGROUND
 import kotlinmud.generator.type.Layer
 import kotlinmud.generator.type.Matrix3D
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.type.Area
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class CreateRoomService {
@@ -46,7 +47,7 @@ class CreateRoomService {
         return RoomDAO.new {
             name = "todo"
             description = "todo"
-            area = "todo"
+            area = Area.None
             this.biome = biome
             substrate = if (biome == BiomeType.UNDERGROUND) { SubstrateType.ROCK } else { SubstrateType.NONE }
         }

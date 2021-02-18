@@ -1,13 +1,14 @@
 package kotlinmud.room.helper
 
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.type.Area
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class RoomBuilder {
     private lateinit var name: String
     private lateinit var description: String
-    private lateinit var area: String
+    private lateinit var area: Area
     private var canonicalId: CanonicalId? = null
 
     fun name(value: String): RoomBuilder {
@@ -20,7 +21,7 @@ class RoomBuilder {
         return this
     }
 
-    fun area(value: String): RoomBuilder {
+    fun area(value: Area): RoomBuilder {
         area = value
         return this
     }

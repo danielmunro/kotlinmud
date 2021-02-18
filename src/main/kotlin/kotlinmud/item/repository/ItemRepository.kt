@@ -4,6 +4,7 @@ import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.table.Items
 import kotlinmud.item.type.HasInventory
+import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
@@ -73,5 +74,11 @@ fun transferAllItemsToItemContainer(from: HasInventory, to: ItemDAO) {
             it[roomId] = null
             it[itemId] = to.id
         }
+    }
+}
+
+fun countItemsByCanonicalId(id: ItemCanonicalId): Int {
+    return transaction {
+        Items.select { Items.canonicalId eq id.toString() }.count()
     }
 }

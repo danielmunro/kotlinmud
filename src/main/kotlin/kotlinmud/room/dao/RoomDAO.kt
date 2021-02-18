@@ -9,6 +9,7 @@ import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.room.table.Resources
 import kotlinmud.room.table.Rooms
+import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
@@ -26,7 +27,11 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
     }
 
     var name by Rooms.name
-    var area by Rooms.area
+    var area by Rooms.area.transform(
+        { it.toString() },
+        { Area.valueOf(it) }
+    )
+
     var description by Rooms.description
     var isIndoor by Rooms.isIndoor
     var regenLevel: RegenLevel by Rooms.regenLevel.transform({ it.toString() }, { RegenLevel.valueOf(it) })

@@ -10,6 +10,7 @@ import kotlinmud.item.table.Items
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.HasInventory
+import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
@@ -60,6 +61,10 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInvent
     var canOwn by Items.canOwn
     override var maxItems by Items.maxItems
     override var maxWeight by Items.maxWeight
+    var canonicalId by Items.canonicalId.transform(
+        { it.toString() },
+        { it?.let { ItemCanonicalId.valueOf(it) }}
+    )
     override var attributes by AttributesDAO optionalReferencedOn Items.attributesId
     override val affects by AffectDAO optionalReferrersOn Affects.itemId
     var mobInventory by MobDAO optionalReferencedOn Items.mobInventoryId

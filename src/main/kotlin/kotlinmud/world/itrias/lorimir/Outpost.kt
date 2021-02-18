@@ -9,13 +9,14 @@ import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.RoomBuilder
 import kotlinmud.room.helper.connect
+import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createLorimirForestOutpost(): RoomDAO {
     return transaction {
-        val builder = RoomBuilder().area("Lorimir Forest Outpost")
+        val builder = RoomBuilder().area(Area.LorimirForestOutpost)
 
         val room1 = builder.name("Around a fire pit")
             .description(

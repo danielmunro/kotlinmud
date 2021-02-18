@@ -4,4 +4,5 @@ enum class Food {
     BREAD,
     MEAT_PIE,
     WATERMELON,
+    MUSHROOM,
 }

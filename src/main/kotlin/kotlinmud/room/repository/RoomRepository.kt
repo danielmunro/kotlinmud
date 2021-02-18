@@ -7,6 +7,7 @@ import kotlinmud.mob.table.Mobs
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.table.Resources
 import kotlinmud.room.table.Rooms
+import kotlinmud.room.type.Area
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.Join
 import org.jetbrains.exposed.sql.JoinType
@@ -94,6 +95,14 @@ fun findJungleRooms(): List<RoomDAO> {
     return transaction {
         RoomDAO.wrapRows(
             Rooms.select { Rooms.biome eq BiomeType.JUNGLE.toString() }
+        ).toList()
+    }
+}
+
+fun findRoomsByArea(area: Area): List<RoomDAO> {
+    return transaction {
+        RoomDAO.wrapRows(
+            Rooms.select { Rooms.area eq area.toString() }
         ).toList()
     }
 }

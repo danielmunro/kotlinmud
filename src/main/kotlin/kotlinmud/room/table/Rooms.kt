@@ -8,7 +8,7 @@ import org.jetbrains.exposed.dao.IntIdTable
 
 object Rooms : IntIdTable() {
     val name = varchar("name", 255)
-    val area = varchar("area", 50)
+    val area = varchar("area", 255)
     val description = text("description")
     val regenLevel = varchar("regenLevel", 50).default(RegenLevel.NORMAL.toString())
     val isIndoor = bool("isIndoor").default(false)
