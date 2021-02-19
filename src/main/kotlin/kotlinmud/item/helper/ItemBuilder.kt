@@ -5,10 +5,10 @@ import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.Material
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.type.CanonicalId
+import kotlinmud.type.Builder
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ItemBuilder(private var name: String) {
+class ItemBuilder(private var name: String) : Builder {
     private lateinit var description: String
     private lateinit var material: Material
     private var canOwn = true
@@ -27,7 +27,7 @@ class ItemBuilder(private var name: String) {
         return this
     }
 
-    fun room(value: RoomDAO): ItemBuilder {
+    override fun room(value: RoomDAO): ItemBuilder {
         room = value
         return this
     }
@@ -53,7 +53,7 @@ class ItemBuilder(private var name: String) {
         return this
     }
 
-    fun build(): ItemDAO {
+    override fun build(): ItemDAO {
         return transaction {
             ItemDAO.new {
                 this.name = this@ItemBuilder.name

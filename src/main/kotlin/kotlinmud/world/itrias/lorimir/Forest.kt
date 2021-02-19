@@ -6,6 +6,7 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
+import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.RoomBuilder
 import kotlinmud.room.helper.connect
@@ -61,7 +62,7 @@ fun createLorimirForest(connection: RoomDAO): RoomDAO {
             room = room9
             level = 45
             job = JobType.QUEST
-            canonicalId = CanonicalId.PRAETORIAN_CAPTAIN_FOUND
+            canonicalId = MobCanonicalId.PraetorianCaptainBartok
             race = Human()
             isNpc = true
             attributes = AttributesDAO.new {}

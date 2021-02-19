@@ -1,36 +1,36 @@
-package kotlinmud.item.service
+package kotlinmud.mob.service
 
-import kotlinmud.item.helper.ItemBuilder
-import kotlinmud.item.model.ItemRespawn
-import kotlinmud.item.repository.countItemsByCanonicalId
-import kotlinmud.item.type.ItemCanonicalId
+import kotlinmud.mob.helper.MobBuilder
+import kotlinmud.mob.model.MobRespawn
+import kotlinmud.mob.repository.countMobsByCanonicalId
+import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.repository.findRoomsByArea
 import kotlinmud.room.type.Area
 
-class ItemRespawnService(private val respawns: List<ItemRespawn>) {
+class MobRespawnService(private val respawns: List<MobRespawn>) {
     fun respawn() {
         respawns.forEach {
             doRespawn(
                 it.area,
                 it.maxAmount,
                 it.canonicalId,
-                it.itemBuilder,
+                it.mobBuilder,
             )
         }
     }
 
-    private fun doRespawn(area: Area, maxAmount: Int, canonicalId: ItemCanonicalId, itemBuilder: ItemBuilder) {
+    private fun doRespawn(area: Area, maxAmount: Int, canonicalId: MobCanonicalId, mobBuilder: MobBuilder) {
         val rooms = findRoomsByArea(area)
-        val count = countItemsByCanonicalId(canonicalId)
+        val count = countMobsByCanonicalId(canonicalId)
         var amountToRespawn = Math.min(maxAmount - count, maxAmount)
         val randomSubset = rooms.filter { Math.random() < 0.3 }
         var i = 0
 
         // ensure the item inherits its own canonical ID
-        itemBuilder.canonicalId(canonicalId)
+        mobBuilder.canonicalId(canonicalId)
 
         while (amountToRespawn > 0 && i < randomSubset.size) {
-            itemBuilder.room(randomSubset[i]).build()
+            mobBuilder.room(randomSubset[i]).build()
             amountToRespawn -= 1
             i += 1
         }

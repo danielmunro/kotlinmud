@@ -3,7 +3,6 @@ package kotlinmud.mob
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
-import assertk.assertions.isGreaterThan
 import assertk.assertions.isGreaterThanOrEqualTo
 import assertk.assertions.isLessThan
 import assertk.assertions.isLessThanOrEqualTo
@@ -193,7 +192,7 @@ class MobTest {
         }
 
         // then
-        assertThat(prob.getOutcome1()).isGreaterThan((prob.getOutcome2() * 0.5).roundToInt())
+        assertThat(prob.getOutcome1()).isGreaterThanOrEqualTo(prob.getOutcome2() / 3)
     }
 
     @Test

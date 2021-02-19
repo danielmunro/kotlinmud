@@ -6,6 +6,7 @@ import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.race.impl.Giant
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.JobType
+import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.helper.RoomBuilder
 import kotlinmud.room.helper.connect
@@ -85,7 +86,7 @@ A sign flickers against the light of the fire.""".trimMargin()
             .room(room2)
             .job(JobType.QUEST)
             .race(Human())
-            .canonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
+            .canonicalId(MobCanonicalId.PraetorianRecruiterEsmer)
             .build()
 
         return@transaction room4

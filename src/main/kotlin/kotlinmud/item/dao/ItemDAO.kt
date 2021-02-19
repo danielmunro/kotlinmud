@@ -63,7 +63,7 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInvent
     override var maxWeight by Items.maxWeight
     var canonicalId by Items.canonicalId.transform(
         { it.toString() },
-        { it?.let { ItemCanonicalId.valueOf(it) }}
+        { it?.let { ItemCanonicalId.valueOf(it) } }
     )
     override var attributes by AttributesDAO optionalReferencedOn Items.attributesId
     override val affects by AffectDAO optionalReferrersOn Affects.itemId

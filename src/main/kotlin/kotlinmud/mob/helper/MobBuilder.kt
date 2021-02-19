@@ -4,8 +4,8 @@ import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.type.JobType
+import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobBuilder {
@@ -14,7 +14,7 @@ class MobBuilder {
     private var description = ""
     private var attributes: AttributesDAO? = null
     private var job: JobType? = null
-    private var canonicalId: CanonicalId? = null
+    private var canonicalId: MobCanonicalId? = null
     private var level = 1
     private lateinit var race: Race
     private lateinit var room: RoomDAO
@@ -54,7 +54,7 @@ class MobBuilder {
         return this
     }
 
-    fun canonicalId(value: CanonicalId): MobBuilder {
+    fun canonicalId(value: MobCanonicalId): MobBuilder {
         canonicalId = value
         return this
     }

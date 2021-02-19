@@ -30,11 +30,11 @@ import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
+import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.mob.type.Rarity
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -87,7 +87,7 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     )
     var canonicalId by Mobs.canonicalId.transform(
         { it.toString() },
-        { it?.let { CanonicalId.valueOf(it) } }
+        { it?.let { MobCanonicalId.valueOf(it) } }
     )
     var attributes by AttributesDAO referencedOn Mobs.attributesId
     var room by RoomDAO referencedOn Mobs.roomId

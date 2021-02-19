@@ -4,8 +4,8 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
+import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.or
 import org.jetbrains.exposed.sql.select
@@ -82,12 +82,18 @@ fun findMobsByJobType(job: JobType): List<MobDAO> {
     }
 }
 
-fun findMobByCanonicalId(id: CanonicalId): MobDAO {
+fun findMobByCanonicalId(id: MobCanonicalId): MobDAO {
     return transaction {
         MobDAO.wrapRow(
             Mobs.select {
                 Mobs.canonicalId eq id.toString()
             }.first()
         )
+    }
+}
+
+fun countMobsByCanonicalId(id: MobCanonicalId): Int {
+    return transaction {
+        Mobs.select { Mobs.canonicalId eq id.toString() }.count()
     }
 }
