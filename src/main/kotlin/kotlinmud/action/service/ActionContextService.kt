@@ -196,6 +196,14 @@ class ActionContextService(
         return questService.getAcceptedQuestsForMob(getMob())
     }
 
+    fun getSubmittableQuests(): List<Quest> {
+        return questService.getSubmittableQuestsForMob(getMob())
+    }
+
+    fun submitQuest(quest: Quest) {
+        questService.submit(getMobCard(), quest)
+    }
+
     fun acceptQuest(quest: Quest) {
         questService.accept(getMobCard(), quest)
     }

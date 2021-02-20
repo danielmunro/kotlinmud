@@ -42,6 +42,7 @@ import kotlinmud.action.impl.quest.createQuestAbandonAction
 import kotlinmud.action.impl.quest.createQuestAcceptAction
 import kotlinmud.action.impl.quest.createQuestListAction
 import kotlinmud.action.impl.quest.createQuestLogAction
+import kotlinmud.action.impl.quest.createQuestSubmitAction
 import kotlinmud.action.impl.resource.createHarvestAction
 import kotlinmud.action.impl.resource.createTillAction
 import kotlinmud.action.impl.room.createOwnerInfoAction
@@ -110,5 +111,6 @@ fun createActionsList(): List<Action> {
         createQuestAcceptAction(),
         createQuestAbandonAction(),
         createQuestLogAction(),
+        createQuestSubmitAction(),
     )
 }

@@ -6,6 +6,7 @@ import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.repository.findFactionScoreByType
 import kotlinmud.quest.dao.QuestDAO
 import kotlinmud.quest.helper.createQuestList
+import kotlinmud.quest.repository.findQuestByMobCardAndType
 import kotlinmud.quest.table.Quests
 import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestStatus
@@ -28,8 +29,8 @@ class QuestService {
     fun getAcceptableQuestsForMob(mob: MobDAO): List<Quest> {
         val questMap = createQuestMap(transaction { mob.mobCard!!.quests.toList() })
         return quests.filter {
-            val notAccepted = it.acceptConditions.find { req -> !req.doesSatisfy(mob) }
-            !questMap.containsKey(it.type) && notAccepted == null
+            val notSatisfied = it.acceptConditions.find { req -> !req.doesSatisfy(mob) }
+            !questMap.containsKey(it.type) && notSatisfied == null
         }
     }
 
@@ -40,6 +41,21 @@ class QuestService {
             }
         )
         return quests.filter { questMap.containsKey(it.type) }
+    }
+
+    fun getSubmittableQuestsForMob(mob: MobDAO): List<Quest> {
+        val questMap = createQuestMap(transaction { mob.mobCard!!.quests.toList() })
+        return quests.filter {
+            val notSatisfied = it.submitConditions.find { req -> !req.doesSatisfy(mob) }
+            questMap.containsKey(it.type) && notSatisfied == null
+        }
+    }
+
+    fun submit(mobCard: MobCardDAO, quest: Quest) {
+        findQuestByMobCardAndType(mobCard, quest.type)?.let {
+            transaction { it.status = QuestStatus.SUBMITTED }
+        }
+        reward(mobCard, quest)
     }
 
     fun accept(mobCard: MobCardDAO, quest: Quest) {
