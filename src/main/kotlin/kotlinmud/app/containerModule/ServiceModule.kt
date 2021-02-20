@@ -23,6 +23,9 @@ import kotlinmud.quest.service.QuestService
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
+import kotlinmud.world.itrias.lorimir.getLorimirItemRespawns
+import kotlinmud.world.itrias.lorimir.getLorimirMobRespawns
+import kotlinmud.world.service.RespawnService
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
@@ -99,6 +102,12 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         }
         bind<ResourceService>() with singleton {
             ResourceService()
+        }
+        bind<RespawnService>() with singleton {
+            RespawnService(
+                getLorimirItemRespawns(),
+                getLorimirMobRespawns()
+            )
         }
     }
 }

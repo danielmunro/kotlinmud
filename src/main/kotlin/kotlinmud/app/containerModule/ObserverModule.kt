@@ -34,10 +34,12 @@ import kotlinmud.event.observer.impl.tick.GrowResourcesObserver
 import kotlinmud.event.observer.impl.tick.LogTickObserver
 import kotlinmud.event.observer.impl.tick.MoveMobsOnTickObserver
 import kotlinmud.event.observer.impl.tick.RegenMobsObserver
+import kotlinmud.event.observer.impl.tick.RespawnObserver
 import kotlinmud.event.observer.impl.tick.ScavengerCollectsItemsObserver
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.observer.type.ObserverList
 import kotlinmud.event.type.EventType
+import kotlinmud.world.service.RespawnService
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
@@ -181,6 +183,10 @@ val ObserverModule = Kodein.Module {
         TillRoomObserver(instance())
     }
 
+    bind<Observer>(tag = Tag.RESPAWN) with singleton {
+        RespawnObserver(instance())
+    }
+
     bind<ObserverList>() with singleton {
         mapOf(
             Pair(
@@ -249,7 +255,8 @@ val ObserverModule = Kodein.Module {
                     instance(tag = Tag.SCAVENGER_COLLECTS_ITEM),
                     instance(tag = Tag.GENERATE_MOBS),
                     instance(tag = Tag.GROW_RESOURCES),
-                    instance(tag = Tag.GENERATE_GRASS)
+                    instance(tag = Tag.GENERATE_GRASS),
+                    instance(tag = Tag.RESPAWN),
                 )
             ),
             Pair(
