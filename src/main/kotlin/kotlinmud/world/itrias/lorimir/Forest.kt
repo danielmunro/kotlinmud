@@ -3,6 +3,7 @@ package kotlinmud.world.itrias.lorimir
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
@@ -54,19 +55,17 @@ fun createLorimirForest(connection: RoomDAO): RoomDAO {
             .to(room9, Direction.NORTH)
             .to(matrix[0][0], Direction.DOWN)
 
-        MobDAO.new {
-            name = "Captain Bartok"
-            brief = "an imposing figure stands here. Her armor bears the emblem of the Praetorian Guard"
-            description = "Captain Bartok is here"
-            gender = Gender.FEMALE
-            room = room9
-            level = 45
-            job = JobType.QUEST
-            canonicalId = MobCanonicalId.PraetorianCaptainBartok
-            race = Human()
-            isNpc = true
-            attributes = AttributesDAO.new {}
-        }
+        MobBuilder()
+            .name("Captain Bartok")
+            .brief("an imposing figure stands here. Her armor bears the emblem of the Praetorian Guard")
+            .description("Captain Bartok is here")
+            .gender(Gender.FEMALE)
+            .room(room9)
+            .level(45)
+            .job(JobType.QUEST)
+            .canonicalId(MobCanonicalId.PraetorianCaptainBartok)
+            .race(Human())
+            .build()
 
         createGrongokHideout(matrix[0][4])
 

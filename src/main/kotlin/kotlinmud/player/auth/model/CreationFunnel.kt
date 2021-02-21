@@ -5,6 +5,7 @@ import kotlinmud.attributes.constant.startingMana
 import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.helper.createSkillList
@@ -52,23 +53,14 @@ class CreationFunnel(val email: String) {
 
     private fun createMob(): MobDAO {
         return transaction {
-            MobDAO.new {
-                name = mobName
-                isNpc = false
-                level = 1
-                brief = "a new mob"
-                description = "a new mob"
-                race = mobRace
-                attributes = AttributesDAO.new {
-                    hp = startingHp
-                    mana = startingMana
-                    mv = startingMv
-                }
-                room = mobRoom
-                hp = startingHp
-                mana = startingMana
-                mv = startingMv
-            }.also {
+            MobBuilder()
+                .name(mobName)
+                .brief("a $mobRace is here")
+                .description("a nondescript $mobRace is here")
+                .race(mobRace)
+                .room(mobRoom)
+                .build()
+            .also {
                 it.mobCard = MobCardDAO.new {
                     experiencePerLevel = 1000
                     experience = 1000

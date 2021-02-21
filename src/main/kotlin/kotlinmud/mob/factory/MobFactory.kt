@@ -1,11 +1,7 @@
 package kotlinmud.mob.factory
 
-import kotlinmud.attributes.constant.startingHp
-import kotlinmud.attributes.constant.startingMana
-import kotlinmud.attributes.constant.startingMv
-import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.helper.math.coinFlip
 import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.race.constant.ZOMBIE_SAVING_THROWS
 import kotlinmud.mob.race.impl.Avian
 import kotlinmud.mob.race.impl.Bear
@@ -19,33 +15,18 @@ import kotlinmud.mob.race.impl.Lizard
 import kotlinmud.mob.race.impl.Rabbit
 import kotlinmud.mob.race.impl.Sheep
 import kotlinmud.mob.race.impl.Undead
-import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.Rarity
 import kotlinmud.room.dao.RoomDAO
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun mobBuilder(name: String, room: RoomDAO): MobDAO {
-    return transaction {
-        MobDAO.new {
-            this.name = name
-            brief = "$name is here"
-            description = "$name is here"
-            hp = startingHp
-            mana = startingMana
-            mv = startingMv
-            race = Human()
-            level = 1
-            isNpc = false
-            gender = if (coinFlip()) Gender.MALE else Gender.FEMALE
-            attributes = AttributesDAO.new {
-                hp = startingHp
-                mana = startingMana
-                mv = startingMv
-            }
-            this.room = room
-        }
-    }
+    return MobBuilder()
+        .name(name)
+        .brief("$name is here")
+        .description("$name is here")
+        .race(Human())
+        .room(room)
+        .build()
 }
 
 private fun npc(name: String, room: RoomDAO): MobDAO {

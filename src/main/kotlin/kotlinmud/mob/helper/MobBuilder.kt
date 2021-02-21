@@ -5,6 +5,7 @@ import kotlinmud.attributes.constant.startingMana
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.type.Race
+import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.dao.RoomDAO
@@ -21,6 +22,7 @@ class MobBuilder {
     private var hp = startingHp
     private var mana = startingMana
     private var mv = startingMana
+    private var gender = Gender.ANY
     private lateinit var race: Race
     private lateinit var room: RoomDAO
 
@@ -76,6 +78,11 @@ class MobBuilder {
         return this
     }
 
+    fun gender(value: Gender): MobBuilder {
+        gender = value
+        return this
+    }
+
     fun build(): MobDAO {
         return transaction {
             MobDAO.new {
@@ -90,6 +97,7 @@ class MobBuilder {
                 this.hp = this@MobBuilder.hp
                 this.mana = this@MobBuilder.mana
                 this.mv = this@MobBuilder.mv
+                this.gender = this@MobBuilder.gender
                 this.attributes = this@MobBuilder.attributes ?: AttributesDAO.new {
                     hp = this@MobBuilder.hp
                     mana = this@MobBuilder.mana
