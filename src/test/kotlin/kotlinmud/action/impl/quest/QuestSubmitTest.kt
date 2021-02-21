@@ -52,7 +52,6 @@ class QuestSubmitTest {
     fun testQuestMustBeAcceptedToBeSubmitted() {
         // setup
         val test = createTestService()
-        val quest = test.findQuest(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)!!
 
         // given
         test.createPlayerMob {

@@ -4,9 +4,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinmud.action.service.ActionService
-import kotlinmud.attributes.constant.startingHp
-import kotlinmud.attributes.constant.startingMana
-import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.biome.type.BiomeType
@@ -44,9 +41,11 @@ import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.dao.FightDAO
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.FightService
 import kotlinmud.mob.service.MobService
+import kotlinmud.mob.type.JobType
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
@@ -178,26 +177,12 @@ class TestService(
     }
 
     fun createMob(): MobDAO {
-        val mob = transaction {
-            MobDAO.new {
-                name = fixtureService.faker.name.name()
-                description = "foo"
-                brief = "bar"
-                race = Human()
-                isNpc = true
-                hp = startingHp
-                mana = startingMana
-                mv = startingMv
-                attributes = AttributesDAO.new {
-                    hp = startingHp
-                    mana = startingMana
-                    mv = startingMana
-                }
-                room = getStartRoom()
-                maxWeight = 100
-                maxItems = 100
-            }
-        }
+        val mob = MobBuilder()
+            .name(fixtureService.faker.name.name())
+            .race(Human())
+            .room(getStartRoom())
+            .job(JobType.NONE)
+            .build()
         transaction {
             weapon(mob)
         }

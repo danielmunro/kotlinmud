@@ -39,7 +39,6 @@ import kotlinmud.event.observer.impl.tick.ScavengerCollectsItemsObserver
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.observer.type.ObserverList
 import kotlinmud.event.type.EventType
-import kotlinmud.world.service.RespawnService
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance

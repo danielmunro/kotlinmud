@@ -1,5 +1,7 @@
 package kotlinmud.mob.helper
 
+import kotlinmud.attributes.constant.startingHp
+import kotlinmud.attributes.constant.startingMana
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.type.Race
@@ -16,6 +18,9 @@ class MobBuilder {
     private var job: JobType? = null
     private var canonicalId: MobCanonicalId? = null
     private var level = 1
+    private var hp = startingHp
+    private var mana = startingMana
+    private var mv = startingMana
     private lateinit var race: Race
     private lateinit var room: RoomDAO
 
@@ -64,6 +69,13 @@ class MobBuilder {
         return this
     }
 
+    fun vitals(hpValue: Int, manaValue: Int, mvValue: Int): MobBuilder {
+        hp = hpValue
+        mana = manaValue
+        mv = mvValue
+        return this
+    }
+
     fun build(): MobDAO {
         return transaction {
             MobDAO.new {
@@ -75,7 +87,14 @@ class MobBuilder {
                 this.job = this@MobBuilder.job
                 this.race = this@MobBuilder.race
                 this.canonicalId = this@MobBuilder.canonicalId
-                this.attributes = this@MobBuilder.attributes ?: AttributesDAO.new {}
+                this.hp = this@MobBuilder.hp
+                this.mana = this@MobBuilder.mana
+                this.mv = this@MobBuilder.mv
+                this.attributes = this@MobBuilder.attributes ?: AttributesDAO.new {
+                    hp = this@MobBuilder.hp
+                    mana = this@MobBuilder.mana
+                    mv = this@MobBuilder.mv
+                }
             }
         }
     }

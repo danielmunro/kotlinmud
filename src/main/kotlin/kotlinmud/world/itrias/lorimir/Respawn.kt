@@ -2,7 +2,6 @@ package kotlinmud.world.itrias.lorimir
 
 import kotlinmud.item.helper.ItemBuilder
 import kotlinmud.item.model.ItemRespawn
-import kotlinmud.item.service.ItemRespawnService
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.Material
@@ -10,7 +9,6 @@ import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.model.MobRespawn
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Ogre
-import kotlinmud.mob.service.MobRespawnService
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.type.Area
 
