@@ -5,6 +5,7 @@ enum class Area {
     LorimirForestOutpost,
     FusilOutskirts,
     LakeOsona,
+    GrongokHideout,
 
     // debug
     Test,

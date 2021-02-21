@@ -68,6 +68,8 @@ fun createLorimirForest(connection: RoomDAO): RoomDAO {
             attributes = AttributesDAO.new {}
         }
 
+        createGrongokHideout(matrix[0][4])
+
         return@transaction matrix[2][4]
     }
 }

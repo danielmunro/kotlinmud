@@ -11,6 +11,29 @@ class RoomConnector(private val room: RoomDAO) {
         }
     }
 
+    fun to(connection: RoomDAO): RoomConnector {
+        val directions = listOf(
+            Direction.NORTH,
+            Direction.SOUTH,
+            Direction.EAST,
+            Direction.WEST,
+            Direction.UP,
+            Direction.DOWN
+        ).shuffled()
+
+        var index = 0
+        val exits = room.getAllExits()
+
+        while (index < directions.size) {
+            val direction = directions[index]
+            if (!exits.containsKey(direction)) {
+                return to(connection, direction)
+            }
+            index++
+        }
+        throw Exception("no connecting room")
+    }
+
     fun to(connection: RoomDAO, direction: Direction): RoomConnector {
         transaction {
             when (direction) {

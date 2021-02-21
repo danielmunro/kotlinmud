@@ -6,5 +6,16 @@ enum class Direction(val value: String) {
     EAST("east"),
     WEST("west"),
     UP("up"),
-    DOWN("down"),
+    DOWN("down");
+
+    fun reverse(): Direction {
+        return when (this) {
+            NORTH -> SOUTH
+            SOUTH -> NORTH
+            EAST -> WEST
+            WEST -> EAST
+            UP -> DOWN
+            DOWN -> UP
+        }
+    }
 }

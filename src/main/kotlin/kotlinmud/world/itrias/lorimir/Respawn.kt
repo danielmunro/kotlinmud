@@ -9,6 +9,7 @@ import kotlinmud.item.type.Material
 import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.model.MobRespawn
 import kotlinmud.mob.race.impl.Canid
+import kotlinmud.mob.race.impl.Ogre
 import kotlinmud.mob.service.MobRespawnService
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.type.Area
@@ -41,6 +42,18 @@ fun getLorimirMobRespawns(): List<MobRespawn> {
                 .canonicalId(MobCanonicalId.SmallFox),
             Area.LorimirForest,
             10
-        )
+        ),
+        MobRespawn(
+            MobCanonicalId.Grongok,
+            MobBuilder()
+                .name("Grongok")
+                .brief("a wild looking ogre is here")
+                .description("foo")
+                .level(5)
+                .race(Ogre())
+                .canonicalId(MobCanonicalId.Grongok),
+            Area.GrongokHideout,
+            1
+        ),
     )
 }

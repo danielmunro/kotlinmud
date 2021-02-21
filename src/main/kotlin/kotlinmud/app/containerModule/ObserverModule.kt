@@ -253,9 +253,9 @@ val ObserverModule = Kodein.Module {
                     instance(tag = Tag.REGEN_MOBS),
                     instance(tag = Tag.MOVE_MOBS_ON_TICK),
                     instance(tag = Tag.SCAVENGER_COLLECTS_ITEM),
-                    instance(tag = Tag.GENERATE_MOBS),
-                    instance(tag = Tag.GROW_RESOURCES),
-                    instance(tag = Tag.GENERATE_GRASS),
+//                    instance(tag = Tag.GENERATE_MOBS),
+//                    instance(tag = Tag.GROW_RESOURCES),
+//                    instance(tag = Tag.GENERATE_GRASS),
                     instance(tag = Tag.RESPAWN),
                 )
             ),
