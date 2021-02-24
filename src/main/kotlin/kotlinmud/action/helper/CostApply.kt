@@ -4,12 +4,12 @@ import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Response
 import kotlinmud.io.model.createResponseWithEmptyActionContext
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.CostType
 import kotlinmud.mob.type.HasCosts
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun costApply(mob: MobDAO, hasCosts: HasCosts): Response? {
+fun costApply(mob: Mob, hasCosts: HasCosts): Response? {
     val cost = hasCosts.costs.find {
         when (it.type) {
             CostType.MV_AMOUNT -> mob.mv < it.amount

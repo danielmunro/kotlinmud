@@ -1,6 +1,6 @@
 package kotlinmud.quest.service
 
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.player.dao.FactionScoreDAO
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.repository.findFactionScoreByType
@@ -19,14 +19,12 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class QuestService {
-    private val quests = createQuestList()
-
+class QuestService(private val quests: List<Quest>) {
     fun findByType(type: QuestType): Quest? {
         return quests.find { it.type == type }
     }
 
-    fun getAcceptableQuestsForMob(mob: MobDAO): List<Quest> {
+    fun getAcceptableQuestsForMob(mob: Mob): List<Quest> {
         val questMap = createQuestMap(transaction { mob.mobCard!!.quests.toList() })
         return quests.filter {
             val notSatisfied = it.acceptConditions.find { req -> !req.doesSatisfy(mob) }
@@ -34,7 +32,7 @@ class QuestService {
         }
     }
 
-    fun getAcceptedQuestsForMob(mob: MobDAO): List<Quest> {
+    fun getAcceptedQuestsForMob(mob: Mob): List<Quest> {
         val questMap = createQuestMap(
             transaction {
                 mob.mobCard!!.quests.toList().filter { it.status != QuestStatus.SUBMITTED }
@@ -43,7 +41,7 @@ class QuestService {
         return quests.filter { questMap.containsKey(it.type) }
     }
 
-    fun getSubmittableQuestsForMob(mob: MobDAO): List<Quest> {
+    fun getSubmittableQuestsForMob(mob: Mob): List<Quest> {
         val questMap = createQuestMap(transaction { mob.mobCard!!.quests.toList() })
         return quests.filter {
             val notSatisfied = it.submitConditions.find { req -> !req.doesSatisfy(mob) }

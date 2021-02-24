@@ -8,7 +8,7 @@ import kotlinmud.mob.service.MobService
 
 class MoveMobsOnTickObserver(private val mobService: MobService) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
-        findMobsWantingToMoveOnTick().forEach {
+        mobService.findMobsWantingToMoveOnTick().forEach {
             eventually {
                 mobService.createMobController(it).move()
             }

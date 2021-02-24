@@ -1,6 +1,6 @@
 package kotlinmud.event.impl
 
-import kotlinmud.mob.dao.FightDAO
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Fight
+import kotlinmud.mob.model.Mob
 
-data class FightStartedEvent(val fight: FightDAO, val aggressor: MobDAO, val defender: MobDAO)
+data class FightStartedEvent(val fight: Fight, val aggressor: Mob, val defender: Mob)

@@ -3,12 +3,7 @@ package kotlinmud.biome.impl
 import kotlinmud.biome.type.Biome
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.SubstrateType
-import kotlinmud.mob.factory.blackBear
-import kotlinmud.mob.factory.fox
-import kotlinmud.mob.factory.goat
-import kotlinmud.mob.factory.rabbit
-import kotlinmud.mob.factory.sheep
-import kotlinmud.mob.factory.wolf
+import kotlinmud.mob.model.Mob
 import kotlinmud.resource.impl.BlackberryBush
 import kotlinmud.resource.impl.CoalOre
 import kotlinmud.resource.impl.DiamondOre
@@ -26,12 +21,5 @@ class Mountain : Biome {
     )
     override val substrate: SubstrateType = SubstrateType.ROCK
     override val elevationChange: Double = 0.95
-    override val mobs = listOf(
-        { room: RoomDAO -> fox(room) },
-        { room: RoomDAO -> wolf(room) },
-        { room: RoomDAO -> goat(room) },
-        { room: RoomDAO -> sheep(room) },
-        { room: RoomDAO -> rabbit(room) },
-        { room: RoomDAO -> blackBear(room) }
-    )
+    override val mobs: List<(RoomDAO) -> Mob> = listOf()
 }

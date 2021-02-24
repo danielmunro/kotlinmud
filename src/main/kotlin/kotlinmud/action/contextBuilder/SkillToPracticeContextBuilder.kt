@@ -4,11 +4,11 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.player.service.PlayerService
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class SkillToPracticeContextBuilder(private val playerService: PlayerService, private val mob: MobDAO) : ContextBuilder {
+class SkillToPracticeContextBuilder(private val playerService: PlayerService, private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val mobCard = playerService.findMobCardByName(mob.name)!!
         if (mobCard.practices == 0) {

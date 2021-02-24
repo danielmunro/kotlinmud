@@ -1,10 +1,10 @@
 package kotlinmud.mob.service
 
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.CurrencyType
 
-class CurrencyService(private val mob: MobDAO) {
+class CurrencyService(private val mob: Mob) {
     fun canAfford(item: ItemDAO): Boolean {
         var amountNeeded = item.worth
         amountNeeded -= mob.getCurrency(CurrencyType.Copper)
@@ -17,7 +17,7 @@ class CurrencyService(private val mob: MobDAO) {
         return amountNeeded <= 0
     }
 
-    fun transferTo(to: MobDAO, worth: Int) {
+    fun transferTo(to: Mob, worth: Int) {
         var worthToAccountFor = worth
         val copperUsed = Math.min(worthToAccountFor, mob.getCurrency(CurrencyType.Copper))
         worthToAccountFor -= copperUsed
@@ -36,7 +36,7 @@ class CurrencyService(private val mob: MobDAO) {
         }
     }
 
-    fun transferTo(to: MobDAO) {
+    fun transferTo(to: Mob) {
         transferTo(to, mob.getCurrency(CurrencyType.Copper) + mob.getCurrency(CurrencyType.Silver) * 10 + mob.getCurrency(CurrencyType.Gold) * 100)
     }
 }

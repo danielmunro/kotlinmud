@@ -10,8 +10,8 @@ class TellTest {
     fun testCanTellMob() {
         // setup
         val testService = createTestService()
-        testService.createMob { it.name = "foo" }
-        testService.createMob { it.name = "bar" }
+        testService.createMobBuilder().name("foo").build()
+        testService.createMobBuilder().name("bar").build()
 
         // when
         val response = testService.runAction("tell bar hello world")

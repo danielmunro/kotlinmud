@@ -12,7 +12,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 fun createScoreAction(): Action {
     return Action(Command.SCORE, mustBeAlive()) { svc ->
         val mob = svc.getMob()
-        val items = svc.getItemsFor(mob)
+        val items = mob.items
         val mobCard = svc.getMobCard()
         transaction {
             createResponseWithEmptyActionContext(

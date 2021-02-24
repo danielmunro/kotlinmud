@@ -7,7 +7,7 @@ import kotlinmud.io.factory.createTellMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.factory.playerFreeForm
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.player.social.Social
 import kotlinmud.player.social.SocialChannel
 import kotlinx.coroutines.runBlocking
@@ -15,7 +15,7 @@ import kotlinx.coroutines.runBlocking
 fun createTellAction(): Action {
     return Action(Command.TELL, mustBeAlive(), playerFreeForm()) {
         val text = it.get<String>(Syntax.FREE_FORM)
-        val target = it.get<MobDAO>(Syntax.PLAYER_MOB)
+        val target = it.get<Mob>(Syntax.PLAYER_MOB)
         runBlocking {
             it.publishSocial(
                 Social(

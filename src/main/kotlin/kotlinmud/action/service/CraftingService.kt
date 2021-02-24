@@ -6,7 +6,7 @@ import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Recipe
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.resource.helper.createResourceList
 import kotlinmud.resource.type.Resource
 import kotlinmud.room.dao.ResourceDAO
@@ -41,10 +41,10 @@ class CraftingService(private val itemService: ItemService) {
         }
     }
 
-    fun craft(recipe: Recipe, mob: MobDAO): List<ItemDAO> {
+    fun craft(recipe: Recipe, mob: Mob): List<ItemDAO> {
         val componentsList = createListOfItemTypesFromMap(recipe.getComponents())
         val toDestroy = createListOfItemsToDestroy(
-            itemService.findAllByOwner(mob).sortedBy { it.type },
+            mob.items.sortedBy { it.type },
             componentsList
         )
 
@@ -59,7 +59,7 @@ class CraftingService(private val itemService: ItemService) {
         return createNewProductsFor(mob, recipe.getProducts())
     }
 
-    fun harvest(resource: ResourceDAO, mob: MobDAO): List<ItemDAO> {
+    fun harvest(resource: ResourceDAO, mob: Mob): List<ItemDAO> {
         return transaction {
             removeResource(resource)
             resources.find { it.resourceType == resource.type }?.let {
@@ -72,12 +72,8 @@ class CraftingService(private val itemService: ItemService) {
         Resources.deleteWhere(null as Int?, null as Int?) { Resources.id eq resource.id }
     }
 
-    private fun createNewProductsFor(mob: MobDAO, items: List<ItemDAO>): List<ItemDAO> {
-        transaction {
-            items.forEach {
-                it.mobInventory = mob
-            }
-        }
+    private fun createNewProductsFor(mob: Mob, items: List<ItemDAO>): List<ItemDAO> {
+        mob.items.addAll(items)
         return items
     }
 }

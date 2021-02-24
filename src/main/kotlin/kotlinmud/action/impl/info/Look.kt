@@ -8,7 +8,7 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -22,14 +22,14 @@ fun createLookAction(): Action {
                     room,
                     it.getMob(),
                     it.getMobsInRoom(),
-                    it.getItemsFor(room)
+                    room.items.toList(),
                 )
             )
         )
     }
 }
 
-fun describeRoom(actionContextService: ActionContextService, room: RoomDAO, mob: MobDAO, mobs: List<MobDAO>, roomItems: List<ItemDAO>): String {
+fun describeRoom(actionContextService: ActionContextService, room: RoomDAO, mob: Mob, mobs: List<Mob>, roomItems: List<ItemDAO>): String {
     return transaction {
         mob.affects.find { it.type == AffectType.BLIND }?.let {
             return@transaction "you can't see anything, you're blind!"

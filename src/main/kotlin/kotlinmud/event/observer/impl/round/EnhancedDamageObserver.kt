@@ -3,9 +3,9 @@ package kotlinmud.event.observer.impl.round
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.helper.math.dice
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.math.roundToInt
@@ -21,7 +21,7 @@ class EnhancedDamageObserver : Observer {
         }
     }
 
-    private fun checkEnhancedDamage(mob: MobDAO, attack: Attack) {
+    private fun checkEnhancedDamage(mob: Mob, attack: Attack) {
         mob.skills.firstOrNull { it.type == SkillType.ENHANCED_DAMAGE }?.let {
             if (dice(1, 5) < it.level / 20) {
                 val amount = attack.damage * Random.nextDouble(0.03)

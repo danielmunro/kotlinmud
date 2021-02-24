@@ -1,13 +1,13 @@
 package kotlinmud.player.social
 
 import kotlinmud.io.model.Message
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.room.dao.RoomDAO
 
 data class Social(
     val channel: SocialChannel,
-    val mob: MobDAO,
+    val mob: Mob,
     val room: RoomDAO,
     val message: Message,
-    val target: MobDAO? = null
+    val target: Mob? = null
 )

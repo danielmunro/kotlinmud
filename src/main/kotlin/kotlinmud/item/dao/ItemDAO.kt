@@ -5,6 +5,7 @@ import kotlinmud.affect.table.Affects
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.HasAttributes
+import kotlinmud.helper.Identifiable
 import kotlinmud.helper.Noun
 import kotlinmud.item.table.Items
 import kotlinmud.item.type.Drink
@@ -22,11 +23,11 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInventory {
+class ItemDAO(id: EntityID<Int>) : IntEntity(id), Identifiable, HasAttributes {
     companion object : IntEntityClass<ItemDAO>(Items)
 
     override var name by Items.name
-    override var description by Items.description
+    var description by Items.description
     var type by Items.type.transform(
         { it.toString() },
         { ItemType.valueOf(it) }
@@ -59,18 +60,18 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id), HasAttributes, Noun, HasInvent
     var quantity by Items.quantity
     var decayTimer by Items.decayTimer
     var canOwn by Items.canOwn
-    override var maxItems by Items.maxItems
-    override var maxWeight by Items.maxWeight
+    var maxItems by Items.maxItems
+    var maxWeight by Items.maxWeight
     var canonicalId by Items.canonicalId.transform(
         { it.toString() },
         { it?.let { ItemCanonicalId.valueOf(it) } }
     )
     override var attributes by AttributesDAO optionalReferencedOn Items.attributesId
-    override val affects by AffectDAO optionalReferrersOn Affects.itemId
+    val affects by AffectDAO optionalReferrersOn Affects.itemId
     var mobInventory by MobDAO optionalReferencedOn Items.mobInventoryId
     var mobEquipped by MobDAO optionalReferencedOn Items.mobEquippedId
     var room by RoomDAO optionalReferencedOn Items.roomId
-    override val items by ItemDAO optionalReferrersOn Items.itemId
+    val items by ItemDAO optionalReferrersOn Items.itemId
     var container by ItemDAO optionalReferencedOn Items.itemId
 //    var doorKey by ItemDAO optionalReferencedOn Doors.keyItemId
 

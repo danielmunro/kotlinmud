@@ -1,10 +1,9 @@
 package kotlinmud.world.itrias.lorimir
 
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.generator.service.SimpleMatrixService
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
@@ -16,7 +15,7 @@ import kotlinmud.room.type.Direction
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun createLorimirForest(connection: RoomDAO): RoomDAO {
+fun createLorimirForest(mobService: MobService, connection: RoomDAO): RoomDAO {
     return transaction {
         val builder = RoomBuilder()
             .area(Area.LorimirForest)
@@ -55,7 +54,7 @@ fun createLorimirForest(connection: RoomDAO): RoomDAO {
             .to(room9, Direction.NORTH)
             .to(matrix[0][0], Direction.DOWN)
 
-        MobBuilder()
+        MobBuilder(mobService)
             .name("Captain Bartok")
             .brief("an imposing figure stands here. Her armor bears the emblem of the Praetorian Guard")
             .description("Captain Bartok is here")

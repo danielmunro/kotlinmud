@@ -20,7 +20,7 @@ class EatTest {
         // given
         val timeout = 2
         val mob = test.createPlayerMob()
-        test.putMobInRoom(mob, test.getStartRoom())
+        mob.room = test.getStartRoom()
         val mobCard = test.findMobCardByName(mob.name)!!
         val item = test.createItem()
         transaction {
@@ -28,12 +28,12 @@ class EatTest {
             item.food = Food.MEAT_PIE
             item.name = "a big meat pie"
             item.quantity = 1
-            item.mobInventory = mob
             val affect = StunnedAffect().createInstance(timeout)
             affect.item = item
             mobCard.hunger = 0
             mobCard.thirst = 0
         }
+        mob.items.add(item)
 
         // when
         val response = test.runAction("eat pie")

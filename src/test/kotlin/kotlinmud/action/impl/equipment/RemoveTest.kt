@@ -19,9 +19,8 @@ class RemoveTest {
         transaction {
             item.position = Position.SHIELD
             item.name = "a shield"
-            item.mobEquipped = mob
-            item.mobInventory = mob
         }
+        mob.equipped.add(item)
         val equippedAmount = transaction { mob.equipped.count() }
 
         // when

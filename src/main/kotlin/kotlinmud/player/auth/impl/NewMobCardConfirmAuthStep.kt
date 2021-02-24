@@ -3,6 +3,7 @@ package kotlinmud.player.auth.impl
 import kotlinmud.helper.string.matches
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.type.IOStatus
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
@@ -21,7 +22,7 @@ class NewMobCardConfirmAuthStep(
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         if (request.input.matches("yes")) {
-            val creationFunnel = CreationFunnel(player.email)
+            val creationFunnel = authService.createCreationFunnel(player.email)
             creationFunnel.mobName = name
             authService.addCreationFunnel(creationFunnel)
             proceed = true

@@ -1,6 +1,6 @@
 package kotlinmud.io.model
 
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.player.dao.PlayerDAO
 import java.io.IOException
 import java.nio.ByteBuffer
@@ -9,7 +9,7 @@ import java.nio.channels.SocketChannel
 
 class Client(val socket: SocketChannel) {
     val buffers: MutableList<String> = mutableListOf()
-    var mob: MobDAO? = null
+    var mob: Mob? = null
     var player: PlayerDAO? = null
     var connected = true
     var delay = 0

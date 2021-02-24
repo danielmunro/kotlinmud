@@ -11,8 +11,8 @@ import kotlinmud.io.factory.target
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.type.DamageType
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.clericAt
 import kotlinmud.mob.skill.factory.hardForThief
 import kotlinmud.mob.skill.factory.mvCostOf
@@ -56,7 +56,7 @@ class Bash : SkillAction, Customization {
     override val helpText = "tbd"
 
     override fun invoke(actionContextService: ActionContextService): Response {
-        val target = actionContextService.get<MobDAO>(Syntax.TARGET_MOB)
+        val target = actionContextService.get<Mob>(Syntax.TARGET_MOB)
         val limit = (actionContextService.getLevel() / 10).coerceAtLeast(2)
         val modifier = Random.nextInt(1, limit) +
             if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)

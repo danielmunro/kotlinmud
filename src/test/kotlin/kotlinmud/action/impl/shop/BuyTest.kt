@@ -13,12 +13,11 @@ class BuyTest {
         // setup
         val test = createTestService()
         test.createMob()
-        val shop = test.createMob {
-            it.job = JobType.SHOPKEEPER
-        }
-        val item = test.createItem {
-            it.mobInventory = shop
-        }
+        val shop = test.createShopkeeper()
+
+        // given
+        val item = test.createItem()
+        shop.items.add(item)
 
         // when
         val response = test.runAction("buy ${getIdentifyingWord(item)}")
@@ -32,15 +31,13 @@ class BuyTest {
         // setup
         val test = createTestService()
         test.createMob()
-        val shop = test.createMob {
-            it.job = JobType.SHOPKEEPER
-        }
+        val shop = test.createShopkeeper()
 
         // given
         val item = test.createItem {
-            it.mobInventory = shop
             it.worth = 10
         }
+        shop.items.add(item)
 
         // when
         val response = test.runAction("buy ${getIdentifyingWord(item)}")
@@ -57,9 +54,8 @@ class BuyTest {
 
         // given
         val mob = test.createMob()
-        val item = test.createItem {
-            it.mobInventory = mob
-        }
+        val item = test.createItem()
+        mob.items.add(item)
 
         // when
         val response = test.runAction("buy ${getIdentifyingWord(item)}")
@@ -75,9 +71,7 @@ class BuyTest {
         test.createMob()
 
         // given
-        test.createMob {
-            it.job = JobType.SHOPKEEPER
-        }
+        test.createShopkeeper()
 
         // when
         val response = test.runAction("buy foo")

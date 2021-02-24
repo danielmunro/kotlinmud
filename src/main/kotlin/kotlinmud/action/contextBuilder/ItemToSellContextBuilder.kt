@@ -4,14 +4,14 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.CurrencyService
 import kotlinmud.mob.type.JobType
 
 class ItemToSellContextBuilder(
     private val itemService: ItemService,
-    private val mob: MobDAO,
-    private val mobsInRoom: List<MobDAO>
+    private val mob: Mob,
+    private val mobsInRoom: List<Mob>
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val shopkeeper = mobsInRoom.find { it.job == JobType.SHOPKEEPER }

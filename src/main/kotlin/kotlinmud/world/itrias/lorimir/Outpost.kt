@@ -5,6 +5,7 @@ import kotlinmud.item.type.Material
 import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.race.impl.Giant
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.dao.RoomDAO
@@ -15,7 +16,7 @@ import kotlinmud.room.type.Direction
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun createLorimirForestOutpost(): RoomDAO {
+fun createLorimirForestOutpost(mobService: MobService): RoomDAO {
     return transaction {
         val builder = RoomBuilder().area(Area.LorimirForestOutpost)
 
@@ -70,7 +71,7 @@ A sign flickers against the light of the fire.""".trimMargin()
                 )
             )
 
-        MobBuilder()
+        MobBuilder(mobService)
             .name("Blacksmith Felig")
             .brief("a blacksmith stands over a forge, monitoring his work")
             .description("a large giant is here, forging a weapon")
@@ -79,7 +80,7 @@ A sign flickers against the light of the fire.""".trimMargin()
             .race(Giant())
             .build()
 
-        MobBuilder()
+        MobBuilder(mobService)
             .name("Recruiter Esmer")
             .brief("a cloaked figure sits against a log, facing the fire, reading a leaflet")
             .description("Recruiter Esmer is here")

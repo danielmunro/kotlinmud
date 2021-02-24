@@ -12,8 +12,7 @@ import kotlinmud.io.model.Response
 import kotlinmud.io.service.RequestService
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.service.MobService
+import kotlinmud.mob.model.Mob
 import kotlinmud.player.service.PlayerService
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
@@ -22,7 +21,6 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class ProcessClientBuffersObserver(
     private val serverService: ServerService,
     private val playerService: PlayerService,
-    private val mobService: MobService,
     private val actionService: ActionService,
     private val eventService: EventService
 ) : Observer {
@@ -43,21 +41,21 @@ class ProcessClientBuffersObserver(
             playerService.handlePreAuthRequest(PreAuthRequest(client, input))
             return
         }
-        val request = RequestService(client.mob!!.id.value, mobService, input)
+        val request = RequestService(client.mob!!, input)
         val response = actionService.run(request)
         eventService.publish(
             createSendMessageToRoomEvent(
                 response.message,
-                transaction { request.getMob().room },
-                request.getMob(),
+                transaction { request.mob.room },
+                request.mob,
                 getTarget(response)
             )
         )
     }
 
-    private fun getTarget(response: Response): MobDAO? {
+    private fun getTarget(response: Response): Mob? {
         return try {
-            response.actionContextList.getResultBySyntax<MobDAO>(Syntax.MOB_IN_ROOM)
+            response.actionContextList.getResultBySyntax<Mob>(Syntax.MOB_IN_ROOM)
         } catch (e: Exception) {
             null
         }

@@ -8,8 +8,6 @@ import kotlinmud.event.service.EventService
 import kotlinmud.helper.math.d20
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.type.Position
-import kotlinmud.mob.dao.FightDAO
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.factory.createEvadeAttack
 import kotlinmud.mob.factory.createHitAttack
 import kotlinmud.mob.factory.createMissAttack
@@ -17,32 +15,27 @@ import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.fight.type.DamageType
-import kotlinmud.mob.fight.type.FightStatus
+import kotlinmud.mob.model.Fight
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
-import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlinmud.event.factory.createFightRoundEvent as createFightRoundEventFactory
 import kotlinmud.event.factory.createFightStartedEvent as createFightStartedEventFactory
 import kotlinmud.event.factory.createKillEvent as createKillEventFactory
 
-class FightService(private val fight: FightDAO, private val eventService: EventService) {
+class FightService(private val fight: Fight, private val eventService: EventService) {
     companion object {
-        fun create(mob1: MobDAO, mob2: MobDAO, eventService: EventService): FightService {
+        fun create(mob1: Mob, mob2: Mob, eventService: EventService): FightService {
+            mob1.disposition = Disposition.FIGHTING
+            mob2.disposition = Disposition.FIGHTING
             return FightService(
-                transaction {
-                    mob1.disposition = Disposition.FIGHTING
-                    mob2.disposition = Disposition.FIGHTING
-                    FightDAO.new {
-                        this.mob1 = mob1
-                        this.mob2 = mob2
-                    }
-                },
+                Fight(mob1, mob2),
                 eventService
             )
         }
 
-        private fun getAc(defender: MobDAO, damageType: DamageType): Int {
+        private fun getAc(defender: Mob, damageType: DamageType): Int {
             return when (damageType) {
                 DamageType.SLASH -> defender.calc(Attribute.AC_SLASH)
                 DamageType.POUND -> defender.calc(Attribute.AC_BASH)
@@ -51,7 +44,7 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
             }
         }
 
-        private fun rollEvasiveSkills(mob: MobDAO): SkillType? {
+        private fun rollEvasiveSkills(mob: Mob): SkillType? {
             val shield = mob.getEquippedByPosition(Position.SHIELD)
             val shieldBlock = mob.getSkill(SkillType.SHIELD_BLOCK)
             if (shield != null && shieldBlock != null && percentRoll() < transaction { shieldBlock.level } / 3) {
@@ -72,7 +65,7 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
             return null
         }
 
-        private fun applyRoundDamage(attacks: List<Attack>, mob: MobDAO) {
+        private fun applyRoundDamage(attacks: List<Attack>, mob: Mob) {
             transaction {
                 attacks.forEach {
                     if (it.attackResult == AttackResult.HIT) {
@@ -89,17 +82,9 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
 
     fun end() {
         transaction {
-            fight.status = FightStatus.OVER
+            fight.finish()
             resetDisposition(fight.mob1)
             resetDisposition(fight.mob2)
-        }
-    }
-
-    fun makeMobFlee(mobId: Int, room: RoomDAO) {
-        if (mobId == fight.mob1.id.value) {
-            fight.mob1.room = room
-        } else if (mobId == fight.mob2.id.value) {
-            fight.mob2.room = room
         }
     }
 
@@ -142,25 +127,23 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
         if (round.isActive()) {
             applyRoundDamage(round.defenderAttacks, round.attacker)
         }
-        transaction {
-            if (fight.mob1.hp < 0) {
-                fight.mob1.disposition = Disposition.DEAD
-                fight.status = FightStatus.OVER
-            } else if (fight.mob2.hp < 0) {
-                fight.mob2.disposition = Disposition.DEAD
-                fight.status = FightStatus.OVER
-            }
+        if (fight.mob1.hp < 0) {
+            fight.mob1.disposition = Disposition.DEAD
+            fight.finish()
+        } else if (fight.mob2.hp < 0) {
+            fight.mob2.disposition = Disposition.DEAD
+            fight.finish()
         }
         return round
     }
 
-    private fun resetDisposition(mob: MobDAO) {
+    private fun resetDisposition(mob: Mob) {
         if (mob.disposition == Disposition.FIGHTING) {
             mob.disposition = Disposition.STANDING
         }
     }
 
-    private fun mapAttacks(attacker: MobDAO, defender: MobDAO): MutableList<Attack> {
+    private fun mapAttacks(attacker: Mob, defender: Mob): MutableList<Attack> {
         val skillType = rollEvasiveSkills(defender)
         return mutableListOf(
             when {
@@ -171,7 +154,7 @@ class FightService(private val fight: FightDAO, private val eventService: EventS
         )
     }
 
-    private fun attackerDefeatsDefenderAC(attacker: MobDAO, defender: MobDAO): Boolean {
+    private fun attackerDefeatsDefenderAC(attacker: Mob, defender: Mob): Boolean {
         val roll = d20()
         val hit = attacker.calc(Attribute.HIT)
         val ac = getAc(defender, attacker.getDamageType())

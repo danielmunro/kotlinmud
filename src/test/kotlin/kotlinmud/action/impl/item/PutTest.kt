@@ -16,7 +16,8 @@ class PutTest {
         val room = test.getStartRoom()
 
         // given
-        val itemToPut = test.createItem { it.mobInventory = mob }
+        val itemToPut = test.createItem()
+        mob.items.add(itemToPut)
         val itemWithInventory = test.createContainer { it.room = room }
 
         // when
@@ -25,7 +26,7 @@ class PutTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you put $itemToPut into $itemWithInventory.")
         assertThat(response.message.toObservers).isEqualTo("$mob puts $itemToPut into $itemWithInventory.")
-        assertThat(test.findAllItemsByOwner(itemWithInventory)).hasSize(1)
+        assertThat(itemWithInventory.items.toList()).hasSize(1)
     }
 
     @Test
@@ -35,8 +36,9 @@ class PutTest {
         val mob = test.createMob()
 
         // given
-        val itemToPut = test.createItem { it.mobInventory = mob }
-        val itemWithInventory = test.createContainer { it.mobInventory = mob }
+        val itemToPut = test.createItem()
+        val itemWithInventory = test.createContainer()
+        mob.items.addAll(listOf(itemToPut, itemWithInventory))
 
         // when
         val response = test.runAction("put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
@@ -44,7 +46,7 @@ class PutTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you put $itemToPut into $itemWithInventory.")
         assertThat(response.message.toObservers).isEqualTo("$mob puts $itemToPut into $itemWithInventory.")
-        assertThat(test.findAllItemsByOwner(itemWithInventory)).hasSize(1)
+        assertThat(itemWithInventory.items.toList()).hasSize(1)
     }
 
     @Test
@@ -54,8 +56,9 @@ class PutTest {
         val mob = test.createMob()
 
         // given
-        val itemToPut = test.createItem { it.mobInventory = mob }
-        val itemWithNoInventory = test.createItem { it.mobInventory = mob }
+        val itemToPut = test.createItem()
+        val itemWithNoInventory = test.createItem()
+        mob.items.addAll(listOf(itemToPut, itemWithNoInventory))
 
         // when
         val response = test.runAction("put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithNoInventory)}")

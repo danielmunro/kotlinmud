@@ -5,13 +5,12 @@ import kotlinmud.event.service.EventService
 import kotlinmud.helper.logger
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.item.service.ItemService
-import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.path.Pathfinder
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
+import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.repository.findRoomById
 import kotlinmud.room.type.DoorDisposition
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -20,7 +19,7 @@ class MobController(
     private val mobService: MobService,
     private val itemService: ItemService,
     private val eventService: EventService,
-    private val mob: MobDAO
+    private val mob: Mob
 ) {
     private val logger = logger(this)
 
@@ -35,13 +34,13 @@ class MobController(
     suspend fun pickUpAnyItem() {
         println("debug sanity -- pickUpAnyItem")
         val room = transaction { mob.room }
-        val items = itemService.findAllByOwner(room)
+        val items = room.items.toList()
         println("pre-conditional")
-        if (mob.isStanding() && items.isNotEmpty()) {
+        if (mob.disposition == Disposition.STANDING && items.isNotEmpty()) {
             println("inside conditional")
             val item = items.random()
             logger.debug("$mob picks up $item")
-            itemService.giveItemToMob(item, mob)
+            mob.items.add(item)
             println("pre-event publish")
             eventService.publish(
                 createSendMessageToRoomEvent(
@@ -58,33 +57,33 @@ class MobController(
     }
 
     private suspend fun proceedRoute() {
-        if (mob.lastRoute == null) {
-            mob.lastRoute = 0
-        }
-        val nextRoomId = mob.route?.get(mob.lastRoute!!)!!
-        val currentRoom = mob.room
-        val nextRoom = findRoomById(nextRoomId)
-        val currentRoomId = currentRoom.id.value
-        if (currentRoomId == nextRoomId) {
-            mob.lastRoute = mob.lastRoute?.plus(1)
-            if (mob.lastRoute == mob.route?.size) {
-                mob.lastRoute = 0
-            }
-
-            return proceedRoute()
-        }
-        logger.debug("mob $mob moving on route, index: ${mob.lastRoute}")
-        val path = Pathfinder(currentRoom, nextRoom)
-        val rooms = path.find()
-        val nextMove = currentRoom.getAllExits().entries.find {
-            it.value == rooms[1]
-        }!!
-        val door = currentRoom.getDoors().entries.find {
-            it.key == nextMove.key
-        }?.value
-        if (openDoorIfExistsAndClosed(currentRoom, door)) {
-            mobService.moveMob(mob, nextMove.value, nextMove.key)
-        }
+//        if (mob.lastRoute == null) {
+//            mob.lastRoute = 0
+//        }
+//        val nextRoomId = mob.route?.get(mob.lastRoute!!)!!
+//        val currentRoom = mob.room
+//        val nextRoom = findRoomById(nextRoomId)
+//        val currentRoomId = currentRoom.id.value
+//        if (currentRoomId == nextRoomId) {
+//            mob.lastRoute = mob.lastRoute?.plus(1)
+//            if (mob.lastRoute == mob.route?.size) {
+//                mob.lastRoute = 0
+//            }
+//
+//            return proceedRoute()
+//        }
+//        logger.debug("mob $mob moving on route, index: ${mob.lastRoute}")
+//        val path = Pathfinder(currentRoom, nextRoom)
+//        val rooms = path.find()
+//        val nextMove = currentRoom.getAllExits().entries.find {
+//            it.value == rooms[1]
+//        }!!
+//        val door = currentRoom.getDoors().entries.find {
+//            it.key == nextMove.key
+//        }?.value
+//        if (openDoorIfExistsAndClosed(currentRoom, door)) {
+//            mobService.moveMob(mob, nextMove.value, nextMove.key)
+//        }
     }
 
     private suspend fun wander() {

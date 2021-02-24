@@ -21,19 +21,19 @@ class DrinkTest {
         // given
         val timeout = 2
         val mob = test.createPlayerMob()
-        test.putMobInRoom(mob, test.getStartRoom())
+        mob.room = test.getStartRoom()
         val mobCard = transaction { mob.mobCard!! }
         val item = test.createItem()
         transaction {
             item.drink = Drink.BEER
             item.name = "a glass of beer"
             item.quantity = 1
-            item.mobInventory = mob
             val affect = DrunkAffect().createInstance(timeout)
             affect.item = item
             mobCard.thirst = 0
             mobCard.hunger = 0
         }
+        mob.items.add(item)
 
         // when
         val response = test.runAction("drink beer")
@@ -58,7 +58,6 @@ class DrinkTest {
         // given
         transaction {
             drink.name = "a glass of milk"
-            drink.mobInventory = mob
             drink.type = ItemType.DRINK
             drink.drink = Drink.MILK
             invis.item = drink
@@ -67,6 +66,7 @@ class DrinkTest {
                 it.thirst = 0
             }
         }
+        mob.items.add(drink)
 
         // when
         val response = test.runAction("drink milk")

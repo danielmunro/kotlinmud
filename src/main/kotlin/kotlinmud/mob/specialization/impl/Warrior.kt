@@ -3,6 +3,7 @@ package kotlinmud.mob.specialization.impl
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.type.Weapon
 import kotlinmud.mob.specialization.type.Specialization
+import kotlinmud.mob.specialization.type.SpecializationType
 
 class Warrior : Specialization {
     override val name = "warrior"
@@ -14,4 +15,5 @@ class Warrior : Specialization {
     override val hpMax = 15
     override val manaMin = 4
     override val manaMax = 6
+    override val type = SpecializationType.WARRIOR
 }

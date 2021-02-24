@@ -1,6 +1,6 @@
 package kotlinmud.event.impl
 
-import kotlinmud.mob.dao.FightDAO
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Fight
+import kotlinmud.mob.model.Mob
 
-class KillEvent(val fight: FightDAO, val victor: MobDAO, val vanquished: MobDAO)
+class KillEvent(val fight: Fight, val victor: Mob, val vanquished: Mob)

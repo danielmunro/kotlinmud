@@ -32,10 +32,10 @@ fun createTestServiceWithResetDB(): TestService {
 fun createTestService(): TestService {
     createConnection()
     applySchema()
-    createWorld()
     val container = createContainer(0, true)
     val fix: FixtureService by container.instance<FixtureService>()
     val mob: MobService by container.instance<MobService>()
+    createWorld(mob)
     val item: ItemService by container.instance<ItemService>()
     val act: ActionService by container.instance<ActionService>()
     val evt: EventService by container.instance<EventService>()

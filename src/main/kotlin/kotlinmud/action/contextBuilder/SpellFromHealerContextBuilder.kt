@@ -4,10 +4,10 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.JobType
 
-class SpellFromHealerContextBuilder(private val mobs: List<MobDAO>) : ContextBuilder {
+class SpellFromHealerContextBuilder(private val mobs: List<Mob>) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val mob = mobs.find {
             it.job == JobType.HEALER

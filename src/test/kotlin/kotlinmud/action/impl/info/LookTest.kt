@@ -52,10 +52,9 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val affect = createAffect(AffectType.BLIND)
 
         // given
-        transaction { affect.mob = mob }
+        mob.affects.add(createAffect(AffectType.BLIND))
 
         // when
         val response = testService.runAction("look")
@@ -90,7 +89,7 @@ class LookTest {
         val item = testService.createItem()
 
         // given
-        transaction { item.mobInventory = mob }
+        mob.items.add(item)
 
         // when
         val response = testService.runAction("look ${getIdentifyingWord(item)}")
@@ -145,9 +144,10 @@ class LookTest {
 
         // given
         testService.createMob()
-        val mob = testService.createMob {
-            createAffect(AffectType.INVISIBILITY).mob = it
-        }
+        val mob = testService
+            .createMobBuilder()
+            .affects(listOf(createAffect(AffectType.INVISIBILITY)))
+            .build()
 
         // when
         val response = testService.runAction("look")

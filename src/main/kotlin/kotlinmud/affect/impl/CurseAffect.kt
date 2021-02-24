@@ -8,12 +8,12 @@ import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 
 class CurseAffect : Affect {
     override val type: AffectType = AffectType.CURSE
 
-    override fun messageFromInstantiation(mob: MobDAO, target: Noun?): Message {
+    override fun messageFromInstantiation(mob: Mob, target: Noun?): Message {
         return MessageBuilder()
             .toActionCreator("You are cursed.")
             .toObservers("$mob is cursed.")

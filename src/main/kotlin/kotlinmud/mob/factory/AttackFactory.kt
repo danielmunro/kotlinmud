@@ -1,11 +1,11 @@
 package kotlinmud.mob.factory
 
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.type.AttackResult
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
 
-fun createHitAttack(mob: MobDAO): Attack {
+fun createHitAttack(mob: Mob): Attack {
     return Attack(
         AttackResult.HIT,
         mob.getAttackVerb(),
@@ -14,7 +14,7 @@ fun createHitAttack(mob: MobDAO): Attack {
     )
 }
 
-fun createMissAttack(mob: MobDAO): Attack {
+fun createMissAttack(mob: Mob): Attack {
     return Attack(
         AttackResult.MISS,
         mob.getAttackVerb(),
@@ -23,7 +23,7 @@ fun createMissAttack(mob: MobDAO): Attack {
     )
 }
 
-fun createEvadeAttack(mob: MobDAO, skillType: SkillType): Attack {
+fun createEvadeAttack(mob: Mob, skillType: SkillType): Attack {
     return Attack(
         AttackResult.EVADE,
         mob.getAttackVerb(),

@@ -1,15 +1,17 @@
 package kotlinmud.quest.requirement
 
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
+import kotlinmud.mob.service.MobService
+import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.quest.type.QuestRequirement
 import kotlinmud.quest.type.QuestRequirementType
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class MobInRoomQuestRequirement(val mob: MobDAO) : QuestRequirement {
+class MobInRoomQuestRequirement(private val mobService: MobService, val canonicalId: MobCanonicalId) : QuestRequirement {
     override val questRequirementType = QuestRequirementType.MOB_IN_ROOM
 
-    override fun doesSatisfy(mob: MobDAO): Boolean {
-        val checkMob = this.mob
-        return transaction { mob.room == checkMob.room }
+    override fun doesSatisfy(mob: Mob): Boolean {
+        val mobs = mobService.findMobsInRoom(mob.room)
+        return mobs.find { it.canonicalId == canonicalId } != null
     }
 }

@@ -6,7 +6,7 @@ import kotlinmud.event.service.EventService
 import kotlinmud.helper.logger
 import kotlinmud.io.model.Client
 import kotlinmud.io.type.Clients
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.forEach
@@ -86,11 +86,11 @@ class ServerService(
             .collect(Collectors.toList())
     }
 
-    fun getClientForMob(mob: MobDAO): Client? {
+    fun getClientForMob(mob: Mob): Client? {
         return clients.find { it.mob == mob }
     }
 
-    fun getClientsFromMobs(mobs: List<MobDAO>): Clients {
+    fun getClientsFromMobs(mobs: List<Mob>): Clients {
         return mobs.mapNotNull { mob ->
             clients.find { it.mob == mob }
         }.toMutableList()

@@ -19,7 +19,7 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
+class RoomDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<RoomDAO>(Rooms) {
         private fun isDoorPassable(door: DoorDAO?): Boolean {
             return door == null || door.disposition == DoorDisposition.OPEN
@@ -42,10 +42,10 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id), HasInventory {
         { it?.let { CanonicalId.valueOf(it) } }
     )
     var elevation by Rooms.elevation
-    override var maxWeight by Rooms.maxWeight
-    override var maxItems by Rooms.maxItems
+    var maxWeight by Rooms.maxWeight
+    var maxItems by Rooms.maxItems
     val resources by ResourceDAO referrersOn Resources.roomId
-    override val items by ItemDAO optionalReferrersOn Items.roomId
+    val items by ItemDAO optionalReferrersOn Items.roomId
     var north by RoomDAO optionalReferencedOn Rooms.northId
     var northDoor by DoorDAO optionalReferencedOn Rooms.northDoorId
     var south by RoomDAO optionalReferencedOn Rooms.southId

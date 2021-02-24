@@ -1,13 +1,13 @@
 package kotlinmud.mob.fight
 
-import kotlinmud.mob.dao.FightDAO
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Fight
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.Disposition
 
 class Round(
-    val fight: FightDAO,
-    val attacker: MobDAO,
-    val defender: MobDAO,
+    val fight: Fight,
+    val attacker: Mob,
+    val defender: Mob,
     val attackerAttacks: MutableList<Attack>,
     val defenderAttacks: MutableList<Attack>
 ) {
@@ -15,7 +15,7 @@ class Round(
         return !fight.isOver()
     }
 
-    fun getParticipants(): List<MobDAO> {
+    fun getParticipants(): List<Mob> {
         return listOf(attacker, defender)
     }
 

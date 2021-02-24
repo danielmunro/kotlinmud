@@ -25,10 +25,10 @@ class EnhancedDamageObserverTest {
             createSkill(SkillType.ENHANCED_DAMAGE, it, 100)
         }
         val target = test.createMob()
-        test.addFight(mob, target)
+        val fight = test.addFight(mob, target)
 
         // when
-        while (prob.isIterating() && findFightForMob(mob) != null) {
+        while (prob.isIterating() && !fight.isOver()) {
             runBlocking { test.proceedFights() }.forEach {
                 val dam1 = it.attackerAttacks.fold(0) { acc, attack -> acc + attack.damage }
                 val dam2 = it.defenderAttacks.fold(0) { acc, attack -> acc + attack.damage }
@@ -37,8 +37,8 @@ class EnhancedDamageObserverTest {
                     dam2 >= dam1
                 )
                 transaction {
-                    findMobById(mob.id.value).hp = 20
-                    findMobById(target.id.value).hp = 20
+                    mob.hp = 20
+                    target.hp = 20
                 }
             }
         }

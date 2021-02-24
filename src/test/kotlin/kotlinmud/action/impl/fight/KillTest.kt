@@ -15,9 +15,10 @@ class KillTest {
         test.createMob()
 
         // given
-        val target = test.createMob {
-            it.job = JobType.QUEST
-        }
+        val target = test
+            .createMobBuilder()
+            .job(JobType.QUEST)
+            .build()
 
         // when
         val response = test.runAction("kill ${getIdentifyingWord(target)}")
@@ -33,9 +34,10 @@ class KillTest {
         test.createMob()
 
         // given
-        val target = test.createMob {
-            it.job = JobType.SHOPKEEPER
-        }
+        val target = test
+            .createMobBuilder()
+            .job(JobType.SHOPKEEPER)
+            .build()
 
         // when
         val response = test.runAction("kill ${getIdentifyingWord(target)}")

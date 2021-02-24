@@ -9,7 +9,7 @@ import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.type.Position
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.easyForWarrior
 import kotlinmud.mob.skill.factory.mvCostOf
 import kotlinmud.mob.skill.factory.normalForThief
@@ -50,7 +50,7 @@ class Disarm : SkillAction, Customization {
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val mob = actionContextService.getMob()
-        val target = actionContextService.get<MobDAO>(Syntax.TARGET_MOB)
+        val target = actionContextService.get<Mob>(Syntax.TARGET_MOB)
         return target.getEquippedByPosition(Position.WEAPON)?.let {
             transaction {
                 it.room = actionContextService.getRoom()

@@ -18,6 +18,8 @@ import kotlinmud.mob.race.impl.Faerie
 import kotlinmud.mob.race.impl.Goblin
 import kotlinmud.mob.race.impl.Ogre
 import kotlinmud.mob.repository.findMobById
+import kotlinmud.mob.specialization.impl.Cleric
+import kotlinmud.mob.specialization.impl.Mage
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
@@ -62,7 +64,7 @@ class MobTest {
                 acPierce = 1
                 acMagic = 1
             }
-            it.mobEquipped = mob
+            mob.equipped.add(it)
         }
 
         // then
@@ -90,7 +92,10 @@ class MobTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob2 = testService.createMob { it.race = Elf() }
+        val mob2 = testService
+            .createMobBuilder()
+            .race(Elf())
+            .build()
 
         // when
         prob.test(
@@ -111,7 +116,9 @@ class MobTest {
         val affect = createAffect(AffectType.CURSE)
 
         // given
-        val mob2 = testService.createMob { affect.mob = it }
+        val mob2 = testService.createMobBuilder()
+            .affects(listOf(affect))
+            .build()
 
         // when
         while (prob.isIterating()) {
@@ -136,8 +143,8 @@ class MobTest {
         val mob1 = testService.createMob { it.level = 50 }
         val mob2 = testService.createMob {
             it.level = 50
-            affect.mob = it
         }
+        mob2.affects.add(affect)
 
         // when
         while (prob.isIterating()) {
@@ -158,8 +165,14 @@ class MobTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.createMob { it.race = Faerie() }
-        val mob2 = testService.createMob { it.race = Ogre() }
+        val mob1 = testService
+            .createMobBuilder()
+            .race(Faerie())
+            .build()
+        val mob2 = testService
+            .createMobBuilder()
+            .race(Ogre())
+            .build()
 
         // when
         while (prob.isIterating()) {
@@ -202,12 +215,14 @@ class MobTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.createMob()
-        val mob2 = testService.createMob()
-        transaction {
-            mob1.race = Goblin()
-            mob2.race = Ogre()
-        }
+        val mob1 = testService
+            .createMobBuilder()
+            .race(Goblin())
+            .build()
+        val mob2 = testService
+            .createMobBuilder()
+            .race(Ogre())
+            .build()
 
         // when
         while (prob.isIterating()) {
@@ -227,11 +242,13 @@ class MobTest {
         // setup
         val testService = createTestService()
         val prob = ProbabilityTest()
-        val mob1 = testService.createMob()
-        val mob2 = testService.createMob()
 
         // given
-        transaction { mob1.specialization = SpecializationType.MAGE }
+        val mob1 = testService
+            .createMobBuilder()
+            .specialization(Mage())
+            .build()
+        val mob2 = testService.createMob()
 
         // when
         while (prob.isIterating()) {
@@ -250,11 +267,13 @@ class MobTest {
         // setup
         val testService = createTestService()
         val prob = ProbabilityTest()
-        val mob1 = testService.createMob()
-        val mob2 = testService.createMob()
 
         // given
-        transaction { mob1.specialization = SpecializationType.CLERIC }
+        val mob1 = testService
+            .createMobBuilder()
+            .specialization(Cleric())
+            .build()
+        val mob2 = testService.createMob()
 
         // when
         while (prob.isIterating()) {
@@ -275,12 +294,10 @@ class MobTest {
         val mob = testService.createMob()
 
         // given
-        testService.createItem {
-            it.mobInventory = mob
+        mob.equipped.add(testService.createItem {
             it.position = Position.SHIELD
             it.attributes?.hp = 100
-            it.mobEquipped = mob
-        }
+        })
 
         // expect
         assertThat(mob.calc(Attribute.HP)).isEqualTo(120)
@@ -307,12 +324,12 @@ class MobTest {
         testService.publish(fight.createKillEvent())
 
         // then
-        findMobById(mob1.id.value).let {
+        mob1.let {
             assertThat(it.getCurrency(CurrencyType.Gold)).isEqualTo(5)
             assertThat(it.getCurrency(CurrencyType.Silver)).isEqualTo(23)
             assertThat(it.getCurrency(CurrencyType.Copper)).isEqualTo(231)
         }
-        findMobById(mob2.id.value).let {
+        mob2.let {
             assertThat(it.getCurrency(CurrencyType.Gold)).isEqualTo(0)
             assertThat(it.getCurrency(CurrencyType.Silver)).isEqualTo(0)
             assertThat(it.getCurrency(CurrencyType.Copper)).isEqualTo(0)
@@ -326,11 +343,8 @@ class MobTest {
 
         // given
         val mob = test.createMob()
-        test.createItem { it.mobInventory = mob }
-        test.createItem {
-            it.mobInventory = mob
-            it.mobEquipped = mob
-        }
+        mob.items.add(test.createItem())
+        mob.equipped.add(test.createItem())
         val inventoryAmount = test.countItemsFor(mob)
 
         // when

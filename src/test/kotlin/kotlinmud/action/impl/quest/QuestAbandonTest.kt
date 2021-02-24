@@ -16,9 +16,7 @@ class QuestAbandonTest {
         // setup
         val test = createTestService()
         val mob = test.createPlayerMob()
-        test.createMob {
-            it.job = JobType.QUEST
-        }
+        test.createQuestGiver()
         val quest = test.findQuest(QuestType.JOIN_PRAETORIAN_GUARD)!!
 
         // given

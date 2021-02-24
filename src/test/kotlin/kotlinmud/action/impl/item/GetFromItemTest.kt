@@ -15,9 +15,9 @@ class GetFromItemTest {
 
         // given
         val itemWithInventory = test.createContainer {
-            it.mobInventory = mob
             it.isContainer = true
         }
+        mob.items.add(itemWithInventory)
         val item = test.createItem { it.container = itemWithInventory }
 
         // when
@@ -36,9 +36,9 @@ class GetFromItemTest {
 
         // given
         val itemWithInventory = test.createContainer {
-            it.mobInventory = mob
             it.isContainer = true
         }
+        mob.items.add(itemWithInventory)
         val item = test.createItem { it.container = itemWithInventory }
 
         // when

@@ -1,6 +1,7 @@
 package kotlinmud.player.auth.service
 
 import kotlinmud.io.model.Client
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
@@ -9,8 +10,12 @@ import kotlinmud.room.repository.findRoomById
 import kotlinmud.room.repository.findStartRoom
 import kotlinmud.player.repository.findPlayerByEmail as findPlayerByEmailQuery
 
-class AuthStepService(private val playerService: PlayerService) {
+class AuthStepService(private val mobService: MobService, private val playerService: PlayerService) {
     private val creationFunnels = mutableListOf<CreationFunnel>()
+
+    fun createCreationFunnel(email: String): CreationFunnel {
+        return CreationFunnel(mobService, email)
+    }
 
     fun addCreationFunnel(creationFunnel: CreationFunnel) {
         creationFunnel.mobRoom = findStartRoom() ?: findRoomById(1)

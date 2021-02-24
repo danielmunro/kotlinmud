@@ -35,7 +35,7 @@ class BackstabTest {
         assertThat(response.message.toObservers).isEqualTo("$mob stabs $target in the back.")
 
         // and
-        assertThat(findMobById(target.id.value).hp).isLessThan(target.calc(Attribute.HP))
+        assertThat(target.hp).isLessThan(target.calc(Attribute.HP))
     }
 
     @Test
@@ -47,20 +47,16 @@ class BackstabTest {
         val mob = test.createMob {
             createSkill(SkillType.BACKSTAB, it, 1)
         }
-        val target = test.createMob {
-            it.race = Bear()
-        }
+        val target = test.createMobBuilder()
+            .race(Bear())
+            .build()
 
         // when
         val response = test.runActionForIOStatus(
             mob,
             "backstab ${getIdentifyingWord(target)}",
             IOStatus.FAILED
-        ) {
-            transaction {
-                findMobById(mob.id.value).mv = 100
-            }
-        }
+        ) { mob.mv = 100 }
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("You lost your concentration.")

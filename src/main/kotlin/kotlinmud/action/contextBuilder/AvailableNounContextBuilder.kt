@@ -6,14 +6,14 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.repository.findMobsForRoom
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class AvailableNounContextBuilder(
     private val itemService: ItemService,
-    private val mob: MobDAO,
+    private val mob: Mob,
     private val room: RoomDAO
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {

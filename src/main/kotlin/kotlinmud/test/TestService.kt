@@ -24,6 +24,7 @@ import kotlinmud.generator.service.FixtureService
 import kotlinmud.generator.service.WorldGeneration
 import kotlinmud.generator.statemachine.createStateMachine
 import kotlinmud.generator.statemachine.runStateMachine
+import kotlinmud.helper.Noun
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
@@ -38,10 +39,10 @@ import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Position
 import kotlinmud.mob.controller.MobController
-import kotlinmud.mob.dao.FightDAO
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.helper.MobBuilder
+import kotlinmud.mob.model.Fight
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.FightService
 import kotlinmud.mob.service.MobService
@@ -81,8 +82,8 @@ class TestService(
     private val clientService = ClientService()
     private val room: RoomDAO
     private val client: Client = spyk(Client(mockk(relaxed = true)))
-    private var mob: MobDAO? = null
-    private var target: MobDAO? = null
+    private var mob: Mob? = null
+    private var target: Mob? = null
     private var player: PlayerDAO? = null
 
     init {
@@ -133,24 +134,26 @@ class TestService(
         return client
     }
 
-    fun createMobController(mob: MobDAO): MobController {
+    fun createMobController(mob: Mob): MobController {
         return MobController(mobService, itemService, eventService, mob)
     }
 
-    fun countItemsFor(hasInventory: HasInventory): Int {
-        return itemService.findAllByOwner(hasInventory).size
+    fun countItemsFor(hasInventory: Any): Int {
+        return if (hasInventory is ItemDAO) {
+            hasInventory.items.count()
+        } else if (hasInventory is Mob) {
+            hasInventory.items.size
+        } else {
+            throw Exception()
+        }
     }
 
     fun findAllItemsByOwner(hasInventory: HasInventory): List<ItemDAO> {
-        return itemService.findAllByOwner(hasInventory)
+        return hasInventory.items
     }
 
     suspend fun regenMobs() {
         mobService.regenMobs()
-    }
-
-    fun putMobInRoom(mob: MobDAO, room: RoomDAO) {
-        transaction { mob.room = room }
     }
 
     fun getStartRoom(): RoomDAO {
@@ -176,17 +179,17 @@ class TestService(
         }
     }
 
-    fun createMob(): MobDAO {
-        val mob = MobBuilder()
+    fun createMob(card: MobCardDAO? = null): Mob {
+        val mob = MobBuilder(mobService)
             .name(fixtureService.faker.name.name())
             .race(Human())
             .room(getStartRoom())
             .job(JobType.NONE)
+            .card(card)
             .build()
         transaction {
             weapon(mob)
         }
-        putMobInRoom(mob, getStartRoom())
         if (this.mob == null) {
             this.mob = mob
         } else if (this.target == null) {
@@ -196,19 +199,35 @@ class TestService(
         return mob
     }
 
-    fun createMob(modifier: (MobDAO) -> Unit): MobDAO {
+    fun createMobBuilder(): MobBuilder {
+        return MobBuilder(mobService)
+    }
+
+    fun createShopkeeper(): Mob {
+        return createMobBuilder()
+            .job(JobType.SHOPKEEPER)
+            .build()
+    }
+
+    fun createQuestGiver(): Mob {
+        return createMobBuilder()
+            .job(JobType.QUEST)
+            .build()
+    }
+
+    fun createMob(modifier: (Mob) -> Unit): Mob {
         return createMob().let {
             transaction { modifier(it) }
             it
         }
     }
 
-    fun getMob(): MobDAO {
-        return mobService.getMob(this.mob!!.id.value)
+    fun getMob(): Mob {
+        return mob!!
     }
 
-    fun getTarget(): MobDAO {
-        return mobService.getMob(this.target!!.id.value)
+    fun getTarget(): Mob {
+        return target!!
     }
 
     fun createRoom(): RoomDAO {
@@ -233,16 +252,13 @@ class TestService(
         }
     }
 
-    fun createCorpseFrom(mob: MobDAO): ItemDAO {
+    fun createCorpseFrom(mob: Mob): ItemDAO {
         return mobService.createCorpseFrom(mob)
     }
 
-    fun createPlayerMob(): MobDAO {
-        val mob = createMob()
-        transaction {
-            mob.isNpc = false
-            mob.player = player
-            val card = MobCardDAO.new {
+    fun createPlayerMob(): Mob {
+        val card = transaction {
+            MobCardDAO.new {
                 experiencePerLevel = 1000
                 experience = 1000
                 hunger = mob.race.maxAppetite
@@ -250,12 +266,11 @@ class TestService(
                 this.mob = mob
                 respawnRoom = findStartRoom() ?: createRoom()
             }
-            mob.mobCard = card
         }
-        return mob
+        return createMob(card)
     }
 
-    fun createPlayerMob(mutator: (mob: MobDAO) -> Unit): MobDAO {
+    fun createPlayerMob(mutator: (mob: Mob) -> Unit): Mob {
         val mob = createPlayerMob()
         transaction { mutator(mob) }
         return mob
@@ -297,6 +312,10 @@ class TestService(
         }
     }
 
+    fun createCreationFunnel(email: String): CreationFunnel {
+        return CreationFunnel(mobService, email)
+    }
+
     fun make(amount: Int): MakeItemService {
         return MakeItemService(amount)
     }
@@ -316,7 +335,7 @@ class TestService(
     fun setPreAuth(builder: (AuthStepService, PlayerDAO) -> AuthStep) {
         playerService.setAuthStep(client, builder(authStepService, player!!))
         authStepService.addCreationFunnel(
-            CreationFunnel(player!!.email).also {
+            CreationFunnel(mobService, player!!.email).also {
                 it.mobName = "foo"
                 it.mobRace = Human()
                 it.mobRoom = getStartRoom()
@@ -332,7 +351,7 @@ class TestService(
         return runAction(mob ?: createMob(), input)
     }
 
-    fun runActionForIOStatus(mob: MobDAO, input: String, status: IOStatus, doBetween: () -> Unit = fun() {}): Response {
+    fun runActionForIOStatus(mob: Mob, input: String, status: IOStatus, doBetween: () -> Unit = fun() {}): Response {
         var i = 0
         while (i < 100) {
             val response = runAction(mob, input)
@@ -345,11 +364,11 @@ class TestService(
         throw Exception("cannot generate desired IOStatus")
     }
 
-    fun addFight(mob1: MobDAO, mob2: MobDAO): FightService {
+    fun addFight(mob1: Mob, mob2: Mob): FightService {
         return mobService.addFight(mob1, mob2)
     }
 
-    fun findFightForMob(mob: MobDAO): FightDAO? {
+    fun findFightForMob(mob: Mob): Fight? {
         return mobService.getMobFight(mob)
     }
 
@@ -362,7 +381,7 @@ class TestService(
     }
 
     fun callClientConnectedEvent(event: Event<ClientConnectedEvent>) {
-        runBlocking { ClientConnectedObserver(playerService).invokeAsync(event) }
+        runBlocking { ClientConnectedObserver(mobService, playerService).invokeAsync(event) }
     }
 
     fun callLogoutPlayersOnStartupEvent() {
@@ -389,36 +408,35 @@ class TestService(
         return questService.findByType(type)
     }
 
-    private fun runAction(mob: MobDAO, input: String): Response {
+    private fun runAction(mob: Mob, input: String): Response {
         return runBlocking {
             actionService.run(
                 RequestService(
-                    mob.id.value,
-                    mobService,
+                    mob,
                     input
                 )
             )
         }
     }
 
-    private fun createContainer(): ItemDAO {
+    fun createContainer(): ItemDAO {
         val item = createItem()
         transaction { item.isContainer = true }
         return item
     }
 
-    private fun weapon(mob: MobDAO): ItemDAO {
-        return ItemDAO.new {
+    private fun weapon(mob: Mob): ItemDAO {
+        val item = ItemDAO.new {
             name = "a sword"
             description = "a sword"
             type = ItemType.EQUIPMENT
             position = Position.WEAPON
-            mobInventory = mob
-            mobEquipped = mob
             attributes = AttributesDAO.new {
                 hit = 2
                 dam = 1
             }
         }
+        mob.items.add(item)
+        return item
     }
 }

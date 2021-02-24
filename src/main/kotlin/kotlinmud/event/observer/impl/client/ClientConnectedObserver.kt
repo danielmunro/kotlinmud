@@ -5,6 +5,7 @@ import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.specialization.impl.Warrior
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.dao.PlayerDAO
@@ -14,7 +15,7 @@ import kotlinmud.room.repository.findRoomByCanonicalId
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ClientConnectedObserver(private val playerService: PlayerService) : Observer {
+class ClientConnectedObserver(private val mobService: MobService, private val playerService: PlayerService) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         with(event.subject as ClientConnectedEvent) {
             if (Environment.isDev()) {
@@ -25,7 +26,7 @@ class ClientConnectedObserver(private val playerService: PlayerService) : Observ
                     }
                 }
                 playerService.loginClientAsPlayer(this.client, player)
-                val funnel = CreationFunnel("dan@danmunro.com")
+                val funnel = CreationFunnel(mobService, "dan@danmunro.com")
                 funnel.mobName = "foo"
                 funnel.mobRace = Human()
                 funnel.mobRoom = findRoomByCanonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)

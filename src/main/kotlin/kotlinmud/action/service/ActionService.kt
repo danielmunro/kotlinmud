@@ -15,7 +15,7 @@ import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.io.service.RequestService
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.type.SkillAction
@@ -69,7 +69,7 @@ class ActionService(
 
         if (skill.intent == Intent.OFFENSIVE) {
             triggerFightForOffensiveSkills(
-                request.getMob(),
+                request.mob,
                 response.actionContextList.getResultBySyntax(Syntax.TARGET_MOB)
             )
         }
@@ -88,19 +88,19 @@ class ActionService(
 
         return dispositionCheck(request, action)
             ?: checkForBadContext(contextList)
-            ?: costApply(request.getMob(), action)
+            ?: costApply(request.mob, action)
             ?: callInvokable(request, action, contextList)
     }
 
     private suspend fun executeSkill(request: RequestService, skill: SkillAction): Response {
         val context = buildActionContextList(request, skill)
         return dispositionCheck(request, skill)
-            ?: costApply(request.getMob(), skill)
-            ?: skillRoll(transaction { request.getMob().skills.find { it.type == skill.type }?.level } ?: error("no skill"), context)
+            ?: costApply(request.mob, skill)
+            ?: skillRoll(transaction { request.mob.skills.find { it.type == skill.type }?.level } ?: error("no skill"), context)
             ?: callInvokable(request, skill, context)
     }
 
-    private fun triggerFightForOffensiveSkills(mob: MobDAO, target: MobDAO) {
+    private fun triggerFightForOffensiveSkills(mob: Mob, target: Mob) {
         mobService.getMobFight(mob) ?: mobService.addFight(mob, target)
     }
 
@@ -124,7 +124,7 @@ class ActionService(
     private suspend fun callInvokable(request: RequestService, invokable: Invokable, list: ActionContextList): Response {
         return checkForBadContext(list) ?: with(invokable.invoke(actionContextBuilder(request, list))) {
             if (invokable is Action && invokable.isChained())
-                run(createChainToRequest(request.getMob(), invokable))
+                run(createChainToRequest(request.mob, invokable))
             else
                 this
         }
@@ -139,16 +139,15 @@ class ActionService(
         }
     }
 
-    private fun createChainToRequest(mob: MobDAO, action: Action): RequestService {
+    private fun createChainToRequest(mob: Mob, action: Action): RequestService {
         return RequestService(
-            mob.id.value,
-            mobService,
+            mob,
             action.chainTo.toString()
         )
     }
 
     private fun buildActionContextList(request: RequestService, invokable: Invokable): ActionContextList {
-        logger.debug("${request.getMob()} building action context :: {}, {}", invokable.command, invokable.syntax)
+        logger.debug("${request.mob} building action context :: {}, {}", invokable.command, invokable.syntax)
         var successful = true
         val contexts = mutableListOf<Context<out Any>>()
         invokable.argumentOrder.forEach {

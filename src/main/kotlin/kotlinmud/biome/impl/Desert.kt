@@ -3,9 +3,7 @@ package kotlinmud.biome.impl
 import kotlinmud.biome.type.Biome
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.SubstrateType
-import kotlinmud.mob.factory.fox
-import kotlinmud.mob.factory.lizard
-import kotlinmud.mob.factory.rabbit
+import kotlinmud.mob.model.Mob
 import kotlinmud.resource.impl.Tar
 import kotlinmud.resource.impl.WildGrass
 import kotlinmud.resource.type.Resource
@@ -19,9 +17,5 @@ class Desert : Biome {
     )
     override val substrate: SubstrateType = SubstrateType.SAND
     override val elevationChange: Double = 0.1
-    override val mobs = listOf(
-        { room: RoomDAO -> fox(room) },
-        { room: RoomDAO -> rabbit(room) },
-        { room: RoomDAO -> lizard(room) }
-    )
+    override val mobs: List<(RoomDAO) -> Mob> = listOf()
 }

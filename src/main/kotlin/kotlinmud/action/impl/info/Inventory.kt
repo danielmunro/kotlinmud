@@ -9,9 +9,8 @@ import kotlinmud.item.dao.ItemDAO
 
 fun createInventoryAction(): Action {
     return Action(Command.INVENTORY, mustBeAwake()) {
-        val items = it.getItemsFor(it.getMob())
         createResponseWithEmptyActionContext(
-            messageToActionCreator("Your inventory:\n\n${describeItems(items)}")
+            messageToActionCreator("Your inventory:\n\n${describeItems(it.getMob().items)}")
         )
     }
 }

@@ -4,12 +4,12 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.repository.findMobsForRoom
 import kotlinmud.mob.service.MobService
 import kotlinmud.room.dao.RoomDAO
 
-class TargetMobContextBuilder(private val mobService: MobService, private val mob: MobDAO, private val room: RoomDAO) : ContextBuilder {
+class TargetMobContextBuilder(private val mobService: MobService, private val mob: Mob, private val room: RoomDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         if (word == "") {
             return mobService.getMobFight(mob)?.let {

@@ -4,6 +4,7 @@ import kotlinmud.action.exception.InvokeException
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.helper.math.dice
 import kotlinmud.helper.random.randomAmount
+import kotlinmud.helper.string.matches
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.factory.createBlob
 import kotlinmud.item.factory.createBrains
@@ -18,16 +19,12 @@ import kotlinmud.item.factory.createScale
 import kotlinmud.item.factory.createSmallFang
 import kotlinmud.item.factory.createThread
 import kotlinmud.item.repository.decrementAllItemDecayTimers
-import kotlinmud.item.repository.findAllItemsByOwner
-import kotlinmud.item.repository.findOneByMob
 import kotlinmud.item.repository.findOneByRoom
 import kotlinmud.item.repository.removeAllEquipmentForMob
-import kotlinmud.item.repository.transferAllItemsToItemContainer
 import kotlinmud.item.table.Items.itemId
-import kotlinmud.item.table.Items.mobInventoryId
 import kotlinmud.item.table.Items.roomId
 import kotlinmud.item.type.HasInventory
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.Form
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
@@ -35,42 +32,22 @@ import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ItemService {
-    companion object {
-        fun getColumn(hasInventory: HasInventory): Column<EntityID<Int>?> {
-            return when (hasInventory) {
-                is MobDAO -> mobInventoryId
-                is RoomDAO -> roomId
-                is ItemDAO -> itemId
-                else -> throw Exception("no has inventory")
-            }
-        }
-    }
-
-    fun findAllByOwner(hasInventory: HasInventory): List<ItemDAO> {
-        return findAllItemsByOwner(hasInventory)
-    }
-
-    fun findByOwner(mob: MobDAO, input: String): ItemDAO? {
-        return findOneByMob(mob, input)
+    fun findByOwner(mob: Mob, input: String): ItemDAO? {
+        return mob.items.find { it.name.matches(input) }
     }
 
     fun findByRoom(room: RoomDAO, input: String): ItemDAO? {
         return findOneByRoom(room, input)
     }
 
-    fun getItemGroups(mob: MobDAO): Map<EntityID<Int>, List<ItemDAO>> {
-        return findAllByOwner(mob).groupBy { it.id }
+    fun getItemGroups(mob: Mob): Map<EntityID<Int>, List<ItemDAO>> {
+        return mob.items.groupBy { it.id }
     }
 
-    fun giveItemToMob(item: ItemDAO, mob: MobDAO) {
+    fun giveItemToMob(item: ItemDAO, mob: Mob) {
         checkItemCount(mob)
         checkWeight(mob, item)
-        transaction {
-            item.mobInventory = mob
-            item.room = null
-            item.mobEquipped = null
-            item.container = null
-        }
+        mob.items.add(item)
     }
 
     fun putItemInRoom(item: ItemDAO, room: RoomDAO) {
@@ -83,8 +60,8 @@ class ItemService {
     }
 
     fun putItemInContainer(item: ItemDAO, container: ItemDAO) {
-        checkItemCount(container)
-        checkWeight(container, item)
+//        checkItemCount(container)
+//        checkWeight(container, item)
         transaction {
             item.mobInventory = null
             item.mobEquipped = null
@@ -97,7 +74,7 @@ class ItemService {
         decrementAllItemDecayTimers()
     }
 
-    fun createCorpseFromMob(mob: MobDAO): ItemDAO {
+    fun createCorpseFromMob(mob: Mob): ItemDAO {
         val item = transaction {
             removeAllEquipmentForMob(mob)
             ItemDAO.new {
@@ -110,7 +87,12 @@ class ItemService {
                 room = mob.room
             }
         }
-        transferAllItemsToItem(mob, item)
+        mob.items.forEach {
+            transaction {
+                it.container = item
+            }
+        }
+        mob.items.clear()
         transaction {
             when (dice(1, 3)) {
                 1 -> evaluateMobBodyPartDrop(mob)
@@ -120,7 +102,7 @@ class ItemService {
         return item
     }
 
-    private fun evaluateMobItemDrops(mob: MobDAO) {
+    private fun evaluateMobItemDrops(mob: Mob) {
         val room = transaction { mob.room }
         when (mob.race.form) {
             Form.MAMMAL -> randomAmount(2) { createLeather(room) }
@@ -135,7 +117,7 @@ class ItemService {
         }
     }
 
-    private fun evaluateMobBodyPartDrop(mob: MobDAO) {
+    private fun evaluateMobBodyPartDrop(mob: Mob) {
         val room = transaction { mob.room }
         when (dice(1, 4)) {
             1 -> createBrains(mob, room)
@@ -150,7 +132,7 @@ class ItemService {
             val count = inventory.items.count()
             if (inventory.maxItems != null && count + 1 > inventory.maxItems!!) {
                 throw InvokeException(
-                    if (inventory is MobDAO)
+                    if (inventory is Mob)
                         "you cannot carry any more."
                     else
                         "that is full."
@@ -167,9 +149,5 @@ class ItemService {
                 throw InvokeException("that is too heavy.")
             }
         }
-    }
-
-    private fun transferAllItemsToItem(from: HasInventory, to: ItemDAO) {
-        transferAllItemsToItemContainer(from, to)
     }
 }

@@ -9,6 +9,7 @@ import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.model.MobRespawn
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Ogre
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.type.Area
 
@@ -27,11 +28,11 @@ fun getLorimirItemRespawns(): List<ItemRespawn> {
     )
 }
 
-fun getLorimirMobRespawns(): List<MobRespawn> {
+fun getLorimirMobRespawns(mobService: MobService): List<MobRespawn> {
     return listOf(
         MobRespawn(
             MobCanonicalId.SmallFox,
-            MobBuilder()
+            MobBuilder(mobService)
                 .name("a small fox")
                 .brief("a small fox darts through the underbrush")
                 .description("a small fox is here.")
@@ -43,7 +44,7 @@ fun getLorimirMobRespawns(): List<MobRespawn> {
         ),
         MobRespawn(
             MobCanonicalId.Grongok,
-            MobBuilder()
+            MobBuilder(mobService)
                 .name("Grongok")
                 .brief("a wild looking ogre is here")
                 .description("foo")

@@ -19,6 +19,7 @@ import kotlinmud.player.factory.createEmailService
 import kotlinmud.player.factory.createEmailServiceMock
 import kotlinmud.player.service.EmailService
 import kotlinmud.player.service.PlayerService
+import kotlinmud.quest.helper.createQuestList
 import kotlinmud.quest.service.QuestService
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.time.service.TimeService
@@ -55,7 +56,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         }
         bind<AuthStepService>() with singleton {
             val playerService = instance<PlayerService>()
-            AuthStepService(playerService).also {
+            AuthStepService(instance(), playerService).also {
                 playerService.setAuthStepService(it)
             }
         }
@@ -63,7 +64,9 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
             TimeService(instance())
         }
         bind<QuestService>() with singleton {
-            QuestService()
+            QuestService(
+                createQuestList(instance())
+            )
         }
         bind<ActionService>() with singleton {
             ActionService(
@@ -106,7 +109,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         bind<RespawnService>() with singleton {
             RespawnService(
                 getLorimirItemRespawns(),
-                getLorimirMobRespawns()
+                getLorimirMobRespawns(instance())
             )
         }
     }

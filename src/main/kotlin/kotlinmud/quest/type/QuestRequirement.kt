@@ -1,9 +1,9 @@
 package kotlinmud.quest.type
 
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 
 interface QuestRequirement {
     val questRequirementType: QuestRequirementType
 
-    fun doesSatisfy(mob: MobDAO): Boolean
+    fun doesSatisfy(mob: Mob): Boolean
 }

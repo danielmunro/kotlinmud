@@ -7,12 +7,12 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 
 class GiantStrengthAffect : Affect {
     override val type: AffectType = AffectType.GIANT_STRENGTH
 
-    override fun messageFromInstantiation(mob: MobDAO, target: Noun?): Message {
+    override fun messageFromInstantiation(mob: Mob, target: Noun?): Message {
         return MessageBuilder()
             .toActionCreator("$target's muscles surge with heightened powers.")
             .toTarget("your muscles surge with heightened powers.")

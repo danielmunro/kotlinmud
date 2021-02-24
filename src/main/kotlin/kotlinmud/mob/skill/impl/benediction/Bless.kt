@@ -6,13 +6,12 @@ import kotlinmud.affect.impl.BlessAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.clericAt
 import kotlinmud.mob.skill.factory.normalForCleric
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.skill.type.SpellAction
 import kotlinmud.mob.type.Intent
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class Bless : SpellAction {
     override val affect = BlessAffect()
@@ -26,11 +25,9 @@ class Bless : SpellAction {
     override val intent = Intent.PROTECTIVE
 
     override fun invoke(actionContextService: ActionContextService): Response {
-        val target = actionContextService.get<MobDAO>(Syntax.TARGET_MOB)
+        val target = actionContextService.get<Mob>(Syntax.TARGET_MOB)
         createAffect(AffectType.BLESS, actionContextService.getLevel()).also {
-            transaction {
-                it.mob = actionContextService.getMob()
-            }
+            actionContextService.getMob().affects.add(it)
         }
         return actionContextService.createSpellInvokeResponse(target, affect)
     }

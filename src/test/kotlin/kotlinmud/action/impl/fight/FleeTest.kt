@@ -24,7 +24,7 @@ class FleeTest {
         testService.runActionForIOStatus(mob, "flee", IOStatus.OK)
 
         // then
-        findFightForMob(mob).let { assertThat(it!!.isOver()).isEqualTo(true) }
+        testService.findFightForMob(mob).let { assertThat(it!!.isOver()).isEqualTo(true) }
     }
 
     @Test

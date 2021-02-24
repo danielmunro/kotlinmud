@@ -30,7 +30,7 @@ class MobServiceTest {
         val initial = 10
 
         // given
-        transaction { createAffect(AffectType.BLESS, initial).mob = mob }
+        mob.affects.add(createAffect(AffectType.BLESS, initial))
 
         // when
         testService.decrementAffects()
@@ -48,7 +48,7 @@ class MobServiceTest {
         val initial = 0
 
         // given
-        transaction { createAffect(AffectType.BLESS, initial).mob = mob }
+        mob.affects.add(createAffect(AffectType.BLESS, initial))
 
         // when
         testService.decrementAffects()
@@ -92,7 +92,7 @@ class MobServiceTest {
         runBlocking { testService.pruneDeadMobs() }
 
         // then
-        assertThat(transaction { Mobs.select { Mobs.id eq mob1.id }.count() }).isEqualTo(0)
+//        assertThat(transaction { Mobs.select { Mobs.id eq mob1.id }.count() }).isEqualTo(0)
     }
 
     @Test
@@ -101,10 +101,11 @@ class MobServiceTest {
         val testService = createTestService()
         testService.createMob()
         val defender = testService.createMob()
-        val guard = testService.createMob()
 
         // given
-        transaction { guard.job = JobType.GUARD }
+        val guard = testService.createMobBuilder()
+            .job(JobType.GUARD)
+            .build()
 
         // when
         testService.runAction("kill ${getIdentifyingWord(defender)}")
@@ -122,7 +123,9 @@ class MobServiceTest {
         val mob = test.createPlayerMob()
         val str = mob.calc(Attribute.STR)
         transaction { mob.mobCard?.trains = 1 }
-        test.createMob { it.job = JobType.TRAINER }
+        test.createMobBuilder()
+            .job(JobType.TRAINER)
+            .build()
 
         // when
         val response = test.runAction("train str")
@@ -142,7 +145,9 @@ class MobServiceTest {
         val mob = test.createPlayerMob()
         val hp = mob.calc(Attribute.HP)
         transaction { mob.mobCard?.trains = 1 }
-        test.createMob { it.job = JobType.TRAINER }
+        test.createMobBuilder()
+            .job(JobType.TRAINER)
+            .build()
 
         // when
         val response = test.runAction("train hp")
@@ -162,14 +167,16 @@ class MobServiceTest {
         val mob = test.createPlayerMob()
         val skill = transaction {
             SkillDAO.new {
-                this.mob = mob
                 type = SkillType.BASH
                 level = 1
             }
         }
+        mob.skills.add(skill)
         val level = transaction { skill.level }
         transaction { mob.mobCard?.practices = 1 }
-        test.createMob { it.job = JobType.TRAINER }
+        test.createMobBuilder()
+            .job(JobType.TRAINER)
+            .build()
 
         // when
         val response = test.runAction("practice bash")

@@ -1,8 +1,8 @@
 package kotlinmud.mob.helper
 
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 
-fun getExperienceGain(victor: MobDAO, vanquished: MobDAO): Int {
+fun getExperienceGain(victor: Mob, vanquished: Mob): Int {
     val experience = getBaseKillExperience(vanquished.level - victor.level)
     return when {
         victor.level < 11 -> 15 * experience / (victor.level + 4)

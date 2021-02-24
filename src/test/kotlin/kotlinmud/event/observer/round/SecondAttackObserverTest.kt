@@ -22,10 +22,10 @@ class SecondAttackObserverTest {
         }
         val target = test.createMob()
 
-        test.addFight(mob, target)
+        val fight = test.addFight(mob, target)
         val prob = ProbabilityTest()
 
-        while (prob.isIterating() && findFightForMob(mob) != null) {
+        while (prob.isIterating() && !fight.isOver()) {
             val round = runBlocking { test.proceedFights() }
             round.forEach {
                 prob.decrementIteration(

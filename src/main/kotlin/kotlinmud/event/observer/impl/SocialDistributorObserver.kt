@@ -5,8 +5,7 @@ import kotlinmud.event.impl.SocialEvent
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.io.model.Message
 import kotlinmud.io.service.ServerService
-import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.repository.findMobsForRoom
+import kotlinmud.mob.model.Mob
 import kotlinmud.player.social.SocialChannel
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -23,7 +22,7 @@ class SocialDistributorObserver(private val serverService: ServerService) : Obse
         }
     }
 
-    private fun yellToArea(mob: MobDAO, room: RoomDAO, message: Message) {
+    private fun yellToArea(mob: Mob, room: RoomDAO, message: Message) {
         serverService.getClients().forEach {
             val clientRoom = transaction { it.mob!!.room }
             if (it.mob != mob && clientRoom.area == room.area) {
@@ -32,7 +31,7 @@ class SocialDistributorObserver(private val serverService: ServerService) : Obse
         }
     }
 
-    private fun gossipToClients(mob: MobDAO, message: Message) {
+    private fun gossipToClients(mob: Mob, message: Message) {
         serverService.getClients().forEach {
             if (it.mob != mob) {
                 it.write(message.toObservers)
@@ -40,19 +39,19 @@ class SocialDistributorObserver(private val serverService: ServerService) : Obse
         }
     }
 
-    private fun tellMob(target: MobDAO, message: Message) {
+    private fun tellMob(target: Mob, message: Message) {
         val clients = serverService.getClientsFromMobs(listOf(target))
         if (clients.isNotEmpty()) {
             clients[0].write(message.toTarget)
         }
     }
 
-    private fun sayToRoom(mob: MobDAO, room: RoomDAO, message: Message) {
-        val mobs = findMobsForRoom(room)
-        serverService.getClientsFromMobs(mobs).forEach {
-            if (it.mob != mob) {
-                it.write(message.toObservers)
-            }
-        }
+    private fun sayToRoom(mob: Mob, room: RoomDAO, message: Message) {
+//        val mobs = findMobsForRoom(room)
+//        serverService.getClientsFromMobs(mobs).forEach {
+//            if (it.mob != mob) {
+//                it.write(message.toObservers)
+//            }
+//        }
     }
 }

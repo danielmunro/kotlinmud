@@ -5,18 +5,23 @@ import kotlinmud.action.type.Status
 import kotlinmud.helper.Noun
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.item.dao.ItemDAO
+import kotlinmud.mob.model.Mob
 
 class OptionalTargetContextBuilder(
-    private val actionCreator: MobDAO,
-    private val possibleTargets: List<Noun>
+    private val actionCreator: Mob,
+    private val possibleTargets: List<Any>
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         if (word == "") {
             return Context(syntax, Status.OK, actionCreator)
         }
         return possibleTargets.find {
-            word.matches(it.name)
+            return@find if (it is ItemDAO) {
+                word.matches(it.name)
+            } else if (it is Noun) {
+                word.matches(it.name)
+            } else false
         }?.let {
             Context<Any>(syntax, Status.OK, it)
         } ?: Context<Any>(syntax, Status.ERROR, "you don't see it anywhere.")

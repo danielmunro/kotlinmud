@@ -1,6 +1,7 @@
 package kotlinmud.quest.impl.praetorians
 
 import kotlinmud.faction.type.FactionType
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.quest.factory.createMobInRoomQuestRequirement
@@ -11,17 +12,17 @@ import kotlinmud.quest.type.reward.CurrencyQuestReward
 import kotlinmud.quest.type.reward.ExperienceQuestReward
 import kotlinmud.quest.type.reward.FactionScoreQuestReward
 
-class FindCaptainBartok : Quest {
+class FindCaptainBartok(private val mobService: MobService) : Quest {
     override val type = QuestType.JOIN_PRAETORIAN_GUARD
     override val level = 3
     override val name = "Talk to Captain Bartok of the Praetorian Guard"
     override val description = "yolo"
     override val acceptConditions = listOf(
-        createMobInRoomQuestRequirement(MobCanonicalId.PraetorianRecruiterEsmer),
+        createMobInRoomQuestRequirement(mobService, MobCanonicalId.PraetorianRecruiterEsmer),
         createPriorQuestRequirement(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER),
     )
     override val submitConditions = listOf(
-        createMobInRoomQuestRequirement(MobCanonicalId.PraetorianCaptainBartok),
+        createMobInRoomQuestRequirement(mobService, MobCanonicalId.PraetorianCaptainBartok),
     )
     override val rewards = listOf(
         FactionScoreQuestReward(FactionType.PRAETORIAN_GUARD, 100),

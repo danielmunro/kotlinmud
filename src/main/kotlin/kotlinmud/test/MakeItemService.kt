@@ -3,7 +3,7 @@ package kotlinmud.test
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.type.ItemType
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class MakeItemService(private val amount: Int) {
@@ -13,10 +13,10 @@ class MakeItemService(private val amount: Int) {
         return this
     }
 
-    fun andGiveTo(mob: MobDAO) {
+    fun andGiveTo(mob: Mob) {
         transaction {
             for (i in 1..amount) {
-                createItem().mobInventory = mob
+                mob.items.add(createItem())
             }
         }
     }

@@ -15,11 +15,15 @@ class AffectsTest {
         val test = createTestService()
 
         // given
-        test.createMob {
-            InvisibilityAffect().createInstance(5).mob = it
-            BlessAffect().createInstance(10).mob = it
-            BlindAffect().createInstance(1).mob = it
-        }
+        test.createMobBuilder()
+            .affects(
+                listOf(
+                    InvisibilityAffect().createInstance(5),
+                    BlessAffect().createInstance(10),
+                    BlindAffect().createInstance(1),
+                )
+            )
+            .build()
 
         // when
         val response = test.runAction("affects")

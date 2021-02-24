@@ -4,10 +4,10 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class EquippedItemContextBuilder(private val mob: MobDAO) : ContextBuilder {
+class EquippedItemContextBuilder(private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return transaction {
             mob.equipped.find { word.matches(it.name) }?.let {

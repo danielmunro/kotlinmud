@@ -12,7 +12,7 @@ class WimpyObserver(private val mobService: MobService) : Observer {
         with(event.subject as Round) {
             transaction {
                 getParticipants().forEach {
-                    if (isActive() && it.isWimpyMode()) {
+                    if (isActive() && it.wimpy > it.hp && it.room.getAllExits().isNotEmpty()) {
                         runBlocking { mobService.flee(it) }
                     }
                 }

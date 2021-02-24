@@ -13,4 +13,5 @@ interface Specialization {
     val hpMax: Int
     val manaMin: Int
     val manaMax: Int
+    val type: SpecializationType
 }

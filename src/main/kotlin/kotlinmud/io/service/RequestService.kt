@@ -1,25 +1,19 @@
 package kotlinmud.io.service
 
-import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.service.MobService
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.Disposition
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.repository.findRoomByMobId
 
-class RequestService(val mobId: Int, private val mobService: MobService, val input: String) {
+class RequestService(val mob: Mob, val input: String) {
     val args = input.toLowerCase().split(' ')
 
     fun getMobCard(): MobCardDAO {
-        return mobService.getMob(mobId).mobCard!!
-    }
-
-    fun getMob(): MobDAO {
-        return mobService.getMob(mobId)
+        return mob.mobCard!!
     }
 
     fun getRoom(): RoomDAO {
-        return findRoomByMobId(mobId)
+        return mob.room
     }
 
     fun getCommand(): String {
@@ -31,6 +25,6 @@ class RequestService(val mobId: Int, private val mobService: MobService, val inp
     }
 
     fun getDisposition(): Disposition {
-        return getMob().disposition
+        return mob.disposition
     }
 }

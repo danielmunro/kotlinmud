@@ -5,7 +5,6 @@ import kotlinmud.affect.repository.decrementAffectsTimeout
 import kotlinmud.affect.repository.deleteTimedOutAffects
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.event.factory.createDeathEvent
 import kotlinmud.event.factory.createKillEvent
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
@@ -24,26 +23,22 @@ import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.controller.MobController
-import kotlinmud.mob.dao.FightDAO
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.helper.getDispositionRegenRate
 import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.helper.takeDamageFromFall
+import kotlinmud.mob.model.Fight
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.repository.deleteFinishedFights
-import kotlinmud.mob.repository.findDeadMobs
-import kotlinmud.mob.repository.findFightForMob
-import kotlinmud.mob.repository.findFights
-import kotlinmud.mob.repository.findMobById
-import kotlinmud.mob.repository.findPlayerMobs
 import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.helper.getLearningDifficultyPracticeAmount
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.SpecializationType
+import kotlinmud.mob.type.JobType
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.repository.findMobCardByName
 import kotlinmud.room.dao.RoomDAO
@@ -58,6 +53,8 @@ class MobService(
     private val skills: List<Skill>
 ) {
     private val logger = logger(this)
+    private val fights = mutableListOf<Fight>()
+    private val mobs = mutableListOf<Mob>()
 
     suspend fun regenMobs() {
         findPlayerMobs().forEach {
@@ -72,20 +69,46 @@ class MobService(
         }
     }
 
-    fun createMobController(mob: MobDAO): MobController {
+    fun addMob(mob: Mob) {
+        mobs.add(mob)
+    }
+
+    fun createMobController(mob: Mob): MobController {
         return MobController(this, itemService, eventService, mob)
     }
 
-    fun addFight(mob1: MobDAO, mob2: MobDAO): FightService {
+    fun addFight(mob1: Mob, mob2: Mob): FightService {
         return FightService.create(mob1, mob2, eventService)
     }
 
-    fun getMobFight(mob: MobDAO): FightDAO? {
-        return findFightForMob(mob)
+    fun getMobFight(mob: Mob): Fight? {
+        return fights.find { it.isParticipant(mob) }
     }
 
-    suspend fun moveMob(mob: MobDAO, destinationRoom: RoomDAO, directionLeavingFrom: Direction) {
-        val leaving = transaction { mob.room }
+    fun findMobsInRoom(room: RoomDAO): List<Mob> {
+        return mobs.filter { it.room == room }
+    }
+
+    fun findPlayerMobs(): List<Mob> {
+        return mobs.filter { it.mobCard != null }
+    }
+
+    fun findMobsByJobType(jobType: JobType): List<Mob> {
+        return mobs.filter { it.job == jobType }
+    }
+
+    fun findMobsWantingToMoveOnTick(): List<Mob> {
+        return mobs.filter {
+            it.mobCard == null && (
+                it.job == JobType.FODDER ||
+                it.job == JobType.SCAVENGER ||
+                it.job == JobType.PATROL
+            )
+        }
+    }
+
+    suspend fun moveMob(mob: Mob, destinationRoom: RoomDAO, directionLeavingFrom: Direction) {
+        val leaving = mob.room
         sendMessageToRoom(createLeaveMessage(mob, directionLeavingFrom), leaving, mob)
         transaction { mob.room = destinationRoom }
         doFallCheck(mob, leaving, destinationRoom)
@@ -106,25 +129,25 @@ class MobService(
     }
 
     suspend fun pruneDeadMobs() {
-        findDeadMobs().forEach {
-            createCorpseFrom(it)
-            eventService.publish(createDeathEvent(it))
-            transaction { it.delete() }
-        }
+//        findDeadMobs().forEach {
+//            createCorpseFrom(it)
+//            eventService.publish(createDeathEvent(it))
+//            transaction { it.delete() }
+//        }
     }
 
-    suspend fun sendMessageToRoom(message: Message, room: RoomDAO, actionCreator: MobDAO, target: MobDAO? = null) {
+    suspend fun sendMessageToRoom(message: Message, room: RoomDAO, actionCreator: Mob, target: Mob? = null) {
         eventService.publish(createSendMessageToRoomEvent(message, room, actionCreator, target))
     }
 
-    fun createCorpseFrom(mob: MobDAO): ItemDAO {
+    fun createCorpseFrom(mob: Mob): ItemDAO {
         return itemService.createCorpseFromMob(mob)
     }
 
-    fun flee(mob: MobDAO) {
+    fun flee(mob: Mob) {
         getMobFight(mob)?.let {
             makeMobFlee(FightService(it, eventService), mob)
-        } ?: logger.debug("flee :: no fight for mob :: {}", mob.id)
+        } ?: logger.debug("flee :: no fight for mob :: {}", mob.name)
     }
 
     fun train(card: MobCardDAO, attribute: Attribute) {
@@ -137,15 +160,11 @@ class MobService(
         }
     }
 
-    fun practice(mob: MobDAO, skill: SkillDAO) {
+    fun practice(mob: Mob, skill: SkillDAO) {
         transaction {
             mob.mobCard!!.practices -= 1
             skill.level += calculatePracticeGain(mob, skill)
         }
-    }
-
-    fun getMob(id: Int): MobDAO {
-        return findMobById(id)
     }
 
     fun decreaseThirstAndHunger(mobName: String): MobCardDAO? {
@@ -157,7 +176,7 @@ class MobService(
         }
     }
 
-    private fun makeMobFlee(fight: FightService, mob: MobDAO) {
+    private fun makeMobFlee(fight: FightService, mob: Mob) {
         fight.end()
         transaction {
             val exit = mob.room.getAllExits().entries.random()
@@ -167,7 +186,7 @@ class MobService(
                     mob.room,
                     mob
                 )
-                fight.makeMobFlee(mob.id.value, exit.value)
+                mob.room = exit.value
                 sendMessageToRoom(
                     createArriveMessage(mob),
                     exit.value,
@@ -177,10 +196,10 @@ class MobService(
         }
     }
 
-    private fun calculatePracticeGain(mob: MobDAO, skill: SkillDAO): Int {
+    private fun calculatePracticeGain(mob: Mob, skill: SkillDAO): Int {
         return with(
             1 + getLearningDifficultyPracticeAmount(
-                getSkillDifficultyForSpecialization(skill.type, mob.specialization)
+                getSkillDifficultyForSpecialization(skill.type, mob.specialization?.type ?: SpecializationType.NONE)
             )
         ) {
             (Math.random() * this + mob.calc(Attribute.INT) / 5).roundToInt()
@@ -196,12 +215,12 @@ class MobService(
     }
 
     private suspend fun createNewFightRounds(): List<Round> {
-        return findFights().map {
+        return fights.map {
             proceedFightRound(FightService(it, eventService).createRound())
         }
     }
 
-    private fun doFallCheck(mob: MobDAO, leaving: RoomDAO, arriving: RoomDAO) {
+    private fun doFallCheck(mob: Mob, leaving: RoomDAO, arriving: RoomDAO) {
         (leaving.elevation - arriving.elevation).let {
             if (it > MAX_WALKABLE_ELEVATION) {
                 takeDamageFromFall(mob, it)
@@ -233,7 +252,7 @@ class MobService(
         return round
     }
 
-    private suspend fun sendRoundMessage(attacks: List<Attack>, room: RoomDAO, attacker: MobDAO, defender: MobDAO) {
+    private suspend fun sendRoundMessage(attacks: List<Attack>, room: RoomDAO, attacker: Mob, defender: Mob) {
         attacks.forEach {
             val verb = if (it.attackResult == AttackResult.HIT) it.attackVerb else "miss"
             val verbPlural = if (it.attackResult == AttackResult.HIT) it.attackVerb.pluralize() else "misses"

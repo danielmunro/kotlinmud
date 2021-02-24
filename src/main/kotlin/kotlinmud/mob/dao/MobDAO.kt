@@ -7,17 +7,13 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.attributes.type.HasAttributes
-import kotlinmud.helper.Noun
-import kotlinmud.helper.math.dice
 import kotlinmud.helper.math.normalizeInt
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.table.Items
-import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
 import kotlinmud.mob.constant.BASE_STAT
 import kotlinmud.mob.fight.type.DamageType
-import kotlinmud.mob.helper.getSkillBoostRegenRate
 import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.skill.dao.SkillDAO
@@ -40,12 +36,12 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
+class MobDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<MobDAO>(Mobs)
 
-    override var name by Mobs.name
+    var name by Mobs.name
     var brief by Mobs.brief
-    override var description by Mobs.description
+    var description by Mobs.description
     var hp by Mobs.hp
     var mana by Mobs.mana
     var mv by Mobs.mv
@@ -79,8 +75,8 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
         { it?.split(", ")?.map { value -> value.toInt() } }
     )
     var lastRoute by Mobs.lastRoute
-    override var maxItems by Mobs.maxItems
-    override var maxWeight by Mobs.maxWeight
+    var maxItems by Mobs.maxItems
+    var maxWeight by Mobs.maxWeight
     var rarity by Mobs.rarity.transform(
         { it.toString() },
         { Rarity.valueOf(it) }
@@ -92,9 +88,9 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
     var attributes by AttributesDAO referencedOn Mobs.attributesId
     var room by RoomDAO referencedOn Mobs.roomId
     val equipped by ItemDAO optionalReferrersOn Items.mobEquippedId
-    override val items by ItemDAO optionalReferrersOn Items.mobInventoryId
+    val items by ItemDAO optionalReferrersOn Items.mobInventoryId
     val skills by SkillDAO referrersOn Skills.mobId
-    override val affects by AffectDAO optionalReferrersOn Affects.mobId
+    val affects by AffectDAO optionalReferrersOn Affects.mobId
     var player by PlayerDAO optionalReferencedOn Mobs.playerId
     var mobCard by MobCardDAO optionalReferencedOn Mobs.mobCardId
     val currencies by CurrencyDAO referrersOn Currencies.mobId
@@ -133,42 +129,10 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
             job == null
     }
 
-    fun isStanding(): Boolean {
-        return disposition == Disposition.STANDING
-    }
-
-    fun isIncapacitated(): Boolean {
-        return disposition == Disposition.DEAD
-    }
-
-    fun isSleeping(): Boolean {
-        return disposition == Disposition.SLEEPING
-    }
-
-    fun getHealthIndication(): String {
-        val amount: Double = hp.toDouble() / calc(Attribute.HP).toDouble()
-        return when {
-            amount == 1.0 -> "$name is in excellent condition."
-            amount > 0.9 -> "$name has a few scratches."
-            amount > 0.75 -> "$name has some small wounds and bruises."
-            amount > 0.5 -> "$name has quite a few wounds."
-            amount > 0.3 -> "$name has some big nasty wounds and scratches."
-            amount > 0.15 -> "$name looks pretty hurt."
-            else -> "$name is in awful condition."
-        }
-    }
-
     fun increaseByRegenRate(hpRate: Double, manaRate: Double, mvRate: Double) {
-        increaseHp(((hpRate + getSkillBoostRegenRate(this, Attribute.HP)) * calc(Attribute.HP)).toInt())
-        increaseMana(((manaRate + getSkillBoostRegenRate(this, Attribute.MANA)) * calc(Attribute.MANA)).toInt())
-        increaseMv((mvRate * calc(Attribute.MV)).toInt())
-    }
-
-    fun calculateDamage(): Int {
-        val hit = calc(Attribute.HIT)
-        val dam = calc(Attribute.DAM)
-
-        return dice(hit, dam) + dam
+//        increaseHp(((hpRate + getSkillBoostRegenRate(this, Attribute.HP)) * calc(Attribute.HP)).toInt())
+//        increaseMana(((manaRate + getSkillBoostRegenRate(this, Attribute.MANA)) * calc(Attribute.MANA)).toInt())
+//        increaseMv((mvRate * calc(Attribute.MV)).toInt())
     }
 
     fun calc(attribute: Attribute): Int {
@@ -211,14 +175,6 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id), Noun, HasInventory {
                 Attribute.AC_MAGIC -> attributes.acMagic + accumulate { it.attributes?.acMagic ?: 0 }
             }
         }
-    }
-
-    fun getDamageType(): DamageType {
-        return getWeapon()?.damageType ?: race.unarmedDamageType
-    }
-
-    fun getAttackVerb(): String {
-        return getWeapon()?.attackVerb ?: race.unarmedAttackVerb
     }
 
     fun savesAgainst(damageType: DamageType): Boolean {

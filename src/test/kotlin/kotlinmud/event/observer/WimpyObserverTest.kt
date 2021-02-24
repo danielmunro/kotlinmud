@@ -13,38 +13,6 @@ import org.junit.Test
 
 class WimpyObserverTest {
     @Test
-    fun testWimpySanity() {
-        // setup
-        val test = createTestService()
-
-        // given
-        transaction { test.getStartRoom().east = test.createRoom() }
-
-        // expect
-        test.createMob {
-            it.wimpy = 0
-        }.let {
-            assertThat(transaction { it.isWimpyMode() }).isFalse()
-        }
-
-        // expect
-        test.createMob {
-            it.wimpy = 5
-            it.hp = 1
-        }.let {
-            assertThat(transaction { it.isWimpyMode() }).isTrue()
-        }
-
-        // expect
-        test.createMob {
-            it.wimpy = 0
-            it.hp = 0
-        }.let {
-            assertThat(transaction { it.isWimpyMode() }).isFalse()
-        }
-    }
-
-    @Test
     fun testWimpyInvokesFleeMovesMob() {
         // setup
         val test = createTestServiceWithResetDB()
@@ -68,6 +36,6 @@ class WimpyObserverTest {
         }
 
         // then
-        assertThat(findRoomByMobId(mob.id.value)).isEqualTo(dst)
+        assertThat(mob.room).isEqualTo(dst)
     }
 }

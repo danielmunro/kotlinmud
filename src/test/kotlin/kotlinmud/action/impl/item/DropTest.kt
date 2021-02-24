@@ -14,7 +14,7 @@ class DropTest {
         val testService = createTestService()
         val mob = testService.createMob()
         val item = testService.createItem()
-        transaction { item.mobInventory = mob }
+        mob.items.add(item)
         val room = transaction { mob.room }
         val mobItemCount = testService.countItemsFor(mob)
         val roomItemCount = testService.countItemsFor(room)

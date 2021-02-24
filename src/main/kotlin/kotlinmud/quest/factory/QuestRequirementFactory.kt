@@ -1,6 +1,6 @@
 package kotlinmud.quest.factory
 
-import kotlinmud.mob.repository.findMobByCanonicalId
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.quest.requirement.LevelQuestRequirement
 import kotlinmud.quest.requirement.MobInRoomQuestRequirement
@@ -18,8 +18,8 @@ fun createPriorQuestRequirement(questType: QuestType): PriorQuestRequirement {
     return PriorQuestRequirement(questType)
 }
 
-fun createMobInRoomQuestRequirement(id: MobCanonicalId): MobInRoomQuestRequirement {
-    return MobInRoomQuestRequirement(findMobByCanonicalId(id))
+fun createMobInRoomQuestRequirement(mobService: MobService, id: MobCanonicalId): MobInRoomQuestRequirement {
+    return MobInRoomQuestRequirement(mobService, id)
 }
 
 fun createRoomQuestRequirement(id: CanonicalId): RoomQuestRequirement {

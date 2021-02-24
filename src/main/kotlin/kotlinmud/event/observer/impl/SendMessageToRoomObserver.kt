@@ -5,15 +5,15 @@ import kotlinmud.event.impl.SendMessageToRoomEvent
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.io.model.Client
 import kotlinmud.io.service.ServerService
-import kotlinmud.mob.repository.findMobsForRoom
+import kotlinmud.mob.service.MobService
+import kotlinmud.mob.type.Disposition
 
-class SendMessageToRoomObserver(private val serverService: ServerService) : Observer {
+class SendMessageToRoomObserver(private val mobService: MobService, private val serverService: ServerService) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         val messageEvent = event.subject as SendMessageToRoomEvent
-        val mobs = findMobsForRoom(messageEvent.room)
         val message = messageEvent.message
-        serverService.getClientsFromMobs(mobs)
-            .filter { !it.mob!!.isSleeping() && !it.mob!!.isIncapacitated() }
+        serverService.getClientsFromMobs(mobService.findPlayerMobs())
+            .filter { it.mob!!.disposition != Disposition.SLEEPING && it.mob!!.disposition != Disposition.DEAD }
             .forEach {
                 when (it.mob) {
                     messageEvent.actionCreator -> sendIfSet(it, message.toActionCreator, message.sendPrompt)

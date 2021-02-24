@@ -51,15 +51,15 @@ val ObserverModule = Kodein.Module {
     }
 
     bind<Observer>(tag = Tag.CLIENT_CONNECTED) with provider {
-        ClientConnectedObserver(instance())
+        ClientConnectedObserver(instance(), instance())
     }
 
     bind<Observer>(tag = Tag.SEND_MESSAGE_TO_ROOM) with provider {
-        SendMessageToRoomObserver(instance())
+        SendMessageToRoomObserver(instance(), instance())
     }
 
     bind<Observer>(tag = Tag.LOG_PLAYER_IN) with provider {
-        LogPlayerInObserver()
+        LogPlayerInObserver(instance())
     }
 
     bind<Observer>(tag = Tag.LOG_PLAYER_OUT) with provider {
@@ -163,7 +163,7 @@ val ObserverModule = Kodein.Module {
     }
 
     bind<Observer>(tag = Tag.PROCESS_CLIENT_BUFFERS) with provider {
-        ProcessClientBuffersObserver(instance(), instance(), instance(), instance(), instance())
+        ProcessClientBuffersObserver(instance(), instance(), instance(), instance())
     }
 
     bind<Observer>(tag = Tag.READ_INTO_CLIENT_BUFFERS) with provider {

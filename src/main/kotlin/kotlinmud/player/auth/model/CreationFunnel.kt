@@ -1,12 +1,9 @@
 package kotlinmud.player.auth.model
 
-import kotlinmud.attributes.constant.startingHp
-import kotlinmud.attributes.constant.startingMana
-import kotlinmud.attributes.constant.startingMv
-import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.helper.MobBuilder
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.race.type.Race
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.type.LearningDifficulty
@@ -17,7 +14,7 @@ import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class CreationFunnel(val email: String) {
+class CreationFunnel(private val mobService: MobService, val email: String) {
     lateinit var mobName: String
     lateinit var mobRace: Race
     lateinit var specialization: Specialization
@@ -25,16 +22,16 @@ class CreationFunnel(val email: String) {
     private val skills = mutableListOf<SkillType>()
     private val allSkills = createSkillList()
 
-    fun build(): MobDAO {
+    fun build(): Mob {
         return createMob().also { mob ->
             skills.forEach { type ->
-                SkillDAO.new {
-                    this.mob = mob
+                val skill = SkillDAO.new {
                     this.type = type
                     level = 1
                 }
+                mob.skills.add(skill)
                 val mobCard = mob.mobCard!!
-                mobCard.experiencePerLevel += addExperienceForSkillType(type, mob.specialization!!)
+                mobCard.experiencePerLevel += addExperienceForSkillType(type, mob.specialization!!.type)
             }
         }
     }
@@ -51,25 +48,23 @@ class CreationFunnel(val email: String) {
         } ?: 0
     }
 
-    private fun createMob(): MobDAO {
-        return transaction {
-            MobBuilder()
-                .name(mobName)
-                .brief("a $mobRace is here")
-                .description("a nondescript $mobRace is here")
-                .race(mobRace)
-                .room(mobRoom)
-                .build()
-            .also {
-                it.mobCard = MobCardDAO.new {
-                    experiencePerLevel = 1000
-                    experience = 1000
-                    trains = 5
-                    practices = 5
-                    mob = it
-                    respawnRoom = mobRoom
-                }
+    private fun createMob(): Mob {
+        val card = transaction {
+            MobCardDAO.new {
+                experiencePerLevel = 1000
+                experience = 1000
+                trains = 5
+                practices = 5
+                respawnRoom = mobRoom
             }
         }
+        return MobBuilder(mobService)
+            .name(mobName)
+            .brief("a $mobRace is here")
+            .description("a nondescript $mobRace is here")
+            .race(mobRace)
+            .room(mobRoom)
+            .card(card)
+            .build()
     }
 }

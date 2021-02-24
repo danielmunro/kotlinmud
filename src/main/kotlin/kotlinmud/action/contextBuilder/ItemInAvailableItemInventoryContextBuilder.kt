@@ -12,7 +12,7 @@ class ItemInAvailableItemInventoryContextBuilder(
     private val hasInventory: HasInventory
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        return itemService.findAllByOwner(hasInventory).find {
+        return hasInventory.items.find {
             word.matches(it.name)
         }?.let {
             Context<Any>(syntax, Status.OK, it)

@@ -2,17 +2,17 @@ package kotlinmud.item.helper
 
 import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun applyAffectFromItem(mob: MobDAO, item: ItemDAO) {
+fun applyAffectFromItem(mob: Mob, item: ItemDAO) {
     transaction {
         item.affects.forEach {
-            AffectDAO.new {
+            val affect = AffectDAO.new {
                 type = it.type
                 timeout = it.timeout
-                this.mob = mob
             }
+            mob.affects.add(affect)
         }
     }
 }

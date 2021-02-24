@@ -14,22 +14,20 @@ class ListTest {
         test.createMob()
 
         // given
-        val shopkeeper = test.createMob { it.job = JobType.SHOPKEEPER }
+        val shopkeeper = test.createShopkeeper()
         val item1 = test.createItem {
-            it.mobInventory = shopkeeper
             it.level = 1
             it.worth = 100
         }
         val item2 = test.createItem {
-            it.mobInventory = shopkeeper
             it.level = 10
             it.worth = 1
         }
         val item3 = test.createItem {
-            it.mobInventory = shopkeeper
             it.level = 20
             it.worth = 3210
         }
+        shopkeeper.items.addAll(listOf(item1, item2, item3))
 
         // when
         val response = test.runAction("list")

@@ -9,7 +9,7 @@ import kotlinmud.io.factory.target
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.easyForThief
 import kotlinmud.mob.skill.factory.easyForWarrior
 import kotlinmud.mob.skill.factory.mvCostOf
@@ -21,7 +21,6 @@ import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Intent
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class Trip : SkillAction, Customization {
     override val type = SkillType.TRIP
@@ -50,11 +49,9 @@ class Trip : SkillAction, Customization {
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val mob = actionContextService.getMob()
-        val target = actionContextService.get<MobDAO>(Syntax.TARGET_MOB)
-        transaction {
-            affect.createInstance(1).mob = target
-        }
-        transaction { target.hp -= dice(2, 4) }
+        val target = actionContextService.get<Mob>(Syntax.TARGET_MOB)
+        target.affects.add(affect.createInstance(1))
+        target.hp -= dice(2, 4)
         return actionContextService.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you trip $target and they go down hard.")

@@ -14,13 +14,11 @@ class SellTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val shopkeeper = testService.createMob {
-            it.job = JobType.SHOPKEEPER
-        }
+        val shopkeeper = testService.createShopkeeper()
 
         // given
         val item = testService.createItem()
-        transaction { item.mobInventory = mob }
+        mob.items.add(item)
 
         // when
         val response = testService.runAction("sell ${getIdentifyingWord(item)}")
@@ -39,7 +37,7 @@ class SellTest {
 
         // given
         val item = testService.createItem()
-        transaction { item.mobInventory = mob }
+        mob.items.add(item)
 
         // when
         val response = testService.runAction("sell ${getIdentifyingWord(item)}")
@@ -53,13 +51,11 @@ class SellTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        testService.createMob {
-            it.job = JobType.SHOPKEEPER
-        }
+        testService.createShopkeeper()
 
         // given
         val item = testService.createItem()
-        transaction { item.mobInventory = mob }
+        mob.items.add(item)
 
         // when
         val response = testService.runAction("sell foobar")
@@ -73,15 +69,13 @@ class SellTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        testService.createMob {
-            it.job = JobType.SHOPKEEPER
-        }
+        testService.createShopkeeper()
 
         // given
         val item = testService.createItem {
             it.worth = 100
-            it.mobInventory = mob
         }
+        mob.items.add(item)
 
         // when
         val response = testService.runAction("sell ${getIdentifyingWord(item)}")

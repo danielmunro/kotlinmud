@@ -20,8 +20,8 @@ class WearTest {
         transaction {
             item.position = Position.SHIELD
             item.name = "a shield"
-            item.mobInventory = mob
         }
+        mob.items.add(item)
         val count = transaction { mob.equipped.count() }
 
         // when
@@ -46,8 +46,8 @@ class WearTest {
         val item = test.createItem()
         transaction {
             item.name = "a book"
-            item.mobInventory = mob
         }
+        mob.items.add(item)
 
         // when
         val response = test.runAction("wear book")

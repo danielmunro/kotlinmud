@@ -7,8 +7,8 @@ import kotlinmud.affect.type.Affect
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.type.DamageType
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.hardForThief
 import kotlinmud.mob.skill.factory.mvCostOf
 import kotlinmud.mob.skill.factory.thiefAt
@@ -39,7 +39,7 @@ class Backstab : SkillAction {
     override val affect: Affect? = null
 
     override fun invoke(actionContextService: ActionContextService): Response {
-        val target = actionContextService.get<MobDAO>(Syntax.TARGET_MOB)
+        val target = actionContextService.get<Mob>(Syntax.TARGET_MOB)
         val limit = (actionContextService.getLevel() / 10).coerceAtLeast(10)
         transaction {
             target.hp -= Random.nextInt(1, limit) +

@@ -51,7 +51,7 @@ class GetTest {
         val test = createTestServiceWithResetDB()
 
         // given
-        test.createMob { it.maxItems = 1 }
+        test.createMobBuilder().maxItems(1).build()
         val item = test.createItem { it.room = test.getStartRoom() }
 
         // when
@@ -68,7 +68,7 @@ class GetTest {
         val test = createTestServiceWithResetDB()
 
         // given
-        test.createMob { it.maxWeight = 0 }
+        test.createMobBuilder().maxWeight(0).build()
         val item = test.createItem {
             it.room = test.getStartRoom()
             it.weight = 1.0
@@ -88,8 +88,9 @@ class GetTest {
         val test = createTestServiceWithResetDB()
 
         // given
-        val mob = test.createMob { it.maxItems = 1 }
-        val container = test.createContainer { it.mobInventory = mob }
+        val mob = test.createMobBuilder().maxItems(1).build()
+        val container = test.createContainer()
+        mob.items.add(container)
         val item = test.createItem { it.container = container }
 
         // when
@@ -108,12 +109,11 @@ class GetTest {
         // given
         val mob = test.createMob()
         val container = test.createContainer {
-            it.mobInventory = mob
             it.maxItems = 0
         }
-        val item = test.createItem {
-            it.mobInventory = mob
-        }
+        mob.items.add(container)
+        val item = test.createItem()
+        mob.items.add(item)
 
         // when
         val response = test.runAction("put ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
@@ -130,13 +130,13 @@ class GetTest {
         // given
         val mob = test.createMob()
         val container = test.createContainer {
-            it.mobInventory = mob
             it.maxWeight = 0
         }
+        mob.items.add(container)
         val item = test.createItem {
-            it.mobInventory = mob
             it.weight = 1.0
         }
+        mob.items.add(item)
 
         // when
         val response = test.runAction("put ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")

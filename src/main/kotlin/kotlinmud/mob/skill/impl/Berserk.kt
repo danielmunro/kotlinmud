@@ -48,7 +48,7 @@ class Berserk : SkillAction, Customization {
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val affect = createAffect(AffectType.BERSERK)
-        transaction { affect.mob = actionContextService.getMob() }
+        actionContextService.getMob().affects.add(affect)
         return actionContextService.createOkResponse(
             MessageBuilder()
                 .toActionCreator("Your pulse speeds up as you are consumed by rage!")

@@ -5,10 +5,10 @@ import kotlinmud.helper.random.randomAmount
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.room.dao.RoomDAO
 
-fun createDropFromReptile(mob: MobDAO, room: RoomDAO) {
+fun createDropFromReptile(mob: Mob, room: RoomDAO) {
     when (dice(1, 3)) {
         1 -> randomAmount(3) { createScale(room) }
         2 -> createTail(mob, room)
@@ -88,7 +88,7 @@ fun createThread(roomDAO: RoomDAO): ItemDAO {
     }
 }
 
-fun createFeather(mob: MobDAO, roomDAO: RoomDAO): ItemDAO {
+fun createFeather(mob: Mob, roomDAO: RoomDAO): ItemDAO {
     return ItemDAO.new {
         name = "$mob's feather"
         description = "a feather from $mob is here."
@@ -100,7 +100,7 @@ fun createFeather(mob: MobDAO, roomDAO: RoomDAO): ItemDAO {
     }
 }
 
-fun createBrains(mob: MobDAO, roomDAO: RoomDAO): ItemDAO {
+fun createBrains(mob: Mob, roomDAO: RoomDAO): ItemDAO {
     return ItemDAO.new {
         name = "brains of $mob"
         description = "the brains of $mob have been unceremoniously splashed on the ground."
@@ -122,7 +122,7 @@ fun createEntrails(roomDAO: RoomDAO): ItemDAO {
     }
 }
 
-fun createHeart(mob: MobDAO, roomDAO: RoomDAO): ItemDAO {
+fun createHeart(mob: Mob, roomDAO: RoomDAO): ItemDAO {
     return ItemDAO.new {
         name = "a heart"
         description = "a heart of $mob is here."
@@ -144,7 +144,7 @@ fun createLiver(roomDAO: RoomDAO): ItemDAO {
     }
 }
 
-fun createTail(mob: MobDAO, roomDAO: RoomDAO): ItemDAO {
+fun createTail(mob: Mob, roomDAO: RoomDAO): ItemDAO {
     return ItemDAO.new {
         name = "a tail of $mob"
         description = "a tail of $mob has been sliced off and left here."

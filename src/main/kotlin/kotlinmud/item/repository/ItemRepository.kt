@@ -5,37 +5,16 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.item.table.Items
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.ItemCanonicalId
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.SqlExpressionBuilder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.isNotNull
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.like
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.minus
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
-
-fun findAllItemsByOwner(hasInventory: HasInventory): List<ItemDAO> {
-    return transaction {
-        ItemDAO.wrapRows(
-            Items.select {
-                ItemService.getColumn(hasInventory) eq hasInventory.id
-            }
-        ).toList()
-    }
-}
-
-fun findOneByMob(mob: MobDAO, input: String): ItemDAO? {
-    return transaction {
-        ItemDAO.wrapRows(
-            Items.select(Items.mobInventoryId eq mob.id and (Items.name like "%$input%"))
-        ).firstOrNull()
-    }
-}
 
 fun findOneByRoom(room: RoomDAO, input: String): ItemDAO? {
     return transaction {
@@ -58,23 +37,9 @@ fun decrementAllItemDecayTimers() {
     }
 }
 
-fun removeAllEquipmentForMob(mob: MobDAO) {
-    transaction {
-        Items.update({ Items.mobEquippedId eq mob.id }) {
-            it[mobEquippedId] = null
-        }
-    }
-}
-
-fun transferAllItemsToItemContainer(from: HasInventory, to: ItemDAO) {
-    transaction {
-        Items.update({ ItemService.getColumn(from) eq from.id }) {
-            it[mobEquippedId] = null
-            it[mobInventoryId] = null
-            it[roomId] = null
-            it[itemId] = to.id
-        }
-    }
+fun removeAllEquipmentForMob(mob: Mob) {
+    mob.items.addAll(mob.equipped)
+    mob.equipped.clear()
 }
 
 fun countItemsByCanonicalId(id: ItemCanonicalId): Int {

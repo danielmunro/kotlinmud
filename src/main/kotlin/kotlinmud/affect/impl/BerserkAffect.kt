@@ -7,12 +7,12 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 
 class BerserkAffect : Affect {
     override val type: AffectType = AffectType.BERSERK
 
-    override fun messageFromInstantiation(mob: MobDAO, target: Noun?): Message {
+    override fun messageFromInstantiation(mob: Mob, target: Noun?): Message {
         return MessageBuilder()
             .toActionCreator("Your pulse speeds up as you are consumed by rage!")
             .toObservers("$mob's pulse speeds up as they are consumed by rage!")

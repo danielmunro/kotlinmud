@@ -11,7 +11,7 @@ import kotlinmud.io.factory.target
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.mvCostOf
 import kotlinmud.mob.skill.factory.normalForThief
 import kotlinmud.mob.skill.factory.thiefAt
@@ -48,7 +48,7 @@ class Hamstring : SkillAction, Customization {
     override fun invoke(actionContextService: ActionContextService): Response {
         createAffect(AffectType.STUNNED, Math.max(actionContextService.getLevel() / 10, 3))
         val mob = actionContextService.getMob()
-        val target = actionContextService.get<MobDAO>(Syntax.TARGET_MOB)
+        val target = actionContextService.get<Mob>(Syntax.TARGET_MOB)
         return actionContextService.createOkResponse(
             MessageBuilder()
                 .toActionCreator("You slash $target's hamstring, disabling them.")

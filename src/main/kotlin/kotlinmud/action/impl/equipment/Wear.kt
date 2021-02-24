@@ -16,15 +16,14 @@ fun createWearAction(): Action {
         equipmentInInventory()
     ) { svc ->
         val item = svc.get<ItemDAO>(Syntax.EQUIPMENT_IN_INVENTORY)
+        val mob = svc.getMob()
         val removed = transaction {
-            svc.getMob().equipped.find {
+            mob.equipped.find {
                 it.position == item.position
-            }?.let {
-                it.mobEquipped = null
-                it
             }
         }
-        transaction { item.mobEquipped = svc.getMob() }
-        svc.createOkResponse(createWearMessage(svc.getMob(), item, removed))
+        mob.items.remove(item)
+        mob.equipped.add(item)
+        svc.createOkResponse(createWearMessage(mob, item, removed))
     }
 }

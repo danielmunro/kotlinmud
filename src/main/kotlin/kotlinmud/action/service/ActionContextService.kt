@@ -20,8 +20,7 @@ import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Recipe
-import kotlinmud.mob.dao.MobDAO
-import kotlinmud.mob.repository.findMobsForRoom
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
@@ -32,7 +31,6 @@ import kotlinmud.quest.service.QuestService
 import kotlinmud.quest.type.Quest
 import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.repository.findStartRoom
 import kotlinmud.room.type.Direction
 import kotlinmud.weather.service.WeatherService
 import kotlinmud.weather.type.Weather
@@ -54,19 +52,19 @@ class ActionContextService(
     val recipes = createRecipeList()
 
     fun craft(recipe: Recipe): List<ItemDAO> {
-        return craftingService.craft(recipe, request.getMob())
+        return craftingService.craft(recipe, request.mob)
     }
 
     fun harvest(resource: ResourceDAO): List<ItemDAO> {
-        return craftingService.harvest(resource, request.getMob())
+        return craftingService.harvest(resource, request.mob)
     }
 
     fun getWeather(): Weather {
         return weatherService.getWeather()
     }
 
-    fun getMob(): MobDAO {
-        return request.getMob()
+    fun getMob(): Mob {
+        return request.mob
     }
 
     fun getMobCard(): MobCardDAO {
@@ -91,8 +89,8 @@ class ActionContextService(
 
     fun getRecall(): RoomDAO {
         return transaction {
-            val mob = request.getMob()
-            if (mob.isNpc) findStartRoom()!! else mob.mobCard!!.respawnRoom
+            val mob = request.mob
+            mob.mobCard!!.respawnRoom
         }
     }
 
@@ -100,17 +98,18 @@ class ActionContextService(
         return actionContextList.getResultBySyntax(syntax)
     }
 
-    fun getMobsInRoom(): List<MobDAO> {
-        return findMobsForRoom(getRoom())
+    fun getMobsInRoom(): List<Mob> {
+//        return findMobsForRoom(getRoom())
+        return listOf()
     }
 
     suspend fun moveMob(room: RoomDAO, direction: Direction) {
-        mobService.moveMob(getMob(), room, direction)
+        mobService.moveMob(request.mob, room, direction)
     }
 
     fun createSpellInvokeResponse(target: Noun, affect: Affect, delay: Int = 1): Response {
         return createOkResponse(
-            affect.messageFromInstantiation(getMob(), target),
+            affect.messageFromInstantiation(request.mob, target),
             delay
         )
     }
@@ -124,13 +123,13 @@ class ActionContextService(
     }
 
     suspend fun createFight() {
-        val target: MobDAO = get(Syntax.MOB_IN_ROOM)
-        val fight = mobService.addFight(getMob(), target)
+        val target: Mob = get(Syntax.MOB_IN_ROOM)
+        val fight = mobService.addFight(request.mob, target)
         eventService.publish(fight.createFightStartedEvent())
     }
 
     fun flee() {
-        mobService.flee(getMob())
+        mobService.flee(request.mob)
     }
 
     suspend fun publishSocial(social: Social) {
@@ -145,16 +144,12 @@ class ActionContextService(
         return serverService.getClients()
     }
 
-    fun getItemsFor(hasInventory: HasInventory): List<ItemDAO> {
-        return itemService.findAllByOwner(hasInventory)
-    }
-
-    fun getItemGroupsFor(mob: MobDAO): Map<EntityID<Int>, List<ItemDAO>> {
+    fun getItemGroupsFor(mob: Mob): Map<EntityID<Int>, List<ItemDAO>> {
         return itemService.getItemGroups(mob)
     }
 
-    fun giveItemToMob(item: ItemDAO, mob: MobDAO) {
-        itemService.giveItemToMob(item, mob)
+    fun giveItemToMob(item: ItemDAO, mob: Mob) {
+        mob.items.add(item)
     }
 
     fun putItemInRoom(item: ItemDAO, room: RoomDAO) {
@@ -181,7 +176,7 @@ class ActionContextService(
     }
 
     fun practice(skillType: SkillType) {
-        mobService.practice(getMob(), getMob().getSkill(skillType)!!)
+        mobService.practice(request.mob, request.mob.skills.find { it.type == skillType }!!)
     }
 
     fun setDisposition(disposition: Disposition) {
@@ -189,15 +184,15 @@ class ActionContextService(
     }
 
     fun getAcceptableQuests(): List<Quest> {
-        return questService.getAcceptableQuestsForMob(getMob())
+        return questService.getAcceptableQuestsForMob(request.mob)
     }
 
     fun getAcceptedQuests(): List<Quest> {
-        return questService.getAcceptedQuestsForMob(getMob())
+        return questService.getAcceptedQuestsForMob(request.mob)
     }
 
     fun getSubmittableQuests(): List<Quest> {
-        return questService.getSubmittableQuestsForMob(getMob())
+        return questService.getSubmittableQuestsForMob(request.mob)
     }
 
     fun submitQuest(quest: Quest) {

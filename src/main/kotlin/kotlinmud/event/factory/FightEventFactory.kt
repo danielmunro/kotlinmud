@@ -4,13 +4,13 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.FightStartedEvent
 import kotlinmud.event.impl.KillEvent
 import kotlinmud.event.type.EventType
-import kotlinmud.mob.dao.FightDAO
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.model.Fight
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.Disposition
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun createKillEvent(fight: FightDAO): Event<KillEvent> {
+fun createKillEvent(fight: Fight): Event<KillEvent> {
     val winner = transaction { if (fight.mob1.disposition == Disposition.DEAD) fight.mob2 else fight.mob1 }
     return Event(
         EventType.KILL,
@@ -18,7 +18,7 @@ fun createKillEvent(fight: FightDAO): Event<KillEvent> {
     )
 }
 
-fun createFightStartedEvent(fight: FightDAO, mob: MobDAO, target: MobDAO): Event<FightStartedEvent> {
+fun createFightStartedEvent(fight: Fight, mob: Mob, target: Mob): Event<FightStartedEvent> {
     return Event(
         EventType.FIGHT_STARTED,
         FightStartedEvent(fight, mob, target)

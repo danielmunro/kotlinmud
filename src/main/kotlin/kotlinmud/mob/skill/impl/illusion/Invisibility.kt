@@ -6,7 +6,7 @@ import kotlinmud.helper.Noun
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.clericAt
 import kotlinmud.mob.skill.factory.easyForMage
 import kotlinmud.mob.skill.factory.mageAt
@@ -31,15 +31,17 @@ class Invisibility : SpellAction {
     override val affect = InvisibilityAffect()
 
     override fun invoke(actionContextService: ActionContextService): Response {
-        val target = actionContextService.get<Noun>(Syntax.OPTIONAL_TARGET)
+        val target = actionContextService.get<Any>(Syntax.OPTIONAL_TARGET)
         val instance = affect.createInstance(actionContextService.getLevel())
         transaction {
-            if (target is MobDAO) {
-                instance.mob = target
+            if (target is Mob) {
+                target.affects.add(instance)
             } else if (target is ItemDAO) {
                 instance.item = target
+            } else {
+                throw Exception()
             }
         }
-        return actionContextService.createSpellInvokeResponse(target, affect)
+        return actionContextService.createSpellInvokeResponse(target as Noun, affect)
     }
 }

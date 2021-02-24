@@ -18,9 +18,10 @@ class LookAtTest {
 
         // given
         testService.createMob()
-        val mob = testService.createMob {
-            createAffect(AffectType.INVISIBILITY).mob = it
-        }
+        val mob = testService
+            .createMobBuilder()
+            .affects(listOf(createAffect(AffectType.INVISIBILITY)))
+            .build()
 
         // when
         val response = testService.runAction("look ${getIdentifyingWord(mob)}")
@@ -37,7 +38,10 @@ class LookAtTest {
 
         // given
         val item = testService.createItem { createAffect(AffectType.INVISIBILITY).item = it }
-        testService.createMob { item.mobInventory = it }
+        testService
+            .createMobBuilder()
+            .items(listOf(item))
+            .build()
 
         // when
         val response = testService.runAction("look ${getIdentifyingWord(item)}")

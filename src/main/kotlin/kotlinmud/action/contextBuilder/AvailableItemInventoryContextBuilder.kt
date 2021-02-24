@@ -7,13 +7,12 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
-import kotlinmud.mob.dao.MobDAO
+import kotlinmud.mob.model.Mob
 import kotlinmud.room.dao.RoomDAO
 
 class AvailableItemInventoryContextBuilder(
-    private val mob: MobDAO,
-    private val room: RoomDAO,
-    private val itemService: ItemService
+    private val mob: Mob,
+    private val room: RoomDAO
 ) : ContextBuilder {
     companion object {
         fun isMatch(item: ItemDAO, word: String): Boolean {
@@ -22,8 +21,8 @@ class AvailableItemInventoryContextBuilder(
     }
 
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        return tryInventory(mob, syntax, word)
-            ?: tryInventory(room, syntax, word)
+        return tryInventory(mob.items, syntax, word)
+            ?: tryInventory(room.items.toList(), syntax, word)
             ?: Context<Any>(
                 syntax,
                 Status.ERROR,
@@ -31,8 +30,8 @@ class AvailableItemInventoryContextBuilder(
             )
     }
 
-    private fun tryInventory(hasInventory: HasInventory, syntax: Syntax, word: String): Context<Any>? {
-        return itemService.findAllByOwner(hasInventory).find {
+    private fun tryInventory(items: List<ItemDAO>, syntax: Syntax, word: String): Context<Any>? {
+        return items.find {
             isMatch(it, word) && it.isContainer
         }?.let {
             Context<Any>(syntax, Status.OK, it)
