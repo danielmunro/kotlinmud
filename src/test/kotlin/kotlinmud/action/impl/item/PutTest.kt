@@ -5,6 +5,7 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class PutTest {
@@ -26,7 +27,7 @@ class PutTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you put $itemToPut into $itemWithInventory.")
         assertThat(response.message.toObservers).isEqualTo("$mob puts $itemToPut into $itemWithInventory.")
-        assertThat(itemWithInventory.items.toList()).hasSize(1)
+        assertThat(transaction { itemWithInventory.items.toList() }).hasSize(1)
     }
 
     @Test
@@ -46,7 +47,7 @@ class PutTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you put $itemToPut into $itemWithInventory.")
         assertThat(response.message.toObservers).isEqualTo("$mob puts $itemToPut into $itemWithInventory.")
-        assertThat(itemWithInventory.items.toList()).hasSize(1)
+        assertThat(transaction { itemWithInventory.items.toList() }).hasSize(1)
     }
 
     @Test
