@@ -139,9 +139,9 @@ class TestService(
 
     fun countItemsFor(hasInventory: Any): Int {
         return if (hasInventory is ItemDAO) {
-            hasInventory.items.count()
+            transaction { hasInventory.items.count() }
         } else if (hasInventory is Mob) {
-            hasInventory.items.size
+            hasInventory.items.size + hasInventory.equipped.size
         } else {
             throw Exception()
         }

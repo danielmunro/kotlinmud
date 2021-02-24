@@ -89,6 +89,11 @@ class ItemService {
                 it.container = item
             }
         }
+        transaction {
+            mob.equipped.forEach {
+                it.container = item
+            }
+        }
         mob.items.clear()
         transaction {
             when (dice(1, 3)) {

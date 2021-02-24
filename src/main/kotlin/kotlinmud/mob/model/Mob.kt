@@ -194,9 +194,7 @@ class Mob(
                 saves -= 5
             }
 
-            var base = 80 + (level / 6) + saves - calc(Attribute.WIS) - calc(
-                Attribute.INT
-            )
+            var base = 80 + (level / 6) + saves - calc(Attribute.WIS) - calc(Attribute.INT)
 
             if (affects.find { it.type == AffectType.CURSE } != null) {
                 base += 5

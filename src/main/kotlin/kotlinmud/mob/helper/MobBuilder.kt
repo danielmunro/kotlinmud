@@ -94,13 +94,6 @@ class MobBuilder(private val mobService: MobService) {
         return this
     }
 
-    fun vitals(hpValue: Int, manaValue: Int, mvValue: Int): MobBuilder {
-        hp = hpValue
-        mana = manaValue
-        mv = mvValue
-        return this
-    }
-
     fun gender(value: Gender): MobBuilder {
         gender = value
         return this
@@ -194,7 +187,13 @@ class MobBuilder(private val mobService: MobService) {
             savingThrows,
             rarity,
             canonicalId,
-            attributes ?: transaction { AttributesDAO.new {} },
+            attributes ?: transaction {
+                AttributesDAO.new {
+                    this.hp = this@MobBuilder.hp
+                    this.mana = this@MobBuilder.mana
+                    this.mv = this@MobBuilder.mv
+                }
+            },
             room,
             equipped.toMutableList(),
             maxItems,

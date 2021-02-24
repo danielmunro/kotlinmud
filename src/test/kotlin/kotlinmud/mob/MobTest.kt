@@ -8,6 +8,7 @@ import assertk.assertions.isLessThan
 import assertk.assertions.isLessThanOrEqualTo
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
+import kotlinmud.attributes.constant.startingHp
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createKillEvent
@@ -290,17 +291,19 @@ class MobTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
+        val baseHp = startingHp
+        val bonusHp = 100
 
         // given
         mob.equipped.add(
             testService.createItem {
                 it.position = Position.SHIELD
-                it.attributes?.hp = 100
+                it.attributes?.hp = bonusHp
             }
         )
 
         // expect
-        assertThat(mob.calc(Attribute.HP)).isEqualTo(120)
+        assertThat(mob.calc(Attribute.HP)).isEqualTo(baseHp + bonusHp)
     }
 
     @Test
