@@ -22,8 +22,8 @@ class EnhancedDamageObserver : Observer {
     }
 
     private fun checkEnhancedDamage(mob: Mob, attack: Attack) {
-        mob.skills.firstOrNull { it.type == SkillType.ENHANCED_DAMAGE }?.let {
-            if (dice(1, 5) < it.level / 20) {
+        mob.skills[SkillType.ENHANCED_DAMAGE]?.let {
+            if (dice(1, 5) < it / 20) {
                 val amount = attack.damage * Random.nextDouble(0.03)
                 attack.damage += amount.roundToInt()
             }

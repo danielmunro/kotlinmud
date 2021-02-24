@@ -3,8 +3,6 @@ package kotlinmud.event.observer.round
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
-import kotlinmud.mob.repository.findFightForMob
-import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
@@ -18,7 +16,7 @@ class SecondAttackObserverTest {
         val test = createTestService()
 
         val mob = test.createMob {
-            createSkill(SkillType.SECOND_ATTACK, it, 100)
+            it.skills[SkillType.SECOND_ATTACK] = 100
         }
         val target = test.createMob()
 

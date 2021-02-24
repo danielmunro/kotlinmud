@@ -16,8 +16,8 @@ class SpellFromHealerContextBuilder(private val mobs: List<Mob>) : ContextBuilde
             Status.ERROR,
             "you don't see any healers here."
         )
-        return mob.skills.find {
-            word.matches(it.type.name)
+        return mob.skills.keys.find {
+            word.matches(it.name)
         }?.let {
             Context<Any>(syntax, Status.OK, it)
         } ?: Context<Any>(syntax, Status.ERROR, "they don't know that.")

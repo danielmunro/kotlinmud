@@ -21,8 +21,8 @@ class SecondAttackObserver : Observer {
     }
 
     private fun checkSecondAttack(mob: Mob, attacks: MutableList<Attack>) {
-        mob.skills.firstOrNull { it.type == SkillType.SECOND_ATTACK }?.let {
-            if (dice(1, 5) < it.level / 20) {
+        mob.skills[SkillType.SECOND_ATTACK]?.let {
+            if (dice(1, 5) < it / 20) {
                 attacks.add(createHitAttack(mob))
             }
         }

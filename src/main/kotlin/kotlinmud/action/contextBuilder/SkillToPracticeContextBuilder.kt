@@ -19,10 +19,10 @@ class SkillToPracticeContextBuilder(private val playerService: PlayerService, pr
             )
         }
         return transaction {
-            mob.skills.find {
-                word.matches(it.type.toString())
+            mob.skills.keys.find {
+                word.matches(it.toString())
             }?.let {
-                if (it.level == 100) {
+                if (mob.skills[it] == 100) {
                     return@transaction Context(
                         syntax,
                         Status.ERROR,

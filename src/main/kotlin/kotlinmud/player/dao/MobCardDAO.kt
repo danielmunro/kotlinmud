@@ -3,7 +3,6 @@ package kotlinmud.player.dao
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.table.Attributes
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.AddExperience
 import kotlinmud.mob.race.type.Race
 import kotlinmud.player.table.FactionScores

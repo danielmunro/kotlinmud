@@ -3,7 +3,6 @@ package kotlinmud.mob.skill.impl
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
-import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.createTestService
 import org.junit.Test
@@ -13,10 +12,11 @@ class BerserkTest {
     fun testMobCanBerserk() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
 
         // given
-        createSkill(SkillType.BERSERK, mob, 100)
+        val mob = testService.createMob {
+            it.skills[SkillType.BERSERK] = 100
+        }
 
         // when
         val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)

@@ -9,8 +9,7 @@ import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.skill.dao.SkillDAO
-import kotlinmud.mob.skill.model.Skill
+import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.Specialization
 import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
@@ -22,7 +21,7 @@ import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class MobBuilder (private val mobService: MobService) {
+class MobBuilder(private val mobService: MobService) {
     private var name = ""
     private var brief = ""
     private var description = ""
@@ -43,7 +42,7 @@ class MobBuilder (private val mobService: MobService) {
     private var items = listOf<ItemDAO>()
     private var maxItems = 0
     private var maxWeight = 0
-    private var skills = listOf<Skill>()
+    private var skills = mapOf<SkillType, Int>()
     private var affects = listOf<AffectDAO>()
     private var currencies = mapOf<CurrencyType, Int>()
     private var card: MobCardDAO? = null
@@ -147,7 +146,7 @@ class MobBuilder (private val mobService: MobService) {
         return this
     }
 
-    fun skills(value: List<Skill>): MobBuilder {
+    fun skills(value: Map<SkillType, Int>): MobBuilder {
         skills = value
         return this
     }
@@ -201,7 +200,7 @@ class MobBuilder (private val mobService: MobService) {
             maxItems,
             maxWeight,
             items.toMutableList(),
-            skills.toMutableList(),
+            skills.toMutableMap(),
             affects.toMutableList(),
             currencies.toMutableMap(),
             card,

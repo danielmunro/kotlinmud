@@ -6,7 +6,6 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.RegenEvent
 import kotlinmud.event.observer.impl.regen.MeditationObserver
 import kotlinmud.event.type.EventType
-import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
@@ -22,7 +21,7 @@ class MeditationObserverTest {
 
         // given
         val mob = test.createMob {
-            createSkill(SkillType.MEDITATION, it, 100)
+            it.skills[SkillType.MEDITATION] = 100
         }
 
         // when

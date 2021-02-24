@@ -2,10 +2,8 @@ package kotlinmud.action.impl.shop
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class SellTest {

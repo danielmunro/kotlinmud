@@ -4,9 +4,7 @@ import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.helper.createSkillList
-import kotlinmud.mob.skill.model.Skill
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.Specialization
@@ -26,8 +24,7 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
     fun build(): Mob {
         return createMob().also { mob ->
             skills.forEach { type ->
-                val skill = Skill(type, 1)
-                mob.skills.add(skill)
+                mob.skills[type] = 1
                 val mobCard = mob.mobCard!!
                 mobCard.experiencePerLevel += addExperienceForSkillType(type, mob.specialization!!.type)
             }

@@ -3,15 +3,9 @@ package kotlinmud.mob.fight
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
-import assertk.assertions.isNotEqualTo
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.type.AttackResult
-import kotlinmud.mob.repository.findFightForMob
-import kotlinmud.mob.repository.findMobById
-import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.mob.type.Disposition
-import kotlinmud.room.repository.findRoomByMobId
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -25,10 +19,11 @@ class FightTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob = testService.createMob()
-        createSkill(SkillType.SHIELD_BLOCK, mob, 100)
-        createSkill(SkillType.PARRY, mob, 100)
-        createSkill(SkillType.DODGE, mob, 100)
+        val mob = testService.createMob {
+            it.skills[SkillType.SHIELD_BLOCK] = 100
+            it.skills[SkillType.PARRY] = 100
+            it.skills[SkillType.DODGE] = 100
+        }
 
         // when
         testService.addFight(mob, testService.createMob())
@@ -61,10 +56,12 @@ class FightTest {
         var invoked = false
 
         // given
-        val mob1 = testService.createMob()
-        val mob2 = testService.createMob()
-        createSkill(SkillType.SHIELD_BLOCK, mob1, 100)
-        createSkill(SkillType.SHIELD_BLOCK, mob2, 100)
+        val mob1 = testService.createMob {
+            it.skills[SkillType.SHIELD_BLOCK] = 100
+        }
+        val mob2 = testService.createMob {
+            it.skills[SkillType.SHIELD_BLOCK] = 100
+        }
 
         // and
         val item = testService.createItem()
@@ -104,16 +101,14 @@ class FightTest {
         val prob = ProbabilityTest()
 
         // given
-        val mob1 = testService.createMob()
-        createSkill(SkillType.PARRY, mob1, 100)
-        transaction {
-            mob1.equipped.forEach {
-                it.mobEquipped = null
-            }
+        val mob1 = testService.createMob {
+            it.skills[SkillType.PARRY] = 100
         }
+        mob1.equipped.clear()
 
-        val mob2 = testService.createMob()
-        createSkill(SkillType.PARRY, mob2, 100)
+        val mob2 = testService.createMob {
+            it.skills[SkillType.PARRY] = 100
+        }
 
         val fight = testService.addFight(mob1, mob2)
 

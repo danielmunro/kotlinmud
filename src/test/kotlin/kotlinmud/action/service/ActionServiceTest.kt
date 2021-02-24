@@ -6,7 +6,6 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotNull
 import kotlinmud.io.type.IOStatus
-import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
@@ -22,7 +21,7 @@ class ActionServiceTest {
         val mob = testService.createMob()
 
         // given
-        createSkill(SkillType.BERSERK, mob)
+        mob.skills[SkillType.BERSERK] = 1
 
         // when
         val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.FAILED)
@@ -36,7 +35,7 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        createSkill(SkillType.BERSERK, mob)
+        mob.skills[SkillType.BERSERK] = 1
 
         // given
         transaction { mob.mv = 0 }
@@ -55,7 +54,7 @@ class ActionServiceTest {
         val mob = testService.createMob()
 
         // given
-        createSkill(SkillType.BERSERK, mob, 100)
+        mob.skills[SkillType.BERSERK] = 100
 
         // when
         val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)
@@ -72,7 +71,7 @@ class ActionServiceTest {
         val mob = testService.createMob()
 
         // given
-        createSkill(SkillType.BITE, mob, 100)
+        mob.skills[SkillType.BITE] = 100
 
         // when
         val response = testService.runActionForIOStatus(mob, "bite ${getIdentifyingWord(target)}", IOStatus.OK)
@@ -88,8 +87,9 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val target = testService.createMob()
-        val mob = testService.createMob()
-        createSkill(SkillType.BITE, mob, 100)
+        val mob = testService.createMob {
+            it.skills[SkillType.BITE] = 100
+        }
 
         // given
         testService.addFight(mob, target)
@@ -108,8 +108,9 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val target = testService.createMob()
-        val mob = testService.createMob()
-        createSkill(SkillType.BITE, mob, 100)
+        val mob = testService.createMob {
+            it.skills[SkillType.BITE] = 100
+        }
 
         // given
         testService.runActionForIOStatus(mob, "bite ${getIdentifyingWord(target)}", IOStatus.OK)
@@ -126,8 +127,9 @@ class ActionServiceTest {
         // setup
         val testService = createTestServiceWithResetDB()
         val target = testService.createMob()
-        val mob = testService.createMob()
-        createSkill(SkillType.BITE, mob, 100)
+        val mob = testService.createMob {
+            it.skills[SkillType.BITE] = 100
+        }
 
         // given
         testService.runActionForIOStatus(mob, "bite ${getIdentifyingWord(target)}", IOStatus.OK)
@@ -146,7 +148,7 @@ class ActionServiceTest {
 
         // given
         testService.createMob {
-            createSkill(SkillType.INVISIBILITY, it, 100)
+            it.skills[SkillType.INVISIBILITY] = 100
         }
         val target = testService.createMob()
 
@@ -164,7 +166,7 @@ class ActionServiceTest {
 
         // given
         val mob = testService.createMob {
-            createSkill(SkillType.INVISIBILITY, it, 100)
+            it.skills[SkillType.INVISIBILITY] = 100
         }
 
         // when
@@ -178,10 +180,11 @@ class ActionServiceTest {
     fun testMobCanCastInvisibilityOnItemInInventory() {
         // setup
         val testService = createTestService()
-        val mob = testService.createMob()
+        val mob = testService.createMob {
+            it.skills[SkillType.INVISIBILITY] = 100
+        }
 
         // given
-        createSkill(SkillType.INVISIBILITY, mob, 100)
         val item = testService.createItem()
         mob.items.add(item)
 

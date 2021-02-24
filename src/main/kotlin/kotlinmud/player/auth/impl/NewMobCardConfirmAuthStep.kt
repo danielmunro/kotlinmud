@@ -3,8 +3,6 @@ package kotlinmud.player.auth.impl
 import kotlinmud.helper.string.matches
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.type.IOStatus
-import kotlinmud.mob.service.MobService
-import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.auth.type.AuthorizationStep

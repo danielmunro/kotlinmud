@@ -1,9 +1,7 @@
 package kotlinmud.item.repository
 
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.service.ItemService
 import kotlinmud.item.table.Items
-import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.dao.RoomDAO

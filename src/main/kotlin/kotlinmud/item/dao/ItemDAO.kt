@@ -6,11 +6,9 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.helper.Identifiable
-import kotlinmud.helper.Noun
 import kotlinmud.item.table.Items
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.Food
-import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material

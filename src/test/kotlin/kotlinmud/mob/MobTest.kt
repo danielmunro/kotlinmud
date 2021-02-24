@@ -17,10 +17,8 @@ import kotlinmud.mob.race.impl.Elf
 import kotlinmud.mob.race.impl.Faerie
 import kotlinmud.mob.race.impl.Goblin
 import kotlinmud.mob.race.impl.Ogre
-import kotlinmud.mob.repository.findMobById
 import kotlinmud.mob.specialization.impl.Cleric
 import kotlinmud.mob.specialization.impl.Mage
-import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.ProbabilityTest
@@ -294,10 +292,12 @@ class MobTest {
         val mob = testService.createMob()
 
         // given
-        mob.equipped.add(testService.createItem {
-            it.position = Position.SHIELD
-            it.attributes?.hp = 100
-        })
+        mob.equipped.add(
+            testService.createItem {
+                it.position = Position.SHIELD
+                it.attributes?.hp = 100
+            }
+        )
 
         // expect
         assertThat(mob.calc(Attribute.HP)).isEqualTo(120)

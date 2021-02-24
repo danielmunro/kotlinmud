@@ -2,9 +2,6 @@ package kotlinmud.event.observer.round
 
 import assertk.assertThat
 import assertk.assertions.isGreaterThan
-import kotlinmud.mob.repository.findFightForMob
-import kotlinmud.mob.repository.findMobById
-import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
@@ -22,7 +19,7 @@ class EnhancedDamageObserverTest {
 
         // given
         val mob = test.createMob {
-            createSkill(SkillType.ENHANCED_DAMAGE, it, 100)
+            it.skills[SkillType.ENHANCED_DAMAGE] = 100
         }
         val target = test.createMob()
         val fight = test.addFight(mob, target)

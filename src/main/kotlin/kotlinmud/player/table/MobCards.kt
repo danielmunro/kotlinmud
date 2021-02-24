@@ -1,6 +1,5 @@
 package kotlinmud.player.table
 
-import kotlinmud.mob.table.Mobs
 import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.dao.IntIdTable
 

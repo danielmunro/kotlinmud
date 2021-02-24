@@ -5,8 +5,6 @@ import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
-import kotlinmud.item.service.ItemService
-import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.dao.RoomDAO
 

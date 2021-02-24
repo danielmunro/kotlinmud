@@ -6,7 +6,6 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import kotlinmud.io.type.IOStatus
 import kotlinmud.item.type.Position
-import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
@@ -22,7 +21,7 @@ class DisarmTest {
 
         // given
         val mob = test.createMob {
-            createSkill(SkillType.DISARM, it, 100)
+            it.skills[SkillType.DISARM] = 100
         }
         val target = test.createMob()
         val initialSize = transaction { test.getStartRoom().items.toList() }.size
@@ -47,7 +46,7 @@ class DisarmTest {
 
         // given
         test.createMob {
-            createSkill(SkillType.DISARM, it, 100)
+            it.skills[SkillType.DISARM] = 100
         }
         val target = test.createMob()
         transaction {

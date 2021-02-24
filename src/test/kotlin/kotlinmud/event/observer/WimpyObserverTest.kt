@@ -2,11 +2,7 @@ package kotlinmud.event.observer
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import assertk.assertions.isFalse
-import assertk.assertions.isTrue
 import kotlinmud.event.factory.createFightRoundEvent
-import kotlinmud.room.repository.findRoomByMobId
-import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test

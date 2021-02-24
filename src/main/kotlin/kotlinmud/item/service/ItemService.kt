@@ -21,14 +21,11 @@ import kotlinmud.item.factory.createThread
 import kotlinmud.item.repository.decrementAllItemDecayTimers
 import kotlinmud.item.repository.findOneByRoom
 import kotlinmud.item.repository.removeAllEquipmentForMob
-import kotlinmud.item.table.Items.itemId
-import kotlinmud.item.table.Items.roomId
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.Form
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
-import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ItemService {

@@ -33,7 +33,6 @@ import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.repository.deleteFinishedFights
 import kotlinmud.mob.skill.helper.getLearningDifficultyPracticeAmount
-import kotlinmud.mob.skill.model.Skill as SkillModel
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillType
@@ -46,6 +45,7 @@ import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.math.roundToInt
+import kotlinmud.mob.skill.model.Skill as SkillModel
 
 class MobService(
     private val itemService: ItemService,
@@ -109,9 +109,9 @@ class MobService(
         return mobs.filter {
             it.mobCard == null && (
                 it.job == JobType.FODDER ||
-                it.job == JobType.SCAVENGER ||
-                it.job == JobType.PATROL
-            )
+                    it.job == JobType.SCAVENGER ||
+                    it.job == JobType.PATROL
+                )
         }
     }
 
@@ -168,10 +168,10 @@ class MobService(
         }
     }
 
-    fun practice(mob: Mob, skill: SkillModel) {
+    fun practice(mob: Mob, type: SkillType) {
         transaction {
             mob.mobCard!!.practices -= 1
-            skill.level += calculatePracticeGain(mob, skill)
+            mob.skills[type] = mob.skills[type]!! + calculatePracticeGain(mob, type)
         }
     }
 
@@ -204,10 +204,10 @@ class MobService(
         }
     }
 
-    private fun calculatePracticeGain(mob: Mob, skill: SkillModel): Int {
+    private fun calculatePracticeGain(mob: Mob, type: SkillType): Int {
         return with(
             1 + getLearningDifficultyPracticeAmount(
-                getSkillDifficultyForSpecialization(skill.type, mob.specialization?.type ?: SpecializationType.NONE)
+                getSkillDifficultyForSpecialization(type, mob.specialization?.type ?: SpecializationType.NONE)
             )
         ) {
             (Math.random() * this + mob.calc(Attribute.INT) / 5).roundToInt()

@@ -96,7 +96,7 @@ class ActionService(
         val context = buildActionContextList(request, skill)
         return dispositionCheck(request, skill)
             ?: costApply(request.mob, skill)
-            ?: skillRoll(transaction { request.mob.skills.find { it.type == skill.type }?.level } ?: error("no skill"), context)
+            ?: skillRoll(request.mob.skills[skill.type] ?: error("no skill"), context)
             ?: callInvokable(request, skill, context)
     }
 

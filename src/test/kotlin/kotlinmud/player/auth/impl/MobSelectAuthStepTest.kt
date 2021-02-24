@@ -5,7 +5,6 @@ import assertk.assertions.isEqualTo
 import kotlinmud.test.TestService
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class MobSelectAuthStepTest {

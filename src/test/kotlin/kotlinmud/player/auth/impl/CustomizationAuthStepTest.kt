@@ -8,7 +8,6 @@ import io.mockk.confirmVerified
 import io.mockk.verify
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.race.impl.Human
-import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.test.TestService
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinx.coroutines.runBlocking

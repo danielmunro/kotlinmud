@@ -26,15 +26,6 @@ import kotlinmud.event.factory.createKillEvent as createKillEventFactory
 
 class FightService(private val fight: Fight, private val eventService: EventService) {
     companion object {
-        fun create(mob1: Mob, mob2: Mob, eventService: EventService): FightService {
-            mob1.disposition = Disposition.FIGHTING
-            mob2.disposition = Disposition.FIGHTING
-            return FightService(
-                Fight(mob1, mob2),
-                eventService
-            )
-        }
-
         private fun getAc(defender: Mob, damageType: DamageType): Int {
             return when (damageType) {
                 DamageType.SLASH -> defender.calc(Attribute.AC_SLASH)
@@ -46,19 +37,19 @@ class FightService(private val fight: Fight, private val eventService: EventServ
 
         private fun rollEvasiveSkills(mob: Mob): SkillType? {
             val shield = mob.getEquippedByPosition(Position.SHIELD)
-            val shieldBlock = mob.getSkill(SkillType.SHIELD_BLOCK)
-            if (shield != null && shieldBlock != null && percentRoll() < transaction { shieldBlock.level } / 3) {
+            val shieldBlock = mob.skills[SkillType.SHIELD_BLOCK]
+            if (shield != null && shieldBlock != null && percentRoll() < shieldBlock / 3) {
                 return SkillType.SHIELD_BLOCK
             }
 
             val weapon = mob.getEquippedByPosition(Position.WEAPON)
-            val parry = mob.getSkill(SkillType.PARRY)
-            if (weapon != null && parry != null && percentRoll() < transaction { parry.level } / 3) {
+            val parry = mob.skills[SkillType.PARRY]
+            if (weapon != null && parry != null && percentRoll() < parry / 3) {
                 return SkillType.PARRY
             }
 
-            val dodge = mob.getSkill(SkillType.DODGE)
-            if (dodge != null && percentRoll() < transaction { dodge.level } / 3) {
+            val dodge = mob.skills[SkillType.DODGE]
+            if (dodge != null && percentRoll() < dodge / 3) {
                 return SkillType.DODGE
             }
 

@@ -29,8 +29,8 @@ fun getDispositionRegenRate(disposition: Disposition): Double {
 
 fun getSkillBoostRegenRate(mob: Mob, attribute: Attribute): Double {
     return when (attribute) {
-        Attribute.HP -> mob.getSkill(SkillType.FAST_HEALING)?.let { if (rollRegen(it.level)) 0.1 else 0.0 } ?: 0.0
-        Attribute.MANA -> mob.getSkill(SkillType.MEDITATION)?.let { if (rollRegen(it.level)) 0.1 else 0.0 } ?: 0.0
+        Attribute.HP -> mob.skills[SkillType.FAST_HEALING]?.let { if (rollRegen(it)) 0.1 else 0.0 } ?: 0.0
+        Attribute.MANA -> mob.skills[SkillType.MEDITATION]?.let { if (rollRegen(it)) 0.1 else 0.0 } ?: 0.0
         else -> 0.0
     }
 }

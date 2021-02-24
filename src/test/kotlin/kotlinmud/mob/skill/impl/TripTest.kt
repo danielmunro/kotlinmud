@@ -6,7 +6,6 @@ import assertk.assertions.isLessThan
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.type.IOStatus
-import kotlinmud.mob.skill.factory.createSkill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
@@ -21,7 +20,9 @@ class TripTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMob { createSkill(SkillType.TRIP, it, 100) }
+        val mob = test.createMob {
+            it.skills[SkillType.TRIP] = 100
+        }
 
         // when
         val response = test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(test.createMob())}", IOStatus.OK)
@@ -39,7 +40,9 @@ class TripTest {
         val test = createTestServiceWithResetDB()
 
         // given
-        val mob = test.createMob { createSkill(SkillType.TRIP, it, 100) }
+        val mob = test.createMob {
+            it.skills[SkillType.TRIP] = 100
+        }
 
         // when
         test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(test.createMob())}", IOStatus.OK)
@@ -56,7 +59,9 @@ class TripTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMob { createSkill(SkillType.TRIP, it, 100) }
+        val mob = test.createMob {
+            it.skills[SkillType.TRIP] = 100
+        }
 
         // when
         test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(test.createMob())}", IOStatus.OK)

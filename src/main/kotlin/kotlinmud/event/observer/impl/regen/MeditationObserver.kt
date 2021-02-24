@@ -9,8 +9,8 @@ import kotlinmud.mob.skill.type.SkillType
 class MeditationObserver : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         with(event.subject as RegenEvent) {
-            this.mob.getSkill(SkillType.MEDITATION)?.let {
-                if (it.level / 2 > dice(1, 100)) {
+            this.mob.skills[SkillType.MEDITATION]?.let {
+                if (it / 2 > dice(1, 100)) {
                     event.subject.manaRegenRate += 0.1
                 }
             }

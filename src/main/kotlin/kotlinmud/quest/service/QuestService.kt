@@ -6,7 +6,6 @@ import kotlinmud.player.dao.FactionScoreDAO
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.repository.findFactionScoreByType
 import kotlinmud.quest.dao.QuestDAO
-import kotlinmud.quest.helper.createQuestList
 import kotlinmud.quest.repository.findQuestByMobCardAndType
 import kotlinmud.quest.table.Quests
 import kotlinmud.quest.type.Quest

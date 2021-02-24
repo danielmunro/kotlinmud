@@ -21,8 +21,8 @@ class ThirdAttackObserver : Observer {
     }
 
     private fun checkThirdAttack(mob: Mob, attacks: MutableList<Attack>) {
-        mob.skills.firstOrNull { it.type == SkillType.THIRD_ATTACK }?.let {
-            if (dice(1, 4) < it.level / 20) {
+        mob.skills[SkillType.THIRD_ATTACK]?.let {
+            if (dice(1, 4) < it / 20) {
                 attacks.add(createHitAttack(mob))
             }
         }

@@ -18,7 +18,6 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.service.ItemService
-import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
@@ -176,7 +175,7 @@ class ActionContextService(
     }
 
     fun practice(skillType: SkillType) {
-        mobService.practice(request.mob, request.mob.skills.find { it.type == skillType }!!)
+        mobService.practice(request.mob, skillType)
     }
 
     fun setDisposition(disposition: Disposition) {

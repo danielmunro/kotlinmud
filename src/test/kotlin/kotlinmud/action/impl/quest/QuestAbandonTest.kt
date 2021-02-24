@@ -2,7 +2,6 @@ package kotlinmud.action.impl.quest
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.mob.type.JobType
 import kotlinmud.quest.helper.createQuestEntity
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.createTestService

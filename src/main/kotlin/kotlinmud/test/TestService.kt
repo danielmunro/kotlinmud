@@ -24,7 +24,6 @@ import kotlinmud.generator.service.FixtureService
 import kotlinmud.generator.service.WorldGeneration
 import kotlinmud.generator.statemachine.createStateMachine
 import kotlinmud.generator.statemachine.runStateMachine
-import kotlinmud.helper.Noun
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse

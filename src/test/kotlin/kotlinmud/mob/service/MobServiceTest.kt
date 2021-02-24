@@ -8,17 +8,14 @@ import assertk.assertions.isNotNull
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.model.Skill
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.test.getIdentifyingWord
 import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.test.Test
 
@@ -166,9 +163,7 @@ class MobServiceTest {
 
         // given
         val mob = test.createPlayerMob()
-        val skill = Skill(SkillType.BASH, 1)
-        mob.skills.add(skill)
-        val level = transaction { skill.level }
+        mob.skills[SkillType.BASH] = 1
         transaction { mob.mobCard?.practices = 1 }
         test.createMobBuilder()
             .job(JobType.TRAINER)
@@ -179,7 +174,7 @@ class MobServiceTest {
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you practice bash.")
-        assertThat(transaction { mob.skills.find { it.type == SkillType.BASH } }!!.level).isGreaterThan(level)
+        assertThat(mob.skills[SkillType.BASH]!!).isGreaterThan(1)
         assertThat(transaction { mob.mobCard!!.practices }).isEqualTo(0)
     }
 }
