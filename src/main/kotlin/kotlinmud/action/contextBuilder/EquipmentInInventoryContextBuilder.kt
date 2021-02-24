@@ -2,13 +2,13 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
+import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.service.ItemService
 import kotlinmud.mob.model.Mob
 
-class EquipmentInInventoryContextBuilder(private val itemService: ItemService, private val mob: Mob) : ContextBuilder {
+class EquipmentInInventoryContextBuilder(private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        val item = itemService.findByOwner(mob, word)
+        val item = mob.items.find { word.matches(it.name) }
             ?: return Context<Any>(
                 syntax,
                 Status.ERROR,
