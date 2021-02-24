@@ -24,7 +24,6 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.player.dao.MobCardDAO
-import kotlinmud.player.service.PlayerService
 import kotlinmud.player.social.Social
 import kotlinmud.quest.service.QuestService
 import kotlinmud.quest.type.Quest
@@ -38,7 +37,6 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionContextService(
     private val mobService: MobService,
-    private val playerService: PlayerService,
     private val itemService: ItemService,
     private val eventService: EventService,
     private val weatherService: WeatherService,
@@ -67,7 +65,7 @@ class ActionContextService(
     }
 
     fun getMobCard(): MobCardDAO {
-        return playerService.findMobCardByName(getMob().name)!!
+        return request.mob.mobCard!!
     }
 
     fun getAffects(): List<AffectDAO> {

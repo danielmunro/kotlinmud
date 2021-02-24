@@ -23,7 +23,6 @@ fun createActionContextBuilder(
     return { request, actionContextList ->
         ActionContextService(
             mobService,
-            playerService,
             itemService,
             eventService,
             weatherService,

@@ -5,7 +5,6 @@ import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
-import kotlinmud.player.service.PlayerService
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class SkillToPracticeContextBuilder(private val mob: Mob) : ContextBuilder {

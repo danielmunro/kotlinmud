@@ -131,6 +131,17 @@ class MobService(
     }
 
     fun decrementAffects() {
+        mobs.forEach {
+            it.affects.removeIf { affect ->
+                if (affect.timeout == null) {
+                    return@removeIf false
+                }
+                transaction {
+                    affect.timeout = affect.timeout!! - 1
+                    affect.timeout!! <= 0
+                }
+            }
+        }
         transaction {
             deleteTimedOutAffects()
             decrementAffectsTimeout()
