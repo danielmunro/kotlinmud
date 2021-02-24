@@ -71,7 +71,7 @@ class ContextBuilderService(
             Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(itemService, request.mob, request.getRoom()).build(syntax, word)
             Syntax.AVAILABLE_FOOD -> AvailableFoodContextBuilder(itemService, request.mob).build(syntax, word)
             Syntax.TRAINABLE -> TrainableContextBuilder(playerService, request.mob).build(syntax, word)
-            Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(playerService, request.mob).build(syntax, word)
+            Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(request.mob).build(syntax, word)
             Syntax.RECIPE -> RecipeContextBuilder(recipes).build(syntax, word)
             Syntax.RESOURCE_IN_ROOM -> ResourceInRoomContextBuilder(request.getRoom()).build(syntax, word)
             Syntax.AVAILABLE_ITEM_INVENTORY -> AvailableItemInventoryContextBuilder(request.mob, request.getRoom()).build(syntax, word)

@@ -8,9 +8,9 @@ import kotlinmud.mob.model.Mob
 import kotlinmud.player.service.PlayerService
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class SkillToPracticeContextBuilder(private val playerService: PlayerService, private val mob: Mob) : ContextBuilder {
+class SkillToPracticeContextBuilder(private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        val mobCard = playerService.findMobCardByName(mob.name)!!
+        val mobCard = mob.mobCard!!
         if (mobCard.practices == 0) {
             return Context(
                 syntax,

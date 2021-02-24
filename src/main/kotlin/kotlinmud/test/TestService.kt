@@ -262,15 +262,12 @@ class TestService(
     }
 
     fun createPlayerMob(): Mob {
-        if (mob == null) {
-            createMob()
-        }
         val race = Human()
         val maxAppetite = race.maxAppetite
         val maxThirst = race.maxThirst
         val card = transaction {
             MobCardDAO.new {
-                mobName = mob!!.name
+                mobName = fixtureService.faker.name.toString()
                 experiencePerLevel = 1000
                 experience = 1000
                 hunger = maxAppetite
