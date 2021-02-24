@@ -22,7 +22,7 @@ fun createLookAction(): Action {
                     room,
                     it.getMob(),
                     it.getMobsInRoom(),
-                    room.items.toList(),
+                    transaction { room.items.toList() },
                 )
             )
         )
