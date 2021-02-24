@@ -91,10 +91,6 @@ class Mob(
         return equipped.find { it.position == position }
     }
 
-    fun getSkill(skillType: SkillType): Int? {
-        return skills[skillType]
-    }
-
     fun getCurrency(currencyType: CurrencyType): Int {
         return currencies.getOrDefault(currencyType, 0)
     }

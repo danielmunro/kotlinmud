@@ -49,12 +49,7 @@ class DisarmTest {
             it.skills[SkillType.DISARM] = 100
         }
         val target = test.createMob()
-        transaction {
-            target.getEquippedByPosition(Position.WEAPON)!!.let {
-                it.mobEquipped = null
-                it.mobInventory = null
-            }
-        }
+        target.equipped.clear()
 
         // when
         val response = test.runAction("disarm ${getIdentifyingWord(target)}")

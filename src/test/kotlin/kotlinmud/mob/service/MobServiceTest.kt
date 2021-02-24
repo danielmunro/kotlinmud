@@ -8,7 +8,6 @@ import assertk.assertions.isNotNull
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.mob.skill.model.Skill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
@@ -82,6 +81,7 @@ class MobServiceTest {
         // setup
         val testService = createTestService()
         val mob1 = testService.createMob()
+        val count = testService.findMobsInRoom().size
 
         // given
         transaction { mob1.disposition = Disposition.DEAD }
@@ -90,7 +90,7 @@ class MobServiceTest {
         runBlocking { testService.pruneDeadMobs() }
 
         // then
-//        assertThat(transaction { Mobs.select { Mobs.id eq mob1.id }.count() }).isEqualTo(0)
+        assertThat(testService.findMobsInRoom().size).isEqualTo(count - 1)
     }
 
     @Test

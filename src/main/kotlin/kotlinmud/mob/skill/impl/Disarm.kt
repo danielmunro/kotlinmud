@@ -52,10 +52,9 @@ class Disarm : SkillAction, Customization {
         val mob = actionContextService.getMob()
         val target = actionContextService.get<Mob>(Syntax.TARGET_MOB)
         return target.getEquippedByPosition(Position.WEAPON)?.let {
+            target.equipped.remove(it)
             transaction {
                 it.room = actionContextService.getRoom()
-                it.mobEquipped = null
-                it.mobInventory = null
             }
             actionContextService.createOkResponse(
                 MessageBuilder()

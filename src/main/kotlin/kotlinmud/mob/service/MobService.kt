@@ -5,6 +5,7 @@ import kotlinmud.affect.repository.decrementAffectsTimeout
 import kotlinmud.affect.repository.deleteTimedOutAffects
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.event.factory.createDeathEvent
 import kotlinmud.event.factory.createKillEvent
 import kotlinmud.event.factory.createSendMessageToRoomEvent
 import kotlinmud.event.impl.Event
@@ -37,6 +38,7 @@ import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.SpecializationType
+import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.repository.findMobCardByName
@@ -45,7 +47,6 @@ import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.math.roundToInt
-import kotlinmud.mob.skill.model.Skill as SkillModel
 
 class MobService(
     private val itemService: ItemService,
@@ -137,11 +138,13 @@ class MobService(
     }
 
     suspend fun pruneDeadMobs() {
-//        findDeadMobs().forEach {
-//            createCorpseFrom(it)
-//            eventService.publish(createDeathEvent(it))
-//            transaction { it.delete() }
-//        }
+        mobs.filter { it.disposition == Disposition.DEAD }.forEach {
+            createCorpseFrom(it)
+            eventService.publish(createDeathEvent(it))
+        }
+        mobs.removeIf {
+            it.mobCard == null && it.disposition == Disposition.DEAD
+        }
     }
 
     suspend fun sendMessageToRoom(message: Message, room: RoomDAO, actionCreator: Mob, target: Mob? = null) {

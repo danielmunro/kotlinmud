@@ -5,7 +5,6 @@ import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
-import kotlinmud.mob.repository.findMobsForRoom
 import kotlinmud.mob.service.MobService
 import kotlinmud.room.dao.RoomDAO
 
@@ -22,7 +21,7 @@ class TargetMobContextBuilder(private val mobService: MobService, private val mo
                 ?: notFound(syntax)
         }
 
-        val mobs = findMobsForRoom(room)
+        val mobs = mobService.findMobsInRoom(room)
         return mobs.find { word.matches(it.name) }?.let {
             Context<Any>(
                 syntax,

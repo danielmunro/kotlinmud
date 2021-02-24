@@ -6,7 +6,6 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.RegenEvent
 import kotlinmud.event.observer.impl.regen.FastHealingObserver
 import kotlinmud.event.type.EventType
-import kotlinmud.mob.skill.model.Skill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService

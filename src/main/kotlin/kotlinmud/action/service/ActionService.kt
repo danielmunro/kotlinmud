@@ -21,7 +21,6 @@ import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.RequiresDisposition
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionService(
     private val mobService: MobService,

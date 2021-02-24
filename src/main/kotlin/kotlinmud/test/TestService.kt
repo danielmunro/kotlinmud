@@ -151,6 +151,10 @@ class TestService(
         return hasInventory.items
     }
 
+    fun findMobsInRoom(room: RoomDAO = getStartRoom()): List<Mob> {
+        return mobService.findMobsInRoom(room)
+    }
+
     suspend fun regenMobs() {
         mobService.regenMobs()
     }
@@ -443,7 +447,7 @@ class TestService(
                 dam = 1
             }
         }
-        mob.items.add(item)
+        mob.equipped.add(item)
         return item
     }
 }
