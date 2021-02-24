@@ -7,6 +7,7 @@ import kotlinmud.event.impl.RegenEvent
 import kotlinmud.event.observer.impl.regen.FastHealingObserver
 import kotlinmud.event.type.EventType
 import kotlinmud.mob.skill.factory.createSkill
+import kotlinmud.mob.skill.model.Skill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
@@ -22,9 +23,9 @@ class FastHealingObserverTest {
         val fastHealing = FastHealingObserver()
 
         // given
-        val mob = test.createMob {
-            createSkill(SkillType.FAST_HEALING, it, 100)
-        }
+        val mob = test.createMobBuilder()
+            .skills(listOf(Skill(SkillType.FAST_HEALING, 100)))
+            .build()
 
         // when
         while (prob.isIterating()) {

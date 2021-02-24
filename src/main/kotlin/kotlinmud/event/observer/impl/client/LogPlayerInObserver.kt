@@ -11,7 +11,7 @@ class LogPlayerInObserver(private val mobService: MobService) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         with(event.subject as PlayerLoggedInEvent) {
             transaction {
-                client.mob = MobBuilder(mobService).fromDAO(transaction { mobCard.mob }).build()
+                client.mob = mobService.findPlayerMobByName(mobCard.mobName)
                 mobCard.loggedIn = true
             }
         }

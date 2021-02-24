@@ -19,6 +19,7 @@ import kotlinmud.mob.helper.getSkillBoostRegenRate
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.skill.dao.SkillDAO
+import kotlinmud.mob.skill.model.Skill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.Specialization
 import kotlinmud.mob.specialization.type.SpecializationType
@@ -55,7 +56,7 @@ class Mob(
     override val maxItems: Int,
     override val maxWeight: Int,
     override val items: MutableList<ItemDAO>,
-    val skills: MutableList<SkillDAO>,
+    val skills: MutableList<Skill>,
     val affects: MutableList<AffectDAO>,
     val currencies: MutableMap<CurrencyType, Int>,
     val mobCard: MobCardDAO?
@@ -92,7 +93,7 @@ class Mob(
         return equipped.find { it.position == position }
     }
 
-    fun getSkill(skillType: SkillType): SkillDAO? {
+    fun getSkill(skillType: SkillType): Skill? {
         return skills.find { it.type == skillType }
     }
 

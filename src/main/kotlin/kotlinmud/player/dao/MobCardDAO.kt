@@ -19,6 +19,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<MobCardDAO>(MobCards)
 
+    var mobName by MobCards.mobName
     var experience by MobCards.experience
     var experiencePerLevel by MobCards.experiencePerLevel
     var trains by MobCards.trains
@@ -30,7 +31,6 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     var skillPoints by MobCards.skillPoints
     var loggedIn by MobCards.loggedIn
     val trainedAttributes by AttributesDAO optionalReferrersOn Attributes.mobCardId
-    var mob by MobDAO referencedOn MobCards.mobId
     var respawnRoom by RoomDAO referencedOn MobCards.respawnRoomId
     val factionScores by FactionScoreDAO referrersOn FactionScores.mobCardId
     val quests by QuestDAO referrersOn Quests.mobCardId

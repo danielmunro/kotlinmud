@@ -32,8 +32,8 @@ import kotlinmud.mob.helper.takeDamageFromFall
 import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.repository.deleteFinishedFights
-import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.helper.getLearningDifficultyPracticeAmount
+import kotlinmud.mob.skill.model.Skill as SkillModel
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillType
@@ -78,7 +78,9 @@ class MobService(
     }
 
     fun addFight(mob1: Mob, mob2: Mob): FightService {
-        return FightService.create(mob1, mob2, eventService)
+        val fight = Fight(mob1, mob2)
+        fights.add(fight)
+        return FightService(fight, eventService)
     }
 
     fun getMobFight(mob: Mob): Fight? {
@@ -95,6 +97,12 @@ class MobService(
 
     fun findMobsByJobType(jobType: JobType): List<Mob> {
         return mobs.filter { it.job == jobType }
+    }
+
+    fun findPlayerMobByName(name: String): Mob? {
+        return mobs.find {
+            it.mobCard != null && it.name == name
+        }
     }
 
     fun findMobsWantingToMoveOnTick(): List<Mob> {
@@ -160,7 +168,7 @@ class MobService(
         }
     }
 
-    fun practice(mob: Mob, skill: SkillDAO) {
+    fun practice(mob: Mob, skill: SkillModel) {
         transaction {
             mob.mobCard!!.practices -= 1
             skill.level += calculatePracticeGain(mob, skill)
@@ -196,7 +204,7 @@ class MobService(
         }
     }
 
-    private fun calculatePracticeGain(mob: Mob, skill: SkillDAO): Int {
+    private fun calculatePracticeGain(mob: Mob, skill: SkillModel): Int {
         return with(
             1 + getLearningDifficultyPracticeAmount(
                 getSkillDifficultyForSpecialization(skill.type, mob.specialization?.type ?: SpecializationType.NONE)
@@ -215,6 +223,7 @@ class MobService(
     }
 
     private suspend fun createNewFightRounds(): List<Round> {
+        println("fights: ${fights.size}")
         return fights.map {
             proceedFightRound(FightService(it, eventService).createRound())
         }

@@ -5,6 +5,7 @@ import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.dao.IntIdTable
 
 object MobCards : IntIdTable() {
+    val mobName = varchar("mobName", 255)
     val experience = integer("experience").default(0)
     val experiencePerLevel = integer("experiencePerLevel").default(1000)
     val trains = integer("trains").default(0)
@@ -15,6 +16,5 @@ object MobCards : IntIdTable() {
     val thirst = integer("thirst").default(0)
     val skillPoints = integer("skillPoints").default(0)
     val loggedIn = bool("loggedIn").default(false)
-    val mobId = reference("mobId", Mobs)
     val respawnRoomId = reference("respawnRoomId", Rooms)
 }

@@ -9,6 +9,7 @@ import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.skill.dao.SkillDAO
+import kotlinmud.mob.skill.model.Skill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
@@ -165,12 +166,7 @@ class MobServiceTest {
 
         // given
         val mob = test.createPlayerMob()
-        val skill = transaction {
-            SkillDAO.new {
-                type = SkillType.BASH
-                level = 1
-            }
-        }
+        val skill = Skill(SkillType.BASH, 1)
         mob.skills.add(skill)
         val level = transaction { skill.level }
         transaction { mob.mobCard?.practices = 1 }

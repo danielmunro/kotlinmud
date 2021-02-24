@@ -26,7 +26,9 @@ class SecondAttackObserverTest {
         val prob = ProbabilityTest()
 
         while (prob.isIterating() && !fight.isOver()) {
+            println("while loop")
             val round = runBlocking { test.proceedFights() }
+            println(round.size)
             round.forEach {
                 prob.decrementIteration(
                     it.attackerAttacks.size > 1,

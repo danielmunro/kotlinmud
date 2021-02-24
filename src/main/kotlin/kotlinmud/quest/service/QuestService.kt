@@ -1,6 +1,7 @@
 package kotlinmud.quest.service
 
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.dao.FactionScoreDAO
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.repository.findFactionScoreByType
@@ -19,7 +20,7 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class QuestService(private val quests: List<Quest>) {
+class QuestService(private val mobService: MobService, private val quests: List<Quest>) {
     fun findByType(type: QuestType): Quest? {
         return quests.find { it.type == type }
     }
@@ -77,7 +78,7 @@ class QuestService(private val quests: List<Quest>) {
     }
 
     fun reward(mobCard: MobCardDAO, quest: Quest) {
-        val mob = transaction { mobCard.mob }
+        val mob = mobService.findPlayerMobByName(mobCard.mobName)!!
         quest.rewards.forEach {
             if (it is ExperienceQuestReward) {
                 mobCard.addExperience(mob.level, it.amount)
@@ -96,8 +97,7 @@ class QuestService(private val quests: List<Quest>) {
                     }
                 }
             } else if (it is ItemQuestReward) {
-                val item = it.createItem()
-                transaction { item.mobInventory = mob }
+                mob.items.add(it.createItem())
             }
         }
     }

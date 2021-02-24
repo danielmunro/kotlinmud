@@ -10,6 +10,7 @@ import kotlinmud.mob.model.Mob
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.dao.SkillDAO
+import kotlinmud.mob.skill.model.Skill
 import kotlinmud.mob.specialization.type.Specialization
 import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
@@ -42,7 +43,7 @@ class MobBuilder (private val mobService: MobService) {
     private var items = listOf<ItemDAO>()
     private var maxItems = 0
     private var maxWeight = 0
-    private var skills = listOf<SkillDAO>()
+    private var skills = listOf<Skill>()
     private var affects = listOf<AffectDAO>()
     private var currencies = mapOf<CurrencyType, Int>()
     private var card: MobCardDAO? = null
@@ -146,7 +147,7 @@ class MobBuilder (private val mobService: MobService) {
         return this
     }
 
-    fun skills(value: List<SkillDAO>): MobBuilder {
+    fun skills(value: List<Skill>): MobBuilder {
         skills = value
         return this
     }
