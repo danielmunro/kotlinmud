@@ -142,6 +142,8 @@ class TestService(
             transaction { hasInventory.items.count() }
         } else if (hasInventory is Mob) {
             hasInventory.items.size + hasInventory.equipped.size
+        } else if (hasInventory is RoomDAO) {
+            transaction { hasInventory.items.count() }
         } else {
             throw Exception()
         }
@@ -416,7 +418,7 @@ class TestService(
         return questService.findByType(type)
     }
 
-    private fun runAction(mob: Mob, input: String): Response {
+    fun runAction(mob: Mob, input: String): Response {
         return runBlocking {
             actionService.run(
                 RequestService(

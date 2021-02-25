@@ -2,18 +2,22 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
+import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.service.ItemService
 import kotlinmud.room.dao.RoomDAO
+import org.jetbrains.exposed.sql.transactions.transaction
 
-class ItemInRoomContextBuilder(private val itemService: ItemService, private val room: RoomDAO) : ContextBuilder {
+class ItemInRoomContextBuilder(private val room: RoomDAO) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        return itemService.findByRoom(room, word)
-            ?.let { Context<Any>(syntax, Status.OK, it) }
-            ?: Context<Any>(
-                syntax,
-                Status.FAILED,
-                "you don't see that anywhere."
-            )
+        return transaction {
+            room.items.find {
+                word.matches(it.name)
+            }?.let { Context<Any>(syntax, Status.OK, it) }
+                ?: Context<Any>(
+                    syntax,
+                    Status.FAILED,
+                    "you don't see that anywhere."
+                )
+        }
     }
 }

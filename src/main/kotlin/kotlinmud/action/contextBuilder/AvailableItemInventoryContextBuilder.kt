@@ -13,12 +13,6 @@ class AvailableItemInventoryContextBuilder(
     private val mob: Mob,
     private val room: RoomDAO
 ) : ContextBuilder {
-    companion object {
-        fun isMatch(item: ItemDAO, word: String): Boolean {
-            return word.matches(item.name)
-        }
-    }
-
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return tryInventory(mob.items, syntax, word)
             ?: tryInventory(transaction { room.items.toList() }, syntax, word)
@@ -31,7 +25,7 @@ class AvailableItemInventoryContextBuilder(
 
     private fun tryInventory(items: List<ItemDAO>, syntax: Syntax, word: String): Context<Any>? {
         return items.find {
-            isMatch(it, word) && it.isContainer
+            word.matches(it.name) && it.isContainer
         }?.let {
             Context<Any>(syntax, Status.OK, it)
         }

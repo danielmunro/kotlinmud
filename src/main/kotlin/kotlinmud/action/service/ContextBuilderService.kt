@@ -32,7 +32,6 @@ import kotlinmud.action.type.Status
 import kotlinmud.io.service.RequestService
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
-import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.type.Skill
@@ -54,7 +53,7 @@ class ContextBuilderService(
             Syntax.COMMAND -> CommandContextBuilder().build(syntax, word)
             Syntax.SUBCOMMAND -> CommandContextBuilder().build(syntax, word)
             Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(request.mob).build(syntax, word)
-            Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(itemService, request.getRoom()).build(syntax, word)
+            Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.getRoom()).build(syntax, word)
             Syntax.EQUIPMENT_IN_INVENTORY -> EquipmentInInventoryContextBuilder(request.mob).build(syntax, word)
             Syntax.EQUIPPED_ITEM -> EquippedItemContextBuilder(request.mob).build(syntax, word)
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.findMobsInRoom(request.getRoom())).build(syntax, word)
@@ -75,7 +74,7 @@ class ContextBuilderService(
             Syntax.RECIPE -> RecipeContextBuilder(recipes).build(syntax, word)
             Syntax.RESOURCE_IN_ROOM -> ResourceInRoomContextBuilder(request.getRoom()).build(syntax, word)
             Syntax.AVAILABLE_ITEM_INVENTORY -> AvailableItemInventoryContextBuilder(request.mob, request.getRoom()).build(syntax, word)
-            Syntax.ITEM_IN_AVAILABLE_INVENTORY -> ItemInAvailableItemInventoryContextBuilder(itemService, previous?.result as HasInventory).build(syntax, word)
+            Syntax.ITEM_IN_AVAILABLE_INVENTORY -> ItemInAvailableItemInventoryContextBuilder(previous?.result!!).build(syntax, word)
             Syntax.OPTIONAL_FURNITURE -> OptionalFurnitureContextBuilder(request.getRoom().items.toList()).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }

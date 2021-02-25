@@ -1,5 +1,6 @@
 package kotlinmud.action.service
 
+import kotlinmud.action.exception.InvokeException
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.type.Affect
@@ -146,7 +147,15 @@ class ActionContextService(
     }
 
     fun giveItemToMob(item: ItemDAO, mob: Mob) {
+        if (mob.items.count() >= mob.maxItems || mob.items.fold(0.0, { acc: Double, it: ItemDAO -> acc + it.weight }) + item.weight > mob.maxWeight) {
+            throw InvokeException("you cannot carry any more.")
+        }
         mob.items.add(item)
+        transaction {
+            item.room = null
+            item.mobEquipped = null
+            item.mobInventory = null
+        }
     }
 
     fun putItemInRoom(item: ItemDAO, room: RoomDAO) {

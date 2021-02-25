@@ -94,7 +94,7 @@ class GetTest {
         val item = test.createItem { it.container = container }
 
         // when
-        val response = test.runAction("get ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
+        val response = test.runAction(mob, "get ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you cannot carry any more.")
