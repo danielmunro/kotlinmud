@@ -51,11 +51,11 @@ class GetTest {
         val test = createTestServiceWithResetDB()
 
         // given
-        test.createMobBuilder().maxItems(1).build()
+        val mob = test.createMobBuilder().maxItems(0).build()
         val item = test.createItem { it.room = test.getStartRoom() }
 
         // when
-        val response = test.runAction("get ${getIdentifyingWord(item)}")
+        val response = test.runAction(mob, "get ${getIdentifyingWord(item)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you cannot carry any more.")
@@ -68,17 +68,17 @@ class GetTest {
         val test = createTestServiceWithResetDB()
 
         // given
-        test.createMobBuilder().maxWeight(0).build()
+        val mob = test.createMobBuilder().maxWeight(0).build()
         val item = test.createItem {
             it.room = test.getStartRoom()
             it.weight = 1.0
         }
 
         // when
-        val response = test.runAction("get ${getIdentifyingWord(item)}")
+        val response = test.runAction(mob, "get ${getIdentifyingWord(item)}")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("that is too heavy.")
+        assertThat(response.message.toActionCreator).isEqualTo("you cannot carry any more.")
         assertThat(response.status).isEqualTo(IOStatus.ERROR)
     }
 
@@ -119,7 +119,7 @@ class GetTest {
         val response = test.runAction("put ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("that is full.")
+        assertThat(response.message.toActionCreator).isEqualTo("that is too heavy.")
     }
 
     @Test

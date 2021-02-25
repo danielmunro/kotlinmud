@@ -6,6 +6,7 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.helper.Identifiable
+import kotlinmud.helper.Noun
 import kotlinmud.item.table.Items
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.Food
@@ -21,11 +22,11 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ItemDAO(id: EntityID<Int>) : IntEntity(id), Identifiable, HasAttributes {
+class ItemDAO(id: EntityID<Int>) : IntEntity(id), Identifiable, HasAttributes, Noun {
     companion object : IntEntityClass<ItemDAO>(Items)
 
     override var name by Items.name
-    var description by Items.description
+    override var description by Items.description
     var type by Items.type.transform(
         { it.toString() },
         { ItemType.valueOf(it) }

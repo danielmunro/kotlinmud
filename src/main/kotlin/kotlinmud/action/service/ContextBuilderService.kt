@@ -57,7 +57,7 @@ class ContextBuilderService(
             Syntax.EQUIPMENT_IN_INVENTORY -> EquipmentInInventoryContextBuilder(request.mob).build(syntax, word)
             Syntax.EQUIPPED_ITEM -> EquippedItemContextBuilder(request.mob).build(syntax, word)
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.findMobsInRoom(request.getRoom())).build(syntax, word)
-            Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(itemService, request.mob, request.getRoom()).build(syntax, word)
+            Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, itemService, request.mob, request.getRoom()).build(syntax, word)
             Syntax.TARGET_MOB -> TargetMobContextBuilder(mobService, request.mob, request.getRoom()).build(syntax, word)
             Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, mobService.findMobsInRoom(request.getRoom()) + request.mob.items).build(syntax, word)
             Syntax.DOOR_IN_ROOM -> DoorInRoomContextBuilder(request.getRoom()).build(syntax, word)
