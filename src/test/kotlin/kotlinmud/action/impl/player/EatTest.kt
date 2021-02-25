@@ -21,7 +21,7 @@ class EatTest {
         val timeout = 2
         val mob = test.createPlayerMob()
         mob.room = test.getStartRoom()
-        val mobCard = test.findMobCardByName(mob.name)!!
+        val mobCard = mob.mobCard!!
         val item = test.createItem()
         transaction {
             item.type = ItemType.FOOD

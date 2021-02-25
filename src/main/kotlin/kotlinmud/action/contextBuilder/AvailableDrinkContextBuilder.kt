@@ -2,6 +2,7 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
+import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
@@ -16,7 +17,7 @@ class AvailableDrinkContextBuilder(
     private val room: RoomDAO
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        val target = itemService.findByOwner(mob, word)
+        val target = mob.items.find { word.matches(it.name) }
             ?: itemService.findByRoom(room, word)
             ?: return notFound(syntax)
 

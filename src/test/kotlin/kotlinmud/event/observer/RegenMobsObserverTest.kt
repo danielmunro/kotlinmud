@@ -13,7 +13,7 @@ class RegenMobsObserverTest {
     fun testRegenRoomDifference() {
         // setup
         val test = createTestServiceWithResetDB()
-        val mob = test.createMob()
+        val mob = test.createPlayerMob()
         val room = test.getStartRoom()
 
         // when

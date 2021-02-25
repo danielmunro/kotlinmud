@@ -2,13 +2,14 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
+import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.model.Mob
 
-class AvailableFoodContextBuilder(private val itemService: ItemService, private val mob: Mob) : ContextBuilder {
+class AvailableFoodContextBuilder(private val mob: Mob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        val target = itemService.findByOwner(mob, word) ?: return notFound(syntax)
+        val target = mob.items.find { word.matches(it.name) } ?: return notFound(syntax)
 
         if (!target.isVisible()) {
             return notFound(syntax)

@@ -206,6 +206,7 @@ class TestService(
 
     fun createMobBuilder(): MobBuilder {
         return MobBuilder(mobService)
+            .name(fixtureService.faker.name.name())
             .race(Human())
             .room(getStartRoom())
     }
