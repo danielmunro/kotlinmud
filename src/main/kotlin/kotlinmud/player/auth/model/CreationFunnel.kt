@@ -46,6 +46,7 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
     private fun createMob(): Mob {
         val card = transaction {
             MobCardDAO.new {
+                this.mobName = this@CreationFunnel.mobName
                 experiencePerLevel = 1000
                 experience = 1000
                 trains = 5

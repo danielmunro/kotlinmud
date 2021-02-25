@@ -29,8 +29,8 @@ fun findLoggedInMobCards(): List<MobCardDAO> {
 
 fun findMobCardByName(name: String): MobCardDAO? {
     return transaction {
-        (Mobs innerJoin MobCards).select {
-            Mobs.mobCardId eq MobCards.id and (Mobs.name eq name)
+        MobCards.select {
+            MobCards.mobName eq name
         }.firstOrNull()?.let {
             MobCardDAO.wrapRow(it)
         }

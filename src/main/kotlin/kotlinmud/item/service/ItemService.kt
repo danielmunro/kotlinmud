@@ -57,8 +57,6 @@ class ItemService {
     }
 
     fun putItemInContainer(item: ItemDAO, container: ItemDAO) {
-//        checkItemCount(container)
-//        checkWeight(container, item)
         transaction {
             if (container.items.count() >= container.maxItems!! || container.items.fold(
                     0.0,
