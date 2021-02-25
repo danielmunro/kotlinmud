@@ -131,6 +131,7 @@ class GetTest {
         val mob = test.createMob()
         val container = test.createContainer {
             it.maxWeight = 0
+            it.maxItems = 100
         }
         mob.items.add(container)
         val item = test.createItem {

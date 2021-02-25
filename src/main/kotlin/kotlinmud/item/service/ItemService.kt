@@ -60,6 +60,15 @@ class ItemService {
 //        checkItemCount(container)
 //        checkWeight(container, item)
         transaction {
+            if (container.items.count() >= container.maxItems!! || container.items.fold(
+                    0.0,
+                    { acc: Double, it: ItemDAO -> acc + it.weight }
+                ) + item.weight > container.maxWeight!!
+            ) {
+                throw InvokeException("that is too heavy.")
+            }
+        }
+        transaction {
             item.mobInventory = null
             item.mobEquipped = null
             item.room = null

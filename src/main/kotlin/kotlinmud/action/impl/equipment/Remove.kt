@@ -13,6 +13,9 @@ fun createRemoveAction(): Action {
     return Action(Command.REMOVE, mustBeAlert(), equippedItem()) {
         val item = it.get<ItemDAO>(Syntax.EQUIPPED_ITEM)
         transaction { item.mobEquipped = null }
-        it.createOkResponse(createRemoveMessage(it.getMob(), item))
+        val mob = it.getMob()
+        mob.equipped.remove(item)
+        mob.items.add(item)
+        it.createOkResponse(createRemoveMessage(mob, item))
     }
 }

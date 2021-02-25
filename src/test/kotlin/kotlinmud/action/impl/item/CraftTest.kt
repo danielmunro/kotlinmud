@@ -32,12 +32,13 @@ class CraftTest {
         // setup
         val test = createTestService()
         val mob = test.createMob()
+        val itemCount = mob.items.size
 
         // when
         val response = test.runAction("craft builder")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you don't have all the necessary components.")
-        assertThat(test.findAllItemsByOwner(mob)).hasSize(1)
+        assertThat(mob.items).hasSize(itemCount)
     }
 }

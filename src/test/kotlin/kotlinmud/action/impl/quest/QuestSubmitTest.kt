@@ -5,7 +5,7 @@ import assertk.assertions.isEqualTo
 import kotlinmud.quest.helper.createQuestEntity
 import kotlinmud.quest.type.QuestType
 import kotlinmud.room.repository.findRoomByCanonicalId
-import kotlinmud.test.createTestService
+import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.type.CanonicalId
 import org.junit.Test
 
@@ -13,7 +13,7 @@ class QuestSubmitTest {
     @Test
     fun testCanSubmitQuest() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
         val quest = test.findQuest(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)!!
 
         // given
@@ -32,7 +32,7 @@ class QuestSubmitTest {
     @Test
     fun testDoesNotErrorOutWhenAQuestIsNotSpecified() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
         val quest = test.findQuest(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)!!
 
         // given
@@ -51,7 +51,7 @@ class QuestSubmitTest {
     @Test
     fun testQuestMustBeAcceptedToBeSubmitted() {
         // setup
-        val test = createTestService()
+        val test = createTestServiceWithResetDB()
 
         // given
         test.createPlayerMob {

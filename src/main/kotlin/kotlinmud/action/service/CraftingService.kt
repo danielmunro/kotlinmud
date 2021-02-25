@@ -52,8 +52,12 @@ class CraftingService(private val itemService: ItemService) {
             throw CraftException()
         }
 
+        mob.items.removeAll(toDestroy)
+
         transaction {
-            toDestroy.forEach { it.delete() }
+            toDestroy.forEach {
+                it.delete()
+            }
         }
 
         return createNewProductsFor(mob, recipe.getProducts())
