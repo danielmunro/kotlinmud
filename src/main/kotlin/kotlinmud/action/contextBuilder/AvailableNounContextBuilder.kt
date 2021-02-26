@@ -7,7 +7,6 @@ import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.model.Mob
-import kotlinmud.mob.repository.findMobsForRoom
 import kotlinmud.mob.service.MobService
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction

@@ -4,7 +4,6 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.service.ItemService
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.CurrencyService
 import kotlinmud.mob.type.JobType

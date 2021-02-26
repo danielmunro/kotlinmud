@@ -66,7 +66,7 @@ class ContextBuilderService(
             Syntax.ITEM_TO_SELL -> ItemToSellContextBuilder(request.mob, mobService.findMobsInRoom(request.getRoom())).build(syntax, word)
             Syntax.SPELL -> SpellContextBuilder(skills).build(syntax, word)
             Syntax.SPELL_FROM_HEALER -> SpellFromHealerContextBuilder(mobService.findMobsInRoom(request.getRoom())).build(syntax, word)
-            Syntax.PLAYER_MOB -> PlayerMobContextBuilder().build(syntax, word)
+            Syntax.PLAYER_MOB -> PlayerMobContextBuilder(playerService).build(syntax, word)
             Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(itemService, request.mob, request.getRoom()).build(syntax, word)
             Syntax.AVAILABLE_FOOD -> AvailableFoodContextBuilder(request.mob).build(syntax, word)
             Syntax.TRAINABLE -> TrainableContextBuilder(mobService, request.mob).build(syntax, word)

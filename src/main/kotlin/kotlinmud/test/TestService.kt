@@ -268,13 +268,13 @@ class TestService(
         return mobService.createCorpseFrom(mob)
     }
 
-    fun createPlayerMob(): Mob {
+    fun createPlayerMob(name: String = fixtureService.faker.name.name()): Mob {
         val race = Human()
         val maxAppetite = race.maxAppetite
         val maxThirst = race.maxThirst
         val card = transaction {
             MobCardDAO.new {
-                mobName = fixtureService.faker.name.name()
+                mobName = name
                 experiencePerLevel = 1000
                 experience = 1000
                 hunger = maxAppetite
@@ -282,7 +282,9 @@ class TestService(
                 respawnRoom = findStartRoom() ?: createRoom()
             }
         }
-        return createMob(card)
+        return createMob(card).also {
+            playerService.loginPlayerAsMob(createPlayer("${fixtureService.faker.funnyName.name()}@foo.com"), it)
+        }
     }
 
     fun createPlayerMob(mutator: (mob: Mob) -> Unit): Mob {

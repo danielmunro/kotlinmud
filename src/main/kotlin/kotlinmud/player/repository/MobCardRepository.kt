@@ -1,10 +1,8 @@
 package kotlinmud.player.repository
 
-import kotlinmud.mob.table.Mobs
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.table.MobCards
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update

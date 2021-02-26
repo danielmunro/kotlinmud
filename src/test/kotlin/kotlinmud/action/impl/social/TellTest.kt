@@ -2,16 +2,16 @@ package kotlinmud.action.impl.social
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.test.createTestService
+import kotlinmud.test.createTestServiceWithResetDB
 import org.junit.Test
 
 class TellTest {
     @Test
     fun testCanTellMob() {
         // setup
-        val testService = createTestService()
-        testService.createMobBuilder().name("foo").build()
-        testService.createMobBuilder().name("bar").build()
+        val testService = createTestServiceWithResetDB()
+        testService.createPlayerMob("foo")
+        testService.createPlayerMob("bar")
 
         // when
         val response = testService.runAction("tell bar hello world")

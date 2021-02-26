@@ -9,10 +9,13 @@ import kotlinmud.event.factory.createClientLoggedInEvent
 import kotlinmud.event.service.EventService
 import kotlinmud.helper.logger
 import kotlinmud.helper.random.generateOTP
+import kotlinmud.helper.string.matches
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
 import kotlinmud.io.type.IOStatus
+import kotlinmud.mob.model.Mob
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.impl.CompleteAuthStep
 import kotlinmud.player.auth.impl.EmailAuthStep
 import kotlinmud.player.auth.service.AuthStepService
@@ -27,10 +30,12 @@ import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
 
 class PlayerService(
     private val emailService: EmailService,
-    private val eventService: EventService
+    private val eventService: EventService,
+    private val mobService: MobService,
 ) {
     private val preAuthClients: MutableMap<Client, AuthStep> = mutableMapOf()
     private val loggedInPlayers: MutableMap<Client, PlayerDAO> = mutableMapOf()
+    private val loggedInMobs: MutableMap<PlayerDAO, Mob> = mutableMapOf()
     private lateinit var authStepService: AuthStepService
     private val logger = logger(this)
 
@@ -59,6 +64,10 @@ class PlayerService(
 
     fun findMobCardByName(name: String): MobCardDAO? {
         return findMobCardByNameQuery(name)
+    }
+
+    fun findLoggedInPlayerMobByName(name: String): Mob? {
+        return loggedInMobs.values.find { name.matches(it.name) }
     }
 
     fun findPlayerByOTP(otp: String): PlayerDAO? {
@@ -91,6 +100,10 @@ class PlayerService(
 
     fun loginClientAsPlayer(client: Client, player: PlayerDAO) {
         loggedInPlayers[client] = player
+    }
+
+    fun loginPlayerAsMob(player: PlayerDAO, mob: Mob) {
+        loggedInMobs[player] = mob
     }
 
     fun addPreAuthClient(client: Client) {
@@ -126,6 +139,7 @@ class PlayerService(
     }
 
     private suspend fun loginMob(client: Client, mobCard: MobCardDAO) {
+        loginPlayerAsMob(loggedInPlayers[client]!!, mobService.findPlayerMobByName(mobCard.mobName)!!)
         eventService.publish(createClientLoggedInEvent(client, mobCard))
     }
 }

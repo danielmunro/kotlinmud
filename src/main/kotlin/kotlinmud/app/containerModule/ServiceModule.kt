@@ -43,6 +43,13 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
         bind<ItemService>() with singleton { ItemService() }
+        bind<MobService>() with singleton {
+            MobService(
+                instance(),
+                instance(),
+                createSkillList()
+            )
+        }
         bind<WeatherService>() with singleton { WeatherService() }
         bind<EmailService>() with singleton {
             if (test) {
@@ -52,7 +59,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
             }
         }
         bind<PlayerService>() with singleton {
-            PlayerService(instance(), instance())
+            PlayerService(instance(), instance(), instance())
         }
         bind<AuthStepService>() with singleton {
             val playerService = instance<PlayerService>()
@@ -83,13 +90,6 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
                     instance(),
                 ),
                 createActionsList()
-            )
-        }
-        bind<MobService>() with singleton {
-            MobService(
-                instance(),
-                instance(),
-                createSkillList()
             )
         }
         bind<ContextBuilderService>() with singleton {

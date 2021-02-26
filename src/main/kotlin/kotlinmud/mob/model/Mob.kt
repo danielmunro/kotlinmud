@@ -234,6 +234,10 @@ class Mob(
         }
     }
 
+    override fun toString(): String {
+        return name
+    }
+
     private fun increaseMana(value: Int) {
         mana += value
         with(calc(Attribute.MANA)) {
