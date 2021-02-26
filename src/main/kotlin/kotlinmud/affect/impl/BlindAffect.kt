@@ -9,6 +9,7 @@ import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.model.Mob
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class BlindAffect : Affect {
     override val type: AffectType = AffectType.BLIND
@@ -28,6 +29,6 @@ class BlindAffect : Affect {
     }
 
     override fun createInstance(timeout: Int): AffectDAO {
-        return createAffect(type, timeout, AttributesDAO.new { dexterity = -1 })
+        return createAffect(type, timeout, transaction { AttributesDAO.new { dexterity = -1 } })
     }
 }

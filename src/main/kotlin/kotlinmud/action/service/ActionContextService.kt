@@ -70,7 +70,7 @@ class ActionContextService(
     }
 
     fun getAffects(): List<AffectDAO> {
-        return transaction { getMob().affects.toList() }
+        return getMob().affects
     }
 
     fun getLevel(): Int {

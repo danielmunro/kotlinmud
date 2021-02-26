@@ -15,7 +15,7 @@ class AffectsTest {
         val test = createTestService()
 
         // given
-        test.createMobBuilder()
+        val mob = test.createMobBuilder()
             .affects(
                 listOf(
                     InvisibilityAffect().createInstance(5),
@@ -26,7 +26,7 @@ class AffectsTest {
             .build()
 
         // when
-        val response = test.runAction("affects")
+        val response = test.runAction(mob, "affects")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("You are affected by:\ninvisibility: 5 ticks\nbless: 10 ticks\nblind: 1 tick\n")
