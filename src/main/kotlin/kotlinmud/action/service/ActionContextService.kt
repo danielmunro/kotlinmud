@@ -97,8 +97,7 @@ class ActionContextService(
     }
 
     fun getMobsInRoom(): List<Mob> {
-//        return findMobsForRoom(getRoom())
-        return listOf()
+        return mobService.findMobsInRoom(getRoom())
     }
 
     suspend fun moveMob(room: RoomDAO, direction: Direction) {

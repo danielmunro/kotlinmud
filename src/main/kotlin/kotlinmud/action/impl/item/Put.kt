@@ -13,6 +13,8 @@ fun createPutAction(): Action {
     return Action(Command.PUT, mustBeAwake(), availableInventoryAndItem()) {
         val item = it.get<ItemDAO>(Syntax.ITEM_IN_INVENTORY)
         val container = it.get<ItemDAO>(Syntax.AVAILABLE_ITEM_INVENTORY)
+        val mob = it.getMob()
+        mob.items.remove(item)
 
         try {
             it.putItemInContainer(item, container)
@@ -20,6 +22,6 @@ fun createPutAction(): Action {
             return@Action it.createErrorResponse(e.toMessage())
         }
 
-        it.createOkResponse(createPutMessage(it.getMob(), item, container))
+        it.createOkResponse(createPutMessage(mob, item, container))
     }
 }

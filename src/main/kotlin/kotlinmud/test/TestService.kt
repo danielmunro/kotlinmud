@@ -216,6 +216,8 @@ class TestService(
     fun createShopkeeper(): Mob {
         return createMobBuilder()
             .job(JobType.SHOPKEEPER)
+            .maxItems(1000)
+            .maxWeight(10000)
             .build()
     }
 
@@ -434,7 +436,11 @@ class TestService(
 
     fun createContainer(): ItemDAO {
         val item = createItem()
-        transaction { item.isContainer = true }
+        transaction {
+            item.isContainer = true
+            item.maxItems = 100
+            item.maxWeight = 1000
+        }
         return item
     }
 

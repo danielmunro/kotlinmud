@@ -2,6 +2,7 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
+import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.model.Mob
@@ -9,7 +10,6 @@ import kotlinmud.mob.service.CurrencyService
 import kotlinmud.mob.type.JobType
 
 class ItemToSellContextBuilder(
-    private val itemService: ItemService,
     private val mob: Mob,
     private val mobsInRoom: List<Mob>
 ) : ContextBuilder {
@@ -20,7 +20,7 @@ class ItemToSellContextBuilder(
                 Status.ERROR,
                 "no merchant is here."
             )
-        val item = itemService.findByOwner(mob, word)
+        val item = mob.items.find { word.matches(it.name) }
             ?: return Context(
                 Syntax.ITEM_TO_SELL,
                 Status.ERROR,

@@ -11,7 +11,9 @@ import kotlinmud.item.dao.ItemDAO
 fun createDropAction(): Action {
     return Action(Command.DROP, mustBeAwake(), itemInInventory()) {
         val item = it.get<ItemDAO>(Syntax.ITEM_IN_INVENTORY)
+        val mob = it.getMob()
+        mob.items.remove(item)
         it.putItemInRoom(item, it.getRoom())
-        it.createOkResponse(createDropMessage(it.getMob(), item))
+        it.createOkResponse(createDropMessage(mob, item))
     }
 }
