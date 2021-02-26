@@ -81,6 +81,8 @@ class MobService(
     fun addFight(mob1: Mob, mob2: Mob): FightService {
         val fight = Fight(mob1, mob2)
         fights.add(fight)
+        mob1.disposition = Disposition.FIGHTING
+        mob2.disposition = Disposition.FIGHTING
         return FightService(fight, eventService)
     }
 

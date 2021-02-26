@@ -2,6 +2,7 @@ package kotlinmud.action.contextBuilder
 
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
+import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.model.Mob
@@ -20,7 +21,7 @@ class ItemFromMerchantContextBuilder(
                 Status.ERROR,
                 "no merchant is here."
             )
-        val item = itemService.findByOwner(shopkeeper, word)
+        val item = shopkeeper.items.find { word.matches(it.name) }
             ?: return Context(
                 Syntax.ITEM_FROM_MERCHANT,
                 Status.ERROR,

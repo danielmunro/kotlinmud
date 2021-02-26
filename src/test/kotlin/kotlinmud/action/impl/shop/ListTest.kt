@@ -35,7 +35,6 @@ class ListTest {
         assertThat(response.message.toActionCreator).isEqualTo(
 """
 [lvl cost name]
-   1    0 a sword
    ${item1.level} ${item1.worth} $item1
   ${item2.level}    ${item2.worth} $item2
   ${item3.level} ${item3.worth} $item3""".trimMargin()
