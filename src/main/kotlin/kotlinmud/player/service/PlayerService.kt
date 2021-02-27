@@ -25,7 +25,6 @@ import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.exception.EmailFormatException
 import kotlinmud.player.repository.updateAllMobCardsLoggedOut
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.nio.channels.SocketChannel
 import kotlinmud.player.repository.findMobCardByName as findMobCardByNameQuery
 import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
 

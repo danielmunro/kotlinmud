@@ -8,8 +8,6 @@ import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.factory.subcommandWithModifier
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.repository.findMobInRoomWithJobType
-import kotlinmud.mob.type.JobType
 
 fun createQuestAbandonAction(): Action {
     return Action(Command.QUEST_ABANDON, mustBeAlert(), subcommandWithModifier()) { svc ->

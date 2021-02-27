@@ -32,7 +32,6 @@ import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.helper.takeDamageFromFall
 import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
-import kotlinmud.mob.repository.deleteFinishedFights
 import kotlinmud.mob.skill.helper.getLearningDifficultyPracticeAmount
 import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.Skill

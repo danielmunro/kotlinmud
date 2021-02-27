@@ -23,7 +23,7 @@ class MobGeneratorService(biomes: List<Biome>) {
                         Rooms.biome eq biome.key.toString()
                     }.limit(100)
                 ).forEach {
-                    if (countMobsInRoom(it) < MAX_MOBS_PER_ROOM) {
+                    if (countMobsInRoom(it) < MAX_MOBS_PER_ROOM && biome.value.mobs.isNotEmpty()) {
                         biome.value.mobs.random().invoke(it)
                     }
                 }
