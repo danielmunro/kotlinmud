@@ -48,7 +48,7 @@ class Mob(
     val savingThrows: Int,
     val rarity: Rarity,
     val canonicalId: MobCanonicalId?,
-    val attributes: AttributesDAO,
+    val attributes: MutableMap<Attribute, Int>,
     var room: RoomDAO,
     val equipped: MutableList<ItemDAO>,
     override val maxItems: Int,
@@ -122,13 +122,13 @@ class Mob(
         return transaction {
             when (attribute) {
                 Attribute.HP ->
-                    attributes.hp +
+                    (attributes[Attribute.HP] ?: 0) +
                         accumulate { it.attributes?.hp ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.MANA ->
-                    attributes.mana +
+                    (attributes[Attribute.MANA] ?: 0) +
                         accumulate { it.attributes?.mana ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.MV ->
-                    attributes.mv +
+                    (attributes[Attribute.MV] ?: 0) +
                         accumulate { it.attributes?.mv ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.STR ->
                     base(attribute) +
@@ -150,38 +150,23 @@ class Mob(
                     base(attribute) +
                         accumulate { it.attributes?.constitution ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.HIT -> attributes.hit + accumulate { it.attributes?.hit ?: 0 }
-                Attribute.DAM -> attributes.dam + accumulate { it.attributes?.dam ?: 0 }
-                Attribute.AC_BASH -> attributes.acBash + accumulate { it.attributes?.acBash ?: 0 }
-                Attribute.AC_PIERCE -> attributes.acPierce + accumulate { it.attributes?.acPierce ?: 0 }
-                Attribute.AC_SLASH -> attributes.acSlash + accumulate { it.attributes?.acSlash ?: 0 }
-                Attribute.AC_MAGIC -> attributes.acMagic + accumulate { it.attributes?.acMagic ?: 0 }
+                Attribute.HIT -> (attributes[Attribute.HIT] ?: 0) + accumulate { it.attributes?.hit ?: 0 }
+                Attribute.DAM -> (attributes[Attribute.DAM] ?: 0) + accumulate { it.attributes?.dam ?: 0 }
+                Attribute.AC_BASH -> (attributes[Attribute.AC_BASH] ?: 0) + accumulate { it.attributes?.acBash ?: 0 }
+                Attribute.AC_PIERCE -> (attributes[Attribute.AC_PIERCE] ?: 0) + accumulate { it.attributes?.acPierce ?: 0 }
+                Attribute.AC_SLASH -> (attributes[Attribute.AC_SLASH] ?: 0) + accumulate { it.attributes?.acSlash ?: 0 }
+                Attribute.AC_MAGIC -> (attributes[Attribute.AC_MAGIC] ?: 0) + accumulate { it.attributes?.acMagic ?: 0 }
             }
         }
     }
 
     fun base(attribute: Attribute): Int {
-        return when (attribute) {
-            Attribute.STR ->
-                BASE_STAT +
-                    attributes.strength +
-                    race.attributes.strength
-            Attribute.INT ->
-                BASE_STAT +
-                    attributes.intelligence +
-                    race.attributes.intelligence
-            Attribute.WIS ->
-                BASE_STAT +
-                    attributes.wisdom +
-                    race.attributes.wisdom
-            Attribute.DEX ->
-                BASE_STAT +
-                    attributes.dexterity +
-                    race.attributes.dexterity
-            Attribute.CON ->
-                BASE_STAT +
-                    attributes.constitution +
-                    race.attributes.constitution
+        return BASE_STAT + (attributes[attribute] ?: 0) + when (attribute) {
+            Attribute.STR -> race.attributes.strength
+            Attribute.INT -> race.attributes.intelligence
+            Attribute.WIS -> race.attributes.wisdom
+            Attribute.DEX -> race.attributes.dexterity
+            Attribute.CON -> race.attributes.constitution
             else -> 0
         }
     }

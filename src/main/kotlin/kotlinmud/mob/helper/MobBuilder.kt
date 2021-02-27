@@ -3,7 +3,9 @@ package kotlinmud.mob.helper
 import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.attributes.constant.startingHp
 import kotlinmud.attributes.constant.startingMana
+import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.Mob
@@ -25,7 +27,11 @@ class MobBuilder(private val mobService: MobService) {
     private var name = ""
     private var brief = ""
     private var description = ""
-    private var attributes: AttributesDAO? = null
+    private var attributes = mutableMapOf(
+            Pair(Attribute.HP, startingHp),
+            Pair(Attribute.MANA, startingMana),
+            Pair(Attribute.MV, startingMv),
+    )
     private var job = JobType.NONE
     private var specialization: Specialization? = null
     private var canonicalId: MobCanonicalId? = null
@@ -69,8 +75,8 @@ class MobBuilder(private val mobService: MobService) {
         return this
     }
 
-    fun attributes(value: AttributesDAO): MobBuilder {
-        attributes = value
+    fun attributes(value: MutableMap<Attribute, Int>): MobBuilder {
+        attributes = (attributes + value).toMutableMap()
         return this
     }
 
@@ -187,13 +193,7 @@ class MobBuilder(private val mobService: MobService) {
             savingThrows,
             rarity,
             canonicalId,
-            attributes ?: transaction {
-                AttributesDAO.new {
-                    this.hp = this@MobBuilder.hp
-                    this.mana = this@MobBuilder.mana
-                    this.mv = this@MobBuilder.mv
-                }
-            },
+            attributes,
             room,
             equipped.toMutableList(),
             maxItems,
