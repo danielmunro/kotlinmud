@@ -16,4 +16,5 @@ object MobCards : IntIdTable() {
     val skillPoints = integer("skillPoints").default(0)
     val loggedIn = bool("loggedIn").default(false)
     val respawnRoomId = reference("respawnRoomId", Rooms)
+    val playerId = reference("playerId", Players)
 }

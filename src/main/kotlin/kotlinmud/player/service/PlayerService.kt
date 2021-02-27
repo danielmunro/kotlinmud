@@ -25,6 +25,7 @@ import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.exception.EmailFormatException
 import kotlinmud.player.repository.updateAllMobCardsLoggedOut
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.nio.channels.SocketChannel
 import kotlinmud.player.repository.findMobCardByName as findMobCardByNameQuery
 import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
 
@@ -34,7 +35,7 @@ class PlayerService(
     private val mobService: MobService,
 ) {
     private val preAuthClients: MutableMap<Client, AuthStep> = mutableMapOf()
-    private val loggedInPlayers: MutableMap<Client, PlayerDAO> = mutableMapOf()
+    private val loggedInPlayers: MutableMap<Int, PlayerDAO> = mutableMapOf()
     private val loggedInMobs: MutableMap<PlayerDAO, Mob> = mutableMapOf()
     private lateinit var authStepService: AuthStepService
     private val logger = logger(this)
@@ -99,7 +100,7 @@ class PlayerService(
     }
 
     fun loginClientAsPlayer(client: Client, player: PlayerDAO) {
-        loggedInPlayers[client] = player
+        loggedInPlayers[client.id] = player
     }
 
     fun loginPlayerAsMob(player: PlayerDAO, mob: Mob) {
@@ -139,7 +140,9 @@ class PlayerService(
     }
 
     private suspend fun loginMob(client: Client, mobCard: MobCardDAO) {
-        loginPlayerAsMob(loggedInPlayers[client]!!, mobService.findPlayerMobByName(mobCard.mobName)!!)
+        val player = loggedInPlayers[client.id]!!
+        val mob = mobService.findPlayerMobByName(mobCard.mobName)!!
+        loginPlayerAsMob(player, mob)
         eventService.publish(createClientLoggedInEvent(client, mobCard))
     }
 }

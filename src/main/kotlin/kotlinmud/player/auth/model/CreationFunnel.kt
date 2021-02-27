@@ -10,6 +10,7 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.Specialization
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.player.dao.MobCardDAO
+import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -21,8 +22,8 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
     private val skills = mutableListOf<SkillType>()
     private val allSkills = createSkillList()
 
-    fun build(): Mob {
-        return createMob().also { mob ->
+    fun build(player: PlayerDAO): Mob {
+        return createMob(player).also { mob ->
             skills.forEach { type ->
                 mob.skills[type] = 1
                 val mobCard = mob.mobCard!!
@@ -43,7 +44,7 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
         } ?: 0
     }
 
-    private fun createMob(): Mob {
+    private fun createMob(player: PlayerDAO): Mob {
         val card = transaction {
             MobCardDAO.new {
                 this.mobName = this@CreationFunnel.mobName
@@ -52,6 +53,7 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
                 trains = 5
                 practices = 5
                 respawnRoom = mobRoom
+                this.player = player
             }
         }
         return MobBuilder(mobService)

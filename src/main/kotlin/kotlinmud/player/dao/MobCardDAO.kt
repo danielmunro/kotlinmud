@@ -33,6 +33,7 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     var respawnRoom by RoomDAO referencedOn MobCards.respawnRoomId
     val factionScores by FactionScoreDAO referrersOn FactionScores.mobCardId
     val quests by QuestDAO referrersOn Quests.mobCardId
+    var player by PlayerDAO referencedOn MobCards.playerId
 
     fun calcTrained(attribute: Attribute): Int {
         return transaction { trainedAttributes.fold(0) { acc, it -> acc + it.getAttribute(attribute) } }

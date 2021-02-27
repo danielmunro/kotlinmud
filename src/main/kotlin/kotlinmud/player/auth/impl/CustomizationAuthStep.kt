@@ -45,7 +45,7 @@ class CustomizationAuthStep(private val authStepService: AuthStepService, privat
     override fun getNextAuthStep(): AuthStep {
         return if (done) {
             val funnel = authStepService.findCreationFunnelForEmail(player.email)!!
-            val mob = funnel.build()
+            val mob = funnel.build(player)
             CompleteAuthStep(transaction { mob.mobCard!! })
         } else {
             this

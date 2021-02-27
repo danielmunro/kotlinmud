@@ -133,6 +133,11 @@ class TestService(
         return client
     }
 
+    fun loginClientAsPlayer(client: Client, player: PlayerDAO) {
+        authStepService.loginClientAsPlayer(client, player)
+        playerService.loginClientAsPlayer(client, player)
+    }
+
     fun createMobController(mob: Mob): MobController {
         return MobController(mobService, itemService, eventService, mob)
     }
@@ -268,7 +273,7 @@ class TestService(
         return mobService.createCorpseFrom(mob)
     }
 
-    fun createPlayerMob(name: String = fixtureService.faker.name.name()): Mob {
+    fun createPlayerMob(name: String = fixtureService.faker.name.name(), player: PlayerDAO = createPlayer("${fixtureService.faker.funnyName.name()}@foo.com")): Mob {
         val race = Human()
         val maxAppetite = race.maxAppetite
         val maxThirst = race.maxThirst
@@ -280,10 +285,11 @@ class TestService(
                 hunger = maxAppetite
                 thirst = maxThirst
                 respawnRoom = findStartRoom() ?: createRoom()
+                this.player = player
             }
         }
         return createMob(card).also {
-            playerService.loginPlayerAsMob(createPlayer("${fixtureService.faker.funnyName.name()}@foo.com"), it)
+            playerService.loginPlayerAsMob(player, it)
         }
     }
 

@@ -31,7 +31,7 @@ class ClientConnectedObserver(private val mobService: MobService, private val pl
                 funnel.mobRace = Human()
                 funnel.mobRoom = findRoomByCanonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
                 funnel.specialization = Warrior()
-                val mob = funnel.build()
+                val mob = funnel.build(player)
                 this.client.mob = mob
                 return
             }

@@ -8,6 +8,10 @@ import java.nio.channels.ClosedChannelException
 import java.nio.channels.SocketChannel
 
 class Client(val socket: SocketChannel) {
+    companion object {
+        var autoIncrementor = 0
+    }
+    val id = autoIncrementor++
     val buffers: MutableList<String> = mutableListOf()
     var mob: Mob? = null
     var player: PlayerDAO? = null

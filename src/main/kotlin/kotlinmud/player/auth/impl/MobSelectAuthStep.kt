@@ -22,6 +22,7 @@ class MobSelectAuthStep(
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         return authStepService.findMobCardByName(request.input)?.let {
+            mobCard = it
             validateMobBelongsToPlayer(it)
         } ?: createNewMob(request.input)
     }
@@ -34,11 +35,7 @@ class MobSelectAuthStep(
     }
 
     private fun validateMobBelongsToPlayer(mobCard: MobCardDAO): IOStatus {
-        val mob = transaction { player.mobs.find { mob -> mob.mobCard?.id?.value == mobCard.id.value } }
-        return if (mob != null) {
-            this.mobCard = mobCard
-            IOStatus.OK
-        } else IOStatus.ERROR
+        return if (transaction { mobCard.player } == player) IOStatus.OK else IOStatus.ERROR
     }
 
     private fun createNewMob(name: String): IOStatus {
