@@ -75,7 +75,8 @@ class AskCustomizeAuthStepTest {
 
     private fun setup(): TestService {
         return createTestServiceWithResetDB().also {
-            it.createPlayer(emailAddress)
+            val player = it.createPlayer(emailAddress)
+            it.loginClientAsPlayer(it.getClient(), player)
             setPreAuth(it)
         }
     }

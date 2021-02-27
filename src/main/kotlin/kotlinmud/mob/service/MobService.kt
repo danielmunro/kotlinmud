@@ -128,7 +128,7 @@ class MobService(
 
     suspend fun proceedFights(): List<Round> {
         val rounds = createNewFightRounds()
-        deleteFinishedFights()
+        fights.removeIf { it.isOver() }
         return rounds
     }
 

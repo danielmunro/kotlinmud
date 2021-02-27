@@ -68,6 +68,8 @@ Defaults
 Current experience to level: 0
 """
             )
+            client.id
+            client.id
             client.write(any())
         }
         confirmVerified(client)
@@ -119,7 +121,11 @@ Current experience to level: 0
         }
 
         // then
-        verify { client.write(match { !it.contains("trip") }) }
+        verify {
+            client.write(match { !it.contains("trip") })
+            client.id
+            client.id
+        }
         confirmVerified(client)
     }
 
@@ -144,13 +150,16 @@ Current experience to level: 0
             client.write(any())
             client.write(match { it.contains("trip") })
             client.write(any())
+            client.id
+            client.id
         }
         confirmVerified(client)
     }
 
     private fun setup(): TestService {
         return createTestServiceWithResetDB().also {
-            it.createPlayer(emailAddress)
+            val player = it.createPlayer(emailAddress)
+            it.loginClientAsPlayer(it.getClient(), player)
             setPreAuth(it)
         }
     }
