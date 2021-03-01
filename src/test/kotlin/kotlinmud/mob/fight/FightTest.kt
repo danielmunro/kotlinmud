@@ -64,10 +64,9 @@ class FightTest {
         }
 
         // and
-        val item = testService.createItem()
-        transaction {
-            item.position = Position.SHIELD
-        }
+        val item = testService.createItemBuilder()
+                .position(Position.SHIELD)
+                .build()
         mob2.equipped.add(item)
 
         // when

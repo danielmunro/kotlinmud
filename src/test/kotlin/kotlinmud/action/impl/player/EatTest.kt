@@ -22,14 +22,14 @@ class EatTest {
         val mob = test.createPlayerMob()
         mob.room = test.getStartRoom()
         val mobCard = mob.mobCard!!
-        val item = test.createItem()
+        val item = test.createItemBuilder()
+                .type(ItemType.FOOD)
+                .food(Food.MEAT_PIE)
+                .name("a big meat pie")
+                .quantity(1)
+                .affects(listOf(StunnedAffect().createInstance(timeout)))
+                .build()
         transaction {
-            item.type = ItemType.FOOD
-            item.food = Food.MEAT_PIE
-            item.name = "a big meat pie"
-            item.quantity = 1
-            val affect = StunnedAffect().createInstance(timeout)
-            item.affects.plus(affect)
             mobCard.hunger = 0
             mobCard.thirst = 0
         }

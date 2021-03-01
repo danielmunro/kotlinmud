@@ -14,18 +14,18 @@ class ListTest {
 
         // given
         val shopkeeper = test.createShopkeeper()
-        val item1 = test.createItem {
-            it.level = 1
-            it.worth = 100
-        }
-        val item2 = test.createItem {
-            it.level = 10
-            it.worth = 1
-        }
-        val item3 = test.createItem {
-            it.level = 20
-            it.worth = 3210
-        }
+        val item1 = test.createItemBuilder()
+                .level(1)
+                .worth(100)
+                .build()
+        val item2 = test.createItemBuilder()
+                .level(10)
+                .worth(1)
+                .build()
+        val item3 = test.createItemBuilder()
+                .level(20)
+                .worth(3210)
+                .build()
         shopkeeper.items.addAll(listOf(item1, item2, item3))
 
         // when

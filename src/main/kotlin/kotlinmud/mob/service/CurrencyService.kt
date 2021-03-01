@@ -1,11 +1,12 @@
 package kotlinmud.mob.service
 
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.CurrencyType
 
 class CurrencyService(private val mob: Mob) {
-    fun canAfford(item: ItemDAO): Boolean {
+    fun canAfford(item: Item): Boolean {
         var amountNeeded = item.worth
         amountNeeded -= mob.getCurrency(CurrencyType.Copper)
         if (amountNeeded > 0) {

@@ -1,28 +1,16 @@
 package kotlinmud.mob.dao
 
 import kotlinmud.affect.dao.AffectDAO
-import kotlinmud.affect.model.AttributeAffect
 import kotlinmud.affect.table.Affects
-import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.attributes.type.Attribute
-import kotlinmud.attributes.type.HasAttributes
-import kotlinmud.helper.math.normalizeInt
-import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.table.Items
-import kotlinmud.item.type.Position
-import kotlinmud.mob.constant.BASE_STAT
-import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.factory.createRaceFromString
-import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.table.Skills
-import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.table.Currencies
 import kotlinmud.mob.table.Mobs
-import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
@@ -34,7 +22,6 @@ import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<MobDAO>(Mobs)

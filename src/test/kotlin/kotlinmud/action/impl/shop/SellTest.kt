@@ -70,9 +70,9 @@ class SellTest {
         testService.createShopkeeper()
 
         // given
-        val item = testService.createItem {
-            it.worth = 100
-        }
+        val item = testService.createItemBuilder()
+                .worth(100)
+                .build()
         mob.items.add(item)
 
         // when

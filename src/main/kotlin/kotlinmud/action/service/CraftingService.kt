@@ -2,7 +2,7 @@ package kotlinmud.action.service
 
 import kotlinmud.exception.CraftException
 import kotlinmud.exception.HarvestException
-import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Recipe
@@ -28,8 +28,8 @@ class CraftingService(private val itemService: ItemService) {
             return componentsList
         }
 
-        fun createListOfItemsToDestroy(items: List<ItemDAO>, componentsList: List<ItemType>): List<ItemDAO> {
-            val toDestroy: MutableList<ItemDAO> = mutableListOf()
+        fun createListOfItemsToDestroy(items: List<Item>, componentsList: List<ItemType>): List<Item> {
+            val toDestroy: MutableList<Item> = mutableListOf()
             var componentReq = 0
             items.forEach {
                 if (componentReq < componentsList.size && it.type == componentsList[componentReq]) {
@@ -41,7 +41,7 @@ class CraftingService(private val itemService: ItemService) {
         }
     }
 
-    fun craft(recipe: Recipe, mob: Mob): List<ItemDAO> {
+    fun craft(recipe: Recipe, mob: Mob): List<Item> {
         val componentsList = createListOfItemTypesFromMap(recipe.getComponents())
         val toDestroy = createListOfItemsToDestroy(
             mob.items.sortedBy { it.type },
@@ -54,20 +54,14 @@ class CraftingService(private val itemService: ItemService) {
 
         mob.items.removeAll(toDestroy)
 
-        transaction {
-            toDestroy.forEach {
-                it.delete()
-            }
-        }
-
-        return createNewProductsFor(mob, recipe.getProducts())
+        return createNewProductsFor(mob, recipe.getProducts(itemService))
     }
 
-    fun harvest(resource: ResourceDAO, mob: Mob): List<ItemDAO> {
+    fun harvest(resource: ResourceDAO, mob: Mob): List<Item> {
         return transaction {
             removeResource(resource)
             resources.find { it.resourceType == resource.type }?.let {
-                createNewProductsFor(mob, it.createProduct())
+                createNewProductsFor(mob, it.createProduct(itemService))
             } ?: throw HarvestException()
         }
     }
@@ -76,7 +70,7 @@ class CraftingService(private val itemService: ItemService) {
         Resources.deleteWhere(null as Int?, null as Int?) { Resources.id eq resource.id }
     }
 
-    private fun createNewProductsFor(mob: Mob, items: List<ItemDAO>): List<ItemDAO> {
+    private fun createNewProductsFor(mob: Mob, items: List<Item>): List<Item> {
         mob.items.addAll(items)
         return items
     }

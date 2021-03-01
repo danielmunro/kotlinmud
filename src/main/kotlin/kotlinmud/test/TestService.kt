@@ -32,10 +32,13 @@ import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.RequestService
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.IOStatus
+import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.fight.Round
@@ -154,7 +157,7 @@ class TestService(
         }
     }
 
-    fun findAllItemsByOwner(hasInventory: HasInventory): List<ItemDAO> {
+    fun findAllItemsByOwner(hasInventory: HasInventory): List<Item> {
         return hasInventory.items
     }
 
@@ -269,7 +272,7 @@ class TestService(
         }
     }
 
-    fun createCorpseFrom(mob: Mob): ItemDAO {
+    fun createCorpseFrom(mob: Mob): Item {
         return mobService.createCorpseFrom(mob)
     }
 
@@ -311,24 +314,24 @@ class TestService(
         return playerService.findMobCardByName(name)
     }
 
-    fun createItem(): ItemDAO {
-        return transaction {
-            ItemDAO.new {
-                name = fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words()
-                description = "a nice looking herb is here"
-                attributes = AttributesDAO.new {}
-            }
-        }
+    fun createItemBuilder(): ItemBuilder {
+        return ItemBuilder(itemService)
+                .name(fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words())
+                .description("a nice looking herb is here")
     }
 
-    fun createItem(modifier: (ItemDAO) -> Unit): ItemDAO {
+    fun createItem(): Item {
+        return createItemBuilder().build()
+    }
+
+    fun createItem(modifier: (Item) -> Unit): Item {
         return createItem().let {
             transaction { modifier(it) }
             it
         }
     }
 
-    fun createContainer(modifier: (ItemDAO) -> Unit): ItemDAO {
+    fun createContainer(modifier: (Item) -> Unit): Item {
         return createContainer().let {
             transaction { modifier(it) }
             it
@@ -340,7 +343,7 @@ class TestService(
     }
 
     fun make(amount: Int): MakeItemService {
-        return MakeItemService(amount)
+        return MakeItemService(itemService, amount)
     }
 
     suspend fun pruneDeadMobs() {
@@ -416,7 +419,7 @@ class TestService(
     }
 
     fun callGenerateGrassObserver() {
-        runBlocking { GenerateGrassObserver(ResourceService()).invokeAsync(Event(EventType.TICK, null)) }
+        runBlocking { GenerateGrassObserver(ResourceService(itemService)).invokeAsync(Event(EventType.TICK, null)) }
     }
 
     fun getAuthStep(client: Client): AuthStep? {
@@ -442,27 +445,29 @@ class TestService(
         }
     }
 
-    fun createContainer(): ItemDAO {
-        val item = createItem()
-        transaction {
-            item.isContainer = true
-            item.maxItems = 100
-            item.maxWeight = 1000
-        }
-        return item
+    fun createContainer(): Item {
+        return createItemBuilder()
+                .isContainer(true)
+                .items(listOf())
+                .maxItems(100)
+                .maxWeight(1000)
+                .build()
     }
 
-    private fun weapon(mob: Mob): ItemDAO {
-        val item = ItemDAO.new {
-            name = "a sword"
-            description = "a sword"
-            type = ItemType.EQUIPMENT
-            position = Position.WEAPON
-            attributes = AttributesDAO.new {
-                hit = 2
-                dam = 1
-            }
-        }
+    private fun weapon(mob: Mob): Item {
+        val item = ItemBuilder(itemService)
+            .name("a sword")
+            .description("a sword")
+            .type(ItemType.EQUIPMENT)
+            .position(Position.WEAPON)
+            .attributes(
+                AttributesDAO.new {
+                    hit = 2
+                    dam = 1
+                }
+            )
+            .material(Material.IRON)
+            .build()
         mob.equipped.add(item)
         return item
     }

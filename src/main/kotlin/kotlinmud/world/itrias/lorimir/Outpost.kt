@@ -1,6 +1,8 @@
 package kotlinmud.world.itrias.lorimir
 
-import kotlinmud.item.helper.ItemBuilder
+import kotlinmud.item.builder.ItemBuilder
+import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.race.impl.Giant
@@ -16,7 +18,7 @@ import kotlinmud.room.type.Direction
 import kotlinmud.type.CanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun createLorimirForestOutpost(mobService: MobService): RoomDAO {
+fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService): RoomDAO {
     return transaction {
         val builder = RoomBuilder().area(Area.LorimirForestOutpost)
 
@@ -29,15 +31,18 @@ A sign flickers against the light of the fire.""".trimMargin()
             .canonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
             .build()
 
-        ItemBuilder("a cobblestone fire-pit")
-            .description("a fire emanates from the circular pit.")
-            .room(room1)
-            .cannotOwn()
-            .material(Material.STONE)
-            .build()
+        ItemBuilder(itemService)
+                .name("a cobblestone fire-pit")
+                .description("a fire emanates from the circular pit.")
+                .canOwn(false)
+                .material(Material.STONE)
+                .type(ItemType.FURNITURE)
+                .room(room1)
+                .build()
 
-        ItemBuilder("a large wooden sign on a post")
-            .description(
+        ItemBuilder(itemService)
+                .name("a large wooden sign on a post")
+                .description(
 """The sign reads:
 
 +-------------------------------------------------+
@@ -46,11 +51,12 @@ A sign flickers against the light of the fire.""".trimMargin()
 |        an available quest.                      |
 |                                                 |
 +-------------------------------------------------+"""
-            )
-            .room(room1)
-            .cannotOwn()
-            .material(Material.WOOD)
-            .build()
+                )
+                .canOwn(false)
+                .material(Material.WOOD)
+                .type(ItemType.FURNITURE)
+                .room(room1)
+                .build()
 
         val room2 = builder.name("Inside a lean-to shelter")
             .description("bar")

@@ -19,7 +19,8 @@ class PutTest {
         // given
         val itemToPut = test.createItem()
         mob.items.add(itemToPut)
-        val itemWithInventory = test.createContainer { it.room = room }
+        val itemWithInventory = test.createContainer()
+        room.items.plus(itemWithInventory)
 
         // when
         val response = test.runAction("put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
@@ -27,7 +28,7 @@ class PutTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you put $itemToPut into $itemWithInventory.")
         assertThat(response.message.toObservers).isEqualTo("$mob puts $itemToPut into $itemWithInventory.")
-        assertThat(transaction { itemWithInventory.items.toList() }).hasSize(1)
+        assertThat(itemWithInventory.items!!).hasSize(1)
     }
 
     @Test
@@ -47,7 +48,7 @@ class PutTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you put $itemToPut into $itemWithInventory.")
         assertThat(response.message.toObservers).isEqualTo("$mob puts $itemToPut into $itemWithInventory.")
-        assertThat(transaction { itemWithInventory.items.toList() }).hasSize(1)
+        assertThat(itemWithInventory.items!!).hasSize(1)
     }
 
     @Test

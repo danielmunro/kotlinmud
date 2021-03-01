@@ -105,7 +105,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
             MobGeneratorService(createBiomes())
         }
         bind<ResourceService>() with singleton {
-            ResourceService()
+            ResourceService(instance())
         }
         bind<RespawnService>() with singleton {
             RespawnService(

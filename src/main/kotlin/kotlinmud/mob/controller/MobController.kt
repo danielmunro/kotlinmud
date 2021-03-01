@@ -40,7 +40,7 @@ class MobController(
             println("inside conditional")
             val item = items.random()
             logger.debug("$mob picks up $item")
-            mob.items.add(item)
+//            mob.items.add(item)
             println("pre-event publish")
             eventService.publish(
                 createSendMessageToRoomEvent(

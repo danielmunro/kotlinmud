@@ -15,7 +15,7 @@ class TillRoomObserver(private val resourceService: ResourceService) : Observer 
                 resources.forEach { resource ->
                     if (resource.isPlanted) {
                         resourceService.tillResource(resource).forEach {
-                            it.room = this@with
+                            this@with.items.plus(it)
                         }
                     }
                 }

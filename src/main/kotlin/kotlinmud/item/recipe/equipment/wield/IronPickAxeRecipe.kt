@@ -1,7 +1,10 @@
 package kotlinmud.item.recipe.equipment.wield
 
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
+import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
@@ -18,21 +21,21 @@ class IronPickAxeRecipe : Recipe {
         )
     }
 
-    override fun getProducts(): List<ItemDAO> {
+    override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            ItemDAO.new {
-                name = "an iron pick axe"
-                description = "an iron pick axe is here."
-                type = ItemType.EQUIPMENT
-                material = Material.IRON
-                position = Position.WEAPON
-                damageType = DamageType.PIERCE
-                attackVerb = "stab"
-                attributes = AttributesDAO.new {
-                    hit = 2
-                    dam = 3
-                }
-            }
+                ItemBuilder(itemService)
+                        .name("an iron pick axe")
+                        .description("an iron pick axe is here.")
+                        .type(ItemType.EQUIPMENT)
+                        .material(Material.IRON)
+                        .position(Position.WEAPON)
+                        .damageType(DamageType.PIERCE)
+                        .attackVerb("stab")
+                        .attributes(AttributesDAO.new {
+                            hit = 2
+                            dam = 3
+                        })
+                        .build()
         )
     }
 }

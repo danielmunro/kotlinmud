@@ -5,6 +5,7 @@ import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
@@ -80,14 +81,14 @@ fun createRecipeOfMessage(recipe: Recipe): Message {
     )
 }
 
-fun createGetMessage(mob: Mob, item: ItemDAO): Message {
+fun createGetMessage(mob: Mob, item: Item): Message {
     return MessageBuilder()
         .toActionCreator("you pick up ${item.name}.")
         .toObservers("$mob picks up ${item.name}.")
         .build()
 }
 
-fun createGetFromContainerMessage(mob: Mob, inventory: ItemDAO, item: ItemDAO): Message {
+fun createGetFromContainerMessage(mob: Mob, inventory: Item, item: Item): Message {
     return MessageBuilder()
         .toActionCreator("you get $item from $inventory.")
         .toObservers("$mob gets $item from $inventory.")
@@ -122,7 +123,7 @@ fun createSitMessage(mob: Mob): Message {
         .build()
 }
 
-fun createRemoveMessage(mob: Mob, item: ItemDAO): Message {
+fun createRemoveMessage(mob: Mob, item: Item): Message {
     return MessageBuilder()
         .toActionCreator("you remove $item and put it in your inventory.")
         .toObservers("$mob removes $item and puts it in their inventory.")
@@ -159,21 +160,21 @@ fun createHarvestMessage(mob: Mob, resource: ResourceDAO): Message {
         .build()
 }
 
-fun createEatMessage(mob: Mob, item: ItemDAO): Message {
+fun createEatMessage(mob: Mob, item: Item): Message {
     return MessageBuilder()
         .toActionCreator("you eat $item.")
         .toObservers("$mob eats $item.")
         .build()
 }
 
-fun createDropMessage(mob: Mob, item: ItemDAO): Message {
+fun createDropMessage(mob: Mob, item: Item): Message {
     return MessageBuilder()
         .toActionCreator("you drop $item.")
         .toObservers("$mob drops $item.")
         .build()
 }
 
-fun createDrinkMessage(mob: Mob, item: ItemDAO): Message {
+fun createDrinkMessage(mob: Mob, item: Item): Message {
     val empty = if (item.quantity == 0) " $item is now empty." else ""
     return MessageBuilder()
         .toActionCreator("you drink ${item.drink.toString().toLowerCase()} from $item.$empty")
@@ -195,7 +196,7 @@ fun createCloseMessage(mob: Mob, door: DoorDAO): Message {
         .build()
 }
 
-fun createBuyMessage(mob: Mob, shopkeeper: Mob, item: ItemDAO): Message {
+fun createBuyMessage(mob: Mob, shopkeeper: Mob, item: Item): Message {
     return MessageBuilder()
         .toActionCreator("you buy $item from $shopkeeper for ${item.worth} gold.")
         .toTarget("$mob buys $item from you.")
@@ -240,7 +241,7 @@ fun createAttributesMessage(mob: Mob): Message {
         .build()
 }
 
-fun createSellMessage(mob: Mob, shopkeeper: Mob, item: ItemDAO): Message {
+fun createSellMessage(mob: Mob, shopkeeper: Mob, item: Item): Message {
     return MessageBuilder()
         .toActionCreator("you sell $item to $shopkeeper for ${item.worth} gold.")
         .toTarget("$mob sells $item to you.")
@@ -248,7 +249,7 @@ fun createSellMessage(mob: Mob, shopkeeper: Mob, item: ItemDAO): Message {
         .build()
 }
 
-fun createWearMessage(mob: Mob, item: ItemDAO, removed: ItemDAO?): Message {
+fun createWearMessage(mob: Mob, item: Item, removed: Item?): Message {
     return MessageBuilder()
         .toActionCreator("you ${if (removed != null) "remove $removed and " else ""}wear $item.")
         .toObservers("$mob ${if (removed != null) "removes $removed and " else ""}wears $item.")

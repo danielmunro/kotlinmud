@@ -1,7 +1,10 @@
 package kotlinmud.item.recipe.equipment.helmet
 
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
+import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
@@ -16,21 +19,20 @@ class StoneHelmetRecipe : Recipe {
         )
     }
 
-    override fun getProducts(): List<ItemDAO> {
+    override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            ItemDAO.new {
-                name = "a cobblestone helmet"
-                description = "a cobblestone helmet is here."
-                type = ItemType.EQUIPMENT
-                material = Material.STONE
-                position = Position.HEAD
-                attributes = AttributesDAO.new {
-                    acBash = 1
-                    acSlash = 1
-                    acPierce = 1
-                    acMagic = 0
-                }
-            }
+                ItemBuilder(itemService)
+                        .name("a cobblestone helmet")
+                        .description("a cobblestone helmet is here.")
+                        .type(ItemType.EQUIPMENT)
+                        .material(Material.STONE)
+                        .position(Position.HEAD)
+                        .attributes(AttributesDAO.new{
+                            acBash = 1
+                            acSlash = 1
+                            acPierce = 1
+                        })
+                        .build()
         )
     }
 }

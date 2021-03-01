@@ -16,11 +16,10 @@ class WearTest {
 
         // given
         val mob = test.createMob()
-        val item = test.createItem()
-        transaction {
-            item.position = Position.SHIELD
-            item.name = "a shield"
-        }
+        val item = test.createItemBuilder()
+                .position(Position.SHIELD)
+                .name("a shield")
+                .build()
         mob.items.add(item)
         val count = transaction { mob.equipped.count() }
 
@@ -43,10 +42,9 @@ class WearTest {
         // given
         val mob = test.createMob()
         val equippedCount = transaction { mob.equipped.count() }
-        val item = test.createItem()
-        transaction {
-            item.name = "a book"
-        }
+        val item = test.createItemBuilder()
+                .name("a book")
+                .build()
         mob.items.add(item)
 
         // when

@@ -1,8 +1,12 @@
 package kotlinmud.item.recipe
 
 import kotlinmud.affect.dao.AffectDAO
+import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
+import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
+import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
@@ -18,16 +22,18 @@ class TorchRecipe : Recipe {
         )
     }
 
-    override fun getProducts(): List<ItemDAO> {
-        val item = ItemDAO.new {
-            type = ItemType.EQUIPMENT
-            position = Position.HOLD
-            name = "a torch"
-            description = "a torch flickers gently"
-            material = Material.WOOD
-        }
-        item.affects.plus(AffectDAO.new { type = AffectType.GLOWING })
-
-        return listOf(item)
+    override fun getProducts(itemService: ItemService): List<Item> {
+        return listOf(
+                ItemBuilder(itemService)
+                        .name("a torch")
+                        .description("a torch flickers gently")
+                        .type(ItemType.EQUIPMENT)
+                        .position(Position.HEAD)
+                        .material(Material.WOOD)
+                        .affects(listOf(
+                                Affect(AffectType.GLOWING)
+                        ))
+                        .build()
+        )
     }
 }

@@ -1,13 +1,14 @@
 package kotlinmud.test
 
-import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.builder.ItemBuilder
+import kotlinmud.item.model.Item
+import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.mob.model.Mob
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class MakeItemService(private val amount: Int) {
-    var item: ItemDAO? = null
+class MakeItemService(private val itemService: ItemService, private val amount: Int) {
+    var item: Item? = null
 
     fun lumber(): MakeItemService {
         return this
@@ -21,12 +22,11 @@ class MakeItemService(private val amount: Int) {
         }
     }
 
-    private fun createItem(): ItemDAO {
-        return ItemDAO.new {
-            name = "lumber"
-            description = "Fine pine lumber is here."
-            type = ItemType.LUMBER
-            attributes = AttributesDAO.new {}
-        }
+    private fun createItem(): Item {
+        return ItemBuilder(itemService)
+            .name("lumber")
+            .description("Fine pine lumber i here")
+            .type(ItemType.LUMBER)
+            .build()
     }
 }

@@ -18,7 +18,7 @@ class AvailableDrinkContextBuilder(
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val target = mob.items.find { word.matches(it.name) }
-            ?: itemService.findByRoom(room, word)
+//            ?: itemService.findByRoom(room, word)
             ?: return notFound(syntax)
 
         if (!target.isVisible()) {

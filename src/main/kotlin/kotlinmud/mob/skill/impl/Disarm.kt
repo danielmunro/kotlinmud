@@ -21,7 +21,6 @@ import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.skill.type.SkillInvokesOn
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Intent
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class Disarm : SkillAction, Customization {
     override val type = SkillType.DISARM
@@ -53,9 +52,7 @@ class Disarm : SkillAction, Customization {
         val target = actionContextService.get<Mob>(Syntax.TARGET_MOB)
         return target.getEquippedByPosition(Position.WEAPON)?.let {
             target.equipped.remove(it)
-            transaction {
-                it.room = actionContextService.getRoom()
-            }
+            actionContextService.getRoom().items.plus(it)
             actionContextService.createOkResponse(
                 MessageBuilder()
                     .toActionCreator("You disarm $target and send their weapon flying!")

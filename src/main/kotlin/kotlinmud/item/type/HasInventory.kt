@@ -1,9 +1,9 @@
 package kotlinmud.item.type
 
-import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 
 interface HasInventory {
-    val items: MutableList<ItemDAO>
+    val items: MutableList<Item>
     val maxItems: Int?
     val maxWeight: Int?
 }

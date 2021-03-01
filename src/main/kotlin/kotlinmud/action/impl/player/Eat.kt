@@ -9,21 +9,23 @@ import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.helper.applyAffectFromItem
+import kotlinmud.item.model.Item
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createEatAction(): Action {
     return Action(Command.EAT, mustBeAwake(), foodInInventory()) {
-        val item = it.get<ItemDAO>(Syntax.AVAILABLE_FOOD)
+        val item = it.get<Item>(Syntax.AVAILABLE_FOOD)
         val mobCard = it.getMobCard()
+        val mob = it.getMob()
 
-        if (mobCard.isFull(it.getMob().race)) {
+        if (mobCard.isFull(mob.race)) {
             return@Action it.createErrorResponse(messageToActionCreator("you are full."))
         }
 
         transaction { mobCard.hunger += 1 }
-        applyAffectFromItem(it.getMob(), item)
-        it.destroy(item)
+        applyAffectFromItem(mob, item)
+        it.getMob().items.remove(item)
 
-        it.createOkResponse(createEatMessage(it.getMob(), item))
+        it.createOkResponse(createEatMessage(mob, item))
     }
 }

@@ -14,7 +14,7 @@ class AvailableFoodContextBuilder(private val mob: Mob) : ContextBuilder {
             return notFound(syntax)
         }
 
-        if (!target.isFood()) {
+        if (target.food == null) {
             return Context(syntax, Status.ERROR, "That's not food.")
         }
 

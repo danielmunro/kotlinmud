@@ -6,6 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 
 fun createInventoryAction(): Action {
     return Action(Command.INVENTORY, mustBeAwake()) {
@@ -15,8 +16,8 @@ fun createInventoryAction(): Action {
     }
 }
 
-fun describeItems(items: List<ItemDAO>): String {
-    return items.groupBy { it.id }
+fun describeItems(items: List<Item>): String {
+    return items.groupBy { it.name }
         .map { if (it.value.size > 1) "(${it.value.size}) " else "" + it.value[0].name }
         .fold("\n") { acc, it -> "$acc$it\n" }
 }

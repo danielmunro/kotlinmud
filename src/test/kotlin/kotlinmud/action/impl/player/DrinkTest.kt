@@ -8,6 +8,7 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.io.type.IOStatus
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.test.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
@@ -23,16 +24,18 @@ class DrinkTest {
         val mob = test.createPlayerMob()
         mob.room = test.getStartRoom()
         val mobCard = transaction { mob.mobCard!! }
-        val item = test.createItem()
+        val item = test.createItemBuilder()
+                .drink(Drink.BEER)
+                .name("a glass of beer")
+                .quantity(1)
+                .affects(listOf(DrunkAffect().createInstance(timeout)))
+                .material(Material.GLASS)
+                .build()
+        mob.items.add(item)
         transaction {
-            item.drink = Drink.BEER
-            item.name = "a glass of beer"
-            item.quantity = 1
-            item.affects.plus(DrunkAffect().createInstance(timeout))
             mobCard.thirst = 0
             mobCard.hunger = 0
         }
-        mob.items.add(item)
 
         // when
         val response = test.runAction("drink beer")
@@ -50,17 +53,18 @@ class DrinkTest {
     fun testCannotDrinkFromInvisibleDrink() {
         // setup
         val test = createTestService()
-        val drink = test.createItem()
         val invis = createAffect(AffectType.INVISIBILITY)
         val mob = test.createPlayerMob()
 
         // given
+        val drink = test.createItemBuilder()
+                .name("a glass of milk")
+                .type(ItemType.DRINK)
+                .drink(Drink.MILK)
+                .affects(listOf(invis))
+                .build()
         transaction {
-            drink.name = "a glass of milk"
-            drink.type = ItemType.DRINK
-            drink.drink = Drink.MILK
-            drink.affects.plus(invis)
-            mob.mobCard?.let {
+            mob.mobCard!!.let {
                 it.hunger = 0
                 it.thirst = 0
             }

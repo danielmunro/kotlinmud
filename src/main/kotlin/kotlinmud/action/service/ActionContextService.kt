@@ -18,7 +18,9 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.helper.createRecipeList
+import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
@@ -49,11 +51,11 @@ class ActionContextService(
     private val craftingService = CraftingService(itemService)
     val recipes = createRecipeList()
 
-    fun craft(recipe: Recipe): List<ItemDAO> {
+    fun craft(recipe: Recipe): List<Item> {
         return craftingService.craft(recipe, request.mob)
     }
 
-    fun harvest(resource: ResourceDAO): List<ItemDAO> {
+    fun harvest(resource: ResourceDAO): List<Item> {
         return craftingService.harvest(resource, request.mob)
     }
 
@@ -145,20 +147,15 @@ class ActionContextService(
         return serverService.getClients()
     }
 
-    fun getItemGroupsFor(mob: Mob): Map<EntityID<Int>, List<ItemDAO>> {
+    fun getItemGroupsFor(mob: Mob): Map<ItemCanonicalId?, List<Item>> {
         return itemService.getItemGroups(mob)
     }
 
-    fun giveItemToMob(item: ItemDAO, mob: Mob) {
-        if (mob.items.count() >= mob.maxItems || mob.items.fold(0.0, { acc: Double, it: ItemDAO -> acc + it.weight }) + item.weight > mob.maxWeight) {
+    fun giveItemToMob(item: Item, mob: Mob) {
+        if (mob.items.count() >= mob.maxItems || mob.items.fold(0.0, { acc: Double, it: Item -> acc + it.weight }) + item.weight > mob.maxWeight) {
             throw InvokeException("you cannot carry any more.")
         }
         mob.items.add(item)
-        transaction {
-            item.room = null
-            item.mobEquipped = null
-            item.mobInventory = null
-        }
     }
 
     fun putItemInRoom(item: ItemDAO, room: RoomDAO) {

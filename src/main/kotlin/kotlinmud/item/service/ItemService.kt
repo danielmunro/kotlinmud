@@ -1,10 +1,9 @@
 package kotlinmud.item.service
 
 import kotlinmud.action.exception.InvokeException
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.helper.math.dice
 import kotlinmud.helper.random.randomAmount
-import kotlinmud.helper.string.matches
+import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.factory.createBlob
 import kotlinmud.item.factory.createBrains
@@ -18,33 +17,29 @@ import kotlinmud.item.factory.createLiver
 import kotlinmud.item.factory.createScale
 import kotlinmud.item.factory.createSmallFang
 import kotlinmud.item.factory.createThread
+import kotlinmud.item.model.Item
 import kotlinmud.item.repository.decrementAllItemDecayTimers
 import kotlinmud.item.repository.findOneByRoom
 import kotlinmud.item.repository.removeAllEquipmentForMob
 import kotlinmud.item.type.HasInventory
+import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.Form
 import kotlinmud.room.dao.RoomDAO
-import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ItemService {
-    fun findByOwner(mob: Mob, input: String): ItemDAO? {
-        return mob.items.find { it.name.matches(input) }
+    private val items = mutableListOf<Item>()
+    fun add(item: Item) {
+        items.add(item)
     }
 
     fun findByRoom(room: RoomDAO, input: String): ItemDAO? {
         return findOneByRoom(room, input)
     }
 
-    fun getItemGroups(mob: Mob): Map<EntityID<Int>, List<ItemDAO>> {
-        return mob.items.groupBy { it.id }
-    }
-
-    fun giveItemToMob(item: ItemDAO, mob: Mob) {
-        checkItemCount(mob)
-        checkWeight(mob, item)
-        mob.items.add(item)
+    fun getItemGroups(mob: Mob): Map<ItemCanonicalId?, List<Item>> {
+        return mob.items.groupBy { it.canonicalId }
     }
 
     fun putItemInRoom(item: ItemDAO, room: RoomDAO) {
@@ -78,29 +73,16 @@ class ItemService {
         decrementAllItemDecayTimers()
     }
 
-    fun createCorpseFromMob(mob: Mob): ItemDAO {
-        val item = transaction {
-            removeAllEquipmentForMob(mob)
-            ItemDAO.new {
-                name = "a corpse of $mob"
-                description = "a corpse of $mob is here."
-                level = mob.level
-                weight = 100.0
-                decayTimer = 20
-                attributes = AttributesDAO.new {}
-                room = mob.room
-            }
-        }
-        mob.items.forEach {
-            transaction {
-                it.container = item
-            }
-        }
-        transaction {
-            mob.equipped.forEach {
-                it.container = item
-            }
-        }
+    fun createCorpseFromMob(mob: Mob): Item {
+        removeAllEquipmentForMob(mob)
+        val corpse = ItemBuilder(this@ItemService)
+            .name("a corpse of $mob")
+            .description("a corpse of $mob is here.")
+            .level(mob.level)
+            .weight(100.0)
+            .decayTimer(20)
+            .items(mob.items)
+            .build()
         mob.items.clear()
         transaction {
             when (dice(1, 3)) {
@@ -108,7 +90,7 @@ class ItemService {
                 2 -> evaluateMobItemDrops(mob)
             }
         }
-        return item
+        return corpse
     }
 
     private fun evaluateMobItemDrops(mob: Mob) {

@@ -9,10 +9,11 @@ import kotlinmud.io.factory.itemInRoom
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 
 fun createGetAction(): Action {
     return Action(Command.GET, mustBeAwake(), itemInRoom()) {
-        val item = it.get<ItemDAO>(Syntax.ITEM_IN_ROOM)
+        val item = it.get<Item>(Syntax.ITEM_IN_ROOM)
 
         if (!item.canOwn) {
             return@Action it.createOkResponse(messageToActionCreator("you cannot pick that up."))

@@ -9,6 +9,7 @@ import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.model.Mob
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class DrunkAffect : AffectInterface {
     override val type: AffectType = AffectType.DRUNK
@@ -31,9 +32,11 @@ class DrunkAffect : AffectInterface {
         return createAffect(
             type,
             timeout,
-            AttributesDAO.new {
-                dexterity = -1
-                intelligence = -1
+            transaction {
+                AttributesDAO.new {
+                    dexterity = -1
+                    intelligence = -1
+                }
             }
         )
     }

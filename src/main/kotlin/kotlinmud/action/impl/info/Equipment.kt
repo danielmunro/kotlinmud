@@ -5,6 +5,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 
 fun createEquipmentAction(): Action {
     return Action(Command.EQUIPMENT) {
@@ -15,6 +16,6 @@ fun createEquipmentAction(): Action {
     }
 }
 
-fun describeEquipment(items: List<ItemDAO>): String {
+fun describeEquipment(items: List<Item>): String {
     return items.joinToString("\n") { "${it.position.toString().toLowerCase()} - $it" }
 }

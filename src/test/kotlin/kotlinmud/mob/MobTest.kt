@@ -12,6 +12,8 @@ import kotlinmud.attributes.constant.startingHp
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createKillEvent
+import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Elf
@@ -46,25 +48,27 @@ class MobTest {
         val initialAc = mob.calc(Attribute.AC_BASH)
 
         // when
-        testService.createItem {
-            it.attributes = AttributesDAO.new {
-                hp = 1
-                mana = 1
-                mv = 1
-                strength = 1
-                intelligence = 1
-                wisdom = 1
-                dexterity = 1
-                constitution = 1
-                hit = 1
-                dam = 1
-                acBash = 1
-                acSlash = 1
-                acPierce = 1
-                acMagic = 1
-            }
-            mob.equipped.add(it)
-        }
+        val item = testService.createItemBuilder()
+            .type(ItemType.EQUIPMENT)
+            .material(Material.IRON)
+            .attributes(transaction {
+                AttributesDAO.new {
+                    hp = 1
+                    mana = 1
+                    mv = 1
+                    strength = 1
+                    intelligence = 1
+                    wisdom = 1
+                    dexterity = 1
+                    constitution = 1
+                    hit = 1
+                    dam = 1
+                    acBash = 1
+                    acSlash = 1
+                    acPierce = 1
+                    acMagic = 1
+                }}).build()
+        mob.equipped.add(item)
 
         // then
         assertEquals(initialHp + 1, mob.calc(Attribute.HP))
@@ -296,11 +300,13 @@ class MobTest {
 
         // given
         mob.equipped.add(
-            testService.createItem {
-                it.position = Position.SHIELD
-                it.attributes?.hp = bonusHp
-            }
-        )
+            testService.createItemBuilder()
+                    .position(Position.SHIELD)
+                    .attributes(AttributesDAO.new {
+                        hp = bonusHp
+                    })
+                    .build()
+            )
 
         // expect
         assertThat(mob.calc(Attribute.HP)).isEqualTo(baseHp + bonusHp)

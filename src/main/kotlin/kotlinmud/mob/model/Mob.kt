@@ -9,7 +9,7 @@ import kotlinmud.helper.Noun
 import kotlinmud.helper.math.dice
 import kotlinmud.helper.math.normalizeInt
 import kotlinmud.helper.math.percentRoll
-import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
 import kotlinmud.mob.constant.BASE_STAT
@@ -49,10 +49,10 @@ class Mob(
     val canonicalId: MobCanonicalId?,
     val attributes: MutableMap<Attribute, Int>,
     var room: RoomDAO,
-    val equipped: MutableList<ItemDAO>,
+    val equipped: MutableList<Item>,
     override val maxItems: Int,
     override val maxWeight: Int,
-    override val items: MutableList<ItemDAO>,
+    override val items: MutableList<Item>,
     val skills: MutableMap<SkillType, Int>,
     val affects: MutableList<Affect>,
     val currencies: MutableMap<CurrencyType, Int>,
@@ -86,7 +86,7 @@ class Mob(
         return dice(hit, dam) + dam
     }
 
-    fun getEquippedByPosition(position: Position): ItemDAO? {
+    fun getEquippedByPosition(position: Position): Item? {
         return equipped.find { it.position == position }
     }
 
@@ -240,7 +240,7 @@ class Mob(
         }
     }
 
-    private fun getWeapon(): ItemDAO? {
+    private fun getWeapon(): Item? {
         return equipped.find { it.position == Position.WEAPON }
     }
 

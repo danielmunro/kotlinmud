@@ -15,7 +15,8 @@ class GetTest {
         val testService = createTestServiceWithResetDB()
         val mob = testService.createMob()
         val room = transaction { mob.room }
-        val item = testService.createItem { it.room = room }
+        val item = testService.createItem()
+        room.items.plus(item)
         val roomItemCount = testService.countItemsFor(room)
         val mobItemCount = testService.countItemsFor(mob)
 
@@ -52,7 +53,8 @@ class GetTest {
 
         // given
         val mob = test.createMobBuilder().maxItems(0).build()
-        val item = test.createItem { it.room = test.getStartRoom() }
+        val item = test.createItem()
+        test.getStartRoom().items.plus(item)
 
         // when
         val response = test.runAction(mob, "get ${getIdentifyingWord(item)}")
@@ -69,10 +71,10 @@ class GetTest {
 
         // given
         val mob = test.createMobBuilder().maxWeight(0).build()
-        val item = test.createItem {
-            it.room = test.getStartRoom()
-            it.weight = 1.0
-        }
+        val item = test.createItemBuilder()
+                .weight(1.0)
+                .build()
+        test.getStartRoom().items.plus(item)
 
         // when
         val response = test.runAction(mob, "get ${getIdentifyingWord(item)}")
@@ -91,7 +93,8 @@ class GetTest {
         val mob = test.createMobBuilder().maxItems(1).build()
         val container = test.createContainer()
         mob.items.add(container)
-        val item = test.createItem { it.container = container }
+        val item = test.createItem()
+        container.items!!.add(item)
 
         // when
         val response = test.runAction(mob, "get ${getIdentifyingWord(item)} ${getIdentifyingWord(container)}")
@@ -108,9 +111,10 @@ class GetTest {
 
         // given
         val mob = test.createMob()
-        val container = test.createContainer {
-            it.maxItems = 0
-        }
+        val container = test.createItemBuilder()
+                .isContainer(true)
+                .maxItems(0)
+                .build()
         mob.items.add(container)
         val item = test.createItem()
         mob.items.add(item)
@@ -129,14 +133,15 @@ class GetTest {
 
         // given
         val mob = test.createMob()
-        val container = test.createContainer {
-            it.maxWeight = 0
-            it.maxItems = 100
-        }
+        val container = test.createItemBuilder()
+                .maxWeight(0)
+                .maxItems(100)
+                .isContainer(true)
+                .build()
         mob.items.add(container)
-        val item = test.createItem {
-            it.weight = 1.0
-        }
+        val item = test.createItemBuilder()
+                .weight(1.0)
+                .build()
         mob.items.add(item)
 
         // when

@@ -1,6 +1,9 @@
 package kotlinmud.item.recipe
 
+import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
+import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Recipe
@@ -14,17 +17,17 @@ class GlassBlockRecipe : Recipe {
         )
     }
 
-    override fun getProducts(): List<ItemDAO> {
+    override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            ItemDAO.new {
-                type = ItemType.GLASS_BLOCK
-                name = "a block of glass"
-                description = "a block of glass is here."
-                material = Material.GLASS
-                weight = 10.0
-                level = 1
-                worth = 1
-            }
+                ItemBuilder(itemService)
+                        .name("a block of glass")
+                        .description("a block of glass is here.")
+                        .type(ItemType.GLASS_BLOCK)
+                        .material(Material.GLASS)
+                        .weight(3.0)
+                        .level(1)
+                        .worth(1)
+                        .build()
         )
     }
 }

@@ -5,7 +5,7 @@ import kotlinmud.attributes.constant.startingHp
 import kotlinmud.attributes.constant.startingMana
 import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.race.type.Race
@@ -42,8 +42,8 @@ class MobBuilder(private val mobService: MobService) {
     private var wimpy = 0
     private var savingThrows = 0
     private var rarity = Rarity.COMMON
-    private var equipped = listOf<ItemDAO>()
-    private var items = listOf<ItemDAO>()
+    private var equipped = listOf<Item>()
+    private var items = listOf<Item>()
     private var maxItems = 0
     private var maxWeight = 0
     private var skills = mapOf<SkillType, Int>()
@@ -123,7 +123,7 @@ class MobBuilder(private val mobService: MobService) {
         return this
     }
 
-    fun equipped(value: List<ItemDAO>): MobBuilder {
+    fun equipped(value: List<Item>): MobBuilder {
         equipped = value
         return this
     }
@@ -138,7 +138,7 @@ class MobBuilder(private val mobService: MobService) {
         return this
     }
 
-    fun items(value: List<ItemDAO>): MobBuilder {
+    fun items(value: List<Item>): MobBuilder {
         items = value
         return this
     }

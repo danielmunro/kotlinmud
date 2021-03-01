@@ -14,11 +14,10 @@ class GetFromItemTest {
         val mob = test.createMob()
 
         // given
-        val itemWithInventory = test.createContainer {
-            it.isContainer = true
-        }
+        val itemWithInventory = test.createContainer()
         mob.items.add(itemWithInventory)
-        val item = test.createItem { it.container = itemWithInventory }
+        val item = test.createItem()
+        itemWithInventory.items!!.add(item)
 
         // when
         val response = test.runAction("get ${getIdentifyingWord(item)} ${getIdentifyingWord(itemWithInventory)}")
@@ -35,11 +34,10 @@ class GetFromItemTest {
         val mob = test.createMob()
 
         // given
-        val itemWithInventory = test.createContainer {
-            it.isContainer = true
-        }
+        val itemWithInventory = test.createContainer()
         mob.items.add(itemWithInventory)
-        val item = test.createItem { it.container = itemWithInventory }
+        val item = test.createItem()
+        itemWithInventory.items!!.add(item)
 
         // when
         val response = test.runAction("get ${getIdentifyingWord(item)} ${getIdentifyingWord(itemWithInventory)}")

@@ -1,13 +1,14 @@
 package kotlinmud.resource.service
 
-import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
+import kotlinmud.item.service.ItemService
 import kotlinmud.resource.helper.createResourceList
 import kotlinmud.resource.repository.incrementResourceMaturity
 import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.repository.insertGrassResource
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ResourceService {
+class ResourceService(private val itemService: ItemService) {
     private val resourceList = createResourceList()
 
     fun incrementMaturity() {
@@ -18,8 +19,8 @@ class ResourceService {
         insertGrassResource()
     }
 
-    fun tillResource(resource: ResourceDAO): List<ItemDAO> {
+    fun tillResource(resource: ResourceDAO): List<Item> {
         transaction { resource.delete() }
-        return resourceList.find { it.resourceType == resource.type }?.createProduct() ?: listOf()
+        return resourceList.find { it.resourceType == resource.type }?.createProduct(itemService) ?: listOf()
     }
 }

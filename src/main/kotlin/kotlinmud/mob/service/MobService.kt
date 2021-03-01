@@ -20,7 +20,7 @@ import kotlinmud.io.factory.createLeaveMessage
 import kotlinmud.io.factory.createSingleHitMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Message
-import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.controller.MobController
@@ -163,7 +163,7 @@ class MobService(
         eventService.publish(createSendMessageToRoomEvent(message, room, actionCreator, target))
     }
 
-    fun createCorpseFrom(mob: Mob): ItemDAO {
+    fun createCorpseFrom(mob: Mob): Item {
         return itemService.createCorpseFromMob(mob)
     }
 
