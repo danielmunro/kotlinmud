@@ -37,7 +37,7 @@ class Invisibility : SpellAction {
             if (target is Mob) {
                 target.affects.add(instance)
             } else if (target is ItemDAO) {
-                instance.item = target
+                target.affects.plus(instance)
             } else {
                 throw Exception()
             }

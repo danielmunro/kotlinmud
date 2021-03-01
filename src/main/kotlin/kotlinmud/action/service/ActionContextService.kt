@@ -2,8 +2,8 @@ package kotlinmud.action.service
 
 import kotlinmud.action.exception.InvokeException
 import kotlinmud.action.model.ActionContextList
-import kotlinmud.affect.dao.AffectDAO
-import kotlinmud.affect.type.Affect
+import kotlinmud.affect.model.Affect
+import kotlinmud.affect.type.AffectInterface
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createSocialEvent
 import kotlinmud.event.factory.createTillEvent
@@ -69,8 +69,12 @@ class ActionContextService(
         return request.mob.mobCard!!
     }
 
-    fun getAffects(): List<AffectDAO> {
+    fun getAffects(): List<Affect> {
         return getMob().affects
+    }
+
+    fun addAffectToMob(affect: Affect) {
+        getMob().affects.add(affect)
     }
 
     fun getLevel(): Int {
@@ -104,7 +108,7 @@ class ActionContextService(
         mobService.moveMob(request.mob, room, direction)
     }
 
-    fun createSpellInvokeResponse(target: Noun, affect: Affect, delay: Int = 1): Response {
+    fun createSpellInvokeResponse(target: Noun, affect: AffectInterface, delay: Int = 1): Response {
         return createOkResponse(
             affect.messageFromInstantiation(request.mob, target),
             delay

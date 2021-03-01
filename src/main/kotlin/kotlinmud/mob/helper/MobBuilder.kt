@@ -1,10 +1,9 @@
 package kotlinmud.mob.helper
 
-import kotlinmud.affect.dao.AffectDAO
+import kotlinmud.affect.model.Affect
 import kotlinmud.attributes.constant.startingHp
 import kotlinmud.attributes.constant.startingMana
 import kotlinmud.attributes.constant.startingMv
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.mob.dao.MobDAO
@@ -21,16 +20,15 @@ import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.mob.type.Rarity
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.dao.RoomDAO
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobBuilder(private val mobService: MobService) {
     private var name = ""
     private var brief = ""
     private var description = ""
     private var attributes = mutableMapOf(
-            Pair(Attribute.HP, startingHp),
-            Pair(Attribute.MANA, startingMana),
-            Pair(Attribute.MV, startingMv),
+        Pair(Attribute.HP, startingHp),
+        Pair(Attribute.MANA, startingMana),
+        Pair(Attribute.MV, startingMv),
     )
     private var job = JobType.NONE
     private var specialization: Specialization? = null
@@ -49,7 +47,7 @@ class MobBuilder(private val mobService: MobService) {
     private var maxItems = 0
     private var maxWeight = 0
     private var skills = mapOf<SkillType, Int>()
-    private var affects = listOf<AffectDAO>()
+    private var affects = listOf<Affect>()
     private var currencies = mapOf<CurrencyType, Int>()
     private var card: MobCardDAO? = null
     private lateinit var race: Race
@@ -150,7 +148,7 @@ class MobBuilder(private val mobService: MobService) {
         return this
     }
 
-    fun affects(value: List<AffectDAO>): MobBuilder {
+    fun affects(value: List<Affect>): MobBuilder {
         affects = value
         return this
     }

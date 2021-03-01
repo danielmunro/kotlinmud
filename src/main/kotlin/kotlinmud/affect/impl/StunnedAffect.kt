@@ -1,8 +1,8 @@
 package kotlinmud.affect.impl
 
-import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.factory.createAffect
-import kotlinmud.affect.type.Affect
+import kotlinmud.affect.model.Affect
+import kotlinmud.affect.type.AffectInterface
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.helper.Noun
@@ -11,7 +11,7 @@ import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.model.Mob
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class StunnedAffect : Affect {
+class StunnedAffect : AffectInterface {
     override val type: AffectType = AffectType.STUNNED
 
     override fun messageFromInstantiation(mob: Mob, target: Noun?): Message {
@@ -27,7 +27,7 @@ class StunnedAffect : Affect {
             .build()
     }
 
-    override fun createInstance(timeout: Int): AffectDAO {
+    override fun createInstance(timeout: Int): Affect {
         return createAffect(type, timeout, transaction { AttributesDAO.new { intelligence = -1 } })
     }
 }

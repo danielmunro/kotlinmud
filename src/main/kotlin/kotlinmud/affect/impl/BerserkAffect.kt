@@ -1,15 +1,15 @@
 package kotlinmud.affect.impl
 
-import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.factory.createAffect
-import kotlinmud.affect.type.Affect
+import kotlinmud.affect.model.Affect
+import kotlinmud.affect.type.AffectInterface
 import kotlinmud.affect.type.AffectType
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.model.Mob
 
-class BerserkAffect : Affect {
+class BerserkAffect : AffectInterface {
     override val type: AffectType = AffectType.BERSERK
 
     override fun messageFromInstantiation(mob: Mob, target: Noun?): Message {
@@ -26,7 +26,7 @@ class BerserkAffect : Affect {
             .build()
     }
 
-    override fun createInstance(timeout: Int): AffectDAO {
+    override fun createInstance(timeout: Int): Affect {
         return createAffect(type, timeout)
     }
 }

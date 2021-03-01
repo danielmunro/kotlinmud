@@ -3,7 +3,7 @@ package kotlinmud.mob.skill.impl
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
-import kotlinmud.affect.type.Affect
+import kotlinmud.affect.type.AffectInterface
 import kotlinmud.io.factory.target
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
@@ -42,7 +42,7 @@ class Disarm : SkillAction, Customization {
     override val syntax = target()
     override val argumentOrder = listOf(0, 1)
     override val invokesOn = SkillInvokesOn.INPUT
-    override val affect: Affect? = null
+    override val affect: AffectInterface? = null
     override val creationGroupType = CreationGroupType.SKILL
     override val name = "disarm"
     override val points = 6

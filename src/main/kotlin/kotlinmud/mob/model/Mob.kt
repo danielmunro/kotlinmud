@@ -1,9 +1,8 @@
 package kotlinmud.mob.model
 
-import kotlinmud.affect.dao.AffectDAO
+import kotlinmud.affect.model.Affect
 import kotlinmud.affect.model.AttributeAffect
 import kotlinmud.affect.type.AffectType
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.helper.Noun
@@ -55,7 +54,7 @@ class Mob(
     override val maxWeight: Int,
     override val items: MutableList<ItemDAO>,
     val skills: MutableMap<SkillType, Int>,
-    val affects: MutableList<AffectDAO>,
+    val affects: MutableList<Affect>,
     val currencies: MutableMap<CurrencyType, Int>,
     val mobCard: MobCardDAO?
 ) : Noun, HasInventory {

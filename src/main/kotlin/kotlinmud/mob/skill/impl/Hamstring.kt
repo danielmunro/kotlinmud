@@ -5,7 +5,7 @@ import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.impl.StunnedAffect
-import kotlinmud.affect.type.Affect
+import kotlinmud.affect.type.AffectInterface
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.factory.target
 import kotlinmud.io.model.MessageBuilder
@@ -39,7 +39,7 @@ class Hamstring : SkillAction, Customization {
     override val syntax = target()
     override val argumentOrder = listOf(0, 1)
     override val invokesOn = SkillInvokesOn.INPUT
-    override val affect: Affect = StunnedAffect()
+    override val affect: AffectInterface = StunnedAffect()
     override val creationGroupType = CreationGroupType.SKILL
     override val name = "hamstring"
     override val points = 6

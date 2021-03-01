@@ -3,7 +3,7 @@ package kotlinmud.mob.skill.impl
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
-import kotlinmud.affect.type.Affect
+import kotlinmud.affect.type.AffectInterface
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
@@ -32,7 +32,7 @@ class Bite : SkillAction {
     override val syntax = listOf(Syntax.COMMAND, Syntax.TARGET_MOB)
     override val argumentOrder = listOf(0, 1)
     override val invokesOn = SkillInvokesOn.INPUT
-    override val affect: Affect? = null
+    override val affect: AffectInterface? = null
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val target = actionContextService.get<Mob>(Syntax.TARGET_MOB)

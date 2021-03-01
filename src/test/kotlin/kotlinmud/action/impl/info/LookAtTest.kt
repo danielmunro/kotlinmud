@@ -37,7 +37,7 @@ class LookAtTest {
         val testService = createTestService()
 
         // given
-        val item = testService.createItem { createAffect(AffectType.INVISIBILITY).item = it }
+        val item = testService.createItem()
         testService
             .createMobBuilder()
             .items(listOf(item))

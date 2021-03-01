@@ -1,9 +1,10 @@
 package kotlinmud.mob.skill.impl.enhancement
 
 import kotlinmud.action.service.ActionContextService
-import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.impl.GiantStrengthAffect
+import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
@@ -14,6 +15,7 @@ import kotlinmud.mob.skill.factory.normalForCleric
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.skill.type.SpellAction
 import kotlinmud.mob.type.Intent
+import org.jetbrains.exposed.sql.transactions.transaction
 
 class GiantStrength : SpellAction {
     override val affect = GiantStrengthAffect()
@@ -30,9 +32,17 @@ class GiantStrength : SpellAction {
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val target = actionContextService.get<Mob>(Syntax.TARGET_MOB)
-        createAffect(AffectType.GIANT_STRENGTH, actionContextService.getLevel()).also {
-            actionContextService.getMob().affects.add(it)
-        }
+        target.affects.add(
+            Affect(
+                AffectType.GIANT_STRENGTH,
+                actionContextService.getLevel(),
+                transaction {
+                    AttributesDAO.new {
+                        strength = (actionContextService.getLevel() - 10) / 10
+                    }
+                }
+            )
+        )
         return actionContextService.createSpellInvokeResponse(target, affect)
     }
 }

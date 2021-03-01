@@ -28,8 +28,7 @@ class DrinkTest {
             item.drink = Drink.BEER
             item.name = "a glass of beer"
             item.quantity = 1
-            val affect = DrunkAffect().createInstance(timeout)
-            affect.item = item
+            item.affects.plus(DrunkAffect().createInstance(timeout))
             mobCard.thirst = 0
             mobCard.hunger = 0
         }
@@ -60,7 +59,7 @@ class DrinkTest {
             drink.name = "a glass of milk"
             drink.type = ItemType.DRINK
             drink.drink = Drink.MILK
-            invis.item = drink
+            drink.affects.plus(invis)
             mob.mobCard?.let {
                 it.hunger = 0
                 it.thirst = 0

@@ -29,7 +29,7 @@ class EatTest {
             item.name = "a big meat pie"
             item.quantity = 1
             val affect = StunnedAffect().createInstance(timeout)
-            affect.item = item
+            item.affects.plus(affect)
             mobCard.hunger = 0
             mobCard.thirst = 0
         }

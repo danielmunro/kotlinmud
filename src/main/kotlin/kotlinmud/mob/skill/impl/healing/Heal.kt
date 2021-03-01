@@ -1,7 +1,7 @@
 package kotlinmud.mob.skill.impl.healing
 
 import kotlinmud.action.service.ActionContextService
-import kotlinmud.affect.type.Affect
+import kotlinmud.affect.type.AffectInterface
 import kotlinmud.helper.math.dice
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
@@ -15,7 +15,7 @@ import kotlinmud.mob.skill.type.SpellAction
 import kotlinmud.mob.type.Intent
 
 class Heal : SpellAction {
-    override val affect: Affect? = null
+    override val affect: AffectInterface? = null
     override val type = SkillType.HEAL
     override val levelObtained = mapOf(clericAt(30))
     override val difficulty = mapOf(easyForCleric())

@@ -1,8 +1,8 @@
 package kotlinmud.mob.skill.impl.malediction
 
 import kotlinmud.action.service.ActionContextService
-import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.impl.CurseAffect
+import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.factory.offensiveSpell
 import kotlinmud.io.model.Response
@@ -34,9 +34,7 @@ class Curse : SpellAction {
 
     override fun invoke(actionContextService: ActionContextService): Response {
         val target = actionContextService.get<Mob>(Syntax.TARGET_MOB)
-        createAffect(AffectType.CURSE, actionContextService.getLevel()).also {
-            actionContextService.getMob().affects.add(it)
-        }
-        return actionContextService.createSpellInvokeResponse(target, affect)
+        target.affects.add(Affect(AffectType.CURSE, actionContextService.getLevel()))
+        return actionContextService.createSpellInvokeResponse(target, this.affect)
     }
 }
