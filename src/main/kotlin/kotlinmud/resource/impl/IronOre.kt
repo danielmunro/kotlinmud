@@ -5,6 +5,7 @@ import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.resource.type.Resource
 
 class IronOre : Resource {
@@ -20,6 +21,8 @@ class IronOre : Resource {
                 .name("a chunk of rock with hints of iron")
                 .description("iron ore rock is here")
                 .type(ItemType.IRON_ORE)
+                .material(Material.IRON)
+                .weight(5.0)
                 .build()
         )
     }

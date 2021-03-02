@@ -3,6 +3,8 @@ package kotlinmud.action.impl.equipment
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
+import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.test.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -18,6 +20,8 @@ class WearTest {
         val mob = test.createMob()
         val item = test.createItemBuilder()
                 .position(Position.SHIELD)
+                .type(ItemType.EQUIPMENT)
+                .material(Material.IRON)
                 .name("a shield")
                 .build()
         mob.items.add(item)
@@ -44,6 +48,8 @@ class WearTest {
         val equippedCount = transaction { mob.equipped.count() }
         val item = test.createItemBuilder()
                 .name("a book")
+                .material(Material.FLAMMABLE)
+                .type(ItemType.FURNITURE)
                 .build()
         mob.items.add(item)
 

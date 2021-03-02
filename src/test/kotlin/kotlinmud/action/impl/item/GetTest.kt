@@ -3,6 +3,8 @@ package kotlinmud.action.impl.item
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
+import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.test.getIdentifyingWord
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -54,7 +56,7 @@ class GetTest {
         // given
         val mob = test.createMobBuilder().maxItems(0).build()
         val item = test.createItem()
-        test.getStartRoom().items.plus(item)
+        transaction { test.getStartRoom().items.plus(item) }
 
         // when
         val response = test.runAction(mob, "get ${getIdentifyingWord(item)}")
@@ -73,6 +75,8 @@ class GetTest {
         val mob = test.createMobBuilder().maxWeight(0).build()
         val item = test.createItemBuilder()
                 .weight(1.0)
+                .type(ItemType.FOOD)
+                .material(Material.ORGANIC)
                 .build()
         test.getStartRoom().items.plus(item)
 

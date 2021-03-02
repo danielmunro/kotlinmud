@@ -4,6 +4,7 @@ import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.mob.model.Mob
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -15,18 +16,17 @@ class MakeItemService(private val itemService: ItemService, private val amount: 
     }
 
     fun andGiveTo(mob: Mob) {
-        transaction {
-            for (i in 1..amount) {
-                mob.items.add(createItem())
-            }
+        for (i in 1..amount) {
+            mob.items.add(createItem())
         }
     }
 
     private fun createItem(): Item {
         return ItemBuilder(itemService)
             .name("lumber")
-            .description("Fine pine lumber i here")
+            .description("Fine pine lumber is here")
             .type(ItemType.LUMBER)
+            .material(Material.WOOD)
             .build()
     }
 }
