@@ -1,6 +1,5 @@
 package kotlinmud.player.table
 
-import kotlinmud.room.table.Rooms
 import org.jetbrains.exposed.dao.IntIdTable
 
 object MobCards : IntIdTable() {

@@ -3,7 +3,6 @@ package kotlinmud.event.observer.tick
 import assertk.assertThat
 import assertk.assertions.hasSize
 import kotlinmud.biome.type.SubstrateType
-import kotlinmud.room.type.Area
 import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
@@ -16,8 +15,8 @@ class GenerateGrassObserverTest {
 
         // given
         val room = test.createRoomBuilder()
-                .substrate(SubstrateType.DIRT)
-                .build()
+            .substrate(SubstrateType.DIRT)
+            .build()
 
         // expect
         assertThat(transaction { room.resources.toList() }).hasSize(0)

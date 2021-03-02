@@ -8,7 +8,6 @@ import kotlinmud.io.factory.createDeathMessage
 import kotlinmud.io.model.Message
 import kotlinmud.mob.model.Mob
 import kotlinmud.player.social.Social
-import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 

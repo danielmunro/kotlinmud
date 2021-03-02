@@ -7,7 +7,6 @@ import kotlinmud.io.model.Message
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.model.Mob
 import kotlinmud.player.social.SocialChannel
-import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 

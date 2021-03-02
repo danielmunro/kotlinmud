@@ -14,7 +14,6 @@ import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
 import kotlinmud.test.TestService
 import kotlinmud.test.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class FallDamageTest {
@@ -84,11 +83,11 @@ class FallDamageTest {
 
     private fun getRoom(test: TestService, height: Int): Room {
         return test.createRoomBuilder()
-                .elevation(height)
-                .north(test.getStartRoom())
-                .name("foo")
-                .description("bar")
-                .area(Area.Test)
-                .build()
+            .elevation(height)
+            .north(test.getStartRoom())
+            .name("foo")
+            .description("bar")
+            .area(Area.Test)
+            .build()
     }
 }

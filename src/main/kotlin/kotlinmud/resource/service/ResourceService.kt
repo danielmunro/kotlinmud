@@ -7,7 +7,6 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.resource.helper.createResourceList
 import kotlinmud.resource.repository.incrementResourceMaturity
 import kotlinmud.room.dao.ResourceDAO
-import kotlinmud.room.repository.insertGrassResource
 import kotlinmud.room.service.RoomService
 import org.jetbrains.exposed.sql.transactions.transaction
 

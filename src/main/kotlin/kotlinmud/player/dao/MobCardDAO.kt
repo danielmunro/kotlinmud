@@ -9,7 +9,6 @@ import kotlinmud.player.table.FactionScores
 import kotlinmud.player.table.MobCards
 import kotlinmud.quest.dao.QuestDAO
 import kotlinmud.quest.table.Quests
-import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

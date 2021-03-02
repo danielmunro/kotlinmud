@@ -68,7 +68,7 @@ class MobTest {
                         acSlash = 1
                         acPierce = 1
                         acMagic = 1
-                    } 
+                    }
                 }
             ).build()
         mob.equipped.add(item)
@@ -306,9 +306,11 @@ class MobTest {
             testService.createItemBuilder()
                 .position(Position.SHIELD)
                 .attributes(
-                    transaction { AttributesDAO.new {
-                        hp = bonusHp
-                    } }
+                    transaction {
+                        AttributesDAO.new {
+                            hp = bonusHp
+                        }
+                    }
                 )
                 .type(ItemType.EQUIPMENT)
                 .material(Material.IRON)

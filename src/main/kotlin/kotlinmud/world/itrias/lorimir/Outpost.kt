@@ -17,7 +17,6 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService, roomService: RoomService): Room {
     val builder = RoomBuilder(roomService).area(Area.LorimirForestOutpost)

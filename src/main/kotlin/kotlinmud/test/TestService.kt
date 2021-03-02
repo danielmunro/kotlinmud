@@ -250,12 +250,12 @@ class TestService(
 
     fun createRoom(): Room {
         return RoomBuilder(roomService)
-                .name("a test room")
-                .description("this is a test room")
-                .area(Area.LorimirForest)
-                .isIndoors(false)
-                .regenLevel(RegenLevel.NORMAL)
-                .build()
+            .name("a test room")
+            .description("this is a test room")
+            .area(Area.LorimirForest)
+            .isIndoors(false)
+            .regenLevel(RegenLevel.NORMAL)
+            .build()
     }
 
     fun createRoom(modifier: (Room) -> Unit): Room {
@@ -267,9 +267,9 @@ class TestService(
 
     fun createRoomBuilder(): RoomBuilder {
         return RoomBuilder(roomService)
-                .name("foo")
-                .description("bar")
-                .area(Area.Test)
+            .name("foo")
+            .description("bar")
+            .area(Area.Test)
     }
 
     fun findRoom(predicate: (Room) -> Boolean): Room? {

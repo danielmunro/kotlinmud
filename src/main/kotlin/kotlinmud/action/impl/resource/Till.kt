@@ -9,7 +9,6 @@ import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createTillAction(): Action {
     return Action(

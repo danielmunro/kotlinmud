@@ -7,7 +7,6 @@ import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.type.ResourceType
-import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test

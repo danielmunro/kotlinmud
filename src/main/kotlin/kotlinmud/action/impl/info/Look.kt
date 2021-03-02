@@ -7,10 +7,8 @@ import kotlinmud.action.type.Command
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.createResponseWithEmptyActionContext
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
-import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 

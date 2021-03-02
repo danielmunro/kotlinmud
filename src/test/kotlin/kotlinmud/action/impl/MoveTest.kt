@@ -167,8 +167,8 @@ class MoveTest {
         val test = createTestService()
         val mob = test.createMob()
         val dst = test.createRoomBuilder()
-                .elevation(5)
-                .build()
+            .elevation(5)
+            .build()
 
         // expect
         assertThat(mob.hp).isEqualTo(mob.calc(Attribute.HP))
@@ -191,8 +191,8 @@ class MoveTest {
         val test = createTestService()
         test.createMob()
         val dst = test.createRoomBuilder()
-                .elevation(6)
-                .build()
+            .elevation(6)
+            .build()
 
         // given
         test.getStartRoom {
@@ -212,8 +212,8 @@ class MoveTest {
         // setup
         val test = createTestService()
         val dst = test.createRoomBuilder()
-                .substrate(SubstrateType.DIRT)
-                .build()
+            .substrate(SubstrateType.DIRT)
+            .build()
 
         // given
         test.getStartRoom {

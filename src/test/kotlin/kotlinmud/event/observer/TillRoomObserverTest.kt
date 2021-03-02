@@ -17,15 +17,15 @@ class TillRoomObserverTest {
         // setup
         val test = createTestService()
         val room = test.createRoomBuilder()
-                .substrate(SubstrateType.DIRT)
-                .west(test.getStartRoom())
-                .build()
+            .substrate(SubstrateType.DIRT)
+            .west(test.getStartRoom())
+            .build()
         val prob = ProbabilityTest(100)
 
         while (prob.isIterating()) {
             // given
-                room.resources.add(ResourceType.BRUSH)
-                room.items.clear()
+            room.resources.add(ResourceType.BRUSH)
+            room.items.clear()
 
             // when
             test.runAction("till")

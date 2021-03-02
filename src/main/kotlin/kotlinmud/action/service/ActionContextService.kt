@@ -30,7 +30,6 @@ import kotlinmud.player.social.Social
 import kotlinmud.quest.service.QuestService
 import kotlinmud.quest.type.Quest
 import kotlinmud.room.dao.ResourceDAO
-import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Direction
