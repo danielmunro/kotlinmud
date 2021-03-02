@@ -4,7 +4,6 @@ import kotlinmud.action.impl.player.getImprove
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.model.Mob

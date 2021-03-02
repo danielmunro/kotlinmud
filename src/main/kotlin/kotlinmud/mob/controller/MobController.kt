@@ -10,7 +10,7 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.room.dao.DoorDAO
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 import kotlinmud.room.type.DoorDisposition
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -94,7 +94,7 @@ class MobController(
         }
     }
 
-    private suspend fun openDoorIfExistsAndClosed(room: RoomDAO, door: DoorDAO?): Boolean {
+    private suspend fun openDoorIfExistsAndClosed(room: Room, door: DoorDAO?): Boolean {
         if (door != null && door.disposition == DoorDisposition.LOCKED) {
             return false
         } else if (door != null && door.disposition == DoorDisposition.CLOSED) {

@@ -74,10 +74,10 @@ class GetTest {
         // given
         val mob = test.createMobBuilder().maxWeight(0).build()
         val item = test.createItemBuilder()
-                .weight(1.0)
-                .type(ItemType.FOOD)
-                .material(Material.ORGANIC)
-                .build()
+            .weight(1.0)
+            .type(ItemType.FOOD)
+            .material(Material.ORGANIC)
+            .build()
         test.getStartRoom().items.plus(item)
 
         // when
@@ -116,9 +116,9 @@ class GetTest {
         // given
         val mob = test.createMob()
         val container = test.createItemBuilder()
-                .isContainer(true)
-                .maxItems(0)
-                .build()
+            .isContainer(true)
+            .maxItems(0)
+            .build()
         mob.items.add(container)
         val item = test.createItem()
         mob.items.add(item)
@@ -138,14 +138,14 @@ class GetTest {
         // given
         val mob = test.createMob()
         val container = test.createItemBuilder()
-                .maxWeight(0)
-                .maxItems(100)
-                .isContainer(true)
-                .build()
+            .maxWeight(0)
+            .maxItems(100)
+            .isContainer(true)
+            .build()
         mob.items.add(container)
         val item = test.createItemBuilder()
-                .weight(1.0)
-                .build()
+            .weight(1.0)
+            .build()
         mob.items.add(item)
 
         // when

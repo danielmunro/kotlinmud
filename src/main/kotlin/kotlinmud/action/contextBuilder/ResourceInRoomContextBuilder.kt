@@ -4,23 +4,11 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.room.dao.ResourceDAO
-import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.table.Resources
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
+import kotlinmud.room.model.Room
 
-class ResourceInRoomContextBuilder(private val room: RoomDAO) : ContextBuilder {
+class ResourceInRoomContextBuilder(private val room: Room) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        val resources = transaction {
-            ResourceDAO.wrapRows(
-                Resources.select {
-                    Resources.roomId eq room.id
-                }
-            )
-        }
-
-        val resource = transaction { resources.find { word.matches(it.type.toString()) } }
+        val resource = room.resources.find { word.matches(it.toString()) }
 
         return resource?.let {
             Context<Any>(syntax, Status.OK, it)

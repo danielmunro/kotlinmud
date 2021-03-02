@@ -7,7 +7,7 @@ import kotlinmud.quest.type.QuestType
 import kotlinmud.room.repository.findRoomByCanonicalId
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.test.getIdentifyingWord
-import kotlinmud.type.CanonicalId
+import kotlinmud.type.RoomCanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -20,7 +20,7 @@ class QuestAcceptTest {
 
         // given
         val mob = test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
         }
         val count = transaction { mob.mobCard!!.quests.count() }
 
@@ -39,7 +39,7 @@ class QuestAcceptTest {
 
         // given
         test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
         }
 
         // when
@@ -69,7 +69,7 @@ class QuestAcceptTest {
         // setup
         val test = createTestServiceWithResetDB()
         val mob = test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
         }
 
         // given
@@ -89,7 +89,7 @@ class QuestAcceptTest {
 
         // given
         test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
         }
 
         // when

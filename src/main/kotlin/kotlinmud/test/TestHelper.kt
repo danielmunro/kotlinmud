@@ -15,6 +15,7 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.service.QuestService
+import kotlinmud.room.service.RoomService
 import kotlinmud.world.createWorld
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -36,7 +37,8 @@ fun createTestService(): TestService {
     val fix: FixtureService by container.instance<FixtureService>()
     val mob: MobService by container.instance<MobService>()
     val item: ItemService by container.instance<ItemService>()
-    createWorld(mob, item)
+    val roomService: RoomService by container.instance<RoomService>()
+    createWorld(mob, item, roomService)
     val act: ActionService by container.instance<ActionService>()
     val evt: EventService by container.instance<EventService>()
     val serverService: ServerService by container.instance<ServerService>()
@@ -56,6 +58,7 @@ fun createTestService(): TestService {
         authStepService,
         serverService,
         questService,
+        roomService,
     )
 }
 

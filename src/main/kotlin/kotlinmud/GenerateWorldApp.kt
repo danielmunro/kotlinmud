@@ -5,6 +5,7 @@ import kotlinmud.db.applySchema
 import kotlinmud.db.createConnection
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
+import kotlinmud.room.service.RoomService
 import kotlinmud.world.createWorld
 import org.kodein.di.erased.instance
 
@@ -17,5 +18,6 @@ fun main() {
     val container = createContainer(9999)
     val mobService by container.instance<MobService>()
     val itemService by container.instance<ItemService>()
-    createWorld(mobService, itemService)
+    val roomService by container.instance<RoomService>()
+    createWorld(mobService, itemService, roomService)
 }

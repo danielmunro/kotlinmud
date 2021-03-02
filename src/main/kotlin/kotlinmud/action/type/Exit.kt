@@ -1,6 +1,6 @@
 package kotlinmud.action.type
 
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 
-typealias Exit = Map.Entry<Direction, RoomDAO>
+typealias Exit = Map.Entry<Direction, Room>

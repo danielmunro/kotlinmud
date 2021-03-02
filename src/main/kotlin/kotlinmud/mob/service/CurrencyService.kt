@@ -1,6 +1,5 @@
 package kotlinmud.mob.service
 
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.CurrencyType

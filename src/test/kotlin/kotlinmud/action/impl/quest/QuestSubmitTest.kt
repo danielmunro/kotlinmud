@@ -6,7 +6,7 @@ import kotlinmud.quest.helper.createQuestEntity
 import kotlinmud.quest.type.QuestType
 import kotlinmud.room.repository.findRoomByCanonicalId
 import kotlinmud.test.createTestServiceWithResetDB
-import kotlinmud.type.CanonicalId
+import kotlinmud.type.RoomCanonicalId
 import org.junit.Test
 
 class QuestSubmitTest {
@@ -19,7 +19,7 @@ class QuestSubmitTest {
         // given
         test.createPlayerMob {
             createQuestEntity(it.mobCard!!, quest.type)
-            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND }!!
         }
 
         // when
@@ -38,7 +38,7 @@ class QuestSubmitTest {
         // given
         test.createPlayerMob {
             createQuestEntity(it.mobCard!!, quest.type)
-            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND }!!
         }
 
         // when
@@ -55,7 +55,7 @@ class QuestSubmitTest {
 
         // given
         test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND }!!
         }
 
         // when

@@ -59,9 +59,12 @@ import kotlinmud.quest.service.QuestService
 import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestType
 import kotlinmud.resource.service.ResourceService
+import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 import kotlinmud.room.repository.findStartRoom
+import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
@@ -80,23 +83,21 @@ class TestService(
     private val authStepService: AuthStepService,
     private val serverService: ServerService,
     private val questService: QuestService,
+    private val roomService: RoomService,
 ) {
     private val clientService = ClientService()
-    private val room: RoomDAO
+    private val room: Room
     private val client: Client = spyk(Client(mockk(relaxed = true)))
     private var mob: Mob? = null
     private var target: Mob? = null
     private var player: PlayerDAO? = null
 
     init {
-        room = transaction {
-            RoomDAO.new {
-                name = "start room"
-                description = "tbd"
-                area = Area.LorimirForest
-                biome = BiomeType.PLAINS
-            }
-        }
+        room = RoomBuilder(roomService)
+            .name("start room")
+            .description("tbd")
+            .area(Area.Test)
+            .build()
         every { client.socket.remoteAddress } returns mockk<SocketAddress>()
         serverService.getClients().add(client)
     }
@@ -161,7 +162,7 @@ class TestService(
         return hasInventory.items
     }
 
-    fun findMobsInRoom(room: RoomDAO = getStartRoom()): List<Mob> {
+    fun findMobsInRoom(room: Room = getStartRoom()): List<Mob> {
         return mobService.findMobsInRoom(room)
     }
 
@@ -169,11 +170,11 @@ class TestService(
         mobService.regenMobs()
     }
 
-    fun getStartRoom(): RoomDAO {
+    fun getStartRoom(): Room {
         return room
     }
 
-    fun getStartRoom(modifier: (RoomDAO) -> Unit): RoomDAO {
+    fun getStartRoom(modifier: (Room) -> Unit): Room {
         val room = getStartRoom()
         transaction {
             modifier(room)
@@ -250,26 +251,29 @@ class TestService(
         return target!!
     }
 
-    fun createRoom(): RoomDAO {
-        return transaction {
-            RoomDAO.new {
-                name = "a test room"
-                description = "this is a test room"
-                area = Area.LorimirForest
-                isIndoor = false
-                regenLevel = RegenLevel.NORMAL
-                biome = BiomeType.NONE
-                substrate = SubstrateType.NONE
-                elevation = 1
-            }
+    fun createRoom(): Room {
+        return RoomBuilder(roomService)
+                .name("a test room")
+                .description("this is a test room")
+                .area(Area.LorimirForest)
+                .isIndoors(false)
+                .regenLevel(RegenLevel.NORMAL)
+                .build()
+    }
+
+    fun createRoom(modifier: (Room) -> Unit): Room {
+        return createRoom().let {
+            modifier(it)
+            it
         }
     }
 
-    fun createRoom(modifier: (RoomDAO) -> Unit): RoomDAO {
-        return createRoom().let {
-            transaction { modifier(it) }
-            it
-        }
+    fun createRoomBuilder(): RoomBuilder {
+        return RoomBuilder(roomService)
+    }
+
+    fun findRoom(predicate: (Room) -> Boolean): Room? {
+        return roomService.find(predicate)
     }
 
     fun createCorpseFrom(mob: Mob): Item {
@@ -287,7 +291,6 @@ class TestService(
                 experience = 1000
                 hunger = maxAppetite
                 thirst = maxThirst
-                respawnRoom = findStartRoom() ?: createRoom()
                 this.player = player
             }
         }
@@ -316,26 +319,19 @@ class TestService(
 
     fun createItemBuilder(): ItemBuilder {
         return ItemBuilder(itemService)
-                .name(fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words())
-                .description("a nice looking herb is here")
+            .name(fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words())
+            .description("a nice looking herb is here")
     }
 
     fun createItem(): Item {
         return createItemBuilder()
-                .type(ItemType.FURNITURE)
-                .material(Material.ORGANIC)
-                .build()
+            .type(ItemType.FURNITURE)
+            .material(Material.ORGANIC)
+            .build()
     }
 
     fun createItem(modifier: (Item) -> Unit): Item {
         return createItem().let {
-            transaction { modifier(it) }
-            it
-        }
-    }
-
-    fun createContainer(modifier: (Item) -> Unit): Item {
-        return createContainer().let {
             transaction { modifier(it) }
             it
         }
@@ -410,7 +406,7 @@ class TestService(
     }
 
     fun callClientConnectedEvent(event: Event<ClientConnectedEvent>) {
-        runBlocking { ClientConnectedObserver(mobService, playerService).invokeAsync(event) }
+        runBlocking { ClientConnectedObserver(mobService, roomService, playerService).invokeAsync(event) }
     }
 
     fun callLogoutPlayersOnStartupEvent() {
@@ -450,13 +446,13 @@ class TestService(
 
     fun createContainer(): Item {
         return createItemBuilder()
-                .isContainer(true)
-                .items(listOf())
-                .maxItems(100)
-                .maxWeight(1000)
-                .type(ItemType.CONTAINER)
-                .material(Material.TEXTILE)
-                .build()
+            .isContainer(true)
+            .items(listOf())
+            .maxItems(100)
+            .maxWeight(1000)
+            .type(ItemType.CONTAINER)
+            .material(Material.TEXTILE)
+            .build()
     }
 
     private fun weapon(mob: Mob): Item {

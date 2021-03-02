@@ -41,7 +41,7 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.repository.findMobCardByName
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -89,7 +89,7 @@ class MobService(
         return fights.find { it.isParticipant(mob) }
     }
 
-    fun findMobsInRoom(room: RoomDAO): List<Mob> {
+    fun findMobsInRoom(room: Room): List<Mob> {
         return mobs.filter { it.room == room }
     }
 
@@ -117,10 +117,11 @@ class MobService(
         }
     }
 
-    suspend fun moveMob(mob: Mob, destinationRoom: RoomDAO, directionLeavingFrom: Direction) {
+    suspend fun moveMob(mob: Mob, destinationRoom: Room, directionLeavingFrom: Direction) {
         val leaving = mob.room
         sendMessageToRoom(createLeaveMessage(mob, directionLeavingFrom), leaving, mob)
         transaction { mob.room = destinationRoom }
+        mob.room = destinationRoom
         doFallCheck(mob, leaving, destinationRoom)
         sendMessageToRoom(createArriveMessage(mob), destinationRoom, mob)
     }
@@ -159,7 +160,7 @@ class MobService(
         }
     }
 
-    suspend fun sendMessageToRoom(message: Message, room: RoomDAO, actionCreator: Mob, target: Mob? = null) {
+    suspend fun sendMessageToRoom(message: Message, room: Room, actionCreator: Mob, target: Mob? = null) {
         eventService.publish(createSendMessageToRoomEvent(message, room, actionCreator, target))
     }
 
@@ -244,7 +245,7 @@ class MobService(
         }
     }
 
-    private fun doFallCheck(mob: Mob, leaving: RoomDAO, arriving: RoomDAO) {
+    private fun doFallCheck(mob: Mob, leaving: Room, arriving: Room) {
         (leaving.elevation - arriving.elevation).let {
             if (it > MAX_WALKABLE_ELEVATION) {
                 takeDamageFromFall(mob, it)
@@ -276,7 +277,7 @@ class MobService(
         return round
     }
 
-    private suspend fun sendRoundMessage(attacks: List<Attack>, room: RoomDAO, attacker: Mob, defender: Mob) {
+    private suspend fun sendRoundMessage(attacks: List<Attack>, room: Room, attacker: Mob, defender: Mob) {
         attacks.forEach {
             val verb = if (it.attackResult == AttackResult.HIT) it.attackVerb else "miss"
             val verbPlural = if (it.attackResult == AttackResult.HIT) it.attackVerb.pluralize() else "misses"

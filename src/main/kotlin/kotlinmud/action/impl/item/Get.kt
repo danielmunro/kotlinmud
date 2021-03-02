@@ -8,7 +8,6 @@ import kotlinmud.io.factory.createGetMessage
 import kotlinmud.io.factory.itemInRoom
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 
 fun createGetAction(): Action {

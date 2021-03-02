@@ -75,7 +75,7 @@ class ContextBuilderService(
             Syntax.RESOURCE_IN_ROOM -> ResourceInRoomContextBuilder(request.getRoom()).build(syntax, word)
             Syntax.AVAILABLE_ITEM_INVENTORY -> AvailableItemInventoryContextBuilder(request.mob, request.getRoom()).build(syntax, word)
             Syntax.ITEM_IN_AVAILABLE_INVENTORY -> ItemInAvailableItemInventoryContextBuilder(previous?.result!!).build(syntax, word)
-            Syntax.OPTIONAL_FURNITURE -> OptionalFurnitureContextBuilder(request.getRoom().items.toList()).build(syntax, word)
+            Syntax.OPTIONAL_FURNITURE -> OptionalFurnitureContextBuilder(request.getRoom().items).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
         previous = context

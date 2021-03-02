@@ -12,7 +12,7 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
-import kotlinmud.type.CanonicalId
+import kotlinmud.type.RoomCanonicalId
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -38,7 +38,7 @@ class RoomDAO(id: EntityID<Int>) : IntEntity(id) {
     var substrate: SubstrateType by Rooms.substrate.transform({ it.toString() }, { SubstrateType.valueOf(it) })
     var canonicalId by Rooms.canonicalId.transform(
         { it.toString() },
-        { it?.let { CanonicalId.valueOf(it) } }
+        { it?.let { RoomCanonicalId.valueOf(it) } }
     )
     var elevation by Rooms.elevation
     var maxWeight by Rooms.maxWeight

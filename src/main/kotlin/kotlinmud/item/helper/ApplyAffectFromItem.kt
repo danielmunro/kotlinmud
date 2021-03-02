@@ -1,7 +1,6 @@
 package kotlinmud.item.helper
 
 import kotlinmud.affect.model.Affect
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
 import org.jetbrains.exposed.sql.transactions.transaction

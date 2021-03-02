@@ -8,7 +8,6 @@ import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestServiceWithResetDB
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class FightTest {
@@ -65,8 +64,8 @@ class FightTest {
 
         // and
         val item = testService.createItemBuilder()
-                .position(Position.SHIELD)
-                .build()
+            .position(Position.SHIELD)
+            .build()
         mob2.equipped.add(item)
 
         // when

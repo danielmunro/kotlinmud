@@ -34,8 +34,8 @@ class BuyTest {
 
         // given
         val item = test.createItemBuilder()
-                .worth(10)
-                .build()
+            .worth(10)
+            .build()
         shop.items.add(item)
 
         // when

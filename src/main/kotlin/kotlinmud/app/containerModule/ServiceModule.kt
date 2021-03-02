@@ -22,6 +22,7 @@ import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.helper.createQuestList
 import kotlinmud.quest.service.QuestService
 import kotlinmud.resource.service.ResourceService
+import kotlinmud.room.service.RoomService
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
 import kotlinmud.world.itrias.lorimir.getLorimirItemRespawns
@@ -43,6 +44,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         bind<FixtureService>() with singleton { FixtureService() }
         bind<EventService>() with singleton { EventService() }
         bind<ItemService>() with singleton { ItemService() }
+        bind<RoomService>() with singleton { RoomService() }
         bind<MobService>() with singleton {
             MobService(
                 instance(),
@@ -63,7 +65,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         }
         bind<AuthStepService>() with singleton {
             val playerService = instance<PlayerService>()
-            AuthStepService(instance(), playerService).also {
+            AuthStepService(instance(), instance(), playerService).also {
                 playerService.setAuthStepService(it)
             }
         }
@@ -73,7 +75,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         bind<QuestService>() with singleton {
             QuestService(
                 instance(),
-                createQuestList(instance())
+                createQuestList(instance(), instance())
             )
         }
         bind<ActionService>() with singleton {
@@ -81,6 +83,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
                 instance(),
                 instance(),
                 createActionContextBuilder(
+                    instance(),
                     instance(),
                     instance(),
                     instance(),
@@ -109,6 +112,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         }
         bind<RespawnService>() with singleton {
             RespawnService(
+                instance(),
                 getLorimirItemRespawns(),
                 getLorimirMobRespawns(instance())
             )

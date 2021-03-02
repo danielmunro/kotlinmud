@@ -7,18 +7,18 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
 import kotlinmud.mob.model.Mob
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 
 const val notFound = "you don't see anything like that here."
 
 class AvailableDrinkContextBuilder(
     private val itemService: ItemService,
     private val mob: Mob,
-    private val room: RoomDAO
+    private val room: Room
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val target = mob.items.find { word.matches(it.name) }
-//            ?: itemService.findByRoom(room, word)
+            ?: room.items.find { word.matches(it.name) }
             ?: return notFound(syntax)
 
         if (!target.isVisible()) {

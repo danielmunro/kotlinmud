@@ -71,8 +71,8 @@ class SellTest {
 
         // given
         val item = testService.createItemBuilder()
-                .worth(100)
-                .build()
+            .worth(100)
+            .build()
         mob.items.add(item)
 
         // when

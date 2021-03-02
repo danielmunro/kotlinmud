@@ -8,8 +8,10 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createLookAction(): Action {
@@ -22,14 +24,14 @@ fun createLookAction(): Action {
                     room,
                     it.getMob(),
                     it.getMobsInRoom(),
-                    transaction { room.items.toList() },
+                    room.items,
                 )
             )
         )
     }
 }
 
-fun describeRoom(actionContextService: ActionContextService, room: RoomDAO, mob: Mob, mobs: List<Mob>, roomItems: List<ItemDAO>): String {
+fun describeRoom(actionContextService: ActionContextService, room: Room, mob: Mob, mobs: List<Mob>, roomItems: List<Item>): String {
     return transaction {
         mob.affects.find { it.type == AffectType.BLIND }?.let {
             return@transaction "you can't see anything, you're blind!"
@@ -50,7 +52,7 @@ fun describeRoom(actionContextService: ActionContextService, room: RoomDAO, mob:
     }
 }
 
-fun showDoors(room: RoomDAO): String {
+fun showDoors(room: Room): String {
     val doors = room.getDoors()
         .entries
         .joinToString("\n") { "${it.value.name} to the ${it.key.value.toLowerCase()} is ${it.value.disposition.toString().toLowerCase()}." }
@@ -60,7 +62,7 @@ fun showDoors(room: RoomDAO): String {
     return ""
 }
 
-fun reduceExits(room: RoomDAO): String {
+fun reduceExits(room: Room): String {
     return room.getAllExits()
         .entries
         .joinToString("") { it.key.name.subSequence(0, 1) }

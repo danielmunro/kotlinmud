@@ -1,7 +1,7 @@
 package kotlinmud.room.helper
 
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 
-fun connect(room: RoomDAO): RoomConnector {
+fun connect(room: Room): RoomConnector {
     return RoomConnector(room)
 }

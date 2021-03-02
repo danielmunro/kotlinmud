@@ -6,7 +6,6 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.model.Mob
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class MakeItemService(private val itemService: ItemService, private val amount: Int) {
     var item: Item? = null

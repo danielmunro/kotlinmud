@@ -6,7 +6,6 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.createBuyMessage
 import kotlinmud.io.factory.itemFromMerchant
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.mob.service.CurrencyService
 import kotlinmud.mob.type.JobType

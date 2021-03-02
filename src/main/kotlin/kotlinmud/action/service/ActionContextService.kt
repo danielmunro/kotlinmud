@@ -16,7 +16,6 @@ import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.Clients
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
@@ -32,15 +31,17 @@ import kotlinmud.quest.service.QuestService
 import kotlinmud.quest.type.Quest
 import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
+import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Direction
 import kotlinmud.weather.service.WeatherService
 import kotlinmud.weather.type.Weather
-import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionContextService(
     private val mobService: MobService,
     private val itemService: ItemService,
+    private val roomService: RoomService,
     private val eventService: EventService,
     private val weatherService: WeatherService,
     private val actionContextList: ActionContextList,
@@ -75,27 +76,20 @@ class ActionContextService(
         return getMob().affects
     }
 
-    fun addAffectToMob(affect: Affect) {
-        getMob().affects.add(affect)
-    }
-
     fun getLevel(): Int {
         return getMob().level
     }
 
-    fun getRoom(): RoomDAO {
+    fun getRoom(): Room {
         return request.getRoom()
     }
 
-    fun getExits(): Map<Direction, RoomDAO> {
+    fun getExits(): Map<Direction, Room> {
         return request.getRoom().getAllExits()
     }
 
-    fun getRecall(): RoomDAO {
-        return transaction {
-            val mob = request.mob
-            mob.mobCard!!.respawnRoom
-        }
+    fun getRecall(): Room {
+        return roomService.getStartRoom()
     }
 
     fun <T> get(syntax: Syntax): T {
@@ -106,7 +100,7 @@ class ActionContextService(
         return mobService.findMobsInRoom(getRoom())
     }
 
-    suspend fun moveMob(room: RoomDAO, direction: Direction) {
+    suspend fun moveMob(room: Room, direction: Direction) {
         mobService.moveMob(request.mob, room, direction)
     }
 
@@ -139,7 +133,7 @@ class ActionContextService(
         eventService.publish(createSocialEvent(social))
     }
 
-    suspend fun publishTillEvent(room: RoomDAO) {
+    suspend fun publishTillEvent(room: Room) {
         eventService.publish(createTillEvent(room))
     }
 

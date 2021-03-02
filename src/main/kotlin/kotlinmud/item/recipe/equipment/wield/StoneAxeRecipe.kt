@@ -2,7 +2,6 @@ package kotlinmud.item.recipe.equipment.wield
 
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -23,19 +22,21 @@ class StoneAxeRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-                ItemBuilder(itemService)
-                        .name("a stone axe")
-                        .description("a stone axe is here.")
-                        .type(ItemType.EQUIPMENT)
-                        .material(Material.STONE)
-                        .position(Position.WEAPON)
-                        .damageType(DamageType.SLASH)
-                        .attackVerb("chop")
-                        .attributes(AttributesDAO.new {
-                            hit = 1
-                            dam = 2
-                        })
-                        .build()
+            ItemBuilder(itemService)
+                .name("a stone axe")
+                .description("a stone axe is here.")
+                .type(ItemType.EQUIPMENT)
+                .material(Material.STONE)
+                .position(Position.WEAPON)
+                .damageType(DamageType.SLASH)
+                .attackVerb("chop")
+                .attributes(
+                    AttributesDAO.new {
+                        hit = 1
+                        dam = 2
+                    }
+                )
+                .build()
         )
     }
 }

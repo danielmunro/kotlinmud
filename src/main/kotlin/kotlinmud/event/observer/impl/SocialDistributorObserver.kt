@@ -8,6 +8,7 @@ import kotlinmud.io.service.ServerService
 import kotlinmud.mob.model.Mob
 import kotlinmud.player.social.SocialChannel
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class SocialDistributorObserver(private val serverService: ServerService) : Observer {
@@ -22,7 +23,7 @@ class SocialDistributorObserver(private val serverService: ServerService) : Obse
         }
     }
 
-    private fun yellToArea(mob: Mob, room: RoomDAO, message: Message) {
+    private fun yellToArea(mob: Mob, room: Room, message: Message) {
         serverService.getClients().forEach {
             val clientRoom = transaction { it.mob!!.room }
             if (it.mob != mob && clientRoom.area == room.area) {
@@ -46,7 +47,7 @@ class SocialDistributorObserver(private val serverService: ServerService) : Obse
         }
     }
 
-    private fun sayToRoom(mob: Mob, room: RoomDAO, message: Message) {
+    private fun sayToRoom(mob: Mob, room: Room, message: Message) {
 //        val mobs = findMobsForRoom(room)
 //        serverService.getClientsFromMobs(mobs).forEach {
 //            if (it.mob != mob) {

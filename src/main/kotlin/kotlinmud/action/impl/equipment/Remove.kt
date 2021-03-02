@@ -6,9 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.createRemoveMessage
 import kotlinmud.io.factory.equippedItem
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createRemoveAction(): Action {
     return Action(Command.REMOVE, mustBeAlert(), equippedItem()) {

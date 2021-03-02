@@ -8,7 +8,6 @@ import kotlinmud.io.factory.createSellMessage
 import kotlinmud.io.factory.itemToSell
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.mob.service.CurrencyService
 import kotlinmud.mob.type.JobType

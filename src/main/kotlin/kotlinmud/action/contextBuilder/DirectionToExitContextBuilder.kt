@@ -6,9 +6,9 @@ import kotlinmud.action.type.Exit
 import kotlinmud.action.type.Status
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.io.type.Syntax
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 
-class DirectionToExitContextBuilder(private val room: RoomDAO) : ContextBuilder {
+class DirectionToExitContextBuilder(private val room: Room) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val exit = getExit(word)
             ?: return failedContext(syntax, "Alas, that direction does not exist.")
@@ -22,7 +22,7 @@ class DirectionToExitContextBuilder(private val room: RoomDAO) : ContextBuilder 
         }
 
         if (!canMoveIntoSubstrate(exit.value)) {
-            return Context(syntax, Status.ERROR, "${exit.value.name} is blocked by ${exit.value.substrate.toString().toLowerCase()}.")
+            return Context(syntax, Status.ERROR, "${exit.value.name} is blocked by ${exit.value.substrateType.toString().toLowerCase()}.")
         }
 
         return Context(syntax, Status.OK, exit.value)
@@ -38,7 +38,7 @@ class DirectionToExitContextBuilder(private val room: RoomDAO) : ContextBuilder 
         return room.isElevationPassable(exit.key)
     }
 
-    private fun canMoveIntoSubstrate(room: RoomDAO): Boolean {
-        return room.substrate == SubstrateType.NONE
+    private fun canMoveIntoSubstrate(room: Room): Boolean {
+        return room.substrateType == SubstrateType.NONE
     }
 }

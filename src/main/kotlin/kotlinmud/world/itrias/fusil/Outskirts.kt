@@ -1,13 +1,14 @@
 package kotlinmud.world.itrias.fusil
 
-import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.helper.RoomBuilder
+import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.helper.connect
+import kotlinmud.room.model.Room
+import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
-fun createFusilOutskirts(connector: RoomDAO): RoomDAO {
-    val roomBuilder = RoomBuilder().area(Area.FusilOutskirts)
+fun createFusilOutskirts(roomService: RoomService, connector: Room): Room {
+    val roomBuilder = RoomBuilder(roomService).area(Area.FusilOutskirts)
 
     val room1 = roomBuilder.name("Outskirts of Fusil")
         .description("foo")

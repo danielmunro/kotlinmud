@@ -5,10 +5,10 @@ import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.room.dao.DoorDAO
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 
-class DoorInRoomContextBuilder(private val room: RoomDAO) : ContextBuilder {
+class DoorInRoomContextBuilder(private val room: Room) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val doors = room.getDoors()
         return doors.entries.find {

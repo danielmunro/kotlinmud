@@ -4,10 +4,10 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ItemInRoomContextBuilder(private val room: RoomDAO) : ContextBuilder {
+class ItemInRoomContextBuilder(private val room: Room) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return transaction {
             room.items.find {

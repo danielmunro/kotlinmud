@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.room.repository.findRoomByCanonicalId
 import kotlinmud.test.createTestService
-import kotlinmud.type.CanonicalId
+import kotlinmud.type.RoomCanonicalId
 import org.junit.Test
 
 class QuestListTest {
@@ -15,7 +15,7 @@ class QuestListTest {
 
         // given
         test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
         }
 
         // when
@@ -32,7 +32,7 @@ class QuestListTest {
 
         // given
         test.createPlayerMob {
-            it.room = findRoomByCanonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
         }
 
         // when

@@ -9,6 +9,7 @@ import kotlinmud.io.model.Message
 import kotlinmud.mob.model.Mob
 import kotlinmud.player.social.Social
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createDeathEvent(mob: Mob): Event<SendMessageToRoomEvent> {
@@ -17,7 +18,7 @@ fun createDeathEvent(mob: Mob): Event<SendMessageToRoomEvent> {
 
 fun createSendMessageToRoomEvent(
     message: Message,
-    room: RoomDAO,
+    room: Room,
     actionCreator: Mob,
     target: Mob? = null
 ): Event<SendMessageToRoomEvent> {
@@ -39,6 +40,6 @@ fun createSocialEvent(social: Social): Event<SocialEvent> {
     return Event(EventType.SOCIAL, SocialEvent(social))
 }
 
-fun createTillEvent(room: RoomDAO): Event<RoomDAO> {
+fun createTillEvent(room: Room): Event<Room> {
     return Event(EventType.TILL, room)
 }

@@ -15,7 +15,7 @@ class WimpyObserverTest {
 
         // given
         val dst = test.createRoom()
-        transaction { test.getStartRoom().east = dst }
+        test.getStartRoom().east = dst
         val mob = test.createMob {
             it.wimpy = 10
             it.hp = 0

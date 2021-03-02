@@ -7,7 +7,6 @@ import kotlinmud.io.factory.createEatMessage
 import kotlinmud.io.factory.foodInInventory
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.helper.applyAffectFromItem
 import kotlinmud.item.model.Item
 import org.jetbrains.exposed.sql.transactions.transaction

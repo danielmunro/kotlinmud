@@ -7,7 +7,6 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.availableInventoryAndItem
 import kotlinmud.io.factory.createPutMessage
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 
 fun createPutAction(): Action {

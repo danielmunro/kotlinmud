@@ -7,7 +7,6 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.type.HasInventory
-import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ItemInAvailableItemInventoryContextBuilder(

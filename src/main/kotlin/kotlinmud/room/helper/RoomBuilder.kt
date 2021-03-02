@@ -2,14 +2,14 @@ package kotlinmud.room.helper
 
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.type.Area
-import kotlinmud.type.CanonicalId
+import kotlinmud.type.RoomCanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class RoomBuilder {
     private lateinit var name: String
     private lateinit var description: String
     private lateinit var area: Area
-    private var canonicalId: CanonicalId? = null
+    private var canonicalId: RoomCanonicalId? = null
 
     fun name(value: String): RoomBuilder {
         name = value
@@ -26,7 +26,7 @@ class RoomBuilder {
         return this
     }
 
-    fun canonicalId(value: CanonicalId?): RoomBuilder {
+    fun canonicalId(value: RoomCanonicalId?): RoomBuilder {
         canonicalId = value
         return this
     }

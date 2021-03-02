@@ -4,10 +4,10 @@ import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.model.MobRespawn
 import kotlinmud.mob.repository.countMobsByCanonicalId
 import kotlinmud.mob.type.MobCanonicalId
-import kotlinmud.room.repository.findRoomsByArea
+import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 
-class MobRespawnService(private val respawns: List<MobRespawn>) {
+class MobRespawnService(private val respawns: List<MobRespawn>, private val roomService: RoomService) {
     fun respawn() {
         respawns.forEach {
             doRespawn(
@@ -20,7 +20,7 @@ class MobRespawnService(private val respawns: List<MobRespawn>) {
     }
 
     private fun doRespawn(area: Area, maxAmount: Int, canonicalId: MobCanonicalId, mobBuilder: MobBuilder) {
-        val rooms = findRoomsByArea(area)
+        val rooms = roomService.findByArea(area)
         val count = countMobsByCanonicalId(canonicalId)
         var amountToRespawn = Math.min(maxAmount - count, maxAmount)
         val randomSubset = rooms.filter { Math.random() < 0.3 }

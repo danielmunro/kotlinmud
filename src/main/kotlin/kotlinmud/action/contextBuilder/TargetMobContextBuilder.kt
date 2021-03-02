@@ -6,9 +6,9 @@ import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 
-class TargetMobContextBuilder(private val mobService: MobService, private val mob: Mob, private val room: RoomDAO) : ContextBuilder {
+class TargetMobContextBuilder(private val mobService: MobService, private val mob: Mob, private val room: Room) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         if (word == "") {
             return mobService.getMobFight(mob)?.let {

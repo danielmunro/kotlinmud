@@ -19,7 +19,7 @@ fun createTillAction(): Action {
         listOf(0),
         listOf(Cost(CostType.MV_PERCENT, 1))
     ) {
-        when (transaction { it.getRoom().substrate }) {
+        when (it.getRoom().substrateType) {
             SubstrateType.TILLED_DIRT, SubstrateType.DIRT -> {
                 runBlocking { it.publishTillEvent(it.getRoom()) }
                 it.createOkResponse(

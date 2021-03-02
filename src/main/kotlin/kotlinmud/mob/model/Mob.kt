@@ -27,7 +27,7 @@ import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.mob.type.Rarity
 import kotlinmud.player.dao.MobCardDAO
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class Mob(
@@ -48,7 +48,7 @@ class Mob(
     val rarity: Rarity,
     val canonicalId: MobCanonicalId?,
     val attributes: MutableMap<Attribute, Int>,
-    var room: RoomDAO,
+    var room: Room,
     val equipped: MutableList<Item>,
     override val maxItems: Int,
     override val maxWeight: Int,

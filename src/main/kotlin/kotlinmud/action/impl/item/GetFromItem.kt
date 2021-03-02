@@ -7,7 +7,6 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.createGetFromContainerMessage
 import kotlinmud.io.factory.itemInInventoryAndAvailableInventory
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 
 fun createGetFromItemAction(): Action {

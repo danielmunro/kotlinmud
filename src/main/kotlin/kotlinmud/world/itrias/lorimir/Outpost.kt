@@ -10,17 +10,18 @@ import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
-import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.helper.RoomBuilder
+import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.helper.connect
+import kotlinmud.room.model.Room
+import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
-import kotlinmud.type.CanonicalId
+import kotlinmud.type.RoomCanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
-fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService): RoomDAO {
+fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService, roomService: RoomService): Room {
     return transaction {
-        val builder = RoomBuilder().area(Area.LorimirForestOutpost)
+        val builder = RoomBuilder(roomService).area(Area.LorimirForestOutpost)
 
         val room1 = builder.name("Around a fire pit")
             .description(
@@ -28,21 +29,21 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService)
 
 A sign flickers against the light of the fire.""".trimMargin()
             )
-            .canonicalId(CanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
+            .canonicalId(RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
             .build()
 
         ItemBuilder(itemService)
-                .name("a cobblestone fire-pit")
-                .description("a fire emanates from the circular pit.")
-                .canOwn(false)
-                .material(Material.STONE)
-                .type(ItemType.FURNITURE)
-                .room(room1)
-                .build()
+            .name("a cobblestone fire-pit")
+            .description("a fire emanates from the circular pit.")
+            .canOwn(false)
+            .material(Material.STONE)
+            .type(ItemType.FURNITURE)
+            .room(room1)
+            .build()
 
         ItemBuilder(itemService)
-                .name("a large wooden sign on a post")
-                .description(
+            .name("a large wooden sign on a post")
+            .description(
 """The sign reads:
 
 +-------------------------------------------------+
@@ -51,16 +52,16 @@ A sign flickers against the light of the fire.""".trimMargin()
 |        an available quest.                      |
 |                                                 |
 +-------------------------------------------------+"""
-                )
-                .canOwn(false)
-                .material(Material.WOOD)
-                .type(ItemType.FURNITURE)
-                .room(room1)
-                .build()
+            )
+            .canOwn(false)
+            .material(Material.WOOD)
+            .type(ItemType.FURNITURE)
+            .room(room1)
+            .build()
 
         val room2 = builder.name("Inside a lean-to shelter")
             .description("bar")
-            .canonicalId(CanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
+            .canonicalId(RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
             .build()
 
         val room3 = builder.name("A blacksmith shack").build()

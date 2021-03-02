@@ -3,7 +3,7 @@ package kotlinmud.io.service
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.Disposition
 import kotlinmud.player.dao.MobCardDAO
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 
 class RequestService(val mob: Mob, val input: String) {
     val args = input.toLowerCase().split(' ')
@@ -12,7 +12,7 @@ class RequestService(val mob: Mob, val input: String) {
         return mob.mobCard!!
     }
 
-    fun getRoom(): RoomDAO {
+    fun getRoom(): Room {
         return mob.room
     }
 

@@ -3,6 +3,7 @@ package kotlinmud.event.observer
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.resource.factory.createWildGrass
 import kotlinmud.test.ProbabilityTest
@@ -15,16 +16,16 @@ class TillRoomObserverTest {
     fun testTillSanity() {
         // setup
         val test = createTestService()
-        val room = test.getStartRoom()
+        val room = test.createRoomBuilder()
+                .substrate(SubstrateType.DIRT)
+                .west(test.getStartRoom())
+                .build()
         val prob = ProbabilityTest(100)
 
         while (prob.isIterating()) {
             // given
-            transaction {
-                room.substrate = SubstrateType.DIRT
-                createWildGrass().room = room
-                room.items.empty()
-            }
+                room.resources.add(ResourceType.BRUSH)
+                room.items.clear()
 
             // when
             test.runAction("till")
@@ -43,10 +44,8 @@ class TillRoomObserverTest {
         val room = test.getStartRoom()
 
         // given
-        transaction {
-            room.substrate = SubstrateType.TILLED_DIRT
-            createWildGrass().room = room
-        }
+        room.substrateType = SubstrateType.TILLED_DIRT
+        room.resources.add(createWildGrass().type)
 
         // when
         val response = test.runAction("till")
@@ -62,9 +61,7 @@ class TillRoomObserverTest {
         val room = test.getStartRoom()
 
         // given
-        transaction {
-            room.substrate = SubstrateType.ROCK
-        }
+        room.substrateType = SubstrateType.ROCK
 
         // when
         val response = test.runAction("till")

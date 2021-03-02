@@ -4,19 +4,17 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
-import kotlinmud.room.dao.RoomDAO
-import org.jetbrains.exposed.sql.transactions.transaction
+import kotlinmud.room.model.Room
 
 class AvailableItemInventoryContextBuilder(
     private val mob: Mob,
-    private val room: RoomDAO
+    private val room: Room
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return tryInventory(mob.items, syntax, word)
-//            ?: tryInventory(transaction { room.items.toList() }, syntax, word)
+            ?: tryInventory(room.items, syntax, word)
             ?: Context<Any>(
                 syntax,
                 Status.ERROR,

@@ -6,7 +6,6 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.createDropMessage
 import kotlinmud.io.factory.itemInInventory
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import org.jetbrains.exposed.sql.transactions.transaction
 

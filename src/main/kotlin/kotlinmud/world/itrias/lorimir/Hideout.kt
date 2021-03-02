@@ -1,13 +1,14 @@
 package kotlinmud.world.itrias.lorimir
 
-import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.helper.RoomBuilder
+import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.helper.connect
+import kotlinmud.room.model.Room
+import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
-fun createGrongokHideout(connector: RoomDAO) {
-    val builder = RoomBuilder()
+fun createGrongokHideout(roomService: RoomService, connector: Room) {
+    val builder = RoomBuilder(roomService)
         .name("entrance to a cave")
         .description("a cave")
         .area(Area.GrongokHideout)

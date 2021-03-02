@@ -14,16 +14,15 @@ class RegenMobsObserverTest {
         // setup
         val test = createTestServiceWithResetDB()
         val mob = test.createPlayerMob()
-        val room = test.getStartRoom()
+        val roomBuilder = test.createRoomBuilder()
 
         // when
         val testCase = { regenLevel: RegenLevel ->
-            transaction {
-                mob.hp = 1
-                room.regenLevel = regenLevel
-                runBlocking { test.regenMobs() }
-                mob.hp
-            }
+            mob.hp = 1
+            val room = roomBuilder.regenLevel(regenLevel).build()
+            mob.room = room
+            runBlocking { test.regenMobs() }
+            mob.hp
         }
 
         val gain1 = testCase(RegenLevel.NONE)

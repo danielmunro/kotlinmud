@@ -1,17 +1,16 @@
 package kotlinmud.room.helper
 
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
-import org.jetbrains.exposed.sql.transactions.transaction
 
-class RoomConnector(private val room: RoomDAO) {
-    fun to(connections: List<Pair<RoomDAO, Direction>>) {
+class RoomConnector(private val room: Room) {
+    fun to(connections: List<Pair<Room, Direction>>) {
         connections.forEach {
             to(it.first, it.second)
         }
     }
 
-    fun to(connection: RoomDAO): RoomConnector {
+    fun to(connection: Room): RoomConnector {
         val directions = listOf(
             Direction.NORTH,
             Direction.SOUTH,
@@ -34,33 +33,31 @@ class RoomConnector(private val room: RoomDAO) {
         throw Exception("no connecting room")
     }
 
-    fun to(connection: RoomDAO, direction: Direction): RoomConnector {
-        transaction {
-            when (direction) {
-                Direction.DOWN -> {
-                    room.down = connection
-                    connection.up = room
-                }
-                Direction.UP -> {
-                    room.up = connection
-                    connection.down = room
-                }
-                Direction.NORTH -> {
-                    room.north = connection
-                    connection.south = room
-                }
-                Direction.SOUTH -> {
-                    room.south = connection
-                    connection.north = room
-                }
-                Direction.EAST -> {
-                    room.east = connection
-                    connection.west = room
-                }
-                Direction.WEST -> {
-                    room.west = connection
-                    connection.east = room
-                }
+    fun to(connection: Room, direction: Direction): RoomConnector {
+        when (direction) {
+            Direction.DOWN -> {
+                room.down = connection
+                connection.up = room
+            }
+            Direction.UP -> {
+                room.up = connection
+                connection.down = room
+            }
+            Direction.NORTH -> {
+                room.north = connection
+                connection.south = room
+            }
+            Direction.SOUTH -> {
+                room.south = connection
+                connection.north = room
+            }
+            Direction.EAST -> {
+                room.east = connection
+                connection.west = room
+            }
+            Direction.WEST -> {
+                room.west = connection
+                connection.east = room
             }
         }
 

@@ -2,7 +2,6 @@ package kotlinmud.item.recipe.equipment.wield
 
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -23,19 +22,21 @@ class IronSwordRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-                ItemBuilder(itemService)
-                        .name("an iron sword")
-                        .description("an iron sword is here.")
-                        .type(ItemType.EQUIPMENT)
-                        .position(Position.WEAPON)
-                        .material(Material.IRON)
-                        .damageType(DamageType.SLASH)
-                        .attackVerb("slash")
-                        .attributes(AttributesDAO.new {
-                            hit = 2
-                            dam = 3
-                        })
-                        .build()
+            ItemBuilder(itemService)
+                .name("an iron sword")
+                .description("an iron sword is here.")
+                .type(ItemType.EQUIPMENT)
+                .position(Position.WEAPON)
+                .material(Material.IRON)
+                .damageType(DamageType.SLASH)
+                .attackVerb("slash")
+                .attributes(
+                    AttributesDAO.new {
+                        hit = 2
+                        dam = 3
+                    }
+                )
+                .build()
         )
     }
 }

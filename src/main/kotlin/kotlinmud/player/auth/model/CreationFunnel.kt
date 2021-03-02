@@ -11,14 +11,14 @@ import kotlinmud.mob.specialization.type.Specialization
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class CreationFunnel(private val mobService: MobService, val email: String) {
     lateinit var mobName: String
     lateinit var mobRace: Race
     lateinit var specialization: Specialization
-    lateinit var mobRoom: RoomDAO
+    lateinit var mobRoom: Room
     private val skills = mutableListOf<SkillType>()
     private val allSkills = createSkillList()
 
@@ -52,7 +52,6 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
                 experience = 1000
                 trains = 5
                 practices = 5
-                respawnRoom = mobRoom
                 this.player = player
             }
         }

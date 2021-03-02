@@ -25,12 +25,12 @@ class DrinkTest {
         mob.room = test.getStartRoom()
         val mobCard = transaction { mob.mobCard!! }
         val item = test.createItemBuilder()
-                .drink(Drink.BEER)
-                .name("a glass of beer")
-                .quantity(1)
-                .affects(listOf(DrunkAffect().createInstance(timeout)))
-                .material(Material.GLASS)
-                .build()
+            .drink(Drink.BEER)
+            .name("a glass of beer")
+            .quantity(1)
+            .affects(listOf(DrunkAffect().createInstance(timeout)))
+            .material(Material.GLASS)
+            .build()
         mob.items.add(item)
         transaction {
             mobCard.thirst = 0
@@ -58,12 +58,12 @@ class DrinkTest {
 
         // given
         val drink = test.createItemBuilder()
-                .name("a glass of milk")
-                .type(ItemType.DRINK)
-                .drink(Drink.MILK)
-                .affects(listOf(invis))
-                .material(Material.ORGANIC)
-                .build()
+            .name("a glass of milk")
+            .type(ItemType.DRINK)
+            .drink(Drink.MILK)
+            .affects(listOf(invis))
+            .material(Material.ORGANIC)
+            .build()
         transaction {
             mob.mobCard!!.let {
                 it.hunger = 0

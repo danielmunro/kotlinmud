@@ -2,7 +2,6 @@ package kotlinmud.item.recipe.equipment.leggings
 
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -21,18 +20,20 @@ class StoneLeggingsRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-                ItemBuilder(itemService)
-                        .name("cobblestone leggings")
-                        .description("cobblestone leggings are here.")
-                        .type(ItemType.EQUIPMENT)
-                        .material(Material.STONE)
-                        .position(Position.LEGS)
-                        .attributes(AttributesDAO.new {
-                            acBash = 1
-                            acSlash = 1
-                            acPierce = 1
-                        })
-                        .build()
+            ItemBuilder(itemService)
+                .name("cobblestone leggings")
+                .description("cobblestone leggings are here.")
+                .type(ItemType.EQUIPMENT)
+                .material(Material.STONE)
+                .position(Position.LEGS)
+                .attributes(
+                    AttributesDAO.new {
+                        acBash = 1
+                        acSlash = 1
+                        acPierce = 1
+                    }
+                )
+                .build()
         )
     }
 }

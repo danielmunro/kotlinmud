@@ -1,13 +1,14 @@
 package kotlinmud.world.itrias.lorimir
 
-import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.helper.RoomBuilder
+import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.helper.connect
+import kotlinmud.room.model.Room
+import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
-fun createLorimirForestLake(connection: RoomDAO) {
-    val room = RoomBuilder().area(Area.LakeOsona)
+fun createLorimirForestLake(roomService: RoomService, connection: Room) {
+    val room = RoomBuilder(roomService).area(Area.LakeOsona)
 
     val room1 = room.name("A path in the woods")
         .description("foo")

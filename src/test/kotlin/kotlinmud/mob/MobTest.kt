@@ -51,23 +51,26 @@ class MobTest {
         val item = testService.createItemBuilder()
             .type(ItemType.EQUIPMENT)
             .material(Material.IRON)
-            .attributes(transaction {
-                AttributesDAO.new {
-                    hp = 1
-                    mana = 1
-                    mv = 1
-                    strength = 1
-                    intelligence = 1
-                    wisdom = 1
-                    dexterity = 1
-                    constitution = 1
-                    hit = 1
-                    dam = 1
-                    acBash = 1
-                    acSlash = 1
-                    acPierce = 1
-                    acMagic = 1
-                }}).build()
+            .attributes(
+                transaction {
+                    AttributesDAO.new {
+                        hp = 1
+                        mana = 1
+                        mv = 1
+                        strength = 1
+                        intelligence = 1
+                        wisdom = 1
+                        dexterity = 1
+                        constitution = 1
+                        hit = 1
+                        dam = 1
+                        acBash = 1
+                        acSlash = 1
+                        acPierce = 1
+                        acMagic = 1
+                    } 
+                }
+            ).build()
         mob.equipped.add(item)
 
         // then
@@ -301,12 +304,14 @@ class MobTest {
         // given
         mob.equipped.add(
             testService.createItemBuilder()
-                    .position(Position.SHIELD)
-                    .attributes(AttributesDAO.new {
+                .position(Position.SHIELD)
+                .attributes(
+                    AttributesDAO.new {
                         hp = bonusHp
-                    })
-                    .build()
-            )
+                    }
+                )
+                .build()
+        )
 
         // expect
         assertThat(mob.calc(Attribute.HP)).isEqualTo(baseHp + bonusHp)

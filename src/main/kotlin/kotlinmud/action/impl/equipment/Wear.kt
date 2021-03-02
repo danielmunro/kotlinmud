@@ -6,9 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.createWearMessage
 import kotlinmud.io.factory.equipmentInInventory
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createWearAction(): Action {
     return Action(

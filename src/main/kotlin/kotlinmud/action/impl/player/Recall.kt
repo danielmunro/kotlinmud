@@ -18,7 +18,7 @@ fun createRecallAction(): Action {
         listOf(Cost(CostType.MV_PERCENT, 50)),
         Command.LOOK
     ) {
-        transaction { it.getMob().room = it.getRecall() }
+        it.getMob().room = it.getRecall()
         EmptyResponse()
     }
 }

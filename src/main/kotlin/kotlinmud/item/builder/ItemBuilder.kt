@@ -6,7 +6,7 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.*
 import kotlinmud.mob.fight.type.DamageType
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 
 class ItemBuilder(private val itemService: ItemService) {
     private lateinit var type: ItemType
@@ -31,7 +31,7 @@ class ItemBuilder(private val itemService: ItemService) {
     private var maxWeight: Int? = null
     private var attributes: AttributesDAO? = null
     private var items: List<Item>? = null
-    private var room: RoomDAO? = null
+    private var room: Room? = null
 
     fun type(value: ItemType): ItemBuilder {
         type = value
@@ -144,7 +144,7 @@ class ItemBuilder(private val itemService: ItemService) {
         return this
     }
 
-    fun room(value: RoomDAO): ItemBuilder {
+    fun room(value: Room): ItemBuilder {
         room = value
         return this
     }
@@ -175,7 +175,7 @@ class ItemBuilder(private val itemService: ItemService) {
             items?.toMutableList(),
         )
         itemService.add(item)
-        room?.items?.plus(item)
+        room?.items?.add(item)
         return item
     }
 }

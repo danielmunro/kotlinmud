@@ -1,13 +1,13 @@
 package kotlinmud.generator.service
 
-import kotlinmud.room.dao.RoomDAO
-import kotlinmud.room.helper.RoomBuilder
+import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.helper.connect
+import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 
 class SimpleMatrixService(private val builder: RoomBuilder) {
-    fun build(length: Int, width: Int): Array<Array<RoomDAO>> {
-        val matrix: Array<Array<RoomDAO>> = Array(length) {
+    fun build(length: Int, width: Int): Array<Array<Room>> {
+        val matrix: Array<Array<Room>> = Array(length) {
             Array(width) {
                 builder.build()
             }

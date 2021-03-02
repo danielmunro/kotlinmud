@@ -19,7 +19,7 @@ import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.mob.type.Rarity
 import kotlinmud.player.dao.MobCardDAO
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 
 class MobBuilder(private val mobService: MobService) {
     private var name = ""
@@ -51,7 +51,7 @@ class MobBuilder(private val mobService: MobService) {
     private var currencies = mapOf<CurrencyType, Int>()
     private var card: MobCardDAO? = null
     private lateinit var race: Race
-    private lateinit var room: RoomDAO
+    private lateinit var room: Room
 
     fun name(value: String): MobBuilder {
         name = value
@@ -68,7 +68,7 @@ class MobBuilder(private val mobService: MobService) {
         return this
     }
 
-    fun room(value: RoomDAO): MobBuilder {
+    fun room(value: Room): MobBuilder {
         room = value
         return this
     }

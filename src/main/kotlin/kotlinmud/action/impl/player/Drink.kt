@@ -7,7 +7,6 @@ import kotlinmud.io.factory.createDrinkMessage
 import kotlinmud.io.factory.drink
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.helper.applyAffectFromItem
 import kotlinmud.item.model.Item
 import org.jetbrains.exposed.sql.transactions.transaction

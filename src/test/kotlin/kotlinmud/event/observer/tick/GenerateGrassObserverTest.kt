@@ -14,9 +14,9 @@ class GenerateGrassObserverTest {
         val test = createTestServiceWithResetDB()
 
         // given
-        val room = test.createRoom {
-            it.substrate = SubstrateType.DIRT
-        }
+        val room = test.createRoomBuilder()
+                .substrate(SubstrateType.DIRT)
+                .build()
 
         // expect
         assertThat(transaction { room.resources.toList() }).hasSize(0)

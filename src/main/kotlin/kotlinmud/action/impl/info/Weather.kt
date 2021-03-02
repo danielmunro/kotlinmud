@@ -8,7 +8,7 @@ import kotlinmud.weather.type.Weather
 
 fun createWeatherAction(): Action {
     return Action(Command.WEATHER) {
-        if (it.getRoom().isIndoor)
+        if (it.getRoom().isIndoors)
             createResponseWithEmptyActionContext(messageToActionCreator("You can't see the weather indoors."))
         else createResponseWithEmptyActionContext(
             messageToActionCreator(

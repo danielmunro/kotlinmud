@@ -21,13 +21,7 @@ class HarvestTest {
         val itemCount = test.findAllItemsByOwner(test.createMob()).size
 
         // given
-        transaction {
-            ResourceDAO.new {
-                type = ResourceType.IRON_ORE
-                name = "iron ore"
-                this.room = room
-            }
-        }
+        room.resources.add(ResourceType.IRON_ORE)
 
         // when
         val response = test.runAction("harvest iron")
