@@ -51,22 +51,16 @@ class ItemService {
         }
     }
 
-    fun putItemInContainer(item: ItemDAO, container: ItemDAO) {
-        transaction {
-            if (container.items.count() >= container.maxItems!! || container.items.fold(
-                    0.0,
-                    { acc: Double, it: ItemDAO -> acc + it.weight }
-                ) + item.weight > container.maxWeight!!
-            ) {
-                throw InvokeException("that is too heavy.")
-            }
+    fun putItemInContainer(item: Item, container: Item) {
+        val containerItems = container.items!!
+        if (containerItems.count() >= container.maxItems!! || containerItems.fold(
+                0.0,
+                { acc: Double, it: Item -> acc + it.weight }
+            ) + item.weight > container.maxWeight!!
+        ) {
+            throw InvokeException("that is too heavy.")
         }
-        transaction {
-            item.mobInventory = null
-            item.mobEquipped = null
-            item.room = null
-            item.container = container
-        }
+        containerItems.add(item)
     }
 
     fun decrementDecayTimer() {

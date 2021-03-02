@@ -7,6 +7,7 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.io.type.IOStatus
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.test.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
@@ -27,6 +28,7 @@ class EatTest {
                 .food(Food.MEAT_PIE)
                 .name("a big meat pie")
                 .quantity(1)
+                .material(Material.ORGANIC)
                 .affects(listOf(StunnedAffect().createInstance(timeout)))
                 .build()
         transaction {

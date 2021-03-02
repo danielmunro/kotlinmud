@@ -32,7 +32,12 @@ class Item(
     override val attributes: AttributesDAO?,
     val items: MutableList<Item>?,
 ) : HasAttributes, Identifiable {
+
     fun isVisible(): Boolean {
         return affects.find { it.type == AffectType.INVISIBILITY } == null
+    }
+
+    override fun toString(): String {
+        return name
     }
 }

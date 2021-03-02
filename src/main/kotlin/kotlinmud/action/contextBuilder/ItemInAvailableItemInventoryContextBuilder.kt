@@ -5,7 +5,9 @@ import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 import kotlinmud.item.type.HasInventory
+import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ItemInAvailableItemInventoryContextBuilder(
@@ -16,6 +18,8 @@ class ItemInAvailableItemInventoryContextBuilder(
             transaction { hasInventory.items.toList() }
         } else if (hasInventory is HasInventory) {
             hasInventory.items
+        } else if (hasInventory is Item) {
+            hasInventory.items!!
         } else {
             throw Exception()
         }

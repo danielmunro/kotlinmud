@@ -7,6 +7,7 @@ import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.resource.type.Resource
 
 class WildGrass : Resource {
@@ -21,6 +22,7 @@ class WildGrass : Resource {
             .name("small green seeds")
             .description("a handful of small green seeds are here")
             .type(ItemType.GRASS_SEED)
+            .material(Material.ORGANIC)
         return randomAmount(3 + dice(1, maturity)) {
             itemBuilder.build()
         }

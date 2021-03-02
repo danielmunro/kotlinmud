@@ -321,7 +321,10 @@ class TestService(
     }
 
     fun createItem(): Item {
-        return createItemBuilder().build()
+        return createItemBuilder()
+                .type(ItemType.FURNITURE)
+                .material(Material.ORGANIC)
+                .build()
     }
 
     fun createItem(modifier: (Item) -> Unit): Item {
@@ -451,6 +454,8 @@ class TestService(
                 .items(listOf())
                 .maxItems(100)
                 .maxWeight(1000)
+                .type(ItemType.CONTAINER)
+                .material(Material.TEXTILE)
                 .build()
     }
 

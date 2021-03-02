@@ -20,7 +20,7 @@ class PutTest {
         val itemToPut = test.createItem()
         mob.items.add(itemToPut)
         val itemWithInventory = test.createContainer()
-        room.items.plus(itemWithInventory)
+        transaction { room.items.plus(itemWithInventory) }
 
         // when
         val response = test.runAction("put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")

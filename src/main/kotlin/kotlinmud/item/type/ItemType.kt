@@ -4,6 +4,7 @@ enum class ItemType {
     FOOD,
     DRINK,
     EQUIPMENT,
+    CONTAINER,
 
     FURNACE,
 

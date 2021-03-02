@@ -158,16 +158,8 @@ class ActionContextService(
         mob.items.add(item)
     }
 
-    fun putItemInRoom(item: ItemDAO, room: RoomDAO) {
-        itemService.putItemInRoom(item, room)
-    }
-
-    fun putItemInContainer(item: ItemDAO, container: ItemDAO) {
+    fun putItemInContainer(item: Item, container: Item) {
         itemService.putItemInContainer(item, container)
-    }
-
-    fun destroy(item: ItemDAO) {
-        transaction { item.delete() }
     }
 
     fun getDynamicRoomDescription(): String {

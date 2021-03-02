@@ -8,11 +8,12 @@ import kotlinmud.io.factory.availableInventoryAndItem
 import kotlinmud.io.factory.createPutMessage
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 
 fun createPutAction(): Action {
     return Action(Command.PUT, mustBeAwake(), availableInventoryAndItem()) {
-        val item = it.get<ItemDAO>(Syntax.ITEM_IN_INVENTORY)
-        val container = it.get<ItemDAO>(Syntax.AVAILABLE_ITEM_INVENTORY)
+        val item = it.get<Item>(Syntax.ITEM_IN_INVENTORY)
+        val container = it.get<Item>(Syntax.AVAILABLE_ITEM_INVENTORY)
         val mob = it.getMob()
         mob.items.remove(item)
 

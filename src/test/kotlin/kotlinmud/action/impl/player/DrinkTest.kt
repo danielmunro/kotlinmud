@@ -62,6 +62,7 @@ class DrinkTest {
                 .type(ItemType.DRINK)
                 .drink(Drink.MILK)
                 .affects(listOf(invis))
+                .material(Material.ORGANIC)
                 .build()
         transaction {
             mob.mobCard!!.let {

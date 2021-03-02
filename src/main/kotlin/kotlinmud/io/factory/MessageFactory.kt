@@ -57,7 +57,7 @@ fun createFleeMessage(mob: Mob, direction: Direction): Message {
         .build()
 }
 
-fun createPutMessage(mob: Mob, item: ItemDAO, container: ItemDAO): Message {
+fun createPutMessage(mob: Mob, item: Item, container: Item): Message {
     return MessageBuilder()
         .toActionCreator("you put $item into $container.")
         .toObservers("$mob puts $item into $container.")
