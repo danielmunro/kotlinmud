@@ -58,13 +58,13 @@ class ItemService {
             .weight(100.0)
             .decayTimer(20)
             .items(mob.items)
+            .type(ItemType.CORPSE)
+            .material(Material.ORGANIC)
             .build()
         mob.items.clear()
-        transaction {
-            when (dice(1, 3)) {
-                1 -> evaluateMobBodyPartDrop(mob)
-                2 -> evaluateMobItemDrops(mob)
-            }
+        when (dice(1, 3)) {
+            1 -> evaluateMobBodyPartDrop(mob)
+            2 -> evaluateMobItemDrops(mob)
         }
         return corpse
     }

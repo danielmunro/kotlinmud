@@ -6,8 +6,6 @@ import io.mockk.spyk
 import kotlinmud.action.service.ActionService
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.biome.helper.createBiomes
-import kotlinmud.biome.type.BiomeType
-import kotlinmud.biome.type.SubstrateType
 import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.impl.client.ClientConnectedObserver
@@ -63,7 +61,6 @@ import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.Room
-import kotlinmud.room.repository.findStartRoom
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.DoorDisposition
@@ -270,10 +267,13 @@ class TestService(
 
     fun createRoomBuilder(): RoomBuilder {
         return RoomBuilder(roomService)
+                .name("foo")
+                .description("bar")
+                .area(Area.Test)
     }
 
     fun findRoom(predicate: (Room) -> Boolean): Room? {
-        return roomService.find(predicate)
+        return roomService.findOne(predicate)
     }
 
     fun createCorpseFrom(mob: Mob): Item {
@@ -418,7 +418,7 @@ class TestService(
     }
 
     fun callGenerateGrassObserver() {
-        runBlocking { GenerateGrassObserver(ResourceService(itemService)).invokeAsync(Event(EventType.TICK, null)) }
+        runBlocking { GenerateGrassObserver(ResourceService(itemService, roomService)).invokeAsync(Event(EventType.TICK, null)) }
     }
 
     fun getAuthStep(client: Client): AuthStep? {

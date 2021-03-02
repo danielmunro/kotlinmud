@@ -20,30 +20,29 @@ import kotlinmud.type.RoomCanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService, roomService: RoomService): Room {
-    return transaction {
-        val builder = RoomBuilder(roomService).area(Area.LorimirForestOutpost)
+    val builder = RoomBuilder(roomService).area(Area.LorimirForestOutpost)
 
-        val room1 = builder.name("Around a fire pit")
-            .description(
+    val room1 = builder.name("Around a fire pit")
+        .description(
 """A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
 
 A sign flickers against the light of the fire.""".trimMargin()
-            )
-            .canonicalId(RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
-            .build()
+        )
+        .canonicalId(RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
+        .build()
 
-        ItemBuilder(itemService)
-            .name("a cobblestone fire-pit")
-            .description("a fire emanates from the circular pit.")
-            .canOwn(false)
-            .material(Material.STONE)
-            .type(ItemType.FURNITURE)
-            .room(room1)
-            .build()
+    ItemBuilder(itemService)
+        .name("a cobblestone fire-pit")
+        .description("a fire emanates from the circular pit.")
+        .canOwn(false)
+        .material(Material.STONE)
+        .type(ItemType.FURNITURE)
+        .room(room1)
+        .build()
 
-        ItemBuilder(itemService)
-            .name("a large wooden sign on a post")
-            .description(
+    ItemBuilder(itemService)
+        .name("a large wooden sign on a post")
+        .description(
 """The sign reads:
 
 +-------------------------------------------------+
@@ -52,51 +51,50 @@ A sign flickers against the light of the fire.""".trimMargin()
 |        an available quest.                      |
 |                                                 |
 +-------------------------------------------------+"""
+        )
+        .canOwn(false)
+        .material(Material.WOOD)
+        .type(ItemType.FURNITURE)
+        .room(room1)
+        .build()
+
+    val room2 = builder.name("Inside a lean-to shelter")
+        .description("bar")
+        .canonicalId(RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
+        .build()
+
+    val room3 = builder.name("A blacksmith shack").build()
+    val room4 = builder.name("A trail near the camp").build()
+    val room5 = builder.name("Outside the camp").build()
+
+    connect(room1)
+        .to(
+            listOf(
+                Pair(room2, Direction.NORTH),
+                Pair(room3, Direction.WEST),
+                Pair(room4, Direction.EAST),
+                Pair(room5, Direction.SOUTH),
             )
-            .canOwn(false)
-            .material(Material.WOOD)
-            .type(ItemType.FURNITURE)
-            .room(room1)
-            .build()
+        )
 
-        val room2 = builder.name("Inside a lean-to shelter")
-            .description("bar")
-            .canonicalId(RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
-            .build()
+    MobBuilder(mobService)
+        .name("Blacksmith Felig")
+        .brief("a blacksmith stands over a forge, monitoring his work")
+        .description("a large giant is here, forging a weapon")
+        .room(room3)
+        .job(JobType.SHOPKEEPER)
+        .race(Giant())
+        .build()
 
-        val room3 = builder.name("A blacksmith shack").build()
-        val room4 = builder.name("A trail near the camp").build()
-        val room5 = builder.name("Outside the camp").build()
+    MobBuilder(mobService)
+        .name("Recruiter Esmer")
+        .brief("a cloaked figure sits against a log, facing the fire, reading a leaflet")
+        .description("Recruiter Esmer is here")
+        .room(room2)
+        .job(JobType.QUEST)
+        .race(Human())
+        .canonicalId(MobCanonicalId.PraetorianRecruiterEsmer)
+        .build()
 
-        connect(room1)
-            .to(
-                listOf(
-                    Pair(room2, Direction.NORTH),
-                    Pair(room3, Direction.WEST),
-                    Pair(room4, Direction.EAST),
-                    Pair(room5, Direction.SOUTH),
-                )
-            )
-
-        MobBuilder(mobService)
-            .name("Blacksmith Felig")
-            .brief("a blacksmith stands over a forge, monitoring his work")
-            .description("a large giant is here, forging a weapon")
-            .room(room3)
-            .job(JobType.SHOPKEEPER)
-            .race(Giant())
-            .build()
-
-        MobBuilder(mobService)
-            .name("Recruiter Esmer")
-            .brief("a cloaked figure sits against a log, facing the fire, reading a leaflet")
-            .description("Recruiter Esmer is here")
-            .room(room2)
-            .job(JobType.QUEST)
-            .race(Human())
-            .canonicalId(MobCanonicalId.PraetorianRecruiterEsmer)
-            .build()
-
-        return@transaction room4
-    }
+    return room4
 }

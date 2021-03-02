@@ -10,12 +10,16 @@ class RoomService {
         rooms.add(room)
     }
 
-    fun find(predicate: (room: Room) -> Boolean): Room? {
+    fun findOne(predicate: (room: Room) -> Boolean): Room? {
         return rooms.find(predicate)
     }
 
     fun findByArea(area: Area): List<Room> {
         return rooms.filter { it.area == area }
+    }
+
+    fun filter(predicate: (room: Room) -> Boolean): List<Room> {
+        return rooms.filter(predicate)
     }
 
     fun getStartRoom(): Room {

@@ -3,6 +3,7 @@ package kotlinmud.event.observer.tick
 import assertk.assertThat
 import assertk.assertions.hasSize
 import kotlinmud.biome.type.SubstrateType
+import kotlinmud.room.type.Area
 import kotlinmud.test.createTestServiceWithResetDB
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test

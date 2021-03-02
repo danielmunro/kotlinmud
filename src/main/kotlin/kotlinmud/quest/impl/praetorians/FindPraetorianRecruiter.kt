@@ -21,7 +21,7 @@ class FindPraetorianRecruiter(private val mobService: MobService, private val ro
     override val description = "yolo"
     override val acceptConditions = listOf(
         createRoomQuestRequirement(
-            roomService.find {
+            roomService.findOne {
                 it.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
             }!!
         ),

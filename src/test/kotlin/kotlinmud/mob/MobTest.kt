@@ -306,10 +306,12 @@ class MobTest {
             testService.createItemBuilder()
                 .position(Position.SHIELD)
                 .attributes(
-                    AttributesDAO.new {
+                    transaction { AttributesDAO.new {
                         hp = bonusHp
-                    }
+                    } }
                 )
+                .type(ItemType.EQUIPMENT)
+                .material(Material.IRON)
                 .build()
         )
 
@@ -365,8 +367,8 @@ class MobTest {
         val corpse = test.createCorpseFrom(mob)
 
         // then
-        assertThat(test.countItemsFor(corpse)).isEqualTo(inventoryAmount)
-        assertThat(transaction { mob.equipped.toList() }).hasSize(0)
-        assertThat(test.countItemsFor(mob)).isEqualTo(0)
+        assertThat(corpse.items!!).hasSize(inventoryAmount)
+        assertThat(mob.equipped).hasSize(0)
+        assertThat(mob.items).hasSize(0)
     }
 }
