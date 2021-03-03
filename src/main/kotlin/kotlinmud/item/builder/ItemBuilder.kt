@@ -4,7 +4,12 @@ import kotlinmud.affect.model.Affect
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
-import kotlinmud.item.type.*
+import kotlinmud.item.type.Drink
+import kotlinmud.item.type.Food
+import kotlinmud.item.type.ItemCanonicalId
+import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
+import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.room.model.Room
 
