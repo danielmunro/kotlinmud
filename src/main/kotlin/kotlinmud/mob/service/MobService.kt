@@ -39,6 +39,7 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
+import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.repository.findMobCardByName
 import kotlinmud.room.model.Room
@@ -104,6 +105,12 @@ class MobService(
     fun findPlayerMobByName(name: String): Mob? {
         return mobs.find {
             it.mobCard != null && it.name == name
+        }
+    }
+
+    fun findMobsByCanonicalId(canonicalId: MobCanonicalId): List<Mob> {
+        return mobs.filter {
+            it.canonicalId == canonicalId
         }
     }
 

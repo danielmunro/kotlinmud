@@ -3,7 +3,6 @@ package kotlinmud.action.impl.fight
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
-import kotlinmud.mob.repository.findFightForMob
 import kotlinmud.test.createTestService
 import org.junit.Test
 

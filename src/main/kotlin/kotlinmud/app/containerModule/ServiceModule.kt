@@ -113,6 +113,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         bind<RespawnService>() with singleton {
             RespawnService(
                 instance(),
+                instance(),
                 getLorimirItemRespawns(),
                 getLorimirMobRespawns(instance())
             )
