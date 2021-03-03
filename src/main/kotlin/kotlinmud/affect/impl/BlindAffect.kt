@@ -5,6 +5,7 @@ import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectInterface
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
@@ -29,6 +30,10 @@ class BlindAffect : AffectInterface {
     }
 
     override fun createInstance(timeout: Int): Affect {
-        return createAffect(type, timeout, transaction { AttributesDAO.new { dexterity = -1 } })
+        return Affect(
+                type,
+                timeout,
+                mapOf(Pair(Attribute.DEX, -1))
+        )
     }
 }

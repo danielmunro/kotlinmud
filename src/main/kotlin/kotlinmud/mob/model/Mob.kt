@@ -122,39 +122,39 @@ class Mob(
             when (attribute) {
                 Attribute.HP ->
                     (attributes[Attribute.HP] ?: 0) +
-                        accumulate { it.attributes?.hp ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
+                        accumulate { it.attributes[Attribute.HP] ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.MANA ->
                     (attributes[Attribute.MANA] ?: 0) +
-                        accumulate { it.attributes?.mana ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
+                        accumulate { it.attributes[Attribute.MANA] ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.MV ->
                     (attributes[Attribute.MV] ?: 0) +
-                        accumulate { it.attributes?.mv ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
+                        accumulate { it.attributes[Attribute.MV] ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.STR ->
                     base(attribute) +
-                        accumulate { it.attributes?.strength ?: 0 } +
+                        accumulate { it.attributes[Attribute.STR] ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.INT ->
                     base(attribute) +
-                        accumulate { it.attributes?.intelligence ?: 0 } +
+                        accumulate { it.attributes[Attribute.INT] ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.WIS ->
                     base(attribute) +
-                        accumulate { it.attributes?.wisdom ?: 0 } +
+                        accumulate { it.attributes[Attribute.WIS] ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.DEX ->
                     base(attribute) +
-                        accumulate { it.attributes?.dexterity ?: 0 } +
+                        accumulate { it.attributes[Attribute.DEX] ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
                 Attribute.CON ->
                     base(attribute) +
-                        accumulate { it.attributes?.constitution ?: 0 } +
+                        accumulate { it.attributes[Attribute.CON] ?: 0 } +
                         (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.HIT -> (attributes[Attribute.HIT] ?: 0) + accumulate { it.attributes?.hit ?: 0 }
-                Attribute.DAM -> (attributes[Attribute.DAM] ?: 0) + accumulate { it.attributes?.dam ?: 0 }
-                Attribute.AC_BASH -> (attributes[Attribute.AC_BASH] ?: 0) + accumulate { it.attributes?.acBash ?: 0 }
-                Attribute.AC_PIERCE -> (attributes[Attribute.AC_PIERCE] ?: 0) + accumulate { it.attributes?.acPierce ?: 0 }
-                Attribute.AC_SLASH -> (attributes[Attribute.AC_SLASH] ?: 0) + accumulate { it.attributes?.acSlash ?: 0 }
-                Attribute.AC_MAGIC -> (attributes[Attribute.AC_MAGIC] ?: 0) + accumulate { it.attributes?.acMagic ?: 0 }
+                Attribute.HIT -> (attributes[Attribute.HIT] ?: 0) + accumulate { it.attributes[Attribute.HIT] ?: 0 }
+                Attribute.DAM -> (attributes[Attribute.DAM] ?: 0) + accumulate { it.attributes[Attribute.DAM] ?: 0 }
+                Attribute.AC_BASH -> (attributes[Attribute.AC_BASH] ?: 0) + accumulate { it.attributes[Attribute.AC_BASH] ?: 0 }
+                Attribute.AC_PIERCE -> (attributes[Attribute.AC_PIERCE] ?: 0) + accumulate { it.attributes[Attribute.AC_PIERCE] ?: 0 }
+                Attribute.AC_SLASH -> (attributes[Attribute.AC_SLASH] ?: 0) + accumulate { it.attributes[Attribute.AC_SLASH] ?: 0 }
+                Attribute.AC_MAGIC -> (attributes[Attribute.AC_MAGIC] ?: 0) + accumulate { it.attributes[Attribute.AC_MAGIC] ?: 0 }
             }
         }
     }
@@ -246,8 +246,7 @@ class Mob(
 
     private fun accumulate(accumulator: (HasAttributes) -> Int): Int {
         return equipped.map(accumulator).fold(0) { acc: Int, it: Int -> acc + it } +
-            affects.asSequence().toList()
-                .filter { it.attributes != null }
+            affects.filter { it.attributes != null }
                 .map { AttributeAffect(it) }
                 .map(accumulator)
                 .fold(0) { acc: Int, it: Int -> acc + it }

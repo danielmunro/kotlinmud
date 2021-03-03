@@ -5,6 +5,7 @@ import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectInterface
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
@@ -28,6 +29,13 @@ class StunnedAffect : AffectInterface {
     }
 
     override fun createInstance(timeout: Int): Affect {
-        return createAffect(type, timeout, transaction { AttributesDAO.new { intelligence = -1 } })
+        return Affect(
+                type,
+                timeout,
+                mapOf(
+                        Pair(Attribute.INT, -1),
+                        Pair(Attribute.DEX, -1),
+                )
+        )
     }
 }

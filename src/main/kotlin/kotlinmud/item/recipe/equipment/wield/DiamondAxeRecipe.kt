@@ -1,6 +1,7 @@
 package kotlinmud.item.recipe.equipment.wield
 
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
@@ -31,10 +32,10 @@ class DiamondAxeRecipe : Recipe {
                 .damageType(DamageType.SLASH)
                 .attackVerb("chop")
                 .attributes(
-                    AttributesDAO.new {
-                        hit = 3
-                        dam = 4
-                    }
+                        mapOf(
+                                Pair(Attribute.HIT, 3),
+                                Pair(Attribute.DAM, 4),
+                        )
                 )
                 .build()
         )

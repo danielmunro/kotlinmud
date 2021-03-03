@@ -5,6 +5,7 @@ import kotlinmud.affect.impl.GiantStrengthAffect
 import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
@@ -36,11 +37,7 @@ class GiantStrength : SpellAction {
             Affect(
                 AffectType.GIANT_STRENGTH,
                 actionContextService.getLevel(),
-                transaction {
-                    AttributesDAO.new {
-                        strength = (actionContextService.getLevel() - 10) / 10
-                    }
-                }
+                mapOf(Pair(Attribute.STR, (actionContextService.getLevel() - 10) / 10))
             )
         )
         return actionContextService.createSpellInvokeResponse(target, affect)

@@ -1,6 +1,7 @@
 package kotlinmud.item.recipe.equipment.wield
 
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
@@ -31,10 +32,10 @@ class DiamondSwordRecipe : Recipe {
                 .damageType(DamageType.SLASH)
                 .attackVerb("slash")
                 .attributes(
-                    AttributesDAO.new {
-                        hit = 5
-                        dam = 6
-                    }
+                        mapOf(
+                                Pair(Attribute.HIT, 5),
+                                Pair(Attribute.DAM, 6),
+                        )
                 )
                 .build()
         )

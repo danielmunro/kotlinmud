@@ -1,6 +1,7 @@
 package kotlinmud.item.recipe.equipment.wield
 
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
@@ -28,10 +29,10 @@ class WoodenSwordRecipe : Recipe {
                 .damageType(DamageType.SLASH)
                 .attackVerb("slash")
                 .attributes(
-                    AttributesDAO.new {
-                        hit = 1
-                        dam = 1
-                    }
+                        mapOf(
+                                Pair(Attribute.HIT, 1),
+                                Pair(Attribute.DAM, 1),
+                        )
                 )
                 .build()
         )

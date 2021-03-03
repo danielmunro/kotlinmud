@@ -52,24 +52,22 @@ class MobTest {
             .type(ItemType.EQUIPMENT)
             .material(Material.IRON)
             .attributes(
-                transaction {
-                    AttributesDAO.new {
-                        hp = 1
-                        mana = 1
-                        mv = 1
-                        strength = 1
-                        intelligence = 1
-                        wisdom = 1
-                        dexterity = 1
-                        constitution = 1
-                        hit = 1
-                        dam = 1
-                        acBash = 1
-                        acSlash = 1
-                        acPierce = 1
-                        acMagic = 1
-                    }
-                }
+                    mapOf(
+                            Pair(Attribute.HP, 1),
+                            Pair(Attribute.MANA, 1),
+                            Pair(Attribute.MV, 1),
+                            Pair(Attribute.STR, 1),
+                            Pair(Attribute.INT, 1),
+                            Pair(Attribute.WIS, 1),
+                            Pair(Attribute.DEX, 1),
+                            Pair(Attribute.CON, 1),
+                            Pair(Attribute.HIT, 1),
+                            Pair(Attribute.DAM, 1),
+                            Pair(Attribute.AC_BASH, 1),
+                            Pair(Attribute.AC_SLASH, 1),
+                            Pair(Attribute.AC_PIERCE, 1),
+                            Pair(Attribute.AC_MAGIC, 1),
+                    )
             ).build()
         mob.equipped.add(item)
 
@@ -306,11 +304,9 @@ class MobTest {
             testService.createItemBuilder()
                 .position(Position.SHIELD)
                 .attributes(
-                    transaction {
-                        AttributesDAO.new {
-                            hp = bonusHp
-                        }
-                    }
+                        mapOf(
+                                Pair(Attribute.HP, bonusHp)
+                        )
                 )
                 .type(ItemType.EQUIPMENT)
                 .material(Material.IRON)

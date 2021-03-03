@@ -1,6 +1,7 @@
 package kotlinmud.item.recipe.equipment.helmet
 
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
@@ -27,11 +28,11 @@ class StoneHelmetRecipe : Recipe {
                 .material(Material.STONE)
                 .position(Position.HEAD)
                 .attributes(
-                    AttributesDAO.new {
-                        acBash = 1
-                        acSlash = 1
-                        acPierce = 1
-                    }
+                        mapOf(
+                                Pair(Attribute.AC_BASH, 1),
+                                Pair(Attribute.AC_SLASH, 1),
+                                Pair(Attribute.AC_PIERCE, 1),
+                        )
                 )
                 .build()
         )

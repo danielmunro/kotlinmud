@@ -5,6 +5,7 @@ import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectInterface
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
@@ -28,13 +29,13 @@ class CurseAffect : AffectInterface {
     }
 
     override fun createInstance(timeout: Int): Affect {
-        return createAffect(
+        return Affect(
             type,
             timeout,
-            AttributesDAO.new {
-                strength = -1
-                constitution = -1
-            }
+            mapOf(
+                    Pair(Attribute.STR, -1),
+                    Pair(Attribute.CON, -1)
+            )
         )
     }
 }

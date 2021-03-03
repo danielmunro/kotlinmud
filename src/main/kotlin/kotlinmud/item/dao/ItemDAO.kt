@@ -22,7 +22,7 @@ import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ItemDAO(id: EntityID<Int>) : IntEntity(id), Identifiable, HasAttributes, Noun {
+class ItemDAO(id: EntityID<Int>) : IntEntity(id), Identifiable, Noun {
     companion object : IntEntityClass<ItemDAO>(Items)
 
     override var name by Items.name
@@ -65,7 +65,7 @@ class ItemDAO(id: EntityID<Int>) : IntEntity(id), Identifiable, HasAttributes, N
         { it.toString() },
         { it?.let { ItemCanonicalId.valueOf(it) } }
     )
-    override var attributes by AttributesDAO optionalReferencedOn Items.attributesId
+    var attributes by AttributesDAO optionalReferencedOn Items.attributesId
     val affects by AffectDAO optionalReferrersOn Affects.itemId
     var mobInventory by MobDAO optionalReferencedOn Items.mobInventoryId
     var mobEquipped by MobDAO optionalReferencedOn Items.mobEquippedId

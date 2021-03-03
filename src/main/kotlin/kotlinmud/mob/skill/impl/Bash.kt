@@ -5,8 +5,10 @@ import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.impl.StunnedAffect
+import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.factory.target
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.model.Response
@@ -61,8 +63,12 @@ class Bash : SkillAction, Customization {
         val modifier = Random.nextInt(1, limit) +
             if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)
         target.hp -= modifier
-        target.affects.plus(
-            createAffect(AffectType.STUNNED, modifier / 5, AttributesDAO.new { intelligence = -1 })
+        target.affects.add(
+            Affect(
+                    AffectType.STUNNED,
+                    modifier / 5,
+                    mapOf(Pair(Attribute.INT, -1))
+            )
         )
         return actionContextService.createOkResponse(
             MessageBuilder()

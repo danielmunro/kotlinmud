@@ -2,6 +2,7 @@ package kotlinmud.item.builder
 
 import kotlinmud.affect.model.Affect
 import kotlinmud.attributes.dao.AttributesDAO
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.*
@@ -29,7 +30,7 @@ class ItemBuilder(private val itemService: ItemService) {
     private var decayTimer: Int? = null
     private var maxItems: Int? = null
     private var maxWeight: Int? = null
-    private var attributes: AttributesDAO? = null
+    private var attributes: Map<Attribute, Int>? = null
     private var items: List<Item>? = null
     private var room: Room? = null
 
@@ -140,7 +141,7 @@ class ItemBuilder(private val itemService: ItemService) {
         return this
     }
 
-    fun attributes(value: AttributesDAO): ItemBuilder {
+    fun attributes(value: Map<Attribute, Int>): ItemBuilder {
         attributes = value
         return this
     }
@@ -177,7 +178,7 @@ class ItemBuilder(private val itemService: ItemService) {
             decayTimer,
             maxItems,
             maxWeight,
-            attributes,
+            attributes?.toMutableMap() ?: mutableMapOf(),
             items?.toMutableList(),
         )
         itemService.add(item)
