@@ -2,6 +2,7 @@ package kotlinmud.action.impl.shop
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import kotlinmud.mob.type.CurrencyType
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
 import org.junit.Test
@@ -11,7 +12,9 @@ class BuyTest {
     fun testBuySanityCheck() {
         // setup
         val test = createTestService()
-        test.createMob()
+        test.createMobBuilder()
+            .currencies(mapOf(Pair(CurrencyType.Copper, 100)))
+            .build()
         val shop = test.createShopkeeper()
 
         // given

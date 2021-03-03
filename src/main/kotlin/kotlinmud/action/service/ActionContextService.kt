@@ -5,6 +5,7 @@ import kotlinmud.action.model.ActionContextList
 import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectInterface
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.event.factory.createSocialEvent
 import kotlinmud.event.factory.createTillEvent
 import kotlinmud.event.service.EventService
@@ -19,7 +20,6 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
@@ -29,7 +29,6 @@ import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.social.Social
 import kotlinmud.quest.service.QuestService
 import kotlinmud.quest.type.Quest
-import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Direction
@@ -55,7 +54,7 @@ class ActionContextService(
         return craftingService.craft(recipe, request.mob)
     }
 
-    fun harvest(resource: ResourceDAO): List<Item> {
+    fun harvest(resource: ResourceType): List<Item> {
         return craftingService.harvest(resource, request.mob)
     }
 
@@ -140,7 +139,7 @@ class ActionContextService(
         return serverService.getClients()
     }
 
-    fun getItemGroupsFor(mob: Mob): Map<ItemCanonicalId?, List<Item>> {
+    fun getItemGroupsFor(mob: Mob): Map<String, List<Item>> {
         return itemService.getItemGroups(mob)
     }
 

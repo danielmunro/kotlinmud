@@ -5,20 +5,21 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.helper.Identifiable
+import kotlinmud.helper.Noun
 import kotlinmud.item.type.*
 import kotlinmud.mob.fight.type.DamageType
 
 class Item(
     val type: ItemType,
     override val name: String,
-    val description: String,
+    override val description: String,
     val worth: Int,
     val level: Int,
     val weight: Double,
     val material: Material,
     val isContainer: Boolean,
     val canOwn: Boolean,
-    val affects: List<Affect> = listOf(),
+    val affects: MutableList<Affect> = mutableListOf(),
     val canonicalId: ItemCanonicalId?,
     val position: Position?,
     val attackVerb: String?,
@@ -31,7 +32,7 @@ class Item(
     val maxWeight: Int?,
     override val attributes: AttributesDAO?,
     val items: MutableList<Item>?,
-) : HasAttributes, Identifiable {
+) : HasAttributes, Identifiable, Noun {
 
     fun isVisible(): Boolean {
         return affects.find { it.type == AffectType.INVISIBILITY } == null

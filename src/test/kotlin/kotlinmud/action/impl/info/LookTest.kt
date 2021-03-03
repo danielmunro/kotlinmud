@@ -72,7 +72,7 @@ class LookTest {
         val item = testService.createItem()
 
         // given
-        room.items.plus(item)
+        room.items.add(item)
 
         // when
         val response = testService.runAction("look ${getIdentifyingWord(item)}")
@@ -117,7 +117,7 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val room = transaction { mob.room }
+        val room = mob.room
 
         // given
         val door = transaction {

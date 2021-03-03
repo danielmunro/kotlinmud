@@ -120,7 +120,7 @@ class MobService(
     suspend fun moveMob(mob: Mob, destinationRoom: Room, directionLeavingFrom: Direction) {
         val leaving = mob.room
         sendMessageToRoom(createLeaveMessage(mob, directionLeavingFrom), leaving, mob)
-        transaction { mob.room = destinationRoom }
+        mob.room = destinationRoom
         mob.room = destinationRoom
         doFallCheck(mob, leaving, destinationRoom)
         sendMessageToRoom(createArriveMessage(mob), destinationRoom, mob)

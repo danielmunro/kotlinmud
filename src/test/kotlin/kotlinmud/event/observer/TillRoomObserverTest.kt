@@ -5,10 +5,8 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.biome.type.SubstrateType
-import kotlinmud.resource.factory.createWildGrass
 import kotlinmud.test.ProbabilityTest
 import kotlinmud.test.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class TillRoomObserverTest {
@@ -18,9 +16,11 @@ class TillRoomObserverTest {
         val test = createTestService()
         val room = test.createRoomBuilder()
             .substrate(SubstrateType.DIRT)
-            .west(test.getStartRoom())
             .build()
         val prob = ProbabilityTest(100)
+        val mob = test.createMobBuilder()
+            .room(room)
+            .build()
 
         while (prob.isIterating()) {
             // given
@@ -28,8 +28,8 @@ class TillRoomObserverTest {
             room.items.clear()
 
             // when
-            test.runAction("till")
-            val count = transaction { room.items.count() }
+            test.runAction(mob, "till")
+            val count = room.items.count()
             prob.decrementIteration(count > 0, count == 0)
         }
 
@@ -45,7 +45,7 @@ class TillRoomObserverTest {
 
         // given
         room.substrateType = SubstrateType.TILLED_DIRT
-        room.resources.add(createWildGrass().type)
+        room.resources.add(ResourceType.BRUSH)
 
         // when
         val response = test.runAction("till")

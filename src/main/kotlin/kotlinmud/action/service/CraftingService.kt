@@ -1,5 +1,6 @@
 package kotlinmud.action.service
 
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.exception.CraftException
 import kotlinmud.exception.HarvestException
 import kotlinmud.item.model.Item
@@ -9,10 +10,6 @@ import kotlinmud.item.type.Recipe
 import kotlinmud.mob.model.Mob
 import kotlinmud.resource.helper.createResourceList
 import kotlinmud.resource.type.Resource
-import kotlinmud.room.dao.ResourceDAO
-import kotlinmud.room.table.Resources
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class CraftingService(private val itemService: ItemService) {
     private val resources: List<Resource> = createResourceList()
@@ -57,17 +54,10 @@ class CraftingService(private val itemService: ItemService) {
         return createNewProductsFor(mob, recipe.getProducts(itemService))
     }
 
-    fun harvest(resource: ResourceDAO, mob: Mob): List<Item> {
-        return transaction {
-            removeResource(resource)
-            resources.find { it.resourceType == resource.type }?.let {
-                createNewProductsFor(mob, it.createProduct(itemService))
-            } ?: throw HarvestException()
-        }
-    }
-
-    private fun removeResource(resource: ResourceDAO) {
-        Resources.deleteWhere(null as Int?, null as Int?) { Resources.id eq resource.id }
+    fun harvest(resource: ResourceType, mob: Mob): List<Item> {
+        return resources.find { it.resourceType == resource }?.let {
+            createNewProductsFor(mob, it.createProduct(itemService))
+        } ?: throw HarvestException()
     }
 
     private fun createNewProductsFor(mob: Mob, items: List<Item>): List<Item> {

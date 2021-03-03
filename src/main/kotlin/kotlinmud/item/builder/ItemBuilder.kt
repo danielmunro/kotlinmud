@@ -35,6 +35,12 @@ class ItemBuilder(private val itemService: ItemService) {
 
     fun type(value: ItemType): ItemBuilder {
         type = value
+
+        if (type == ItemType.CONTAINER) {
+            items = listOf()
+            isContainer = true
+        }
+
         return this
     }
 
@@ -160,7 +166,7 @@ class ItemBuilder(private val itemService: ItemService) {
             material,
             isContainer,
             canOwn,
-            affects,
+            affects.toMutableList(),
             canonicalId,
             position,
             attackVerb,

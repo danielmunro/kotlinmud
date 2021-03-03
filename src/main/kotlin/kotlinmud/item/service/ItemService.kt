@@ -11,7 +11,6 @@ import kotlinmud.item.repository.decrementAllItemDecayTimers
 import kotlinmud.item.repository.findOneByRoom
 import kotlinmud.item.repository.removeAllEquipmentForMob
 import kotlinmud.item.type.HasInventory
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.model.Mob
@@ -29,8 +28,8 @@ class ItemService {
         return findOneByRoom(room, input)
     }
 
-    fun getItemGroups(mob: Mob): Map<ItemCanonicalId?, List<Item>> {
-        return mob.items.groupBy { it.canonicalId }
+    fun getItemGroups(mob: Mob): Map<String, List<Item>> {
+        return mob.items.groupBy { it.name }
     }
 
     fun putItemInContainer(item: Item, container: Item) {

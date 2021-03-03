@@ -88,7 +88,7 @@ class QuestAcceptTest {
 
         // given
         test.createPlayerMob {
-            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
+            it.room = test.getStartRoom()
         }
 
         // when

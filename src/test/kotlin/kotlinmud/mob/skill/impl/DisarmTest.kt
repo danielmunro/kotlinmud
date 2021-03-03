@@ -10,7 +10,6 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.createTestService
 import kotlinmud.test.createTestServiceWithResetDB
 import kotlinmud.test.getIdentifyingWord
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class DisarmTest {
@@ -24,7 +23,7 @@ class DisarmTest {
             it.skills[SkillType.DISARM] = 100
         }
         val target = test.createMob()
-        val initialSize = transaction { test.getStartRoom().items.toList() }.size
+        val initialSize = test.getStartRoom().items.size
 
         // when
         val response = test.runActionForIOStatus(mob, "disarm ${getIdentifyingWord(target)}", IOStatus.OK)
@@ -36,7 +35,7 @@ class DisarmTest {
 
         // and
         assertThat(target.getEquippedByPosition(Position.WEAPON)).isNull()
-        assertThat(transaction { test.getStartRoom().items.toList() }).hasSize(initialSize + 1)
+        assertThat(test.getStartRoom().items).hasSize(initialSize + 1)
     }
 
     @Test

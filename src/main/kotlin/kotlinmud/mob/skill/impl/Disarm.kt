@@ -52,7 +52,7 @@ class Disarm : SkillAction, Customization {
         val target = actionContextService.get<Mob>(Syntax.TARGET_MOB)
         return target.getEquippedByPosition(Position.WEAPON)?.let {
             target.equipped.remove(it)
-            actionContextService.getRoom().items.plus(it)
+            actionContextService.getRoom().items.add(it)
             actionContextService.createOkResponse(
                 MessageBuilder()
                     .toActionCreator("You disarm $target and send their weapon flying!")

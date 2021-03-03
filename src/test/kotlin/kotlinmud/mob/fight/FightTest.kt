@@ -3,6 +3,8 @@ package kotlinmud.mob.fight
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
+import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.skill.type.SkillType
@@ -65,6 +67,8 @@ class FightTest {
         // and
         val item = testService.createItemBuilder()
             .position(Position.SHIELD)
+            .type(ItemType.EQUIPMENT)
+            .material(Material.IRON)
             .build()
         mob2.equipped.add(item)
 

@@ -189,21 +189,22 @@ class MoveTest {
     fun testMobTakesDamageWhenFalling() {
         // setup
         val test = createTestService()
-        test.createMob()
+        val mob = test.createMob()
         val dst = test.createRoomBuilder()
             .elevation(6)
             .build()
+        mob.room = dst
 
         // given
         test.getStartRoom {
             it.west = dst
+            dst.east = it
         }
 
         // when
-        test.runAction("west")
+        test.runAction("east")
 
         // then
-        val mob = test.getMob()
         assertThat(mob.hp).isLessThan(mob.calc(Attribute.HP))
     }
 

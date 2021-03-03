@@ -24,6 +24,7 @@ fun createGetAction(): Action {
             return@Action it.createErrorResponse(e.toMessage())
         }
 
+        it.getRoom().items.remove(item)
         it.createOkResponse(createGetMessage(it.getMob(), item))
     }
 }

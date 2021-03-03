@@ -2,6 +2,7 @@ package kotlinmud.io.factory
 
 import kotlinmud.action.impl.player.getImprove
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.biome.type.ResourceType
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.item.model.Item
@@ -9,7 +10,6 @@ import kotlinmud.item.type.Recipe
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.room.dao.DoorDAO
-import kotlinmud.room.dao.ResourceDAO
 import kotlinmud.room.type.Direction
 
 fun messageToActionCreator(message: String): Message {
@@ -152,10 +152,10 @@ fun createKillMessage(mob: Mob, target: Mob): Message {
         .build()
 }
 
-fun createHarvestMessage(mob: Mob, resource: ResourceDAO): Message {
+fun createHarvestMessage(mob: Mob, resource: ResourceType): Message {
     return MessageBuilder()
-        .toActionCreator("you successfully harvest ${resource.type.value}.")
-        .toObservers("$mob harvests ${resource.type.value}.")
+        .toActionCreator("you successfully harvest ${resource.value}.")
+        .toObservers("$mob harvests ${resource.value}.")
         .build()
 }
 

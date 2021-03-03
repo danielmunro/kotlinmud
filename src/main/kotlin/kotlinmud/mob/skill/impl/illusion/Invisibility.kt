@@ -5,7 +5,7 @@ import kotlinmud.affect.impl.InvisibilityAffect
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
+import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.clericAt
 import kotlinmud.mob.skill.factory.easyForMage
@@ -15,7 +15,6 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.skill.type.SpellAction
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Intent
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class Invisibility : SpellAction {
     override val type: SkillType = SkillType.INVISIBILITY
@@ -33,14 +32,12 @@ class Invisibility : SpellAction {
     override fun invoke(actionContextService: ActionContextService): Response {
         val target = actionContextService.get<Any>(Syntax.OPTIONAL_TARGET)
         val instance = affect.createInstance(actionContextService.getLevel())
-        transaction {
-            if (target is Mob) {
-                target.affects.add(instance)
-            } else if (target is ItemDAO) {
-                target.affects.plus(instance)
-            } else {
-                throw Exception()
-            }
+        if (target is Mob) {
+            target.affects.add(instance)
+        } else if (target is Item) {
+            target.affects.add(instance)
+        } else {
+            throw Exception()
         }
         return actionContextService.createSpellInvokeResponse(target as Noun, affect)
     }

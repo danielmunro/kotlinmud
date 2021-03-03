@@ -31,7 +31,6 @@ import kotlinmud.io.service.RequestService
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.IOStatus
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.HasInventory
@@ -59,7 +58,6 @@ import kotlinmud.quest.type.QuestType
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.dao.DoorDAO
-import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
@@ -144,12 +142,12 @@ class TestService(
     }
 
     fun countItemsFor(hasInventory: Any): Int {
-        return if (hasInventory is ItemDAO) {
-            transaction { hasInventory.items.count() }
+        return if (hasInventory is Item) {
+            hasInventory.items!!.count()
         } else if (hasInventory is Mob) {
             hasInventory.items.size + hasInventory.equipped.size
-        } else if (hasInventory is RoomDAO) {
-            transaction { hasInventory.items.count() }
+        } else if (hasInventory is Room) {
+            hasInventory.items.count()
         } else {
             throw Exception()
         }
@@ -321,12 +319,15 @@ class TestService(
         return ItemBuilder(itemService)
             .name(fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words())
             .description("a nice looking herb is here")
+            .material(Material.ORGANIC)
+            .type(ItemType.OTHER)
     }
 
     fun createItem(): Item {
         return createItemBuilder()
             .type(ItemType.FURNITURE)
             .material(Material.ORGANIC)
+            .worth(0)
             .build()
     }
 

@@ -1,6 +1,7 @@
 package kotlinmud.action.impl.item
 
 import assertk.assertThat
+import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
 import kotlinmud.item.type.ItemType
@@ -18,7 +19,7 @@ class GetTest {
         val mob = testService.createMob()
         val room = transaction { mob.room }
         val item = testService.createItem()
-        room.items.plus(item)
+        room.items.add(item)
         val roomItemCount = testService.countItemsFor(room)
         val mobItemCount = testService.countItemsFor(mob)
 
@@ -28,7 +29,7 @@ class GetTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you pick up $item.")
         assertThat(testService.countItemsFor(mob)).isEqualTo(mobItemCount + 1)
-        assertThat(testService.countItemsFor(room)).isEqualTo(roomItemCount - 1)
+        assertThat(room.items).hasSize(roomItemCount - 1)
     }
 
     @Test
@@ -36,7 +37,7 @@ class GetTest {
         // setup
         val testService = createTestServiceWithResetDB()
         val mob = testService.createMob()
-        val room = transaction { mob.room }
+        val room = mob.room
         val itemCount = testService.countItemsFor(room)
 
         // when
@@ -54,9 +55,11 @@ class GetTest {
         val test = createTestServiceWithResetDB()
 
         // given
-        val mob = test.createMobBuilder().maxItems(0).build()
+        val mob = test.createMobBuilder()
+            .maxItems(0)
+            .build()
         val item = test.createItem()
-        transaction { test.getStartRoom().items.plus(item) }
+        test.getStartRoom().items.add(item)
 
         // when
         val response = test.runAction(mob, "get ${getIdentifyingWord(item)}")
@@ -72,13 +75,15 @@ class GetTest {
         val test = createTestServiceWithResetDB()
 
         // given
-        val mob = test.createMobBuilder().maxWeight(0).build()
+        val mob = test.createMobBuilder()
+            .maxWeight(0)
+            .build()
         val item = test.createItemBuilder()
             .weight(1.0)
             .type(ItemType.FOOD)
             .material(Material.ORGANIC)
             .build()
-        test.getStartRoom().items.plus(item)
+        test.getStartRoom().items.add(item)
 
         // when
         val response = test.runAction(mob, "get ${getIdentifyingWord(item)}")
@@ -116,7 +121,7 @@ class GetTest {
         // given
         val mob = test.createMob()
         val container = test.createItemBuilder()
-            .isContainer(true)
+            .type(ItemType.CONTAINER)
             .maxItems(0)
             .build()
         mob.items.add(container)
@@ -140,7 +145,7 @@ class GetTest {
         val container = test.createItemBuilder()
             .maxWeight(0)
             .maxItems(100)
-            .isContainer(true)
+            .type(ItemType.CONTAINER)
             .build()
         mob.items.add(container)
         val item = test.createItemBuilder()

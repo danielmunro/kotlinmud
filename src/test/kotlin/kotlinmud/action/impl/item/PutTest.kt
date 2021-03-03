@@ -5,7 +5,6 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import kotlinmud.test.createTestService
 import kotlinmud.test.getIdentifyingWord
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class PutTest {
@@ -20,7 +19,7 @@ class PutTest {
         val itemToPut = test.createItem()
         mob.items.add(itemToPut)
         val itemWithInventory = test.createContainer()
-        transaction { room.items.plus(itemWithInventory) }
+        room.items.add(itemWithInventory)
 
         // when
         val response = test.runAction("put ${getIdentifyingWord(itemToPut)} ${getIdentifyingWord(itemWithInventory)}")
