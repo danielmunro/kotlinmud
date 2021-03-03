@@ -3,11 +3,9 @@ package kotlinmud.mob.skill.impl
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.service.ActionContextService
 import kotlinmud.action.type.Command
-import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.impl.StunnedAffect
 import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.factory.target
 import kotlinmud.io.model.MessageBuilder
@@ -65,9 +63,9 @@ class Bash : SkillAction, Customization {
         target.hp -= modifier
         target.affects.add(
             Affect(
-                    AffectType.STUNNED,
-                    modifier / 5,
-                    mapOf(Pair(Attribute.INT, -1))
+                AffectType.STUNNED,
+                modifier / 5,
+                mapOf(Pair(Attribute.INT, -1))
             )
         )
         return actionContextService.createOkResponse(

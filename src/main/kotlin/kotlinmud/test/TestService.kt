@@ -4,7 +4,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinmud.action.service.ActionService
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.event.impl.ClientConnectedEvent
@@ -464,10 +463,10 @@ class TestService(
             .type(ItemType.EQUIPMENT)
             .position(Position.WEAPON)
             .attributes(
-                    mapOf(
-                            Pair(Attribute.HIT, 2),
-                            Pair(Attribute.DAM, 2),
-                    )
+                mapOf(
+                    Pair(Attribute.HIT, 2),
+                    Pair(Attribute.DAM, 2),
+                )
             )
             .material(Material.IRON)
             .build()

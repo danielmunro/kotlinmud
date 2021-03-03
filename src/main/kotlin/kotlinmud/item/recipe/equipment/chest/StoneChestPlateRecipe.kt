@@ -1,6 +1,5 @@
 package kotlinmud.item.recipe.equipment.chest
 
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
@@ -28,11 +27,11 @@ class StoneChestPlateRecipe : Recipe {
                 .material(Material.STONE)
                 .position(Position.TORSO)
                 .attributes(
-                        mapOf(
-                                Pair(Attribute.AC_BASH, 1),
-                                Pair(Attribute.AC_SLASH, 1),
-                                Pair(Attribute.AC_PIERCE, 1),
-                        )
+                    mapOf(
+                        Pair(Attribute.AC_BASH, 1),
+                        Pair(Attribute.AC_SLASH, 1),
+                        Pair(Attribute.AC_PIERCE, 1),
+                    )
                 )
                 .build()
         )

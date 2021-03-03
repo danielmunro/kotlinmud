@@ -1,7 +1,6 @@
 package kotlinmud.item.builder
 
 import kotlinmud.affect.model.Affect
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService

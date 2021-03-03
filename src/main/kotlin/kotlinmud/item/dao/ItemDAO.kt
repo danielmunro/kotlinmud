@@ -4,7 +4,6 @@ import kotlinmud.affect.dao.AffectDAO
 import kotlinmud.affect.table.Affects
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.attributes.type.HasAttributes
 import kotlinmud.helper.Identifiable
 import kotlinmud.helper.Noun
 import kotlinmud.item.table.Items

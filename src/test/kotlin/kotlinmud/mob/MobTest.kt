@@ -9,7 +9,6 @@ import assertk.assertions.isLessThanOrEqualTo
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.constant.startingHp
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createKillEvent
 import kotlinmud.item.type.ItemType
@@ -52,22 +51,22 @@ class MobTest {
             .type(ItemType.EQUIPMENT)
             .material(Material.IRON)
             .attributes(
-                    mapOf(
-                            Pair(Attribute.HP, 1),
-                            Pair(Attribute.MANA, 1),
-                            Pair(Attribute.MV, 1),
-                            Pair(Attribute.STR, 1),
-                            Pair(Attribute.INT, 1),
-                            Pair(Attribute.WIS, 1),
-                            Pair(Attribute.DEX, 1),
-                            Pair(Attribute.CON, 1),
-                            Pair(Attribute.HIT, 1),
-                            Pair(Attribute.DAM, 1),
-                            Pair(Attribute.AC_BASH, 1),
-                            Pair(Attribute.AC_SLASH, 1),
-                            Pair(Attribute.AC_PIERCE, 1),
-                            Pair(Attribute.AC_MAGIC, 1),
-                    )
+                mapOf(
+                    Pair(Attribute.HP, 1),
+                    Pair(Attribute.MANA, 1),
+                    Pair(Attribute.MV, 1),
+                    Pair(Attribute.STR, 1),
+                    Pair(Attribute.INT, 1),
+                    Pair(Attribute.WIS, 1),
+                    Pair(Attribute.DEX, 1),
+                    Pair(Attribute.CON, 1),
+                    Pair(Attribute.HIT, 1),
+                    Pair(Attribute.DAM, 1),
+                    Pair(Attribute.AC_BASH, 1),
+                    Pair(Attribute.AC_SLASH, 1),
+                    Pair(Attribute.AC_PIERCE, 1),
+                    Pair(Attribute.AC_MAGIC, 1),
+                )
             ).build()
         mob.equipped.add(item)
 
@@ -304,9 +303,9 @@ class MobTest {
             testService.createItemBuilder()
                 .position(Position.SHIELD)
                 .attributes(
-                        mapOf(
-                                Pair(Attribute.HP, bonusHp)
-                        )
+                    mapOf(
+                        Pair(Attribute.HP, bonusHp)
+                    )
                 )
                 .type(ItemType.EQUIPMENT)
                 .material(Material.IRON)

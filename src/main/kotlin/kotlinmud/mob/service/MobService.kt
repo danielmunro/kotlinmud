@@ -239,7 +239,6 @@ class MobService(
     }
 
     private suspend fun createNewFightRounds(): List<Round> {
-        println("fights: ${fights.size}")
         return fights.map {
             proceedFightRound(FightService(it, eventService).createRound())
         }

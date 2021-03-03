@@ -1,10 +1,8 @@
 package kotlinmud.affect.impl
 
-import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectInterface
 import kotlinmud.affect.type.AffectType
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
@@ -33,8 +31,8 @@ class CurseAffect : AffectInterface {
             type,
             timeout,
             mapOf(
-                    Pair(Attribute.STR, -1),
-                    Pair(Attribute.CON, -1)
+                Pair(Attribute.STR, -1),
+                Pair(Attribute.CON, -1)
             )
         )
     }

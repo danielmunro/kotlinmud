@@ -1,6 +1,5 @@
 package kotlinmud.item.recipe.equipment.wield
 
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
@@ -32,10 +31,10 @@ class IronPickAxeRecipe : Recipe {
                 .damageType(DamageType.PIERCE)
                 .attackVerb("stab")
                 .attributes(
-                        mapOf(
-                                Pair(Attribute.HIT, 2),
-                                Pair(Attribute.DAM, 3),
-                        )
+                    mapOf(
+                        Pair(Attribute.HIT, 2),
+                        Pair(Attribute.DAM, 3),
+                    )
                 )
                 .build()
         )

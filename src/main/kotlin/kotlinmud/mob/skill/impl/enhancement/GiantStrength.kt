@@ -4,7 +4,6 @@ import kotlinmud.action.service.ActionContextService
 import kotlinmud.affect.impl.GiantStrengthAffect
 import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
@@ -16,7 +15,6 @@ import kotlinmud.mob.skill.factory.normalForCleric
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.skill.type.SpellAction
 import kotlinmud.mob.type.Intent
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class GiantStrength : SpellAction {
     override val affect = GiantStrengthAffect()

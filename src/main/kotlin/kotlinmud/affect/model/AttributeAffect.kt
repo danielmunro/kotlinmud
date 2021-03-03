@@ -1,6 +1,5 @@
 package kotlinmud.affect.model
 
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.attributes.type.HasAttributes
 
