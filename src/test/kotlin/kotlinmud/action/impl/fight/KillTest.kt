@@ -3,8 +3,8 @@ package kotlinmud.action.impl.fight
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.mob.type.JobType
-import kotlinmud.test.createTestService
-import kotlinmud.test.getIdentifyingWord
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.helper.getIdentifyingWord
 import org.junit.Test
 
 class KillTest {

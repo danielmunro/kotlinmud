@@ -7,16 +7,15 @@ import assertk.assertions.isNull
 import kotlinmud.io.type.IOStatus
 import kotlinmud.item.type.Position
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.test.createTestService
-import kotlinmud.test.createTestServiceWithResetDB
-import kotlinmud.test.getIdentifyingWord
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.helper.getIdentifyingWord
 import org.junit.Test
 
 class DisarmTest {
     @Test
     fun testDisarmSanity() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         val mob = test.createMob {

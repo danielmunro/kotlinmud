@@ -2,8 +2,8 @@ package kotlinmud.player.auth.impl
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.test.TestService
-import kotlinmud.test.createTestServiceWithResetDB
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.service.TestService
 import org.junit.Test
 
 class SpecializationAuthStepTest {
@@ -80,7 +80,7 @@ class SpecializationAuthStepTest {
     }
 
     private fun setup(): TestService {
-        return createTestServiceWithResetDB().also {
+        return createTestService().also {
             it.createPlayer(emailAddress)
             setPreAuth(it)
         }

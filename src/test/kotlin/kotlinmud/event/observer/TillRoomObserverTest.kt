@@ -5,8 +5,8 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.biome.type.SubstrateType
-import kotlinmud.test.ProbabilityTest
-import kotlinmud.test.createTestService
+import kotlinmud.test.model.ProbabilityTest
+import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
 class TillRoomObserverTest {

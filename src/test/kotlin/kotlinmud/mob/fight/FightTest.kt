@@ -8,15 +8,15 @@ import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.test.ProbabilityTest
-import kotlinmud.test.createTestServiceWithResetDB
+import kotlinmud.test.model.ProbabilityTest
+import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
 class FightTest {
     @Test
     fun testEvasiveSkillsGetInvoked() {
         // setup
-        val testService = createTestServiceWithResetDB()
+        val testService = createTestService()
         val prob = ProbabilityTest()
 
         // given
@@ -52,7 +52,7 @@ class FightTest {
     @Test
     fun testShieldBlockRequiresShield() {
         // setup
-        val testService = createTestServiceWithResetDB()
+        val testService = createTestService()
         val prob = ProbabilityTest()
         var invoked = false
 
@@ -99,7 +99,7 @@ class FightTest {
     @Test
     fun testParryRequiresWeapon() {
         // setup
-        val testService = createTestServiceWithResetDB()
+        val testService = createTestService()
         val prob = ProbabilityTest()
 
         // given

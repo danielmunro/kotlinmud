@@ -5,7 +5,7 @@ import assertk.assertions.isEqualTo
 import assertk.assertions.isTrue
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.generator.constant.DEPTH
-import kotlinmud.test.createTestService
+import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
 const val length = 5

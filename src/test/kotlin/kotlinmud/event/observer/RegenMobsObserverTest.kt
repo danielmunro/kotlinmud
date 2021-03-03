@@ -3,7 +3,7 @@ package kotlinmud.event.observer
 import assertk.assertThat
 import assertk.assertions.isGreaterThan
 import kotlinmud.room.type.RegenLevel
-import kotlinmud.test.createTestServiceWithResetDB
+import kotlinmud.test.helper.createTestService
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
@@ -11,7 +11,7 @@ class RegenMobsObserverTest {
     @Test
     fun testRegenRoomDifference() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
         val mob = test.createPlayerMob()
         val roomBuilder = test.createRoomBuilder()
 

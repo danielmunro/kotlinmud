@@ -4,8 +4,8 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.quest.helper.createQuestEntity
 import kotlinmud.quest.type.QuestType
-import kotlinmud.test.createTestServiceWithResetDB
-import kotlinmud.test.getIdentifyingWord
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.helper.getIdentifyingWord
 import kotlinmud.type.RoomCanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
@@ -14,7 +14,7 @@ class QuestAcceptTest {
     @Test
     fun testCanAcceptAQuest() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
         val quest = test.findQuest(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)!!
 
         // given
@@ -34,7 +34,7 @@ class QuestAcceptTest {
     @Test
     fun testAcceptQuestFromRoom() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         test.createPlayerMob {
@@ -51,7 +51,7 @@ class QuestAcceptTest {
     @Test
     fun testAcceptRequiresAQuestGiver() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         test.createPlayerMob()
@@ -66,7 +66,7 @@ class QuestAcceptTest {
     @Test
     fun testCannotAcceptAQuestTwice() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
         val mob = test.createPlayerMob {
             it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
         }
@@ -84,7 +84,7 @@ class QuestAcceptTest {
     @Test
     fun testMustSatisfyAllConditions() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         test.createPlayerMob {

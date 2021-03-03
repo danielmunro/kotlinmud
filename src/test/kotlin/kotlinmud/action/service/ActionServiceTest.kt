@@ -7,9 +7,8 @@ import assertk.assertions.isGreaterThan
 import assertk.assertions.isNotNull
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.test.createTestService
-import kotlinmud.test.createTestServiceWithResetDB
-import kotlinmud.test.getIdentifyingWord
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.helper.getIdentifyingWord
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.test.Test
 
@@ -125,7 +124,7 @@ class ActionServiceTest {
     @Test
     fun testOffensiveSkillTriggersOneAndOnlyOneFight() {
         // setup
-        val testService = createTestServiceWithResetDB()
+        val testService = createTestService()
         val target = testService.createMob()
         val mob = testService.createMob {
             it.skills[SkillType.BITE] = 100

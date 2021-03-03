@@ -6,8 +6,8 @@ import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
-import kotlinmud.test.createTestServiceWithResetDB
-import kotlinmud.test.getIdentifyingWord
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.helper.getIdentifyingWord
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -15,7 +15,7 @@ class GetTest {
     @Test
     fun testMobCanGetItemFromRoom() {
         // setup
-        val testService = createTestServiceWithResetDB()
+        val testService = createTestService()
         val mob = testService.createMob()
         val room = transaction { mob.room }
         val item = testService.createItem()
@@ -35,7 +35,7 @@ class GetTest {
     @Test
     fun testMobCannotGetNonexistentItemFromRoom() {
         // setup
-        val testService = createTestServiceWithResetDB()
+        val testService = createTestService()
         val mob = testService.createMob()
         val room = mob.room
         val itemCount = testService.countItemsFor(room)
@@ -52,7 +52,7 @@ class GetTest {
     @Test
     fun testMobCannotGetMoreItemsFromARoomThanTheyCanHold() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         val mob = test.createMobBuilder()
@@ -72,7 +72,7 @@ class GetTest {
     @Test
     fun testMobCannotGetMoreWeightThanTheyCanHold() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         val mob = test.createMobBuilder()
@@ -96,7 +96,7 @@ class GetTest {
     @Test
     fun testMobCannotGetMoreItemsFromAContainerThanTheyCanHold() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         val mob = test.createMobBuilder().maxItems(1).build()
@@ -116,7 +116,7 @@ class GetTest {
     @Test
     fun testMobCannotPutTooManyItemsIntoAContainer() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         val mob = test.createMob()
@@ -138,7 +138,7 @@ class GetTest {
     @Test
     fun testMobCannotPutTooMuchWeightIntoAContainer() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         val mob = test.createMob()

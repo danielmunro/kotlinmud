@@ -8,8 +8,8 @@ import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.type.DoorDisposition
-import kotlinmud.test.createTestService
-import kotlinmud.test.getIdentifyingWord
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.helper.getIdentifyingWord
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 

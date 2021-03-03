@@ -3,7 +3,7 @@ package kotlinmud.event.observer
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.event.factory.createFightRoundEvent
-import kotlinmud.test.createTestServiceWithResetDB
+import kotlinmud.test.helper.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -11,7 +11,7 @@ class WimpyObserverTest {
     @Test
     fun testWimpyInvokesFleeMovesMob() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         val dst = test.createRoom()

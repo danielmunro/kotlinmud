@@ -4,14 +4,14 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNotNull
 import kotlinmud.player.repository.findPlayerByEmail
-import kotlinmud.test.createTestServiceWithResetDB
+import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
 class EmailAuthStepTest {
     @Test
     fun testPlayerIsCreatedWhenNotFound() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // when
         val response = test.runPreAuth(emailAddress)
@@ -24,7 +24,7 @@ class EmailAuthStepTest {
     @Test
     fun testPlayerCanBeFound() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         test.createPlayer(emailAddress)
@@ -41,7 +41,7 @@ class EmailAuthStepTest {
     @Test
     fun testDoesNotDuplicatePlayerRecords() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
         test.createPlayer(emailAddress)
         test.setPreAuth { svc, _ -> EmailAuthStep(svc) }
 

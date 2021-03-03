@@ -3,8 +3,8 @@ package kotlinmud.event.observer.round
 import assertk.assertThat
 import assertk.assertions.isGreaterThan
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.test.ProbabilityTest
-import kotlinmud.test.createTestService
+import kotlinmud.test.model.ProbabilityTest
+import kotlinmud.test.helper.createTestService
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test

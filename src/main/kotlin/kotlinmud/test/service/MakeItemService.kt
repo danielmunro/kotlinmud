@@ -1,4 +1,4 @@
-package kotlinmud.test
+package kotlinmud.test.service
 
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item

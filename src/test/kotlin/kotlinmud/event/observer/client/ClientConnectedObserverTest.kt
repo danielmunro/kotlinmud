@@ -3,7 +3,7 @@ package kotlinmud.event.observer.client
 import assertk.assertThat
 import assertk.assertions.isNull
 import kotlinmud.event.factory.createClientConnectedEvent
-import kotlinmud.test.createTestService
+import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
 class ClientConnectedObserverTest {

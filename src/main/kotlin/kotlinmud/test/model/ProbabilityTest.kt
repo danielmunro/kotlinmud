@@ -1,4 +1,4 @@
-package kotlinmud.test
+package kotlinmud.test.model
 
 class ProbabilityTest(private var iterations: Int = 10) {
     private var outcome1: Int = 0

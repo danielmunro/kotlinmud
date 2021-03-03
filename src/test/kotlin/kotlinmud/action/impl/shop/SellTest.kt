@@ -2,8 +2,8 @@ package kotlinmud.action.impl.shop
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.test.createTestService
-import kotlinmud.test.getIdentifyingWord
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.helper.getIdentifyingWord
 import org.junit.Test
 
 class SellTest {

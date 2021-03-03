@@ -2,7 +2,7 @@ package kotlinmud.action.impl.quest
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.test.createTestService
+import kotlinmud.test.helper.createTestService
 import kotlinmud.type.RoomCanonicalId
 import org.junit.Test
 

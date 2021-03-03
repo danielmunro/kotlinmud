@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import assertk.assertions.isLessThan
-import kotlinmud.test.ProbabilityTest
+import kotlinmud.test.model.ProbabilityTest
 import org.junit.Test
 
 class DiceTest {

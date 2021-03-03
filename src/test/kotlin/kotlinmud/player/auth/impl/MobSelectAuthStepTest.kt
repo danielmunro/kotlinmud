@@ -2,8 +2,8 @@ package kotlinmud.player.auth.impl
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.test.TestService
-import kotlinmud.test.createTestServiceWithResetDB
+import kotlinmud.test.service.TestService
+import kotlinmud.test.helper.createTestService
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
@@ -11,7 +11,7 @@ class MobSelectAuthStepTest {
     @Test
     fun testCanSelectOwnMob() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
         val player = test.createPlayer(emailAddress)
         test.loginClientAsPlayer(test.getClient(), player)
 
@@ -29,7 +29,7 @@ class MobSelectAuthStepTest {
     @Test
     fun testCannotSelectOtherPlayerMob() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
         val p1 = test.createPlayer(emailAddress)
         val p2 = test.createPlayer("p2@danmunro.com")
 
@@ -48,7 +48,7 @@ class MobSelectAuthStepTest {
     @Test
     fun testCanCreateNewMob() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
         test.createPlayer(emailAddress)
         setPreAuth(test)
 

@@ -7,8 +7,8 @@ import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.race.impl.Bear
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.test.createTestService
-import kotlinmud.test.getIdentifyingWord
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.helper.getIdentifyingWord
 import org.junit.Test
 
 class BackstabTest {

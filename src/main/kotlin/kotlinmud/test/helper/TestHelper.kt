@@ -1,4 +1,4 @@
-package kotlinmud.test
+package kotlinmud.test.helper
 
 import kotlinmud.action.service.ActionService
 import kotlinmud.app.createContainer
@@ -16,22 +16,15 @@ import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.service.QuestService
 import kotlinmud.room.service.RoomService
+import kotlinmud.test.service.TestService
 import kotlinmud.world.createWorld
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.kodein.di.erased.instance
 
-fun createTestServiceWithResetDB(): TestService {
-    createConnection()
-    transaction {
-        SchemaUtils.drop(*getTables())
-        applySchema()
-    }
-    return createTestService()
-}
-
 fun createTestService(): TestService {
     createConnection()
+    transaction { SchemaUtils.drop(*getTables()) }
     applySchema()
     val container = createContainer(0, true)
     val fix: FixtureService by container.instance<FixtureService>()

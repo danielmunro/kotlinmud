@@ -9,7 +9,7 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.type.Disposition
 import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.type.DoorDisposition
-import kotlinmud.test.createTestService
+import kotlinmud.test.helper.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 

@@ -7,9 +7,8 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.test.createTestService
-import kotlinmud.test.createTestServiceWithResetDB
-import kotlinmud.test.getIdentifyingWord
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.helper.getIdentifyingWord
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -37,7 +36,7 @@ class TripTest {
     @Test
     fun testTripImpartsDamage() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         val mob = test.createMob {

@@ -11,9 +11,8 @@ import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
-import kotlinmud.test.createTestService
-import kotlinmud.test.createTestServiceWithResetDB
-import kotlinmud.test.getIdentifyingWord
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.helper.getIdentifyingWord
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.test.Test
@@ -159,7 +158,7 @@ class MobServiceTest {
     @Test
     fun testPracticeSanityCheck() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         val mob = test.createPlayerMob()

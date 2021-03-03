@@ -7,7 +7,7 @@ import assertk.assertions.isTrue
 import kotlinmud.event.factory.createClientDisconnectedEvent
 import kotlinmud.event.observer.impl.client.LogPlayerOutObserver
 import kotlinmud.player.repository.findMobCardByName
-import kotlinmud.test.createTestService
+import kotlinmud.test.helper.createTestService
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test

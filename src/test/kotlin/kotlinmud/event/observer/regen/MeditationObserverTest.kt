@@ -7,8 +7,8 @@ import kotlinmud.event.impl.RegenEvent
 import kotlinmud.event.observer.impl.regen.MeditationObserver
 import kotlinmud.event.type.EventType
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.test.ProbabilityTest
-import kotlinmud.test.createTestService
+import kotlinmud.test.model.ProbabilityTest
+import kotlinmud.test.helper.createTestService
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 

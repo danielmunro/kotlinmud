@@ -3,7 +3,7 @@ package kotlinmud.event.observer
 import assertk.assertThat
 import assertk.assertions.isFalse
 import kotlinmud.player.repository.findMobCardByName
-import kotlinmud.test.createTestService
+import kotlinmud.test.helper.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 

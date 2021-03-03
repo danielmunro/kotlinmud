@@ -10,7 +10,6 @@ import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.constant.startingHp
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.event.factory.createKillEvent
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
@@ -23,8 +22,8 @@ import kotlinmud.mob.specialization.impl.Cleric
 import kotlinmud.mob.specialization.impl.Mage
 import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
-import kotlinmud.test.ProbabilityTest
-import kotlinmud.test.createTestService
+import kotlinmud.test.model.ProbabilityTest
+import kotlinmud.test.helper.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 import kotlin.math.roundToInt
@@ -107,7 +106,7 @@ class MobTest {
         )
 
         // then
-        assertThat(prob.getOutcome1() * 0.75).isLessThan(prob.getOutcome2() * 1.25)
+        assertThat(prob.getOutcome1() * 0.50).isLessThan(prob.getOutcome2() * 1.25)
     }
 
     @Test

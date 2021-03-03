@@ -6,8 +6,8 @@ import assertk.assertions.isEqualTo
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.type.IOStatus
-import kotlinmud.test.createTestService
-import kotlinmud.test.getIdentifyingWord
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.helper.getIdentifyingWord
 import org.junit.Test
 
 class LookAtTest {

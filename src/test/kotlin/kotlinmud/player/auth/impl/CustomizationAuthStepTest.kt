@@ -1,15 +1,14 @@
 package kotlinmud.player.auth.impl
 
 import assertk.assertThat
-import assertk.assertions.contains
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
 import io.mockk.confirmVerified
 import io.mockk.verify
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.race.impl.Human
-import kotlinmud.test.TestService
-import kotlinmud.test.createTestServiceWithResetDB
+import kotlinmud.test.service.TestService
+import kotlinmud.test.helper.createTestService
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
@@ -157,7 +156,7 @@ Current experience to level: 0
     }
 
     private fun setup(): TestService {
-        return createTestServiceWithResetDB().also {
+        return createTestService().also {
             val player = it.createPlayer(emailAddress)
             it.loginClientAsPlayer(it.getClient(), player)
             setPreAuth(it)

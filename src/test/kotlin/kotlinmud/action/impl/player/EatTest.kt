@@ -8,7 +8,7 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
-import kotlinmud.test.createTestService
+import kotlinmud.test.helper.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 

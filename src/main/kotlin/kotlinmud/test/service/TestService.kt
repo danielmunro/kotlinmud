@@ -1,4 +1,4 @@
-package kotlinmud.test
+package kotlinmud.test.service
 
 import io.mockk.every
 import io.mockk.mockk

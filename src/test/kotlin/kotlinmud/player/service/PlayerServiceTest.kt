@@ -6,8 +6,7 @@ import assertk.assertions.isFailure
 import assertk.assertions.isInstanceOf
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.repository.findLoggedInMobCards
-import kotlinmud.test.createTestService
-import kotlinmud.test.createTestServiceWithResetDB
+import kotlinmud.test.helper.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -47,7 +46,7 @@ class PlayerServiceTest {
     @Test
     fun testCreateNewPlayerWorksWithValidEmail() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // expect
         assertThat(test.createPlayer("foo@bar.com")).isInstanceOf(PlayerDAO::class)

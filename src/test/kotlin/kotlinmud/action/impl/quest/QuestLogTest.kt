@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.quest.helper.createQuestEntity
 import kotlinmud.quest.type.QuestType
-import kotlinmud.test.createTestService
+import kotlinmud.test.helper.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 

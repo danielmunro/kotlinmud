@@ -5,7 +5,7 @@ import assertk.assertions.doesNotContain
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.generator.service.BiomeService
 import kotlinmud.helper.layerToString
-import kotlinmud.test.createTestService
+import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
 const val WIDTH = 1000

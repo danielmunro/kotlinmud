@@ -2,7 +2,7 @@ package kotlinmud.action.impl.item
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.test.createTestService
+import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
 class RecipesTest {

@@ -3,8 +3,8 @@ package kotlinmud.player.auth.impl
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.player.repository.findPlayerByEmail
-import kotlinmud.test.TestService
-import kotlinmud.test.createTestServiceWithResetDB
+import kotlinmud.test.service.TestService
+import kotlinmud.test.helper.createTestService
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
@@ -85,7 +85,7 @@ class PasswordAuthStepTest {
     }
 
     private fun setup(): TestService {
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
         test.createPlayer(emailAddress)
         setPreAuth(test)
         return test

@@ -2,15 +2,15 @@ package kotlinmud.action.impl.item
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.test.createTestServiceWithResetDB
-import kotlinmud.test.getIdentifyingWord
+import kotlinmud.test.helper.createTestService
+import kotlinmud.test.helper.getIdentifyingWord
 import org.junit.Test
 
 class GetFromItemTest {
     @Test
     fun testCanGetFromItemInRoomInventory() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
         val mob = test.createMob()
 
         // given
@@ -30,7 +30,7 @@ class GetFromItemTest {
     @Test
     fun testCanGetFromItemInMobInventory() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
         val mob = test.createMob()
 
         // given

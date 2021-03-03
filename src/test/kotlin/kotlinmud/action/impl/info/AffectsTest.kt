@@ -5,7 +5,7 @@ import assertk.assertions.isEqualTo
 import kotlinmud.affect.impl.BlessAffect
 import kotlinmud.affect.impl.BlindAffect
 import kotlinmud.affect.impl.InvisibilityAffect
-import kotlinmud.test.createTestService
+import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
 class AffectsTest {

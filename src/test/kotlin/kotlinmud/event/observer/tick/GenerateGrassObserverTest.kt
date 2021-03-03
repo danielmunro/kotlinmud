@@ -3,7 +3,7 @@ package kotlinmud.event.observer.tick
 import assertk.assertThat
 import assertk.assertions.hasSize
 import kotlinmud.biome.type.SubstrateType
-import kotlinmud.test.createTestServiceWithResetDB
+import kotlinmud.test.helper.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
@@ -11,7 +11,7 @@ class GenerateGrassObserverTest {
     @Test
     fun testCanGenerateGrass() {
         // setup
-        val test = createTestServiceWithResetDB()
+        val test = createTestService()
 
         // given
         val room = test.createRoomBuilder()
