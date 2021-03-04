@@ -24,7 +24,6 @@ import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.model.ProbabilityTest
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 import kotlin.math.roundToInt
 import kotlin.test.assertEquals

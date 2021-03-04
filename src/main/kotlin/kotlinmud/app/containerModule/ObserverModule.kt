@@ -67,7 +67,7 @@ val ObserverModule = Kodein.Module {
     }
 
     bind<Observer>(tag = Tag.SOCIAL) with provider {
-        SocialDistributorObserver(instance())
+        SocialDistributorObserver(instance(), instance())
     }
 
     bind<Observer>(tag = Tag.PROCEED_FIGHTS) with provider {

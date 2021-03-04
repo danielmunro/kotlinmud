@@ -59,7 +59,7 @@ class MobService(
 
     suspend fun regenMobs() {
         findPlayerMobs().forEach {
-            val baseRegen = transaction { getRoomRegenRate(it.room.regenLevel) + getDispositionRegenRate(it.disposition) }
+            val baseRegen = getRoomRegenRate(it.room.regenLevel) + getDispositionRegenRate(it.disposition)
             val event = RegenEvent(it, baseRegen, baseRegen, baseRegen)
             eventService.publish(Event(EventType.REGEN, event))
             it.increaseByRegenRate(
@@ -145,16 +145,12 @@ class MobService(
                 if (affect.timeout == null) {
                     return@removeIf false
                 }
-                transaction {
-                    affect.timeout = affect.timeout!! - 1
-                    affect.timeout!! <= 0
-                }
+                affect.timeout = affect.timeout!! - 1
+                affect.timeout!! <= 0
             }
         }
-        transaction {
-            deleteTimedOutAffects()
-            decrementAffectsTimeout()
-        }
+        deleteTimedOutAffects()
+        decrementAffectsTimeout()
     }
 
     suspend fun pruneDeadMobs() {

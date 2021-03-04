@@ -19,7 +19,6 @@ import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
-import org.jetbrains.exposed.sql.transactions.transaction
 import kotlinmud.event.factory.createFightRoundEvent as createFightRoundEventFactory
 import kotlinmud.event.factory.createFightStartedEvent as createFightStartedEventFactory
 import kotlinmud.event.factory.createKillEvent as createKillEventFactory
@@ -57,30 +56,26 @@ class FightService(private val fight: Fight, private val eventService: EventServ
         }
 
         private fun applyRoundDamage(attacks: List<Attack>, mob: Mob) {
-            transaction {
-                attacks.forEach {
-                    if (it.attackResult == AttackResult.HIT) {
-                        mob.hp -= it.damage
-                        mob.disposition = Disposition.FIGHTING
-                    }
+            attacks.forEach {
+                if (it.attackResult == AttackResult.HIT) {
+                    mob.hp -= it.damage
+                    mob.disposition = Disposition.FIGHTING
                 }
-                if (mob.hp < 0) {
-                    mob.disposition = Disposition.DEAD
-                }
+            }
+            if (mob.hp < 0) {
+                mob.disposition = Disposition.DEAD
             }
         }
     }
 
     fun end() {
-        transaction {
-            fight.finish()
-            resetDisposition(fight.mob1)
-            resetDisposition(fight.mob2)
-        }
+        fight.finish()
+        resetDisposition(fight.mob1)
+        resetDisposition(fight.mob2)
     }
 
     fun createFightStartedEvent(): Event<FightStartedEvent> {
-        return transaction { createFightStartedEventFactory(fight, fight.mob1, fight.mob2) }
+        return createFightStartedEventFactory(fight, fight.mob1, fight.mob2)
     }
 
     fun createKillEvent(): Event<KillEvent> {
@@ -104,17 +99,15 @@ class FightService(private val fight: Fight, private val eventService: EventServ
     }
 
     suspend fun createRound(): Round {
-        val round = transaction {
-            Round(
-                fight,
-                fight.mob1,
-                fight.mob2,
-                mapAttacks(fight.mob1, fight.mob2),
-                mapAttacks(fight.mob2, fight.mob1)
-            )
-        }
+        val round = Round(
+            fight,
+            fight.mob1,
+            fight.mob2,
+            mapAttacks(fight.mob1, fight.mob2),
+            mapAttacks(fight.mob2, fight.mob1)
+        )
         eventService.publish(createFightRoundEventFactory(round))
-        transaction { applyRoundDamage(round.attackerAttacks, round.defender) }
+        applyRoundDamage(round.attackerAttacks, round.defender)
         if (round.isActive()) {
             applyRoundDamage(round.defenderAttacks, round.attacker)
         }

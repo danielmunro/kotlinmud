@@ -28,7 +28,6 @@ import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.mob.type.Rarity
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.model.Room
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class Mob(
     override val name: String,
@@ -118,44 +117,42 @@ class Mob(
     }
 
     fun calc(attribute: Attribute): Int {
-        return transaction {
-            when (attribute) {
-                Attribute.HP ->
-                    (attributes[Attribute.HP] ?: 0) +
-                        accumulate { it.attributes[Attribute.HP] ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.MANA ->
-                    (attributes[Attribute.MANA] ?: 0) +
-                        accumulate { it.attributes[Attribute.MANA] ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.MV ->
-                    (attributes[Attribute.MV] ?: 0) +
-                        accumulate { it.attributes[Attribute.MV] ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.STR ->
-                    base(attribute) +
-                        accumulate { it.attributes[Attribute.STR] ?: 0 } +
-                        (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.INT ->
-                    base(attribute) +
-                        accumulate { it.attributes[Attribute.INT] ?: 0 } +
-                        (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.WIS ->
-                    base(attribute) +
-                        accumulate { it.attributes[Attribute.WIS] ?: 0 } +
-                        (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.DEX ->
-                    base(attribute) +
-                        accumulate { it.attributes[Attribute.DEX] ?: 0 } +
-                        (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.CON ->
-                    base(attribute) +
-                        accumulate { it.attributes[Attribute.CON] ?: 0 } +
-                        (mobCard?.calcTrained(attribute) ?: 0)
-                Attribute.HIT -> (attributes[Attribute.HIT] ?: 0) + accumulate { it.attributes[Attribute.HIT] ?: 0 }
-                Attribute.DAM -> (attributes[Attribute.DAM] ?: 0) + accumulate { it.attributes[Attribute.DAM] ?: 0 }
-                Attribute.AC_BASH -> (attributes[Attribute.AC_BASH] ?: 0) + accumulate { it.attributes[Attribute.AC_BASH] ?: 0 }
-                Attribute.AC_PIERCE -> (attributes[Attribute.AC_PIERCE] ?: 0) + accumulate { it.attributes[Attribute.AC_PIERCE] ?: 0 }
-                Attribute.AC_SLASH -> (attributes[Attribute.AC_SLASH] ?: 0) + accumulate { it.attributes[Attribute.AC_SLASH] ?: 0 }
-                Attribute.AC_MAGIC -> (attributes[Attribute.AC_MAGIC] ?: 0) + accumulate { it.attributes[Attribute.AC_MAGIC] ?: 0 }
-            }
+        return when (attribute) {
+            Attribute.HP ->
+                (attributes[Attribute.HP] ?: 0) +
+                    accumulate { it.attributes[Attribute.HP] ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
+            Attribute.MANA ->
+                (attributes[Attribute.MANA] ?: 0) +
+                    accumulate { it.attributes[Attribute.MANA] ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
+            Attribute.MV ->
+                (attributes[Attribute.MV] ?: 0) +
+                    accumulate { it.attributes[Attribute.MV] ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
+            Attribute.STR ->
+                base(attribute) +
+                    accumulate { it.attributes[Attribute.STR] ?: 0 } +
+                    (mobCard?.calcTrained(attribute) ?: 0)
+            Attribute.INT ->
+                base(attribute) +
+                    accumulate { it.attributes[Attribute.INT] ?: 0 } +
+                    (mobCard?.calcTrained(attribute) ?: 0)
+            Attribute.WIS ->
+                base(attribute) +
+                    accumulate { it.attributes[Attribute.WIS] ?: 0 } +
+                    (mobCard?.calcTrained(attribute) ?: 0)
+            Attribute.DEX ->
+                base(attribute) +
+                    accumulate { it.attributes[Attribute.DEX] ?: 0 } +
+                    (mobCard?.calcTrained(attribute) ?: 0)
+            Attribute.CON ->
+                base(attribute) +
+                    accumulate { it.attributes[Attribute.CON] ?: 0 } +
+                    (mobCard?.calcTrained(attribute) ?: 0)
+            Attribute.HIT -> (attributes[Attribute.HIT] ?: 0) + accumulate { it.attributes[Attribute.HIT] ?: 0 }
+            Attribute.DAM -> (attributes[Attribute.DAM] ?: 0) + accumulate { it.attributes[Attribute.DAM] ?: 0 }
+            Attribute.AC_BASH -> (attributes[Attribute.AC_BASH] ?: 0) + accumulate { it.attributes[Attribute.AC_BASH] ?: 0 }
+            Attribute.AC_PIERCE -> (attributes[Attribute.AC_PIERCE] ?: 0) + accumulate { it.attributes[Attribute.AC_PIERCE] ?: 0 }
+            Attribute.AC_SLASH -> (attributes[Attribute.AC_SLASH] ?: 0) + accumulate { it.attributes[Attribute.AC_SLASH] ?: 0 }
+            Attribute.AC_MAGIC -> (attributes[Attribute.AC_MAGIC] ?: 0) + accumulate { it.attributes[Attribute.AC_MAGIC] ?: 0 }
         }
     }
 
@@ -171,42 +168,40 @@ class Mob(
     }
 
     fun savesAgainst(damageType: DamageType): Boolean {
-        return transaction {
-            var saves = savingThrows
+        var saves = savingThrows
 
-            if (race.type == RaceType.ELF) {
-                saves -= 5
-            }
-
-            var base = 80 + (level / 6) + saves - calc(Attribute.WIS) - calc(Attribute.INT)
-
-            if (affects.find { it.type == AffectType.CURSE } != null) {
-                base += 5
-            }
-
-            if (disposition == Disposition.FIGHTING) {
-                base += 5
-            }
-
-            affects.find { it.type == AffectType.BERSERK }?.let {
-                base -= level / 8
-            }
-
-            base += when {
-                race.vulnerableTo.contains(damageType) -> 25
-                race.resist.contains(damageType) -> -25
-                race.immuneTo.contains(damageType) -> return@transaction true
-                else -> 0
-            }
-
-            if (specialization?.type == SpecializationType.MAGE) {
-                base -= 5
-            } else if (specialization?.type == SpecializationType.CLERIC) {
-                base -= 3
-            }
-
-            percentRoll() > normalizeInt(5, base, 95)
+        if (race.type == RaceType.ELF) {
+            saves -= 5
         }
+
+        var base = 80 + (level / 6) + saves - calc(Attribute.WIS) - calc(Attribute.INT)
+
+        if (affects.find { it.type == AffectType.CURSE } != null) {
+            base += 5
+        }
+
+        if (disposition == Disposition.FIGHTING) {
+            base += 5
+        }
+
+        affects.find { it.type == AffectType.BERSERK }?.let {
+            base -= level / 8
+        }
+
+        base += when {
+            race.vulnerableTo.contains(damageType) -> 25
+            race.resist.contains(damageType) -> -25
+            race.immuneTo.contains(damageType) -> return true
+            else -> 0
+        }
+
+        if (specialization?.type == SpecializationType.MAGE) {
+            base -= 5
+        } else if (specialization?.type == SpecializationType.CLERIC) {
+            base -= 3
+        }
+
+        return percentRoll() > normalizeInt(5, base, 95)
     }
 
     fun increaseHp(value: Int) {

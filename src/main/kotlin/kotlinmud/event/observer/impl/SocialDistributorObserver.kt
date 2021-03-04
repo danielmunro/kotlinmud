@@ -6,11 +6,11 @@ import kotlinmud.event.observer.type.Observer
 import kotlinmud.io.model.Message
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.social.SocialChannel
 import kotlinmud.room.model.Room
-import org.jetbrains.exposed.sql.transactions.transaction
 
-class SocialDistributorObserver(private val serverService: ServerService) : Observer {
+class SocialDistributorObserver(private val serverService: ServerService, private val mobService: MobService) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         val socialEvent = event.subject as SocialEvent
         val soc = socialEvent.social
@@ -24,7 +24,7 @@ class SocialDistributorObserver(private val serverService: ServerService) : Obse
 
     private fun yellToArea(mob: Mob, room: Room, message: Message) {
         serverService.getClients().forEach {
-            val clientRoom = transaction { it.mob!!.room }
+            val clientRoom = it.mob!!.room
             if (it.mob != mob && clientRoom.area == room.area) {
                 it.write(message.toObservers)
             }
@@ -47,11 +47,11 @@ class SocialDistributorObserver(private val serverService: ServerService) : Obse
     }
 
     private fun sayToRoom(mob: Mob, room: Room, message: Message) {
-//        val mobs = findMobsForRoom(room)
-//        serverService.getClientsFromMobs(mobs).forEach {
-//            if (it.mob != mob) {
-//                it.write(message.toObservers)
-//            }
-//        }
+        val mobs = mobService.findMobsInRoom(room)
+        serverService.getClientsFromMobs(mobs).forEach {
+            if (it.mob != mob) {
+                it.write(message.toObservers)
+            }
+        }
     }
 }
