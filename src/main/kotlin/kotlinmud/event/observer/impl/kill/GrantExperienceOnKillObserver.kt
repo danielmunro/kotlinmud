@@ -3,30 +3,35 @@ package kotlinmud.event.observer.impl.kill
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.KillEvent
 import kotlinmud.event.observer.type.Observer
+import kotlinmud.io.model.Client
 import kotlinmud.io.service.ServerService
+import kotlinmud.mob.helper.getExperienceGain
+import kotlinmud.mob.model.AddExperience
+import kotlinmud.mob.model.Mob
 
 class GrantExperienceOnKillObserver(private val serverService: ServerService) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         val killEvent = event.subject as KillEvent
         val victor = killEvent.victor
         val vanquished = killEvent.vanquished
-//        val gain = getExperienceGain(victor, vanquished)
-//        val experienceAddedResponse = transaction { addExperience(victor, gain) }
-//        serverService.getClientForMob(victor)?.let { sendClientUpdates(it, experienceAddedResponse) }
+        val gain = getExperienceGain(victor, vanquished)
+        addExperience(victor, gain)?.let { addExperience ->
+            serverService.getClientForMob(victor)?.let { sendClientUpdates(it, addExperience) }
+        }
     }
 
-//    private fun addExperience(mob: MobDAO, amountOfExperienceGained: Int): AddExperience {
-//        return mob.mobCard!!.addExperience(mob.level, amountOfExperienceGained).also {
-//            if (it.levelGained) {
-//                transaction { mob.level += 1 }
-//            }
-//        }
-//    }
-//
-//    private fun sendClientUpdates(client: Client, experienceAddedResponse: AddExperience) {
-//        client.write("you gain ${experienceAddedResponse.experienceAdded} experience.")
-//        if (experienceAddedResponse.levelGained) {
-//            client.writePrompt("you gained a level!")
-//        }
-//    }
+    private fun addExperience(mob: Mob, amountOfExperienceGained: Int): AddExperience? {
+        return mob.mobCard?.addExperience(mob.level, amountOfExperienceGained)?.also {
+            if (it.levelGained) {
+                mob.level += 1
+            }
+        }
+    }
+
+    private fun sendClientUpdates(client: Client, experienceAddedResponse: AddExperience) {
+        client.write("you gain ${experienceAddedResponse.experienceAdded} experience.")
+        if (experienceAddedResponse.levelGained) {
+            client.writePrompt("you gained a level!")
+        }
+    }
 }

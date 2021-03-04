@@ -7,17 +7,14 @@ import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
-import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
 class EnhancedDamageObserver : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         with(event.subject as Round) {
-            transaction {
-                attackerAttacks.forEach { checkEnhancedDamage(attacker, it) }
-                defenderAttacks.forEach { checkEnhancedDamage(defender, it) }
-            }
+            attackerAttacks.forEach { checkEnhancedDamage(attacker, it) }
+            defenderAttacks.forEach { checkEnhancedDamage(defender, it) }
         }
     }
 

@@ -81,18 +81,17 @@ class TestService(
     private val roomService: RoomService,
 ) {
     private val clientService = ClientService()
-    private val room: Room
+    private val room = RoomBuilder(roomService)
+        .name("start room")
+        .description("tbd")
+        .area(Area.Test)
+        .build()
     private val client: Client = spyk(Client(mockk(relaxed = true)))
     private var mob: Mob? = null
     private var target: Mob? = null
     private var player: PlayerDAO? = null
 
     init {
-        room = RoomBuilder(roomService)
-            .name("start room")
-            .description("tbd")
-            .area(Area.Test)
-            .build()
         every { client.socket.remoteAddress } returns mockk<SocketAddress>()
         serverService.getClients().add(client)
     }

@@ -4,8 +4,8 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.test.model.ProbabilityTest
 import kotlinmud.test.helper.createTestService
+import kotlinmud.test.model.ProbabilityTest
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 

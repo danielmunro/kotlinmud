@@ -3,8 +3,8 @@ package kotlinmud.player.auth.impl
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
-import kotlinmud.test.service.TestService
 import kotlinmud.test.helper.createTestService
+import kotlinmud.test.service.TestService
 import org.junit.Test
 
 class AskCustomizeAuthStepTest {

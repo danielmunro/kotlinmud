@@ -8,8 +8,8 @@ import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.test.model.ProbabilityTest
 import kotlinmud.test.helper.createTestService
+import kotlinmud.test.model.ProbabilityTest
 import org.junit.Test
 
 class FightTest {

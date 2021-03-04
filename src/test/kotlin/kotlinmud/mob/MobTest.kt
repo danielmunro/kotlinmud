@@ -22,8 +22,8 @@ import kotlinmud.mob.specialization.impl.Cleric
 import kotlinmud.mob.specialization.impl.Mage
 import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
-import kotlinmud.test.model.ProbabilityTest
 import kotlinmud.test.helper.createTestService
+import kotlinmud.test.model.ProbabilityTest
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 import kotlin.math.roundToInt
@@ -330,7 +330,7 @@ class MobTest {
 
         // and
         val fight = testService.addFight(mob1, mob2)
-        transaction { mob2.disposition = Disposition.DEAD }
+        mob2.disposition = Disposition.DEAD
 
         // when
         testService.publish(fight.createKillEvent())

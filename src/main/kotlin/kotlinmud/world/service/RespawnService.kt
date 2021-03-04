@@ -8,10 +8,10 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.room.service.RoomService
 
 class RespawnService(
-        private val mobService: MobService,
-        private val roomService: RoomService,
-        private val itemRespawns: List<ItemRespawn>,
-        private val mobRespawns: List<MobRespawn>
+    private val mobService: MobService,
+    private val roomService: RoomService,
+    private val itemRespawns: List<ItemRespawn>,
+    private val mobRespawns: List<MobRespawn>
 ) {
     fun respawn() {
         ItemRespawnService(itemRespawns).respawn()

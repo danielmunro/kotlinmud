@@ -7,8 +7,8 @@ import io.mockk.confirmVerified
 import io.mockk.verify
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.race.impl.Human
-import kotlinmud.test.service.TestService
 import kotlinmud.test.helper.createTestService
+import kotlinmud.test.service.TestService
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 

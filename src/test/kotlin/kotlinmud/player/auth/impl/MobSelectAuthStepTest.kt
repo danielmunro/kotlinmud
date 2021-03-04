@@ -2,8 +2,8 @@ package kotlinmud.player.auth.impl
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.test.service.TestService
 import kotlinmud.test.helper.createTestService
+import kotlinmud.test.service.TestService
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 

@@ -9,10 +9,9 @@ import kotlinmud.io.model.Message
 import kotlinmud.mob.model.Mob
 import kotlinmud.player.social.Social
 import kotlinmud.room.model.Room
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createDeathEvent(mob: Mob): Event<SendMessageToRoomEvent> {
-    return transaction { createSendMessageToRoomEvent(createDeathMessage(mob), mob.room, mob) }
+    return createSendMessageToRoomEvent(createDeathMessage(mob), mob.room, mob)
 }
 
 fun createSendMessageToRoomEvent(

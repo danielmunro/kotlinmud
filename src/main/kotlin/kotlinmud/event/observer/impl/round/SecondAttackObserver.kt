@@ -8,15 +8,12 @@ import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class SecondAttackObserver : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         with(event.subject as Round) {
-            transaction {
-                checkSecondAttack(attacker, attackerAttacks)
-                checkSecondAttack(defender, defenderAttacks)
-            }
+            checkSecondAttack(attacker, attackerAttacks)
+            checkSecondAttack(defender, defenderAttacks)
         }
     }
 

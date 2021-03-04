@@ -16,7 +16,6 @@ import kotlinmud.mob.model.Mob
 import kotlinmud.player.service.PlayerService
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class ProcessClientBuffersObserver(
     private val serverService: ServerService,
@@ -46,7 +45,7 @@ class ProcessClientBuffersObserver(
         eventService.publish(
             createSendMessageToRoomEvent(
                 response.message,
-                transaction { request.mob.room },
+                request.mob.room,
                 request.mob,
                 getTarget(response)
             )

@@ -12,8 +12,8 @@ import kotlinmud.mob.constant.HEIGHT_DIFFERENCE_LOW
 import kotlinmud.mob.constant.HEIGHT_DIFFERENCE_MEDIUM
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
-import kotlinmud.test.service.TestService
 import kotlinmud.test.helper.createTestService
+import kotlinmud.test.service.TestService
 import org.junit.Test
 
 class FallDamageTest {

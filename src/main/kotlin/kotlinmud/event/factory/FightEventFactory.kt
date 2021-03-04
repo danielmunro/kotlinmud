@@ -8,10 +8,9 @@ import kotlinmud.mob.fight.Round
 import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.Disposition
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createKillEvent(fight: Fight): Event<KillEvent> {
-    val winner = transaction { if (fight.mob1.disposition == Disposition.DEAD) fight.mob2 else fight.mob1 }
+    val winner = if (fight.mob1.disposition == Disposition.DEAD) fight.mob2 else fight.mob1
     return Event(
         EventType.KILL,
         KillEvent(fight, winner, fight.getOpponentFor(winner)!!)

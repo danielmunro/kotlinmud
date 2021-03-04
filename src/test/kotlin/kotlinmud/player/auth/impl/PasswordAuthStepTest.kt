@@ -3,8 +3,8 @@ package kotlinmud.player.auth.impl
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.player.repository.findPlayerByEmail
-import kotlinmud.test.service.TestService
 import kotlinmud.test.helper.createTestService
+import kotlinmud.test.service.TestService
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
