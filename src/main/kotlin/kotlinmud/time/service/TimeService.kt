@@ -4,20 +4,22 @@ import kotlinmud.event.factory.createDayEvent
 import kotlinmud.event.factory.createPulseEvent
 import kotlinmud.event.factory.createTickEvent
 import kotlinmud.event.service.EventService
+import kotlinmud.helper.getEndOfDayMonth
 import kotlinmud.helper.logger
-import kotlinmud.time.repository.findTime
+import kotlinmud.time.dao.TimeDAO
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 const val TICKS_IN_DAY = 20
 const val TICK_LENGTH_IN_SECONDS = 40
+const val DAYS_IN_MONTH = 30
+const val DAYS_IN_YEAR = 365
 
-class TimeService(private val eventService: EventService) {
+class TimeService(private val eventService: EventService, private var time: TimeDAO) {
     private var pulse = 0
     private var lastSecond = 0
     private val logger = logger(this)
-    private var time = findTime()
 
     init {
         logger.info("time service initialized at {} ticks", time)
@@ -26,6 +28,15 @@ class TimeService(private val eventService: EventService) {
     fun isDaylight(): Boolean {
         val hour = getHour()
         return hour > 5 && hour < 21
+    }
+
+    fun getDate(): String {
+        val numberOfDays = transaction { time.time } / TICKS_IN_DAY
+        val dayOfMonth = numberOfDays % DAYS_IN_MONTH
+        val month = numberOfDays / DAYS_IN_MONTH
+        val year = numberOfDays % DAYS_IN_YEAR
+
+        return "it is the ${dayOfMonth}${getEndOfDayMonth(dayOfMonth)} day of month $month of year $year"
     }
 
     suspend fun loop() {
@@ -41,12 +52,7 @@ class TimeService(private val eventService: EventService) {
         }
     }
 
-    private suspend fun pulse() {
-        pulse++
-        eventService.publish(createPulseEvent())
-    }
-
-    private suspend fun tick() {
+    suspend fun tick() {
         transaction { time.time += 1 }
         eventService.publish(createTickEvent())
         val hour = getHour()
@@ -55,6 +61,11 @@ class TimeService(private val eventService: EventService) {
             eventService.publish(createDayEvent())
             logger.info("a new day has started")
         }
+    }
+
+    private suspend fun pulse() {
+        pulse++
+        eventService.publish(createPulseEvent())
     }
 
     private fun getHour(): Int {

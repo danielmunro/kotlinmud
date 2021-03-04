@@ -63,6 +63,7 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
+import kotlinmud.time.service.TimeService
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.net.SocketAddress
@@ -79,6 +80,7 @@ class TestService(
     private val serverService: ServerService,
     private val questService: QuestService,
     private val roomService: RoomService,
+    private val timeService: TimeService,
 ) {
     private val clientService = ClientService()
     private val room = RoomBuilder(roomService)
@@ -453,6 +455,14 @@ class TestService(
             .type(ItemType.CONTAINER)
             .material(Material.TEXTILE)
             .build()
+    }
+
+    fun incrementTicks(amount: Int) {
+        runBlocking {
+            for (i in 0..amount) {
+                timeService.tick()
+            }
+        }
     }
 
     private fun weapon(mob: Mob): Item {

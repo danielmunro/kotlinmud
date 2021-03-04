@@ -1,8 +1,6 @@
 package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
-import kotlinmud.affect.repository.decrementAffectsTimeout
-import kotlinmud.affect.repository.deleteTimedOutAffects
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createDeathEvent
@@ -128,7 +126,6 @@ class MobService(
         val leaving = mob.room
         sendMessageToRoom(createLeaveMessage(mob, directionLeavingFrom), leaving, mob)
         mob.room = destinationRoom
-        mob.room = destinationRoom
         doFallCheck(mob, leaving, destinationRoom)
         sendMessageToRoom(createArriveMessage(mob), destinationRoom, mob)
     }
@@ -149,8 +146,6 @@ class MobService(
                 affect.timeout!! <= 0
             }
         }
-        deleteTimedOutAffects()
-        decrementAffectsTimeout()
     }
 
     suspend fun pruneDeadMobs() {
@@ -205,21 +200,19 @@ class MobService(
 
     private fun makeMobFlee(fight: FightService, mob: Mob) {
         fight.end()
-        transaction {
-            val exit = mob.room.getAllExits().entries.random()
-            runBlocking {
-                sendMessageToRoom(
-                    createFleeMessage(mob, exit.key),
-                    mob.room,
-                    mob
-                )
-                mob.room = exit.value
-                sendMessageToRoom(
-                    createArriveMessage(mob),
-                    exit.value,
-                    mob
-                )
-            }
+        val exit = mob.room.getAllExits().entries.random()
+        runBlocking {
+            sendMessageToRoom(
+                createFleeMessage(mob, exit.key),
+                mob.room,
+                mob
+            )
+            mob.room = exit.value
+            sendMessageToRoom(
+                createArriveMessage(mob),
+                exit.value,
+                mob
+            )
         }
     }
 
@@ -256,7 +249,7 @@ class MobService(
     }
 
     private suspend fun proceedFightRound(round: Round): Round {
-        val room = transaction { round.attacker.room }
+        val room = round.attacker.room
         sendRoundMessage(round.attackerAttacks, room, round.attacker, round.defender)
         sendRoundMessage(round.defenderAttacks, room, round.defender, round.attacker)
         eventService.publish(

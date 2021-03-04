@@ -17,6 +17,7 @@ import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.service.QuestService
 import kotlinmud.room.service.RoomService
 import kotlinmud.test.service.TestService
+import kotlinmud.time.service.TimeService
 import kotlinmud.world.createWorld
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -39,6 +40,7 @@ fun createTestService(): TestService {
     val questService: QuestService by container.instance<QuestService>()
     val playerService: PlayerService by container.instance<PlayerService>()
     val authStepService: AuthStepService by container.instance<AuthStepService>()
+    val timeService: TimeService by container.instance<TimeService>()
     playerService.setAuthStepService(authStepService)
     evt.observers = observers
     return TestService(
@@ -52,6 +54,7 @@ fun createTestService(): TestService {
         serverService,
         questService,
         roomService,
+        timeService,
     )
 }
 

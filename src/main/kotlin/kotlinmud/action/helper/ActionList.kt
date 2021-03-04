@@ -22,6 +22,7 @@ import kotlinmud.action.impl.info.createInventoryAction
 import kotlinmud.action.impl.info.createLookAction
 import kotlinmud.action.impl.info.createLookAtAction
 import kotlinmud.action.impl.info.createScoreAction
+import kotlinmud.action.impl.info.createTimeAction
 import kotlinmud.action.impl.info.createWeatherAction
 import kotlinmud.action.impl.info.createWhoAction
 import kotlinmud.action.impl.item.createCraftAction
@@ -112,5 +113,6 @@ fun createActionsList(): List<Action> {
         createQuestAbandonAction(),
         createQuestLogAction(),
         createQuestSubmitAction(),
+        createTimeAction(),
     )
 }

@@ -23,6 +23,7 @@ import kotlinmud.quest.helper.createQuestList
 import kotlinmud.quest.service.QuestService
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.room.service.RoomService
+import kotlinmud.time.repository.findTime
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
 import kotlinmud.world.itrias.lorimir.getLorimirItemRespawns
@@ -70,7 +71,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
             }
         }
         bind<TimeService>() with singleton {
-            TimeService(instance())
+            TimeService(instance(), findTime())
         }
         bind<QuestService>() with singleton {
             QuestService(
@@ -83,6 +84,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
                 instance(),
                 instance(),
                 createActionContextBuilder(
+                    instance(),
                     instance(),
                     instance(),
                     instance(),

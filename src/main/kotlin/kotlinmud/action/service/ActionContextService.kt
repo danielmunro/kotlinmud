@@ -32,6 +32,7 @@ import kotlinmud.quest.type.Quest
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Direction
+import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
 import kotlinmud.weather.type.Weather
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -46,6 +47,7 @@ class ActionContextService(
     private val serverService: ServerService,
     private val request: RequestService,
     private val questService: QuestService,
+    private val timeService: TimeService,
 ) {
     private val craftingService = CraftingService(itemService)
     val recipes = createRecipeList()
@@ -199,5 +201,9 @@ class ActionContextService(
 
     fun getQuestLog(): List<Quest> {
         return questService.getLog(getMobCard())
+    }
+
+    fun getDate(): String {
+        return timeService.getDate()
     }
 }

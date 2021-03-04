@@ -10,6 +10,7 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.service.QuestService
 import kotlinmud.room.service.RoomService
+import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
 
 fun createActionContextBuilder(
@@ -21,6 +22,7 @@ fun createActionContextBuilder(
     weatherService: WeatherService,
     serverService: ServerService,
     questService: QuestService,
+    timeService: TimeService,
 ): (request: RequestService, actionContextList: ActionContextList) -> ActionContextService {
     return { request, actionContextList ->
         ActionContextService(
@@ -33,6 +35,7 @@ fun createActionContextBuilder(
             serverService,
             request,
             questService,
+            timeService,
         )
     }
 }
