@@ -198,6 +198,14 @@ class MobService(
         }
     }
 
+    fun removeDecayedItems() {
+        mobs.forEach {
+            it.items.removeIf { item ->
+                item.decayTimer != null && item.decayTimer!! <= 0
+            }
+        }
+    }
+
     private fun makeMobFlee(fight: FightService, mob: Mob) {
         fight.end()
         val exit = mob.room.getAllExits().entries.random()

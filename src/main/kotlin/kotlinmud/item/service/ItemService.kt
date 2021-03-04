@@ -5,7 +5,6 @@ import kotlinmud.helper.math.dice
 import kotlinmud.helper.random.randomAmount
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
-import kotlinmud.item.repository.decrementAllItemDecayTimers
 import kotlinmud.item.repository.removeAllEquipmentForMob
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
@@ -35,7 +34,12 @@ class ItemService {
     }
 
     fun decrementDecayTimer() {
-        decrementAllItemDecayTimers()
+        items.removeIf {
+            if (it.decayTimer != null) {
+                it.decayTimer = it.decayTimer!! - 1
+            }
+            it.decayTimer != null && it.decayTimer!! <= 0
+        }
     }
 
     fun createCorpseFromMob(mob: Mob): Item {

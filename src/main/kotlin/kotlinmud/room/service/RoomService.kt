@@ -25,4 +25,12 @@ class RoomService {
     fun getStartRoom(): Room {
         return rooms.first()
     }
+
+    fun removeDecayedItems() {
+        rooms.forEach {
+            it.items.removeIf { item ->
+                item.decayTimer != null && item.decayTimer!! <= 0
+            }
+        }
+    }
 }

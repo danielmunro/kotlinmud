@@ -87,7 +87,7 @@ val ObserverModule = Kodein.Module {
     }
 
     bind<Observer>(tag = Tag.DECREMENT_ITEM_DECAY_TIMER) with provider {
-        DecrementItemDecayTimerObserver(instance())
+        DecrementItemDecayTimerObserver(instance(), instance(), instance())
     }
 
     bind<Observer>(tag = Tag.DECREASE_HUNGER_AND_THIRST) with provider {

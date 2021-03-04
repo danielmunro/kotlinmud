@@ -13,6 +13,7 @@ import kotlinmud.event.observer.impl.logoutAllPlayersOnStartupEvent
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.round.WimpyObserver
 import kotlinmud.event.observer.impl.tick.DecreaseThirstAndHungerObserver
+import kotlinmud.event.observer.impl.tick.DecrementItemDecayTimerObserver
 import kotlinmud.event.observer.impl.tick.GenerateGrassObserver
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
@@ -417,6 +418,10 @@ class TestService(
 
     fun callGenerateGrassObserver() {
         runBlocking { GenerateGrassObserver(ResourceService(itemService, roomService)).invokeAsync(Event(EventType.TICK, null)) }
+    }
+
+    fun callDecayEvent() {
+        runBlocking { DecrementItemDecayTimerObserver(mobService, roomService, itemService).invokeAsync(Event(EventType.TICK, null)) }
     }
 
     fun getAuthStep(client: Client): AuthStep? {
