@@ -35,7 +35,6 @@ import kotlinmud.room.type.Direction
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
 import kotlinmud.weather.type.Weather
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class ActionContextService(
     private val mobService: MobService,
@@ -172,7 +171,7 @@ class ActionContextService(
     }
 
     fun setDisposition(disposition: Disposition) {
-        transaction { getMob().disposition = disposition }
+        getMob().disposition = disposition
     }
 
     fun getAcceptableQuests(): List<Quest> {

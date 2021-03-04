@@ -4,27 +4,18 @@ import kotlinmud.action.exception.InvokeException
 import kotlinmud.helper.math.dice
 import kotlinmud.helper.random.randomAmount
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.repository.decrementAllItemDecayTimers
-import kotlinmud.item.repository.findOneByRoom
 import kotlinmud.item.repository.removeAllEquipmentForMob
-import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.type.Form
-import kotlinmud.room.dao.RoomDAO
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class ItemService {
     private val items = mutableListOf<Item>()
     fun add(item: Item) {
         items.add(item)
-    }
-
-    fun findByRoom(room: RoomDAO, input: String): ItemDAO? {
-        return findOneByRoom(room, input)
     }
 
     fun getItemGroups(mob: Mob): Map<String, List<Item>> {
@@ -49,7 +40,7 @@ class ItemService {
 
     fun createCorpseFromMob(mob: Mob): Item {
         removeAllEquipmentForMob(mob)
-        val corpse = ItemBuilder(this@ItemService)
+        val corpse = ItemBuilder(this)
             .name("a corpse of $mob")
             .description("a corpse of $mob is here.")
             .level(mob.level)
@@ -90,30 +81,6 @@ class ItemService {
             2 -> createEntrails()
             3 -> createHeart(mob)
             4 -> createLiver()
-        }
-    }
-
-    private fun checkItemCount(inventory: HasInventory) {
-        transaction {
-            val count = inventory.items.count()
-            if (inventory.maxItems != null && count + 1 > inventory.maxItems!!) {
-                throw InvokeException(
-                    if (inventory is Mob)
-                        "you cannot carry any more."
-                    else
-                        "that is full."
-                )
-            }
-        }
-    }
-
-    private fun checkWeight(inventory: HasInventory, item: ItemDAO) {
-        transaction {
-            val weight = inventory.items.fold(0.0) { acc, it -> acc + it.weight }
-            val maxWeight = inventory.maxWeight
-            if (maxWeight != null && weight + item.weight > maxWeight) {
-                throw InvokeException("that is too heavy.")
-            }
         }
     }
 

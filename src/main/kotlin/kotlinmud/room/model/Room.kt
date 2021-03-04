@@ -12,7 +12,6 @@ import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.type.RoomCanonicalId
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class Room(
     val name: String,
@@ -88,15 +87,13 @@ class Room(
     }
 
     fun isElevationPassable(direction: Direction): Boolean {
-        return transaction {
-            when (direction) {
-                Direction.NORTH -> isElevationPassable(north)
-                Direction.SOUTH -> isElevationPassable(south)
-                Direction.EAST -> isElevationPassable(east)
-                Direction.WEST -> isElevationPassable(west)
-                Direction.UP -> isElevationPassable(up)
-                Direction.DOWN -> isElevationPassable(down)
-            }
+        return when (direction) {
+            Direction.NORTH -> isElevationPassable(north)
+            Direction.SOUTH -> isElevationPassable(south)
+            Direction.EAST -> isElevationPassable(east)
+            Direction.WEST -> isElevationPassable(west)
+            Direction.UP -> isElevationPassable(up)
+            Direction.DOWN -> isElevationPassable(down)
         }
     }
 

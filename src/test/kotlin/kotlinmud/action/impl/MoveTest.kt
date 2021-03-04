@@ -146,11 +146,13 @@ class MoveTest {
         // given
         testService.getStartRoom {
             it.west = dst
-            it.westDoor = DoorDAO.new {
-                name = "a door"
-                description = "a door"
-                defaultDisposition = DoorDisposition.CLOSED
-                disposition = DoorDisposition.CLOSED
+            it.westDoor = transaction {
+                DoorDAO.new {
+                    name = "a door"
+                    description = "a door"
+                    defaultDisposition = DoorDisposition.CLOSED
+                    disposition = DoorDisposition.CLOSED
+                }
             }
         }
 

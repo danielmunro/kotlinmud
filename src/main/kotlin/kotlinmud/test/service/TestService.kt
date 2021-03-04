@@ -172,9 +172,7 @@ class TestService(
 
     fun getStartRoom(modifier: (Room) -> Unit): Room {
         val room = getStartRoom()
-        transaction {
-            modifier(room)
-        }
+        modifier(room)
         return room
     }
 
@@ -199,9 +197,7 @@ class TestService(
             .maxItems(100)
             .maxWeight(1000)
             .build()
-        transaction {
-            weapon(mob)
-        }
+        weapon(mob)
         if (this.mob == null) {
             this.mob = mob
         } else if (this.target == null) {
@@ -234,7 +230,7 @@ class TestService(
 
     fun createMob(modifier: (Mob) -> Unit): Mob {
         return createMob().let {
-            transaction { modifier(it) }
+            modifier(it)
             it
         }
     }
@@ -300,7 +296,7 @@ class TestService(
 
     fun createPlayerMob(mutator: (mob: Mob) -> Unit): Mob {
         val mob = createPlayerMob()
-        transaction { mutator(mob) }
+        mutator(mob)
         return mob
     }
 
@@ -334,7 +330,7 @@ class TestService(
 
     fun createItem(modifier: (Item) -> Unit): Item {
         return createItem().let {
-            transaction { modifier(it) }
+            modifier(it)
             it
         }
     }
