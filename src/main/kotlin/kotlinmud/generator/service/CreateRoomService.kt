@@ -9,7 +9,6 @@ import kotlinmud.generator.constant.DEPTH_UNDERGROUND
 import kotlinmud.generator.type.Layer
 import kotlinmud.generator.type.Matrix3D
 import kotlinmud.room.builder.RoomBuilder
-import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
@@ -45,10 +44,10 @@ class CreateRoomService(private val roomService: RoomService) {
             else -> BiomeType.SKY
         }
         return RoomBuilder(roomService)
-                .name("todo")
-                .description("todo")
-                .area(Area.None)
-                .substrate(if (biome == BiomeType.UNDERGROUND) { SubstrateType.ROCK } else { SubstrateType.NONE })
-                .build()
+            .name("todo")
+            .description("todo")
+            .area(Area.None)
+            .substrate(if (biome == BiomeType.UNDERGROUND) { SubstrateType.ROCK } else { SubstrateType.NONE })
+            .build()
     }
 }

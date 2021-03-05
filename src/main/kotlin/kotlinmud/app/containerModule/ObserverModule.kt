@@ -29,7 +29,6 @@ import kotlinmud.event.observer.impl.tick.DecrementAffectTimeoutTickObserver
 import kotlinmud.event.observer.impl.tick.DecrementDelayObserver
 import kotlinmud.event.observer.impl.tick.DecrementItemDecayTimerObserver
 import kotlinmud.event.observer.impl.tick.GenerateGrassObserver
-import kotlinmud.event.observer.impl.tick.GenerateMobsObserver
 import kotlinmud.event.observer.impl.tick.GrowResourcesObserver
 import kotlinmud.event.observer.impl.tick.LogTickObserver
 import kotlinmud.event.observer.impl.tick.MoveMobsOnTickObserver
@@ -112,10 +111,6 @@ val ObserverModule = Kodein.Module {
 
     bind<Observer>(tag = Tag.SCAVENGER_COLLECTS_ITEM) with provider {
         ScavengerCollectsItemsObserver(instance(), instance(), instance())
-    }
-
-    bind<Observer>(tag = Tag.GENERATE_MOBS) with provider {
-        GenerateMobsObserver(instance())
     }
 
     bind<Observer>(tag = Tag.FAST_HEALING) with provider {

@@ -7,14 +7,13 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.type.HasInventory
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class ItemInAvailableItemInventoryContextBuilder(
     private val hasInventory: Any
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
         val items = if (hasInventory is ItemDAO) {
-            transaction { hasInventory.items.toList() }
+            hasInventory.items.toList()
         } else if (hasInventory is HasInventory) {
             hasInventory.items
         } else if (hasInventory is Item) {

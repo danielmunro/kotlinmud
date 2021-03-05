@@ -10,7 +10,6 @@ import kotlinmud.generator.statemachine.transition.biomeTransition
 import kotlinmud.generator.statemachine.transition.createArborealForestTransition
 import kotlinmud.generator.statemachine.transition.createExitTransition
 import kotlinmud.generator.statemachine.transition.createJungleTransition
-import kotlinmud.generator.statemachine.transition.createMobsTransition
 import kotlinmud.generator.statemachine.transition.createRoomsTransition
 import kotlinmud.generator.statemachine.transition.elevationTransition
 import kotlinmud.generator.type.WorldGeneratorStateMachine
@@ -58,7 +57,6 @@ fun createStateMachine(
         }
         state<State.CreateMobs> {
             on<Event.OnReadyToCreateMobs> {
-                createMobsTransition(biomes)
                 transitionTo(State.CreateExits)
             }
         }

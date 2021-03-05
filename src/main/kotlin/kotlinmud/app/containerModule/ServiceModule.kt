@@ -4,10 +4,8 @@ import kotlinmud.action.helper.createActionContextBuilder
 import kotlinmud.action.helper.createActionsList
 import kotlinmud.action.service.ActionService
 import kotlinmud.action.service.ContextBuilderService
-import kotlinmud.biome.helper.createBiomes
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.service.FixtureService
-import kotlinmud.generator.service.MobGeneratorService
 import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.helper.createRecipeList
@@ -105,9 +103,6 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
                 createSkillList(),
                 createRecipeList()
             )
-        }
-        bind<MobGeneratorService>() with singleton {
-            MobGeneratorService(createBiomes())
         }
         bind<ResourceService>() with singleton {
             ResourceService(instance(), instance())

@@ -10,7 +10,6 @@ import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.model.Room
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createLookAction(): Action {
     return Action(Command.LOOK, mustBeAwake()) {
@@ -30,24 +29,22 @@ fun createLookAction(): Action {
 }
 
 fun describeRoom(actionContextService: ActionContextService, room: Room, mob: Mob, mobs: List<Mob>, roomItems: List<Item>): String {
-    return transaction {
-        mob.affects.find { it.type == AffectType.BLIND }?.let {
-            return@transaction "you can't see anything, you're blind!"
-        }
-        val observers = mobs.filter {
-            it != mob && it.affects.find { affect -> affect.type == AffectType.INVISIBILITY } == null
-        }
-        return@transaction String.format(
-            "%s\n%sExits [%s]%s%s%s%s",
-            actionContextService.getDynamicRoomDescription(),
-            showDoors(room),
-            reduceExits(room),
-            if (roomItems.isNotEmpty()) "\n" else "",
-            roomItems.joinToString("\n") { "${it.name} is here." },
-            if (observers.count() > 0) "\n" else "",
-            observers.joinToString("\n") { it.brief }
-        )
+    mob.affects.find { it.type == AffectType.BLIND }?.let {
+        return "you can't see anything, you're blind!"
     }
+    val observers = mobs.filter {
+        it != mob && it.affects.find { affect -> affect.type == AffectType.INVISIBILITY } == null
+    }
+    return String.format(
+        "%s\n%sExits [%s]%s%s%s%s",
+        actionContextService.getDynamicRoomDescription(),
+        showDoors(room),
+        reduceExits(room),
+        if (roomItems.isNotEmpty()) "\n" else "",
+        roomItems.joinToString("\n") { "${it.name} is here." },
+        if (observers.count() > 0) "\n" else "",
+        observers.joinToString("\n") { it.brief }
+    )
 }
 
 fun showDoors(room: Room): String {
