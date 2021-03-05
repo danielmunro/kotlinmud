@@ -4,7 +4,6 @@ import assertk.assertThat
 import assertk.assertions.isNull
 import kotlinmud.test.helper.createTestService
 import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class ProceedFightsPulseObserverTest {
@@ -16,7 +15,7 @@ class ProceedFightsPulseObserverTest {
         test.addFight(mob, test.createMob())
 
         // given
-        transaction { mob.hp = -1 }
+        mob.hp = -1
 
         // when
         runBlocking { test.callProceedFightsEvent() }

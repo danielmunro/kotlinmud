@@ -32,7 +32,7 @@ class MobServiceTest {
         testService.decrementAffects()
 
         // then
-        val affect = transaction { mob.affects.find { it.type == AffectType.BLESS } }!!
+        val affect = mob.affects.find { it.type == AffectType.BLESS }!!
         assertThat(affect.timeout).isEqualTo(initial - 1)
     }
 
@@ -83,7 +83,7 @@ class MobServiceTest {
         val count = testService.findMobsInRoom().size
 
         // given
-        transaction { mob1.disposition = Disposition.DEAD }
+        mob1.disposition = Disposition.DEAD
 
         // when
         runBlocking { testService.pruneDeadMobs() }

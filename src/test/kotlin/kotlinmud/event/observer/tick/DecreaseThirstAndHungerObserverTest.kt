@@ -21,7 +21,7 @@ class DecreaseThirstAndHungerObserverTest {
         client.mob = test.createPlayerMob()
 
         // when
-        transaction { test.callDecreaseThirstAndHungerEvent(createTickEvent()) }
+        test.callDecreaseThirstAndHungerEvent(createTickEvent())
 
         // then
         findMobCardByName(client.mob!!.name)!!.let {
@@ -39,7 +39,7 @@ class DecreaseThirstAndHungerObserverTest {
         test.getClient()
 
         // when
-        transaction { test.callDecreaseThirstAndHungerEvent(createTickEvent()) }
+        test.callDecreaseThirstAndHungerEvent(createTickEvent())
     }
 
     @Test
@@ -57,7 +57,7 @@ class DecreaseThirstAndHungerObserverTest {
         }
 
         // when
-        transaction { test.callDecreaseThirstAndHungerEvent(createTickEvent()) }
+        test.callDecreaseThirstAndHungerEvent(createTickEvent())
 
         // then
         verify {

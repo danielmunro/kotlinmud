@@ -4,7 +4,6 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.event.factory.createFightRoundEvent
 import kotlinmud.test.helper.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class WimpyObserverTest {
@@ -23,13 +22,11 @@ class WimpyObserverTest {
         test.addFight(mob, test.createMob())
 
         // expect
-        assertThat(transaction { mob.room }).isEqualTo(test.getStartRoom())
+        assertThat(mob.room).isEqualTo(test.getStartRoom())
 
         // when
         val fight = test.addFight(mob, mob)
-        transaction {
-            test.callWimpyEvent(fight.createFightRoundEvent())
-        }
+        test.callWimpyEvent(fight.createFightRoundEvent())
 
         // then
         assertThat(mob.room).isEqualTo(dst)
