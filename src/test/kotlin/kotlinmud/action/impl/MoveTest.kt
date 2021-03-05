@@ -7,10 +7,8 @@ import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.type.Disposition
-import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.helper.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class MoveTest {
@@ -146,14 +144,8 @@ class MoveTest {
         // given
         testService.getStartRoom {
             it.west = dst
-            it.westDoor = transaction {
-                DoorDAO.new {
-                    name = "a door"
-                    description = "a door"
-                    defaultDisposition = DoorDisposition.CLOSED
-                    disposition = DoorDisposition.CLOSED
-                }
-            }
+            it.westDoor = testService.createDoor()
+            it.westDoor!!.disposition = DoorDisposition.CLOSED
         }
 
         // when

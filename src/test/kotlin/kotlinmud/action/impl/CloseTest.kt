@@ -5,7 +5,6 @@ import assertk.assertions.isEqualTo
 import kotlinmud.io.type.IOStatus
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.helper.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class CloseTest {
@@ -17,11 +16,9 @@ class CloseTest {
         // given
         val name = "a door"
         val room = testService.getStartRoom()
-        transaction {
-            val door = testService.createDoor()
-            door.disposition = DoorDisposition.OPEN
-            room.northDoor = door
-        }
+        val door = testService.createDoor()
+        door.disposition = DoorDisposition.OPEN
+        room.northDoor = door
 
         // when
         val response = testService.runAction("close door")
@@ -37,9 +34,8 @@ class CloseTest {
 
         // given
         val room = testService.getStartRoom()
-        transaction {
-            room.northDoor = testService.createDoor()
-        }
+        room.northDoor = testService.createDoor()
+        room.northDoor!!.disposition = DoorDisposition.CLOSED
 
         // when
         val response = testService.runAction("close door")

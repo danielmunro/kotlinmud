@@ -58,7 +58,7 @@ import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestType
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.room.builder.RoomBuilder
-import kotlinmud.room.dao.DoorDAO
+import kotlinmud.room.model.Door
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
@@ -178,15 +178,13 @@ class TestService(
         return room
     }
 
-    fun createDoor(): DoorDAO {
-        return transaction {
-            DoorDAO.new {
-                name = "a door"
-                description = "a door"
-                disposition = DoorDisposition.CLOSED
-                defaultDisposition = DoorDisposition.CLOSED
-            }
-        }
+    fun createDoor(): Door {
+        return Door(
+            "a door",
+            "a door",
+            DoorDisposition.CLOSED,
+            DoorDisposition.CLOSED,
+        )
     }
 
     fun createMob(card: MobCardDAO? = null): Mob {

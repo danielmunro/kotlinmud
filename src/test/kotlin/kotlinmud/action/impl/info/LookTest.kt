@@ -6,11 +6,8 @@ import assertk.assertions.doesNotContain
 import assertk.assertions.isEqualTo
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
-import kotlinmud.room.dao.DoorDAO
-import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class LookTest {
@@ -120,15 +117,8 @@ class LookTest {
         val room = mob.room
 
         // given
-        val door = transaction {
-            room.northDoor = DoorDAO.new {
-                name = "a door"
-                description = "a door"
-                disposition = DoorDisposition.OPEN
-                defaultDisposition = DoorDisposition.OPEN
-            }
-            room.northDoor!!
-        }
+        val door = testService.createDoor()
+        room.northDoor = door
 
         // when
         val response = testService.runAction("look")

@@ -6,7 +6,6 @@ import kotlinmud.biome.type.SubstrateType
 import kotlinmud.item.model.Item
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.model.Mob
-import kotlinmud.room.dao.DoorDAO
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
@@ -30,17 +29,17 @@ class Room(
     val owner: Mob?
 ) {
     var north: Room? = null
-    var northDoor: DoorDAO? = null
+    var northDoor: Door? = null
     var south: Room? = null
-    var southDoor: DoorDAO? = null
+    var southDoor: Door? = null
     var east: Room? = null
-    var eastDoor: DoorDAO? = null
+    var eastDoor: Door? = null
     var west: Room? = null
-    var westDoor: DoorDAO? = null
+    var westDoor: Door? = null
     var up: Room? = null
-    var upDoor: DoorDAO? = null
+    var upDoor: Door? = null
     var down: Room? = null
-    var downDoor: DoorDAO? = null
+    var downDoor: Door? = null
 
     fun getAllExits(): Map<Direction, Room> {
         val exits = mutableMapOf<Direction, Room>()
@@ -53,8 +52,8 @@ class Room(
         return exits
     }
 
-    fun getDoors(): Map<Direction, DoorDAO> {
-        val exits = mutableMapOf<Direction, DoorDAO>()
+    fun getDoors(): Map<Direction, Door> {
+        val exits = mutableMapOf<Direction, Door>()
         northDoor?.let { exits[Direction.NORTH] = it }
         southDoor?.let { exits[Direction.SOUTH] = it }
         eastDoor?.let { exits[Direction.EAST] = it }
@@ -64,7 +63,7 @@ class Room(
         return exits
     }
 
-    fun getDoorForDirection(direction: Direction): DoorDAO? {
+    fun getDoorForDirection(direction: Direction): Door? {
         return when (direction) {
             Direction.NORTH -> northDoor
             Direction.SOUTH -> southDoor
@@ -101,7 +100,7 @@ class Room(
         return room != null && room.elevation - elevation < MAX_WALKABLE_ELEVATION
     }
 
-    private fun isDoorPassable(door: DoorDAO?): Boolean {
+    private fun isDoorPassable(door: Door?): Boolean {
         return door == null || door.disposition == DoorDisposition.OPEN
     }
 }

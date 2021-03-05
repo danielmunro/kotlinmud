@@ -9,7 +9,7 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.room.dao.DoorDAO
+import kotlinmud.room.model.Door
 import kotlinmud.room.type.Direction
 
 fun messageToActionCreator(message: String): Message {
@@ -137,7 +137,7 @@ fun createPracticeMessage(mob: Mob, skillType: SkillType): Message {
         .build()
 }
 
-fun createOpenMessage(mob: Mob, door: DoorDAO): Message {
+fun createOpenMessage(mob: Mob, door: Door): Message {
     return MessageBuilder()
         .toActionCreator("you open $door.")
         .toObservers("$mob opens $door.")
@@ -188,7 +188,7 @@ fun createCraftMessage(mob: Mob, recipe: Recipe): Message {
         .build()
 }
 
-fun createCloseMessage(mob: Mob, door: DoorDAO): Message {
+fun createCloseMessage(mob: Mob, door: Door): Message {
     return MessageBuilder()
         .toActionCreator("you close $door.")
         .toObservers("$mob closes $door.")
