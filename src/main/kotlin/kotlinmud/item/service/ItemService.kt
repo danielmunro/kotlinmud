@@ -5,7 +5,6 @@ import kotlinmud.helper.math.dice
 import kotlinmud.helper.random.randomAmount
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
-import kotlinmud.item.repository.removeAllEquipmentForMob
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.model.Mob
@@ -13,6 +12,7 @@ import kotlinmud.mob.type.Form
 
 class ItemService {
     private val items = mutableListOf<Item>()
+
     fun add(item: Item) {
         items.add(item)
     }
@@ -60,6 +60,11 @@ class ItemService {
             2 -> evaluateMobItemDrops(mob)
         }
         return corpse
+    }
+
+    private fun removeAllEquipmentForMob(mob: Mob) {
+        mob.items.addAll(mob.equipped)
+        mob.equipped.clear()
     }
 
     private fun evaluateMobItemDrops(mob: Mob) {

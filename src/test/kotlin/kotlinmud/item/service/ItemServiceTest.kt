@@ -15,8 +15,8 @@ class ItemServiceTest {
         // given
         val amount = 5
         val item = test.createItemBuilder()
-                .decayTimer(amount)
-                .build()
+            .decayTimer(amount)
+            .build()
 
         // when
         test.callDecayEvent()
@@ -33,8 +33,8 @@ class ItemServiceTest {
         // given
         val amount = 1
         val item = test.createItemBuilder()
-                .decayTimer(amount)
-                .build()
+            .decayTimer(amount)
+            .build()
         val mob = test.createMob()
         mob.items.add(item)
 
@@ -54,8 +54,8 @@ class ItemServiceTest {
         // given
         val amount = 1
         val item = test.createItemBuilder()
-                .decayTimer(amount)
-                .build()
+            .decayTimer(amount)
+            .build()
         val room = test.getStartRoom()
         room.items.add(item)
 

@@ -14,7 +14,7 @@ class RespawnService(
     private val mobRespawns: List<MobRespawn>
 ) {
     fun respawn() {
-        ItemRespawnService(itemRespawns).respawn()
+        ItemRespawnService(roomService, itemRespawns).respawn()
         MobRespawnService(mobRespawns, mobService, roomService).respawn()
     }
 }

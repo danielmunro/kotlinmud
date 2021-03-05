@@ -1,8 +1,8 @@
 package kotlinmud.type
 
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 
 interface Builder {
-    fun room(value: RoomDAO): Builder
+    fun room(value: Room): Builder
     fun build(): Any
 }

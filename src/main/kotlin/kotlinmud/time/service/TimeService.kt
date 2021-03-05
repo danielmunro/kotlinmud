@@ -33,7 +33,7 @@ class TimeService(private val eventService: EventService, private var time: Time
     fun getDate(): String {
         val numberOfDays = transaction { time.time } / TICKS_IN_DAY
         val dayOfMonth = numberOfDays % DAYS_IN_MONTH
-        val month = numberOfDays / DAYS_IN_MONTH
+        val month = (numberOfDays / DAYS_IN_MONTH) + 1
         val year = numberOfDays % DAYS_IN_YEAR
 
         return "it is the ${dayOfMonth}${getEndOfDayMonth(dayOfMonth)} day of month $month of year $year"

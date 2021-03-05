@@ -1,6 +1,6 @@
 package kotlinmud.item.model
 
-import kotlinmud.item.helper.ItemBuilder
+import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.room.type.Area
 

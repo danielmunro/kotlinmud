@@ -1,7 +1,8 @@
 package kotlinmud.world.itrias.lorimir
 
-import kotlinmud.item.helper.ItemBuilder
+import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.ItemRespawn
+import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.Material
@@ -13,11 +14,12 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.type.Area
 
-fun getLorimirItemRespawns(): List<ItemRespawn> {
+fun getLorimirItemRespawns(itemService: ItemService): List<ItemRespawn> {
     return listOf(
         ItemRespawn(
             ItemCanonicalId.Mushroom,
-            ItemBuilder("a small brown mushroom")
+            ItemBuilder(itemService)
+                .name("a small brown mushroom")
                 .description("foo")
                 .material(Material.ORGANIC)
                 .food(Food.MUSHROOM)

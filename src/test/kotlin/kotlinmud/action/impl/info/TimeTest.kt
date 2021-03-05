@@ -12,12 +12,12 @@ class TimeTest {
         val test = createTestService()
 
         // given
-        test.incrementTicks(1000)
+        test.incrementTicks(30)
 
         // when
         val response = test.runAction("time")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("it is the 20th day of month 1 of year 50")
+        assertThat(response.message.toActionCreator).isEqualTo("it is the 1st day of month 1 of year 1")
     }
 }

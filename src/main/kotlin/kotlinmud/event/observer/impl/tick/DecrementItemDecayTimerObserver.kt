@@ -7,9 +7,9 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.room.service.RoomService
 
 class DecrementItemDecayTimerObserver(
-        private val mobService: MobService,
-        private val roomService: RoomService,
-        private val itemService: ItemService,
+    private val mobService: MobService,
+    private val roomService: RoomService,
+    private val itemService: ItemService,
 ) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         itemService.decrementDecayTimer()

@@ -122,6 +122,7 @@ class ItemBuilder(private val itemService: ItemService) {
 
     fun food(value: Food): ItemBuilder {
         food = value
+        type = ItemType.FOOD
         return this
     }
 
