@@ -8,7 +8,6 @@ import assertk.assertions.isLessThan
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.test.helper.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class HarvestTest {
@@ -32,7 +31,7 @@ class HarvestTest {
         assertThat(response.delay).isGreaterThan(0)
         assertThat(mob.mv).isLessThan(mob.calc(Attribute.MV))
         assertThat(test.findAllItemsByOwner(mob)).hasSize(itemCount + 1)
-        assertThat(transaction { room.resources.toList() }).hasSize(0)
+        assertThat(room.resources.toList()).hasSize(0)
     }
 
     @Test

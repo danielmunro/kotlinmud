@@ -25,7 +25,7 @@ fun createStateMachine(
     return StateMachine.create {
         initialState(State.Biomes)
         val biomes = createBiomes()
-        val createRoomService = CreateRoomService()
+        val createRoomService = CreateRoomService(roomService)
         state<State.Biomes> {
             on<Event.OnReadyForBiomes> {
                 biomeTransition(worldGeneration, biomeService, config)

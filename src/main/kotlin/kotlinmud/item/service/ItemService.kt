@@ -5,6 +5,7 @@ import kotlinmud.helper.math.dice
 import kotlinmud.helper.random.randomAmount
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
+import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.model.Mob
@@ -17,8 +18,8 @@ class ItemService {
         items.add(item)
     }
 
-    fun getItemGroups(mob: Mob): Map<String, List<Item>> {
-        return mob.items.groupBy { it.name }
+    fun findByCanonicalId(id: ItemCanonicalId): List<Item> {
+        return items.filter { it.canonicalId == id }
     }
 
     fun putItemInContainer(item: Item, container: Item) {

@@ -8,18 +8,15 @@ import kotlinmud.biome.impl.Mountain
 import kotlinmud.biome.impl.Plains
 import kotlinmud.biome.impl.Tundra
 import kotlinmud.biome.type.Biome
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createBiomes(): List<Biome> {
-    return transaction {
-        listOf(
-            Plains(),
-            Arboreal(),
-            Tundra(),
-            Desert(),
-            Jungle(),
-            Mountain(),
-            Badlands()
-        )
-    }
+    return listOf(
+        Plains(),
+        Arboreal(),
+        Tundra(),
+        Desert(),
+        Jungle(),
+        Mountain(),
+        Badlands()
+    )
 }

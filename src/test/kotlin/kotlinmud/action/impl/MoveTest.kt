@@ -228,6 +228,6 @@ class MoveTest {
 
         // then
         assertThat(response.status).isEqualTo(IOStatus.ERROR)
-        assertThat(response.message.toActionCreator).isEqualTo("${transaction { dst.name } } is blocked by dirt.")
+        assertThat(response.message.toActionCreator).isEqualTo("${dst.name} is blocked by dirt.")
     }
 }

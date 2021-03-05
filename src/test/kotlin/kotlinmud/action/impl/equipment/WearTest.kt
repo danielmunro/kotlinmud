@@ -7,7 +7,6 @@ import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.test.helper.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class WearTest {
@@ -25,7 +24,7 @@ class WearTest {
             .name("a shield")
             .build()
         mob.items.add(item)
-        val count = transaction { mob.equipped.count() }
+        val count = mob.equipped.count()
 
         // when
         val response = test.runAction("wear shield")
@@ -35,7 +34,7 @@ class WearTest {
         assertThat(response.message.toObservers).isEqualTo("$mob wears a shield.")
 
         // and
-        assertThat(transaction { mob.equipped.count() }).isEqualTo(count + 1)
+        assertThat(mob.equipped.count()).isEqualTo(count + 1)
     }
 
     @Test
@@ -45,7 +44,7 @@ class WearTest {
 
         // given
         val mob = test.createMob()
-        val equippedCount = transaction { mob.equipped.count() }
+        val equippedCount = mob.equipped.count()
         val item = test.createItemBuilder()
             .name("a book")
             .material(Material.FLAMMABLE)
@@ -60,6 +59,6 @@ class WearTest {
         assertThat(response.message.toActionCreator).isEqualTo("you can't equip that.")
 
         // and
-        assertThat(transaction { mob.equipped.toList() }).hasSize(equippedCount)
+        assertThat(mob.equipped.toList()).hasSize(equippedCount)
     }
 }

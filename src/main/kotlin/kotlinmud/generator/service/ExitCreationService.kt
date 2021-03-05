@@ -2,14 +2,13 @@ package kotlinmud.generator.service
 
 import kotlinmud.generator.constant.DEPTH
 import kotlinmud.generator.model.World
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class ExitCreationService(private val world: World) {
     fun hookUpRoomExits() {
         for (z in world.matrix3D.indices) {
             for (y in world.matrix3D[z].indices) {
                 for (x in world.matrix3D[z][y].indices) {
-                    transaction { hookUpRoom(world, x, y, z) }
+                    hookUpRoom(world, x, y, z)
                 }
             }
         }

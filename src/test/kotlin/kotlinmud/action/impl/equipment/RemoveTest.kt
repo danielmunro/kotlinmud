@@ -20,7 +20,7 @@ class RemoveTest {
             .name("a shield")
             .build()
         mob.equipped.add(item)
-        val equippedAmount = transaction { mob.equipped.count() }
+        val equippedAmount = mob.equipped.count()
 
         // when
         val response = test.runAction("remove shield")

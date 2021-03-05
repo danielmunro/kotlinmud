@@ -2,15 +2,13 @@ package kotlinmud.item.service
 
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.ItemRespawn
-import kotlinmud.item.table.Items
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class ItemRespawnService(
     private val roomService: RoomService,
+    private val itemService: ItemService,
     private val respawns: List<ItemRespawn>
 ) {
     fun respawn() {
@@ -26,7 +24,7 @@ class ItemRespawnService(
 
     private fun doRespawn(area: Area, maxAmount: Int, canonicalId: ItemCanonicalId, itemBuilder: ItemBuilder) {
         val rooms = roomService.findByArea(area)
-        val count = countItemsByCanonicalId(canonicalId)
+        val count = itemService.findByCanonicalId(canonicalId).count()
         var amountToRespawn = Math.min(maxAmount - count, maxAmount)
         val randomSubset = rooms.filter { Math.random() < 0.3 }
         var i = 0
@@ -38,12 +36,6 @@ class ItemRespawnService(
             itemBuilder.room(randomSubset[i]).build()
             amountToRespawn -= 1
             i += 1
-        }
-    }
-
-    private fun countItemsByCanonicalId(id: ItemCanonicalId): Int {
-        return transaction {
-            Items.select { Items.canonicalId eq id.toString() }.count()
         }
     }
 }

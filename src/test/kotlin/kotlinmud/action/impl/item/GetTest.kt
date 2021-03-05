@@ -8,7 +8,6 @@ import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class GetTest {
@@ -17,7 +16,7 @@ class GetTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val room = transaction { mob.room }
+        val room = mob.room
         val item = testService.createItem()
         room.items.add(item)
         val roomItemCount = testService.countItemsFor(room)

@@ -141,7 +141,7 @@ class ActionContextService(
     }
 
     fun getItemGroupsFor(mob: Mob): Map<String, List<Item>> {
-        return itemService.getItemGroups(mob)
+        return mob.items.groupBy { it.name }
     }
 
     fun giveItemToMob(item: Item, mob: Mob) {

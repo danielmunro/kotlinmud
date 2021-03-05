@@ -8,27 +8,27 @@ import kotlinmud.generator.constant.DEPTH_GROUND
 import kotlinmud.generator.constant.DEPTH_UNDERGROUND
 import kotlinmud.generator.type.Layer
 import kotlinmud.generator.type.Matrix3D
+import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
+import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
-import org.jetbrains.exposed.sql.transactions.transaction
 
-class CreateRoomService {
-    val rooms = mutableListOf<RoomDAO>()
+class CreateRoomService(private val roomService: RoomService) {
+    val rooms = mutableListOf<Room>()
     fun generate(config: GeneratorConfig, elevationLayer: Layer, biomeLayer: Layer): Matrix3D {
         var index = 0
         return Array(DEPTH) { z ->
-            transaction {
-                Array(config.length) { y ->
-                    IntArray(config.width) { x ->
-                        addRoom(rooms, z, elevationLayer[y][x], BiomeType.fromIndex(biomeLayer[y][x]))
-                        index++
-                    }
+            Array(config.length) { y ->
+                IntArray(config.width) { x ->
+                    addRoom(rooms, z, elevationLayer[y][x], BiomeType.fromIndex(biomeLayer[y][x]))
+                    index++
                 }
             }
         }
     }
 
-    private fun addRoom(rooms: MutableList<RoomDAO>, z: Int, elevationValue: Int, biomeType: BiomeType) {
+    private fun addRoom(rooms: MutableList<Room>, z: Int, elevationValue: Int, biomeType: BiomeType) {
         rooms.add(
             buildRoom(
                 z,
@@ -38,18 +38,17 @@ class CreateRoomService {
         )
     }
 
-    private fun buildRoom(z: Int, elevation: Int, biomeType: BiomeType): RoomDAO {
+    private fun buildRoom(z: Int, elevation: Int, biomeType: BiomeType): Room {
         val biome = when {
             z < DEPTH_UNDERGROUND -> BiomeType.UNDERGROUND
             z < DEPTH_GROUND + elevation -> biomeType
             else -> BiomeType.SKY
         }
-        return RoomDAO.new {
-            name = "todo"
-            description = "todo"
-            area = Area.None
-            this.biome = biome
-            substrate = if (biome == BiomeType.UNDERGROUND) { SubstrateType.ROCK } else { SubstrateType.NONE }
-        }
+        return RoomBuilder(roomService)
+                .name("todo")
+                .description("todo")
+                .area(Area.None)
+                .substrate(if (biome == BiomeType.UNDERGROUND) { SubstrateType.ROCK } else { SubstrateType.NONE })
+                .build()
     }
 }

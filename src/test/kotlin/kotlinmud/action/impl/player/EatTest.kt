@@ -41,7 +41,7 @@ class EatTest {
         val response = test.runAction("eat pie")
 
         // then
-        val affect = transaction { mob.affects.find { it.type == AffectType.STUNNED } }!!
+        val affect = mob.affects.find { it.type == AffectType.STUNNED }!!
         assertThat(affect.type).isEqualTo(AffectType.STUNNED)
         assertThat(affect.timeout).isEqualTo(timeout)
 

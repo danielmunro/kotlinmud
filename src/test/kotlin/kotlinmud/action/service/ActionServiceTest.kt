@@ -9,7 +9,6 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
-import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.test.Test
 
 class ActionServiceTest {
@@ -37,7 +36,7 @@ class ActionServiceTest {
         mob.skills[SkillType.BERSERK] = 1
 
         // given
-        transaction { mob.mv = 0 }
+        mob.mv = 0
 
         // when
         val response = testService.runActionForIOStatus(mob, "berserk", IOStatus.OK)

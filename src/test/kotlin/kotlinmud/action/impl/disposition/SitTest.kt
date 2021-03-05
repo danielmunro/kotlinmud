@@ -4,7 +4,6 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.helper.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class SitTest {
@@ -21,7 +20,7 @@ class SitTest {
         val mob = test.getMob()
         assertThat(response.message.toActionCreator).isEqualTo("you sit down.")
         assertThat(response.message.toObservers).isEqualTo("$mob sits down.")
-        assertThat(transaction { mob.disposition }).isEqualTo(Disposition.SITTING)
+        assertThat(mob.disposition).isEqualTo(Disposition.SITTING)
     }
 
     @Test

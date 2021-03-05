@@ -9,7 +9,6 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class TripTest {
@@ -67,7 +66,7 @@ class TripTest {
 
         // then
         test.getTarget().let {
-            assertThat(transaction { it.affects.first().type }).isEqualTo(AffectType.STUNNED)
+            assertThat(it.affects.first().type).isEqualTo(AffectType.STUNNED)
         }
     }
 }
