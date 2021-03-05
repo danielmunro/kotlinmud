@@ -68,7 +68,7 @@ class LookTest {
         // setup
         val testService = createTestService()
         val mob = testService.createMob()
-        val room = transaction { mob.room }
+        val room = mob.room
         val item = testService.createItem()
 
         // given

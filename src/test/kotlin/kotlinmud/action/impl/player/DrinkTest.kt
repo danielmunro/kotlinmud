@@ -41,7 +41,7 @@ class DrinkTest {
         val response = test.runAction("drink beer")
 
         // then
-        val affect = transaction { mob.affects.find { it.type == AffectType.DRUNK }!! }
+        val affect = mob.affects.find { it.type == AffectType.DRUNK }!!
         assertThat(affect.type).isEqualTo(AffectType.DRUNK)
         assertThat(affect.timeout).isEqualTo(timeout)
 
