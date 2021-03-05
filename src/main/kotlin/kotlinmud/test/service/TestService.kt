@@ -107,6 +107,7 @@ class TestService(
         with(WorldGeneration()) {
             createStateMachine(
                 GeneratorConfig(width, length),
+                roomService,
                 BiomeService(width, length, createBiomes()),
                 this
             ).also {

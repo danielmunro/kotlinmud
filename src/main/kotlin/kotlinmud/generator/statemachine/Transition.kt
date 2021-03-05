@@ -14,9 +14,11 @@ import kotlinmud.generator.statemachine.transition.createMobsTransition
 import kotlinmud.generator.statemachine.transition.createRoomsTransition
 import kotlinmud.generator.statemachine.transition.elevationTransition
 import kotlinmud.generator.type.WorldGeneratorStateMachine
+import kotlinmud.room.service.RoomService
 
 fun createStateMachine(
     config: GeneratorConfig,
+    roomService: RoomService,
     biomeService: BiomeService,
     worldGeneration: WorldGeneration
 ): WorldGeneratorStateMachine {
@@ -44,13 +46,13 @@ fun createStateMachine(
         }
         state<State.CreateArborealForest> {
             on<Event.OnReadyForArborealForest> {
-                createArborealForestTransition()
+                createArborealForestTransition(roomService)
                 transitionTo(State.CreateJungle)
             }
         }
         state<State.CreateJungle> {
             on<Event.OnReadyForJungle> {
-                createJungleTransition()
+                createJungleTransition(roomService)
                 transitionTo(State.CreateMobs)
             }
         }

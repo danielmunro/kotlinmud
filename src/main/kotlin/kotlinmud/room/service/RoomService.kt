@@ -1,5 +1,6 @@
 package kotlinmud.room.service
 
+import kotlinmud.biome.type.BiomeType
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
 
@@ -16,6 +17,10 @@ class RoomService {
 
     fun findByArea(area: Area): List<Room> {
         return rooms.filter { it.area == area }
+    }
+
+    fun findByBiome(biomeType: BiomeType): List<Room> {
+        return rooms.filter { it.biome == biomeType }
     }
 
     fun filter(predicate: (room: Room) -> Boolean): List<Room> {
