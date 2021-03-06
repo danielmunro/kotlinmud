@@ -3,11 +3,14 @@ package kotlinmud.mob.fight
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isGreaterThan
+import assertk.assertions.isNotEqualTo
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.type.AttackResult
 import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.type.Disposition
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.model.ProbabilityTest
 import org.junit.Test
@@ -137,40 +140,40 @@ class FightTest {
 
     @Test
     fun testWimpyIsInvoked() {
-//        // setup
-//        val hp = 100
-//        val testService = createTestServiceWithResetDB()
-//        val room = testService.getStartRoom()
-//        val mob1 = testService.createMob {
-//            it.wimpy = hp
-//            it.attributes.hit = 10
-//            it.room = room
-//        }
-//        val mob2 = testService.createMob {
-//            it.wimpy = 0
-//            it.attributes.hit = 10
-//            it.room = room
-//        }
-//        val dst = testService.createRoom()
-//        transaction { testService.getStartRoom().north = dst }
-//
-//        // given
-//        val fight = testService.addFight(mob1, mob2)
-//
-//        // when
-//        while (!fight.isOver()) {
-//            testService.proceedFights()
-//        }
-//
-//        // then
-//        assertThat(mob1.disposition).isEqualTo(Disposition.STANDING)
-//        assertThat(mob2.disposition).isEqualTo(Disposition.STANDING)
-//
-//        // and
-//        assertThat(mob1.hp).isGreaterThan(0)
-//        assertThat(mob2.hp).isGreaterThan(0)
-//
-//        // and
-//        assertThat(mob1.room).isNotEqualTo(mob2.room)
+        // setup
+        val hp = 100
+        val testService = createTestService()
+        val room = testService.getStartRoom()
+        val mob1 = testService.createMob {
+            it.wimpy = hp
+            it.attributes[Attribute.HIT] = 10
+            it.room = room
+        }
+        val mob2 = testService.createMob {
+            it.wimpy = hp
+            it.attributes[Attribute.HIT] = 10
+            it.room = room
+        }
+        val dst = testService.createRoom()
+        testService.getStartRoom().north = dst
+
+        // given
+        val fight = testService.addFight(mob1, mob2)
+
+        // when
+        while (!fight.isOver()) {
+            testService.proceedFights()
+        }
+
+        // then
+        assertThat(mob1.disposition).isEqualTo(Disposition.STANDING)
+        assertThat(mob2.disposition).isEqualTo(Disposition.STANDING)
+
+        // and
+        assertThat(mob1.hp).isGreaterThan(0)
+        assertThat(mob2.hp).isGreaterThan(0)
+
+        // and
+        assertThat(mob1.room).isNotEqualTo(mob2.room)
     }
 }
