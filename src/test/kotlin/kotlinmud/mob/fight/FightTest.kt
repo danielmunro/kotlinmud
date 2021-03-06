@@ -34,16 +34,8 @@ class FightTest {
 
         while (prob.isIterating()) {
             val rounds = testService.proceedFights()
-            val outcome1 = rounds.find { round ->
-                round.attackerAttacks.find {
-                    it.attackResult == AttackResult.EVADE
-                } != null
-            }
-            val outcome2 = rounds.find { round ->
-                round.defenderAttacks.find {
-                    it.attackResult == AttackResult.EVADE
-                } != null
-            }
+            val outcome1 = rounds.find { roundContainsEvadedAttack(it.attackerAttacks) }
+            val outcome2 = rounds.find { roundContainsEvadedAttack(it.defenderAttacks) }
             prob.decrementIteration(outcome1 != null, outcome2 != null)
         }
 
@@ -57,41 +49,38 @@ class FightTest {
         // setup
         val testService = createTestService()
         val prob = ProbabilityTest()
-        var invoked = false
+        val createMob = {
+            testService.createMob {
+                it.skills[SkillType.SHIELD_BLOCK] = 100
+            }
+        }
 
         // given
-        val mob1 = testService.createMob {
-            it.skills[SkillType.SHIELD_BLOCK] = 100
-        }
-        val mob2 = testService.createMob {
-            it.skills[SkillType.SHIELD_BLOCK] = 100
-        }
+        val mob1 = createMob()
+        val mob2 = createMob()
 
         // and
-        val item = testService.createItemBuilder()
-            .position(Position.SHIELD)
-            .type(ItemType.EQUIPMENT)
-            .material(Material.IRON)
-            .build()
-        mob2.equipped.add(item)
+        mob2.equipped.add(
+            testService.createItemBuilder()
+                .position(Position.SHIELD)
+                .type(ItemType.EQUIPMENT)
+                .material(Material.IRON)
+                .build()
+        )
 
-        // when
+        // and
         testService.addFight(mob1, mob2)
 
-        while (!invoked && prob.isIterating()) {
+        // when
+        while (prob.isIterating()) {
             val rounds = testService.proceedFights()
-            val outcome1 = rounds.find { round ->
-                round.attackerAttacks.find {
-                    it.attackResult == AttackResult.EVADE
-                } != null
+            val outcome1 = rounds.find {
+                roundContainsEvadedAttack(it.attackerAttacks)
             }
-            val outcome2 = rounds.find { round ->
-                round.defenderAttacks.find {
-                    it.attackResult == AttackResult.EVADE
-                } != null
+            val outcome2 = rounds.find {
+                roundContainsEvadedAttack(it.defenderAttacks)
             }
             prob.decrementIteration(outcome1 != null, outcome2 != null)
-            invoked = outcome1 != null || outcome2 != null
         }
 
         // then
@@ -104,20 +93,15 @@ class FightTest {
         // setup
         val testService = createTestService()
         val prob = ProbabilityTest()
-        val createMob = {
-            testService.createMob {
-                it.skills[SkillType.PARRY] = 100
-            }
+        val mob1 = testService.createMob()
+        val mob2 = testService.createMob {
+            it.skills[SkillType.PARRY] = 100
         }
 
         // given
-        val fight = testService.addFight(createMob(), createMob())
+        val fight = testService.addFight(mob1, mob2)
 
         // when
-        val roundContainsEvadedAttack = { attacks: List<Attack> ->
-            attacks.find { it.attackResult == AttackResult.EVADE } != null
-        }
-
         while (prob.isIterating() && !fight.isOver()) {
             val rounds = testService.proceedFights()
             val outcome1 = rounds.find { roundContainsEvadedAttack(it.attackerAttacks) }
@@ -135,17 +119,15 @@ class FightTest {
         // setup
         val hp = 100
         val testService = createTestService()
-        val room = testService.getStartRoom()
-        val mob1 = testService.createMob {
-            it.wimpy = hp
-            it.attributes[Attribute.HIT] = 10
-            it.room = room
+        val createMob = {
+            testService.createMob {
+                it.wimpy = hp
+                it.attributes[Attribute.HIT] = 10
+            }
         }
-        val mob2 = testService.createMob {
-            it.wimpy = hp
-            it.attributes[Attribute.HIT] = 10
-            it.room = room
-        }
+
+        val mob1 = createMob()
+        val mob2 = createMob()
         val dst = testService.createRoom()
         testService.getStartRoom().north = dst
 
@@ -167,5 +149,9 @@ class FightTest {
 
         // and
         assertThat(mob1.room).isNotEqualTo(mob2.room)
+    }
+
+    private fun roundContainsEvadedAttack(attacks: List<Attack>): Boolean {
+        return attacks.find { it.attackResult == AttackResult.EVADE } != null
     }
 }
