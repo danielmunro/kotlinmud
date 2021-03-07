@@ -1,8 +1,6 @@
 package kotlinmud.mob.service
 
 import com.cesarferreira.pluralize.pluralize
-import kotlinmud.attributes.dao.AttributesDAO
-import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createDeathEvent
 import kotlinmud.event.factory.createKillEvent
 import kotlinmud.event.factory.createSendMessageToRoomEvent
@@ -30,20 +28,12 @@ import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.helper.takeDamageFromFall
 import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
-import kotlinmud.mob.skill.helper.getLearningDifficultyPracticeAmount
-import kotlinmud.mob.skill.type.LearningDifficulty
-import kotlinmud.mob.skill.type.Skill
-import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
-import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.sql.transactions.transaction
-import kotlin.math.roundToInt
 
 class MobService(
     private val itemService: ItemService,
@@ -193,9 +183,9 @@ class MobService(
     private suspend fun createNewFightRounds(): List<Round> {
         return fights.mapNotNull {
             if (!it.isOver())
-                    proceedFightRound(FightService(it, eventService).createRound())
-                else
-                    null
+                proceedFightRound(FightService(it, eventService).createRound())
+            else
+                null
         }
     }
 

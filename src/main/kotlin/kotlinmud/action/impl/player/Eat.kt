@@ -9,21 +9,19 @@ import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.type.Syntax
 import kotlinmud.item.helper.applyAffectFromItem
 import kotlinmud.item.model.Item
-import org.jetbrains.exposed.sql.transactions.transaction
 
 fun createEatAction(): Action {
     return Action(Command.EAT, mustBeAwake(), foodInInventory()) {
         val item = it.get<Item>(Syntax.AVAILABLE_FOOD)
-        val mobCard = it.getMobCard()
         val mob = it.getMob()
 
-        if (mobCard.isFull(mob.race)) {
+        if (mob.isFull()) {
             return@Action it.createErrorResponse(messageToActionCreator("you are full."))
         }
 
-        transaction { mobCard.hunger += 1 }
+        mob.hunger += 1
         applyAffectFromItem(mob, item)
-        it.getMob().items.remove(item)
+        mob.items.remove(item)
 
         it.createOkResponse(createEatMessage(mob, item))
     }

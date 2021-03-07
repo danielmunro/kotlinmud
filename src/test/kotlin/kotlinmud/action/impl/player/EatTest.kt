@@ -9,7 +9,6 @@ import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.test.helper.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class EatTest {
@@ -22,7 +21,6 @@ class EatTest {
         val timeout = 2
         val mob = test.createPlayerMob()
         mob.room = test.getStartRoom()
-        val mobCard = mob.mobCard!!
         val item = test.createItemBuilder()
             .type(ItemType.FOOD)
             .food(Food.MEAT_PIE)
@@ -31,10 +29,6 @@ class EatTest {
             .material(Material.ORGANIC)
             .affects(listOf(StunnedAffect().createInstance(timeout)))
             .build()
-        transaction {
-            mobCard.hunger = 0
-            mobCard.thirst = 0
-        }
         mob.items.add(item)
 
         // when

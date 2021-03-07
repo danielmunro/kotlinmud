@@ -34,6 +34,10 @@ class PlayerMob(
         return AddExperience(experience, didLevel)
     }
 
+    fun isFull(): Boolean {
+        return hunger == race.maxAppetite || thirst == race.maxThirst
+    }
+
     private fun getExperienceToLevel(level: Int): Int {
         return experienceToLevel - experience + (experienceToLevel * level)
     }

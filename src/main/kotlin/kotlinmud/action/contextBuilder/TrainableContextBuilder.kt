@@ -4,7 +4,6 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType

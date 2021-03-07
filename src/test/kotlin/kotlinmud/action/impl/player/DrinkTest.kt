@@ -32,10 +32,6 @@ class DrinkTest {
             .material(Material.GLASS)
             .build()
         mob.items.add(item)
-        transaction {
-            mobCard.thirst = 0
-            mobCard.hunger = 0
-        }
 
         // when
         val response = test.runAction("drink beer")
@@ -64,12 +60,6 @@ class DrinkTest {
             .affects(listOf(invis))
             .material(Material.ORGANIC)
             .build()
-        transaction {
-            mob.mobCard!!.let {
-                it.hunger = 0
-                it.thirst = 0
-            }
-        }
         mob.items.add(drink)
 
         // when

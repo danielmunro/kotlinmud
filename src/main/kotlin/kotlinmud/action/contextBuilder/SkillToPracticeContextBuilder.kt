@@ -4,7 +4,6 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.PlayerMob
 
 class SkillToPracticeContextBuilder(private val mob: PlayerMob) : ContextBuilder {

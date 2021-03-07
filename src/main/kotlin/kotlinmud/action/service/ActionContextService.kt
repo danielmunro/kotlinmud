@@ -206,9 +206,9 @@ class ActionContextService(
 
     fun calculatePracticeGain(mob: Mob, type: SkillType): Int {
         return with(
-                1 + getLearningDifficultyPracticeAmount(
-                        getSkillDifficultyForSpecialization(type, mob.specialization?.type ?: SpecializationType.NONE)
-                )
+            1 + getLearningDifficultyPracticeAmount(
+                getSkillDifficultyForSpecialization(type, mob.specialization?.type ?: SpecializationType.NONE)
+            )
         ) {
             (Math.random() * this + mob.calc(Attribute.INT) / 5).roundToInt()
         }
