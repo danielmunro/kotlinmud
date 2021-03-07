@@ -28,6 +28,7 @@ import kotlinmud.mob.helper.getRoomRegenRate
 import kotlinmud.mob.helper.takeDamageFromFall
 import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
@@ -80,8 +81,8 @@ class MobService(
         return mobs.filter { it.room == room }
     }
 
-    fun findPlayerMobs(): List<Mob> {
-        return mobs.filter { it.mobCard != null }
+    fun findPlayerMobs(): List<PlayerMob> {
+        return mobs.filterIsInstance<PlayerMob>()
     }
 
     fun findMobsByJobType(jobType: JobType): List<Mob> {

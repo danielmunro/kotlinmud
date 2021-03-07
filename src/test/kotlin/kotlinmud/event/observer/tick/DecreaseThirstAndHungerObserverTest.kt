@@ -6,7 +6,6 @@ import io.mockk.confirmVerified
 import io.mockk.verify
 import kotlinmud.event.factory.createTickEvent
 import kotlinmud.test.helper.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class DecreaseThirstAndHungerObserverTest {
@@ -48,12 +47,7 @@ class DecreaseThirstAndHungerObserverTest {
         val client = test.getClient()
 
         // given
-        client.mob = test.createPlayerMob().also {
-            transaction {
-                it.mobCard!!.hunger = 0
-                it.mobCard!!.thirst = 0
-            }
-        }
+        client.mob = test.createPlayerMob()
 
         // when
         test.callDecreaseThirstAndHungerEvent(createTickEvent())

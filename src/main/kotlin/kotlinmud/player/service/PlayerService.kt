@@ -26,7 +26,6 @@ import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.exception.EmailFormatException
 import kotlinmud.player.repository.findMobCardByName
-import kotlinmud.player.repository.updateAllMobCardsLoggedOut
 import kotlinmud.room.service.RoomService
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
@@ -126,10 +125,6 @@ class PlayerService(
 
     fun getAuthStepForClient(client: Client): AuthStep? {
         return preAuthClients[client]
-    }
-
-    fun logOutPlayers() {
-        updateAllMobCardsLoggedOut()
     }
 
     private suspend fun proceedAuth(request: PreAuthRequest, authStep: AuthStep): AuthStep {

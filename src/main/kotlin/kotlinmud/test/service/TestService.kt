@@ -9,7 +9,6 @@ import kotlinmud.biome.helper.createBiomes
 import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.impl.client.ClientConnectedObserver
-import kotlinmud.event.observer.impl.logoutAllPlayersOnStartupEvent
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.round.WimpyObserver
 import kotlinmud.event.observer.impl.tick.DecreaseThirstAndHungerObserver
@@ -117,10 +116,6 @@ class TestService(
             }
             return this
         }
-    }
-
-    fun logOutPlayers() {
-        playerService.logOutPlayers()
     }
 
     fun readIntoBuffers() {
@@ -420,10 +415,6 @@ class TestService(
 
     fun callClientConnectedEvent(event: Event<ClientConnectedEvent>) {
         runBlocking { ClientConnectedObserver(mobService, roomService, playerService).invokeAsync(event) }
-    }
-
-    fun callLogoutPlayersOnStartupEvent() {
-        logoutAllPlayersOnStartupEvent(playerService)
     }
 
     fun callDecreaseThirstAndHungerEvent(event: Event<*>) {

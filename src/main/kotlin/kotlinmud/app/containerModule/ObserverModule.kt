@@ -2,7 +2,6 @@ package kotlinmud.app.containerModule
 
 import kotlinmud.app.Tag
 import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
-import kotlinmud.event.observer.impl.LogOutAllPlayersOnStartupObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TillRoomObserver
@@ -45,9 +44,6 @@ import org.kodein.di.erased.provider
 import org.kodein.di.erased.singleton
 
 val ObserverModule = Kodein.Module {
-    bind<Observer>(tag = Tag.LOGOUT_ALL_PLAYERS_ON_STARTUP) with provider {
-        LogOutAllPlayersOnStartupObserver(instance())
-    }
 
     bind<Observer>(tag = Tag.CLIENT_CONNECTED) with provider {
         ClientConnectedObserver(instance(), instance(), instance())
@@ -183,12 +179,6 @@ val ObserverModule = Kodein.Module {
 
     bind<ObserverList>() with singleton {
         mapOf(
-            Pair(
-                EventType.GAME_START,
-                listOf(
-                    instance(tag = Tag.LOGOUT_ALL_PLAYERS_ON_STARTUP)
-                )
-            ),
             Pair(
                 EventType.GAME_LOOP,
                 listOf(

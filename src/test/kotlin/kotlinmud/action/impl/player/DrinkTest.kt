@@ -10,7 +10,6 @@ import kotlinmud.item.type.Drink
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.test.helper.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class DrinkTest {
@@ -23,7 +22,6 @@ class DrinkTest {
         val timeout = 2
         val mob = test.createPlayerMob()
         mob.room = test.getStartRoom()
-        val mobCard = transaction { mob.mobCard!! }
         val item = test.createItemBuilder()
             .drink(Drink.BEER)
             .name("a glass of beer")

@@ -14,7 +14,6 @@ import kotlinmud.mob.type.JobType
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
 import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.test.Test
 
 class MobServiceTest {
@@ -50,7 +49,7 @@ class MobServiceTest {
         testService.decrementAffects()
 
         // then
-        assertThat(transaction { mob.affects.toList() }).hasSize(0)
+        assertThat(mob.affects).hasSize(0)
     }
 
     @Test
