@@ -1,8 +1,10 @@
 package kotlinmud.action.impl.quest
 
 import assertk.assertThat
+import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import kotlinmud.quest.helper.createQuestEntity
+import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
@@ -19,14 +21,14 @@ class QuestAbandonTest {
         val quest = test.findQuest(QuestType.JOIN_PRAETORIAN_GUARD)!!
 
         // given
-        createQuestEntity(transaction { mob.mobCard!! }, quest.type)
-        val count = transaction { mob.mobCard!!.quests.count() }
+        mob.quests[quest.type] = QuestStatus.INITIALIZED
+        val count = mob.quests.size
 
         // when
         val response = test.runAction("quest abandon ${getIdentifyingWord(quest)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you abandon the quest: `${quest.name}`")
-        assertThat(transaction { mob.mobCard!!.quests.count() }).isEqualTo(count - 1)
+        assertThat(mob.quests).hasSize(count - 1)
     }
 }

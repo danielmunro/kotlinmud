@@ -185,19 +185,19 @@ class ActionContextService(
     }
 
     fun submitQuest(quest: Quest) {
-        questService.submit(request.mob, quest)
+        questService.submit(getMob(), quest)
     }
 
     fun acceptQuest(quest: Quest) {
-        questService.accept(getMobCard(), quest)
+        questService.accept(getMob(), quest)
     }
 
     fun abandonQuest(quest: Quest) {
-        questService.abandon(getMobCard(), quest)
+        questService.abandon(getMob(), quest)
     }
 
     fun getQuestLog(): List<Quest> {
-        return questService.getLog(getMobCard())
+        return questService.getLog(getMob())
     }
 
     fun getDate(): String {

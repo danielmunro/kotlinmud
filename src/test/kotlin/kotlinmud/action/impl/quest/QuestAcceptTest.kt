@@ -1,8 +1,10 @@
 package kotlinmud.action.impl.quest
 
 import assertk.assertThat
+import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import kotlinmud.quest.helper.createQuestEntity
+import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
@@ -21,14 +23,14 @@ class QuestAcceptTest {
         val mob = test.createPlayerMob {
             it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
         }
-        val count = transaction { mob.mobCard!!.quests.count() }
+        val count = mob.quests.size
 
         // when
         val response = test.runAction("quest accept ${getIdentifyingWord(quest)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you accept the quest: `${quest.name}`")
-        assertThat(transaction { mob.mobCard!!.quests.count() }).isEqualTo(count + 1)
+        assertThat(mob.quests).hasSize(count + 1)
     }
 
     @Test
@@ -72,7 +74,7 @@ class QuestAcceptTest {
         }
 
         // given
-        createQuestEntity(transaction { mob.mobCard!! }, QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)
+        mob.quests[QuestType.FIND_PRAETORIAN_GUARD_RECRUITER] = QuestStatus.INITIALIZED
 
         // when
         val response = test.runAction("quest accept recruiter")

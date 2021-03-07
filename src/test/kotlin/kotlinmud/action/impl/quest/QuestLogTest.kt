@@ -3,6 +3,7 @@ package kotlinmud.action.impl.quest
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlinmud.quest.helper.createQuestEntity
+import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.helper.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -14,13 +15,12 @@ class QuestLogTest {
         // setup
         val test = createTestService()
         val mob = test.createPlayerMob()
-        val mobCard = transaction { mob.mobCard!! }
         val quest1 = test.findQuest(QuestType.JOIN_PRAETORIAN_GUARD)!!
         val quest2 = test.findQuest(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)!!
 
         // given
-        createQuestEntity(mobCard, quest1.type)
-        createQuestEntity(mobCard, quest2.type)
+        mob.quests[quest1.type] = QuestStatus.INITIALIZED
+        mob.quests[quest2.type] = QuestStatus.INITIALIZED
 
         // when
         val response = test.runAction("quest log")

@@ -17,61 +17,42 @@ import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class QuestService(private val mobService: MobService, private val quests: List<Quest>) {
+class QuestService(private val quests: List<Quest>) {
     fun findByType(type: QuestType): Quest? {
         return quests.find { it.type == type }
     }
 
-    fun getAcceptableQuestsForMob(mob: Mob): List<Quest> {
-        val questMap = createQuestMap(transaction { mob.mobCard!!.quests.toList() })
+    fun getAcceptableQuestsForMob(mob: PlayerMob): List<Quest> {
         return quests.filter {
             val notSatisfied = it.acceptConditions.find { req -> !req.doesSatisfy(mob) }
-            !questMap.containsKey(it.type) && notSatisfied == null
+            !mob.quests.containsKey(it.type) && notSatisfied == null
         }
     }
 
-    fun getAcceptedQuestsForMob(mob: Mob): List<Quest> {
-        val questMap = createQuestMap(
-            transaction {
-                mob.mobCard!!.quests.toList().filter { it.status != QuestStatus.SUBMITTED }
-            }
-        )
-        return quests.filter { questMap.containsKey(it.type) }
+    fun getAcceptedQuestsForMob(mob: PlayerMob): List<Quest> {
+        return quests.filter { mob.quests.containsKey(it.type) && mob.quests[it.type] != QuestStatus.SUBMITTED }
     }
 
-    fun getSubmittableQuestsForMob(mob: Mob): List<Quest> {
-        val questMap = createQuestMap(transaction { mob.mobCard!!.quests.toList() })
+    fun getSubmittableQuestsForMob(mob: PlayerMob): List<Quest> {
         return quests.filter {
             val notSatisfied = it.submitConditions.find { req -> !req.doesSatisfy(mob) }
-            questMap.containsKey(it.type) && notSatisfied == null
+            mob.quests.containsKey(it.type) && notSatisfied == null
         }
     }
 
-    fun submit(playerMob: PlayerMob, quest: Quest) {
-        playerMob.quests[quest.type]?.let {
-            playerMob.quests[quest.type] = QuestStatus.SUBMITTED
+    fun submit(mob: PlayerMob, quest: Quest) {
+        mob.quests[quest.type]?.let {
+            mob.quests[quest.type] = QuestStatus.SUBMITTED
         }
-        reward(playerMob, quest)
+        reward(mob, quest)
     }
 
-    fun accept(mobCard: MobCardDAO, quest: Quest) {
-        transaction {
-            QuestDAO.new {
-                this.mobCard = mobCard
-                this.quest = quest.type
-                status = QuestStatus.INITIALIZED
-            }
-        }
+    fun accept(mob: PlayerMob, quest: Quest) {
+        mob.quests[quest.type] = QuestStatus.INITIALIZED
     }
 
-    fun abandon(mobCard: MobCardDAO, quest: Quest) {
-        transaction {
-            QuestDAO.wrapRow(
-                Quests.select {
-                    Quests.mobCardId eq mobCard.id and (Quests.quest eq quest.type.toString())
-                }.first()
-            ).delete()
-        }
+    fun abandon(mob: PlayerMob, quest: Quest) {
+        mob.quests.remove(quest.type)
     }
 
     fun reward(mob: PlayerMob, quest: Quest) {
@@ -92,18 +73,7 @@ class QuestService(private val mobService: MobService, private val quests: List<
         }
     }
 
-    fun getLog(mobCard: MobCardDAO): List<Quest> {
-        val questMap = createQuestMap(transaction { mobCard.quests.toList() })
-        return quests.filter { questMap[it.type] !== null }
-    }
-
-    private fun createQuestMap(mobQuests: List<QuestDAO>): MutableMap<QuestType, Int> {
-        val questMap = mutableMapOf<QuestType, Int>()
-        transaction {
-            mobQuests.forEach {
-                questMap[it.quest] = 1
-            }
-        }
-        return questMap
+    fun getLog(mob: PlayerMob): List<Quest> {
+        return quests.filter { mob.quests[it.type] !== null }
     }
 }
