@@ -5,7 +5,7 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.PlayerLoggedInEvent
 import kotlinmud.event.type.EventType
 import kotlinmud.io.model.Client
-import kotlinmud.player.dao.MobCardDAO
+import kotlinmud.mob.model.PlayerMob
 
 fun createClientDisconnectedEvent(client: Client): Event<Client> {
     return Event(
@@ -14,10 +14,10 @@ fun createClientDisconnectedEvent(client: Client): Event<Client> {
     )
 }
 
-fun createClientLoggedInEvent(client: Client, mobCard: MobCardDAO): Event<PlayerLoggedInEvent> {
+fun createClientLoggedInEvent(client: Client, mob: PlayerMob): Event<PlayerLoggedInEvent> {
     return Event(
         EventType.CLIENT_LOGGED_IN,
-        PlayerLoggedInEvent(client, mobCard)
+        PlayerLoggedInEvent(client, mob)
     )
 }
 

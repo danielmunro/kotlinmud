@@ -1,12 +1,10 @@
 package kotlinmud.quest.service
 
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.service.MobService
-import kotlinmud.player.dao.FactionScoreDAO
 import kotlinmud.player.dao.MobCardDAO
-import kotlinmud.player.repository.findFactionScoreByType
 import kotlinmud.quest.dao.QuestDAO
-import kotlinmud.quest.repository.findQuestByMobCardAndType
 import kotlinmud.quest.table.Quests
 import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestStatus
@@ -49,11 +47,11 @@ class QuestService(private val mobService: MobService, private val quests: List<
         }
     }
 
-    fun submit(mobCard: MobCardDAO, quest: Quest) {
-        findQuestByMobCardAndType(mobCard, quest.type)?.let {
-            transaction { it.status = QuestStatus.SUBMITTED }
+    fun submit(playerMob: PlayerMob, quest: Quest) {
+        playerMob.quests[quest.type]?.let {
+            playerMob.quests[quest.type] = QuestStatus.SUBMITTED
         }
-        reward(mobCard, quest)
+        reward(playerMob, quest)
     }
 
     fun accept(mobCard: MobCardDAO, quest: Quest) {
@@ -76,24 +74,17 @@ class QuestService(private val mobService: MobService, private val quests: List<
         }
     }
 
-    fun reward(mobCard: MobCardDAO, quest: Quest) {
-        val mob = mobService.findPlayerMobByName(mobCard.mobName)!!
+    fun reward(mob: PlayerMob, quest: Quest) {
         quest.rewards.forEach {
             if (it is ExperienceQuestReward) {
-                mobCard.addExperience(mob.level, it.amount)
+                mob.addExperience(mob.level, it.amount)
             } else if (it is CurrencyQuestReward) {
                 mob.addCurrency(it.currencyType, it.amount)
             } else if (it is FactionScoreQuestReward) {
-                transaction {
-                    findFactionScoreByType(mobCard, it.factionType)?.let { entity ->
-                        entity.score = it.score
-                    } ?: run {
-                        FactionScoreDAO.new {
-                            this.mobCard = mobCard
-                            faction = it.factionType
-                            score = it.score
-                        }
-                    }
+                mob.factionScores[it.factionType]?.let { num ->
+                    mob.factionScores[it.factionType] = num + it.score
+                } ?: run {
+                    mob.factionScores[it.factionType] = it.score
                 }
             } else if (it is ItemQuestReward) {
                 mob.items.add(it.createItem())

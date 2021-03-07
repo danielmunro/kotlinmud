@@ -1,6 +1,6 @@
 package kotlinmud.event.impl
 
 import kotlinmud.io.model.Client
-import kotlinmud.player.dao.MobCardDAO
+import kotlinmud.mob.model.PlayerMob
 
-class PlayerLoggedInEvent(val client: Client, val mobCard: MobCardDAO)
+class PlayerLoggedInEvent(val client: Client, val mob: PlayerMob)

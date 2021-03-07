@@ -4,6 +4,9 @@ import org.jetbrains.exposed.dao.IntIdTable
 
 object MobCards : IntIdTable() {
     val mobName = varchar("mobName", 255)
+    val emailAddress = varchar("emailAddress", 255)
+    val race = varchar("race", 255)
+    val level = integer("level")
     val experience = integer("experience").default(0)
     val experiencePerLevel = integer("experiencePerLevel").default(1000)
     val trains = integer("trains").default(0)

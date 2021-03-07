@@ -293,14 +293,18 @@ class TestService(
         val card = transaction {
             MobCardDAO.new {
                 mobName = name
+                emailAddress = player.email
                 experiencePerLevel = 1000
                 experience = 1000
+                level = 1
                 hunger = maxAppetite
                 thirst = maxThirst
+                this.race = race.type
                 this.player = player
             }
         }
         return createMob(card).also {
+            it.emailAddress = player.email
             playerService.loginPlayerAsMob(player, it)
         }
     }
@@ -319,8 +323,8 @@ class TestService(
         }
     }
 
-    fun findMobCardByName(name: String): MobCardDAO? {
-        return playerService.findMobCardByName(name)
+    fun findPlayerMobByName(name: String): PlayerMob? {
+        return playerService.findPlayerMobByName(name)
     }
 
     fun createItemBuilder(): ItemBuilder {

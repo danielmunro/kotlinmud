@@ -7,7 +7,7 @@ import kotlinmud.io.model.Client
 import kotlinmud.io.service.ServerService
 import kotlinmud.mob.helper.getExperienceGain
 import kotlinmud.mob.model.AddExperience
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.PlayerMob
 
 class GrantExperienceOnKillObserver(private val serverService: ServerService) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
@@ -15,13 +15,15 @@ class GrantExperienceOnKillObserver(private val serverService: ServerService) : 
         val victor = killEvent.victor
         val vanquished = killEvent.vanquished
         val gain = getExperienceGain(victor, vanquished)
-        addExperience(victor, gain)?.let { addExperience ->
-            serverService.getClientForMob(victor)?.let { sendClientUpdates(it, addExperience) }
+        if (victor is PlayerMob) {
+            addExperience(victor, gain)?.let { addExperience ->
+                serverService.getClientForMob(victor)?.let { sendClientUpdates(it, addExperience) }
+            }
         }
     }
 
-    private fun addExperience(mob: Mob, amountOfExperienceGained: Int): AddExperience? {
-        return mob.mobCard?.addExperience(mob.level, amountOfExperienceGained)?.also {
+    private fun addExperience(mob: PlayerMob, amountOfExperienceGained: Int): AddExperience? {
+        return mob.addExperience(mob.level, amountOfExperienceGained).also {
             if (it.levelGained) {
                 mob.level += 1
             }

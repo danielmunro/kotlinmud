@@ -5,6 +5,7 @@ import kotlinmud.attributes.table.Attributes
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.model.AddExperience
 import kotlinmud.mob.race.type.Race
+import kotlinmud.mob.race.type.RaceType
 import kotlinmud.player.table.FactionScores
 import kotlinmud.player.table.MobCards
 import kotlinmud.quest.dao.QuestDAO
@@ -18,6 +19,8 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<MobCardDAO>(MobCards)
 
     var mobName by MobCards.mobName
+    var emailAddress by MobCards.emailAddress
+    var level by MobCards.level
     var experience by MobCards.experience
     var experiencePerLevel by MobCards.experiencePerLevel
     var trains by MobCards.trains
@@ -28,6 +31,10 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     var thirst by MobCards.thirst
     var skillPoints by MobCards.skillPoints
     var loggedIn by MobCards.loggedIn
+    var race by MobCards.race.transform(
+        { it.toString() },
+        { RaceType.valueOf(it) }
+    )
     val trainedAttributes by AttributesDAO optionalReferrersOn Attributes.mobCardId
     val factionScores by FactionScoreDAO referrersOn FactionScores.mobCardId
     val quests by QuestDAO referrersOn Quests.mobCardId

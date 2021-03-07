@@ -7,6 +7,7 @@ import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 
 class PlayerMobBuilder(private val mobService: MobService) : MobBuilder(mobService) {
+    private var emailAddress = ""
     private var experience = 0
     private var experienceToLevel = 0
     private var trains = 0
@@ -20,9 +21,25 @@ class PlayerMobBuilder(private val mobService: MobService) : MobBuilder(mobServi
     private var factionScores = mutableMapOf<FactionType, Int>()
     private var quests = mutableMapOf<QuestType, QuestStatus>()
 
+    fun emailAddress(value: String): PlayerMobBuilder {
+        emailAddress = value
+        return this
+    }
+
+    fun experience(value: Int): PlayerMobBuilder {
+        experience = value
+        return this
+    }
+
+    fun experienceToLevel(value: Int): PlayerMobBuilder {
+        experienceToLevel = value
+        return this
+    }
+
     override fun build(): PlayerMob {
         return PlayerMob(
             createMobArguments(),
+            emailAddress,
             experience,
             experienceToLevel,
             trains,

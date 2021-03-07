@@ -5,7 +5,7 @@ import kotlinmud.affect.table.Affects
 import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.table.Items
-import kotlinmud.mob.race.factory.createRaceFromString
+import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.skill.dao.SkillDAO
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.specialization.type.SpecializationType
@@ -34,8 +34,8 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id) {
     var mv by Mobs.mv
     var level by Mobs.level
     var race by Mobs.race.transform(
-        { it.type.toString() },
-        { createRaceFromString(it) }
+        { it.toString() },
+        { RaceType.valueOf(it) }
     )
     var specialization by Mobs.specialization.transform(
         { it.toString() },

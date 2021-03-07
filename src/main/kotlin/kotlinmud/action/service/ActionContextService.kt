@@ -187,7 +187,7 @@ class ActionContextService(
     }
 
     fun submitQuest(quest: Quest) {
-        questService.submit(getMobCard(), quest)
+        questService.submit(request.mob, quest)
     }
 
     fun acceptQuest(quest: Quest) {

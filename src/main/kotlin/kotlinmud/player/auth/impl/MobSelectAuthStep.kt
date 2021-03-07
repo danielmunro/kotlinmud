@@ -2,12 +2,11 @@ package kotlinmud.player.auth.impl
 
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.type.IOStatus
+import kotlinmud.mob.model.PlayerMob
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.auth.type.AuthorizationStep
-import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobSelectAuthStep(
     private val authStepService: AuthStepService,
@@ -18,11 +17,11 @@ class MobSelectAuthStep(
     override val errorMessage = "either that name is invalid or unavailable"
     private var newMob = false
     private var name = ""
-    private var mobCard: MobCardDAO? = null
+    private var playerMob: PlayerMob? = null
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
-        return authStepService.findMobCardByName(request.input)?.let {
-            mobCard = it
+        return authStepService.findPlayerMobByName(request.input)?.let {
+            playerMob = it
             validateMobBelongsToPlayer(it)
         } ?: createNewMob(request.input)
     }
@@ -31,11 +30,11 @@ class MobSelectAuthStep(
         return if (newMob)
             NewMobCardConfirmAuthStep(authStepService, player, name)
         else
-            CompleteAuthStep(mobCard!!)
+            CompleteAuthStep(playerMob!!)
     }
 
-    private fun validateMobBelongsToPlayer(mobCard: MobCardDAO): IOStatus {
-        return if (transaction { mobCard.player } == player) IOStatus.OK else IOStatus.ERROR
+    private fun validateMobBelongsToPlayer(mob: PlayerMob): IOStatus {
+        return if (mob.emailAddress == player.email) IOStatus.OK else IOStatus.ERROR
     }
 
     private fun createNewMob(name: String): IOStatus {

@@ -60,7 +60,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
             }
         }
         bind<PlayerService>() with singleton {
-            PlayerService(instance(), instance(), instance())
+            PlayerService(instance(), instance(), instance(), instance())
         }
         bind<AuthStepService>() with singleton {
             val playerService = instance<PlayerService>()

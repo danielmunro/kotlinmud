@@ -14,28 +14,32 @@ import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
 import kotlinmud.io.type.IOStatus
+import kotlinmud.mob.builder.PlayerMobBuilder
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.PlayerMob
+import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.impl.CompleteAuthStep
 import kotlinmud.player.auth.impl.EmailAuthStep
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
-import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.exception.EmailFormatException
+import kotlinmud.player.repository.findMobCardByName
 import kotlinmud.player.repository.updateAllMobCardsLoggedOut
+import kotlinmud.room.service.RoomService
 import org.jetbrains.exposed.sql.transactions.transaction
-import kotlinmud.player.repository.findMobCardByName as findMobCardByNameQuery
 import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
 
 class PlayerService(
     private val emailService: EmailService,
     private val eventService: EventService,
     private val mobService: MobService,
+    private val roomService: RoomService,
 ) {
     private val preAuthClients: MutableMap<Client, AuthStep> = mutableMapOf()
     private val loggedInPlayers: MutableMap<Int, PlayerDAO> = mutableMapOf()
-    private val loggedInMobs: MutableMap<PlayerDAO, Mob> = mutableMapOf()
+    private val loggedInMobs: MutableMap<PlayerDAO, PlayerMob> = mutableMapOf()
     private lateinit var authStepService: AuthStepService
     private val logger = logger(this)
 
@@ -62,8 +66,18 @@ class PlayerService(
         )
     }
 
-    fun findMobCardByName(name: String): MobCardDAO? {
-        return findMobCardByNameQuery(name)
+    fun findPlayerMobByName(name: String): PlayerMob? {
+        return findMobCardByName(name)?.let { mobCard ->
+            PlayerMobBuilder(mobService).also {
+                it.name(name)
+                it.emailAddress(mobCard.emailAddress)
+                it.race(createRaceFromString(mobCard.race))
+                it.level(mobCard.level)
+                it.experience(mobCard.experience)
+                it.experienceToLevel(mobCard.experiencePerLevel)
+                it.room(roomService.getStartRoom())
+            }.build()
+        }
     }
 
     fun findLoggedInPlayerMobByName(name: String): Mob? {
@@ -102,7 +116,7 @@ class PlayerService(
         loggedInPlayers[client.id] = player
     }
 
-    fun loginPlayerAsMob(player: PlayerDAO, mob: Mob) {
+    fun loginPlayerAsMob(player: PlayerDAO, mob: PlayerMob) {
         loggedInMobs[player] = mob
     }
 
@@ -121,7 +135,7 @@ class PlayerService(
     private suspend fun proceedAuth(request: PreAuthRequest, authStep: AuthStep): AuthStep {
         val nextAuthStep = authStep.getNextAuthStep()
         if (nextAuthStep is CompleteAuthStep) {
-            loginMob(request.client, nextAuthStep.mobCard)
+            loginMob(request.client, nextAuthStep.playerMob)
         }
         preAuthClients[request.client] = nextAuthStep
         request.client.write(nextAuthStep.promptMessage)
@@ -138,10 +152,9 @@ class PlayerService(
         }
     }
 
-    private suspend fun loginMob(client: Client, mobCard: MobCardDAO) {
+    private suspend fun loginMob(client: Client, mob: PlayerMob) {
         val player = loggedInPlayers[client.id]!!
-        val mob = mobService.findPlayerMobByName(mobCard.mobName)!!
         loginPlayerAsMob(player, mob)
-        eventService.publish(createClientLoggedInEvent(client, mobCard))
+        eventService.publish(createClientLoggedInEvent(client, mob))
     }
 }

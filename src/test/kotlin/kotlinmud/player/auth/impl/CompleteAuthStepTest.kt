@@ -4,7 +4,6 @@ import assertk.assertThat
 import assertk.assertions.isFailure
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.test.helper.createTestService
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class CompleteAuthStepTest {
@@ -15,7 +14,7 @@ class CompleteAuthStepTest {
         val playerMob = test.createPlayerMob()
 
         // given
-        val authStep = CompleteAuthStep(transaction { playerMob.mobCard!! })
+        val authStep = CompleteAuthStep(playerMob)
 
         // expect
         assertThat { authStep.handlePreAuthRequest(PreAuthRequest(test.createClient(), "foo")) }.isFailure()
