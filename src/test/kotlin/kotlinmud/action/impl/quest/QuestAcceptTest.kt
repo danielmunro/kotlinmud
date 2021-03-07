@@ -3,13 +3,11 @@ package kotlinmud.action.impl.quest
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
-import kotlinmud.quest.helper.createQuestEntity
 import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
 import kotlinmud.type.RoomCanonicalId
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class QuestAcceptTest {

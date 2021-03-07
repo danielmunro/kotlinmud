@@ -1,11 +1,6 @@
 package kotlinmud.quest.service
 
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.PlayerMob
-import kotlinmud.mob.service.MobService
-import kotlinmud.player.dao.MobCardDAO
-import kotlinmud.quest.dao.QuestDAO
-import kotlinmud.quest.table.Quests
 import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
@@ -13,9 +8,6 @@ import kotlinmud.quest.type.reward.CurrencyQuestReward
 import kotlinmud.quest.type.reward.ExperienceQuestReward
 import kotlinmud.quest.type.reward.FactionScoreQuestReward
 import kotlinmud.quest.type.reward.ItemQuestReward
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class QuestService(private val quests: List<Quest>) {
     fun findByType(type: QuestType): Quest? {

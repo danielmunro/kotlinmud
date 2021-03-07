@@ -72,7 +72,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         }
         bind<QuestService>() with singleton {
             QuestService(
-                    createQuestList(instance(), instance())
+                createQuestList(instance(), instance())
             )
         }
         bind<ActionService>() with singleton {
