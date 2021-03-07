@@ -1,4 +1,4 @@
-package kotlinmud.mob.helper
+package kotlinmud.mob.builder
 
 import kotlinmud.affect.model.Affect
 import kotlinmud.attributes.constant.startingHp
@@ -8,6 +8,7 @@ import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.MobArguments
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.type.SkillType
@@ -21,7 +22,7 @@ import kotlinmud.mob.type.Rarity
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.model.Room
 
-class MobBuilder(private val mobService: MobService) {
+open class MobBuilder(private val mobService: MobService) {
     private var name = ""
     private var brief = ""
     private var description = ""
@@ -173,8 +174,14 @@ class MobBuilder(private val mobService: MobService) {
         return this
     }
 
-    fun build(): Mob {
-        val mob = Mob(
+    open fun build(): Mob {
+        val mob = Mob(createMobArguments())
+        mobService.addMob(mob)
+        return mob
+    }
+
+    protected fun createMobArguments(): MobArguments {
+        return MobArguments(
             name,
             brief,
             description,
@@ -202,7 +209,5 @@ class MobBuilder(private val mobService: MobService) {
             currencies.toMutableMap(),
             card,
         )
-        mobService.addMob(mob)
-        return mob
     }
 }

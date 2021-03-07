@@ -54,9 +54,9 @@ class GetTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMobBuilder()
-            .maxItems(0)
-            .build()
+        val builder = test.createPlayerMobBuilder()
+        builder.maxItems(0)
+        val mob = builder.build()
         val item = test.createItem()
         test.getStartRoom().items.add(item)
 
@@ -74,9 +74,9 @@ class GetTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMobBuilder()
-            .maxWeight(0)
-            .build()
+        val mob = test.createPlayerMobBuilder().also {
+            it.maxWeight(0)
+        }.build()
         val item = test.createItemBuilder()
             .weight(1.0)
             .type(ItemType.FOOD)
@@ -98,7 +98,9 @@ class GetTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMobBuilder().maxItems(1).build()
+        val mob = test.createPlayerMobBuilder().also {
+            it.maxItems(1)
+        }.build()
         val container = test.createContainer()
         mob.items.add(container)
         val item = test.createItem()
@@ -118,7 +120,7 @@ class GetTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMob()
+        val mob = test.createPlayerMob()
         val container = test.createItemBuilder()
             .type(ItemType.CONTAINER)
             .maxItems(0)

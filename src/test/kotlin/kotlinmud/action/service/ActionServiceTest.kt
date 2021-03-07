@@ -85,7 +85,7 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val target = testService.createMob()
-        val mob = testService.createMob {
+        val mob = testService.createPlayerMob().also {
             it.skills[SkillType.BITE] = 100
         }
 
@@ -106,7 +106,7 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val target = testService.createMob()
-        val mob = testService.createMob {
+        val mob = testService.createPlayerMob {
             it.skills[SkillType.BITE] = 100
         }
 
@@ -125,7 +125,7 @@ class ActionServiceTest {
         // setup
         val testService = createTestService()
         val target = testService.createMob()
-        val mob = testService.createMob {
+        val mob = testService.createPlayerMob {
             it.skills[SkillType.BITE] = 100
         }
 

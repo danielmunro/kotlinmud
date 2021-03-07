@@ -29,34 +29,34 @@ import kotlinmud.mob.type.Rarity
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.model.Room
 
-class Mob(
-    override val name: String,
-    val brief: String,
-    override val description: String,
-    var hp: Int,
-    var mana: Int,
-    var mv: Int,
-    var level: Int,
-    val race: Race,
-    var disposition: Disposition,
-    val job: JobType,
-    val specialization: Specialization?,
-    val gender: Gender,
-    var wimpy: Int,
-    val savingThrows: Int,
-    val rarity: Rarity,
-    val canonicalId: MobCanonicalId?,
-    val attributes: MutableMap<Attribute, Int>,
-    var room: Room,
-    val equipped: MutableList<Item>,
-    override val maxItems: Int,
-    override val maxWeight: Int,
-    override val items: MutableList<Item>,
-    val skills: MutableMap<SkillType, Int>,
-    val affects: MutableList<Affect>,
-    val currencies: MutableMap<CurrencyType, Int>,
-    val mobCard: MobCardDAO?
-) : Noun, HasInventory {
+open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
+    override val name: String = mobArguments.name
+    val brief: String = mobArguments.brief
+    override val description: String = mobArguments.description
+    var hp: Int = mobArguments.hp
+    var mana: Int = mobArguments.mana
+    var mv: Int = mobArguments.mv
+    var level: Int = mobArguments.level
+    val race: Race = mobArguments.race
+    var disposition: Disposition = mobArguments.disposition
+    val job: JobType = mobArguments.job
+    val specialization: Specialization? = mobArguments.specialization
+    val gender: Gender = mobArguments.gender
+    var wimpy: Int = mobArguments.wimpy
+    val savingThrows: Int = mobArguments.savingThrows
+    val rarity: Rarity = mobArguments.rarity
+    val canonicalId: MobCanonicalId? = mobArguments.canonicalId
+    val attributes: MutableMap<Attribute, Int> = mobArguments.attributes
+    var room: Room = mobArguments.room
+    val equipped: MutableList<Item> = mobArguments.equipped
+    override val maxItems: Int = mobArguments.maxItems
+    override val maxWeight: Int = mobArguments.maxWeight
+    override val items: MutableList<Item> = mobArguments.items
+    val skills: MutableMap<SkillType, Int> = mobArguments.skills
+    val affects: MutableList<Affect> = mobArguments.affects
+    val currencies: MutableMap<CurrencyType, Int> = mobArguments.currencies
+    val mobCard: MobCardDAO? = mobArguments.mobCard
+
     fun getHealthIndication(): String {
         val amount: Double = hp.toDouble() / calc(Attribute.HP).toDouble()
         return when {

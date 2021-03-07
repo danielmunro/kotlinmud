@@ -14,7 +14,7 @@ class BerserkTest {
         val testService = createTestService()
 
         // given
-        val mob = testService.createMob {
+        val mob = testService.createPlayerMob {
             it.skills[SkillType.BERSERK] = 100
         }
 

@@ -18,7 +18,7 @@ class TripTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMob {
+        val mob = test.createPlayerMob {
             it.skills[SkillType.TRIP] = 100
         }
 
@@ -38,7 +38,7 @@ class TripTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMob {
+        val mob = test.createPlayerMob {
             it.skills[SkillType.TRIP] = 100
         }
 
@@ -57,7 +57,7 @@ class TripTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMob {
+        val mob = test.createPlayerMob {
             it.skills[SkillType.TRIP] = 100
         }
 

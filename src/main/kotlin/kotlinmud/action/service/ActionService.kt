@@ -16,6 +16,7 @@ import kotlinmud.io.service.RequestService
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.type.SkillAction
@@ -138,7 +139,7 @@ class ActionService(
         }
     }
 
-    private fun createChainToRequest(mob: Mob, action: Action): RequestService {
+    private fun createChainToRequest(mob: PlayerMob, action: Action): RequestService {
         return RequestService(
             mob,
             action.chainTo.toString()

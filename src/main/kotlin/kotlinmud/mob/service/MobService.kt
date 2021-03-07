@@ -39,7 +39,6 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.player.dao.MobCardDAO
-import kotlinmud.player.repository.findMobCardByName
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
@@ -186,15 +185,6 @@ class MobService(
         transaction {
             mob.mobCard!!.practices -= 1
             mob.skills[type] = mob.skills[type]!! + calculatePracticeGain(mob, type)
-        }
-    }
-
-    fun decreaseThirstAndHunger(mobName: String): MobCardDAO? {
-        return findMobCardByName(mobName)?.also {
-            transaction {
-                it.hunger -= 1
-                it.thirst -= 1
-            }
         }
     }
 

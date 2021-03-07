@@ -6,7 +6,7 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.Material
-import kotlinmud.mob.helper.MobBuilder
+import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.model.MobRespawn
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Ogre

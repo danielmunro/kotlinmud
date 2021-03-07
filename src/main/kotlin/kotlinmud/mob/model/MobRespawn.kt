@@ -1,6 +1,6 @@
 package kotlinmud.mob.model
 
-import kotlinmud.mob.helper.MobBuilder
+import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.type.Area
 

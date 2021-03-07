@@ -5,7 +5,6 @@ import assertk.assertions.isLessThan
 import io.mockk.confirmVerified
 import io.mockk.verify
 import kotlinmud.event.factory.createTickEvent
-import kotlinmud.player.repository.findMobCardByName
 import kotlinmud.test.helper.createTestService
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
@@ -24,7 +23,7 @@ class DecreaseThirstAndHungerObserverTest {
         test.callDecreaseThirstAndHungerEvent(createTickEvent())
 
         // then
-        findMobCardByName(client.mob!!.name)!!.let {
+        client.mob!!.let {
             assertThat(it.thirst).isLessThan(client.mob!!.race.maxThirst)
             assertThat(it.hunger).isLessThan(client.mob!!.race.maxAppetite)
         }

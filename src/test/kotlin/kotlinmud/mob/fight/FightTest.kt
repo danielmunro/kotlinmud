@@ -122,6 +122,7 @@ class FightTest {
         val createMob = {
             testService.createMob {
                 it.wimpy = hp
+                it.hp = hp
                 it.attributes[Attribute.HIT] = 10
             }
         }

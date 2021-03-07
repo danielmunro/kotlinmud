@@ -4,7 +4,7 @@ import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
-import kotlinmud.mob.helper.MobBuilder
+import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.race.impl.Giant
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService

@@ -1,16 +1,11 @@
 package kotlinmud.io.service
 
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.type.Disposition
-import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.model.Room
 
-class RequestService(val mob: Mob, val input: String) {
+class RequestService(val mob: PlayerMob, val input: String) {
     val args = input.toLowerCase().split(' ')
-
-    fun getMobCard(): MobCardDAO {
-        return mob.mobCard!!
-    }
 
     fun getRoom(): Room {
         return mob.room

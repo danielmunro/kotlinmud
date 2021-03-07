@@ -18,9 +18,8 @@ class TillRoomObserverTest {
             .substrate(SubstrateType.DIRT)
             .build()
         val prob = ProbabilityTest(100)
-        val mob = test.createMobBuilder()
-            .room(room)
-            .build()
+        val mob = test.createPlayerMob()
+        mob.room = room
 
         while (prob.isIterating()) {
             // given

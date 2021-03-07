@@ -99,7 +99,7 @@ class LookTest {
     fun testCanLookAtMobInRoom() {
         // setup
         val testService = createTestService()
-        testService.createMob()
+        testService.createPlayerMob()
         val mob2 = testService.createMob()
 
         // when

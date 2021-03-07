@@ -1,7 +1,7 @@
 package kotlinmud.player.auth.model
 
-import kotlinmud.mob.helper.MobBuilder
-import kotlinmud.mob.model.Mob
+import kotlinmud.mob.builder.PlayerMobBuilder
+import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.helper.createSkillList
@@ -22,7 +22,7 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
     private val skills = mutableListOf<SkillType>()
     private val allSkills = createSkillList()
 
-    fun build(player: PlayerDAO): Mob {
+    fun build(player: PlayerDAO): PlayerMob {
         return createMob(player).also { mob ->
             skills.forEach { type ->
                 mob.skills[type] = 1
@@ -44,7 +44,7 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
         } ?: 0
     }
 
-    private fun createMob(player: PlayerDAO): Mob {
+    private fun createMob(player: PlayerDAO): PlayerMob {
         val card = transaction {
             MobCardDAO.new {
                 this.mobName = this@CreationFunnel.mobName
@@ -55,13 +55,13 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
                 this.player = player
             }
         }
-        return MobBuilder(mobService)
-            .name(mobName)
+        val playerMobBuilder = PlayerMobBuilder(mobService)
+        playerMobBuilder.name(mobName)
             .brief("a $mobRace is here")
             .description("a nondescript $mobRace is here")
             .race(mobRace)
             .room(mobRoom)
             .card(card)
-            .build()
+        return playerMobBuilder.build()
     }
 }

@@ -1,7 +1,7 @@
 package kotlinmud.world.itrias.lorimir
 
 import kotlinmud.generator.service.SimpleMatrixService
-import kotlinmud.mob.helper.MobBuilder
+import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.Gender

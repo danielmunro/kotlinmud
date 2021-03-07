@@ -18,7 +18,7 @@ class BackstabTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMob {
+        val mob = test.createPlayerMob {
             it.skills[SkillType.BACKSTAB] = 100
         }
         val target = test.createMob()
@@ -41,7 +41,7 @@ class BackstabTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMob {
+        val mob = test.createPlayerMob {
             it.skills[SkillType.BACKSTAB] = 1
         }
         val target = test.createMobBuilder()

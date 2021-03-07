@@ -90,7 +90,7 @@ val ObserverModule = Kodein.Module {
     }
 
     bind<Observer>(tag = Tag.DECREASE_HUNGER_AND_THIRST) with provider {
-        DecreaseThirstAndHungerObserver(instance(), instance())
+        DecreaseThirstAndHungerObserver(instance())
     }
 
     bind<Observer>(tag = Tag.LOG_TICK) with provider {

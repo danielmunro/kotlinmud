@@ -29,7 +29,6 @@ class MobCardDAO(id: EntityID<Int>) : IntEntity(id) {
     var skillPoints by MobCards.skillPoints
     var loggedIn by MobCards.loggedIn
     val trainedAttributes by AttributesDAO optionalReferrersOn Attributes.mobCardId
-//    var respawnRoom by RoomDAO referencedOn MobCards.respawnRoomId
     val factionScores by FactionScoreDAO referrersOn FactionScores.mobCardId
     val quests by QuestDAO referrersOn Quests.mobCardId
     var player by PlayerDAO referencedOn MobCards.playerId

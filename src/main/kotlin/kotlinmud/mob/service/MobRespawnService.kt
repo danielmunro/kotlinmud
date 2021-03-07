@@ -1,6 +1,6 @@
 package kotlinmud.mob.service
 
-import kotlinmud.mob.helper.MobBuilder
+import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.model.MobRespawn
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.service.RoomService

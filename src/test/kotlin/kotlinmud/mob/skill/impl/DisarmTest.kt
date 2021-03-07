@@ -18,7 +18,7 @@ class DisarmTest {
         val test = createTestService()
 
         // given
-        val mob = test.createMob {
+        val mob = test.createPlayerMob {
             it.skills[SkillType.DISARM] = 100
         }
         val target = test.createMob()

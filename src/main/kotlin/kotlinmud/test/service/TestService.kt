@@ -38,11 +38,13 @@ import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
+import kotlinmud.mob.builder.MobBuilder
+import kotlinmud.mob.builder.PlayerMobBuilder
 import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.fight.Round
-import kotlinmud.mob.helper.MobBuilder
 import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.FightService
 import kotlinmud.mob.service.MobService
@@ -90,7 +92,7 @@ class TestService(
         .area(Area.Test)
         .build()
     private val client: Client = spyk(Client(mockk(relaxed = true)))
-    private var mob: Mob? = null
+    private var mob: PlayerMob? = null
     private var target: Mob? = null
     private var player: PlayerDAO? = null
 
@@ -187,8 +189,9 @@ class TestService(
         )
     }
 
-    fun createMob(card: MobCardDAO? = null): Mob {
-        val mob = MobBuilder(mobService)
+    fun createMob(card: MobCardDAO? = null): PlayerMob {
+        val playerMobBuilder = PlayerMobBuilder(mobService)
+        playerMobBuilder
             .name(card?.mobName ?: fixtureService.faker.name.name())
             .race(Human())
             .room(getStartRoom())
@@ -196,7 +199,7 @@ class TestService(
             .card(card)
             .maxItems(100)
             .maxWeight(1000)
-            .build()
+        val mob = playerMobBuilder.build()
         weapon(mob)
         if (this.mob == null) {
             this.mob = mob
@@ -205,6 +208,14 @@ class TestService(
         }
 
         return mob
+    }
+
+    fun createPlayerMobBuilder(): PlayerMobBuilder {
+        val builder = PlayerMobBuilder(mobService)
+        builder.name(fixtureService.faker.name.name())
+            .race(Human())
+            .room(getStartRoom())
+        return builder
     }
 
     fun createMobBuilder(): MobBuilder {
@@ -275,7 +286,7 @@ class TestService(
         return mobService.createCorpseFrom(mob)
     }
 
-    fun createPlayerMob(name: String = fixtureService.faker.name.name(), player: PlayerDAO = createPlayer("${fixtureService.faker.funnyName.name()}@foo.com")): Mob {
+    fun createPlayerMob(name: String = fixtureService.faker.name.name(), player: PlayerDAO = createPlayer("${fixtureService.faker.funnyName.name()}@foo.com")): PlayerMob {
         val race = Human()
         val maxAppetite = race.maxAppetite
         val maxThirst = race.maxThirst
@@ -294,7 +305,7 @@ class TestService(
         }
     }
 
-    fun createPlayerMob(mutator: (mob: Mob) -> Unit): Mob {
+    fun createPlayerMob(mutator: (mob: PlayerMob) -> Unit): PlayerMob {
         val mob = createPlayerMob()
         mutator(mob)
         return mob
@@ -374,7 +385,7 @@ class TestService(
         return runAction(mob ?: createMob(), input)
     }
 
-    fun runActionForIOStatus(mob: Mob, input: String, status: IOStatus, doBetween: () -> Unit = fun() {}): Response {
+    fun runActionForIOStatus(mob: PlayerMob, input: String, status: IOStatus, doBetween: () -> Unit = fun() {}): Response {
         var i = 0
         while (i < 100) {
             val response = runAction(mob, input)
@@ -412,7 +423,7 @@ class TestService(
     }
 
     fun callDecreaseThirstAndHungerEvent(event: Event<*>) {
-        runBlocking { DecreaseThirstAndHungerObserver(serverService, mobService).invokeAsync(event) }
+        runBlocking { DecreaseThirstAndHungerObserver(serverService).invokeAsync(event) }
     }
 
     fun callGenerateGrassObserver() {
@@ -435,7 +446,7 @@ class TestService(
         return questService.findByType(type)
     }
 
-    fun runAction(mob: Mob, input: String): Response {
+    fun runAction(mob: PlayerMob, input: String): Response {
         return runBlocking {
             actionService.run(
                 RequestService(
