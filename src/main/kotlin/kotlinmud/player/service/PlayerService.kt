@@ -14,10 +14,8 @@ import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
 import kotlinmud.io.type.IOStatus
-import kotlinmud.mob.builder.PlayerMobBuilder
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.PlayerMob
-import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.impl.CompleteAuthStep
 import kotlinmud.player.auth.impl.EmailAuthStep
@@ -25,7 +23,6 @@ import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.exception.EmailFormatException
-import kotlinmud.player.repository.findMobCardByName
 import kotlinmud.room.service.RoomService
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
@@ -66,17 +63,7 @@ class PlayerService(
     }
 
     fun findPlayerMobByName(name: String): PlayerMob? {
-        return findMobCardByName(name)?.let { mobCard ->
-            PlayerMobBuilder(mobService).also {
-                it.name(name)
-                it.emailAddress(mobCard.emailAddress)
-                it.race(createRaceFromString(mobCard.race))
-                it.level(mobCard.level)
-                it.experience(mobCard.experience)
-                it.experienceToLevel(mobCard.experiencePerLevel)
-                it.room(roomService.getStartRoom())
-            }.build()
-        }
+        return mobService.findPlayerMobByName(name)
     }
 
     fun findLoggedInPlayerMobByName(name: String): Mob? {

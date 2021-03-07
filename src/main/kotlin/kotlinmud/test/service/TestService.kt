@@ -51,7 +51,6 @@ import kotlinmud.mob.type.JobType
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
-import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.service.QuestService
@@ -67,7 +66,6 @@ import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.time.service.TimeService
 import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.sql.transactions.transaction
 import java.net.SocketAddress
 import java.nio.channels.SocketChannel
 
@@ -184,14 +182,13 @@ class TestService(
         )
     }
 
-    fun createMob(card: MobCardDAO? = null): PlayerMob {
+    fun createMob(name: String = fixtureService.faker.name.name()): PlayerMob {
         val playerMobBuilder = PlayerMobBuilder(mobService)
         playerMobBuilder
-            .name(card?.mobName ?: fixtureService.faker.name.name())
+            .name(name)
             .race(Human())
             .room(getStartRoom())
             .job(JobType.NONE)
-            .card(card)
             .maxItems(100)
             .maxWeight(1000)
         val mob = playerMobBuilder.build()
@@ -282,23 +279,7 @@ class TestService(
     }
 
     fun createPlayerMob(name: String = fixtureService.faker.name.name(), player: PlayerDAO = createPlayer("${fixtureService.faker.funnyName.name()}@foo.com")): PlayerMob {
-        val race = Human()
-        val maxAppetite = race.maxAppetite
-        val maxThirst = race.maxThirst
-        val card = transaction {
-            MobCardDAO.new {
-                mobName = name
-                emailAddress = player.email
-                experiencePerLevel = 1000
-                experience = 1000
-                level = 1
-                hunger = maxAppetite
-                thirst = maxThirst
-                this.race = race.type
-                this.player = player
-            }
-        }
-        return createMob(card).also {
+        return createMob(name).also {
             it.emailAddress = player.email
             playerService.loginPlayerAsMob(player, it)
         }

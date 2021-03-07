@@ -2,7 +2,6 @@ package kotlinmud.player.service
 
 import assertk.assertThat
 import assertk.assertions.isFailure
-import assertk.assertions.isFalse
 import assertk.assertions.isInstanceOf
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.test.helper.createTestService

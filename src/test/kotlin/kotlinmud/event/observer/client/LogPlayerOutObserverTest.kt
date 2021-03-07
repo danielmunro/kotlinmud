@@ -6,10 +6,8 @@ import assertk.assertions.isNull
 import assertk.assertions.isTrue
 import kotlinmud.event.factory.createClientDisconnectedEvent
 import kotlinmud.event.observer.impl.client.LogPlayerOutObserver
-import kotlinmud.player.repository.findMobCardByName
 import kotlinmud.test.helper.createTestService
 import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.junit.Test
 
 class LogPlayerOutObserverTest {
@@ -18,28 +16,22 @@ class LogPlayerOutObserverTest {
         // setup
         val test = createTestService()
         val client1 = test.createClient()
-        client1.mob = test.createPlayerMob()
+        client1.mob = test.createPlayerMob().also { it.loggedIn = true }
         val client2 = test.createClient()
-        client2.mob = test.createPlayerMob()
+        client2.mob = test.createPlayerMob().also { it.loggedIn = true }
 
         // given
-        transaction {
-            client1.mob!!.mobCard!!.loggedIn = true
-            client2.mob!!.mobCard!!.loggedIn = true
-        }
 
         // when
-        transaction {
-            runBlocking {
-                LogPlayerOutObserver().invokeAsync(
-                    createClientDisconnectedEvent(client1)
-                )
-            }
+        runBlocking {
+            LogPlayerOutObserver().invokeAsync(
+                createClientDisconnectedEvent(client1)
+            )
         }
 
         // then
-        findMobCardByName(client1.mob!!.name)!!.let { assertThat(it.loggedIn).isFalse() }
-        findMobCardByName(client2.mob!!.name)!!.let { assertThat(it.loggedIn).isTrue() }
+        client1.mob!!.let { assertThat(it.loggedIn).isFalse() }
+        client2.mob!!.let { assertThat(it.loggedIn).isTrue() }
     }
 
     @Test
@@ -49,12 +41,10 @@ class LogPlayerOutObserverTest {
         val client = test.createClient()
 
         // when
-        transaction {
-            runBlocking {
-                LogPlayerOutObserver().invokeAsync(
-                    createClientDisconnectedEvent(client)
-                )
-            }
+        runBlocking {
+            LogPlayerOutObserver().invokeAsync(
+                createClientDisconnectedEvent(client)
+            )
         }
 
         // then

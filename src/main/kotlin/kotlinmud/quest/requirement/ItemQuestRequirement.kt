@@ -1,14 +1,14 @@
 package kotlinmud.quest.requirement
 
-import kotlinmud.item.dao.ItemDAO
-import kotlinmud.mob.model.Mob
+import kotlinmud.item.model.Item
+import kotlinmud.mob.model.PlayerMob
 import kotlinmud.quest.type.QuestRequirement
 import kotlinmud.quest.type.QuestRequirementType
 
-class ItemQuestRequirement(private val item: ItemDAO) : QuestRequirement {
+class ItemQuestRequirement(private val item: Item) : QuestRequirement {
     override val questRequirementType = QuestRequirementType.ITEM
 
-    override fun doesSatisfy(mob: Mob): Boolean {
+    override fun doesSatisfy(mob: PlayerMob): Boolean {
         return mob.items.contains(item)
     }
 }

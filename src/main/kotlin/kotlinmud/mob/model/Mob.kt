@@ -157,14 +157,7 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     }
 
     fun base(attribute: Attribute): Int {
-        return BASE_STAT + (attributes[attribute] ?: 0) + when (attribute) {
-            Attribute.STR -> race.attributes.strength
-            Attribute.INT -> race.attributes.intelligence
-            Attribute.WIS -> race.attributes.wisdom
-            Attribute.DEX -> race.attributes.dexterity
-            Attribute.CON -> race.attributes.constitution
-            else -> 0
-        }
+        return BASE_STAT + (attributes[attribute] ?: 0) + (race.attributes[attribute] ?: 0)
     }
 
     fun savesAgainst(damageType: DamageType): Boolean {

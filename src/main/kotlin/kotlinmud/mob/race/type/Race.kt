@@ -1,6 +1,6 @@
 package kotlinmud.mob.race.type
 
-import kotlinmud.attributes.factory.emptyAttributes
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.type.Form
 import kotlinmud.mob.type.Size
@@ -13,7 +13,7 @@ abstract class Race {
     abstract val unarmedAttackVerb: String
     abstract val unarmedDamageType: DamageType
     abstract val form: Form
-    open val attributes = emptyAttributes()
+    open val attributes: MutableMap<Attribute, Int> = mutableMapOf()
     abstract val size: Size
     abstract val maxAppetite: Int
     abstract val maxThirst: Int
