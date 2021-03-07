@@ -47,8 +47,7 @@ import kotlin.math.roundToInt
 
 class MobService(
     private val itemService: ItemService,
-    private val eventService: EventService,
-    private val skills: List<Skill>
+    private val eventService: EventService
 ) {
     private val logger = logger(this)
     private val fights = mutableListOf<Fight>()
@@ -97,12 +96,6 @@ class MobService(
 
     fun findMobsByJobType(jobType: JobType): List<Mob> {
         return mobs.filter { it.job == jobType }
-    }
-
-    fun findPlayerMobByName(name: String): Mob? {
-        return mobs.find {
-            it.mobCard != null && it.name == name
-        }
     }
 
     fun findMobsByCanonicalId(canonicalId: MobCanonicalId): List<Mob> {
@@ -171,23 +164,6 @@ class MobService(
         } ?: logger.debug("flee :: no fight for mob :: {}", mob.name)
     }
 
-    fun train(card: MobCardDAO, attribute: Attribute) {
-        transaction {
-            card.trains -= 1
-            val attributes = AttributesDAO.new {
-                mobCard = card
-            }
-            attributes.setAttribute(attribute, if (attribute.isVitals()) 10 else 1)
-        }
-    }
-
-    fun practice(mob: Mob, type: SkillType) {
-        transaction {
-            mob.mobCard!!.practices -= 1
-            mob.skills[type] = mob.skills[type]!! + calculatePracticeGain(mob, type)
-        }
-    }
-
     fun removeDecayedItems() {
         mobs.forEach {
             it.items.removeIf { item ->
@@ -214,27 +190,12 @@ class MobService(
         }
     }
 
-    private fun calculatePracticeGain(mob: Mob, type: SkillType): Int {
-        return with(
-            1 + getLearningDifficultyPracticeAmount(
-                getSkillDifficultyForSpecialization(type, mob.specialization?.type ?: SpecializationType.NONE)
-            )
-        ) {
-            (Math.random() * this + mob.calc(Attribute.INT) / 5).roundToInt()
-        }
-    }
-
-    private fun getSkillDifficultyForSpecialization(type: SkillType, specialization: SpecializationType?): LearningDifficulty {
-        return findSkillByType(type).difficulty[specialization] ?: LearningDifficulty.VERY_HARD
-    }
-
-    private fun findSkillByType(type: SkillType): Skill {
-        return skills.find { it.type == type }!!
-    }
-
     private suspend fun createNewFightRounds(): List<Round> {
-        return fights.map {
-            proceedFightRound(FightService(it, eventService).createRound())
+        return fights.mapNotNull {
+            if (!it.isOver())
+                    proceedFightRound(FightService(it, eventService).createRound())
+                else
+                    null
         }
     }
 

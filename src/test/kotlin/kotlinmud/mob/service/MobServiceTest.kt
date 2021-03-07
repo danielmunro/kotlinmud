@@ -118,8 +118,8 @@ class MobServiceTest {
 
         // given
         val mob = test.createPlayerMob()
+        mob.trains += 1
         val str = mob.calc(Attribute.STR)
-        transaction { mob.mobCard?.trains = 1 }
         test.createMobBuilder()
             .job(JobType.TRAINER)
             .build()
@@ -130,7 +130,7 @@ class MobServiceTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you train your strength.")
         assertThat(mob.calc(Attribute.STR)).isEqualTo(str + 1)
-        assertThat(transaction { mob.mobCard!!.trains }).isEqualTo(0)
+        assertThat(mob.trains).isEqualTo(0)
     }
 
     @Test
@@ -141,7 +141,7 @@ class MobServiceTest {
         // given
         val mob = test.createPlayerMob()
         val hp = mob.calc(Attribute.HP)
-        transaction { mob.mobCard?.trains = 1 }
+        mob.trains += 1
         test.createMobBuilder()
             .job(JobType.TRAINER)
             .build()
@@ -152,7 +152,7 @@ class MobServiceTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you train your health.")
         assertThat(mob.calc(Attribute.HP)).isEqualTo(hp + 10)
-        assertThat(transaction { mob.mobCard!!.trains }).isEqualTo(0)
+        assertThat(mob.trains).isEqualTo(0)
     }
 
     @Test
@@ -163,7 +163,7 @@ class MobServiceTest {
         // given
         val mob = test.createPlayerMob()
         mob.skills[SkillType.BASH] = 1
-        transaction { mob.mobCard?.practices = 1 }
+        mob.practices += 1
         test.createMobBuilder()
             .job(JobType.TRAINER)
             .build()
@@ -174,6 +174,6 @@ class MobServiceTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you practice bash.")
         assertThat(mob.skills[SkillType.BASH]!!).isGreaterThan(1)
-        assertThat(transaction { mob.mobCard!!.practices }).isEqualTo(0)
+        assertThat(mob.practices).isEqualTo(0)
     }
 }

@@ -10,10 +10,14 @@ import kotlinmud.io.type.Syntax
 
 fun createTrainAction(): Action {
     return Action(Command.TRAIN, mustBeStanding(), trainable()) {
-        with(it.get<Attribute>(Syntax.TRAINABLE)) {
-            it.train(this)
-            it.createOkResponse(createTrainMessage(it.getMob(), this))
-        }
+        val attribute = it.get<Attribute>(Syntax.TRAINABLE)
+        val mob = it.getMob()
+        mob.trains -= 1
+        val amount = if (attribute.isVitals()) 10 else 1
+        mob.attributes[attribute]?.let { initial ->
+            mob.attributes[attribute] = initial + amount
+        } ?: run { mob.attributes[attribute] = amount }
+        it.createOkResponse(createTrainMessage(it.getMob(), attribute))
     }
 }
 

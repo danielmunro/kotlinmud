@@ -59,7 +59,6 @@ class FightService(private val fight: Fight, private val eventService: EventServ
             attacks.forEach {
                 if (it.attackResult == AttackResult.HIT) {
                     mob.hp -= it.damage
-                    mob.disposition = Disposition.FIGHTING
                 }
             }
             if (mob.hp < 0) {
@@ -99,12 +98,16 @@ class FightService(private val fight: Fight, private val eventService: EventServ
     }
 
     suspend fun createRound(): Round {
+        val attacks1 = mapAttacks(fight.mob1, fight.mob2)
+        val attacks2 = if (attacks1.fold(0) { acc, attack -> acc + attack.damage } < fight.mob2.hp) {
+             mapAttacks(fight.mob2, fight.mob1)
+        } else mutableListOf()
         val round = Round(
             fight,
             fight.mob1,
             fight.mob2,
-            mapAttacks(fight.mob1, fight.mob2),
-            mapAttacks(fight.mob2, fight.mob1)
+            attacks1,
+            attacks2
         )
         eventService.publish(createFightRoundEventFactory(round))
         applyRoundDamage(round.attackerAttacks, round.defender)

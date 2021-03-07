@@ -5,11 +5,11 @@ import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.PlayerMob
 
-class SkillToPracticeContextBuilder(private val mob: Mob) : ContextBuilder {
+class SkillToPracticeContextBuilder(private val mob: PlayerMob) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        val mobCard = mob.mobCard!!
-        if (mobCard.practices == 0) {
+        if (mob.practices == 0) {
             return Context(
                 syntax,
                 Status.ERROR,

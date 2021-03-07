@@ -22,8 +22,14 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.service.MobService
+import kotlinmud.mob.skill.helper.createSkillList
+import kotlinmud.mob.skill.helper.getLearningDifficultyPracticeAmount
+import kotlinmud.mob.skill.type.LearningDifficulty
+import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.social.Social
@@ -35,6 +41,7 @@ import kotlinmud.room.type.Direction
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
 import kotlinmud.weather.type.Weather
+import kotlin.math.roundToInt
 
 class ActionContextService(
     private val mobService: MobService,
@@ -50,6 +57,7 @@ class ActionContextService(
 ) {
     private val craftingService = CraftingService(itemService)
     val recipes = createRecipeList()
+    val skills = createSkillList()
 
     fun craft(recipe: Recipe): List<Item> {
         return craftingService.craft(recipe, request.mob)
@@ -63,7 +71,7 @@ class ActionContextService(
         return weatherService.getWeather()
     }
 
-    fun getMob(): Mob {
+    fun getMob(): PlayerMob {
         return request.mob
     }
 
@@ -158,16 +166,6 @@ class ActionContextService(
     fun getDynamicRoomDescription(): String {
         val room = request.getRoom()
         return "${room.name}\n${room.description}\n"
-//        val room = request.getRoom()
-//        return "${getRoomName(weatherService.getTemperature(), room.biome)}\n${getRoomDescription(room, weatherService.getWeather())}"
-    }
-
-    fun train(attribute: Attribute) {
-        mobService.train(getMobCard(), attribute)
-    }
-
-    fun practice(skillType: SkillType) {
-        mobService.practice(request.mob, skillType)
     }
 
     fun setDisposition(disposition: Disposition) {
@@ -204,5 +202,23 @@ class ActionContextService(
 
     fun getDate(): String {
         return timeService.getDate()
+    }
+
+    fun calculatePracticeGain(mob: Mob, type: SkillType): Int {
+        return with(
+                1 + getLearningDifficultyPracticeAmount(
+                        getSkillDifficultyForSpecialization(type, mob.specialization?.type ?: SpecializationType.NONE)
+                )
+        ) {
+            (Math.random() * this + mob.calc(Attribute.INT) / 5).roundToInt()
+        }
+    }
+
+    private fun getSkillDifficultyForSpecialization(type: SkillType, specialization: SpecializationType?): LearningDifficulty {
+        return findSkillByType(type).difficulty[specialization] ?: LearningDifficulty.VERY_HARD
+    }
+
+    private fun findSkillByType(type: SkillType): Skill {
+        return skills.find { it.type == type }!!
     }
 }

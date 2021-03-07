@@ -13,6 +13,7 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.model.ProbabilityTest
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class FightTest {
@@ -137,7 +138,7 @@ class FightTest {
 
         // when
         while (!fight.isOver()) {
-            testService.proceedFights()
+            runBlocking { testService.proceedFights() }
             mob1.hp = hp - 1
             mob2.hp = hp - 1
         }
