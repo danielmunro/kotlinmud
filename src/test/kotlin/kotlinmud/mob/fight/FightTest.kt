@@ -138,6 +138,8 @@ class FightTest {
         // when
         while (!fight.isOver()) {
             testService.proceedFights()
+            mob1.hp = hp - 1
+            mob2.hp = hp - 1
         }
 
         // then

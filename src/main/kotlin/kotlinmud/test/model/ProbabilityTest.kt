@@ -1,6 +1,6 @@
 package kotlinmud.test.model
 
-class ProbabilityTest(private var iterations: Int = 10) {
+class ProbabilityTest(private var iterations: Int = 100) {
     private var outcome1: Int = 0
     private var outcome2: Int = 0
     val totalIterations = iterations
