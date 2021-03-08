@@ -49,6 +49,8 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     val attributes: MutableMap<Attribute, Int> = mobArguments.attributes
     var room: Room = mobArguments.room
     val equipped: MutableList<Item> = mobArguments.equipped
+    val route = mobArguments.route
+    var lastRoute: Room? = null
     override val maxItems: Int = mobArguments.maxItems
     override val maxWeight: Int = mobArguments.maxWeight
     override val items: MutableList<Item> = mobArguments.items

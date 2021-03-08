@@ -23,7 +23,6 @@ import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.exception.EmailFormatException
-import kotlinmud.room.service.RoomService
 import org.jetbrains.exposed.sql.transactions.transaction
 import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
 

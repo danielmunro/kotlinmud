@@ -62,7 +62,7 @@ class MobService(
     }
 
     fun createMobController(mob: Mob): MobController {
-        return MobController(this, itemService, eventService, mob)
+        return MobController(this, eventService, mob)
     }
 
     fun addFight(mob1: Mob, mob2: Mob): FightService {

@@ -6,7 +6,6 @@ import kotlinmud.attributes.constant.startingMana
 import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobArguments
 import kotlinmud.mob.race.type.Race
@@ -47,6 +46,7 @@ open class MobBuilder(private val mobService: MobService) {
     private var items = listOf<Item>()
     private var maxItems = 0
     private var maxWeight = 0
+    private var route = listOf<Room>()
     private var skills = mapOf<SkillType, Int>()
     private var affects = listOf<Affect>()
     private var currencies = mapOf<CurrencyType, Int>()
@@ -81,6 +81,11 @@ open class MobBuilder(private val mobService: MobService) {
 
     fun job(value: JobType): MobBuilder {
         job = value
+        return this
+    }
+
+    fun route(value: List<Room>): MobBuilder {
+        route = value
         return this
     }
 
@@ -169,11 +174,6 @@ open class MobBuilder(private val mobService: MobService) {
         return this
     }
 
-    fun fromDAO(mobDAO: MobDAO): MobBuilder {
-        // todo do some stuff
-        return this
-    }
-
     open fun build(): Mob {
         val mob = Mob(createMobArguments())
         mobService.addMob(mob)
@@ -207,6 +207,7 @@ open class MobBuilder(private val mobService: MobService) {
             skills.toMutableMap(),
             affects.toMutableList(),
             currencies.toMutableMap(),
+            route,
             card,
         )
     }

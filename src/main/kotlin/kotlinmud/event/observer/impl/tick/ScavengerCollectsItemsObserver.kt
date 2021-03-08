@@ -19,7 +19,7 @@ class ScavengerCollectsItemsObserver(
         mobService.findMobsByJobType(JobType.SCAVENGER).forEach {
             eventually {
                 runBlocking {
-                    MobController(mobService, itemService, eventService, it).pickUpAnyItem()
+                    MobController(mobService, eventService, it).pickUpAnyItem()
                 }
             }
         }

@@ -136,7 +136,7 @@ class TestService(
     }
 
     fun createMobController(mob: Mob): MobController {
-        return MobController(mobService, itemService, eventService, mob)
+        return MobController(mobService, eventService, mob)
     }
 
     fun countItemsFor(hasInventory: Any): Int {
