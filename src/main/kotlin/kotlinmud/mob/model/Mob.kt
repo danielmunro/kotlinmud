@@ -13,6 +13,7 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
 import kotlinmud.mob.constant.BASE_STAT
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.helper.getSkillBoostRegenRate
 import kotlinmud.mob.race.type.Race
@@ -26,7 +27,6 @@ import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.mob.type.Rarity
-import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.model.Room
 
 open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
@@ -57,7 +57,7 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     val skills: MutableMap<SkillType, Int> = mobArguments.skills
     val affects: MutableList<Affect> = mobArguments.affects
     val currencies: MutableMap<CurrencyType, Int> = mobArguments.currencies
-    val mobCard: MobCardDAO? = mobArguments.mobCard
+    val dao: MobDAO? = mobArguments.dao
 
     fun getHealthIndication(): String {
         val amount: Double = hp.toDouble() / calc(Attribute.HP).toDouble()

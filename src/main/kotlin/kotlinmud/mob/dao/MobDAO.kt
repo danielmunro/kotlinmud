@@ -16,8 +16,9 @@ import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.mob.type.Rarity
-import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
+import kotlinmud.quest.dao.QuestDAO
+import kotlinmud.quest.table.Quests
 import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
@@ -26,6 +27,7 @@ import org.jetbrains.exposed.dao.IntEntityClass
 class MobDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<MobDAO>(Mobs)
 
+    var emailAddress by Mobs.emailAddress
     var name by Mobs.name
     var brief by Mobs.brief
     var description by Mobs.description
@@ -33,6 +35,8 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id) {
     var mana by Mobs.mana
     var mv by Mobs.mv
     var level by Mobs.level
+    var experience by Mobs.experience
+    var experiencePerLevel by Mobs.experiencePerLevel
     var race by Mobs.race.transform(
         { it.toString() },
         { RaceType.valueOf(it) }
@@ -72,15 +76,23 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id) {
         { it.toString() },
         { it?.let { MobCanonicalId.valueOf(it) } }
     )
+    var trains by Mobs.trains
+    var practices by Mobs.practices
+    var bounty by Mobs.bounty
+    var sacPoints by Mobs.sacPoints
+    var hunger by Mobs.hunger
+    var thirst by Mobs.thirst
+    var skillPoints by Mobs.skillPoints
+    var loggedIn by Mobs.loggedIn
+    var roomId by Mobs.roomId
     var attributes by AttributesDAO referencedOn Mobs.attributesId
-    var room by RoomDAO referencedOn Mobs.roomId
     val equipped by ItemDAO optionalReferrersOn Items.mobEquippedId
     val items by ItemDAO optionalReferrersOn Items.mobInventoryId
     val skills by SkillDAO referrersOn Skills.mobId
     val affects by AffectDAO optionalReferrersOn Affects.mobId
     var player by PlayerDAO optionalReferencedOn Mobs.playerId
-    var mobCard by MobCardDAO optionalReferencedOn Mobs.mobCardId
     val currencies by CurrencyDAO referrersOn Currencies.mobId
+    val quests by QuestDAO referrersOn Quests.mobId
 
     override fun toString(): String {
         return name

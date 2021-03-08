@@ -101,7 +101,7 @@ class MobService(
 
     fun findMobsWantingToMoveOnTick(): List<Mob> {
         return mobs.filter {
-            it.mobCard == null && (
+            it.dao == null && (
                 it.job == JobType.FODDER ||
                     it.job == JobType.SCAVENGER ||
                     it.job == JobType.PATROL
@@ -141,7 +141,7 @@ class MobService(
             eventService.publish(createDeathEvent(it))
         }
         mobs.removeIf {
-            it.mobCard == null && it.disposition == Disposition.DEAD
+            it.dao == null && it.disposition == Disposition.DEAD
         }
     }
 

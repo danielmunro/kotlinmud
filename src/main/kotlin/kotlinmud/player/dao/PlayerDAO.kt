@@ -2,7 +2,6 @@ package kotlinmud.player.dao
 
 import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.table.Mobs
-import kotlinmud.player.table.MobCards
 import kotlinmud.player.table.Players
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
@@ -16,7 +15,6 @@ class PlayerDAO(id: EntityID<Int>) : IntEntity(id) {
     var created by Players.created
     var lastOTP by Players.lastOTP
     val mobs by MobDAO optionalReferrersOn Mobs.playerId
-    val mobCards by MobCardDAO referrersOn MobCards.playerId
 
     override fun equals(other: Any?): Boolean {
         return if (other is PlayerDAO) other.id.value == id.value else super.equals(other)

@@ -1,6 +1,6 @@
 package kotlinmud.quest.dao
 
-import kotlinmud.player.dao.MobCardDAO
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.quest.table.Quests
 import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
@@ -11,7 +11,7 @@ import org.jetbrains.exposed.dao.IntEntityClass
 class QuestDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<QuestDAO>(Quests)
 
-    var mobCard by MobCardDAO referencedOn Quests.mobCardId
+    var mob by MobDAO referencedOn Quests.mobId
     var status by Quests.status.transform(
         { it.toString() },
         { QuestStatus.valueOf(it) }

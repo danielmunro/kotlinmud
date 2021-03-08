@@ -3,6 +3,7 @@ package kotlinmud.mob.model
 import kotlinmud.affect.model.Affect
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.Specialization
@@ -12,7 +13,6 @@ import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.mob.type.Rarity
-import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.room.model.Room
 
 class MobArguments(
@@ -42,5 +42,5 @@ class MobArguments(
     val affects: MutableList<Affect>,
     val currencies: MutableMap<CurrencyType, Int>,
     val route: List<Room>?,
-    val mobCard: MobCardDAO?
+    val dao: MobDAO?
 )

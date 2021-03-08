@@ -1,6 +1,8 @@
 package kotlinmud.player.auth.model
 
+import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.mob.builder.PlayerMobBuilder
+import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.service.MobService
@@ -9,8 +11,8 @@ import kotlinmud.mob.skill.type.LearningDifficulty
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.Specialization
 import kotlinmud.mob.specialization.type.SpecializationType
-import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.dao.PlayerDAO
+import kotlinmud.room.dao.RoomDAO
 import kotlinmud.room.model.Room
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -26,7 +28,7 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
         return createMob(player).also { mob ->
             skills.forEach { type ->
                 mob.skills[type] = 1
-                val mobCard = mob.mobCard!!
+                val mobCard = mob.dao!!
                 mobCard.experiencePerLevel += addExperienceForSkillType(type, mob.specialization!!.type)
             }
         }
@@ -46,9 +48,11 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
 
     private fun createMob(player: PlayerDAO): PlayerMob {
         val card = transaction {
-            MobCardDAO.new {
-                this.mobName = this@CreationFunnel.mobName
+            MobDAO.new {
+                this.name = this@CreationFunnel.mobName
                 this.emailAddress = player.email
+                brief = "${this@CreationFunnel.mobName} the ${mobRace.type} is here"
+                description = "an unassuming player is here"
                 experiencePerLevel = 1000
                 experience = 1000
                 trains = 5
@@ -56,6 +60,8 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
                 level = 1
                 this.race = mobRace.type
                 this.player = player
+                attributes = AttributesDAO.new{}
+                roomId = 1
             }
         }
         val playerMobBuilder = PlayerMobBuilder(mobService)
@@ -64,7 +70,7 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
             .description("a nondescript $mobRace is here")
             .race(mobRace)
             .room(mobRoom)
-            .card(card)
+            .dao(card)
         return playerMobBuilder.build()
     }
 }
