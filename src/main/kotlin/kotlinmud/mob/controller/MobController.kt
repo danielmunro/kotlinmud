@@ -31,17 +31,12 @@ class MobController(
     }
 
     suspend fun pickUpAnyItem() {
-        println("debug sanity -- pickUpAnyItem")
         val room = transaction { mob.room }
         val items = room.items.toList()
-        println("pre-conditional")
         if (mob.disposition == Disposition.STANDING && items.isNotEmpty()) {
-            println("inside conditional")
             val item = items.random()
-            logger.debug("$mob picks up $item")
             mob.items.add(item)
             room.items.remove(item)
-            println("pre-event publish")
             eventService.publish(
                 createSendMessageToRoomEvent(
                     MessageBuilder()
@@ -52,14 +47,12 @@ class MobController(
                     mob
                 )
             )
-            println("woot")
         }
     }
 
     private suspend fun proceedRoute() {
         val currentRoom = mob.room
         val currentRoomIndex = mob.route!!.indexOf(currentRoom)
-        // @todo this is wrong -- fix it
         val lastIndex = mob.route.indexOf(mob.lastRoute)
         val nextIndex = if (currentRoomIndex > lastIndex) {
             if (currentRoomIndex + 1 < mob.route.size) {
