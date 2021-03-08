@@ -13,7 +13,6 @@ import kotlinmud.room.model.Door
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.DoorDisposition
 import kotlinx.coroutines.runBlocking
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class MobController(
     private val mobService: MobService,
@@ -31,7 +30,7 @@ class MobController(
     }
 
     suspend fun pickUpAnyItem() {
-        val room = transaction { mob.room }
+        val room = mob.room
         val items = room.items.toList()
         if (mob.disposition == Disposition.STANDING && items.isNotEmpty()) {
             val item = items.random()

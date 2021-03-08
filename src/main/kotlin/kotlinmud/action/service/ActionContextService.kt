@@ -31,7 +31,6 @@ import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
-import kotlinmud.player.dao.MobCardDAO
 import kotlinmud.player.social.Social
 import kotlinmud.quest.service.QuestService
 import kotlinmud.quest.type.Quest
@@ -73,10 +72,6 @@ class ActionContextService(
 
     fun getMob(): PlayerMob {
         return request.mob
-    }
-
-    fun getMobCard(): MobCardDAO {
-        return request.mob.mobCard!!
     }
 
     fun getAffects(): List<Affect> {

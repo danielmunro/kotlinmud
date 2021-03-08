@@ -12,7 +12,6 @@ fun createScoreAction(): Action {
     return Action(Command.SCORE, mustBeAlive()) { svc ->
         val mob = svc.getMob()
         val items = mob.items
-        val mobCard = svc.getMobCard()
         createResponseWithEmptyActionContext(
             messageToActionCreator(
                 "You are $mob, unknown years old.\n" +
@@ -25,7 +24,7 @@ fun createScoreAction(): Action {
                         .toLowerCase()
                     } " +
                     "Class: ${mob.specialization.toString().toLowerCase()} Kit: none\n" +
-                    "Trains: ${mobCard.trains}  Practices: ${mobCard.practices}  Skill Points: ${mobCard.skillPoints}  Bounty: ${mobCard.bounty} " +
+                    "Trains: ${mob.trains}  Practices: ${mob.practices}  Skill Points: ${mob.skillPoints}  Bounty: ${mob.bounty} " +
                     "You are carrying ${items.size}/${mob.maxItems} items, ${
                     items.map { it.weight }
                         .fold(0.0) { acc: Double, value: Double -> acc + value }
@@ -55,7 +54,7 @@ fun createScoreAction(): Action {
                         Attribute.CON
                     )
                     }\n" +
-                    "You have ${mobCard.experience} exp, ${mob.getCurrency(CurrencyType.Gold)} gold, ${mob.getCurrency(CurrencyType.Silver)} silver, ${mob.getCurrency(CurrencyType.Copper)} copper.\n" +
+                    "You have ${mob.experience} exp, ${mob.getCurrency(CurrencyType.Gold)} gold, ${mob.getCurrency(CurrencyType.Silver)} silver, ${mob.getCurrency(CurrencyType.Copper)} copper.\n" +
                     "You need 0 exp to level.\n" +
                     "Wimpy set to ${mob.wimpy}.\n" +
                     "You are ${mob.disposition.toString().toLowerCase()}.\n" +
@@ -65,7 +64,7 @@ fun createScoreAction(): Action {
                     "You are hopelessly vulnerable to slashing.\n" +
                     "You are hopelessly vulnerable to magic.\n" +
                     "You are a neutral follower of yourself.\n" +
-                    "Sac Points: ${mobCard.sacPoints}"
+                    "Sac Points: ${mob.sacPoints}"
             )
         )
     }
