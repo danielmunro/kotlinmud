@@ -122,33 +122,28 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
         return when (attribute) {
             Attribute.HP ->
                 (attributes[Attribute.HP] ?: 0) +
-                    accumulate { it.attributes[Attribute.HP] ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
+                    accumulate { it.attributes[Attribute.HP] ?: 0 }
             Attribute.MANA ->
                 (attributes[Attribute.MANA] ?: 0) +
-                    accumulate { it.attributes[Attribute.MANA] ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
+                    accumulate { it.attributes[Attribute.MANA] ?: 0 }
             Attribute.MV ->
                 (attributes[Attribute.MV] ?: 0) +
-                    accumulate { it.attributes[Attribute.MV] ?: 0 } + (mobCard?.calcTrained(attribute) ?: 0)
+                    accumulate { it.attributes[Attribute.MV] ?: 0 }
             Attribute.STR ->
                 base(attribute) +
-                    accumulate { it.attributes[Attribute.STR] ?: 0 } +
-                    (mobCard?.calcTrained(attribute) ?: 0)
+                    accumulate { it.attributes[Attribute.STR] ?: 0 }
             Attribute.INT ->
                 base(attribute) +
-                    accumulate { it.attributes[Attribute.INT] ?: 0 } +
-                    (mobCard?.calcTrained(attribute) ?: 0)
+                    accumulate { it.attributes[Attribute.INT] ?: 0 }
             Attribute.WIS ->
                 base(attribute) +
-                    accumulate { it.attributes[Attribute.WIS] ?: 0 } +
-                    (mobCard?.calcTrained(attribute) ?: 0)
+                    accumulate { it.attributes[Attribute.WIS] ?: 0 }
             Attribute.DEX ->
                 base(attribute) +
-                    accumulate { it.attributes[Attribute.DEX] ?: 0 } +
-                    (mobCard?.calcTrained(attribute) ?: 0)
+                    accumulate { it.attributes[Attribute.DEX] ?: 0 }
             Attribute.CON ->
                 base(attribute) +
-                    accumulate { it.attributes[Attribute.CON] ?: 0 } +
-                    (mobCard?.calcTrained(attribute) ?: 0)
+                    accumulate { it.attributes[Attribute.CON] ?: 0 }
             Attribute.HIT -> (attributes[Attribute.HIT] ?: 0) + accumulate { it.attributes[Attribute.HIT] ?: 0 }
             Attribute.DAM -> (attributes[Attribute.DAM] ?: 0) + accumulate { it.attributes[Attribute.DAM] ?: 0 }
             Attribute.AC_BASH -> (attributes[Attribute.AC_BASH] ?: 0) + accumulate { it.attributes[Attribute.AC_BASH] ?: 0 }

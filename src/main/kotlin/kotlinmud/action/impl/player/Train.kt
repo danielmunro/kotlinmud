@@ -17,7 +17,7 @@ fun createTrainAction(): Action {
         mob.attributes[attribute]?.let { initial ->
             mob.attributes[attribute] = initial + amount
         } ?: run { mob.attributes[attribute] = amount }
-        it.createOkResponse(createTrainMessage(it.getMob(), attribute))
+        it.createOkResponse(createTrainMessage(mob, attribute))
     }
 }
 
