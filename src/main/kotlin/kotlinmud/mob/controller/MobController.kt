@@ -88,7 +88,7 @@ class MobController(
 
     private suspend fun wander() {
         logger.debug("mob $mob moving via random choice")
-        val room = transaction { mob.room }
+        val room = mob.room
         room.getAllExits().filter { it.value.area == room.area }.entries.random().let {
             mobService.moveMob(mob, it.value, it.key)
         }

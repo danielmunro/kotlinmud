@@ -31,7 +31,6 @@ class PlayerService(
     private val emailService: EmailService,
     private val eventService: EventService,
     private val mobService: MobService,
-    private val roomService: RoomService,
 ) {
     private val preAuthClients: MutableMap<Client, AuthStep> = mutableMapOf()
     private val loggedInPlayers: MutableMap<Int, PlayerDAO> = mutableMapOf()
