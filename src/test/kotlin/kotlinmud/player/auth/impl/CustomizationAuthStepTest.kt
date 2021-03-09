@@ -7,6 +7,8 @@ import io.mockk.confirmVerified
 import io.mockk.verify
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.specialization.impl.Warrior
+import kotlinmud.mob.type.Gender
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.service.TestService
 import kotlinx.coroutines.runBlocking
@@ -169,6 +171,8 @@ Current experience to level: 0
             funnel.mobName = "foo"
             funnel.mobRace = Human()
             funnel.mobRoom = test.getStartRoom()
+            funnel.gender = Gender.ANY
+            funnel.specialization = Warrior()
             authStepService.addCreationFunnel(funnel)
             CustomizationAuthStep(authStepService, player)
         }

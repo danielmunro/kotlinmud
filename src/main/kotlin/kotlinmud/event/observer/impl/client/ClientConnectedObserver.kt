@@ -7,6 +7,7 @@ import kotlinmud.event.observer.type.Observer
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.specialization.impl.Warrior
+import kotlinmud.mob.type.Gender
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.repository.findPlayerByEmail
@@ -29,6 +30,7 @@ class ClientConnectedObserver(private val mobService: MobService, private val ro
                 val funnel = CreationFunnel(mobService, "dan@danmunro.com")
                 funnel.mobName = "foo"
                 funnel.mobRace = Human()
+                funnel.gender = Gender.ANY
                 funnel.mobRoom = roomService.findOne { it.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
                 funnel.specialization = Warrior()
                 val mob = funnel.build(player)

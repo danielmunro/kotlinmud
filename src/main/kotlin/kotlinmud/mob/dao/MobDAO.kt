@@ -13,13 +13,11 @@ import kotlinmud.mob.table.Currencies
 import kotlinmud.mob.table.Mobs
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
-import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.mob.type.Rarity
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.quest.dao.QuestDAO
 import kotlinmud.quest.table.Quests
-import kotlinmud.room.dao.RoomDAO
 import org.jetbrains.exposed.dao.EntityID
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -43,21 +41,16 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id) {
     )
     var specialization by Mobs.specialization.transform(
         { it.toString() },
-        { it?.let { SpecializationType.valueOf(it) } }
+        { SpecializationType.valueOf(it) }
     )
     var disposition by Mobs.disposition.transform(
         { it.toString() },
         { Disposition.valueOf(it) }
     )
-    var job by Mobs.job.transform(
-        { it.toString() },
-        { it?.let { JobType.valueOf(it) } }
-    )
     var gender by Mobs.gender.transform(
         { it.toString() },
-        { it?.let { Gender.valueOf(it) } }
+        { Gender.valueOf(it) }
     )
-    var gold by Mobs.gold
     var wimpy by Mobs.wimpy
     var savingThrows by Mobs.savingThrows
     var isNpc by Mobs.isNpc

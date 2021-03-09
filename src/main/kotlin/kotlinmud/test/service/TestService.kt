@@ -47,6 +47,8 @@ import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.FightService
 import kotlinmud.mob.service.MobService
+import kotlinmud.mob.specialization.impl.Warrior
+import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.auth.service.AuthStepService
@@ -353,6 +355,8 @@ class TestService(
                 it.mobName = "foo"
                 it.mobRace = Human()
                 it.mobRoom = getStartRoom()
+                it.gender = Gender.ANY
+                it.specialization = Warrior()
             }
         )
     }

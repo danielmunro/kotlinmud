@@ -22,37 +22,37 @@ import kotlinmud.mob.type.Rarity
 import kotlinmud.room.model.Room
 
 open class MobBuilder(private val mobService: MobService) {
-    private var name = ""
-    private var brief = ""
-    private var description = ""
-    private var attributes = mutableMapOf(
+    var name = ""
+    var brief = ""
+    var description = ""
+    var attributes = mutableMapOf(
         Pair(Attribute.HP, startingHp),
         Pair(Attribute.MANA, startingMana),
         Pair(Attribute.MV, startingMv),
     )
-    private var job = JobType.NONE
-    private var specialization: Specialization? = null
-    private var canonicalId: MobCanonicalId? = null
-    private var level = 1
-    private var hp = startingHp
-    private var mana = startingMana
-    private var mv = startingMana
-    private var gender = Gender.ANY
-    private var disposition = Disposition.STANDING
-    private var wimpy = 0
-    private var savingThrows = 0
-    private var rarity = Rarity.COMMON
-    private var equipped = listOf<Item>()
-    private var items = listOf<Item>()
-    private var maxItems = 0
-    private var maxWeight = 0
-    private var route = listOf<Room>()
-    private var skills = mapOf<SkillType, Int>()
-    private var affects = listOf<Affect>()
-    private var currencies = mapOf<CurrencyType, Int>()
-    private var dao: MobDAO? = null
-    private lateinit var race: Race
-    private lateinit var room: Room
+    var job = JobType.NONE
+    var specialization: Specialization? = null
+    var canonicalId: MobCanonicalId? = null
+    var level = 1
+    var hp = startingHp
+    var mana = startingMana
+    var mv = startingMana
+    var gender = Gender.ANY
+    var disposition = Disposition.STANDING
+    var wimpy = 0
+    var savingThrows = 0
+    var rarity = Rarity.COMMON
+    var equipped = listOf<Item>()
+    var items = listOf<Item>()
+    var maxItems = 0
+    var maxWeight = 0
+    var route = listOf<Room>()
+    var skills = mapOf<SkillType, Int>()
+    var affects = listOf<Affect>()
+    var currencies = mapOf<CurrencyType, Int>()
+    var dao: MobDAO? = null
+    lateinit var race: Race
+    lateinit var room: Room
 
     fun name(value: String): MobBuilder {
         name = value
