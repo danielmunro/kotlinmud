@@ -53,7 +53,6 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id) {
     )
     var wimpy by Mobs.wimpy
     var savingThrows by Mobs.savingThrows
-    var isNpc by Mobs.isNpc
     var route by Mobs.route.transform(
         { it?.joinToString(", ") },
         { it?.split(", ")?.map { value -> value.toInt() } }
@@ -61,14 +60,6 @@ class MobDAO(id: EntityID<Int>) : IntEntity(id) {
     var lastRoute by Mobs.lastRoute
     var maxItems by Mobs.maxItems
     var maxWeight by Mobs.maxWeight
-    var rarity by Mobs.rarity.transform(
-        { it.toString() },
-        { Rarity.valueOf(it) }
-    )
-    var canonicalId by Mobs.canonicalId.transform(
-        { it.toString() },
-        { it?.let { MobCanonicalId.valueOf(it) } }
-    )
     var trains by Mobs.trains
     var practices by Mobs.practices
     var bounty by Mobs.bounty
