@@ -1,5 +1,6 @@
 package kotlinmud.mob.model
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import kotlinmud.affect.model.Affect
 import kotlinmud.affect.model.AttributeAffect
 import kotlinmud.affect.type.AffectType
@@ -29,6 +30,7 @@ import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.mob.type.Rarity
 import kotlinmud.room.model.Room
 
+@JsonIgnoreProperties(value = ["room", "dao"])
 open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     override val name: String = mobArguments.name
     val brief: String = mobArguments.brief
@@ -57,7 +59,6 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     val skills: MutableMap<SkillType, Int> = mobArguments.skills
     val affects: MutableList<Affect> = mobArguments.affects
     val currencies: MutableMap<CurrencyType, Int> = mobArguments.currencies
-    val dao: MobDAO? = mobArguments.dao
 
     fun getHealthIndication(): String {
         val amount: Double = hp.toDouble() / calc(Attribute.HP).toDouble()

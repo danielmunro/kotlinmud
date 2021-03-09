@@ -29,8 +29,8 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
         return createMob(player).also { mob ->
             skills.forEach { type ->
                 mob.skills[type] = 1
-                val mobCard = mob.dao!!
-                mobCard.experiencePerLevel += addExperienceForSkillType(type, mob.specialization!!.type)
+//                val mobCard = mob.dao!!
+//                mobCard.experiencePerLevel += addExperienceForSkillType(type, mob.specialization!!.type)
             }
         }
     }
@@ -48,32 +48,13 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
     }
 
     private fun createMob(player: PlayerDAO): PlayerMob {
-        val card = transaction {
-            MobDAO.new {
-                this.name = this@CreationFunnel.mobName
-                this.emailAddress = player.email
-                brief = "${this@CreationFunnel.mobName} the ${mobRace.type} is here"
-                description = "an unassuming player is here"
-                experiencePerLevel = 1000
-                experience = 1000
-                trains = 5
-                practices = 5
-                level = 1
-                this.gender = this@CreationFunnel.gender
-                this.specialization = this@CreationFunnel.specialization.type
-                this.race = mobRace.type
-                this.player = player
-                attributes = AttributesDAO.new {}
-                roomId = 1
-            }
-        }
-        val playerMobBuilder = PlayerMobBuilder(mobService)
-        playerMobBuilder.name(mobName)
-            .brief("a $mobRace is here")
-            .description("a nondescript $mobRace is here")
-            .race(mobRace)
-            .room(mobRoom)
-            .dao(card)
-        return playerMobBuilder.build()
+        return PlayerMobBuilder(mobService).also {
+            it.emailAddress = player.email
+            it.name = mobName
+            it.brief = "a $mobRace is here"
+            it.description = "a nondescript $mobRace is here"
+            it.race = mobRace
+            it.room = mobRoom
+        }.build()
     }
 }

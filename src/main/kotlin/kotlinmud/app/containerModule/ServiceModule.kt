@@ -47,7 +47,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         bind<MobService>() with singleton {
             MobService(
                 instance(),
-                instance()
+                    instance()
             )
         }
         bind<WeatherService>() with singleton { WeatherService() }

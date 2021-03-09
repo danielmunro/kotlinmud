@@ -301,10 +301,6 @@ class TestService(
         }
     }
 
-    fun findPlayerMobByName(name: String): PlayerMob? {
-        return playerService.findPlayerMobByName(name)
-    }
-
     fun createItemBuilder(): ItemBuilder {
         return ItemBuilder(itemService)
             .name(fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words())

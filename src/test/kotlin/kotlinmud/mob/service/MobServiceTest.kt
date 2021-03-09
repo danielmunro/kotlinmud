@@ -78,7 +78,7 @@ class MobServiceTest {
     fun testPruneDeadMobs() {
         // setup
         val testService = createTestService()
-        val mob1 = testService.createMob()
+        val mob1 = testService.createMobBuilder().build()
         val count = testService.findMobsInRoom().size
 
         // given

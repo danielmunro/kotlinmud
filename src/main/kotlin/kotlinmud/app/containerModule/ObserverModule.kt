@@ -33,6 +33,7 @@ import kotlinmud.event.observer.impl.tick.LogTickObserver
 import kotlinmud.event.observer.impl.tick.MoveMobsOnTickObserver
 import kotlinmud.event.observer.impl.tick.RegenMobsObserver
 import kotlinmud.event.observer.impl.tick.RespawnObserver
+import kotlinmud.event.observer.impl.tick.SavePlayerMobsObserver
 import kotlinmud.event.observer.impl.tick.ScavengerCollectsItemsObserver
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.observer.type.ObserverList
@@ -177,6 +178,10 @@ val ObserverModule = Kodein.Module {
         RespawnObserver(instance())
     }
 
+    bind<Observer>(tag = Tag.SAVE_PLAYER_MOBS) with singleton {
+        SavePlayerMobsObserver(instance())
+    }
+
     bind<ObserverList>() with singleton {
         mapOf(
             Pair(
@@ -237,6 +242,7 @@ val ObserverModule = Kodein.Module {
                     instance(tag = Tag.REGEN_MOBS),
                     instance(tag = Tag.MOVE_MOBS_ON_TICK),
                     instance(tag = Tag.SCAVENGER_COLLECTS_ITEM),
+                    instance(tag = Tag.SAVE_PLAYER_MOBS),
 //                    instance(tag = Tag.GENERATE_MOBS),
 //                    instance(tag = Tag.GROW_RESOURCES),
 //                    instance(tag = Tag.GENERATE_GRASS),

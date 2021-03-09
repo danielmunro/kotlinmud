@@ -18,10 +18,8 @@ import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Message
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
-import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.controller.MobController
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.fight.type.AttackResult
@@ -31,12 +29,12 @@ import kotlinmud.mob.helper.takeDamageFromFall
 import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.PlayerMob
-import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.specialization.helper.createSpecializationList
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.model.Room
+import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
 
@@ -47,7 +45,6 @@ class MobService(
     private val logger = logger(this)
     private val fights = mutableListOf<Fight>()
     private val mobs = mutableListOf<Mob>()
-    private val specializations = createSpecializationList()
 
     suspend fun regenMobs() {
         findPlayerMobs().forEach {
@@ -60,25 +57,6 @@ class MobService(
                 normalizeDouble(0.0, event.mvRegenRate, 1.0)
             )
         }
-    }
-
-    fun mapFromDAO(dao: MobDAO): Mob {
-        return MobBuilder(this)
-            .apply {
-                name = dao.name
-                brief = dao.brief
-                description = dao.description
-                hp = dao.hp
-                mana = dao.mana
-                mv = dao.mv
-                level = dao.level
-                race = createRaceFromString(dao.race)
-                specialization = specializations.find { it.type == dao.specialization }
-                disposition = dao.disposition
-                gender = dao.gender
-                wimpy = dao.wimpy
-            }
-            .build()
     }
 
     fun addMob(mob: Mob) {
@@ -125,11 +103,10 @@ class MobService(
 
     fun findMobsWantingToMoveOnTick(): List<Mob> {
         return mobs.filter {
-            it.dao == null && (
                 it.job == JobType.FODDER ||
-                    it.job == JobType.SCAVENGER ||
-                    it.job == JobType.PATROL
-                )
+                it.job == JobType.SCAVENGER ||
+                it.job == JobType.PATROL
+
         }
     }
 
@@ -165,7 +142,7 @@ class MobService(
             eventService.publish(createDeathEvent(it))
         }
         mobs.removeIf {
-            it.dao == null && it.disposition == Disposition.DEAD
+            it !is PlayerMob && it.disposition == Disposition.DEAD
         }
     }
 

@@ -7,7 +7,6 @@ import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.table.Attributes
 import kotlinmud.mob.skill.table.Skills
 import kotlinmud.mob.type.Disposition
-import kotlinmud.mob.type.Rarity
 import kotlinmud.player.table.Players
 import org.jetbrains.exposed.dao.IntIdTable
 
