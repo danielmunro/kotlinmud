@@ -34,25 +34,27 @@ fun getLorimirMobRespawns(mobService: MobService): List<MobRespawn> {
     return listOf(
         MobRespawn(
             MobCanonicalId.SmallFox,
-            MobBuilder(mobService)
-                .name("a small fox")
-                .brief("a small fox darts through the underbrush")
-                .description("a small fox is here.")
-                .level(3)
-                .race(Canid())
-                .canonicalId(MobCanonicalId.SmallFox),
+            MobBuilder(mobService).also {
+                it.name = "a small fox"
+                it.brief = "a small fox darts through the underbrush"
+                it.description = "a small fox is here."
+                it.level = 3
+                it.race = Canid()
+                it.canonicalId = MobCanonicalId.SmallFox
+            },
             Area.LorimirForest,
             10
         ),
         MobRespawn(
             MobCanonicalId.Grongok,
-            MobBuilder(mobService)
-                .name("Grongok")
-                .brief("a wild looking ogre is here")
-                .description("foo")
-                .level(5)
-                .race(Ogre())
-                .canonicalId(MobCanonicalId.Grongok),
+            MobBuilder(mobService).also {
+                it.name = "Grongok"
+                it.brief = "a wild looking ogre is here"
+                it.description = "Grongok the wild is here."
+                it.level = 3
+                it.race = Ogre()
+                it.canonicalId = MobCanonicalId.Grongok
+            },
             Area.GrongokHideout,
             1
         ),

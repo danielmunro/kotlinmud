@@ -95,7 +95,7 @@ class MobTest {
         // given
         val mob2 = testService
             .createMobBuilder()
-            .race(Elf())
+            .also { it.race = Elf() }
             .build()
 
         // when
@@ -118,7 +118,7 @@ class MobTest {
 
         // given
         val mob2 = testService.createMobBuilder()
-            .affects(listOf(affect))
+            .also { it.affects = listOf(affect) }
             .build()
 
         // when
@@ -168,11 +168,11 @@ class MobTest {
         // given
         val mob1 = testService
             .createMobBuilder()
-            .race(Faerie())
+            .also { it.race = Faerie() }
             .build()
         val mob2 = testService
             .createMobBuilder()
-            .race(Ogre())
+            .also { it.race = Ogre() }
             .build()
 
         // when
@@ -218,11 +218,11 @@ class MobTest {
         // given
         val mob1 = testService
             .createMobBuilder()
-            .race(Goblin())
+            .also { it.race = Goblin() }
             .build()
         val mob2 = testService
             .createMobBuilder()
-            .race(Ogre())
+            .also { it.race = Ogre() }
             .build()
 
         // when
@@ -247,7 +247,7 @@ class MobTest {
         // given
         val mob1 = testService
             .createMobBuilder()
-            .specialization(Mage())
+            .also { it.specialization = Mage() }
             .build()
         val mob2 = testService.createMob()
 
@@ -272,7 +272,7 @@ class MobTest {
         // given
         val mob1 = testService
             .createMobBuilder()
-            .specialization(Cleric())
+            .also { it.specialization = Cleric() }
             .build()
         val mob2 = testService.createMob()
 

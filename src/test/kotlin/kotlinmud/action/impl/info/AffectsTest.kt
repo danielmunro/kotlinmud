@@ -16,13 +16,12 @@ class AffectsTest {
 
         // given
         val mob = test.createPlayerMobBuilder().also {
-            it.affects(
+            it.affects =
                 listOf(
                     InvisibilityAffect().createInstance(5),
                     BlessAffect().createInstance(10),
                     BlindAffect().createInstance(1),
                 )
-            )
         }.build()
 
         // when

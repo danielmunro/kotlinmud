@@ -15,16 +15,14 @@ class MobControllerTest {
         val room1 = test.getStartRoom()
         val room2 = test.createRoom()
         val room3 = test.createRoom()
-        val mob = test.createMobBuilder()
-            .job(JobType.PATROL)
-            .route(
-                listOf(
-                    room1,
-                    room2,
-                    room3,
-                )
+        val mob = test.createMobBuilder().also {
+            it.job = JobType.PATROL
+            it.route = listOf(
+                room1,
+                room2,
+                room3,
             )
-            .build()
+        }.build()
         val controller = test.createMobController(mob)
         room1.east = room2
         room2.west = room1

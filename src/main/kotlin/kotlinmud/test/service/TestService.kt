@@ -185,15 +185,14 @@ class TestService(
     }
 
     fun createMob(name: String = fixtureService.faker.name.name()): PlayerMob {
-        val playerMobBuilder = PlayerMobBuilder(mobService)
-        playerMobBuilder
-            .name(name)
-            .race(Human())
-            .room(getStartRoom())
-            .job(JobType.NONE)
-            .maxItems(100)
-            .maxWeight(1000)
-        val mob = playerMobBuilder.build()
+        val mob = PlayerMobBuilder(mobService).also {
+            it.name = name
+            it.race = Human()
+            it.room = getStartRoom()
+            it.job = JobType.NONE
+            it.maxItems = 100
+            it.maxWeight = 1000
+        }.build()
         weapon(mob)
         if (this.mob == null) {
             this.mob = mob
@@ -205,31 +204,38 @@ class TestService(
     }
 
     fun createPlayerMobBuilder(): PlayerMobBuilder {
-        val builder = PlayerMobBuilder(mobService)
-        builder.name(fixtureService.faker.name.name())
-            .race(Human())
-            .room(getStartRoom())
-        return builder
+        return PlayerMobBuilder(mobService).also {
+            it.name = fixtureService.faker.name.name()
+            it.race = Human()
+            it.room = getStartRoom()
+        }
     }
 
     fun createMobBuilder(): MobBuilder {
-        return MobBuilder(mobService)
-            .name(fixtureService.faker.name.name())
-            .race(Human())
-            .room(getStartRoom())
+        return MobBuilder(mobService).also {
+            it.name = fixtureService.faker.name.name()
+            it.race = Human()
+            it.room = getStartRoom()
+        }
     }
 
     fun createShopkeeper(): Mob {
-        return createMobBuilder()
-            .job(JobType.SHOPKEEPER)
-            .maxItems(1000)
-            .maxWeight(10000)
-            .build()
+        return createMobBuilder().also {
+            it.job = JobType.SHOPKEEPER
+            it.maxItems = 1000
+            it.maxWeight = 10000
+        }.build()
     }
 
     fun createQuestGiver(): Mob {
         return createMobBuilder()
-            .job(JobType.QUEST)
+            .also { it.job = JobType.QUEST }
+            .build()
+    }
+
+    fun createTrainer(): Mob {
+        return createMobBuilder()
+            .also { it.job = JobType.TRAINER }
             .build()
     }
 

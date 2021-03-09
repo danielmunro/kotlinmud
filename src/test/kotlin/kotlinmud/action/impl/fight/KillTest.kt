@@ -2,7 +2,6 @@ package kotlinmud.action.impl.fight
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.mob.type.JobType
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
 import org.junit.Test
@@ -15,10 +14,7 @@ class KillTest {
         test.createMob()
 
         // given
-        val target = test
-            .createMobBuilder()
-            .job(JobType.QUEST)
-            .build()
+        val target = test.createQuestGiver()
 
         // when
         val response = test.runAction("kill ${getIdentifyingWord(target)}")
@@ -34,10 +30,7 @@ class KillTest {
         test.createMob()
 
         // given
-        val target = test
-            .createMobBuilder()
-            .job(JobType.SHOPKEEPER)
-            .build()
+        val target = test.createShopkeeper()
 
         // when
         val response = test.runAction("kill ${getIdentifyingWord(target)}")

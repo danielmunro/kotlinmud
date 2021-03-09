@@ -22,7 +22,7 @@ class FastHealingObserverTest {
 
         // given
         val mob = test.createMobBuilder()
-            .skills(mapOf(Pair(SkillType.FAST_HEALING, 100)))
+            .also { it.skills = mapOf(Pair(SkillType.FAST_HEALING, 100)) }
             .build()
 
         // when

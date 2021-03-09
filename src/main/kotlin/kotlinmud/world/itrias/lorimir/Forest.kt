@@ -53,17 +53,17 @@ fun createLorimirForest(mobService: MobService, roomService: RoomService, connec
         .to(room9, Direction.NORTH)
         .to(matrix[0][0], Direction.DOWN)
 
-    MobBuilder(mobService)
-        .name("Captain Bartok")
-        .brief("an imposing figure stands here. Her armor bears the emblem of the Praetorian Guard")
-        .description("Captain Bartok is here")
-        .gender(Gender.FEMALE)
-        .room(room9)
-        .level(45)
-        .job(JobType.QUEST)
-        .canonicalId(MobCanonicalId.PraetorianCaptainBartok)
-        .race(Human())
-        .build()
+    MobBuilder(mobService).also {
+        it.name = "Captain Bartok"
+        it.brief = "an imposing figure stands here. Her armor bears the emblem of the Praetorian Guard"
+        it.description = "Captain Bartok is here"
+        it.gender = Gender.FEMALE
+        it.room = room9
+        it.level = 10
+        it.job = JobType.QUEST
+        it.canonicalId = MobCanonicalId.PraetorianCaptainBartok
+        it.race = Human()
+    }.build()
 
     createGrongokHideout(roomService, matrix[0][4])
 

@@ -30,10 +30,10 @@ class MobRespawnService(
         var i = 0
 
         // ensure the item inherits its own canonical ID
-        mobBuilder.canonicalId(canonicalId)
+        mobBuilder.also { it.canonicalId = canonicalId }
 
         while (amountToRespawn > 0 && i < randomSubset.size) {
-            mobBuilder.room(randomSubset[i]).build()
+            mobBuilder.also { it.room = randomSubset[i] }.build()
             amountToRespawn -= 1
             i += 1
         }

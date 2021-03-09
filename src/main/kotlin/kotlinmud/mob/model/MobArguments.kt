@@ -3,7 +3,6 @@ package kotlinmud.mob.model
 import kotlinmud.affect.model.Affect
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.Specialization
@@ -41,6 +40,5 @@ class MobArguments(
     val skills: MutableMap<SkillType, Int>,
     val affects: MutableList<Affect>,
     val currencies: MutableMap<CurrencyType, Int>,
-    val route: List<Room>?,
-    val dao: MobDAO?
+    val route: List<Room>?
 )

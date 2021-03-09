@@ -6,7 +6,6 @@ import kotlinmud.attributes.constant.startingMana
 import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobArguments
 import kotlinmud.mob.race.type.Race
@@ -50,134 +49,11 @@ open class MobBuilder(private val mobService: MobService) {
     var skills = mapOf<SkillType, Int>()
     var affects = listOf<Affect>()
     var currencies = mapOf<CurrencyType, Int>()
-    var dao: MobDAO? = null
     lateinit var race: Race
     lateinit var room: Room
 
-    fun name(value: String): MobBuilder {
-        name = value
-        return this
-    }
-
-    fun brief(value: String): MobBuilder {
-        brief = value
-        return this
-    }
-
-    fun description(value: String): MobBuilder {
-        description = value
-        return this
-    }
-
-    fun room(value: Room): MobBuilder {
-        room = value
-        return this
-    }
-
-    fun attributes(value: MutableMap<Attribute, Int>): MobBuilder {
-        attributes = (attributes + value).toMutableMap()
-        return this
-    }
-
-    fun job(value: JobType): MobBuilder {
-        job = value
-        return this
-    }
-
-    fun route(value: List<Room>): MobBuilder {
-        route = value
-        return this
-    }
-
-    fun race(value: Race): MobBuilder {
-        race = value
-        return this
-    }
-
-    fun canonicalId(value: MobCanonicalId): MobBuilder {
-        canonicalId = value
-        return this
-    }
-
-    fun level(value: Int): MobBuilder {
-        level = value
-        return this
-    }
-
-    fun gender(value: Gender): MobBuilder {
-        gender = value
-        return this
-    }
-
-    fun disposition(value: Disposition): MobBuilder {
-        disposition = value
-        return this
-    }
-
-    fun wimpy(value: Int): MobBuilder {
-        wimpy = value
-        return this
-    }
-
-    fun savingThrows(value: Int): MobBuilder {
-        savingThrows = value
-        return this
-    }
-
-    fun rarity(value: Rarity): MobBuilder {
-        rarity = value
-        return this
-    }
-
-    fun equipped(value: List<Item>): MobBuilder {
-        equipped = value
-        return this
-    }
-
-    fun maxItems(value: Int): MobBuilder {
-        maxItems = value
-        return this
-    }
-
-    fun maxWeight(value: Int): MobBuilder {
-        maxWeight = value
-        return this
-    }
-
-    fun items(value: List<Item>): MobBuilder {
-        items = value
-        return this
-    }
-
-    fun skills(value: Map<SkillType, Int>): MobBuilder {
-        skills = value
-        return this
-    }
-
-    fun affects(value: List<Affect>): MobBuilder {
-        affects = value
-        return this
-    }
-
-    fun currencies(value: Map<CurrencyType, Int>): MobBuilder {
-        currencies = value
-        return this
-    }
-
-    fun dao(value: MobDAO?): MobBuilder {
-        dao = value
-        return this
-    }
-
-    fun specialization(value: Specialization): MobBuilder {
-        specialization = value
-        return this
-    }
-
     open fun build(): Mob {
-        val mob = Mob(createMobArguments())
-        mobService.addMob(mob)
-        return mob
+        return Mob(createMobArguments()).also { mobService.addMob(it) }
     }
 
     protected fun createMobArguments(): MobArguments {
@@ -208,7 +84,6 @@ open class MobBuilder(private val mobService: MobService) {
             affects.toMutableList(),
             currencies.toMutableMap(),
             route,
-            dao,
         )
     }
 }

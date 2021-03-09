@@ -29,12 +29,10 @@ import kotlinmud.mob.helper.takeDamageFromFall
 import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.PlayerMob
-import kotlinmud.mob.specialization.helper.createSpecializationList
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.model.Room
-import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
 
@@ -103,10 +101,9 @@ class MobService(
 
     fun findMobsWantingToMoveOnTick(): List<Mob> {
         return mobs.filter {
-                it.job == JobType.FODDER ||
+            it.job == JobType.FODDER ||
                 it.job == JobType.SCAVENGER ||
                 it.job == JobType.PATROL
-
         }
     }
 

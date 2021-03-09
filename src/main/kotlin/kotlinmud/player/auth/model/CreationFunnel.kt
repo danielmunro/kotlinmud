@@ -1,8 +1,6 @@
 package kotlinmud.player.auth.model
 
-import kotlinmud.attributes.dao.AttributesDAO
 import kotlinmud.mob.builder.PlayerMobBuilder
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.service.MobService
@@ -14,7 +12,6 @@ import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Gender
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.room.model.Room
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class CreationFunnel(private val mobService: MobService, val email: String) {
     lateinit var mobName: String

@@ -20,7 +20,7 @@ class LookAtTest {
         testService.createMob()
         val mob = testService
             .createMobBuilder()
-            .affects(listOf(createAffect(AffectType.INVISIBILITY)))
+            .also { it.affects = listOf(createAffect(AffectType.INVISIBILITY)) }
             .build()
 
         // when
@@ -40,7 +40,7 @@ class LookAtTest {
         val item = testService.createItem()
         testService
             .createMobBuilder()
-            .items(listOf(item))
+            .also { it.items = listOf(item) }
             .build()
 
         // when

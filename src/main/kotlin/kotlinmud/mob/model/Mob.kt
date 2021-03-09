@@ -14,7 +14,6 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.Position
 import kotlinmud.mob.constant.BASE_STAT
-import kotlinmud.mob.dao.MobDAO
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.helper.getSkillBoostRegenRate
 import kotlinmud.mob.race.type.Race

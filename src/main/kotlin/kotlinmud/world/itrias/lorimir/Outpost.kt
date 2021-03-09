@@ -76,24 +76,24 @@ A sign flickers against the light of the fire.""".trimMargin()
             )
         )
 
-    MobBuilder(mobService)
-        .name("Blacksmith Felig")
-        .brief("a blacksmith stands over a forge, monitoring his work")
-        .description("a large giant is here, forging a weapon")
-        .room(room3)
-        .job(JobType.SHOPKEEPER)
-        .race(Giant())
-        .build()
+    MobBuilder(mobService).also {
+        it.name = "Blacksmith Felig"
+        it.brief = "a blacksmith stands over a forge, monitoring his work"
+        it.description = "a large giant is here, forging a weapon"
+        it.room = room3
+        it.job = JobType.SHOPKEEPER
+        it.race = Giant()
+    }.build()
 
-    MobBuilder(mobService)
-        .name("Recruiter Esmer")
-        .brief("a cloaked figure sits against a log, facing the fire, reading a leaflet")
-        .description("Recruiter Esmer is here")
-        .room(room2)
-        .job(JobType.QUEST)
-        .race(Human())
-        .canonicalId(MobCanonicalId.PraetorianRecruiterEsmer)
-        .build()
+    MobBuilder(mobService).also {
+        it.name = "Recruiter Esmer"
+        it.brief = "a cloaked figure sits against a log, facing the fire, reading a leaflet"
+        it.description = "Recruiter Esmer is here"
+        it.room = room2
+        it.job = JobType.QUEST
+        it.race = Human()
+        it.canonicalId = MobCanonicalId.PraetorianRecruiterEsmer
+    }.build()
 
     return room4
 }

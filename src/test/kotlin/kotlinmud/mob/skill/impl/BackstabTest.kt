@@ -45,7 +45,7 @@ class BackstabTest {
             it.skills[SkillType.BACKSTAB] = 1
         }
         val target = test.createMobBuilder()
-            .race(Bear())
+            .also { it.race = Bear() }
             .build()
 
         // when

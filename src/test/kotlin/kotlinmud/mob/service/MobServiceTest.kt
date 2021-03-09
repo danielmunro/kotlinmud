@@ -100,7 +100,7 @@ class MobServiceTest {
 
         // given
         val guard = testService.createMobBuilder()
-            .job(JobType.GUARD)
+            .also { it.job = JobType.GUARD }
             .build()
 
         // when
@@ -119,9 +119,7 @@ class MobServiceTest {
         val mob = test.createPlayerMob()
         mob.trains += 1
         val str = mob.calc(Attribute.STR)
-        test.createMobBuilder()
-            .job(JobType.TRAINER)
-            .build()
+        test.createTrainer()
 
         // when
         val response = test.runAction("train str")
@@ -141,9 +139,7 @@ class MobServiceTest {
         val mob = test.createPlayerMob()
         val hp = mob.calc(Attribute.HP)
         mob.trains += 1
-        test.createMobBuilder()
-            .job(JobType.TRAINER)
-            .build()
+        test.createTrainer()
 
         // when
         val response = test.runAction("train hp")
@@ -163,9 +159,7 @@ class MobServiceTest {
         val mob = test.createPlayerMob()
         mob.skills[SkillType.BASH] = 1
         mob.practices += 1
-        test.createMobBuilder()
-            .job(JobType.TRAINER)
-            .build()
+        test.createTrainer()
 
         // when
         val response = test.runAction("practice bash")
