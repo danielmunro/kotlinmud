@@ -21,12 +21,12 @@ class TripTest {
         val mob = test.createPlayerMob {
             it.skills[SkillType.TRIP] = 100
         }
+        val target = test.createMob()
 
         // when
-        val response = test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(test.createMob())}", IOStatus.OK)
+        val response = test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(target)}", IOStatus.OK)
 
         // then
-        val target = test.getTarget()
         assertThat(response.message.toActionCreator).isEqualTo("you trip $target and they go down hard.")
         assertThat(response.message.toTarget).isEqualTo("$mob trips you!")
         assertThat(response.message.toObservers).isEqualTo("$mob trips $target.")
@@ -41,14 +41,13 @@ class TripTest {
         val mob = test.createPlayerMob {
             it.skills[SkillType.TRIP] = 100
         }
+        val target = test.createMob()
 
         // when
-        test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(test.createMob())}", IOStatus.OK)
+        test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(target)}", IOStatus.OK)
 
         // then
-        test.getTarget().let {
-            assertThat(it.hp).isLessThan(it.calc(Attribute.HP))
-        }
+        assertThat(target.hp).isLessThan(target.calc(Attribute.HP))
     }
 
     @Test
@@ -60,13 +59,12 @@ class TripTest {
         val mob = test.createPlayerMob {
             it.skills[SkillType.TRIP] = 100
         }
+        val target = test.createMob()
 
         // when
-        test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(test.createMob())}", IOStatus.OK)
+        test.runActionForIOStatus(mob, "trip ${getIdentifyingWord(target)}", IOStatus.OK)
 
         // then
-        test.getTarget().let {
-            assertThat(it.affects.first().type).isEqualTo(AffectType.STUNNED)
-        }
+        assertThat(target.affects.first().type).isEqualTo(AffectType.STUNNED)
     }
 }

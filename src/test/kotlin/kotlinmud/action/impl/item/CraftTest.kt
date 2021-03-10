@@ -17,14 +17,14 @@ class CraftTest {
         test.make(3)
             .lumber()
             .andGiveTo(mob)
-        val itemCount = test.findAllItemsByOwner(mob).size
+        val itemCount = mob.items.size
 
         // when
         val response = test.runAction("craft builder")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you craft a builder's table.")
-        assertThat(test.findAllItemsByOwner(mob)).hasSize(itemCount - 2)
+        assertThat(mob.items).hasSize(itemCount - 2)
     }
 
     @Test

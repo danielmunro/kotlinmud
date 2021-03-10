@@ -33,7 +33,6 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
-import kotlinmud.item.type.HasInventory
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
@@ -141,10 +140,6 @@ class TestService(
         return MobController(mobService, eventService, mob)
     }
 
-    fun findAllItemsByOwner(hasInventory: HasInventory): List<Item> {
-        return hasInventory.items
-    }
-
     fun findMobsInRoom(room: Room = getStartRoom()): List<Mob> {
         return mobService.findMobsInRoom(room)
     }
@@ -234,14 +229,6 @@ class TestService(
         }
     }
 
-    fun getMob(): Mob {
-        return mob!!
-    }
-
-    fun getTarget(): Mob {
-        return target!!
-    }
-
     fun createRoom(): Room {
         return RoomBuilder(roomService)
             .name("a test room")
@@ -282,9 +269,7 @@ class TestService(
     }
 
     fun createPlayerMob(mutator: (mob: PlayerMob) -> Unit): PlayerMob {
-        val mob = createPlayerMob()
-        mutator(mob)
-        return mob
+        return createPlayerMob().also { mutator(it) }
     }
 
     fun createPlayer(emailAddress: String): PlayerDAO {
@@ -312,10 +297,7 @@ class TestService(
     }
 
     fun createItem(modifier: (Item) -> Unit): Item {
-        return createItem().let {
-            modifier(it)
-            it
-        }
+        return createItem().also { modifier(it) }
     }
 
     fun createCreationFunnel(email: String): CreationFunnel {
