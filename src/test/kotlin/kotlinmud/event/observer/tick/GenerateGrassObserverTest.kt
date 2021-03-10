@@ -14,7 +14,7 @@ class GenerateGrassObserverTest {
 
         // given
         val room = test.createRoomBuilder()
-            .substrate(SubstrateType.DIRT)
+            .also { it.substrate = SubstrateType.DIRT }
             .build()
 
         // expect

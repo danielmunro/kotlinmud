@@ -18,7 +18,7 @@ class RegenMobsObserverTest {
         // when
         val testCase = { regenLevel: RegenLevel ->
             mob.hp = 1
-            val room = roomBuilder.regenLevel(regenLevel).build()
+            val room = roomBuilder.also { it.regenLevel = regenLevel }.build()
             mob.room = room
             runBlocking { test.regenMobs() }
             mob.hp

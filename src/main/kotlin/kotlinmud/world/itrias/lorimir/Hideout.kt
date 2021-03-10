@@ -8,16 +8,20 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
 fun createGrongokHideout(roomService: RoomService, connector: Room) {
-    val builder = RoomBuilder(roomService)
-        .name("entrance to a cave")
-        .description("a cave")
-        .area(Area.GrongokHideout)
+    val builder = RoomBuilder(roomService).also {
+        it.name = "entrance to a cave"
+        it.description = "a cave"
+        it.area = Area.GrongokHideout
+    }
 
-    val room1 = builder.build()
-    val room2 = builder.name("deep in a cave").build()
-    val room3 = builder.build()
-    val room4 = builder.build()
-    val room5 = builder.build()
+    val room1 = builder.also { it.id = 200 }.build()
+    val room2 = builder.also {
+        it.id = 201
+        it.name = "deep in a cave"
+    }.build()
+    val room3 = builder.also { it.id = 202 }.build()
+    val room4 = builder.also { it.id = 203 }.build()
+    val room5 = builder.also { it.id = 204 }.build()
 
     connect(connector).to(room1).to(room2) to mapOf(
         Pair(room3, Direction.SOUTH),

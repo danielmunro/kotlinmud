@@ -43,11 +43,11 @@ class CreateRoomService(private val roomService: RoomService) {
             z < DEPTH_GROUND + elevation -> biomeType
             else -> BiomeType.SKY
         }
-        return RoomBuilder(roomService)
-            .name("todo")
-            .description("todo")
-            .area(Area.None)
-            .substrate(if (biome == BiomeType.UNDERGROUND) { SubstrateType.ROCK } else { SubstrateType.NONE })
-            .build()
+        return RoomBuilder(roomService).also {
+            it.name = "todo"
+            it.description = "todo"
+            it.area = Area.None
+            it.substrate = if (biome == BiomeType.UNDERGROUND) { SubstrateType.ROCK } else { SubstrateType.NONE }
+        }.build()
     }
 }

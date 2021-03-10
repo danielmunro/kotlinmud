@@ -82,12 +82,12 @@ class FallDamageTest {
     }
 
     private fun getRoom(test: TestService, height: Int): Room {
-        return test.createRoomBuilder()
-            .elevation(height)
-            .north(test.getStartRoom())
-            .name("foo")
-            .description("bar")
-            .area(Area.Test)
-            .build()
+        return test.createRoomBuilder().also {
+            it.elevation = height
+            it.north = test.getStartRoom()
+            it.name = "foo"
+            it.description = "bar"
+            it.area = Area.Test
+        }.build()
     }
 }

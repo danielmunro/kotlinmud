@@ -84,11 +84,11 @@ class TestService(
     private val timeService: TimeService,
 ) {
     private val clientService = ClientService()
-    private val room = RoomBuilder(roomService)
-        .name("start room")
-        .description("tbd")
-        .area(Area.Test)
-        .build()
+    private val room = RoomBuilder(roomService).also {
+        it.name = "start room"
+        it.description = "tbd"
+        it.area = Area.Test
+    }.build()
     private val client: Client = spyk(Client(mockk(relaxed = true)))
     private var mob: PlayerMob? = null
     private var target: Mob? = null
@@ -230,13 +230,13 @@ class TestService(
     }
 
     fun createRoom(): Room {
-        return RoomBuilder(roomService)
-            .name("a test room")
-            .description("this is a test room")
-            .area(Area.LorimirForest)
-            .isIndoors(false)
-            .regenLevel(RegenLevel.NORMAL)
-            .build()
+        return RoomBuilder(roomService).also {
+            it.name = "a test room"
+            it.description = "this is a test room"
+            it.area = Area.Test
+            it.isIndoors = false
+            it.regenLevel = RegenLevel.NORMAL
+        }.build()
     }
 
     fun createRoom(modifier: (Room) -> Unit): Room {
@@ -247,10 +247,11 @@ class TestService(
     }
 
     fun createRoomBuilder(): RoomBuilder {
-        return RoomBuilder(roomService)
-            .name("foo")
-            .description("bar")
-            .area(Area.Test)
+        return RoomBuilder(roomService).also {
+            it.name = "foo"
+            it.description = "bar"
+            it.area = Area.Test
+        }
     }
 
     fun findRoom(predicate: (Room) -> Boolean): Room? {

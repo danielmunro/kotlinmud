@@ -161,7 +161,7 @@ class MoveTest {
         val test = createTestService()
         val mob = test.createMob()
         val dst = test.createRoomBuilder()
-            .elevation(5)
+            .also { it.elevation = 5 }
             .build()
 
         // expect
@@ -185,7 +185,7 @@ class MoveTest {
         val test = createTestService()
         val mob = test.createMob()
         val dst = test.createRoomBuilder()
-            .elevation(6)
+            .also { it.elevation = 6 }
             .build()
         mob.room = dst
 
@@ -207,7 +207,7 @@ class MoveTest {
         // setup
         val test = createTestService()
         val dst = test.createRoomBuilder()
-            .substrate(SubstrateType.DIRT)
+            .also { it.substrate = SubstrateType.DIRT }
             .build()
 
         // given

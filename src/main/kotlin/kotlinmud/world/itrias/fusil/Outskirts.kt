@@ -8,13 +8,17 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
 fun createFusilOutskirts(roomService: RoomService, connector: Room): Room {
-    val roomBuilder = RoomBuilder(roomService).area(Area.FusilOutskirts)
+    val roomBuilder = RoomBuilder(roomService).also {
+        it.area = Area.FusilOutskirts
+    }
 
-    val room1 = roomBuilder.name("Outskirts of Fusil")
-        .description("foo")
-        .build()
+    val room1 = roomBuilder.also {
+        it.id = 400
+        it.name = "Outskirts of Fusil"
+        it.description = "foo"
+    }.build()
 
-    val room2 = roomBuilder.build()
+    val room2 = roomBuilder.also { it.id = 401 }.build()
 
     connect(connector).to(room1, Direction.NORTH)
         .to(room2, Direction.NORTH)

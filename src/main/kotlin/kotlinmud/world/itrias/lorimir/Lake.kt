@@ -8,20 +8,28 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
 fun createLorimirForestLake(roomService: RoomService, connection: Room) {
-    val room = RoomBuilder(roomService).area(Area.LakeOsona)
+    val room = RoomBuilder(roomService).also {
+        it.area = Area.LakeOsona
+    }
 
-    val room1 = room.name("A path in the woods")
-        .description("foo")
-        .build()
+    val room1 = room.also {
+        it.id = 300
+        it.name = "A path in the woods"
+        it.description = "foo"
+    }.build()
 
-    val room2 = room.build()
-    val room3 = room.build()
-    val room4 = room.name("The trail begins to open up")
-        .description("You can see the trail leading to an opening. A lake is in the distance.")
-        .build()
-    val room5 = room.name("Lake at Lorimir Forest")
-        .description("foo")
-        .build()
+    val room2 = room.also { it.id = 301 }.build()
+    val room3 = room.also { it.id = 302 }.build()
+    val room4 = room.also {
+        it.id = 304
+        it.name = "The trail begins to open up"
+        it.description = "You can see the trail leading to an opening. A lake is in the distance."
+    }.build()
+    val room5 = room.also {
+        it.id = 305
+        it.name = "Lake at Lorimir Forest"
+        it.description = "foo"
+    }.build()
 
     connect(connection).to(room1, Direction.DOWN)
         .to(room2, Direction.EAST)

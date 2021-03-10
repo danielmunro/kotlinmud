@@ -5,11 +5,14 @@ import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 
-class SimpleMatrixService(private val builder: RoomBuilder) {
+class SimpleMatrixService(private val builder: RoomBuilder, private var roomIdAutoIncrementer: Int) {
     fun build(length: Int, width: Int): Array<Array<Room>> {
         val matrix: Array<Array<Room>> = Array(length) {
             Array(width) {
-                builder.build()
+                builder.also {
+                    it.id = roomIdAutoIncrementer
+                    roomIdAutoIncrementer++
+                }.build()
             }
         }
         for (y in 0 until length) {

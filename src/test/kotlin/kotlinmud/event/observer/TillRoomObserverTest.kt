@@ -15,7 +15,7 @@ class TillRoomObserverTest {
         // setup
         val test = createTestService()
         val room = test.createRoomBuilder()
-            .substrate(SubstrateType.DIRT)
+            .also { it.substrate = SubstrateType.DIRT }
             .build()
         val prob = ProbabilityTest(100)
         val mob = test.createPlayerMob()

@@ -16,27 +16,34 @@ import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
 
 fun createLorimirForest(mobService: MobService, roomService: RoomService, connection: Room): Room {
-    val builder = RoomBuilder(roomService)
-        .area(Area.LorimirForest)
-        .name("Deep in the heart of Lorimir Forest.")
-        .description("foo")
+    val builder = RoomBuilder(roomService).also {
+        it.area = Area.LorimirForest
+        it.name = "Deep in the heart of Lorimir Forest."
+        it.description = "foo"
+    }
 
-    val room1 = builder.build()
-    val room2 = builder.build()
-    val room3 = builder.build()
-    val room4 = builder.build()
-    val room5 = builder.build()
+    val room1 = builder.also { it.id = 100 }.build()
+    val room2 = builder.also { it.id = 101 }.build()
+    val room3 = builder.also { it.id = 102 }.build()
+    val room4 = builder.also { it.id = 103 }.build()
+    val room5 = builder.also { it.id = 104 }.build()
 
-    builder.description("Around a massive tree.")
-    val room6 = builder.build()
-    val room7 = builder.build()
-    val room8 = builder.build()
+    val room6 = builder.also {
+        it.id = 105
+        it.description = "Around a massive tree."
+    }.build()
+    val room7 = builder.also { it.id = 106 }.build()
+    val room8 = builder.also { it.id = 107 }.build()
 
-    builder
-        .name("A dark forest")
-        .description("Deep in the heart of Lorimir Forest.")
-    val room9 = builder.canonicalId(RoomCanonicalId.PRAETORIAN_CAPTAIN_FOUND).build()
-    val matrix = SimpleMatrixService(builder).build(5, 5)
+    builder.also {
+        it.name = "A dark forest"
+        it.description = "Deep in the heart of Lorimir Forest."
+    }
+    val room9 = builder.also {
+        it.id = 109
+        it.canonicalId = RoomCanonicalId.PRAETORIAN_CAPTAIN_FOUND
+    }.build()
+    val matrix = SimpleMatrixService(builder, 110).build(5, 5)
 
     connect(connection).to(room1, Direction.SOUTH)
         .to(room2, Direction.SOUTH)

@@ -19,16 +19,16 @@ import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
 
 fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService, roomService: RoomService): Room {
-    val builder = RoomBuilder(roomService).area(Area.LorimirForestOutpost)
+    val builder = RoomBuilder(roomService).also { it.area = Area.LorimirForestOutpost }
 
-    val room1 = builder.name("Around a fire pit")
-        .description(
-"""A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
+    val room1 = builder.also {
+        it.id = 1
+        it.name = "Around a fire pit"
+        it.description = """A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
 
 A sign flickers against the light of the fire.""".trimMargin()
-        )
-        .canonicalId(RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD)
-        .build()
+        it.canonicalId = RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
+    }.build()
 
     ItemBuilder(itemService)
         .name("a cobblestone fire-pit")
@@ -57,14 +57,25 @@ A sign flickers against the light of the fire.""".trimMargin()
         .room(room1)
         .build()
 
-    val room2 = builder.name("Inside a lean-to shelter")
-        .description("bar")
-        .canonicalId(RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND)
-        .build()
+    val room2 = builder.also {
+        it.id = 2
+        it.name = "Inside a lean-to shelter"
+        it.description = "bar"
+        it.canonicalId = RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
+    }.build()
 
-    val room3 = builder.name("A blacksmith shack").build()
-    val room4 = builder.name("A trail near the camp").build()
-    val room5 = builder.name("Outside the camp").build()
+    val room3 = builder.also {
+        it.id = 3
+        it.name = "A blacksmith shack"
+    }.build()
+    val room4 = builder.also {
+        it.id = 4
+        it.name = "A trail near the camp"
+    }.build()
+    val room5 = builder.also {
+        it.id = 5
+        it.name = "Outside the camp"
+    }.build()
 
     connect(room1)
         .to(

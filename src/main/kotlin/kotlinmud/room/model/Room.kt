@@ -13,6 +13,7 @@ import kotlinmud.room.type.RegenLevel
 import kotlinmud.type.RoomCanonicalId
 
 class Room(
+    val id: Int,
     val name: String,
     val description: String,
     val canonicalId: RoomCanonicalId?,
