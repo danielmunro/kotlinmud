@@ -18,15 +18,15 @@ class DropTest {
         // given
         mob.items.add(item)
         val room = mob.room
-        val mobItemCount = testService.countItemsFor(mob)
-        val roomItemCount = testService.countItemsFor(room)
+        val mobItemCount = mob.items.size
+        val roomItemCount = room.items.size
 
         // when
         val response = testService.runAction("drop ${getIdentifyingWord(item)}")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("you drop $item.")
-        assertThat(testService.countItemsFor(mob)).isEqualTo(mobItemCount - 1)
+        assertThat(mob.items.size).isEqualTo(mobItemCount - 1)
         assertThat(room.items).hasSize(roomItemCount + 1)
     }
 }

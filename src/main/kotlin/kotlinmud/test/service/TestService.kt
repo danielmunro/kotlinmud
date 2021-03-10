@@ -141,18 +141,6 @@ class TestService(
         return MobController(mobService, eventService, mob)
     }
 
-    fun countItemsFor(hasInventory: Any): Int {
-        return if (hasInventory is Item) {
-            hasInventory.items!!.count()
-        } else if (hasInventory is Mob) {
-            hasInventory.items.size + hasInventory.equipped.size
-        } else if (hasInventory is Room) {
-            hasInventory.items.count()
-        } else {
-            throw Exception()
-        }
-    }
-
     fun findAllItemsByOwner(hasInventory: HasInventory): List<Item> {
         return hasInventory.items
     }

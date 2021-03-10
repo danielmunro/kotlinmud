@@ -59,6 +59,10 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     val affects: MutableList<Affect> = mobArguments.affects
     val currencies: MutableMap<CurrencyType, Int> = mobArguments.currencies
 
+    fun countAllItems(): Int {
+        return items.size + equipped.size
+    }
+
     fun getHealthIndication(): String {
         val amount: Double = hp.toDouble() / calc(Attribute.HP).toDouble()
         return when {

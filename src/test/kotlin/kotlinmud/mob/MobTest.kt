@@ -356,13 +356,13 @@ class MobTest {
         val mob = test.createMob()
         mob.items.add(test.createItem())
         mob.equipped.add(test.createItem())
-        val inventoryAmount = test.countItemsFor(mob)
+        val amount = mob.items.size + mob.equipped.size
 
         // when
         val corpse = test.createCorpseFrom(mob)
 
         // then
-        assertThat(corpse.items!!).hasSize(inventoryAmount)
+        assertThat(corpse.items!!).hasSize(amount)
         assertThat(mob.equipped).hasSize(0)
         assertThat(mob.items).hasSize(0)
     }
