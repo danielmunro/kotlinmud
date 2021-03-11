@@ -34,8 +34,10 @@ class MobSelectAuthStepTest {
         val p2 = test.createPlayer("p2@danmunro.com")
 
         // given
-        test.createPlayerMob("foo", p1)
+        val mob1 = test.createPlayerMob("foo", p1)
         val mob2 = test.createPlayerMob("bar", p2)
+        test.dumpPlayerMob(mob1)
+        test.dumpPlayerMob(mob2)
         setPreAuth(test)
 
         // when

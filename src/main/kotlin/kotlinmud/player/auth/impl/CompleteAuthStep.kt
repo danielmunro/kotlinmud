@@ -12,7 +12,6 @@ class CompleteAuthStep(val playerMob: PlayerMob) : AuthStep {
     override val errorMessage = ""
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
-//        TODO("Not yet implemented")
         return IOStatus.OK
     }
 

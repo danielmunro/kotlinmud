@@ -1,8 +1,10 @@
 package kotlinmud.player.auth.impl
 
 import assertk.assertThat
+import assertk.assertions.isEqualTo
 import assertk.assertions.isFailure
 import kotlinmud.io.model.PreAuthRequest
+import kotlinmud.io.type.IOStatus
 import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
@@ -17,7 +19,7 @@ class CompleteAuthStepTest {
         val authStep = CompleteAuthStep(playerMob)
 
         // expect
-        assertThat { authStep.handlePreAuthRequest(PreAuthRequest(test.createClient(), "foo")) }.isFailure()
+        assertThat(authStep.handlePreAuthRequest(PreAuthRequest(test.createClient(), "foo"))).isEqualTo(IOStatus.OK)
         assertThat { authStep.getNextAuthStep() }.isFailure()
     }
 }

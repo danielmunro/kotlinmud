@@ -27,6 +27,6 @@ class SpecializationAuthStep(
     }
 
     override fun getNextAuthStep(): AuthStep {
-        return AskCustomizeAuthStep(authStepService, player)
+        return GenderSelectAuthStep(authStepService, player)
     }
 }
