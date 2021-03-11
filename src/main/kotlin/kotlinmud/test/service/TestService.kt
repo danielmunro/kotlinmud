@@ -6,9 +6,11 @@ import io.mockk.spyk
 import kotlinmud.action.service.ActionService
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.helper.createBiomes
+import kotlinmud.event.factory.createClientDisconnectedEvent
 import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.impl.client.ClientConnectedObserver
+import kotlinmud.event.observer.impl.client.LogPlayerOutObserver
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.round.WimpyObserver
 import kotlinmud.event.observer.impl.tick.DecreaseThirstAndHungerObserver
@@ -142,6 +144,10 @@ class TestService(
 
     fun findMobsInRoom(room: Room = getStartRoom()): List<Mob> {
         return mobService.findMobsInRoom(room)
+    }
+
+    fun findPlayerMob(name: String): PlayerMob? {
+        return mobService.findMob { it is PlayerMob && it.name == name } as PlayerMob?
     }
 
     suspend fun regenMobs() {
@@ -385,6 +391,10 @@ class TestService(
 
     fun callDecreaseThirstAndHungerEvent(event: Event<*>) {
         runBlocking { DecreaseThirstAndHungerObserver(serverService).invokeAsync(event) }
+    }
+
+    fun callLogPlayerOutObserver(client: Client) {
+        runBlocking { LogPlayerOutObserver(mobService).invokeAsync(createClientDisconnectedEvent(client)) }
     }
 
     fun callGenerateGrassObserver() {

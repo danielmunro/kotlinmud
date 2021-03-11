@@ -61,6 +61,10 @@ class MobService(
         mobs.add(mob)
     }
 
+    fun removeMob(mob: Mob) {
+        mobs.remove(mob)
+    }
+
     fun createMobController(mob: Mob): MobController {
         return MobController(this, eventService, mob)
     }
@@ -79,6 +83,10 @@ class MobService(
 
     fun findMobsInRoom(room: Room): List<Mob> {
         return mobs.filter { it.room == room }
+    }
+
+    fun findMob(search: (Mob) -> Boolean): Mob? {
+        return mobs.find(search)
     }
 
     fun findPlayerMobs(): List<PlayerMob> {

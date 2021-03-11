@@ -4,10 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isFalse
 import assertk.assertions.isNull
 import assertk.assertions.isTrue
-import kotlinmud.event.factory.createClientDisconnectedEvent
-import kotlinmud.event.observer.impl.client.LogPlayerOutObserver
 import kotlinmud.test.helper.createTestService
-import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class LogPlayerOutObserverTest {
@@ -20,14 +17,8 @@ class LogPlayerOutObserverTest {
         val client2 = test.createClient()
         client2.mob = test.createPlayerMob().also { it.loggedIn = true }
 
-        // given
-
         // when
-        runBlocking {
-            LogPlayerOutObserver().invokeAsync(
-                createClientDisconnectedEvent(client1)
-            )
-        }
+        test.callLogPlayerOutObserver(client1)
 
         // then
         client1.mob!!.let { assertThat(it.loggedIn).isFalse() }
@@ -41,13 +32,25 @@ class LogPlayerOutObserverTest {
         val client = test.createClient()
 
         // when
-        runBlocking {
-            LogPlayerOutObserver().invokeAsync(
-                createClientDisconnectedEvent(client)
-            )
-        }
+        test.callLogPlayerOutObserver(client)
 
         // then
         assertThat(client.mob).isNull()
+    }
+
+    @Test
+    fun testLogoutRemovesMobFromMobService() {
+        // setup
+        val test = createTestService()
+        val mob = test.createPlayerMob()
+        val client = test.createClient().also {
+            it.mob = mob
+        }
+
+        // when
+        test.callLogPlayerOutObserver(client)
+
+        // then
+        assertThat(test.findPlayerMob(mob.name)).isNull()
     }
 }

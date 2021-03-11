@@ -59,7 +59,7 @@ val ObserverModule = Kodein.Module {
     }
 
     bind<Observer>(tag = Tag.LOG_PLAYER_OUT) with provider {
-        LogPlayerOutObserver()
+        LogPlayerOutObserver(instance())
     }
 
     bind<Observer>(tag = Tag.SOCIAL) with provider {
