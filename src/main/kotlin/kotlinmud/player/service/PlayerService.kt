@@ -42,6 +42,7 @@ import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 import kotlinmud.room.service.RoomService
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.io.File
 import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
 
 class PlayerService(
@@ -130,6 +131,11 @@ class PlayerService(
 
     fun getAuthStepForClient(client: Client): AuthStep? {
         return preAuthClients[client]
+    }
+
+    fun dumpPlayerMobData(mob: PlayerMob) {
+        val mapper = jacksonObjectMapper()
+        File("./players/${mob.name}.json").writeText(mapper.writeValueAsString(mob))
     }
 
     fun rehydratePlayerMob(data: String): PlayerMob {

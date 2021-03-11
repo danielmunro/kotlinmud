@@ -180,7 +180,7 @@ val ObserverModule = Kodein.Module {
     }
 
     bind<Observer>(tag = Tag.SAVE_PLAYER_MOBS) with singleton {
-        SavePlayerMobsObserver(instance(), instance(), createSpecializationList())
+        SavePlayerMobsObserver(instance(), instance())
     }
 
     bind<ObserverList>() with singleton {

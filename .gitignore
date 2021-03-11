@@ -26,5 +26,4 @@ out/
 *.rar
 
 # App specific
-state/
-data.db
+players/
