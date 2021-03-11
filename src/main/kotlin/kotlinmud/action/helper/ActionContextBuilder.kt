@@ -15,7 +15,6 @@ import kotlinmud.weather.service.WeatherService
 
 fun createActionContextBuilder(
     mobService: MobService,
-    playerService: PlayerService,
     itemService: ItemService,
     roomService: RoomService,
     eventService: EventService,

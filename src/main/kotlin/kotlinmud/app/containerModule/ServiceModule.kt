@@ -89,7 +89,6 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
                     instance(),
                     instance(),
                     instance(),
-                    instance(),
                 ),
                 createActionsList()
             )
