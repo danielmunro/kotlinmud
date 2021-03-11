@@ -47,10 +47,10 @@ class SavePlayerMobsObserverTest {
         }.build()
 
         // when
-        val data = mapper.writeValueAsString(mob)
-        val rehydrated = test.hydratePlayerMob(data)
+        test.dumpPlayerMob(mob)
+        val rehydrated = test.hydratePlayerMob(mob.name)
 
         // then
-        assertThat(mapper.writeValueAsString(rehydrated)).isEqualTo(data)
+        assertThat(mapper.writeValueAsString(rehydrated)).isEqualTo(mapper.writeValueAsString(mob))
     }
 }

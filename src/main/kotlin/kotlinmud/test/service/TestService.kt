@@ -229,8 +229,12 @@ class TestService(
         }
     }
 
-    fun hydratePlayerMob(data: String): PlayerMob {
-        return playerService.rehydratePlayerMob(data)
+    fun dumpPlayerMob(mob: PlayerMob) {
+        return playerService.dumpPlayerMobData(mob)
+    }
+
+    fun hydratePlayerMob(name: String): PlayerMob {
+        return playerService.rehydratePlayerMob(name)
     }
 
     fun createRoom(): Room {

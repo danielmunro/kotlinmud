@@ -138,7 +138,8 @@ class PlayerService(
         File("./players/${mob.name}.json").writeText(mapper.writeValueAsString(mob))
     }
 
-    fun rehydratePlayerMob(data: String): PlayerMob {
+    fun rehydratePlayerMob(name: String): PlayerMob {
+        val data = File("./players/$name.json")
         val mapper = jacksonObjectMapper()
         val node: JsonNode = mapper.readTree(data)
         val factionReader = mapper.readerFor(object : TypeReference<Map<FactionType, Int>>() {})
