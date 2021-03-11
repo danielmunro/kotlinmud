@@ -233,7 +233,7 @@ class TestService(
         return playerService.dumpPlayerMobData(mob)
     }
 
-    fun hydratePlayerMob(name: String): PlayerMob {
+    fun hydratePlayerMob(name: String): PlayerMob? {
         return playerService.rehydratePlayerMob(name)
     }
 

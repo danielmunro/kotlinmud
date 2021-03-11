@@ -9,7 +9,11 @@ import kotlinmud.player.service.PlayerService
 import kotlinmud.room.service.RoomService
 import kotlinmud.player.repository.findPlayerByEmail as findPlayerByEmailQuery
 
-class AuthStepService(private val mobService: MobService, private val roomService: RoomService, private val playerService: PlayerService) {
+class AuthStepService(
+    private val mobService: MobService,
+    private val roomService: RoomService,
+    private val playerService: PlayerService
+) {
     private val creationFunnels = mutableListOf<CreationFunnel>()
 
     fun createCreationFunnel(email: String): CreationFunnel {
@@ -30,7 +34,7 @@ class AuthStepService(private val mobService: MobService, private val roomServic
     }
 
     fun findPlayerMobByName(name: String): PlayerMob? {
-        return playerService.findPlayerMobByName(name)
+        return playerService.rehydratePlayerMob(name)
     }
 
     fun createPlayer(emailAddress: String): PlayerDAO {

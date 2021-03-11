@@ -85,10 +85,6 @@ class MobService(
         return mobs.filterIsInstance<PlayerMob>()
     }
 
-    fun findPlayerMobByName(name: String): PlayerMob? {
-        return mobs.find { it is PlayerMob && it.name == name } as PlayerMob?
-    }
-
     fun findMobsByJobType(jobType: JobType): List<Mob> {
         return mobs.filter { it.job == jobType }
     }
