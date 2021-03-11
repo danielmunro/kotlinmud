@@ -46,9 +46,9 @@ open class MobBuilder(private val mobService: MobService) {
     var maxItems = 0
     var maxWeight = 0
     var route = listOf<Room>()
-    var skills = mapOf<SkillType, Int>()
-    var affects = listOf<Affect>()
-    var currencies = mapOf<CurrencyType, Int>()
+    var skills = mutableMapOf<SkillType, Int>()
+    var affects = mutableListOf<Affect>()
+    var currencies = mutableMapOf<CurrencyType, Int>()
     lateinit var race: Race
     lateinit var room: Room
 

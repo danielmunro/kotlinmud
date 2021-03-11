@@ -38,6 +38,7 @@ import kotlinmud.event.observer.impl.tick.ScavengerCollectsItemsObserver
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.event.observer.type.ObserverList
 import kotlinmud.event.type.EventType
+import kotlinmud.mob.specialization.helper.createSpecializationList
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
@@ -179,7 +180,7 @@ val ObserverModule = Kodein.Module {
     }
 
     bind<Observer>(tag = Tag.SAVE_PLAYER_MOBS) with singleton {
-        SavePlayerMobsObserver(instance())
+        SavePlayerMobsObserver(instance(), instance(), createSpecializationList())
     }
 
     bind<ObserverList>() with singleton {

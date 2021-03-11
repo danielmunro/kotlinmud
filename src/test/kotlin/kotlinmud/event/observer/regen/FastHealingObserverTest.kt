@@ -22,7 +22,7 @@ class FastHealingObserverTest {
 
         // given
         val mob = test.createMobBuilder()
-            .also { it.skills = mapOf(Pair(SkillType.FAST_HEALING, 100)) }
+            .also { it.skills = mutableMapOf(Pair(SkillType.FAST_HEALING, 100)) }
             .build()
 
         // when

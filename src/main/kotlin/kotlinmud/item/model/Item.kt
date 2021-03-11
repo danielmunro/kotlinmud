@@ -1,5 +1,6 @@
 package kotlinmud.item.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.type.Attribute
@@ -39,6 +40,7 @@ class Item(
     val items: MutableList<Item>?,
 ) : HasAttributes, Identifiable, Noun {
 
+    @JsonIgnore
     fun isVisible(): Boolean {
         return affects.find { it.type == AffectType.INVISIBILITY } == null
     }

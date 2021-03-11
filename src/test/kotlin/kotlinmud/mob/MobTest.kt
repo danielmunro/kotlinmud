@@ -118,7 +118,7 @@ class MobTest {
 
         // given
         val mob2 = testService.createMobBuilder()
-            .also { it.affects = listOf(affect) }
+            .also { it.affects = mutableListOf(affect) }
             .build()
 
         // when

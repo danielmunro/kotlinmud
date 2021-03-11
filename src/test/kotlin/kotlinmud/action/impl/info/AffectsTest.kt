@@ -17,7 +17,7 @@ class AffectsTest {
         // given
         val mob = test.createPlayerMobBuilder().also {
             it.affects =
-                listOf(
+                mutableListOf(
                     InvisibilityAffect().createInstance(5),
                     BlessAffect().createInstance(10),
                     BlindAffect().createInstance(1),

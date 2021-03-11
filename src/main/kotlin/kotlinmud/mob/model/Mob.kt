@@ -1,6 +1,5 @@
 package kotlinmud.mob.model
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import kotlinmud.affect.model.Affect
 import kotlinmud.affect.model.AttributeAffect
@@ -48,7 +47,6 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     val rarity: Rarity = mobArguments.rarity
     val canonicalId: MobCanonicalId? = mobArguments.canonicalId
     val attributes: MutableMap<Attribute, Int> = mobArguments.attributes
-    @JsonIgnore
     var room: Room = mobArguments.room
     val equipped: MutableList<Item> = mobArguments.equipped
     val route = mobArguments.route
@@ -65,8 +63,9 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
         return race.type
     }
 
-    fun countAllItems(): Int {
-        return items.size + equipped.size
+    @JsonProperty("room")
+    fun getRoomId(): Int {
+        return room.id
     }
 
     fun getHealthIndication(): String {

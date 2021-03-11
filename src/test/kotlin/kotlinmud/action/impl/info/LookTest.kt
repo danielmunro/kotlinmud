@@ -136,7 +136,7 @@ class LookTest {
         testService.createMob()
         val mob = testService
             .createMobBuilder()
-            .also { it.affects = listOf(createAffect(AffectType.INVISIBILITY)) }
+            .also { it.affects = mutableListOf(createAffect(AffectType.INVISIBILITY)) }
             .build()
 
         // when

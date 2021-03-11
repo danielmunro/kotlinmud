@@ -13,7 +13,7 @@ class BuyTest {
         // setup
         val test = createTestService()
         test.createMobBuilder()
-            .also { it.currencies = mapOf(Pair(CurrencyType.Copper, 100)) }
+            .also { it.currencies = mutableMapOf(Pair(CurrencyType.Copper, 100)) }
             .build()
         val shop = test.createShopkeeper()
 

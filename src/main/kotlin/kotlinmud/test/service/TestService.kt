@@ -229,6 +229,10 @@ class TestService(
         }
     }
 
+    fun hydratePlayerMob(data: String): PlayerMob {
+        return playerService.rehydratePlayerMob(data)
+    }
+
     fun createRoom(): Room {
         return RoomBuilder(roomService).also {
             it.name = "a test room"

@@ -12,6 +12,7 @@ import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.helper.createSkillList
+import kotlinmud.mob.specialization.helper.createSpecializationList
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.factory.createEmailService
 import kotlinmud.player.factory.createEmailServiceMock
@@ -59,7 +60,7 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
             }
         }
         bind<PlayerService>() with singleton {
-            PlayerService(instance(), instance(), instance())
+            PlayerService(instance(), instance(), instance(), instance(), createSpecializationList())
         }
         bind<AuthStepService>() with singleton {
             val playerService = instance<PlayerService>()
