@@ -7,7 +7,7 @@ import kotlinmud.mob.model.Mob
 import kotlinmud.resource.impl.Tar
 import kotlinmud.resource.impl.WildGrass
 import kotlinmud.resource.type.Resource
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 
 class Desert : Biome {
     override val biomeType: BiomeType = BiomeType.DESERT
@@ -17,5 +17,5 @@ class Desert : Biome {
     )
     override val substrate: SubstrateType = SubstrateType.SAND
     override val elevationChange: Double = 0.1
-    override val mobs: List<(RoomDAO) -> Mob> = listOf()
+    override val mobs: List<(Room) -> Mob> = listOf()
 }

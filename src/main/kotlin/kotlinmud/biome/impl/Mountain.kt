@@ -9,7 +9,7 @@ import kotlinmud.resource.impl.CoalOre
 import kotlinmud.resource.impl.DiamondOre
 import kotlinmud.resource.impl.IronOre
 import kotlinmud.resource.type.Resource
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 
 class Mountain : Biome {
     override val biomeType: BiomeType = BiomeType.MOUNTAIN
@@ -21,5 +21,5 @@ class Mountain : Biome {
     )
     override val substrate: SubstrateType = SubstrateType.ROCK
     override val elevationChange: Double = 0.95
-    override val mobs: List<(RoomDAO) -> Mob> = listOf()
+    override val mobs: List<(Room) -> Mob> = listOf()
 }

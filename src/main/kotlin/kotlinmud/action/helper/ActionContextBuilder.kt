@@ -7,7 +7,6 @@ import kotlinmud.io.service.RequestService
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
-import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.service.QuestService
 import kotlinmud.room.service.RoomService
 import kotlinmud.time.service.TimeService

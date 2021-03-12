@@ -7,7 +7,7 @@ import kotlinmud.mob.model.Mob
 import kotlinmud.resource.impl.BlackberryBush
 import kotlinmud.resource.impl.JungleTree
 import kotlinmud.resource.type.Resource
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 
 class Jungle : Biome {
     override val biomeType: BiomeType = BiomeType.JUNGLE
@@ -17,5 +17,5 @@ class Jungle : Biome {
     )
     override val substrate: SubstrateType = SubstrateType.DIRT
     override val elevationChange: Double = 0.6
-    override val mobs: List<(RoomDAO) -> Mob> = listOf()
+    override val mobs: List<(Room) -> Mob> = listOf()
 }

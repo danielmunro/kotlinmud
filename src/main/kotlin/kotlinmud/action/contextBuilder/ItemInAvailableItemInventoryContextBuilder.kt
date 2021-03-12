@@ -4,7 +4,6 @@ import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.item.model.Item
 import kotlinmud.item.type.HasInventory
 
@@ -12,9 +11,7 @@ class ItemInAvailableItemInventoryContextBuilder(
     private val hasInventory: Any
 ) : ContextBuilder {
     override fun build(syntax: Syntax, word: String): Context<Any> {
-        val items = if (hasInventory is ItemDAO) {
-            hasInventory.items.toList()
-        } else if (hasInventory is HasInventory) {
+        val items = if (hasInventory is HasInventory) {
             hasInventory.items
         } else if (hasInventory is Item) {
             hasInventory.items!!

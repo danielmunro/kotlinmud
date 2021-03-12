@@ -6,7 +6,7 @@ import kotlinmud.biome.type.SubstrateType
 import kotlinmud.mob.model.Mob
 import kotlinmud.resource.impl.PineTree
 import kotlinmud.resource.type.Resource
-import kotlinmud.room.dao.RoomDAO
+import kotlinmud.room.model.Room
 
 class Plains : Biome {
     override val biomeType: BiomeType = BiomeType.PLAINS
@@ -15,5 +15,5 @@ class Plains : Biome {
     )
     override val substrate: SubstrateType = SubstrateType.DIRT
     override val elevationChange: Double = 0.1
-    override val mobs: List<(RoomDAO) -> Mob> = listOf()
+    override val mobs: List<(Room) -> Mob> = listOf()
 }

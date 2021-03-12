@@ -5,7 +5,6 @@ import kotlinmud.action.type.Status
 import kotlinmud.helper.Noun
 import kotlinmud.helper.string.matches
 import kotlinmud.io.type.Syntax
-import kotlinmud.item.dao.ItemDAO
 import kotlinmud.mob.model.Mob
 
 class OptionalTargetContextBuilder(
@@ -17,9 +16,7 @@ class OptionalTargetContextBuilder(
             return Context(syntax, Status.OK, actionCreator)
         }
         return possibleTargets.find {
-            return@find if (it is ItemDAO) {
-                word.matches(it.name)
-            } else if (it is Noun) {
+            return@find if (it is Noun) {
                 word.matches(it.name)
             } else false
         }?.let {
