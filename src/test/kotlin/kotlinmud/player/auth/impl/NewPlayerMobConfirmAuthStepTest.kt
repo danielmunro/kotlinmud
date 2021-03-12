@@ -10,7 +10,7 @@ import org.junit.Test
 
 const val name = "foo"
 
-class NewMobCardConfirmAuthStepTest {
+class NewPlayerMobConfirmAuthStepTest {
     @Test
     fun testCanConfirm() {
         // setup
@@ -81,6 +81,6 @@ class NewMobCardConfirmAuthStepTest {
     }
 
     private fun setPreAuth(test: TestService) {
-        test.setPreAuth { authStepService, player -> NewMobCardConfirmAuthStep(authStepService, player, name) }
+        test.setPreAuth { authStepService, player -> NewPlayerMobConfirmAuthStep(authStepService, player, name) }
     }
 }

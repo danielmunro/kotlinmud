@@ -8,7 +8,7 @@ import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.auth.type.AuthorizationStep
 import kotlinmud.player.dao.PlayerDAO
 
-class NewMobCardConfirmAuthStep(
+class NewPlayerMobConfirmAuthStep(
     private val authService: AuthStepService,
     private val player: PlayerDAO,
     private val name: String

@@ -28,7 +28,7 @@ class MobSelectAuthStep(
 
     override fun getNextAuthStep(): AuthStep {
         return if (newMob)
-            NewMobCardConfirmAuthStep(authStepService, player, name)
+            NewPlayerMobConfirmAuthStep(authStepService, player, name)
         else
             CompleteAuthStep(playerMob!!)
     }

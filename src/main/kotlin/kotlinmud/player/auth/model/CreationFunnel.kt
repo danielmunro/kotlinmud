@@ -26,8 +26,7 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
         return createMob(player).also { mob ->
             skills.forEach { type ->
                 mob.skills[type] = 1
-//                val mobCard = mob.dao!!
-//                mobCard.experiencePerLevel += addExperienceForSkillType(type, mob.specialization!!.type)
+                mob.experienceToLevel += addExperienceForSkillType(type, mob.specialization!!.type)
             }
         }
     }
