@@ -7,10 +7,13 @@ import kotlinmud.io.model.createResponseWithEmptyActionContext
 
 fun createExitsAction(): Action {
     return Action(Command.EXITS) { svc ->
-        createResponseWithEmptyActionContext(
+        svc.createOkResponse(
             messageToActionCreator(
                 "Exits include:\n${svc.getExits().entries.fold("") { acc, it ->
-                    acc + if (svc.getRoom().isDoorPassable(it.key)) "\n${it.key.value} - ${svc.getRoom().getDoorForDirection(it.key)?.name}" else "\n${it.key.value} - ${it.value.name}"
+                    acc + if (svc.getRoom().isDoorPassable(it.key))
+                        "\n${it.key.value} - ${it.value.name}" 
+                    else
+                        "\n${it.key.value} - ${svc.getRoom().getDoorForDirection(it.key)?.name}"
                 }}"
             )
         )
