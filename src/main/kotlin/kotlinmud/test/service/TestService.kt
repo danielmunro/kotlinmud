@@ -311,10 +311,6 @@ class TestService(
             .build()
     }
 
-    fun createItem(modifier: (Item) -> Unit): Item {
-        return createItem().also { modifier(it) }
-    }
-
     fun createCreationFunnel(email: String): CreationFunnel {
         return CreationFunnel(mobService, email)
     }
