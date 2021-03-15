@@ -5,6 +5,7 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.builder.MobBuilder
+import kotlinmud.mob.race.impl.Dwarf
 import kotlinmud.mob.race.impl.Giant
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
@@ -72,6 +73,10 @@ A sign flickers against the light of the fire.""".trimMargin()
         it.id = 4
         it.name = "A trail near the camp"
     }.build()
+    val room6 = builder.also {
+        it.id = 6
+        it.name = "A makeshift mess hall"
+    }.build()
     val room5 = builder.also {
         it.id = 5
         it.name = "Outside the camp"
@@ -86,6 +91,7 @@ A sign flickers against the light of the fire.""".trimMargin()
                 Pair(room5, Direction.SOUTH),
             )
         )
+    connect(room5).to(room6, Direction.EAST)
 
     MobBuilder(mobService).also {
         it.name = "Blacksmith Felig"
@@ -94,6 +100,16 @@ A sign flickers against the light of the fire.""".trimMargin()
         it.room = room3
         it.job = JobType.SHOPKEEPER
         it.race = Giant()
+    }.build()
+
+    MobBuilder(mobService).also {
+        it.name = "Barbosa the cook"
+        it.brief = "a messy and overworked cook wipes away his brow sweat"
+        it.description = "tbd"
+        it.room = room6
+        it.job = JobType.SHOPKEEPER
+        it.race = Dwarf()
+        it.canonicalId = MobCanonicalId.Barbosa
     }.build()
 
     MobBuilder(mobService).also {

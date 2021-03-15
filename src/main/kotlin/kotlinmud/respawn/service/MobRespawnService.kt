@@ -1,17 +1,19 @@
-package kotlinmud.mob.service
+package kotlinmud.respawn.service
 
 import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.model.MobRespawn
+import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.respawn.type.RespawnSomethingService
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 
 class MobRespawnService(
-    private val respawns: List<MobRespawn>,
     private val mobService: MobService,
-    private val roomService: RoomService
-) {
-    fun respawn() {
+    private val roomService: RoomService,
+    private val respawns: List<MobRespawn>,
+) : RespawnSomethingService {
+    override suspend fun respawn() {
         respawns.forEach {
             doRespawn(
                 it.area,

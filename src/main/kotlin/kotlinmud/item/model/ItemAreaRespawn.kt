@@ -4,7 +4,7 @@ import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.room.type.Area
 
-class ItemRespawn(
+class ItemAreaRespawn(
     val canonicalId: ItemCanonicalId,
     val itemBuilder: ItemBuilder,
     val area: Area,

@@ -14,29 +14,29 @@ import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.room.model.Room
 
 class ItemBuilder(private val itemService: ItemService) {
-    private lateinit var type: ItemType
-    private lateinit var name: String
-    private lateinit var description: String
-    private var worth: Int = 1
-    private var level: Int = 1
-    private var weight: Double = 1.0
-    private lateinit var material: Material
-    private var isContainer = false
-    private var canOwn = true
-    private var affects: List<Affect> = listOf()
-    private var canonicalId: ItemCanonicalId? = null
-    private var position: Position? = null
-    private var attackVerb: String? = null
-    private var damageType: DamageType? = null
-    private var drink: Drink? = null
-    private var food: Food? = null
-    private var quantity: Int? = null
-    private var decayTimer: Int? = null
-    private var maxItems: Int? = null
-    private var maxWeight: Int? = null
-    private var attributes: Map<Attribute, Int>? = null
-    private var items: List<Item>? = null
-    private var room: Room? = null
+    lateinit var type: ItemType
+    lateinit var name: String
+    lateinit var description: String
+    var worth: Int = 1
+    var level: Int = 1
+    var weight: Double = 1.0
+    lateinit var material: Material
+    var isContainer = false
+    var canOwn = true
+    var affects: List<Affect> = listOf()
+    var canonicalId: ItemCanonicalId? = null
+    var position: Position? = null
+    var attackVerb: String? = null
+    var damageType: DamageType? = null
+    var drink: Drink? = null
+    var food: Food? = null
+    var quantity: Int? = null
+    var decayTimer: Int? = null
+    var maxItems: Int? = null
+    var maxWeight: Int? = null
+    var attributes: Map<Attribute, Int>? = null
+    var items: List<Item>? = null
+    var room: Room? = null
 
     fun type(value: ItemType): ItemBuilder {
         type = value

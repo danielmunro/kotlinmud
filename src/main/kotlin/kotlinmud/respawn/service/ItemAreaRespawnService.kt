@@ -1,17 +1,19 @@
-package kotlinmud.item.service
+package kotlinmud.respawn.service
 
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.model.ItemRespawn
+import kotlinmud.item.model.ItemAreaRespawn
+import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemCanonicalId
+import kotlinmud.respawn.type.RespawnSomethingService
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 
-class ItemRespawnService(
+class ItemAreaRespawnService(
     private val roomService: RoomService,
     private val itemService: ItemService,
-    private val respawns: List<ItemRespawn>
-) {
-    fun respawn() {
+    private val respawns: List<ItemAreaRespawn>,
+) : RespawnSomethingService {
+    override suspend fun respawn() {
         respawns.forEach {
             doRespawn(
                 it.area,
