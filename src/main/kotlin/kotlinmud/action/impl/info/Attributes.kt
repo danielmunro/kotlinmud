@@ -1,4 +1,4 @@
-package kotlinmud.action.impl.social
+package kotlinmud.action.impl.info
 
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command

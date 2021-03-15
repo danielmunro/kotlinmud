@@ -16,6 +16,7 @@ import kotlinmud.action.impl.equipment.createWearAction
 import kotlinmud.action.impl.fight.createFleeAction
 import kotlinmud.action.impl.fight.createKillAction
 import kotlinmud.action.impl.info.createAffectsAction
+import kotlinmud.action.impl.info.createAttributesAction
 import kotlinmud.action.impl.info.createEquipmentAction
 import kotlinmud.action.impl.info.createExitsAction
 import kotlinmud.action.impl.info.createInventoryAction
@@ -51,7 +52,6 @@ import kotlinmud.action.impl.room.createOwnerSetAction
 import kotlinmud.action.impl.shop.createBuyAction
 import kotlinmud.action.impl.shop.createListAction
 import kotlinmud.action.impl.shop.createSellAction
-import kotlinmud.action.impl.social.createAttributesAction
 import kotlinmud.action.impl.social.createGossipAction
 import kotlinmud.action.impl.social.createSayAction
 import kotlinmud.action.impl.social.createTellAction
