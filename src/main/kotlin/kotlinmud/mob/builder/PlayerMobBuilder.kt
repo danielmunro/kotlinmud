@@ -3,6 +3,7 @@ package kotlinmud.mob.builder
 import kotlinmud.faction.type.FactionType
 import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.service.MobService
+import kotlinmud.mob.type.Role
 import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 
@@ -20,6 +21,7 @@ class PlayerMobBuilder(private val mobService: MobService) : MobBuilder(mobServi
     var loggedIn = false
     var factionScores = mutableMapOf<FactionType, Int>()
     var quests = mutableMapOf<QuestType, QuestStatus>()
+    var role = Role.Player
 
     override fun build(): PlayerMob {
         return PlayerMob(
@@ -36,7 +38,8 @@ class PlayerMobBuilder(private val mobService: MobService) : MobBuilder(mobServi
             skillPoints,
             loggedIn,
             factionScores,
-            quests
+            quests,
+            role,
         ).also {
             mobService.addMob(it)
         }
