@@ -28,6 +28,22 @@ class BanTest {
     }
 
     @Test
+    fun testRolePermissions() {
+        // setup
+        val test = createTestService()
+
+        // given
+        val admin = test.createPlayerMob()
+        val mob = test.createPlayerMob()
+
+        // when
+        val response = test.runAction(admin, "ban ${getIdentifyingWord(mob)}")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("you lack the privileges to do that.")
+    }
+
+    @Test
     fun testCannotRebanUser() {
         // setup
         val test = createTestService()

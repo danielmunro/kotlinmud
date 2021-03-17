@@ -22,6 +22,7 @@ import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.RequiresDisposition
+import kotlinmud.mob.type.Role
 
 class ActionService(
     private val mobService: MobService,
@@ -86,7 +87,8 @@ class ActionService(
 
         val contextList = buildActionContextList(request, action)
 
-        return dispositionCheck(request, action)
+        return roleCheck(request, action)
+            ?: dispositionCheck(request, action)
             ?: checkForBadContext(contextList)
             ?: costApply(request.mob, action)
             ?: callInvokable(request, action, contextList)
@@ -109,6 +111,19 @@ class ActionService(
             IOStatus.FAILED,
             context,
             messageToActionCreator("You lost your concentration.")
+        )
+    }
+
+    private fun roleCheck(request: RequestService, action: Action): Response? {
+        val mobRole = request.mob.role
+        val passed = when (action.minimumRole) {
+            Role.Player -> true
+            Role.Immortal -> mobRole != Role.Player
+            Role.Admin -> mobRole == Role.Admin || mobRole == Role.Implementor
+            Role.Implementor -> mobRole == Role.Implementor
+        }
+        return if (passed) null else createResponseWithEmptyActionContext(
+            messageToActionCreator("you lack the privileges to do that.")
         )
     }
 

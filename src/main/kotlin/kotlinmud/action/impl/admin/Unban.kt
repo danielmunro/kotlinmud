@@ -15,7 +15,7 @@ fun createUnbanAction(): Action {
     return ActionBuilder(Command.UNBAN).also {
         it.minimumRole = Role.Admin
         it.syntax = playerMob()
-    }.build {
+    } build {
         val target = it.get<PlayerMob>(Syntax.PLAYER_MOB)
         if (target.standing == Standing.Good) {
             return@build it.createErrorResponse(messageToActionCreator("They are already in good standing."))

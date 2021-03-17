@@ -17,7 +17,7 @@ class ActionBuilder(var command: Command) {
     var chainTo = Command.NOOP
     var minimumRole = Role.Player
 
-    fun build(mutator: (ActionContextService) -> Response): Action {
+    infix fun build(mutator: (ActionContextService) -> Response): Action {
         return Action(
             command,
             dispositions,

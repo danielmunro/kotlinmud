@@ -15,7 +15,7 @@ fun createBanAction(): Action {
     return ActionBuilder(Command.BAN).also {
         it.minimumRole = Role.Admin
         it.syntax = playerMob()
-    }.build {
+    } build {
         val target = it.get<PlayerMob>(Syntax.PLAYER_MOB)
         if (target.standing == Standing.Banned) {
             return@build it.createErrorResponse(messageToActionCreator("They are already banned."))
