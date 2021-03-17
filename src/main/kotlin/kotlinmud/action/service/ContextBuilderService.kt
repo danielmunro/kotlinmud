@@ -1,9 +1,11 @@
 package kotlinmud.action.service
 
+import kotlinmud.action.contextBuilder.AcceptedQuestContextBuilder
 import kotlinmud.action.contextBuilder.AvailableDrinkContextBuilder
 import kotlinmud.action.contextBuilder.AvailableFoodContextBuilder
 import kotlinmud.action.contextBuilder.AvailableItemInventoryContextBuilder
 import kotlinmud.action.contextBuilder.AvailableNounContextBuilder
+import kotlinmud.action.contextBuilder.AvailableQuestContextBuilder
 import kotlinmud.action.contextBuilder.CommandContextBuilder
 import kotlinmud.action.contextBuilder.DirectionToExitContextBuilder
 import kotlinmud.action.contextBuilder.DirectionWithNoExitContextBuilder
@@ -36,11 +38,13 @@ import kotlinmud.item.type.Recipe
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.type.Skill
 import kotlinmud.player.service.PlayerService
+import kotlinmud.quest.service.QuestService
 
 class ContextBuilderService(
     private val itemService: ItemService,
     private val mobService: MobService,
     private val playerService: PlayerService,
+    private val questService: QuestService,
     private val skills: List<Skill>,
     private val recipes: List<Recipe>
 ) {
@@ -67,7 +71,7 @@ class ContextBuilderService(
             Syntax.SPELL -> SpellContextBuilder(skills).build(syntax, word)
             Syntax.SPELL_FROM_HEALER -> SpellFromHealerContextBuilder(mobService.findMobsInRoom(request.getRoom())).build(syntax, word)
             Syntax.PLAYER_MOB -> PlayerMobContextBuilder(playerService).build(syntax, word)
-            Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(itemService, request.mob, request.getRoom()).build(syntax, word)
+            Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(request.mob, request.getRoom()).build(syntax, word)
             Syntax.AVAILABLE_FOOD -> AvailableFoodContextBuilder(request.mob).build(syntax, word)
             Syntax.TRAINABLE -> TrainableContextBuilder(mobService, request.mob).build(syntax, word)
             Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(request.mob).build(syntax, word)
@@ -76,6 +80,8 @@ class ContextBuilderService(
             Syntax.AVAILABLE_ITEM_INVENTORY -> AvailableItemInventoryContextBuilder(request.mob, request.getRoom()).build(syntax, word)
             Syntax.ITEM_IN_AVAILABLE_INVENTORY -> ItemInAvailableItemInventoryContextBuilder(previous?.result!!).build(syntax, word)
             Syntax.OPTIONAL_FURNITURE -> OptionalFurnitureContextBuilder(request.getRoom().items).build(syntax, word)
+            Syntax.ACCEPTED_QUEST -> AcceptedQuestContextBuilder(questService, request.mob).build(syntax, word)
+            Syntax.AVAILABLE_QUEST -> AvailableQuestContextBuilder(questService, request.mob).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
         previous = context

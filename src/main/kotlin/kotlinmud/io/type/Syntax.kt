@@ -29,5 +29,7 @@ enum class Syntax(val syntax: String) {
     TRAINABLE("trainable"),
     SKILL_TO_PRACTICE("skill to practice"),
     OPTIONAL_FURNITURE("optional furniture"),
+    ACCEPTED_QUEST("accepted quest"),
+    AVAILABLE_QUEST("available quest"),
     NOOP("noop"),
 }

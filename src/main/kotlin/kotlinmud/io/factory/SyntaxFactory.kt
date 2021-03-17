@@ -118,10 +118,6 @@ fun optionalFurniture(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.OPTIONAL_FURNITURE)
 }
 
-fun subcommandDirectionNoExit(): List<Syntax> {
-    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.DIRECTION_WITH_NO_EXIT)
-}
-
 fun subcommand(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND)
 }
@@ -132,4 +128,12 @@ fun subcommandWithModifier(): List<Syntax> {
 
 fun subcommandPlayerMob(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.PLAYER_MOB)
+}
+
+fun availableQuest(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.AVAILABLE_QUEST)
+}
+
+fun acceptedQuest(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.ACCEPTED_QUEST)
 }
