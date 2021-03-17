@@ -33,6 +33,7 @@ import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.Role
+import kotlinmud.mob.type.Standing
 import kotlinmud.player.auth.impl.CompleteAuthStep
 import kotlinmud.player.auth.impl.EmailAuthStep
 import kotlinmud.player.auth.service.AuthStepService
@@ -191,6 +192,7 @@ class PlayerService(
                 it.maxItems = node.get("maxItems").intValue()
                 it.maxWeight = node.get("maxWeight").intValue()
                 it.role = Role.valueOf(node.get("role").textValue())
+                it.standing = Standing.valueOf(node.get("standing").textValue())
                 it.items = items
                 it.skills = skills
                 it.affects = affects

@@ -101,4 +101,5 @@ enum class Command(val value: String) {
 
     // admin
     BAN("ban"),
+    UNBAN("unban"),
 }

@@ -1,5 +1,7 @@
 package kotlinmud.action.helper
 
+import kotlinmud.action.impl.admin.createBanAction
+import kotlinmud.action.impl.admin.createUnbanAction
 import kotlinmud.action.impl.createCloseAction
 import kotlinmud.action.impl.createDownAction
 import kotlinmud.action.impl.createEastAction
@@ -114,5 +116,7 @@ fun createActionsList(): List<Action> {
         createQuestLogAction(),
         createQuestSubmitAction(),
         createTimeAction(),
+        createBanAction(),
+        createUnbanAction(),
     )
 }

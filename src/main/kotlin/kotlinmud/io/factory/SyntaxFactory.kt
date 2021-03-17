@@ -110,6 +110,10 @@ fun playerFreeForm(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.PLAYER_MOB, Syntax.FREE_FORM)
 }
 
+fun playerMob(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.PLAYER_MOB)
+}
+
 fun optionalFurniture(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.OPTIONAL_FURNITURE)
 }

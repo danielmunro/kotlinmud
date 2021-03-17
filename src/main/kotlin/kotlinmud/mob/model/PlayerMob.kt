@@ -2,6 +2,7 @@ package kotlinmud.mob.model
 
 import kotlinmud.faction.type.FactionType
 import kotlinmud.mob.type.Role
+import kotlinmud.mob.type.Standing
 import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 
@@ -21,6 +22,7 @@ class PlayerMob(
     var factionScores: MutableMap<FactionType, Int>,
     var quests: MutableMap<QuestType, QuestStatus>,
     val role: Role,
+    var standing: Standing,
 ) : Mob(mobArguments) {
     fun addExperience(level: Int, value: Int): AddExperience {
         val toLevelInitial = getExperienceToLevel(level)

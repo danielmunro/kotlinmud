@@ -183,12 +183,7 @@ class TestService(
             it.maxWeight = 1000
         }.build()
         weapon(mob)
-        if (this.mob == null) {
-            this.mob = mob
-        } else if (this.target == null) {
-            this.target = mob
-        }
-
+        setMobOrTarget(mob)
         return mob
     }
 
@@ -440,6 +435,14 @@ class TestService(
             for (i in 0..amount) {
                 timeService.tick()
             }
+        }
+    }
+
+    private fun setMobOrTarget(mob: PlayerMob) {
+        if (this.mob == null) {
+            this.mob = mob
+        } else if (this.target == null) {
+            this.target = mob
         }
     }
 

@@ -254,3 +254,16 @@ fun createWearMessage(mob: Mob, item: Item, removed: Item?): Message {
         .toObservers("$mob ${if (removed != null) "removes $removed and " else ""}wears $item.")
         .build()
 }
+
+fun createBanMessage(mob: Mob): Message {
+    return MessageBuilder()
+        .toActionCreator("$mob is now banned.")
+        .toTarget("you are now banned!")
+        .build()
+}
+
+fun createUnbanMessage(mob: Mob): Message {
+    return MessageBuilder()
+        .toActionCreator("$mob is now unbanned.")
+        .build()
+}

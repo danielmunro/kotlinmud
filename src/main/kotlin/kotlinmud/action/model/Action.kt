@@ -11,6 +11,7 @@ import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.HasCosts
 import kotlinmud.mob.type.RequiresDisposition
+import kotlinmud.mob.type.Role
 
 class Action(
     override val command: Command,
@@ -19,7 +20,8 @@ class Action(
     override val argumentOrder: List<Int> = syntax.mapIndexed { i, _ -> i },
     override val costs: List<Cost> = listOf(),
     val chainTo: Command = Command.NOOP,
-    val mutator: (ActionContextService) -> Response
+    val minimumRole: Role = Role.Player,
+    val mutator: (ActionContextService) -> Response,
 ) : RequiresDisposition, Invokable, HasCosts {
 
     fun isChained(): Boolean {
