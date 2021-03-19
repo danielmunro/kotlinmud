@@ -1,5 +1,6 @@
 package kotlinmud.action.impl.fight
 
+import kotlinmud.action.builder.ActionBuilder
 import kotlinmud.action.helper.mustBeStanding
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
@@ -11,10 +12,13 @@ import kotlinmud.mob.model.Mob
 import kotlinx.coroutines.runBlocking
 
 fun createKillAction(): Action {
-    return Action(Command.KILL, mustBeStanding(), mobInRoom()) {
+    return ActionBuilder(Command.KILL).also {
+        it.dispositions = mustBeStanding()
+        it.syntax = mobInRoom()
+    } build {
         val target = it.get<Mob>(Syntax.MOB_IN_ROOM)
         if (!target.canTargetForFight()) {
-            return@Action it.createErrorResponse(messageToActionCreator("you cannot target them."))
+            return@build it.createErrorResponse(messageToActionCreator("you cannot target them."))
         }
         runBlocking { it.createFight() }
         it.createOkResponse(createKillMessage(it.getMob(), target))
