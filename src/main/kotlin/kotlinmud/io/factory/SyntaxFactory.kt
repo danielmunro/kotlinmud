@@ -137,3 +137,7 @@ fun availableQuest(): List<Syntax> {
 fun acceptedQuest(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.ACCEPTED_QUEST)
 }
+
+fun submittableQuest(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.SUBMITTABLE_QUEST)
+}

@@ -3,29 +3,24 @@ package kotlinmud.action.impl.quest
 import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
-import kotlinmud.helper.string.matches
-import kotlinmud.io.factory.messageToActionCreator
-import kotlinmud.io.factory.subcommandWithModifier
+import kotlinmud.io.factory.submittableQuest
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
+import kotlinmud.quest.type.Quest
 
 fun createQuestSubmitAction(): Action {
     return Action(
         Command.QUEST_SUBMIT,
         mustBeAlert(),
-        subcommandWithModifier(),
+        submittableQuest(),
     ) { svc ->
-        val input = svc.get<String>(Syntax.FREE_FORM)
-        svc.getSubmittableQuests().find {
-            input.matches(it.name)
-        }?.let {
-            svc.submitQuest(it)
-            svc.createOkResponse(
-                MessageBuilder()
-                    .toActionCreator("you submit the quest: `${it.name}`")
-                    .toObservers("${svc.getMob()} submits the quest: `${it.name}`")
-                    .build()
-            )
-        } ?: svc.createErrorResponse(messageToActionCreator("you can't find that quest."))
+        val quest = svc.get<Quest>(Syntax.SUBMITTABLE_QUEST)
+        svc.submitQuest(quest)
+        svc.createOkResponse(
+            MessageBuilder()
+                .toActionCreator("you submit the quest: `${quest.name}`")
+                .toObservers("${svc.getMob()} submits the quest: `${quest.name}`")
+                .build()
+        )
     }
 }

@@ -31,5 +31,6 @@ enum class Syntax(val syntax: String) {
     OPTIONAL_FURNITURE("optional furniture"),
     ACCEPTED_QUEST("accepted quest"),
     AVAILABLE_QUEST("available quest"),
+    SUBMITTABLE_QUEST("submittable quest"),
     NOOP("noop"),
 }

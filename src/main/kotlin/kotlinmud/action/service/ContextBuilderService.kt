@@ -27,6 +27,7 @@ import kotlinmud.action.contextBuilder.ResourceInRoomContextBuilder
 import kotlinmud.action.contextBuilder.SkillToPracticeContextBuilder
 import kotlinmud.action.contextBuilder.SpellContextBuilder
 import kotlinmud.action.contextBuilder.SpellFromHealerContextBuilder
+import kotlinmud.action.contextBuilder.SubmittableQuestContextBuilder
 import kotlinmud.action.contextBuilder.TargetMobContextBuilder
 import kotlinmud.action.contextBuilder.TrainableContextBuilder
 import kotlinmud.action.model.Context
@@ -82,6 +83,7 @@ class ContextBuilderService(
             Syntax.OPTIONAL_FURNITURE -> OptionalFurnitureContextBuilder(request.getRoom().items).build(syntax, word)
             Syntax.ACCEPTED_QUEST -> AcceptedQuestContextBuilder(questService, request.mob).build(syntax, word)
             Syntax.AVAILABLE_QUEST -> AvailableQuestContextBuilder(questService, request.mob).build(syntax, word)
+            Syntax.SUBMITTABLE_QUEST -> SubmittableQuestContextBuilder(questService, request.mob).build(syntax, word)
             Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
         }
         previous = context

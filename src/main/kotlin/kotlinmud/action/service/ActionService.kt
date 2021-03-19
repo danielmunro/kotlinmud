@@ -36,7 +36,9 @@ class ActionService(
         }
 
         private fun argumentLengthMatches(syntax: List<Syntax>, arguments: List<String>): Boolean {
-            return syntax.size == arguments.size || syntax.contains(Syntax.FREE_FORM)
+            return syntax.size == arguments.size ||
+                syntax.contains(Syntax.FREE_FORM) ||
+                syntax.contains(Syntax.SUBMITTABLE_QUEST)
         }
 
         private fun subCommandMatches(syntax: Syntax, subCommand: String, input: String): Boolean {
