@@ -70,6 +70,10 @@ class ActionContextService(
         return weatherService.getWeather()
     }
 
+    fun getPlayerMobsInArea(): List<PlayerMob> {
+        return mobService.findPlayerMobsInArea(getRoom().area)
+    }
+
     fun getMob(): PlayerMob {
         return request.mob
     }

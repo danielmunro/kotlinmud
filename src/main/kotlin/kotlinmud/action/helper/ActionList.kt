@@ -24,6 +24,7 @@ import kotlinmud.action.impl.info.createExitsAction
 import kotlinmud.action.impl.info.createInventoryAction
 import kotlinmud.action.impl.info.createLookAction
 import kotlinmud.action.impl.info.createLookAtAction
+import kotlinmud.action.impl.info.createScanAction
 import kotlinmud.action.impl.info.createScoreAction
 import kotlinmud.action.impl.info.createTimeAction
 import kotlinmud.action.impl.info.createWeatherAction
@@ -122,5 +123,6 @@ fun createActionsList(): List<Action> {
         createUnbanAction(),
         createDescriptionAction(),
         createQuaffAction(),
+        createScanAction(),
     )
 }

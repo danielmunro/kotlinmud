@@ -40,6 +40,7 @@ enum class Command(val value: String) {
     TIME("time"),
     WEATHER("weather"),
     EXITS("exits"),
+    SCAN("scan"),
 
     // crafting
     CRAFT("craft"),

@@ -33,6 +33,7 @@ import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.model.Room
+import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
 
@@ -91,6 +92,10 @@ class MobService(
 
     fun findPlayerMobs(): List<PlayerMob> {
         return mobs.filterIsInstance<PlayerMob>()
+    }
+
+    fun findPlayerMobsInArea(area: Area): List<PlayerMob> {
+        return mobs.filter { it is PlayerMob && it.room.area == area } as List<PlayerMob>
     }
 
     fun findMobsByJobType(jobType: JobType): List<Mob> {
