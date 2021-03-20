@@ -5,6 +5,7 @@ import kotlinmud.action.contextBuilder.AvailableDrinkContextBuilder
 import kotlinmud.action.contextBuilder.AvailableFoodContextBuilder
 import kotlinmud.action.contextBuilder.AvailableItemInventoryContextBuilder
 import kotlinmud.action.contextBuilder.AvailableNounContextBuilder
+import kotlinmud.action.contextBuilder.AvailablePotionContextBuilder
 import kotlinmud.action.contextBuilder.AvailableQuestContextBuilder
 import kotlinmud.action.contextBuilder.CommandContextBuilder
 import kotlinmud.action.contextBuilder.DirectionToExitContextBuilder
@@ -74,6 +75,7 @@ class ContextBuilderService(
             Syntax.PLAYER_MOB -> PlayerMobContextBuilder(playerService).build(syntax, word)
             Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(request.mob, request.getRoom()).build(syntax, word)
             Syntax.AVAILABLE_FOOD -> AvailableFoodContextBuilder(request.mob).build(syntax, word)
+            Syntax.AVAILABLE_POTION -> AvailablePotionContextBuilder(request.mob).build(syntax, word)
             Syntax.TRAINABLE -> TrainableContextBuilder(mobService, request.mob).build(syntax, word)
             Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(request.mob).build(syntax, word)
             Syntax.RECIPE -> RecipeContextBuilder(recipes).build(syntax, word)

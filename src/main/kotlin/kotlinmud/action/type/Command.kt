@@ -18,6 +18,7 @@ enum class Command(val value: String) {
     DRINK("drink"),
     EAT("eat"),
     PUT("put"),
+    QUAFF("quaff"),
 
     // room owner actions
     OWNER_INFO("owner info"),

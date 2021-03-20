@@ -26,6 +26,7 @@ enum class Syntax(val syntax: String) {
     PLAYER_MOB("player mob"),
     AVAILABLE_DRINK("available drink"),
     AVAILABLE_FOOD("available food"),
+    AVAILABLE_POTION("available potion"),
     TRAINABLE("trainable"),
     SKILL_TO_PRACTICE("skill to practice"),
     OPTIONAL_FURNITURE("optional furniture"),

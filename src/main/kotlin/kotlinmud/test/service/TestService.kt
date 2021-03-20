@@ -306,6 +306,14 @@ class TestService(
             .build()
     }
 
+    fun createPotion(): Item {
+        return createItemBuilder()
+            .type(ItemType.POTION)
+            .material(Material.ORGANIC)
+            .worth(0)
+            .build()
+    }
+
     fun createCreationFunnel(email: String): CreationFunnel {
         return CreationFunnel(mobService, email)
     }

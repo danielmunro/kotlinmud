@@ -3,6 +3,7 @@ package kotlinmud.item.type
 enum class ItemType {
     FOOD,
     DRINK,
+    POTION,
     EQUIPMENT,
     CONTAINER,
     CORPSE,

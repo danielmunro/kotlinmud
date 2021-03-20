@@ -33,6 +33,7 @@ import kotlinmud.action.impl.item.createDropAction
 import kotlinmud.action.impl.item.createGetAction
 import kotlinmud.action.impl.item.createGetFromItemAction
 import kotlinmud.action.impl.item.createPutAction
+import kotlinmud.action.impl.item.createQuaffAction
 import kotlinmud.action.impl.item.createRecipeOfAction
 import kotlinmud.action.impl.item.createRecipesAction
 import kotlinmud.action.impl.player.createDescriptionAction
@@ -120,5 +121,6 @@ fun createActionsList(): List<Action> {
         createBanAction(),
         createUnbanAction(),
         createDescriptionAction(),
+        createQuaffAction(),
     )
 }
