@@ -99,6 +99,9 @@ enum class Command(val value: String) {
     QUEST_ABANDON("quest abandon"),
     QUEST_SUBMIT("quest submit"),
 
+    // player
+    DESCRIPTION("description"),
+
     // admin
     BAN("ban"),
     UNBAN("unban"),
