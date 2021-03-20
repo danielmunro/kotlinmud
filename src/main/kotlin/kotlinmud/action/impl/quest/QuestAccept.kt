@@ -1,6 +1,6 @@
 package kotlinmud.action.impl.quest
 
-import kotlinmud.action.helper.mustBeAlert
+import kotlinmud.action.builder.ActionBuilder
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.io.factory.availableQuest
@@ -9,11 +9,9 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.quest.type.Quest
 
 fun createQuestAcceptAction(): Action {
-    return Action(
-        Command.QUEST_ACCEPT,
-        mustBeAlert(),
-        availableQuest(),
-    ) { svc ->
+    return ActionBuilder(Command.QUEST_ACCEPT).also {
+        it.syntax = availableQuest()
+    } build { svc ->
         val quest = svc.get<Quest>(Syntax.AVAILABLE_QUEST)
         svc.acceptQuest(quest)
         svc.createOkResponse(

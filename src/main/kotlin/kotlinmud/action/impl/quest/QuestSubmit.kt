@@ -1,6 +1,6 @@
 package kotlinmud.action.impl.quest
 
-import kotlinmud.action.helper.mustBeAlert
+import kotlinmud.action.builder.ActionBuilder
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.io.factory.submittableQuest
@@ -9,17 +9,15 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.quest.type.Quest
 
 fun createQuestSubmitAction(): Action {
-    return Action(
-        Command.QUEST_SUBMIT,
-        mustBeAlert(),
-        submittableQuest(),
-    ) { svc ->
-        val quest = svc.get<Quest>(Syntax.SUBMITTABLE_QUEST)
-        svc.submitQuest(quest)
-        svc.createOkResponse(
+    return ActionBuilder(Command.QUEST_SUBMIT).also {
+        it.syntax = submittableQuest()
+    } build {
+        val quest = it.get<Quest>(Syntax.SUBMITTABLE_QUEST)
+        it.submitQuest(quest)
+        it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("you submit the quest: `${quest.name}`")
-                .toObservers("${svc.getMob()} submits the quest: `${quest.name}`")
+                .toObservers("${it.getMob()} submits the quest: `${quest.name}`")
                 .build()
         )
     }

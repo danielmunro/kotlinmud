@@ -1,6 +1,6 @@
 package kotlinmud.action.impl
 
-import kotlinmud.action.helper.mustBeAlert
+import kotlinmud.action.builder.ActionBuilder
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.io.factory.createCloseMessage
@@ -11,10 +11,12 @@ import kotlinmud.room.model.Door
 import kotlinmud.room.type.DoorDisposition
 
 fun createCloseAction(): Action {
-    return Action(Command.CLOSE, mustBeAlert(), doorInRoom()) {
+    return ActionBuilder(Command.CLOSE).also {
+        it.syntax = doorInRoom()
+    } build {
         val door = it.get<Door>(Syntax.DOOR_IN_ROOM)
         if (door.disposition != DoorDisposition.OPEN) {
-            return@Action it.createErrorResponse(messageToActionCreator("it is already closed."))
+            return@build it.createErrorResponse(messageToActionCreator("it is already closed."))
         }
         door.disposition = DoorDisposition.CLOSED
         it.createOkResponse(createCloseMessage(it.getMob(), door))

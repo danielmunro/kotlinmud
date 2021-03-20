@@ -1,6 +1,6 @@
 package kotlinmud.action.impl
 
-import kotlinmud.action.helper.mustBeAlert
+import kotlinmud.action.builder.ActionBuilder
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.io.factory.createOpenMessage
@@ -11,7 +11,9 @@ import kotlinmud.room.model.Door
 import kotlinmud.room.type.DoorDisposition
 
 fun createOpenAction(): Action {
-    return Action(Command.OPEN, mustBeAlert(), doorInRoom()) {
+    return ActionBuilder(Command.OPEN).also {
+        it.syntax = doorInRoom()
+    } build {
         val door = it.get<Door>(Syntax.DOOR_IN_ROOM)
         when (door.disposition) {
             DoorDisposition.LOCKED -> it.createErrorResponse(

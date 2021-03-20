@@ -1,5 +1,6 @@
 package kotlinmud.action.impl.resource
 
+import kotlinmud.action.builder.ActionBuilder
 import kotlinmud.action.helper.mustBeStanding
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
@@ -13,13 +14,11 @@ import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CostType
 
 fun createHarvestAction(): Action {
-    return Action(
-        Command.HARVEST,
-        mustBeStanding(),
-        resourceInRoom(),
-        listOf(0, 1),
-        listOf(Cost(CostType.MV_PERCENT, 1))
-    ) { svc ->
+    return ActionBuilder(Command.HARVEST).also {
+        it.dispositions = mustBeStanding()
+        it.syntax = resourceInRoom()
+        it.costs = listOf(Cost(CostType.MV_PERCENT, 1))
+    } build { svc ->
         val resource = svc.get<ResourceType>(Syntax.RESOURCE_IN_ROOM)
         try {
             svc.harvest(resource)

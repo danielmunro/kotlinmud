@@ -1,5 +1,6 @@
 package kotlinmud.action.impl
 
+import kotlinmud.action.builder.ActionBuilder
 import kotlinmud.action.helper.mustBeStanding
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
@@ -13,14 +14,12 @@ import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
 
 private fun move(command: Command, direction: Direction): Action {
-    return Action(
-        command,
-        mustBeStanding(),
-        directionToExit(),
-        listOf(0),
-        listOf(Cost(CostType.MV_AMOUNT, 1)),
-        Command.LOOK
-    ) {
+    return ActionBuilder(command).also {
+        it.dispositions = mustBeStanding()
+        it.syntax = directionToExit()
+        it.costs = listOf(Cost(CostType.MV_AMOUNT, 1))
+        it.chainTo = Command.LOOK
+    } build {
         val destination = it.get<Room>(Syntax.DIRECTION_TO_EXIT)
         runBlocking { it.moveMob(destination, direction) }
         EmptyResponse()
