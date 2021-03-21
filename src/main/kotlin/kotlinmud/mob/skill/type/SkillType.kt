@@ -56,6 +56,7 @@ enum class SkillType {
     SECOND_ATTACK,
     THIRD_ATTACK,
     FOURTH_ATTACK,
+    TAIL,
 
     // damage enhancers
     CLEAVE,

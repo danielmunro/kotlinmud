@@ -10,6 +10,7 @@ import kotlinmud.mob.skill.impl.FastHealing
 import kotlinmud.mob.skill.impl.Hamstring
 import kotlinmud.mob.skill.impl.Meditation
 import kotlinmud.mob.skill.impl.SecondAttack
+import kotlinmud.mob.skill.impl.Tail
 import kotlinmud.mob.skill.impl.ThirdAttack
 import kotlinmud.mob.skill.impl.Trip
 import kotlinmud.mob.skill.impl.benediction.Bless
@@ -48,6 +49,7 @@ fun createSkillList(): List<Skill> {
         FastHealing(),
         SecondAttack(),
         ThirdAttack(),
+        Tail(),
 
         // weapon
         Dagger(),
