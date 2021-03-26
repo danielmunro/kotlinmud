@@ -1,22 +1,18 @@
 package kotlinmud.mob.skill.impl.illusion
 
-import kotlinmud.action.service.ActionContextService
-import kotlinmud.affect.impl.InvisibilityAffect
-import kotlinmud.helper.Noun
-import kotlinmud.io.model.Response
-import kotlinmud.io.type.Syntax
-import kotlinmud.item.model.Item
+import kotlinmud.io.model.Message
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.clericAt
 import kotlinmud.mob.skill.factory.easyForMage
 import kotlinmud.mob.skill.factory.mageAt
 import kotlinmud.mob.skill.factory.normalForCleric
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.mob.skill.type.SpellAction
+import kotlinmud.mob.skill.type.Spell
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Intent
 
-class Invisibility : SpellAction {
+class Invisibility : Spell {
     override val type: SkillType = SkillType.INVISIBILITY
     override val levelObtained: Map<SpecializationType, Int> = mapOf(
         mageAt(5),
@@ -27,18 +23,15 @@ class Invisibility : SpellAction {
         normalForCleric()
     )
     override val intent = Intent.PROTECTIVE
-    override val affect = InvisibilityAffect()
 
-    override fun invoke(actionContextService: ActionContextService): Response {
-        val target = actionContextService.get<Any>(Syntax.OPTIONAL_TARGET)
-        val instance = affect.createInstance(actionContextService.getLevel())
-        if (target is Mob) {
-            target.affects.add(instance)
-        } else if (target is Item) {
-            target.affects.add(instance)
-        } else {
-            throw Exception()
-        }
-        return actionContextService.createSpellInvokeResponse(target as Noun, affect)
+    override fun createMessage(caster: Mob, target: Mob): Message {
+        val toObservers = "$target fades out of existence."
+        val toSelf = "you fade out of existence."
+
+        return MessageBuilder()
+            .toActionCreator(if (caster == target) toSelf else toObservers)
+            .toTarget(toSelf)
+            .toObservers(toObservers)
+            .build()
     }
 }

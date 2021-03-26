@@ -3,13 +3,11 @@ package kotlinmud.action.service
 import kotlinmud.action.exception.InvokeException
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.affect.model.Affect
-import kotlinmud.affect.type.AffectInterface
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.event.factory.createSocialEvent
 import kotlinmud.event.factory.createTillEvent
 import kotlinmud.event.service.EventService
-import kotlinmud.helper.Noun
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.Response
 import kotlinmud.io.service.RequestService
@@ -110,13 +108,6 @@ class ActionContextService(
         mobService.moveMob(request.mob, room, direction)
     }
 
-    fun createSpellInvokeResponse(target: Noun, affect: AffectInterface, delay: Int = 1): Response {
-        return createOkResponse(
-            affect.messageFromInstantiation(request.mob, target),
-            delay
-        )
-    }
-
     fun createOkResponse(message: Message, delay: Int = 0): Response {
         return Response(IOStatus.OK, actionContextList, message, delay)
     }
@@ -125,8 +116,7 @@ class ActionContextService(
         return Response(IOStatus.ERROR, actionContextList, message, delay)
     }
 
-    suspend fun createFight() {
-        val target: Mob = get(Syntax.MOB_IN_ROOM)
+    suspend fun createFight(target: Mob) {
         val fight = mobService.addFight(request.mob, target)
         eventService.publish(fight.createFightStartedEvent())
     }
@@ -173,14 +163,6 @@ class ActionContextService(
 
     fun getAcceptableQuests(): List<Quest> {
         return questService.getAcceptableQuestsForMob(request.mob)
-    }
-
-    fun getAcceptedQuests(): List<Quest> {
-        return questService.getAcceptedQuestsForMob(request.mob)
-    }
-
-    fun getSubmittableQuests(): List<Quest> {
-        return questService.getSubmittableQuestsForMob(request.mob)
     }
 
     fun submitQuest(quest: Quest) {

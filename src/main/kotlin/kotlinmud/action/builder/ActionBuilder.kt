@@ -7,6 +7,8 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.command
 import kotlinmud.io.model.Response
 import kotlinmud.mob.skill.model.Cost
+import kotlinmud.mob.skill.type.Skill
+import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.Role
 
 class ActionBuilder(var command: Command) {
@@ -16,6 +18,8 @@ class ActionBuilder(var command: Command) {
     var costs = listOf<Cost>()
     var chainTo = Command.NOOP
     var minimumRole = Role.Player
+    var skill: Skill? = null
+    var intent = Intent.NEUTRAL
 
     infix fun build(mutator: (ActionContextService) -> Response): Action {
         return Action(
@@ -26,6 +30,8 @@ class ActionBuilder(var command: Command) {
             costs,
             chainTo,
             minimumRole,
+            skill,
+            intent,
             mutator,
         )
     }

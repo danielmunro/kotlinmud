@@ -1,11 +1,9 @@
 package kotlinmud.mob.skill.impl
 
-import kotlinmud.action.helper.mustBeResting
 import kotlinmud.mob.skill.factory.clericAt
 import kotlinmud.mob.skill.factory.mageAt
 import kotlinmud.mob.skill.factory.normalForCleric
 import kotlinmud.mob.skill.factory.normalForMage
-import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CreationGroupType
 import kotlinmud.mob.skill.type.Customization
 import kotlinmud.mob.skill.type.Skill
@@ -26,8 +24,6 @@ class Meditation : Skill, Customization {
         normalForCleric(),
         normalForMage()
     )
-    override val dispositions = mustBeResting()
-    override val costs = listOf<Cost>()
     override val intent = Intent.NEUTRAL
     override val invokesOn = SkillInvokesOn.TICK
     override val helpText = "tbd"

@@ -83,7 +83,6 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         bind<ActionService>() with singleton {
             ActionService(
                 instance(),
-                instance(),
                 createActionContextBuilder(
                     instance(),
                     instance(),

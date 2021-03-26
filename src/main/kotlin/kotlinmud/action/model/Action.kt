@@ -8,8 +8,10 @@ import kotlinmud.io.factory.command
 import kotlinmud.io.model.Response
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.skill.model.Cost
+import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.HasCosts
+import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.RequiresDisposition
 import kotlinmud.mob.type.Role
 
@@ -21,6 +23,8 @@ class Action(
     override val costs: List<Cost> = listOf(),
     val chainTo: Command = Command.NOOP,
     val minimumRole: Role = Role.Player,
+    val skill: Skill? = null,
+    val intent: Intent = Intent.NEUTRAL,
     val mutator: (ActionContextService) -> Response,
 ) : RequiresDisposition, Invokable, HasCosts {
 

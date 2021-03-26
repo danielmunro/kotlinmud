@@ -1,11 +1,9 @@
 package kotlinmud.mob.skill.impl.weapon
 
-import kotlinmud.action.helper.mustBeAlert
 import kotlinmud.mob.skill.factory.clericAt
 import kotlinmud.mob.skill.factory.mageAt
 import kotlinmud.mob.skill.factory.thiefAt
 import kotlinmud.mob.skill.factory.warriorAt
-import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CreationGroupType
 import kotlinmud.mob.skill.type.Customization
 import kotlinmud.mob.skill.type.LearningDifficulty
@@ -29,8 +27,6 @@ class Sword : Skill, Customization {
         Pair(SpecializationType.CLERIC, LearningDifficulty.HARD),
         Pair(SpecializationType.MAGE, LearningDifficulty.VERY_HARD)
     )
-    override val dispositions = mustBeAlert()
-    override val costs = listOf<Cost>()
     override val intent = Intent.NEUTRAL
     override val invokesOn = SkillInvokesOn.ATTACK_ROUND
     override val name = "sword"

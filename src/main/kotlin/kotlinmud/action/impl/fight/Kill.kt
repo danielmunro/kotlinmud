@@ -20,7 +20,7 @@ fun createKillAction(): Action {
         if (!target.canTargetForFight()) {
             return@build it.createErrorResponse(messageToActionCreator("you cannot target them."))
         }
-        runBlocking { it.createFight() }
+        runBlocking { it.createFight(target) }
         it.createOkResponse(createKillMessage(it.getMob(), target))
     }
 }

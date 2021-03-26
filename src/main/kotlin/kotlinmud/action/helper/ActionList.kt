@@ -2,6 +2,7 @@ package kotlinmud.action.helper
 
 import kotlinmud.action.impl.admin.createBanAction
 import kotlinmud.action.impl.admin.createUnbanAction
+import kotlinmud.action.impl.createCastAction
 import kotlinmud.action.impl.createCloseAction
 import kotlinmud.action.impl.createDownAction
 import kotlinmud.action.impl.createEastAction
@@ -15,8 +16,16 @@ import kotlinmud.action.impl.disposition.createSleepAction
 import kotlinmud.action.impl.disposition.createWakeAction
 import kotlinmud.action.impl.equipment.createRemoveAction
 import kotlinmud.action.impl.equipment.createWearAction
+import kotlinmud.action.impl.fight.createBackstabAction
+import kotlinmud.action.impl.fight.createBashAction
+import kotlinmud.action.impl.fight.createBerserkAction
+import kotlinmud.action.impl.fight.createBiteAction
+import kotlinmud.action.impl.fight.createDisarmAction
 import kotlinmud.action.impl.fight.createFleeAction
+import kotlinmud.action.impl.fight.createHamstringAction
 import kotlinmud.action.impl.fight.createKillAction
+import kotlinmud.action.impl.fight.createTailAction
+import kotlinmud.action.impl.fight.createTripAction
 import kotlinmud.action.impl.info.createAffectsAction
 import kotlinmud.action.impl.info.createAttributesAction
 import kotlinmud.action.impl.info.createEquipmentAction
@@ -119,10 +128,25 @@ fun createActionsList(): List<Action> {
         createQuestLogAction(),
         createQuestSubmitAction(),
         createTimeAction(),
-        createBanAction(),
-        createUnbanAction(),
         createDescriptionAction(),
         createQuaffAction(),
         createScanAction(),
+
+        // admin
+        createBanAction(),
+        createUnbanAction(),
+
+        // skills
+        createDisarmAction(),
+        createBackstabAction(),
+        createBashAction(),
+        createBerserkAction(),
+        createBiteAction(),
+        createTailAction(),
+        createTripAction(),
+        createHamstringAction(),
+
+        // spells
+        createCastAction(),
     )
 }

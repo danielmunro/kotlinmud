@@ -1,11 +1,9 @@
 package kotlinmud.mob.skill.impl
 
-import kotlinmud.action.helper.mustBeResting
 import kotlinmud.mob.skill.factory.normalForThief
 import kotlinmud.mob.skill.factory.normalForWarrior
 import kotlinmud.mob.skill.factory.thiefAt
 import kotlinmud.mob.skill.factory.warriorAt
-import kotlinmud.mob.skill.model.Cost
 import kotlinmud.mob.skill.type.CreationGroupType
 import kotlinmud.mob.skill.type.Customization
 import kotlinmud.mob.skill.type.Skill
@@ -26,8 +24,6 @@ class FastHealing : Skill, Customization {
         normalForThief(),
         normalForWarrior()
     )
-    override val dispositions = mustBeResting()
-    override val costs = listOf<Cost>()
     override val intent = Intent.NEUTRAL
     override val invokesOn = SkillInvokesOn.TICK
     override val helpText = "tbd"

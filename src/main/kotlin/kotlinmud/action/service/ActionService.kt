@@ -5,27 +5,21 @@ import kotlinmud.action.model.Action
 import kotlinmud.action.model.ActionContextList
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Command
-import kotlinmud.action.type.Invokable
 import kotlinmud.action.type.Status
 import kotlinmud.helper.logger
-import kotlinmud.helper.math.percentRoll
+import kotlinmud.helper.math.dice
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Response
 import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.io.service.RequestService
 import kotlinmud.io.type.IOStatus
 import kotlinmud.io.type.Syntax
-import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.PlayerMob
-import kotlinmud.mob.service.MobService
-import kotlinmud.mob.skill.helper.createSkillList
-import kotlinmud.mob.skill.type.SkillAction
 import kotlinmud.mob.type.Intent
 import kotlinmud.mob.type.RequiresDisposition
 import kotlinmud.mob.type.Role
 
 class ActionService(
-    private val mobService: MobService,
     private val contextBuilderService: ContextBuilderService,
     private val actionContextBuilder: (request: RequestService, actionContextList: ActionContextList) -> ActionContextService,
     private val actions: List<Action>
@@ -38,7 +32,8 @@ class ActionService(
         private fun argumentLengthMatches(syntax: List<Syntax>, arguments: List<String>): Boolean {
             return syntax.size == arguments.size ||
                 syntax.contains(Syntax.FREE_FORM) ||
-                syntax.contains(Syntax.SUBMITTABLE_QUEST)
+                syntax.contains(Syntax.SUBMITTABLE_QUEST) ||
+                syntax.contains(Syntax.OPTIONAL_TARGET)
         }
 
         private fun subCommandMatches(syntax: Syntax, subCommand: String, input: String): Boolean {
@@ -46,37 +41,17 @@ class ActionService(
         }
     }
 
-    private val skills = createSkillList()
     private val logger = logger(this)
 
     suspend fun run(request: RequestService): Response {
         if (request.input == "") {
             return createResponseWithEmptyActionContext(messageToActionCreator(""))
         }
-        return (if (request.input.length > 1) runSkill(request) else null)
-            ?: runAction(request)
+        return runAction(request)
             ?: createResponseWithEmptyActionContext(
                 messageToActionCreator("what was that?"),
                 IOStatus.ERROR
             )
-    }
-
-    private suspend fun runSkill(request: RequestService): Response? {
-        val skill = (
-            skills.find {
-                it is SkillAction && it.matchesRequest(request)
-            } ?: return null
-            ) as SkillAction
-
-        val response = executeSkill(request, skill)
-
-        if (skill.intent == Intent.OFFENSIVE) {
-            triggerFightForOffensiveSkills(
-                request.mob,
-                response.actionContextList.getResultBySyntax(Syntax.TARGET_MOB)
-            )
-        }
-        return response
     }
 
     private suspend fun runAction(request: RequestService): Response? {
@@ -93,27 +68,8 @@ class ActionService(
             ?: dispositionCheck(request, action)
             ?: checkForBadContext(contextList)
             ?: costApply(request.mob, action)
-            ?: callInvokable(request, action, contextList)
-    }
-
-    private suspend fun executeSkill(request: RequestService, skill: SkillAction): Response {
-        val context = buildActionContextList(request, skill)
-        return dispositionCheck(request, skill)
-            ?: costApply(request.mob, skill)
-            ?: skillRoll(request.mob.skills[skill.type] ?: error("no skill"), context)
-            ?: callInvokable(request, skill, context)
-    }
-
-    private fun triggerFightForOffensiveSkills(mob: Mob, target: Mob) {
-        mobService.getMobFight(mob) ?: mobService.addFight(mob, target)
-    }
-
-    private fun skillRoll(level: Int, context: ActionContextList): Response? {
-        return if (percentRoll() < level) null else Response(
-            IOStatus.FAILED,
-            context,
-            messageToActionCreator("You lost your concentration.")
-        )
+            ?: skillCheck(request, action)
+            ?: callAction(request, action, contextList)
     }
 
     private fun roleCheck(request: RequestService, action: Action): Response? {
@@ -138,10 +94,30 @@ class ActionService(
             null
     }
 
-    private suspend fun callInvokable(request: RequestService, invokable: Invokable, list: ActionContextList): Response {
-        return checkForBadContext(list) ?: with(invokable.invoke(actionContextBuilder(request, list))) {
-            if (invokable is Action && invokable.isChained())
-                run(createChainToRequest(request.mob, invokable))
+    private fun skillCheck(request: RequestService, action: Action): Response? {
+        action.skill?.let {
+            val roll = dice(3, Math.max(0, (request.mob.skills[it.type] ?: 0) / 3))
+            if (roll > 20) {
+                return null
+            }
+
+            return createResponseWithEmptyActionContext(
+                messageToActionCreator("You lost your concentration."),
+                IOStatus.FAILED,
+            )
+        }
+
+        return null
+    }
+
+    private suspend fun callAction(request: RequestService, action: Action, list: ActionContextList): Response {
+        val service = actionContextBuilder(request, list)
+        return checkForBadContext(list) ?: with(action.invoke(service)) {
+            if (action.intent == Intent.OFFENSIVE) {
+                service.createFight(list.getResultBySyntax(Syntax.OPTIONAL_TARGET))
+            }
+            if (action.isChained())
+                run(createChainToRequest(request.mob, action))
             else
                 this
         }
@@ -163,15 +139,16 @@ class ActionService(
         )
     }
 
-    private fun buildActionContextList(request: RequestService, invokable: Invokable): ActionContextList {
-        logger.debug("${request.mob} building action context :: {}, {}", invokable.command, invokable.syntax)
+    private fun buildActionContextList(request: RequestService, action: Action): ActionContextList {
+        logger.debug("${request.mob} building action context :: {}, {}", action.command, action.syntax)
         var successful = true
         val contexts = mutableListOf<Context<out Any>>()
-        invokable.argumentOrder.forEach {
+        action.argumentOrder.forEach {
             if (successful) {
                 val context = contextBuilderService.createContext(
-                    invokable.syntax[it],
+                    action.syntax[it],
                     request,
+                    action,
                     if (request.args.size > it) request.args[it] else ""
                 )
                 contexts.add(context)

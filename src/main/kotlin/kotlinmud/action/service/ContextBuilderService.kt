@@ -31,6 +31,7 @@ import kotlinmud.action.contextBuilder.SpellFromHealerContextBuilder
 import kotlinmud.action.contextBuilder.SubmittableQuestContextBuilder
 import kotlinmud.action.contextBuilder.TargetMobContextBuilder
 import kotlinmud.action.contextBuilder.TrainableContextBuilder
+import kotlinmud.action.model.Action
 import kotlinmud.action.model.Context
 import kotlinmud.action.type.Status
 import kotlinmud.io.service.RequestService
@@ -52,7 +53,7 @@ class ContextBuilderService(
 ) {
     private var previous: Context<out Any>? = null
 
-    fun createContext(syntax: Syntax, request: RequestService, word: String): Context<out Any> {
+    fun createContext(syntax: Syntax, request: RequestService, action: Action, word: String): Context<out Any> {
         val context = when (syntax) {
             Syntax.DIRECTION_TO_EXIT -> DirectionToExitContextBuilder(request.getRoom()).build(syntax, word)
             Syntax.DIRECTION_WITH_NO_EXIT -> DirectionWithNoExitContextBuilder(request.getRoom()).build(syntax, word)
@@ -65,7 +66,7 @@ class ContextBuilderService(
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.findMobsInRoom(request.getRoom())).build(syntax, word)
             Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, request.mob, request.getRoom()).build(syntax, word)
             Syntax.TARGET_MOB -> TargetMobContextBuilder(mobService, request.mob, request.getRoom()).build(syntax, word)
-            Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, mobService.findMobsInRoom(request.getRoom()) + request.mob.items).build(syntax, word)
+            Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, mobService.findMobsInRoom(request.getRoom()) + request.mob.items, action, mobService.getMobFight(request.mob)).build(syntax, word)
             Syntax.DOOR_IN_ROOM -> DoorInRoomContextBuilder(request.getRoom()).build(syntax, word)
             Syntax.FREE_FORM -> FreeFormContextBuilder(request.args).build(syntax, word)
             Syntax.ITEM_FROM_MERCHANT -> ItemFromMerchantContextBuilder(itemService, request.mob, mobService.findMobsInRoom(request.getRoom())).build(syntax, word)
