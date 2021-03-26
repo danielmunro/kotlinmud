@@ -8,6 +8,7 @@ import kotlinmud.action.contextBuilder.AvailableNounContextBuilder
 import kotlinmud.action.contextBuilder.AvailablePotionContextBuilder
 import kotlinmud.action.contextBuilder.AvailableQuestContextBuilder
 import kotlinmud.action.contextBuilder.CommandContextBuilder
+import kotlinmud.action.contextBuilder.ContextBuilder
 import kotlinmud.action.contextBuilder.DirectionToExitContextBuilder
 import kotlinmud.action.contextBuilder.DirectionWithNoExitContextBuilder
 import kotlinmud.action.contextBuilder.DoorInRoomContextBuilder
@@ -20,6 +21,7 @@ import kotlinmud.action.contextBuilder.ItemInInventoryContextBuilder
 import kotlinmud.action.contextBuilder.ItemInRoomContextBuilder
 import kotlinmud.action.contextBuilder.ItemToSellContextBuilder
 import kotlinmud.action.contextBuilder.MobInRoomContextBuilder
+import kotlinmud.action.contextBuilder.NoopContextBuilder
 import kotlinmud.action.contextBuilder.OptionalFurnitureContextBuilder
 import kotlinmud.action.contextBuilder.OptionalTargetContextBuilder
 import kotlinmud.action.contextBuilder.PlayerMobContextBuilder
@@ -54,42 +56,44 @@ class ContextBuilderService(
     private var previous: Context<out Any>? = null
 
     fun createContext(syntax: Syntax, request: RequestService, action: Action, word: String): Context<out Any> {
-        val context = when (syntax) {
-            Syntax.DIRECTION_TO_EXIT -> DirectionToExitContextBuilder(request.getRoom()).build(syntax, word)
-            Syntax.DIRECTION_WITH_NO_EXIT -> DirectionWithNoExitContextBuilder(request.getRoom()).build(syntax, word)
-            Syntax.COMMAND -> CommandContextBuilder().build(syntax, word)
-            Syntax.SUBCOMMAND -> CommandContextBuilder().build(syntax, word)
-            Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(request.mob).build(syntax, word)
-            Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.getRoom()).build(syntax, word)
-            Syntax.EQUIPMENT_IN_INVENTORY -> EquipmentInInventoryContextBuilder(request.mob).build(syntax, word)
-            Syntax.EQUIPPED_ITEM -> EquippedItemContextBuilder(request.mob).build(syntax, word)
-            Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.findMobsInRoom(request.getRoom())).build(syntax, word)
-            Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, request.mob, request.getRoom()).build(syntax, word)
-            Syntax.TARGET_MOB -> TargetMobContextBuilder(mobService, request.mob, request.getRoom()).build(syntax, word)
-            Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, mobService.findMobsInRoom(request.getRoom()) + request.mob.items, action, mobService.getMobFight(request.mob)).build(syntax, word)
-            Syntax.DOOR_IN_ROOM -> DoorInRoomContextBuilder(request.getRoom()).build(syntax, word)
-            Syntax.FREE_FORM -> FreeFormContextBuilder(request.args).build(syntax, word)
-            Syntax.ITEM_FROM_MERCHANT -> ItemFromMerchantContextBuilder(itemService, request.mob, mobService.findMobsInRoom(request.getRoom())).build(syntax, word)
-            Syntax.ITEM_TO_SELL -> ItemToSellContextBuilder(request.mob, mobService.findMobsInRoom(request.getRoom())).build(syntax, word)
-            Syntax.SPELL -> SpellContextBuilder(skills).build(syntax, word)
-            Syntax.SPELL_FROM_HEALER -> SpellFromHealerContextBuilder(mobService.findMobsInRoom(request.getRoom())).build(syntax, word)
-            Syntax.PLAYER_MOB -> PlayerMobContextBuilder(playerService).build(syntax, word)
-            Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(request.mob, request.getRoom()).build(syntax, word)
-            Syntax.AVAILABLE_FOOD -> AvailableFoodContextBuilder(request.mob).build(syntax, word)
-            Syntax.AVAILABLE_POTION -> AvailablePotionContextBuilder(request.mob).build(syntax, word)
-            Syntax.TRAINABLE -> TrainableContextBuilder(mobService, request.mob).build(syntax, word)
-            Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(request.mob).build(syntax, word)
-            Syntax.RECIPE -> RecipeContextBuilder(recipes).build(syntax, word)
-            Syntax.RESOURCE_IN_ROOM -> ResourceInRoomContextBuilder(request.getRoom()).build(syntax, word)
-            Syntax.AVAILABLE_ITEM_INVENTORY -> AvailableItemInventoryContextBuilder(request.mob, request.getRoom()).build(syntax, word)
-            Syntax.ITEM_IN_AVAILABLE_INVENTORY -> ItemInAvailableItemInventoryContextBuilder(previous?.result!!).build(syntax, word)
-            Syntax.OPTIONAL_FURNITURE -> OptionalFurnitureContextBuilder(request.getRoom().items).build(syntax, word)
-            Syntax.ACCEPTED_QUEST -> AcceptedQuestContextBuilder(questService, request.mob).build(syntax, word)
-            Syntax.AVAILABLE_QUEST -> AvailableQuestContextBuilder(questService, request.mob).build(syntax, word)
-            Syntax.SUBMITTABLE_QUEST -> SubmittableQuestContextBuilder(questService, request.mob).build(syntax, word)
-            Syntax.NOOP -> Context(syntax, Status.ERROR, "What was that?")
+        val contextBuilder = when (syntax) {
+            Syntax.DIRECTION_TO_EXIT -> DirectionToExitContextBuilder(request.getRoom())
+            Syntax.DIRECTION_WITH_NO_EXIT -> DirectionWithNoExitContextBuilder(request.getRoom())
+            Syntax.COMMAND -> CommandContextBuilder()
+            Syntax.SUBCOMMAND -> CommandContextBuilder()
+            Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(request.mob)
+            Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.getRoom())
+            Syntax.EQUIPMENT_IN_INVENTORY -> EquipmentInInventoryContextBuilder(request.mob)
+            Syntax.EQUIPPED_ITEM -> EquippedItemContextBuilder(request.mob)
+            Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.findMobsInRoom(request.getRoom()))
+            Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, request.mob, request.getRoom())
+            Syntax.TARGET_MOB -> TargetMobContextBuilder(mobService, request.mob, request.getRoom())
+            Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, mobService.findMobsInRoom(request.getRoom()) + request.mob.items, action, mobService.getMobFight(request.mob))
+            Syntax.DOOR_IN_ROOM -> DoorInRoomContextBuilder(request.getRoom())
+            Syntax.FREE_FORM -> FreeFormContextBuilder(request.args)
+            Syntax.ITEM_FROM_MERCHANT -> ItemFromMerchantContextBuilder(itemService, request.mob, mobService.findMobsInRoom(request.getRoom()))
+            Syntax.ITEM_TO_SELL -> ItemToSellContextBuilder(request.mob, mobService.findMobsInRoom(request.getRoom()))
+            Syntax.SPELL -> SpellContextBuilder(skills)
+            Syntax.SPELL_FROM_HEALER -> SpellFromHealerContextBuilder(mobService.findMobsInRoom(request.getRoom()))
+            Syntax.PLAYER_MOB -> PlayerMobContextBuilder(playerService)
+            Syntax.AVAILABLE_DRINK -> AvailableDrinkContextBuilder(request.mob, request.getRoom())
+            Syntax.AVAILABLE_FOOD -> AvailableFoodContextBuilder(request.mob)
+            Syntax.AVAILABLE_POTION -> AvailablePotionContextBuilder(request.mob)
+            Syntax.TRAINABLE -> TrainableContextBuilder(mobService, request.mob)
+            Syntax.SKILL_TO_PRACTICE -> SkillToPracticeContextBuilder(request.mob)
+            Syntax.RECIPE -> RecipeContextBuilder(recipes)
+            Syntax.RESOURCE_IN_ROOM -> ResourceInRoomContextBuilder(request.getRoom())
+            Syntax.AVAILABLE_ITEM_INVENTORY -> AvailableItemInventoryContextBuilder(request.mob, request.getRoom())
+            Syntax.ITEM_IN_AVAILABLE_INVENTORY -> ItemInAvailableItemInventoryContextBuilder(previous?.result!!)
+            Syntax.OPTIONAL_FURNITURE -> OptionalFurnitureContextBuilder(request.getRoom().items)
+            Syntax.ACCEPTED_QUEST -> AcceptedQuestContextBuilder(questService, request.mob)
+            Syntax.AVAILABLE_QUEST -> AvailableQuestContextBuilder(questService, request.mob)
+            Syntax.SUBMITTABLE_QUEST -> SubmittableQuestContextBuilder(questService, request.mob)
+            Syntax.NOOP -> NoopContextBuilder()
         }
-        previous = context
-        return context
+
+        return contextBuilder.build(syntax, word).also {
+            previous = it
+        }
     }
 }
