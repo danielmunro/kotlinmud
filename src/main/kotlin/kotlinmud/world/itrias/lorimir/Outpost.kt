@@ -1,7 +1,10 @@
 package kotlinmud.world.itrias.lorimir
 
 import kotlinmud.item.builder.ItemBuilder
+import kotlinmud.item.model.ItemMobRespawn
 import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.Food
+import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.builder.MobBuilder
@@ -11,6 +14,7 @@ import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.respawn.helper.respawn
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
@@ -118,6 +122,23 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         it.race = Dwarf()
         it.canonicalId = MobCanonicalId.Barbosa
     }.build()
+
+    respawn(
+        ItemMobRespawn(
+            ItemCanonicalId.Bread,
+            ItemBuilder(itemService).also {
+                it.type = ItemType.FOOD
+                it.worth = 10
+                it.name = "a small hard loaf of bread"
+                it.description = "foo"
+                it.material = Material.ORGANIC
+                it.food = Food.BREAD
+                it.canonicalId = ItemCanonicalId.Bread
+            },
+            MobCanonicalId.Barbosa,
+            100,
+        )
+    )
 
     MobBuilder(mobService).also {
         it.name = "Recruiter Esmer"

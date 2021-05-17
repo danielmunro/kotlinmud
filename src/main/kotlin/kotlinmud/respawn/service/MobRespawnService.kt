@@ -34,6 +34,8 @@ class MobRespawnService(
         // ensure the item inherits its own canonical ID
         mobBuilder.also { it.canonicalId = canonicalId }
 
+        println("respawn ${mobBuilder.name} to $area (x$amountToRespawn)")
+
         while (amountToRespawn > 0 && i < randomSubset.size) {
             mobBuilder.also { it.room = randomSubset[i] }.build()
             amountToRespawn -= 1

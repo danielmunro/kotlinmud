@@ -5,7 +5,6 @@ import kotlinmud.event.observer.type.Observer
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.room.service.RoomService
-import kotlinx.coroutines.runBlocking
 
 class DecrementItemDecayTimerObserver(
     private val mobService: MobService,

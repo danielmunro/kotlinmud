@@ -33,7 +33,7 @@ class ItemAreaRespawnService(
 
         // ensure the item inherits its own canonical ID
         itemBuilder.canonicalId(canonicalId)
-
+        println("respawn ${itemBuilder.name} to $area (x$amountToRespawn)")
         while (amountToRespawn > 0 && i < randomSubset.size) {
             itemBuilder.room(randomSubset[i]).build()
             amountToRespawn -= 1

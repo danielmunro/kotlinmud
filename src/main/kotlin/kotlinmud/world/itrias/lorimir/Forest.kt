@@ -1,12 +1,21 @@
 package kotlinmud.world.itrias.lorimir
 
 import kotlinmud.generator.service.SimpleMatrixService
+import kotlinmud.item.builder.ItemBuilder
+import kotlinmud.item.model.ItemAreaRespawn
+import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.Food
+import kotlinmud.item.type.ItemCanonicalId
+import kotlinmud.item.type.Material
 import kotlinmud.mob.builder.MobBuilder
+import kotlinmud.mob.model.MobRespawn
+import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.respawn.helper.respawn
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
@@ -16,7 +25,12 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
 
-fun createLorimirForest(mobService: MobService, roomService: RoomService, connection: Room): Room {
+fun createLorimirForest(
+    mobService: MobService,
+    roomService: RoomService,
+    itemService: ItemService,
+    connection: Room
+): Room {
     val builder = RoomBuilder(roomService).also {
         it.area = Area.LorimirForest
         it.name = "Deep in the heart of Lorimir Forest."
@@ -63,6 +77,20 @@ fun createLorimirForest(mobService: MobService, roomService: RoomService, connec
         .to(room9, Direction.NORTH)
         .to(matrix[0][0], Direction.DOWN)
 
+    respawn(
+        ItemAreaRespawn(
+            ItemCanonicalId.Mushroom,
+            ItemBuilder(itemService)
+                .name("a small brown mushroom")
+                .description("foo")
+                .material(Material.ORGANIC)
+                .food(Food.MUSHROOM)
+                .canonicalId(ItemCanonicalId.Mushroom),
+            Area.LorimirForest,
+            10,
+        ),
+    )
+
     MobBuilder(mobService).also {
         it.name = "Captain Bartok"
         it.brief = "an imposing figure stands here. Her armor bears the emblem of the Praetorian Guard"
@@ -75,7 +103,23 @@ fun createLorimirForest(mobService: MobService, roomService: RoomService, connec
         it.race = Human()
     }.build()
 
-    createGrongokHideout(roomService, matrix[0][4])
+    respawn(
+        MobRespawn(
+            MobCanonicalId.SmallFox,
+            MobBuilder(mobService).also {
+                it.name = "a small fox"
+                it.brief = "a small fox darts through the underbrush"
+                it.description = "a small fox is here."
+                it.level = 3
+                it.race = Canid()
+                it.canonicalId = MobCanonicalId.SmallFox
+            },
+            Area.LorimirForest,
+            10
+        )
+    )
+
+    createGrongokHideout(mobService, roomService, matrix[0][4])
 
     return matrix[2][4]
 }

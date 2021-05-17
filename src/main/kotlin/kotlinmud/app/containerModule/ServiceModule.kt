@@ -21,6 +21,9 @@ import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.helper.createQuestList
 import kotlinmud.quest.service.QuestService
 import kotlinmud.resource.service.ResourceService
+import kotlinmud.respawn.helper.itemAreaRespawns
+import kotlinmud.respawn.helper.itemMobRespawns
+import kotlinmud.respawn.helper.mobRespawns
 import kotlinmud.respawn.service.ItemAreaRespawnService
 import kotlinmud.respawn.service.ItemMobRespawnService
 import kotlinmud.respawn.service.MobRespawnService
@@ -29,9 +32,6 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.time.repository.findTime
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
-import kotlinmud.world.itrias.lorimir.getLorimirItemAreaRespawns
-import kotlinmud.world.itrias.lorimir.getLorimirItemMobRespawns
-import kotlinmud.world.itrias.lorimir.getLorimirMobRespawns
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
@@ -110,13 +110,13 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
             ResourceService(instance(), instance())
         }
         bind<ItemAreaRespawnService>() with singleton {
-            ItemAreaRespawnService(instance(), instance(), getLorimirItemAreaRespawns(instance()))
+            ItemAreaRespawnService(instance(), instance(), itemAreaRespawns)
         }
         bind<MobRespawnService>() with singleton {
-            MobRespawnService(instance(), instance(), getLorimirMobRespawns(instance()))
+            MobRespawnService(instance(), instance(), mobRespawns)
         }
         bind<ItemMobRespawnService>() with singleton {
-            ItemMobRespawnService(instance(), getLorimirItemMobRespawns(instance()))
+            ItemMobRespawnService(instance(), itemMobRespawns)
         }
         bind<RespawnService>() with singleton {
             RespawnService(

@@ -14,16 +14,20 @@ fun createTroyTownCenter(roomService: RoomService, connection: Room): Room {
         it.name = "The City of Troy"
     }
 
-    val room1 = build(roomBuilder.also {
-        it.name = "Main Street"
-        it.description = "A well-worn cobblestone path connects the town center with the promenade. Shops line the bustling road."
-    })
+    val room1 = build(
+        roomBuilder.also {
+            it.name = "Main Street"
+            it.description = "A well-worn cobblestone path connects the town center with the promenade. Shops line the bustling road."
+        }
+    )
     val room2 = build(roomBuilder)
     val room3 = build(roomBuilder)
-    val room4 = build(roomBuilder.also {
-        it.name = "A Large Fountain"
-        it.description = "The center of Troy is home to a large and ornate fountain. Pristine marble wraps around the fountain, leaving a dramatic glow in the sunlight."
-    })
+    val room4 = build(
+        roomBuilder.also {
+            it.name = "A Large Fountain"
+            it.description = "The center of Troy is home to a large and ornate fountain. Pristine marble wraps around the fountain, leaving a dramatic glow in the sunlight."
+        }
+    )
 
     connect(connection).to(room1)
         .to(room2, Direction.NORTH)
