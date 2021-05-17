@@ -12,6 +12,6 @@ class Rabbit : Race() {
     override val unarmedDamageType = DamageType.SLASH
     override val form = Form.MAMMAL
     override val size = Size.TINY
-    override val maxAppetite = 2
-    override val maxThirst = 2
+    override val maxAppetite = 40
+    override val maxThirst = 40
 }

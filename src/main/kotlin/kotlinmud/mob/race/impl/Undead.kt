@@ -26,6 +26,6 @@ class Undead : Race() {
     override val form = Form.UNDEAD
     override val attributes = createStats(2, -1, 0, -3, 4, 0, 1)
     override val size = Size.MEDIUM
-    override val maxAppetite = 5
-    override val maxThirst = 4
+    override val maxAppetite = 80
+    override val maxThirst = 80
 }

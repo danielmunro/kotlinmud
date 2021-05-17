@@ -12,6 +12,6 @@ class Sheep : Race() {
     override val unarmedDamageType = DamageType.SLASH
     override val form = Form.MAMMAL
     override val size = Size.SMALL
-    override val maxAppetite = 3
-    override val maxThirst = 3
+    override val maxAppetite = 40
+    override val maxThirst = 40
 }

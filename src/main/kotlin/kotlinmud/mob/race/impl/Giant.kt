@@ -16,6 +16,6 @@ class Giant : Race() {
     override val form = Form.MAMMAL
     override val attributes = createStats(3, -2, -2, -2, 3, 0, 1)
     override val size = Size.HUGE
-    override val maxAppetite = 5
-    override val maxThirst = 4
+    override val maxAppetite = 240
+    override val maxThirst = 240
 }

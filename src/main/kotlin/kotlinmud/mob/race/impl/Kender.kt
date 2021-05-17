@@ -15,6 +15,6 @@ class Kender : Race() {
     override val form = Form.MAMMAL
     override val attributes = createStats(-1, 0, 1, 2, 1, 1, 0)
     override val size = Size.MEDIUM
-    override val maxAppetite = 2
-    override val maxThirst = 3
+    override val maxAppetite = 60
+    override val maxThirst = 60
 }

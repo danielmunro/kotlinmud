@@ -16,6 +16,6 @@ class Faerie : Race() {
     override val form = Form.MAMMAL
     override val attributes = createStats(-3, 2, 2, 2, -3, 1, -1)
     override val size = Size.TINY
-    override val maxAppetite = 2
-    override val maxThirst = 2
+    override val maxAppetite = 60
+    override val maxThirst = 60
 }

@@ -19,6 +19,6 @@ class Bear : Race() {
     override val form = Form.MAMMAL
     override val attributes = createStats(2, -2, -2, 0, 2)
     override val size = Size.LARGE
-    override val maxAppetite = 3
-    override val maxThirst = 3
+    override val maxAppetite = 300
+    override val maxThirst = 300
 }

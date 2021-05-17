@@ -16,6 +16,6 @@ class Ogre : Race() {
     override val form = Form.MAMMAL
     override val attributes = createStats(2, -2, -2, 0, 2, 0, 1)
     override val size = Size.LARGE
-    override val maxAppetite = 4
-    override val maxThirst = 4
+    override val maxAppetite = 150
+    override val maxThirst = 150
 }

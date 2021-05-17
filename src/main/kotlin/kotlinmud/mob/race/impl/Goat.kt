@@ -12,6 +12,6 @@ class Goat : Race() {
     override val unarmedDamageType = DamageType.POUND
     override val form = Form.MAMMAL
     override val size = Size.SMALL
-    override val maxAppetite = 3
-    override val maxThirst = 3
+    override val maxAppetite = 200
+    override val maxThirst = 200
 }

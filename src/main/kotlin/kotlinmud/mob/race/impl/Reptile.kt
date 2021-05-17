@@ -16,6 +16,6 @@ class Reptile : Race() {
     override val form = Form.REPTILE
     override val attributes = createStats(0, 0, 0, 0, 0, 0, 1)
     override val size = Size.SMALL
-    override val maxAppetite = 4
-    override val maxThirst = 4
+    override val maxAppetite = 40
+    override val maxThirst = 40
 }

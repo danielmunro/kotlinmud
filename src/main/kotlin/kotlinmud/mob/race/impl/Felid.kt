@@ -13,6 +13,6 @@ class Felid : Race() {
     override val unarmedDamageType = DamageType.PIERCE
     override val form = Form.MAMMAL
     override val size = Size.TINY
-    override val maxAppetite = 2
-    override val maxThirst = 1
+    override val maxAppetite = 60
+    override val maxThirst = 40
 }

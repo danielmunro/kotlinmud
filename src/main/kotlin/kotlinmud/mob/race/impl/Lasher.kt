@@ -16,6 +16,6 @@ class Lasher : Race() {
     override val form = Form.MAMMAL
     override val attributes = createStats(1, -1, -2, 1, 1, 1, 0)
     override val size = Size.LARGE
-    override val maxAppetite = 4
-    override val maxThirst = 3
+    override val maxAppetite = 100
+    override val maxThirst = 100
 }

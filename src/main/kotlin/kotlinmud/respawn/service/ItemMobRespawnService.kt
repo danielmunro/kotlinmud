@@ -23,8 +23,8 @@ class ItemMobRespawnService(
         println("found ${mobs.size} mobs")
         mobs.forEach { mob ->
             println("found $mob for item $itemCanonicalId respawn")
-            val count = mob.items.filter { it.canonicalId == itemCanonicalId }.size
-            val difference = maxAmount - count
+            val count = mob.items.stream().filter { it.canonicalId == itemCanonicalId }.count()
+            val difference = (maxAmount - count).toInt()
             if (difference > 0) {
                 val toAdd = List(difference) { itemBuilder.build() }
                 mob.items.addAll(toAdd)

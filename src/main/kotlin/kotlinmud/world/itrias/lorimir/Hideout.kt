@@ -1,6 +1,7 @@
 package kotlinmud.world.itrias.lorimir
 
 import kotlinmud.room.builder.RoomBuilder
+import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
@@ -14,14 +15,16 @@ fun createGrongokHideout(roomService: RoomService, connector: Room) {
         it.area = Area.GrongokHideout
     }
 
-    val room1 = builder.also { it.id = 200 }.build()
-    val room2 = builder.also {
-        it.id = 201
-        it.name = "deep in a cave"
-    }.build()
-    val room3 = builder.also { it.id = 202 }.build()
-    val room4 = builder.also { it.id = 203 }.build()
-    val room5 = builder.also { it.id = 204 }.build()
+    val room1 = build(builder)
+    val room2 = build(
+        builder.also {
+            it.name = "deep in a cave"
+        }
+    )
+
+    val room3 = build(builder)
+    val room4 = build(builder)
+    val room5 = build(builder)
 
     connect(connector).to(room1).to(room2) to mapOf(
         Pair(room3, Direction.SOUTH),

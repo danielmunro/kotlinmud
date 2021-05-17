@@ -12,6 +12,7 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.room.builder.RoomBuilder
+import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
@@ -22,14 +23,15 @@ import kotlinmud.type.RoomCanonicalId
 fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService, roomService: RoomService): Room {
     val builder = RoomBuilder(roomService).also { it.area = Area.LorimirForestOutpost }
 
-    val room1 = builder.also {
-        it.id = 1
-        it.name = "Around a fire pit"
-        it.description = """A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
-
-A sign flickers against the light of the fire.""".trimMargin()
-        it.canonicalId = RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
-    }.build()
+    val room1 = build(
+        builder.also {
+            it.name = "Around a fire pit"
+            it.description = """A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
+    
+    A sign flickers against the light of the fire.""".trimMargin()
+            it.canonicalId = RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
+        }
+    )
 
     ItemBuilder(itemService)
         .name("a cobblestone fire-pit")
@@ -58,29 +60,34 @@ A sign flickers against the light of the fire.""".trimMargin()
         .room(room1)
         .build()
 
-    val room2 = builder.also {
-        it.id = 2
-        it.name = "Inside a lean-to shelter"
-        it.description = "bar"
-        it.canonicalId = RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
-    }.build()
+    val room2 = build(
+        builder.also {
+            it.name = "Inside a lean-to shelter"
+            it.description = "bar"
+            it.canonicalId = RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
+        }
+    )
 
-    val room3 = builder.also {
-        it.id = 3
-        it.name = "A blacksmith shack"
-    }.build()
-    val room4 = builder.also {
-        it.id = 4
-        it.name = "A trail near the camp"
-    }.build()
-    val room6 = builder.also {
-        it.id = 6
-        it.name = "A makeshift mess hall"
-    }.build()
-    val room5 = builder.also {
-        it.id = 5
-        it.name = "Outside the camp"
-    }.build()
+    val room3 = build(
+        builder.also {
+            it.name = "A blacksmith shack"
+        }
+    )
+    val room4 = build(
+        builder.also {
+            it.name = "A trail near the camp"
+        }
+    )
+    val room6 = build(
+        builder.also {
+            it.name = "A makeshift mess hall"
+        }
+    )
+    val room5 = build(
+        builder.also {
+            it.name = "Outside the camp"
+        }
+    )
 
     connect(room1)
         .to(

@@ -16,6 +16,6 @@ class Dwarf : Race() {
     override val form = Form.MAMMAL
     override val attributes = createStats(2, -2, 0, -1, 1, 0, 1)
     override val size = Size.SMALL
-    override val maxAppetite = 3
-    override val maxThirst = 3
+    override val maxAppetite = 80
+    override val maxThirst = 80
 }

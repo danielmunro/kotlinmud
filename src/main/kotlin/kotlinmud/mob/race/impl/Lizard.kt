@@ -14,6 +14,6 @@ class Lizard : Race() {
     override val unarmedDamageType = DamageType.SLASH
     override val form = Form.REPTILE
     override val size = Size.TINY
-    override val maxAppetite = 3
-    override val maxThirst = 3
+    override val maxAppetite = 20
+    override val maxThirst = 20
 }

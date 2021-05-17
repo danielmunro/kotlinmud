@@ -12,6 +12,6 @@ class Avian : Race() {
     override val unarmedDamageType = DamageType.PIERCE
     override val form = Form.BIRD
     override val size = Size.TINY
-    override val maxAppetite = 3
-    override val maxThirst = 3
+    override val maxAppetite = 30
+    override val maxThirst = 30
 }

@@ -12,6 +12,6 @@ class Horse : Race() {
     override val unarmedDamageType = DamageType.POUND
     override val form = Form.MAMMAL
     override val size = Size.LARGE
-    override val maxAppetite = 3
-    override val maxThirst = 3
+    override val maxAppetite = 160
+    override val maxThirst = 160
 }

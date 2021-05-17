@@ -17,6 +17,6 @@ class Goblin : Race() {
     override val form = Form.MAMMAL
     override val attributes = createStats(0, -1, -1, 1, 2, 0, 1)
     override val size = Size.LARGE
-    override val maxAppetite = 3
-    override val maxThirst = 2
+    override val maxAppetite = 120
+    override val maxThirst = 120
 }
