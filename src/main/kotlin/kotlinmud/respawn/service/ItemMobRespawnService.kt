@@ -1,10 +1,10 @@
 package kotlinmud.respawn.service
 
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.model.ItemMobRespawn
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.respawn.model.ItemMobRespawn
 import kotlinmud.respawn.type.RespawnSomethingService
 
 class ItemMobRespawnService(

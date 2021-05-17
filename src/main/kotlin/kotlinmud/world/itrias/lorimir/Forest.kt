@@ -2,13 +2,11 @@ package kotlinmud.world.itrias.lorimir
 
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.model.ItemAreaRespawn
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.Material
 import kotlinmud.mob.builder.MobBuilder
-import kotlinmud.mob.model.MobRespawn
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
@@ -16,6 +14,8 @@ import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.respawn
+import kotlinmud.respawn.model.ItemAreaRespawn
+import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect

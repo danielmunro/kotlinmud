@@ -1,11 +1,11 @@
 package kotlinmud.world.itrias.lorimir
 
 import kotlinmud.mob.builder.MobBuilder
-import kotlinmud.mob.model.MobRespawn
 import kotlinmud.mob.race.impl.Ogre
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.respawn
+import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect

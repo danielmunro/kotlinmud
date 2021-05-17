@@ -1,9 +1,9 @@
 package kotlinmud.respawn.service
 
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.model.ItemAreaRespawn
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemCanonicalId
+import kotlinmud.respawn.model.ItemAreaRespawn
 import kotlinmud.respawn.type.RespawnSomethingService
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area

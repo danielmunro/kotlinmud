@@ -1,7 +1,6 @@
 package kotlinmud.world.itrias.lorimir
 
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.model.ItemMobRespawn
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemCanonicalId
@@ -15,6 +14,7 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.respawn
+import kotlinmud.respawn.model.ItemMobRespawn
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect

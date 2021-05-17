@@ -1,12 +1,13 @@
-package kotlinmud.item.model
+package kotlinmud.respawn.model
 
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.type.ItemCanonicalId
-import kotlinmud.room.type.Area
+import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.respawn.type.Respawn
 
-class ItemAreaRespawn(
+class ItemMobRespawn(
     val canonicalId: ItemCanonicalId,
     val itemBuilder: ItemBuilder,
-    val area: Area,
+    val mobCanonicalId: MobCanonicalId,
     val maxAmount: Int = 1,
-)
+) : Respawn
