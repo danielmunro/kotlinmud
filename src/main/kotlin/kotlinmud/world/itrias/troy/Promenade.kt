@@ -13,9 +13,9 @@ fun createTroyPromenade(roomService: RoomService, connector: Room): Room {
         it.name = "On The Promenade"
         it.description = "foo"
     }
-    val matrix = SimpleMatrixService(builder, 200).build(5, 5)
+    val matrix = SimpleMatrixService(builder).build(5, 5)
 
-    connect(connector).to(matrix[2][4])
+    connect(connector).toRoom(matrix[2][4])
 
     return matrix[2][0]
 }

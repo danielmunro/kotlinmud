@@ -35,9 +35,10 @@ fun createLorimirForestLake(roomService: RoomService, connection: Room) {
         }
     )
 
-    connect(connection).to(room1, Direction.DOWN)
-        .to(room2, Direction.EAST)
-        .to(room3, Direction.EAST)
-        .to(room4, Direction.SOUTH)
-        .to(room5, Direction.SOUTH)
+    connect(connection)
+        .toRoom(room1, Direction.DOWN)
+        .toRoom(room2, Direction.EAST)
+        .toRoom(room3, Direction.EAST)
+        .toRoom(room4, Direction.SOUTH)
+        .toRoom(room5, Direction.SOUTH)
 }

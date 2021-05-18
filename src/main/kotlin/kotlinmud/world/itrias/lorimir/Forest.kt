@@ -60,22 +60,22 @@ fun createLorimirForest(
             it.canonicalId = RoomCanonicalId.PRAETORIAN_CAPTAIN_FOUND
         }
     )
-    val matrix = SimpleMatrixService(builder, 100).build(5, 5)
+    val matrix = SimpleMatrixService(builder).build(5, 5)
 
-    connect(connection).to(room1, Direction.SOUTH)
-        .to(room2, Direction.SOUTH)
-        .to(
+    connect(connection).toRoom(room1, Direction.SOUTH)
+        .toRoom(room2, Direction.SOUTH)
+        .toRoom(
             listOf(
                 Pair(room3, Direction.WEST),
                 Pair(room4, Direction.EAST)
             )
         )
-    connect(room3).to(room5, Direction.WEST)
-        .to(room6, Direction.WEST)
-        .to(room7, Direction.SOUTH)
-        .to(room8, Direction.WEST)
-        .to(room9, Direction.NORTH)
-        .to(matrix[0][0], Direction.DOWN)
+    connect(room3).toRoom(room5, Direction.WEST)
+        .toRoom(room6, Direction.WEST)
+        .toRoom(room7, Direction.SOUTH)
+        .toRoom(room8, Direction.WEST)
+        .toRoom(room9, Direction.NORTH)
+        .toRoom(matrix[0][0], Direction.DOWN)
 
     respawn(
         ItemAreaRespawn(

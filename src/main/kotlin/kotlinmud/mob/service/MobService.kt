@@ -18,6 +18,7 @@ import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Message
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
+import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.fight.Attack
@@ -44,6 +45,10 @@ class MobService(
     private val logger = logger(this)
     private val fights = mutableListOf<Fight>()
     private val mobs = mutableListOf<Mob>()
+
+    fun builder(): MobBuilder {
+        return MobBuilder(this)
+    }
 
     suspend fun regenMobs() {
         findPlayerMobs().forEach {

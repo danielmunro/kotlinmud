@@ -17,11 +17,12 @@ fun createTroyOutskirts(roomService: RoomService, connector: Room): Room {
 
     val endRoom = build(roomBuilder)
 
-    connect(connector).to(build(roomBuilder), Direction.NORTH)
-        .to(build(roomBuilder), Direction.WEST)
-        .to(build(roomBuilder), Direction.UP)
-        .to(build(roomBuilder), Direction.NORTH)
-        .to(endRoom, Direction.WEST)
+    connect(connector)
+        .toRoom(build(roomBuilder), Direction.NORTH)
+        .toRoom(build(roomBuilder), Direction.WEST)
+        .toRoom(build(roomBuilder), Direction.UP)
+        .toRoom(build(roomBuilder), Direction.NORTH)
+        .toRoom(endRoom, Direction.WEST)
 
     return endRoom
 }

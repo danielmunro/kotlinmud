@@ -34,6 +34,22 @@ class RoomBuilder(private val roomService: RoomService) {
     var up: Room? = null
     var down: Room? = null
 
+    fun copy(): RoomBuilder {
+        return RoomBuilder(roomService).also {
+            it.name = name
+            it.description = description
+            it.area = area
+            it.isIndoors = isIndoors
+            it.regenLevel = regenLevel
+            it.biome = biome
+            it.substrate = substrate
+            it.elevation = elevation
+            it.maxWeight = maxWeight
+            it.maxItems = maxItems
+            it.owner = owner
+        }
+    }
+
     fun build(): Room {
         val room = Room(
             id,

@@ -20,7 +20,7 @@ class ExitsTest {
         val room3 = test.createRoom()
         val room4 = test.createRoom()
 
-        connect(room1).to(
+        connect(room1).toRoom(
             listOf(
                 Pair(room2, Direction.NORTH),
                 Pair(room3, Direction.DOWN),

@@ -4,13 +4,15 @@ import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 
 class RoomConnector(private val room: Room) {
-    fun to(connections: List<Pair<Room, Direction>>) {
+    fun toRoom(connections: List<Pair<Room, Direction>>): RoomConnector {
+        lateinit var last: RoomConnector
         connections.forEach {
-            to(it.first, it.second)
+            last = toRoom(it.first, it.second)
         }
+        return last
     }
 
-    fun to(connection: Room): RoomConnector {
+    fun toRoom(connection: Room): RoomConnector {
         val directions = listOf(
             Direction.NORTH,
             Direction.SOUTH,
@@ -26,14 +28,14 @@ class RoomConnector(private val room: Room) {
         while (index < directions.size) {
             val direction = directions[index]
             if (!exits.containsKey(direction)) {
-                return to(connection, direction)
+                return toRoom(connection, direction)
             }
             index++
         }
         throw Exception("no connecting room")
     }
 
-    fun to(connection: Room, direction: Direction): RoomConnector {
+    fun toRoom(connection: Room, direction: Direction): RoomConnector {
         when (direction) {
             Direction.DOWN -> {
                 room.down = connection

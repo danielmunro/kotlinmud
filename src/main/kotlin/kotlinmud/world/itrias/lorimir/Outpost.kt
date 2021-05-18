@@ -94,7 +94,7 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
     )
 
     connect(room1)
-        .to(
+        .toRoom(
             listOf(
                 Pair(room2, Direction.NORTH),
                 Pair(room3, Direction.WEST),
@@ -102,7 +102,7 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
                 Pair(room5, Direction.SOUTH),
             )
         )
-    connect(room5).to(room6, Direction.EAST)
+    connect(room5).toRoom(room6, Direction.EAST)
 
     MobBuilder(mobService).also {
         it.name = "Blacksmith Felig"

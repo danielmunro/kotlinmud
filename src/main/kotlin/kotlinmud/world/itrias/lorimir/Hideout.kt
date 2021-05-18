@@ -1,6 +1,7 @@
 package kotlinmud.world.itrias.lorimir
 
-import kotlinmud.mob.builder.MobBuilder
+import kotlinmud.generator.service.SimpleMatrixService
+import kotlinmud.mob.race.impl.Amphibian
 import kotlinmud.mob.race.impl.Ogre
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.MobCanonicalId
@@ -30,16 +31,17 @@ fun createGrongokHideout(mobService: MobService, roomService: RoomService, conne
 
     val room3 = build(builder)
     val room4 = build(builder)
+    val matrix = SimpleMatrixService(builder).build(2, 2)
     val room5 = build(builder)
 
     respawn(
         MobRespawn(
             MobCanonicalId.Grongok,
-            MobBuilder(mobService).also {
+            mobService.builder().also {
                 it.name = "Grongok"
                 it.brief = "a wild looking ogre is here"
                 it.description = "Grongok the wild ogre is here."
-                it.level = 3
+                it.level = 8
                 it.race = Ogre()
                 it.canonicalId = MobCanonicalId.Grongok
             },
@@ -48,9 +50,32 @@ fun createGrongokHideout(mobService: MobService, roomService: RoomService, conne
         )
     )
 
-    connect(connector).to(room1).to(room2) to mapOf(
-        Pair(room3, Direction.SOUTH),
-        Pair(room4, Direction.EAST),
-        Pair(room5, Direction.WEST),
+    respawn(
+        MobRespawn(
+            MobCanonicalId.CaveToad,
+            mobService.builder().also {
+                it.name = "a warty toad"
+                it.brief = "a warty toad is here, looking for water"
+                it.description = "tbd"
+                it.level = 3
+                it.race = Amphibian()
+                it.canonicalId = MobCanonicalId.CaveToad
+            },
+            Area.GrongokHideout,
+            3
+        )
     )
+
+    connect(connector)
+        .toRoom(room1)
+        .toRoom(room2)
+        .toRoom(
+            listOf(
+                Pair(room3, Direction.SOUTH),
+                Pair(room4, Direction.EAST),
+            )
+        )
+        .toRoom(matrix[0][0])
+
+    connect(matrix[1][1]).toRoom(room5)
 }
