@@ -105,7 +105,6 @@ fun createLorimirForest(
 
     respawn(
         MobRespawn(
-            MobCanonicalId.SmallFox,
             MobBuilder(mobService).also {
                 it.name = "a small fox"
                 it.brief = "a small fox darts through the underbrush"

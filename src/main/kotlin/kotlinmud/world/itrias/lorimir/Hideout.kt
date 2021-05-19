@@ -36,7 +36,6 @@ fun createGrongokHideout(mobService: MobService, roomService: RoomService, conne
 
     respawn(
         MobRespawn(
-            MobCanonicalId.Grongok,
             mobService.builder().also {
                 it.name = "Grongok"
                 it.brief = "a wild looking ogre is here"
@@ -52,7 +51,6 @@ fun createGrongokHideout(mobService: MobService, roomService: RoomService, conne
 
     respawn(
         MobRespawn(
-            MobCanonicalId.CaveToad,
             mobService.builder().also {
                 it.name = "a warty toad"
                 it.brief = "a warty toad is here, looking for water"

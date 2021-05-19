@@ -18,7 +18,7 @@ class MobRespawnService(
             doRespawn(
                 it.area,
                 it.maxAmount,
-                it.canonicalId,
+                it.mobBuilder.canonicalId!!,
                 it.mobBuilder,
             )
         }
