@@ -1,6 +1,10 @@
 package kotlinmud.world.itrias.troy
 
+import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
+import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
@@ -14,7 +18,7 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
-fun createTroyTownCenter(mobService: MobService, roomService: RoomService, connection: Room) {
+fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemService: ItemService, connection: Room) {
     val roomBuilder = RoomBuilder(roomService).also {
         it.area = Area.Troy
         it.name = "The City of Troy"
@@ -36,6 +40,16 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, conne
             it.description = "The center of Troy is home to a large and ornate fountain. Pristine marble wraps around the fountain, leaving a dramatic glow in the sunlight."
         }
     )
+
+    val fountain = itemService.builder().also {
+        it.name = "an ornate marble fountain"
+        it.description = "tbd"
+        it.canOwn = false
+        it.type = ItemType.FURNITURE
+        it.material = Material.MINERAL
+    }.build()
+
+    fountainRoom.items.add(fountain)
 
     val northGate = build(
         roomBuilder.copy().also {
@@ -70,6 +84,7 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, conne
                 it.name = "a vagabond is wandering around"
                 it.brief = "a wandering vagabond"
                 it.description = "tbd"
+                it.race = Human()
             },
             Area.Troy,
             10
@@ -98,6 +113,7 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, conne
                 it.brief = "a janitor"
                 it.description = "tbd"
                 it.job = JobType.SCAVENGER
+                it.race = Human()
             },
             Area.Troy,
             2
@@ -111,6 +127,7 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, conne
                 it.name = "the mayor of Troy is here, garnering support for his next campaign"
                 it.brief = "the mayor of Troy"
                 it.description = "tbd"
+                it.race = Human()
             },
             Area.Troy,
             1

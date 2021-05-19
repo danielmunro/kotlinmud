@@ -14,6 +14,10 @@ import kotlinmud.mob.type.Form
 class ItemService {
     private val items = mutableListOf<Item>()
 
+    fun builder(): ItemBuilder {
+        return ItemBuilder(this)
+    }
+
     fun add(item: Item) {
         items.add(item)
     }

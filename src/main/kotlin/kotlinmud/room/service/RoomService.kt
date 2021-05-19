@@ -1,11 +1,16 @@
 package kotlinmud.room.service
 
 import kotlinmud.biome.type.BiomeType
+import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
 
 class RoomService {
     private val rooms = mutableListOf<Room>()
+
+    fun builder(): RoomBuilder {
+        return RoomBuilder(this)
+    }
 
     fun add(room: Room) {
         rooms.add(room)
