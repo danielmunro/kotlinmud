@@ -124,7 +124,7 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
     respawn(
         ItemMobRespawn(
             ItemCanonicalId.Bread,
-            ItemBuilder(itemService).also {
+            itemService.builder().also {
                 it.type = ItemType.FOOD
                 it.worth = 10
                 it.name = "a small hard loaf of bread"

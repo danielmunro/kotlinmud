@@ -123,10 +123,7 @@ class GetTest {
         // given
         val mob = test.createPlayerMob()
         val container = test.createItemBuilder().also {
-            it.type = ItemType.CONTAINER
-            it.isContainer = true
-            it.items = mutableListOf()
-            it.maxItems = 0
+            it.makeContainer(0)
             it.name = "a leather satchel"
         }.build()
         mob.items.add(container)
@@ -148,11 +145,7 @@ class GetTest {
         // given
         val mob = test.createMob()
         val container = test.createItemBuilder().also {
-            it.maxWeight = 0
-            it.maxItems = 100
-            it.type = ItemType.CONTAINER
-            it.isContainer = true
-            it.items = mutableListOf()
+            it.makeContainer(100, 0)
         }.build()
         mob.items.add(container)
         val item = test.createItemBuilder().also {

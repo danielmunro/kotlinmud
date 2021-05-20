@@ -295,7 +295,7 @@ class TestService(
     }
 
     fun createItemBuilder(): ItemBuilder {
-        return ItemBuilder(itemService).also {
+        return itemService.builder().also {
             it.name = fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words()
             it.description = "a nice looking herb is here"
             it.material = Material.ORGANIC
@@ -432,11 +432,7 @@ class TestService(
 
     fun createContainer(): Item {
         return createItemBuilder().also {
-            it.isContainer = true
-            it.items = listOf()
-            it.maxItems = 100
-            it.maxWeight = 1000
-            it.type = ItemType.CONTAINER
+            it.makeContainer()
             it.material = Material.TEXTILE
         }.build()
     }
@@ -458,7 +454,7 @@ class TestService(
     }
 
     private fun weapon(mob: Mob): Item {
-        val item = ItemBuilder(itemService).also {
+        val item = itemService.builder().also {
             it.name = "a sword"
             it.description = "a sword"
             it.type = ItemType.EQUIPMENT

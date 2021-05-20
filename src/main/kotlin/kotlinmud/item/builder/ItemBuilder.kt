@@ -49,6 +49,16 @@ class ItemBuilder(private val itemService: ItemService) {
         return this
     }
 
+    fun makeContainer(maxItems: Int = 10, maxWeight: Int = 100): ItemBuilder {
+        type = ItemType.CONTAINER
+        isContainer = true
+        items = listOf()
+        this.maxItems = maxItems
+        this.maxWeight = maxWeight
+
+        return this
+    }
+
     fun build(): Item {
         val item = Item(
             type,
