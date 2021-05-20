@@ -38,17 +38,6 @@ class ItemBuilder(private val itemService: ItemService) {
     var items: List<Item>? = null
     var room: Room? = null
 
-    fun type(value: ItemType): ItemBuilder {
-        type = value
-
-        if (type == ItemType.CONTAINER) {
-            items = listOf()
-            isContainer = true
-        }
-
-        return this
-    }
-
     fun makeContainer(maxItems: Int = 10, maxWeight: Int = 100): ItemBuilder {
         type = ItemType.CONTAINER
         isContainer = true
