@@ -17,6 +17,7 @@ import kotlinmud.io.factory.createSingleHitMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Message
 import kotlinmud.item.model.Item
+import kotlinmud.item.service.CorpseService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
@@ -162,7 +163,7 @@ class MobService(
     }
 
     fun createCorpseFrom(mob: Mob): Item {
-        return itemService.createCorpseFromMob(mob)
+        return CorpseService(itemService).createCorpseFromMob(mob)
     }
 
     fun flee(mob: Mob) {
