@@ -21,11 +21,11 @@ class MakeItemService(private val itemService: ItemService, private val amount: 
     }
 
     private fun createItem(): Item {
-        return ItemBuilder(itemService)
-            .name("lumber")
-            .description("Fine pine lumber is here")
-            .type(ItemType.LUMBER)
-            .material(Material.WOOD)
-            .build()
+        return ItemBuilder(itemService).also {
+            it.name = "lumber"
+            it.description = "Fine pine lumber is here"
+            it.type = ItemType.LUMBER
+            it.material = Material.WOOD
+        }.build()
     }
 }

@@ -78,11 +78,11 @@ class GetTest {
         val mob = test.createPlayerMobBuilder().also {
             it.maxWeight = 0
         }.build()
-        val item = test.createItemBuilder()
-            .weight(1.0)
-            .type(ItemType.FOOD)
-            .material(Material.ORGANIC)
-            .build()
+        val item = test.createItemBuilder().also {
+            it.weight = 1.0
+            it.type = ItemType.FOOD
+            it.material = Material.ORGANIC
+        }.build()
         test.getStartRoom().items.add(item)
 
         // when
@@ -122,10 +122,13 @@ class GetTest {
 
         // given
         val mob = test.createPlayerMob()
-        val container = test.createItemBuilder()
-            .type(ItemType.CONTAINER)
-            .maxItems(0)
-            .build()
+        val container = test.createItemBuilder().also {
+            it.type = ItemType.CONTAINER
+            it.isContainer = true
+            it.items = mutableListOf()
+            it.maxItems = 0
+            it.name = "a leather satchel"
+        }.build()
         mob.items.add(container)
         val item = test.createItem()
         mob.items.add(item)
@@ -144,15 +147,17 @@ class GetTest {
 
         // given
         val mob = test.createMob()
-        val container = test.createItemBuilder()
-            .maxWeight(0)
-            .maxItems(100)
-            .type(ItemType.CONTAINER)
-            .build()
+        val container = test.createItemBuilder().also {
+            it.maxWeight = 0
+            it.maxItems = 100
+            it.type = ItemType.CONTAINER
+            it.isContainer = true
+            it.items = mutableListOf()
+        }.build()
         mob.items.add(container)
-        val item = test.createItemBuilder()
-            .weight(1.0)
-            .build()
+        val item = test.createItemBuilder().also {
+            it.weight = 1.0
+        }.build()
         mob.items.add(item)
 
         // when

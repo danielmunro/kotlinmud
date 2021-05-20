@@ -1,7 +1,6 @@
 package kotlinmud.item.recipe.equipment.wield
 
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -22,21 +21,19 @@ class DiamondPickAxeRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            ItemBuilder(itemService)
-                .name("a diamond pick axe")
-                .description("a diamond pick axe is here.")
-                .type(ItemType.EQUIPMENT)
-                .material(Material.DIAMOND)
-                .position(Position.WEAPON)
-                .damageType(DamageType.PIERCE)
-                .attackVerb("stab")
-                .attributes(
-                    mapOf(
-                        Pair(Attribute.HIT, 3),
-                        Pair(Attribute.DAM, 4),
-                    )
+            itemService.builder().also {
+                it.name = "a diamond pick axe"
+                it.description = "a diamond pick axe is here."
+                it.type = ItemType.EQUIPMENT
+                it.material = Material.DIAMOND
+                it.position = Position.WEAPON
+                it.damageType = DamageType.PIERCE
+                it.attackVerb = "stab"
+                it.attributes = mapOf(
+                    Pair(Attribute.HIT, 3),
+                    Pair(Attribute.DAM, 4),
                 )
-                .build()
+            }.build()
         )
     }
 }

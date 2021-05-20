@@ -1,6 +1,5 @@
 package kotlinmud.item.recipe.shelter
 
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -19,13 +18,13 @@ class BedRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            ItemBuilder(itemService)
-                .type(ItemType.FURNITURE)
-                .name("a comfortable bed is here.")
-                .description("a comfortable bed is here, maybe you should lie down and rest.")
-                .material(Material.WOOD)
-                .canOwn(false)
-                .build()
+            itemService.builder().also {
+                it.type = ItemType.FURNITURE
+                it.name = "a comfortable bed is here."
+                it.description = "a comfortable bed is here, maybe you should lie down and rest."
+                it.material = Material.WOOD
+                it.canOwn = false
+            }.build()
         )
     }
 }

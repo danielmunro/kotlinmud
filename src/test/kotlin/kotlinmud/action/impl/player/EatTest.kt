@@ -21,14 +21,14 @@ class EatTest {
         val timeout = 2
         val mob = test.createPlayerMob()
         mob.room = test.getStartRoom()
-        val item = test.createItemBuilder()
-            .type(ItemType.FOOD)
-            .food(Food.MEAT_PIE)
-            .name("a big meat pie")
-            .quantity(1)
-            .material(Material.ORGANIC)
-            .affects(listOf(StunnedAffect().createInstance(timeout)))
-            .build()
+        val item = test.createItemBuilder().also {
+            it.type = ItemType.FOOD
+            it.food = Food.MEAT_PIE
+            it.name = "a big meat pie"
+            it.quantity = 1
+            it.material = Material.ORGANIC
+            it.affects = listOf(StunnedAffect().createInstance(timeout))
+        }.build()
         mob.items.add(item)
 
         // when

@@ -15,10 +15,10 @@ class RemoveTest {
 
         // given
         val mob = test.createMob()
-        val item = test.createItemBuilder()
-            .position(Position.SHIELD)
-            .name("a shield")
-            .build()
+        val item = test.createItemBuilder().also {
+            it.position = Position.SHIELD
+            it.name = "a shield"
+        }.build()
         mob.equipped.add(item)
         val equippedAmount = mob.equipped.count()
 

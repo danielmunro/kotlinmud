@@ -45,27 +45,26 @@ class MobTest {
         val initialAc = mob.calc(Attribute.AC_BASH)
 
         // when
-        val item = testService.createItemBuilder()
-            .type(ItemType.EQUIPMENT)
-            .material(Material.IRON)
-            .attributes(
-                mapOf(
-                    Pair(Attribute.HP, 1),
-                    Pair(Attribute.MANA, 1),
-                    Pair(Attribute.MV, 1),
-                    Pair(Attribute.STR, 1),
-                    Pair(Attribute.INT, 1),
-                    Pair(Attribute.WIS, 1),
-                    Pair(Attribute.DEX, 1),
-                    Pair(Attribute.CON, 1),
-                    Pair(Attribute.HIT, 1),
-                    Pair(Attribute.DAM, 1),
-                    Pair(Attribute.AC_BASH, 1),
-                    Pair(Attribute.AC_SLASH, 1),
-                    Pair(Attribute.AC_PIERCE, 1),
-                    Pair(Attribute.AC_MAGIC, 1),
-                )
-            ).build()
+        val item = testService.createItemBuilder().also {
+            it.type = ItemType.EQUIPMENT
+            it.material = Material.IRON
+            it.attributes = mapOf(
+                Pair(Attribute.HP, 1),
+                Pair(Attribute.MANA, 1),
+                Pair(Attribute.MV, 1),
+                Pair(Attribute.STR, 1),
+                Pair(Attribute.INT, 1),
+                Pair(Attribute.WIS, 1),
+                Pair(Attribute.DEX, 1),
+                Pair(Attribute.CON, 1),
+                Pair(Attribute.HIT, 1),
+                Pair(Attribute.DAM, 1),
+                Pair(Attribute.AC_BASH, 1),
+                Pair(Attribute.AC_SLASH, 1),
+                Pair(Attribute.AC_PIERCE, 1),
+                Pair(Attribute.AC_MAGIC, 1),
+            )
+        }.build()
         mob.equipped.add(item)
 
         // then
@@ -298,16 +297,14 @@ class MobTest {
 
         // given
         mob.equipped.add(
-            testService.createItemBuilder()
-                .position(Position.SHIELD)
-                .attributes(
-                    mapOf(
-                        Pair(Attribute.HP, bonusHp)
-                    )
+            testService.createItemBuilder().also {
+                it.position = Position.SHIELD
+                it.attributes = mapOf(
+                    Pair(Attribute.HP, bonusHp)
                 )
-                .type(ItemType.EQUIPMENT)
-                .material(Material.IRON)
-                .build()
+                it.type = ItemType.EQUIPMENT
+                it.material = Material.IRON
+            }.build()
         )
 
         // expect

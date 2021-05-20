@@ -2,6 +2,7 @@ package kotlinmud.action.impl.cast.healing
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
@@ -33,13 +34,17 @@ class CureLightTest {
         val test = createTestService()
 
         // given
-        test.createMob {
+        val caster = test.createPlayerMob {
             it.skills[SkillType.CURE_LIGHT] = 100
         }
         val target = test.createMob()
 
         // when
-        val response = test.runAction("cast 'cure light' ${getIdentifyingWord(target)}")
+        val response = test.runActionForIOStatus(
+            caster,
+            "cast 'cure light' ${getIdentifyingWord(target)}",
+            IOStatus.OK
+        )
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("$target feels better!")

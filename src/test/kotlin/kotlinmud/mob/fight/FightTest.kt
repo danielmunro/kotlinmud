@@ -62,11 +62,11 @@ class FightTest {
 
         // and
         mob2.equipped.add(
-            testService.createItemBuilder()
-                .position(Position.SHIELD)
-                .type(ItemType.EQUIPMENT)
-                .material(Material.IRON)
-                .build()
+            testService.createItemBuilder().also {
+                it.position = Position.SHIELD
+                it.type = ItemType.EQUIPMENT
+                it.material = Material.IRON
+            }.build()
         )
 
         // and

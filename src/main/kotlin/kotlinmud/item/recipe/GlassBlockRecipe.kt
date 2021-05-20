@@ -1,6 +1,5 @@
 package kotlinmud.item.recipe
 
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -18,15 +17,15 @@ class GlassBlockRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            ItemBuilder(itemService)
-                .name("a block of glass")
-                .description("a block of glass is here.")
-                .type(ItemType.GLASS_BLOCK)
-                .material(Material.GLASS)
-                .weight(3.0)
-                .level(1)
-                .worth(1)
-                .build()
+            itemService.builder().also {
+                it.name = "a block of glass"
+                it.description = "a block of glass is here."
+                it.type = ItemType.GLASS_BLOCK
+                it.material = Material.GLASS
+                it.weight = 3.0
+                it.level = 1
+                it.worth = 1
+            }.build()
         )
     }
 }

@@ -37,19 +37,18 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         }
     )
 
-    ItemBuilder(itemService)
-        .name("a cobblestone fire-pit")
-        .description("a fire emanates from the circular pit.")
-        .canOwn(false)
-        .material(Material.STONE)
-        .type(ItemType.FURNITURE)
-        .room(room1)
-        .build()
+    itemService.builder().also {
+        it.name = "a cobblestone fire-pit"
+        it.description = "a fire emanates from the circular pit."
+        it.canOwn = false
+        it.material = Material.STONE
+        it.type = ItemType.FURNITURE
+        it.room = room1
+    }.build()
 
-    ItemBuilder(itemService)
-        .name("a large wooden sign on a post")
-        .description(
-"""The sign reads:
+    itemService.builder().also {
+        it.name = "a large wooden sign on a post"
+        it.description = """The sign reads:
 
 +-------------------------------------------------+
 |                                                 |
@@ -57,12 +56,11 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
 |        an available quest.                      |
 |                                                 |
 +-------------------------------------------------+"""
-        )
-        .canOwn(false)
-        .material(Material.WOOD)
-        .type(ItemType.FURNITURE)
-        .room(room1)
-        .build()
+        it.canOwn = false
+        it.material = Material.WOOD
+        it.type = ItemType.FURNITURE
+        it.room = room1
+    }.build()
 
     val room2 = build(
         builder.also {

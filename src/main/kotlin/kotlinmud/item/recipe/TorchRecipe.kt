@@ -2,7 +2,6 @@ package kotlinmud.item.recipe
 
 import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -22,18 +21,16 @@ class TorchRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            ItemBuilder(itemService)
-                .name("a torch")
-                .description("a torch flickers gently")
-                .type(ItemType.EQUIPMENT)
-                .position(Position.HEAD)
-                .material(Material.WOOD)
-                .affects(
-                    listOf(
-                        Affect(AffectType.GLOWING)
-                    )
+            itemService.builder().also {
+                it.name = "a torch"
+                it.description = "a torch flickers gently."
+                it.type = ItemType.EQUIPMENT
+                it.material = Material.WOOD
+                it.position = Position.HELD
+                it.affects = listOf(
+                    Affect(AffectType.GLOWING)
                 )
-                .build()
+            }.build()
         )
     }
 }

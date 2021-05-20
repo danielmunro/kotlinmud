@@ -1,6 +1,5 @@
 package kotlinmud.item.recipe
 
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -15,11 +14,12 @@ class StickRecipe : Recipe {
     }
 
     override fun getProducts(itemService: ItemService): List<Item> {
-        val itemBuilder = ItemBuilder(itemService)
-            .name("a stick")
-            .description("a stick, used for construction")
-            .type(ItemType.STICK)
-            .material(Material.WOOD)
+        val itemBuilder = itemService.builder().also {
+            it.name = "a stick"
+            it.description = "a stick, used for construction"
+            it.type = ItemType.STICK
+            it.material = Material.WOOD
+        }
         val items = mutableListOf<Item>()
         for (i in 1..8) {
             items.add(itemBuilder.build())

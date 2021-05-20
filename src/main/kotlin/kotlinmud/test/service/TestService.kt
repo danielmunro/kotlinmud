@@ -49,6 +49,7 @@ import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.FightService
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.specialization.impl.Warrior
+import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.player.auth.model.CreationFunnel
@@ -208,6 +209,9 @@ class TestService(
             it.job = JobType.SHOPKEEPER
             it.maxItems = 1000
             it.maxWeight = 10000
+            it.currencies = mutableMapOf(
+                Pair(CurrencyType.Gold, 1)
+            )
         }.build()
     }
 
@@ -291,27 +295,26 @@ class TestService(
     }
 
     fun createItemBuilder(): ItemBuilder {
-        return ItemBuilder(itemService)
-            .name(fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words())
-            .description("a nice looking herb is here")
-            .material(Material.ORGANIC)
-            .type(ItemType.OTHER)
+        return ItemBuilder(itemService).also {
+            it.name = fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words()
+            it.description = "a nice looking herb is here"
+            it.material = Material.ORGANIC
+            it.type = ItemType.OTHER
+        }
     }
 
     fun createItem(): Item {
-        return createItemBuilder()
-            .type(ItemType.FURNITURE)
-            .material(Material.ORGANIC)
-            .worth(0)
-            .build()
+        return createItemBuilder().also {
+            it.type = ItemType.FURNITURE
+            it.material = Material.ORGANIC
+        }.build()
     }
 
     fun createPotion(): Item {
-        return createItemBuilder()
-            .type(ItemType.POTION)
-            .material(Material.ORGANIC)
-            .worth(0)
-            .build()
+        return createItemBuilder().also {
+            it.type = ItemType.POTION
+            it.material = Material.ORGANIC
+        }.build()
     }
 
     fun createCreationFunnel(email: String): CreationFunnel {
@@ -428,14 +431,14 @@ class TestService(
     }
 
     fun createContainer(): Item {
-        return createItemBuilder()
-            .isContainer(true)
-            .items(listOf())
-            .maxItems(100)
-            .maxWeight(1000)
-            .type(ItemType.CONTAINER)
-            .material(Material.TEXTILE)
-            .build()
+        return createItemBuilder().also {
+            it.isContainer = true
+            it.items = listOf()
+            it.maxItems = 100
+            it.maxWeight = 1000
+            it.type = ItemType.CONTAINER
+            it.material = Material.TEXTILE
+        }.build()
     }
 
     fun incrementTicks(amount: Int) {
@@ -455,19 +458,17 @@ class TestService(
     }
 
     private fun weapon(mob: Mob): Item {
-        val item = ItemBuilder(itemService)
-            .name("a sword")
-            .description("a sword")
-            .type(ItemType.EQUIPMENT)
-            .position(Position.WEAPON)
-            .attributes(
-                mapOf(
-                    Pair(Attribute.HIT, 2),
-                    Pair(Attribute.DAM, 2),
-                )
+        val item = ItemBuilder(itemService).also {
+            it.name = "a sword"
+            it.description = "a sword"
+            it.type = ItemType.EQUIPMENT
+            it.position = Position.WEAPON
+            it.attributes = mapOf(
+                Pair(Attribute.HIT, 2),
+                Pair(Attribute.DAM, 2),
             )
-            .material(Material.IRON)
-            .build()
+            it.material = Material.IRON
+        }.build()
         mob.equipped.add(item)
         return item
     }

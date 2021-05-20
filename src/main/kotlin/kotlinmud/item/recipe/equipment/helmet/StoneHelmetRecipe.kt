@@ -1,7 +1,6 @@
 package kotlinmud.item.recipe.equipment.helmet
 
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -20,20 +19,18 @@ class StoneHelmetRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            ItemBuilder(itemService)
-                .name("a cobblestone helmet")
-                .description("a cobblestone helmet is here.")
-                .type(ItemType.EQUIPMENT)
-                .material(Material.STONE)
-                .position(Position.HEAD)
-                .attributes(
-                    mapOf(
-                        Pair(Attribute.AC_BASH, 1),
-                        Pair(Attribute.AC_SLASH, 1),
-                        Pair(Attribute.AC_PIERCE, 1),
-                    )
+            itemService.builder().also {
+                it.name = "a cobblestone helmet"
+                it.description = "a cobblestone is here."
+                it.type = ItemType.EQUIPMENT
+                it.material = Material.STONE
+                it.position = Position.HEAD
+                it.attributes = mapOf(
+                    Pair(Attribute.AC_BASH, 1),
+                    Pair(Attribute.AC_SLASH, 1),
+                    Pair(Attribute.AC_PIERCE, 1),
                 )
-                .build()
+            }.build()
         )
     }
 }

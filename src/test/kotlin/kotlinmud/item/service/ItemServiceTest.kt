@@ -3,8 +3,16 @@ package kotlinmud.item.service
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
+import kotlinmud.item.model.Item
 import kotlinmud.test.helper.createTestService
+import kotlinmud.test.service.TestService
 import org.junit.Test
+
+fun createItem(test: TestService, amount: Int): Item {
+    return test.createItemBuilder().also {
+        it.decayTimer = amount
+    }.build()
+}
 
 class ItemServiceTest {
     @Test
@@ -14,9 +22,7 @@ class ItemServiceTest {
 
         // given
         val amount = 5
-        val item = test.createItemBuilder()
-            .decayTimer(amount)
-            .build()
+        val item = createItem(test, amount)
 
         // when
         test.callDecayEvent()
@@ -32,9 +38,7 @@ class ItemServiceTest {
 
         // given
         val amount = 1
-        val item = test.createItemBuilder()
-            .decayTimer(amount)
-            .build()
+        val item = createItem(test, amount)
         val mob = test.createMob()
         mob.items.add(item)
 
@@ -53,9 +57,7 @@ class ItemServiceTest {
 
         // given
         val amount = 1
-        val item = test.createItemBuilder()
-            .decayTimer(amount)
-            .build()
+        val item = createItem(test, amount)
         val room = test.getStartRoom()
         room.items.add(item)
 

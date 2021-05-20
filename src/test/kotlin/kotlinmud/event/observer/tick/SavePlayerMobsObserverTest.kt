@@ -42,7 +42,9 @@ class SavePlayerMobsObserverTest {
                 test.createItemBuilder().build()
             )
             it.equipped = mutableListOf(
-                test.createItemBuilder().position(Position.HEAD).build()
+                test.createItemBuilder().also { builder ->
+                    builder.position = Position.HEAD
+                }.build()
             )
         }.build()
 

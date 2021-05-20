@@ -49,16 +49,16 @@ class ItemService {
 
     fun createCorpseFromMob(mob: Mob): Item {
         removeAllEquipmentForMob(mob)
-        val corpse = ItemBuilder(this)
-            .name("a corpse of $mob")
-            .description("a corpse of $mob is here.")
-            .level(mob.level)
-            .weight(100.0)
-            .decayTimer(20)
-            .items(mob.items)
-            .type(ItemType.CORPSE)
-            .material(Material.ORGANIC)
-            .build()
+        val corpse = builder().also {
+            it.name = "a corpse of $mob"
+            it.description = "a corpse of $mob is here."
+            it.level = mob.level
+            it.weight = 100.0
+            it.decayTimer = 20
+            it.items = mob.items
+            it.type = ItemType.CORPSE
+            it.material = Material.ORGANIC
+        }.build()
         mob.items.clear()
         when (dice(1, 3)) {
             1 -> evaluateMobBodyPartDrop(mob)
@@ -108,134 +108,134 @@ class ItemService {
     }
 
     private fun createLeather(): Item {
-        return ItemBuilder(this)
-            .name("a patch of leather")
-            .description("a patch of leather is here.")
-            .type(ItemType.LEATHER)
-            .material(Material.ORGANIC)
-            .weight(0.2)
-            .worth(20)
-            .build()
+        return builder().also {
+            it.name = "a patch of leather"
+            it.description = "a patch of leather is here."
+            it.type = ItemType.LEATHER
+            it.material = Material.ORGANIC
+            it.weight = 0.2
+            it.worth = 20
+        }.build()
     }
 
     private fun createLargeFang(): Item {
-        return ItemBuilder(this)
-            .name("a vicious fang")
-            .description("a large, vicious fang is lying here.")
-            .type(ItemType.OTHER)
-            .material(Material.ORGANIC)
-            .weight(2.0)
-            .worth(1)
-            .build()
+        return builder().also {
+            it.name = "a vicious fang"
+            it.description = "a large, vicious fang is lying here."
+            it.type = ItemType.OTHER
+            it.material = Material.ORGANIC
+            it.weight = 2.0
+            it.worth = 1
+        }.build()
     }
 
     private fun createScale(): Item {
-        return ItemBuilder(this)
-            .name("a scale")
-            .description("a scale from a reptile has been left here.")
-            .type(ItemType.OTHER)
-            .material(Material.ORGANIC)
-            .weight(0.1)
-            .worth(1)
-            .build()
+        return builder().also {
+            it.name = "a scale"
+            it.description = "a scale from a reptile has been left here."
+            it.type = ItemType.OTHER
+            it.material = Material.ORGANIC
+            it.weight = 0.1
+            it.worth = 1
+        }.build()
     }
 
     private fun createSmallFang(): Item {
-        return ItemBuilder(this)
-            .name("a small fang")
-            .description("a small, sharp fang is lying here.")
-            .type(ItemType.OTHER)
-            .material(Material.ORGANIC)
-            .weight(0.1)
-            .worth(1)
-            .build()
+        return builder().also {
+            it.name = "a small fang"
+            it.description = "a small, sharp fang is lying here."
+            it.type = ItemType.OTHER
+            it.material = Material.ORGANIC
+            it.weight = 0.1
+            it.worth = 1
+        }.build()
     }
 
     private fun createBlob(): Item {
-        return ItemBuilder(this)
-            .name("a blob")
-            .description("a small blob is here.")
-            .type(ItemType.BLOB)
-            .material(Material.ORGANIC)
-            .weight(3.0)
-            .worth(10)
-            .build()
+        return builder().also {
+            it.name = "a blob"
+            it.description = "a small blob is here."
+            it.type = ItemType.BLOB
+            it.material = Material.ORGANIC
+            it.weight = 3.0
+            it.worth = 10
+        }.build()
     }
 
     private fun createThread(): Item {
-        return ItemBuilder(this)
-            .name("a thin white thread")
-            .description("a thin white thread bundle is here.")
-            .type(ItemType.THREAD)
-            .material(Material.TEXTILE)
-            .weight(0.1)
-            .worth(1)
-            .build()
+        return builder().also {
+            it.name = "a thin white thread"
+            it.description = "a thin white thread bundle is here."
+            it.type = ItemType.THREAD
+            it.material = Material.TEXTILE
+            it.weight = 0.1
+            it.worth = 1
+        }.build()
     }
 
     private fun createFeather(mob: Mob): Item {
-        return ItemBuilder(this)
-            .name("$mob's feather")
-            .description("a feather plucked unceremoniously from $mob is here.")
-            .type(ItemType.FEATHER)
-            .material(Material.ORGANIC)
-            .weight(0.0)
-            .worth(1)
-            .build()
+        return builder().also {
+            it.name = "$mob's feather"
+            it.description = "a feather plucked unceremoniously from $mob is here."
+            it.material = Material.ORGANIC
+            it.type = ItemType.FEATHER
+            it.weight = 0.0
+            it.worth = 1
+        }.build()
     }
 
     private fun createBrains(mob: Mob): Item {
-        return ItemBuilder(this)
-            .name("brains of $mob")
-            .description("the brains of $mob have been unceremoniously splashed on the ground.")
-            .type(ItemType.ORGANS)
-            .material(Material.ORGANIC)
-            .weight(2.5)
-            .worth(1)
-            .build()
+        return builder().also {
+            it.name = "brains of $mob"
+            it.description = "the brains of $mob have been unceremoniously splashed on the ground."
+            it.type = ItemType.ORGANS
+            it.material = Material.ORGANIC
+            it.weight = 2.5
+            it.worth = 1
+        }.build()
     }
 
     private fun createEntrails(): Item {
-        return ItemBuilder(this)
-            .name("bloody entrails")
-            .description("bloody entrails are dashed across the ground.")
-            .type(ItemType.ORGANS)
-            .material(Material.ORGANIC)
-            .weight(5.0)
-            .worth(1)
-            .build()
+        return builder().also {
+            it.name = "bloody entrails"
+            it.description = "bloody entrails are dashed across the ground."
+            it.type = ItemType.ORGANS
+            it.material = Material.ORGANIC
+            it.weight = 5.0
+            it.worth = 1
+        }.build()
     }
 
     private fun createHeart(mob: Mob): Item {
-        return ItemBuilder(this)
-            .name("a heart")
-            .description("the heart of $mob is here.")
-            .type(ItemType.ORGANS)
-            .material(Material.ORGANIC)
-            .weight(2.0)
-            .worth(1)
-            .build()
+        return builder().also {
+            it.name = "the heart of $mob"
+            it.description = "the heart of $mob is here."
+            it.type = ItemType.ORGANS
+            it.material = Material.ORGANIC
+            it.weight = 2.0
+            it.worth = 1
+        }.build()
     }
 
     private fun createLiver(): Item {
-        return ItemBuilder(this)
-            .name("a liver")
-            .description("a liver has been sliced clean from its corpse.")
-            .type(ItemType.ORGANS)
-            .material(Material.ORGANIC)
-            .weight(2.0)
-            .worth(1)
-            .build()
+        return builder().also {
+            it.name = "a liver"
+            it.description = "a liver has been sliced clean from its corpse."
+            it.type = ItemType.ORGANS
+            it.material = Material.ORGANIC
+            it.weight = 2.0
+            it.worth = 1
+        }.build()
     }
 
     private fun createTail(mob: Mob): Item {
-        return ItemBuilder(this)
-            .name("a tail")
-            .description("the tail of $mob has been sliced off.")
-            .type(ItemType.ORGANS)
-            .material(Material.ORGANIC)
-            .weight(1.0)
-            .worth(1)
-            .build()
+        return builder().also {
+            it.name = "the tail of $mob"
+            it.description = "the tail of $mob has been sliced off."
+            it.type = ItemType.ORGANS
+            it.material = Material.ORGANIC
+            it.weight = 1.0
+            it.worth = 1
+        }.build()
     }
 }

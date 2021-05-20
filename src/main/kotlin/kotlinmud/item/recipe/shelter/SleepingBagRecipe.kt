@@ -1,6 +1,5 @@
 package kotlinmud.item.recipe.shelter
 
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -18,12 +17,12 @@ class SleepingBagRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            ItemBuilder(itemService)
-                .type(ItemType.FURNITURE)
-                .name("a sleeping bag")
-                .description("a warm and comfortable sleeping bag is here.")
-                .material(Material.TEXTILE)
-                .build()
+            itemService.builder().also {
+                it.type = ItemType.FURNITURE
+                it.name = "a sleeping bag"
+                it.description = "a warm and comfortable sleeping bag is here."
+                it.material = Material.TEXTILE
+            }.build()
         )
     }
 }

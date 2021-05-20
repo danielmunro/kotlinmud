@@ -1,6 +1,5 @@
 package kotlinmud.item.recipe
 
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -16,15 +15,15 @@ class BuilderTableRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            ItemBuilder(itemService)
-                .name("a builder's table")
-                .description("A sturdy builder's table is here, crafted from fine wood with care.")
-                .type(ItemType.BUILDER_TABLE)
-                .material(Material.WOOD)
-                .weight(20.0)
-                .level(1)
-                .worth(1)
-                .build()
+            itemService.builder().also {
+                it.name = "a builder's table"
+                it.description = "A sturdy builder's table is here, crafted from fine wood with care."
+                it.type = ItemType.BUILDER_TABLE
+                it.material = Material.WOOD
+                it.weight = 20.0
+                it.level = 1
+                it.worth = 1
+            }.build()
         )
     }
 }

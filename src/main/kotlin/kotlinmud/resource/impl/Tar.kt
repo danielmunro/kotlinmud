@@ -1,7 +1,6 @@
 package kotlinmud.resource.impl
 
 import kotlinmud.biome.type.ResourceType
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -16,11 +15,11 @@ class Tar : Resource {
 
     override fun createProduct(itemService: ItemService): List<Item> {
         return listOf(
-            ItemBuilder(itemService)
-                .name("a lump of tar")
-                .description("a lump of tar is here, make sure not to touch it!")
-                .type(ItemType.TAR)
-                .build()
+            itemService.builder().also {
+                it.name = "a lump of tar"
+                it.description = "a lump of tar is here, make sure not to touch it!"
+                it.type = ItemType.TAR
+            }.build()
         )
     }
 }

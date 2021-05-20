@@ -18,7 +18,9 @@ class BuyTest {
         val shop = test.createShopkeeper()
 
         // given
-        val item = test.createItem()
+        val item = test.createItemBuilder().also {
+            it.worth = 0
+        }.build()
         shop.items.add(item)
 
         // when
@@ -36,9 +38,9 @@ class BuyTest {
         val shop = test.createShopkeeper()
 
         // given
-        val item = test.createItemBuilder()
-            .worth(10)
-            .build()
+        val item = test.createItemBuilder().also {
+            it.worth = 10
+        }.build()
         shop.items.add(item)
 
         // when

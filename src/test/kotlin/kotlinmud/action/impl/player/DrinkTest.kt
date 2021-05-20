@@ -22,13 +22,13 @@ class DrinkTest {
         val timeout = 2
         val mob = test.createPlayerMob()
         mob.room = test.getStartRoom()
-        val item = test.createItemBuilder()
-            .drink(Drink.BEER)
-            .name("a glass of beer")
-            .quantity(1)
-            .affects(listOf(DrunkAffect().createInstance(timeout)))
-            .material(Material.GLASS)
-            .build()
+        val item = test.createItemBuilder().also {
+            it.drink = Drink.BEER
+            it.name = "a glass of beer"
+            it.quantity = 1
+            it.affects = listOf(DrunkAffect().createInstance(timeout))
+            it.material = Material.GLASS
+        }.build()
         mob.items.add(item)
 
         // when
@@ -51,13 +51,13 @@ class DrinkTest {
         val mob = test.createPlayerMob()
 
         // given
-        val drink = test.createItemBuilder()
-            .name("a glass of milk")
-            .type(ItemType.DRINK)
-            .drink(Drink.MILK)
-            .affects(listOf(invis))
-            .material(Material.ORGANIC)
-            .build()
+        val drink = test.createItemBuilder().also {
+            it.name = "a glass of milk"
+            it.type = ItemType.DRINK
+            it.drink = Drink.MILK
+            it.affects = listOf(invis)
+            it.material = Material.ORGANIC
+        }.build()
         mob.items.add(drink)
 
         // when

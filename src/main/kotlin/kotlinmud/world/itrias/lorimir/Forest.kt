@@ -1,10 +1,10 @@
 package kotlinmud.world.itrias.lorimir
 
 import kotlinmud.generator.service.SimpleMatrixService
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemCanonicalId
+import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
@@ -72,12 +72,14 @@ fun createLorimirForest(
     respawn(
         ItemAreaRespawn(
             ItemCanonicalId.Mushroom,
-            ItemBuilder(itemService)
-                .name("a small brown mushroom")
-                .description("foo")
-                .material(Material.ORGANIC)
-                .food(Food.MUSHROOM)
-                .canonicalId(ItemCanonicalId.Mushroom),
+            itemService.builder().also {
+                it.name = "a small brown mushroom"
+                it.description = "tbd"
+                it.material = Material.ORGANIC
+                it.food = Food.MUSHROOM
+                it.canonicalId = ItemCanonicalId.Mushroom
+                it.type = ItemType.FOOD
+            },
             Area.LorimirForest,
             10,
         ),

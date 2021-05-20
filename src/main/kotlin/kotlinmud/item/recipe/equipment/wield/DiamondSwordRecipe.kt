@@ -1,7 +1,6 @@
 package kotlinmud.item.recipe.equipment.wield
 
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -22,21 +21,19 @@ class DiamondSwordRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            ItemBuilder(itemService)
-                .name("a diamond sword")
-                .description("a diamond sword is here.")
-                .type(ItemType.EQUIPMENT)
-                .position(Position.WEAPON)
-                .material(Material.DIAMOND)
-                .damageType(DamageType.SLASH)
-                .attackVerb("slash")
-                .attributes(
-                    mapOf(
-                        Pair(Attribute.HIT, 5),
-                        Pair(Attribute.DAM, 6),
-                    )
+            itemService.builder().also {
+                it.name = "a diamond sword"
+                it.description = "a diamond sword is here."
+                it.type = ItemType.EQUIPMENT
+                it.material = Material.DIAMOND
+                it.position = Position.WEAPON
+                it.damageType = DamageType.SLASH
+                it.attackVerb = "slash"
+                it.attributes = mapOf(
+                    Pair(Attribute.HIT, 5),
+                    Pair(Attribute.DAM, 6),
                 )
-                .build()
+            }.build()
         )
     }
 }

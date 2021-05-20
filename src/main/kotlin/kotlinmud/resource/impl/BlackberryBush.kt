@@ -2,10 +2,10 @@ package kotlinmud.resource.impl
 
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.helper.random.randomAmount
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
 import kotlinmud.resource.type.Resource
 
 class BlackberryBush : Resource {
@@ -16,10 +16,12 @@ class BlackberryBush : Resource {
     override val toughness = 1
 
     override fun createProduct(itemService: ItemService): List<Item> {
-        val itemBuilder = ItemBuilder(itemService)
-            .name("a handful of sweet blackberries")
-            .description("a delicious handful of sun-ripened blackberries are here.")
-            .type(ItemType.FOOD)
+        val itemBuilder = itemService.builder().also {
+            it.name = "a handful of sweet, wild blackberries"
+            it.description = "a delicious handful of sun-ripened blackberries are here."
+            it.type = ItemType.FOOD
+            it.material = Material.ORGANIC
+        }
         return randomAmount(3) {
             itemBuilder.build()
         }

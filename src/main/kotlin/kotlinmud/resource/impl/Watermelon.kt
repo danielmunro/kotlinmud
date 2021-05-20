@@ -2,7 +2,6 @@ package kotlinmud.resource.impl
 
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.helper.random.randomAmount
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
@@ -18,12 +17,13 @@ class Watermelon : Resource {
     override val toughness = 3
 
     override fun createProduct(itemService: ItemService): List<Item> {
-        val itemBuilder = ItemBuilder(itemService)
-            .name("a juicy slice of watermelon")
-            .description("a juicy slice of watermelon is here")
-            .food(Food.WATERMELON)
-            .material(Material.ORGANIC)
-            .type(ItemType.FOOD)
+        val itemBuilder = itemService.builder().also {
+            it.name = "a juicy slice of watermelon"
+            it.description = "a juicy slice of watermelon is here"
+            it.food = Food.WATERMELON
+            it.material = Material.ORGANIC
+            it.type = ItemType.FOOD
+        }
         return randomAmount(4) {
             itemBuilder.build()
         }
