@@ -1,15 +1,9 @@
 package kotlinmud.item.service
 
 import kotlinmud.action.exception.InvokeException
-import kotlinmud.helper.math.dice
-import kotlinmud.helper.random.randomAmount
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.type.ItemCanonicalId
-import kotlinmud.item.type.ItemType
-import kotlinmud.item.type.Material
-import kotlinmud.mob.model.Mob
-import kotlinmud.mob.type.Form
 
 class ItemService {
     private val items = mutableListOf<Item>()

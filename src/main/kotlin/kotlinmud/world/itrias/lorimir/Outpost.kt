@@ -1,6 +1,5 @@
 package kotlinmud.world.itrias.lorimir
 
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemCanonicalId
