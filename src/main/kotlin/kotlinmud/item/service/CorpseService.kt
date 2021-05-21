@@ -148,10 +148,9 @@ class CorpseService(private val itemService: ItemService) {
 
     private fun createBrains(mob: Mob): Item {
         return itemService.builder().also {
+            it.makeOrgans()
             it.name = "brains of $mob"
             it.description = "the brains of $mob have been unceremoniously splashed on the ground."
-            it.type = ItemType.ORGANS
-            it.material = Material.ORGANIC
             it.weight = 2.5
             it.worth = 1
         }.build()
@@ -159,10 +158,9 @@ class CorpseService(private val itemService: ItemService) {
 
     private fun createEntrails(): Item {
         return itemService.builder().also {
+            it.makeOrgans()
             it.name = "bloody entrails"
             it.description = "bloody entrails are dashed across the ground."
-            it.type = ItemType.ORGANS
-            it.material = Material.ORGANIC
             it.weight = 5.0
             it.worth = 1
         }.build()
@@ -170,10 +168,9 @@ class CorpseService(private val itemService: ItemService) {
 
     private fun createHeart(mob: Mob): Item {
         return itemService.builder().also {
+            it.makeOrgans()
             it.name = "the heart of $mob"
             it.description = "the heart of $mob is here."
-            it.type = ItemType.ORGANS
-            it.material = Material.ORGANIC
             it.weight = 2.0
             it.worth = 1
         }.build()
@@ -181,10 +178,9 @@ class CorpseService(private val itemService: ItemService) {
 
     private fun createLiver(): Item {
         return itemService.builder().also {
+            it.makeOrgans()
             it.name = "a liver"
             it.description = "a liver has been sliced clean from its corpse."
-            it.type = ItemType.ORGANS
-            it.material = Material.ORGANIC
             it.weight = 2.0
             it.worth = 1
         }.build()
@@ -192,10 +188,9 @@ class CorpseService(private val itemService: ItemService) {
 
     private fun createTail(mob: Mob): Item {
         return itemService.builder().also {
+            it.makeOrgans()
             it.name = "the tail of $mob"
             it.description = "the tail of $mob has been sliced off."
-            it.type = ItemType.ORGANS
-            it.material = Material.ORGANIC
             it.weight = 1.0
             it.worth = 1
         }.build()

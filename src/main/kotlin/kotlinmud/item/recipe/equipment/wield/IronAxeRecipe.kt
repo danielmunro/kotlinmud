@@ -5,7 +5,6 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
-import kotlinmud.item.type.Position
 import kotlinmud.item.type.Recipe
 import kotlinmud.mob.fight.type.DamageType
 
@@ -24,11 +23,8 @@ class IronAxeRecipe : Recipe {
             itemService.builder().also {
                 it.name = "an iron axe"
                 it.description = "an iron axe is here."
-                it.type = ItemType.EQUIPMENT
+                it.makeWeapon(DamageType.SLASH, "chop")
                 it.material = Material.IRON
-                it.position = Position.WEAPON
-                it.damageType = DamageType.SLASH
-                it.attackVerb = "chop"
                 it.attributes = mapOf(
                     Pair(Attribute.HIT, 2),
                     Pair(Attribute.DAM, 3),

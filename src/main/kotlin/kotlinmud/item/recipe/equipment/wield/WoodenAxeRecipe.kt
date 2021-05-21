@@ -22,10 +22,8 @@ class WoodenAxeRecipe : Recipe {
             itemService.builder().also {
                 it.name = "a wooden axe"
                 it.description = "a wooden axe is here."
-                it.type = ItemType.EQUIPMENT
+                it.makeWeapon(DamageType.SLASH, "chop")
                 it.material = Material.WOOD
-                it.damageType = DamageType.SLASH
-                it.attackVerb = "chop"
                 it.attributes = mapOf(
                     Pair(Attribute.HIT, 1),
                     Pair(Attribute.DAM, 1),

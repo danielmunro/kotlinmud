@@ -48,6 +48,22 @@ class ItemBuilder(private val itemService: ItemService) {
         return this
     }
 
+    fun makeWeapon(damageType: DamageType, attackVerb: String): ItemBuilder {
+        type = ItemType.EQUIPMENT
+        position = Position.WEAPON
+        this.damageType = damageType
+        this.attackVerb = attackVerb
+
+        return this
+    }
+
+    fun makeOrgans(): ItemBuilder {
+        type = ItemType.ORGANS
+        material = Material.ORGANIC
+
+        return this
+    }
+
     fun build(): Item {
         val item = Item(
             type,
