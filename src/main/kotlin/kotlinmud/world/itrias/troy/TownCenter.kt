@@ -34,7 +34,7 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
     }
 
     val fountainRoom = build(
-        roomBuilder.copy  {
+        roomBuilder.copy {
             it.name = "A Large Fountain"
             it.description = "The center of Troy is home to a large and ornate fountain. Pristine marble wraps around the fountain, leaving a dramatic glow in the sunlight."
         }
@@ -72,7 +72,7 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
         }
     )
 
-    val outsideWall = roomBuilder.copy  {
+    val outsideWall = roomBuilder.copy {
         it.name = "Outside the gates of Troy"
         it.description = "tbd"
     }
