@@ -18,23 +18,23 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
 fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemService: ItemService, connection: Room) {
-    val roomBuilder = roomService.builder().also {
-        it.area = Area.Troy
-        it.name = "The City of Troy"
-        it.description = "tbd"
-    }
+    val roomBuilder = roomService.builder(
+        "The City of Troy",
+        "tbd",
+        Area.Troy,
+    )
 
-    val mainStreetBuilder = roomBuilder.copy().also {
+    val mainStreetBuilder = roomBuilder.copy {
         it.name = "Main Street"
         it.description = "A well-worn cobblestone path connects the town center with the promenade. Shops line the bustling road."
     }
 
-    val walledRoad = roomBuilder.copy().also {
+    val walledRoad = roomBuilder.copy {
         it.name = "Walled Road"
     }
 
     val fountainRoom = build(
-        roomBuilder.copy().also {
+        roomBuilder.copy  {
             it.name = "A Large Fountain"
             it.description = "The center of Troy is home to a large and ornate fountain. Pristine marble wraps around the fountain, leaving a dramatic glow in the sunlight."
         }
@@ -52,27 +52,27 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
     fountainRoom.items.add(fountain)
 
     val northGate = build(
-        roomBuilder.copy().also {
+        roomBuilder.copy {
             it.name = "Troy North Gate"
             it.description = "tbd"
         }
     )
 
     val westGate = build(
-        roomBuilder.copy().also {
+        roomBuilder.copy {
             it.name = "Troy West Gate"
             it.description = "tbd"
         }
     )
 
     val eastGate = build(
-        roomBuilder.copy().also {
+        roomBuilder.copy {
             it.name = "Troy East Gate"
             it.description = "tbd"
         }
     )
 
-    val outsideWall = roomBuilder.copy().also {
+    val outsideWall = roomBuilder.copy  {
         it.name = "Outside the gates of Troy"
         it.description = "tbd"
     }

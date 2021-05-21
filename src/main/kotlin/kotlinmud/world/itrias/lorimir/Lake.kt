@@ -8,9 +8,11 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
 fun createLorimirForestLake(roomService: RoomService, connection: Room) {
-    val room = roomService.builder().also {
-        it.area = Area.LakeOsona
-    }
+    val room = roomService.builder(
+        "A path in the woods",
+        "tbd",
+        Area.LakeOsona,
+    )
 
     val room1 = build(
         room.also {

@@ -21,14 +21,16 @@ import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
 
 fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService, roomService: RoomService): Room {
-    val builder = roomService.builder().also { it.area = Area.LorimirForestOutpost }
+    val builder = roomService.builder(
+        "Around a fire pit",
+        """A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
+    
+    A sign flickers against the light of the fire.""",
+        Area.LorimirForestOutpost,
+    )
 
     val room1 = build(
-        builder.also {
-            it.name = "Around a fire pit"
-            it.description = """A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
-    
-    A sign flickers against the light of the fire."""
+        builder.copy {
             it.canonicalId = RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
         }
     )
@@ -61,7 +63,7 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
     }.build()
 
     val room2 = build(
-        builder.also {
+        builder.copy {
             it.name = "Inside a lean-to shelter"
             it.description = "bar"
             it.canonicalId = RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
@@ -69,22 +71,22 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
     )
 
     val room3 = build(
-        builder.also {
+        builder.copy {
             it.name = "A blacksmith shack"
         }
     )
     val room4 = build(
-        builder.also {
+        builder.copy {
             it.name = "A trail near the camp"
         }
     )
     val room6 = build(
-        builder.also {
+        builder.copy {
             it.name = "A makeshift mess hall"
         }
     )
     val room5 = build(
-        builder.also {
+        builder.copy {
             it.name = "Outside the camp"
         }
     )

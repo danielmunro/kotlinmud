@@ -7,11 +7,12 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 
 fun createTroyPromenade(roomService: RoomService, connector: Room): Room {
-    val builder = roomService.builder().also {
-        it.area = Area.TroyPromenade
-        it.name = "On The Promenade"
-        it.description = "foo"
-    }
+    val builder = roomService.builder(
+        "On The Promenade",
+        "tbd",
+        Area.TroyPromenade,
+    )
+
     val matrix = SimpleMatrixService(builder).build(5, 5)
 
     connect(connector).toRoom(matrix[2][4])

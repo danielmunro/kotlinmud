@@ -34,7 +34,7 @@ class RoomBuilder(private val roomService: RoomService) {
     var up: Room? = null
     var down: Room? = null
 
-    fun copy(): RoomBuilder {
+    fun copy(modifier: (RoomBuilder) -> Unit): RoomBuilder {
         return RoomBuilder(roomService).also {
             it.name = name
             it.description = description
@@ -47,7 +47,7 @@ class RoomBuilder(private val roomService: RoomService) {
             it.maxWeight = maxWeight
             it.maxItems = maxItems
             it.owner = owner
-        }
+        }.also(modifier)
     }
 
     fun build(): Room {

@@ -8,8 +8,12 @@ import kotlinmud.room.type.Area
 class RoomService {
     private val rooms = mutableListOf<Room>()
 
-    fun builder(): RoomBuilder {
-        return RoomBuilder(this)
+    fun builder(name: String, description: String, area: Area): RoomBuilder {
+        return RoomBuilder(this).also {
+            it.name = name
+            it.description = description
+            it.area = area
+        }
     }
 
     fun add(room: Room) {

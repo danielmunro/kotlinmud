@@ -8,11 +8,11 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
 fun createTroyOutskirts(roomService: RoomService, connector: Room): Room {
-    val roomBuilder = roomService.builder().also {
-        it.area = Area.Troy
-        it.name = "Outskirts of Troy"
-        it.description = "Magnificent columns from a bygone era stand scattered over the landscape."
-    }
+    val roomBuilder = roomService.builder(
+        "Outskirts of Troy",
+        "Magnificent columns from a bygone era stand scattered over the landscape.",
+        Area.Troy,
+    )
 
     val endRoom = build(roomBuilder)
 

@@ -28,24 +28,24 @@ fun createLorimirForest(
     itemService: ItemService,
     connection: Room
 ): Room {
-    val builder = roomService.builder().also {
-        it.area = Area.LorimirForest
-        it.name = "Deep in the heart of Lorimir Forest."
-        it.description = "foo"
-    }
+    val builder = roomService.builder(
+        "Deep in the heart of Lorimir Forest.",
+        "tbd",
+        Area.LorimirForest,
+    )
 
     val intersection = build(builder)
 
-    val massiveTreeBuilder = builder.copy().also {
+    val massiveTreeBuilder = builder.copy {
         it.description = "Around a massive tree."
     }
 
-    val deepBuilder = builder.copy().also {
+    val deepBuilder = builder.copy {
         it.name = "A dark forest"
         it.description = "Deep in the heart of Lorimir Forest."
     }
     val captainRoom = build(
-        deepBuilder.copy().also {
+        deepBuilder.copy {
             it.canonicalId = RoomCanonicalId.PRAETORIAN_CAPTAIN_FOUND
         }
     )
