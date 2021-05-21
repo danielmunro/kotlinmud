@@ -7,6 +7,8 @@ enum class MobCanonicalId {
     Janitor,
     MayorOfTroy,
     BeastlyFido,
+    BrownRabbit,
+    AlleyCat,
     Grongok,
     Barbosa,
     PraetorianCaptainBartok,

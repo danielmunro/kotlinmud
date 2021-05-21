@@ -1,8 +1,10 @@
 package kotlinmud.respawn.service
 
+import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.respawn.helper.calculateHpForMob
 import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.respawn.type.RespawnSomethingService
 import kotlinmud.room.service.RoomService
@@ -31,7 +33,7 @@ class MobRespawnService(
         val randomSubset = rooms.filter { Math.random() < 0.3 }
         var i = 0
 
-        // ensure the item inherits its own canonical ID
+        // ensure the mob inherits its own canonical ID
         mobBuilder.also { it.canonicalId = canonicalId }
 
         if (amountToRespawn > 0) {
@@ -39,7 +41,15 @@ class MobRespawnService(
         }
 
         while (amountToRespawn > 0 && i < randomSubset.size) {
-            mobBuilder.also { it.room = randomSubset[i] }.build()
+            val hp = calculateHpForMob(
+                mobBuilder.level,
+                mobBuilder.race,
+            )
+            mobBuilder.also {
+                it.room = randomSubset[i]
+                it.hp = hp
+                it.attributes[Attribute.HP] = hp
+            }.build()
             amountToRespawn -= 1
             i += 1
         }

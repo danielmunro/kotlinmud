@@ -40,16 +40,16 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
         }
     )
 
-    val fountain = itemService.builder(
-        "an ornate marble fountain",
-        "tbd"
-    ).also {
-        it.canOwn = false
-        it.type = ItemType.FURNITURE
-        it.material = Material.MINERAL
-    }.build()
-
-    fountainRoom.items.add(fountain)
+    fountainRoom.items.add(
+        itemService.builder(
+            "an ornate marble fountain",
+            "tbd"
+        ).also {
+            it.canOwn = false
+            it.type = ItemType.FURNITURE
+            it.material = Material.MINERAL
+        }.build()
+    )
 
     val northGate = build(
         roomBuilder.copy {

@@ -14,7 +14,7 @@ fun createWorld(mobService: MobService, itemService: ItemService, roomService: R
     val lorimirOutpost = createLorimirForestOutpost(mobService, itemService, roomService)
     val lorimirForest = createLorimirForest(mobService, roomService, itemService, lorimirOutpost)
     val outskirtsConnection = createTroyOutskirts(roomService, lorimirOutpost)
-    val promenade = createTroyPromenade(roomService, outskirtsConnection)
+    val promenade = createTroyPromenade(roomService, mobService, outskirtsConnection)
     createTroyTownCenter(mobService, roomService, itemService, promenade)
     createLorimirForestLake(roomService, lorimirForest)
 }
