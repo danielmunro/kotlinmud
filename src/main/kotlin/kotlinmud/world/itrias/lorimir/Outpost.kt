@@ -5,10 +5,8 @@ import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
-import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.race.impl.Dwarf
 import kotlinmud.mob.race.impl.Giant
-import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
@@ -102,28 +100,29 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         )
     connect(room5).toRoom(room6, Direction.EAST)
 
-    mobService.builder().also {
-        it.name = "Blacksmith Felig"
-        it.brief = "a blacksmith stands over a forge, monitoring his work"
-        it.description = "a large giant is here, forging a weapon"
+    mobService.builder(
+        "Blacksmith Felig",
+        "a blacksmith stands over a forge, monitoring his work",
+        "a large giant is here, forging a weapon",
+        Giant(),
+    ).also {
         it.room = room3
         it.job = JobType.SHOPKEEPER
-        it.race = Giant()
     }.build()
 
-    mobService.builder().also {
-        it.name = "Barbosa the cook"
-        it.brief = "a messy and overworked cook wipes away his brow sweat"
-        it.description = "a large cook stops moving long enough to wipe sweat from his eyebrow."
+    mobService.builder(
+        "Barbosa the cook",
+        "a messy and overworked cook wipes away his brow sweat",
+        "a large cook stops moving long enough to wipe sweat from his eyebrow.",
+        Dwarf(),
+    ).also {
         it.room = room6
         it.job = JobType.SHOPKEEPER
-        it.race = Dwarf()
         it.canonicalId = MobCanonicalId.Barbosa
     }.build()
 
     respawn(
         ItemMobRespawn(
-            ItemCanonicalId.Bread,
             itemService.builder(
                 "a small hard loaf of bread",
                 "foo",
@@ -140,13 +139,13 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         )
     )
 
-    MobBuilder(mobService).also {
-        it.name = "Recruiter Esmer"
-        it.brief = "a cloaked figure sits against a log, facing the fire, reading a leaflet"
-        it.description = "Recruiter Esmer is here"
+    mobService.builder(
+        "Recruiter Esmer",
+        "a cloaked figure sits against a log, facing the fire, reading a leaflet",
+        "Recruiter Esmer is here",
+    ).also {
         it.room = room2
         it.job = JobType.QUEST
-        it.race = Human()
         it.canonicalId = MobCanonicalId.PraetorianRecruiterEsmer
     }.build()
 

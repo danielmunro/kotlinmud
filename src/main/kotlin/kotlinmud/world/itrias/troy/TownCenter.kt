@@ -79,11 +79,12 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
 
     respawn(
         MobRespawn(
-            mobService.builder().also {
+            mobService.builder(
+                "a wandering vagabond",
+                "a vagabond is wandering around",
+                "tbd",
+            ).also {
                 it.canonicalId = MobCanonicalId.WanderingVagabond
-                it.name = "a vagabond is wandering around"
-                it.brief = "a wandering vagabond"
-                it.description = "tbd"
                 it.race = Human()
             },
             Area.Troy,
@@ -93,11 +94,12 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
 
     respawn(
         MobRespawn(
-            mobService.builder().also {
+            mobService.builder(
+                "a beastly fido",
+                "a beastly fido is here, looking for scraps",
+                "tbd",
+            ).also {
                 it.canonicalId = MobCanonicalId.BeastlyFido
-                it.name = "a beastly fido is here, looking for scraps"
-                it.brief = "a beastly fido"
-                it.description = "tbd"
                 it.race = Canid()
             },
             Area.Troy,
@@ -107,11 +109,12 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
 
     respawn(
         MobRespawn(
-            mobService.builder().also {
+            mobService.builder(
+                "a janitor",
+                "a janitor is here, sweeping up",
+                "tbd",
+            ).also {
                 it.canonicalId = MobCanonicalId.Janitor
-                it.name = "a janitor is here, sweeping up"
-                it.brief = "a janitor"
-                it.description = "tbd"
                 it.job = JobType.SCAVENGER
                 it.race = Human()
             },
@@ -122,11 +125,12 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
 
     respawn(
         MobRespawn(
-            mobService.builder().also {
+            mobService.builder(
+                "the mayor of Troy",
+                "the mayor of Troy is here, garnering support for his next campaign",
+                "tbd",
+            ).also {
                 it.canonicalId = MobCanonicalId.MayorOfTroy
-                it.name = "the mayor of Troy is here, garnering support for his next campaign"
-                it.brief = "the mayor of Troy"
-                it.description = "tbd"
                 it.race = Human()
             },
             Area.Troy,

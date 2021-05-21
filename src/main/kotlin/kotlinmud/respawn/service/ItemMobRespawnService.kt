@@ -12,15 +12,19 @@ class ItemMobRespawnService(
     private val respawns: List<ItemMobRespawn>,
 ) : RespawnSomethingService {
     override suspend fun respawn() {
-        println("item mob respawns with ${respawns.size} respawns")
         respawns.forEach {
-            doRespawn(it.mobCanonicalId, it.canonicalId, it.itemBuilder, it.maxAmount)
+            doRespawn(it.mobCanonicalId, it.itemBuilder.canonicalId!!, it.itemBuilder, it.maxAmount)
         }
     }
 
-    private fun doRespawn(mobCanonicalId: MobCanonicalId, itemCanonicalId: ItemCanonicalId, itemBuilder: ItemBuilder, maxAmount: Int) {
+    private fun doRespawn(
+        mobCanonicalId: MobCanonicalId,
+        itemCanonicalId: ItemCanonicalId,
+        itemBuilder: ItemBuilder,
+        maxAmount: Int,
+    ) {
         val mobs = mobService.findMobsByCanonicalId(mobCanonicalId)
-        println("found ${mobs.size} mobs")
+
         mobs.forEach { mob ->
             println("found $mob for item $itemCanonicalId respawn")
             val count = mob.items.stream().filter { it.canonicalId == itemCanonicalId }.count()

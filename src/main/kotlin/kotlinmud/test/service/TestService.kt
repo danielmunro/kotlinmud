@@ -176,6 +176,8 @@ class TestService(
     fun createMob(name: String = fixtureService.faker.name.name()): PlayerMob {
         val mob = PlayerMobBuilder(mobService).also {
             it.name = name
+            it.brief = name
+            it.description = "(no description)"
             it.race = Human()
             it.room = getStartRoom()
             it.job = JobType.NONE
@@ -188,17 +190,23 @@ class TestService(
     }
 
     fun createPlayerMobBuilder(): PlayerMobBuilder {
+        val name = fixtureService.faker.name.name()
         return PlayerMobBuilder(mobService).also {
-            it.name = fixtureService.faker.name.name()
+            it.name = name
+            it.brief = "$name is here"
+            it.description = "$name is here"
             it.race = Human()
             it.room = getStartRoom()
         }
     }
 
     fun createMobBuilder(): MobBuilder {
-        return MobBuilder(mobService).also {
-            it.name = fixtureService.faker.name.name()
-            it.race = Human()
+        val name = fixtureService.faker.name.name()
+        return mobService.builder(
+            name,
+            "$name is here",
+            "$name is here",
+        ).also {
             it.room = getStartRoom()
         }
     }

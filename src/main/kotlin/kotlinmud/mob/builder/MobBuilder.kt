@@ -21,9 +21,11 @@ import kotlinmud.mob.type.Rarity
 import kotlinmud.room.model.Room
 
 open class MobBuilder(private val mobService: MobService) {
-    var name = ""
-    var brief = ""
-    var description = ""
+    lateinit var name: String
+    lateinit var brief: String
+    lateinit var description: String
+    lateinit var race: Race
+    lateinit var room: Room
     var attributes = mutableMapOf(
         Pair(Attribute.HP, startingHp),
         Pair(Attribute.MANA, startingMana),
@@ -49,8 +51,6 @@ open class MobBuilder(private val mobService: MobService) {
     var skills = mutableMapOf<SkillType, Int>()
     var affects = mutableListOf<Affect>()
     var currencies = mutableMapOf<CurrencyType, Int>()
-    lateinit var race: Race
-    lateinit var room: Room
 
     open fun build(): Mob {
         return Mob(createMobArguments()).also { mobService.addMob(it) }

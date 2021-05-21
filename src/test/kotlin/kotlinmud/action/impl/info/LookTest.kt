@@ -75,7 +75,7 @@ class LookTest {
         val response = testService.runAction("look ${getIdentifyingWord(item)}")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo(item.description)
+        assertThat(response.message.toActionCreator).contains(item.description)
     }
 
     @Test
@@ -92,7 +92,7 @@ class LookTest {
         val response = testService.runAction("look ${getIdentifyingWord(item)}")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo(item.description)
+        assertThat(response.message.toActionCreator).contains(item.description)
     }
 
     @Test
@@ -106,7 +106,7 @@ class LookTest {
         val response = testService.runAction("look ${getIdentifyingWord(mob2)}")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo(mob2.description)
+        assertThat(response.message.toActionCreator).contains(mob2.description)
     }
 
     @Test

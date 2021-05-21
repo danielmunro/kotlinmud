@@ -7,7 +7,6 @@ import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
-import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
@@ -88,26 +87,27 @@ fun createLorimirForest(
         ),
     )
 
-    mobService.builder().also {
-        it.name = "Captain Bartok"
-        it.brief = "an imposing figure stands here. Her armor bears the emblem of the Praetorian Guard"
-        it.description = "Captain Bartok is here"
+    mobService.builder(
+        "Captain Bartok",
+        "an imposing figure stands here. Her armor bears the emblem of the Praetorian Guard",
+        "Captain Bartok is here",
+    ).also {
         it.gender = Gender.FEMALE
         it.room = captainRoom
         it.level = 10
         it.job = JobType.QUEST
         it.canonicalId = MobCanonicalId.PraetorianCaptainBartok
-        it.race = Human()
     }.build()
 
     respawn(
         MobRespawn(
-            mobService.builder().also {
-                it.name = "a small fox"
-                it.brief = "a small fox darts through the underbrush"
-                it.description = "a small fox is here."
+            mobService.builder(
+                "a small fox",
+                "a small fox darts through the underbrush",
+                "a small fox is here.",
+                Canid()
+            ).also {
                 it.level = 3
-                it.race = Canid()
                 it.canonicalId = MobCanonicalId.SmallFox
             },
             Area.LorimirForest,

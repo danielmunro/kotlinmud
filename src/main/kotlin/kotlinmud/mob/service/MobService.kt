@@ -31,6 +31,8 @@ import kotlinmud.mob.helper.takeDamageFromFall
 import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.PlayerMob
+import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
@@ -47,8 +49,18 @@ class MobService(
     private val fights = mutableListOf<Fight>()
     private val mobs = mutableListOf<Mob>()
 
-    fun builder(): MobBuilder {
-        return MobBuilder(this)
+    fun builder(
+        name: String,
+        brief: String,
+        description: String,
+        race: Race = Human(),
+    ): MobBuilder {
+        return MobBuilder(this).also {
+            it.name = name
+            it.brief = brief
+            it.description = description
+            it.race = race
+        }
     }
 
     suspend fun regenMobs() {
