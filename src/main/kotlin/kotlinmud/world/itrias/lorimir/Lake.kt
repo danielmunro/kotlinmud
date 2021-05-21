@@ -1,6 +1,5 @@
 package kotlinmud.world.itrias.lorimir
 
-import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
@@ -9,7 +8,7 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
 fun createLorimirForestLake(roomService: RoomService, connection: Room) {
-    val room = RoomBuilder(roomService).also {
+    val room = roomService.builder().also {
         it.area = Area.LakeOsona
     }
 

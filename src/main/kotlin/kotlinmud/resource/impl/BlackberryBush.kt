@@ -18,10 +18,12 @@ class BlackberryBush : Resource {
     override fun createProduct(itemService: ItemService): List<Item> {
         val itemBuilder = itemService.builder(
             "a handful of sweet, wild blackberries",
-            "a delicious handful of sun-ripened blackberries are here."
+            "a delicious handful of sun-ripened blackberries are here.",
+            0.1,
         ).also {
             it.type = ItemType.FOOD
             it.material = Material.ORGANIC
+            it.worth = 0
         }
         return randomAmount(3) {
             itemBuilder.build()

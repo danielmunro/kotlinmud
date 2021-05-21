@@ -10,7 +10,6 @@ import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.MobRespawn
-import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
@@ -19,7 +18,7 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
 fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemService: ItemService, connection: Room) {
-    val roomBuilder = RoomBuilder(roomService).also {
+    val roomBuilder = roomService.builder().also {
         it.area = Area.Troy
         it.name = "The City of Troy"
         it.description = "tbd"

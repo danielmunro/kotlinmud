@@ -74,12 +74,14 @@ fun createLorimirForest(
             ItemCanonicalId.Mushroom,
             itemService.builder(
                 "a small brown mushroom",
-                "tbd"
+                "tbd",
+                0.1,
             ).also {
                 it.material = Material.ORGANIC
                 it.food = Food.MUSHROOM
                 it.canonicalId = ItemCanonicalId.Mushroom
                 it.type = ItemType.FOOD
+                it.worth = 0
             },
             Area.LorimirForest,
             10,

@@ -16,7 +16,8 @@ class JungleTree : Resource {
         return listOf(
             itemService.builder(
                 "a jungle tree log",
-                "a jungle tree log is here"
+                "a jungle tree log is here",
+                5.0,
             ).also {
                 it.type = ItemType.WOOD_LOG
             }.build()

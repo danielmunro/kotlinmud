@@ -17,7 +17,8 @@ class Tar : Resource {
         return listOf(
             itemService.builder(
                 "a lump of tar",
-                "a lump of tar is here, make sure not to touch it!"
+                "a lump of tar is here, make sure not to touch it!",
+                0.5,
             ).also {
                 it.type = ItemType.TAR
             }.build()

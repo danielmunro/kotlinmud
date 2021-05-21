@@ -19,12 +19,11 @@ class GlassBlockRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "a block of glass",
-                "a block of glass is here."
+                "a block of glass is here.",
+                3.0
             ).also {
                 it.type = ItemType.GLASS_BLOCK
                 it.material = Material.GLASS
-                it.weight = 3.0
-                it.level = 1
                 it.worth = 1
             }.build()
         )

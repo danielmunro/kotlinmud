@@ -18,11 +18,12 @@ class IronOre : Resource {
         return listOf(
             itemService.builder(
                 "a chunk of rock with hints of iron",
-                "iron ore rock is here"
+                "iron ore rock is here",
+                5.0,
             ).also {
                 it.type = ItemType.IRON_ORE
                 it.material = Material.IRON
-                it.weight = 5.0
+                it.worth = 5
             }.build()
         )
     }

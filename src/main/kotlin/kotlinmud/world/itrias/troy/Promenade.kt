@@ -1,14 +1,13 @@
 package kotlinmud.world.itrias.troy
 
 import kotlinmud.generator.service.SimpleMatrixService
-import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 
 fun createTroyPromenade(roomService: RoomService, connector: Room): Room {
-    val builder = RoomBuilder(roomService).also {
+    val builder = roomService.builder().also {
         it.area = Area.TroyPromenade
         it.name = "On The Promenade"
         it.description = "foo"

@@ -16,7 +16,8 @@ class StickRecipe : Recipe {
     override fun getProducts(itemService: ItemService): List<Item> {
         val itemBuilder = itemService.builder(
             "a stick",
-            "a stick, used for construction"
+            "a stick, used for construction",
+            0.1,
         ).also {
             it.type = ItemType.STICK
             it.material = Material.WOOD

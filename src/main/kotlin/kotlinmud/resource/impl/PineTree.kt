@@ -17,7 +17,8 @@ class PineTree : Resource {
         return listOf(
             itemService.builder(
                 "a pine tree log",
-                "a pine tree log is here"
+                "a pine tree log is here",
+                5.0,
             ).also {
                 it.type = ItemType.WOOD_LOG
             }.build()

@@ -17,9 +17,11 @@ class GoldOre : Resource {
         return listOf(
             itemService.builder(
                 "a chunk of rock with hints of gold",
-                "gold ore rock is here"
+                "gold ore rock is here",
+                5.0,
             ).also {
                 it.type = ItemType.GOLD_ORE
+                it.worth = 12
             }.build()
         )
     }

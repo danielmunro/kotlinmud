@@ -14,7 +14,6 @@ import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.ItemMobRespawn
-import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
@@ -24,14 +23,14 @@ import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
 
 fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService, roomService: RoomService): Room {
-    val builder = RoomBuilder(roomService).also { it.area = Area.LorimirForestOutpost }
+    val builder = roomService.builder().also { it.area = Area.LorimirForestOutpost }
 
     val room1 = build(
         builder.also {
             it.name = "Around a fire pit"
             it.description = """A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
     
-    A sign flickers against the light of the fire.""".trimMargin()
+    A sign flickers against the light of the fire."""
             it.canonicalId = RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
         }
     )
@@ -103,7 +102,7 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         )
     connect(room5).toRoom(room6, Direction.EAST)
 
-    MobBuilder(mobService).also {
+    mobService.builder().also {
         it.name = "Blacksmith Felig"
         it.brief = "a blacksmith stands over a forge, monitoring his work"
         it.description = "a large giant is here, forging a weapon"
@@ -112,10 +111,10 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         it.race = Giant()
     }.build()
 
-    MobBuilder(mobService).also {
+    mobService.builder().also {
         it.name = "Barbosa the cook"
         it.brief = "a messy and overworked cook wipes away his brow sweat"
-        it.description = "tbd"
+        it.description = "a large cook stops moving long enough to wipe sweat from his eyebrow."
         it.room = room6
         it.job = JobType.SHOPKEEPER
         it.race = Dwarf()
@@ -127,7 +126,8 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
             ItemCanonicalId.Bread,
             itemService.builder(
                 "a small hard loaf of bread",
-                "foo"
+                "foo",
+                0.1,
             ).also {
                 it.type = ItemType.FOOD
                 it.worth = 10

@@ -21,14 +21,17 @@ class StoneAxeRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "a stone axe",
-                "a stone axe is here."
+                "a stone axe is here.",
+                6.0,
             ).makeWeapon(
                 DamageType.SLASH,
                 "chop",
                 Material.STONE,
                 1,
                 2,
-            ).build()
+            ).also {
+                it.level = 2
+            }.build()
         )
     }
 }

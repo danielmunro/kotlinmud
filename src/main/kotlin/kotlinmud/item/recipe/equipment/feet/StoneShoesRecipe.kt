@@ -21,7 +21,8 @@ class StoneShoesRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "cobblestone shoes",
-                "cobblestone shoes are here."
+                "cobblestone shoes are here.",
+                3.0,
             ).also {
                 it.type = ItemType.EQUIPMENT
                 it.material = Material.STONE

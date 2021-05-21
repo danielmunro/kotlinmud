@@ -20,7 +20,8 @@ class WoodenSwordRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "a wooden sword",
-                "a wooden sword is here."
+                "a wooden sword is here.",
+                3.0,
             ).makeWeapon(
                 DamageType.POUND,
                 "twack",

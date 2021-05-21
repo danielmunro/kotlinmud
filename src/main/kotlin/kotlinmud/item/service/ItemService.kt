@@ -8,10 +8,11 @@ import kotlinmud.item.type.ItemCanonicalId
 class ItemService {
     private val items = mutableListOf<Item>()
 
-    fun builder(name: String, description: String): ItemBuilder {
+    fun builder(name: String, description: String, weight: Double = 1.0): ItemBuilder {
         return ItemBuilder(this).also {
             it.name = name
             it.description = description
+            it.weight = weight
         }
     }
 

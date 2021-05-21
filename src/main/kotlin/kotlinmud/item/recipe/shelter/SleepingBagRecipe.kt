@@ -19,7 +19,7 @@ class SleepingBagRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "a sleeping bag",
-                "a warm and comfortable sleeping bag is here."
+                "a warm and comfortable sleeping bag is here.",
             ).also {
                 it.type = ItemType.FURNITURE
                 it.material = Material.TEXTILE

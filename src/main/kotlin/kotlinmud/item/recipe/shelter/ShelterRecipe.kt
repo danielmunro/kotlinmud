@@ -19,7 +19,8 @@ class ShelterRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "a lean-to shelter",
-                "a lean-to has been constructed hastily here."
+                "a lean-to has been constructed hastily here.",
+                5.0,
             ).also {
                 it.type = ItemType.FURNITURE
                 it.material = Material.WOOD

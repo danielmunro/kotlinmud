@@ -23,7 +23,8 @@ class TorchRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "a torch",
-                "a torch flickers gently."
+                "a torch flickers gently.",
+                0.5,
             ).also {
                 it.type = ItemType.EQUIPMENT
                 it.material = Material.WOOD
@@ -31,6 +32,7 @@ class TorchRecipe : Recipe {
                 it.affects = listOf(
                     Affect(AffectType.GLOWING)
                 )
+                it.worth = 1
             }.build()
         )
     }

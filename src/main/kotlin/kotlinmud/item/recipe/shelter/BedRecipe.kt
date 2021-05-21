@@ -20,11 +20,13 @@ class BedRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "a comfortable bed is here.",
-                "a comfortable bed is here, maybe you should lie down and rest."
+                "a comfortable bed is here, maybe you should lie down and rest.",
+                25.0,
             ).also {
                 it.type = ItemType.FURNITURE
                 it.material = Material.WOOD
                 it.canOwn = false
+                it.worth = 3
             }.build()
         )
     }

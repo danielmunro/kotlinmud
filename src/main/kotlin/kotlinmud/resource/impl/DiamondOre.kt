@@ -22,6 +22,7 @@ class DiamondOre : Resource {
             ).also {
                 it.type = ItemType.DIAMOND
                 it.material = Material.DIAMOND
+                it.worth = 15
             }.build()
         )
     }

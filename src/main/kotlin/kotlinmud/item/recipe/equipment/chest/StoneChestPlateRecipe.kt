@@ -21,7 +21,8 @@ class StoneChestPlateRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "a cobblestone chestplate",
-                "a cobblestone chestplate is here."
+                "a cobblestone chestplate is here.",
+                5.0,
             ).also {
                 it.type = ItemType.EQUIPMENT
                 it.material = Material.STONE

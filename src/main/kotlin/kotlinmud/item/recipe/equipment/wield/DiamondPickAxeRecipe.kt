@@ -21,14 +21,18 @@ class DiamondPickAxeRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "a diamond pick axe",
-                "a diamond pick axe is here."
+                "a diamond pick axe is here.",
+                5.0,
             ).makeWeapon(
                 DamageType.PIERCE,
                 "stab",
                 Material.DIAMOND,
                 3,
                 4
-            ).build()
+            ).also {
+                it.level = 15
+                it.worth = 25
+            }.build()
         )
     }
 }

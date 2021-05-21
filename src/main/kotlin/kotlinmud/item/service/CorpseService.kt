@@ -13,10 +13,10 @@ class CorpseService(private val itemService: ItemService) {
         removeAllEquipmentForMob(mob)
         val corpse = itemService.builder(
             "a corpse of $mob",
-            "a corpse of $mob is here."
+            "a corpse of $mob is here.",
+            20.0,
         ).also {
             it.level = mob.level
-            it.weight = 100.0
             it.decayTimer = 20
             it.items = mob.items
             it.type = ItemType.CORPSE
@@ -73,71 +73,71 @@ class CorpseService(private val itemService: ItemService) {
     private fun createLeather(): Item {
         return itemService.builder(
             "a patch of leather",
-            "a patch of leather is here."
+            "a patch of leather is here.",
+            0.3,
         ).also {
             it.type = ItemType.LEATHER
             it.material = Material.ORGANIC
-            it.weight = 0.2
-            it.worth = 20
+            it.worth = 1
         }.build()
     }
 
     private fun createLargeFang(): Item {
         return itemService.builder(
             "a vicious fang",
-            "a large, vicious fang is lying here."
+            "a large, vicious fang is lying here.",
+            0.1,
         ).also {
             it.type = ItemType.OTHER
             it.material = Material.ORGANIC
-            it.weight = 2.0
-            it.worth = 1
+            it.worth = 0
         }.build()
     }
 
     private fun createScale(): Item {
         return itemService.builder(
             "a scale",
-            "a scale from a reptile has been left here."
+            "a scale from a reptile has been left here.",
+            0.1,
         ).also {
             it.type = ItemType.OTHER
             it.material = Material.ORGANIC
-            it.weight = 0.1
-            it.worth = 1
+            it.worth = 0
         }.build()
     }
 
     private fun createSmallFang(): Item {
         return itemService.builder(
             "a small fang",
-            "a small, sharp fang is lying here."
+            "a small, sharp fang is lying here.",
+            0.1,
         ).also {
             it.type = ItemType.OTHER
             it.material = Material.ORGANIC
-            it.weight = 0.1
-            it.worth = 1
+            it.worth = 0
         }.build()
     }
 
     private fun createBlob(): Item {
         return itemService.builder(
             "a blob",
-            "a small blob is here."
+            "a small blob is here.",
+            0.5,
         ).also {
             it.type = ItemType.BLOB
             it.material = Material.ORGANIC
-            it.weight = 3.0
-            it.worth = 10
+            it.worth = 0
         }.build()
     }
 
     private fun createThread(): Item {
         return itemService.builder(
             "a thin white thread",
-            "a thin white thread bundle is here."
+            "a thin white thread bundle is here.",
+            0.1,
         ).also {
             it.type = ItemType.THREAD
             it.material = Material.TEXTILE
-            it.weight = 0.1
             it.worth = 1
         }.build()
     }
@@ -145,67 +145,60 @@ class CorpseService(private val itemService: ItemService) {
     private fun createFeather(mob: Mob): Item {
         return itemService.builder(
             "$mob's feather",
-            "a feather plucked unceremoniously from $mob is here."
+            "a feather plucked unceremoniously from $mob is here.",
+            0.0,
         ).also {
             it.material = Material.ORGANIC
             it.type = ItemType.FEATHER
-            it.weight = 0.0
-            it.worth = 1
+            it.worth = 0
         }.build()
     }
 
     private fun createBrains(mob: Mob): Item {
         return itemService.builder(
             "brains of $mob",
-            "the brains of $mob have been unceremoniously splashed on the ground."
-        ).also {
-            it.makeOrgans()
-            it.weight = 2.5
-            it.worth = 1
+            "the brains of $mob have been unceremoniously splashed on the ground.",
+            2.0,
+        ).makeOrgans().also {
+            it.worth = 0
         }.build()
     }
 
     private fun createEntrails(): Item {
         return itemService.builder(
             "bloody entrails",
-            "bloody entrails are dashed across the ground."
-        ).also {
-            it.makeOrgans()
-            it.weight = 5.0
-            it.worth = 1
+            "bloody entrails are dashed across the ground.",
+            3.0,
+        ).makeOrgans().also {
+            it.worth = 0
         }.build()
     }
 
     private fun createHeart(mob: Mob): Item {
         return itemService.builder(
             "the heart of $mob",
-            "the heart of $mob is here."
-        ).also {
-            it.makeOrgans()
-            it.weight = 2.0
-            it.worth = 1
+            "the heart of $mob is here.",
+        ).makeOrgans().also {
+            it.worth = 0
         }.build()
     }
 
     private fun createLiver(): Item {
         return itemService.builder(
             "a liver",
-            "a liver has been sliced clean from its corpse."
-        ).also {
-            it.makeOrgans()
-            it.weight = 2.0
-            it.worth = 1
+            "a liver has been sliced clean from its corpse.",
+            1.5,
+        ).makeOrgans().also {
+            it.worth = 0
         }.build()
     }
 
     private fun createTail(mob: Mob): Item {
         return itemService.builder(
             "the tail of $mob",
-            "the tail of $mob has been sliced off."
-        ).also {
-            it.makeOrgans()
-            it.weight = 1.0
-            it.worth = 1
+            "the tail of $mob has been sliced off.",
+        ).makeOrgans().also {
+            it.worth = 0
         }.build()
     }
 }

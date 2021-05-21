@@ -18,7 +18,8 @@ class CoalOre : Resource {
         return listOf(
             itemService.builder(
                 "a lump of coal",
-                "a lump of coal is here"
+                "a lump of coal is here",
+                0.2,
             ).also {
                 it.type = ItemType.COAL_LUMP
                 it.material = Material.MINERAL

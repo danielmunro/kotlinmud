@@ -19,7 +19,8 @@ class WildGrass : Resource {
     override fun createProduct(itemService: ItemService): List<Item> {
         val itemBuilder = itemService.builder(
             "small green seeds",
-            "a handful of small green seeds are here"
+            "a handful of small green seeds are here",
+            0.0,
         ).also {
             it.type = ItemType.GRASS_SEED
             it.material = Material.ORGANIC

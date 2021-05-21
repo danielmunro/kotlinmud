@@ -20,7 +20,8 @@ class WoodenPickAxeRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "a wooden pick axe",
-                "a wooden pick axe is here."
+                "a wooden pick axe is here.",
+                3.0,
             ).makeWeapon(
                 DamageType.PIERCE,
                 "stab",

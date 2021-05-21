@@ -17,11 +17,11 @@ class LumberRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "lumber",
-                "lumber is here, stacked in a clean pile"
+                "lumber is here, stacked in a clean pile",
+                5.0,
             ).also {
                 it.material = Material.WOOD
                 it.weight = 10.0
-                it.level = 1
                 it.worth = 1
             }.build()
         )

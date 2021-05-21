@@ -17,13 +17,12 @@ class BuilderTableRecipe : Recipe {
         return listOf(
             itemService.builder(
                 "a builder's table",
-                "A sturdy builder's table is here, crafted from fine wood with care."
+                "A sturdy builder's table is here, crafted from fine wood with care.",
+                15.0,
             ).also {
                 it.type = ItemType.BUILDER_TABLE
                 it.material = Material.WOOD
-                it.weight = 20.0
-                it.level = 1
-                it.worth = 1
+                it.worth = 0
             }.build()
         )
     }

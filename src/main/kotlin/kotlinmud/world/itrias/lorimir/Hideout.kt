@@ -7,7 +7,6 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.MobRespawn
-import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
@@ -16,7 +15,7 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
 fun createGrongokHideout(mobService: MobService, roomService: RoomService, connector: Room) {
-    val builder = RoomBuilder(roomService).also {
+    val builder = roomService.builder().also {
         it.name = "entrance to a cave"
         it.description = "a cave"
         it.area = Area.GrongokHideout
