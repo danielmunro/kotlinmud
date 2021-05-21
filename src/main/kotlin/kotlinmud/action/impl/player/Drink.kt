@@ -20,8 +20,10 @@ fun createDrinkAction(): Action {
             return@build it.createErrorResponse(messageToActionCreator("you are full."))
         }
 
-        item.quantity = item.quantity!! - 1
-        mob.thirst += 1
+        if (item.quantity != null) {
+            item.quantity = item.quantity!! - 1
+        }
+        mob.thirst += 50
         applyAffectFromItem(mob, item)
 
         it.createOkResponse(createDrinkMessage(mob, item))

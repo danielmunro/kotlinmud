@@ -23,7 +23,7 @@ fun createEatAction(): Action {
             return@build it.createErrorResponse(messageToActionCreator("you are full."))
         }
 
-        mob.hunger += 1
+        mob.hunger += 50
         applyAffectFromItem(mob, item)
         mob.items.remove(item)
 

@@ -1,6 +1,7 @@
 package kotlinmud.world.itrias.troy
 
 import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.Drink
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
@@ -46,8 +47,9 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
             "tbd"
         ).also {
             it.canOwn = false
-            it.type = ItemType.FURNITURE
+            it.type = ItemType.DRINK
             it.material = Material.MINERAL
+            it.drink = Drink.WATER
         }.build()
     )
 
