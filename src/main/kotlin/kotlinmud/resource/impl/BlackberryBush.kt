@@ -16,9 +16,10 @@ class BlackberryBush : Resource {
     override val toughness = 1
 
     override fun createProduct(itemService: ItemService): List<Item> {
-        val itemBuilder = itemService.builder().also {
-            it.name = "a handful of sweet, wild blackberries"
-            it.description = "a delicious handful of sun-ripened blackberries are here."
+        val itemBuilder = itemService.builder(
+            "a handful of sweet, wild blackberries",
+            "a delicious handful of sun-ripened blackberries are here."
+        ).also {
             it.type = ItemType.FOOD
             it.material = Material.ORGANIC
         }

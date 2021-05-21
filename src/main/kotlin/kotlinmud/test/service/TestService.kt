@@ -4,7 +4,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinmud.action.service.ActionService
-import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.helper.createBiomes
 import kotlinmud.event.factory.createClientDisconnectedEvent
 import kotlinmud.event.impl.ClientConnectedEvent
@@ -37,11 +36,11 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
-import kotlinmud.item.type.Position
 import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.builder.PlayerMobBuilder
 import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.fight.Round
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.PlayerMob
@@ -295,9 +294,10 @@ class TestService(
     }
 
     fun createItemBuilder(): ItemBuilder {
-        return itemService.builder().also {
-            it.name = fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words()
-            it.description = "a nice looking herb is here"
+        return itemService.builder(
+            fixtureService.faker.cannabis.healthBenefits() + " with a " + fixtureService.faker.hipster.words(),
+            "a nice looking herb is here"
+        ).also {
             it.material = Material.ORGANIC
             it.type = ItemType.OTHER
         }
@@ -454,17 +454,16 @@ class TestService(
     }
 
     private fun weapon(mob: Mob): Item {
-        val item = itemService.builder().also {
-            it.name = "a sword"
-            it.description = "a sword"
-            it.type = ItemType.EQUIPMENT
-            it.position = Position.WEAPON
-            it.attributes = mapOf(
-                Pair(Attribute.HIT, 2),
-                Pair(Attribute.DAM, 2),
-            )
-            it.material = Material.IRON
-        }.build()
+        val item = itemService.builder(
+            "a sword",
+            "a sword"
+        ).makeWeapon(
+            DamageType.SLASH,
+            "slash",
+            Material.IRON,
+            2,
+            2,
+        ).build()
         mob.equipped.add(item)
         return item
     }

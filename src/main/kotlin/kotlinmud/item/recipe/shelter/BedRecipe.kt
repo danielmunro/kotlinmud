@@ -18,10 +18,11 @@ class BedRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
+            itemService.builder(
+                "a comfortable bed is here.",
+                "a comfortable bed is here, maybe you should lie down and rest."
+            ).also {
                 it.type = ItemType.FURNITURE
-                it.name = "a comfortable bed is here."
-                it.description = "a comfortable bed is here, maybe you should lie down and rest."
                 it.material = Material.WOOD
                 it.canOwn = false
             }.build()

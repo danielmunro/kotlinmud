@@ -14,9 +14,10 @@ class JungleTree : Resource {
     override val toughness = 2
     override fun createProduct(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "a jungle tree log"
-                it.description = "a jungle tree log is here"
+            itemService.builder(
+                "a jungle tree log",
+                "a jungle tree log is here"
+            ).also {
                 it.type = ItemType.WOOD_LOG
             }.build()
         )

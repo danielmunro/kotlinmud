@@ -41,9 +41,10 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
         }
     )
 
-    val fountain = itemService.builder().also {
-        it.name = "an ornate marble fountain"
-        it.description = "tbd"
+    val fountain = itemService.builder(
+        "an ornate marble fountain",
+        "tbd"
+    ).also {
         it.canOwn = false
         it.type = ItemType.FURNITURE
         it.material = Material.MINERAL

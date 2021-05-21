@@ -48,11 +48,16 @@ class ItemBuilder(private val itemService: ItemService) {
         return this
     }
 
-    fun makeWeapon(damageType: DamageType, attackVerb: String): ItemBuilder {
+    fun makeWeapon(damageType: DamageType, attackVerb: String, material: Material, hit: Int, dam: Int): ItemBuilder {
         type = ItemType.EQUIPMENT
         position = Position.WEAPON
         this.damageType = damageType
         this.attackVerb = attackVerb
+        this.material = material
+        this.attributes = mapOf(
+            Pair(Attribute.HIT, hit),
+            Pair(Attribute.DAM, dam),
+        )
 
         return this
     }

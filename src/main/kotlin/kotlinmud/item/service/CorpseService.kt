@@ -11,9 +11,10 @@ import kotlinmud.mob.type.Form
 class CorpseService(private val itemService: ItemService) {
     fun createCorpseFromMob(mob: Mob): Item {
         removeAllEquipmentForMob(mob)
-        val corpse = itemService.builder().also {
-            it.name = "a corpse of $mob"
-            it.description = "a corpse of $mob is here."
+        val corpse = itemService.builder(
+            "a corpse of $mob",
+            "a corpse of $mob is here."
+        ).also {
             it.level = mob.level
             it.weight = 100.0
             it.decayTimer = 20
@@ -70,9 +71,10 @@ class CorpseService(private val itemService: ItemService) {
     }
 
     private fun createLeather(): Item {
-        return itemService.builder().also {
-            it.name = "a patch of leather"
-            it.description = "a patch of leather is here."
+        return itemService.builder(
+            "a patch of leather",
+            "a patch of leather is here."
+        ).also {
             it.type = ItemType.LEATHER
             it.material = Material.ORGANIC
             it.weight = 0.2
@@ -81,9 +83,10 @@ class CorpseService(private val itemService: ItemService) {
     }
 
     private fun createLargeFang(): Item {
-        return itemService.builder().also {
-            it.name = "a vicious fang"
-            it.description = "a large, vicious fang is lying here."
+        return itemService.builder(
+            "a vicious fang",
+            "a large, vicious fang is lying here."
+        ).also {
             it.type = ItemType.OTHER
             it.material = Material.ORGANIC
             it.weight = 2.0
@@ -92,9 +95,10 @@ class CorpseService(private val itemService: ItemService) {
     }
 
     private fun createScale(): Item {
-        return itemService.builder().also {
-            it.name = "a scale"
-            it.description = "a scale from a reptile has been left here."
+        return itemService.builder(
+            "a scale",
+            "a scale from a reptile has been left here."
+        ).also {
             it.type = ItemType.OTHER
             it.material = Material.ORGANIC
             it.weight = 0.1
@@ -103,9 +107,10 @@ class CorpseService(private val itemService: ItemService) {
     }
 
     private fun createSmallFang(): Item {
-        return itemService.builder().also {
-            it.name = "a small fang"
-            it.description = "a small, sharp fang is lying here."
+        return itemService.builder(
+            "a small fang",
+            "a small, sharp fang is lying here."
+        ).also {
             it.type = ItemType.OTHER
             it.material = Material.ORGANIC
             it.weight = 0.1
@@ -114,9 +119,10 @@ class CorpseService(private val itemService: ItemService) {
     }
 
     private fun createBlob(): Item {
-        return itemService.builder().also {
-            it.name = "a blob"
-            it.description = "a small blob is here."
+        return itemService.builder(
+            "a blob",
+            "a small blob is here."
+        ).also {
             it.type = ItemType.BLOB
             it.material = Material.ORGANIC
             it.weight = 3.0
@@ -125,9 +131,10 @@ class CorpseService(private val itemService: ItemService) {
     }
 
     private fun createThread(): Item {
-        return itemService.builder().also {
-            it.name = "a thin white thread"
-            it.description = "a thin white thread bundle is here."
+        return itemService.builder(
+            "a thin white thread",
+            "a thin white thread bundle is here."
+        ).also {
             it.type = ItemType.THREAD
             it.material = Material.TEXTILE
             it.weight = 0.1
@@ -136,9 +143,10 @@ class CorpseService(private val itemService: ItemService) {
     }
 
     private fun createFeather(mob: Mob): Item {
-        return itemService.builder().also {
-            it.name = "$mob's feather"
-            it.description = "a feather plucked unceremoniously from $mob is here."
+        return itemService.builder(
+            "$mob's feather",
+            "a feather plucked unceremoniously from $mob is here."
+        ).also {
             it.material = Material.ORGANIC
             it.type = ItemType.FEATHER
             it.weight = 0.0
@@ -147,50 +155,55 @@ class CorpseService(private val itemService: ItemService) {
     }
 
     private fun createBrains(mob: Mob): Item {
-        return itemService.builder().also {
+        return itemService.builder(
+            "brains of $mob",
+            "the brains of $mob have been unceremoniously splashed on the ground."
+        ).also {
             it.makeOrgans()
-            it.name = "brains of $mob"
-            it.description = "the brains of $mob have been unceremoniously splashed on the ground."
             it.weight = 2.5
             it.worth = 1
         }.build()
     }
 
     private fun createEntrails(): Item {
-        return itemService.builder().also {
+        return itemService.builder(
+            "bloody entrails",
+            "bloody entrails are dashed across the ground."
+        ).also {
             it.makeOrgans()
-            it.name = "bloody entrails"
-            it.description = "bloody entrails are dashed across the ground."
             it.weight = 5.0
             it.worth = 1
         }.build()
     }
 
     private fun createHeart(mob: Mob): Item {
-        return itemService.builder().also {
+        return itemService.builder(
+            "the heart of $mob",
+            "the heart of $mob is here."
+        ).also {
             it.makeOrgans()
-            it.name = "the heart of $mob"
-            it.description = "the heart of $mob is here."
             it.weight = 2.0
             it.worth = 1
         }.build()
     }
 
     private fun createLiver(): Item {
-        return itemService.builder().also {
+        return itemService.builder(
+            "a liver",
+            "a liver has been sliced clean from its corpse."
+        ).also {
             it.makeOrgans()
-            it.name = "a liver"
-            it.description = "a liver has been sliced clean from its corpse."
             it.weight = 2.0
             it.worth = 1
         }.build()
     }
 
     private fun createTail(mob: Mob): Item {
-        return itemService.builder().also {
+        return itemService.builder(
+            "the tail of $mob",
+            "the tail of $mob has been sliced off."
+        ).also {
             it.makeOrgans()
-            it.name = "the tail of $mob"
-            it.description = "the tail of $mob has been sliced off."
             it.weight = 1.0
             it.worth = 1
         }.build()

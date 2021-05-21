@@ -72,9 +72,10 @@ fun createLorimirForest(
     respawn(
         ItemAreaRespawn(
             ItemCanonicalId.Mushroom,
-            itemService.builder().also {
-                it.name = "a small brown mushroom"
-                it.description = "tbd"
+            itemService.builder(
+                "a small brown mushroom",
+                "tbd"
+            ).also {
                 it.material = Material.ORGANIC
                 it.food = Food.MUSHROOM
                 it.canonicalId = ItemCanonicalId.Mushroom

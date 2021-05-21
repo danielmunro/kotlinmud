@@ -15,9 +15,10 @@ class PineTree : Resource {
 
     override fun createProduct(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "a pine tree log"
-                it.description = "a pine tree log is here"
+            itemService.builder(
+                "a pine tree log",
+                "a pine tree log is here"
+            ).also {
                 it.type = ItemType.WOOD_LOG
             }.build()
         )

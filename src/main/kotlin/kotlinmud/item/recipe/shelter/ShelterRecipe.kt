@@ -17,10 +17,11 @@ class ShelterRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
+            itemService.builder(
+                "a lean-to shelter",
+                "a lean-to has been constructed hastily here."
+            ).also {
                 it.type = ItemType.FURNITURE
-                it.name = "a lean-to shelter"
-                it.description = "a lean-to has been constructed hastily here."
                 it.material = Material.WOOD
                 it.canOwn = false
             }.build()

@@ -15,9 +15,10 @@ class Tar : Resource {
 
     override fun createProduct(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "a lump of tar"
-                it.description = "a lump of tar is here, make sure not to touch it!"
+            itemService.builder(
+                "a lump of tar",
+                "a lump of tar is here, make sure not to touch it!"
+            ).also {
                 it.type = ItemType.TAR
             }.build()
         )

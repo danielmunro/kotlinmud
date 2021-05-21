@@ -36,18 +36,19 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         }
     )
 
-    itemService.builder().also {
-        it.name = "a cobblestone fire-pit"
-        it.description = "a fire emanates from the circular pit."
+    itemService.builder(
+        "a cobblestone fire-pit",
+        "a fire emanates from the circular pit."
+    ).also {
         it.canOwn = false
         it.material = Material.STONE
         it.type = ItemType.FURNITURE
         it.room = room1
     }.build()
 
-    itemService.builder().also {
-        it.name = "a large wooden sign on a post"
-        it.description = """The sign reads:
+    itemService.builder(
+        "a large wooden sign on a post",
+        """The sign reads:
 
 +-------------------------------------------------+
 |                                                 |
@@ -55,6 +56,7 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
 |        an available quest.                      |
 |                                                 |
 +-------------------------------------------------+"""
+    ).also {
         it.canOwn = false
         it.material = Material.WOOD
         it.type = ItemType.FURNITURE
@@ -123,11 +125,12 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
     respawn(
         ItemMobRespawn(
             ItemCanonicalId.Bread,
-            itemService.builder().also {
+            itemService.builder(
+                "a small hard loaf of bread",
+                "foo"
+            ).also {
                 it.type = ItemType.FOOD
                 it.worth = 10
-                it.name = "a small hard loaf of bread"
-                it.description = "foo"
                 it.material = Material.ORGANIC
                 it.food = Food.BREAD
                 it.canonicalId = ItemCanonicalId.Bread

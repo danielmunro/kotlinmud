@@ -17,9 +17,10 @@ class GlassBlockRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "a block of glass"
-                it.description = "a block of glass is here."
+            itemService.builder(
+                "a block of glass",
+                "a block of glass is here."
+            ).also {
                 it.type = ItemType.GLASS_BLOCK
                 it.material = Material.GLASS
                 it.weight = 3.0

@@ -19,9 +19,10 @@ class StoneShoesRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "cobblestone shoes"
-                it.description = "cobblestone shoes are here."
+            itemService.builder(
+                "cobblestone shoes",
+                "cobblestone shoes are here."
+            ).also {
                 it.type = ItemType.EQUIPMENT
                 it.material = Material.STONE
                 it.position = Position.FEET

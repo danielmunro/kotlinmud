@@ -17,9 +17,10 @@ class Watermelon : Resource {
     override val toughness = 3
 
     override fun createProduct(itemService: ItemService): List<Item> {
-        val itemBuilder = itemService.builder().also {
-            it.name = "a juicy slice of watermelon"
-            it.description = "a juicy slice of watermelon is here"
+        val itemBuilder = itemService.builder(
+            "a juicy slice of watermelon",
+            "a juicy slice of watermelon is here"
+        ).also {
             it.food = Food.WATERMELON
             it.material = Material.ORGANIC
             it.type = ItemType.FOOD

@@ -15,9 +15,10 @@ class BuilderTableRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "a builder's table"
-                it.description = "A sturdy builder's table is here, crafted from fine wood with care."
+            itemService.builder(
+                "a builder's table",
+                "A sturdy builder's table is here, crafted from fine wood with care."
+            ).also {
                 it.type = ItemType.BUILDER_TABLE
                 it.material = Material.WOOD
                 it.weight = 20.0

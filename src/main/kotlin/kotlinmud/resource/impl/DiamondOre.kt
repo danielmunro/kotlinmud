@@ -16,9 +16,10 @@ class DiamondOre : Resource {
 
     override fun createProduct(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "a chunk of diamond ore"
-                it.description = "a chunk of ore glitters here."
+            itemService.builder(
+                "a chunk of diamond ore",
+                "a chunk of ore glitters here."
+            ).also {
                 it.type = ItemType.DIAMOND
                 it.material = Material.DIAMOND
             }.build()

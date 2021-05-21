@@ -15,9 +15,10 @@ class GoldOre : Resource {
 
     override fun createProduct(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "a chunk of rock with hints of gold"
-                it.description = "gold ore rock is here"
+            itemService.builder(
+                "a chunk of rock with hints of gold",
+                "gold ore rock is here"
+            ).also {
                 it.type = ItemType.GOLD_ORE
             }.build()
         )

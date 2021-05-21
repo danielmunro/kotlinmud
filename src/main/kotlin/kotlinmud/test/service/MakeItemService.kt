@@ -20,9 +20,10 @@ class MakeItemService(private val itemService: ItemService, private val amount: 
     }
 
     private fun createItem(): Item {
-        return itemService.builder().also {
-            it.name = "lumber"
-            it.description = "Fine pine lumber is here"
+        return itemService.builder(
+            "lumber",
+            "Fine pine lumber is here"
+        ).also {
             it.type = ItemType.LUMBER
             it.material = Material.WOOD
         }.build()

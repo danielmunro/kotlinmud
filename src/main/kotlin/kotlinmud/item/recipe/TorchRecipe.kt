@@ -21,9 +21,10 @@ class TorchRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "a torch"
-                it.description = "a torch flickers gently."
+            itemService.builder(
+                "a torch",
+                "a torch flickers gently."
+            ).also {
                 it.type = ItemType.EQUIPMENT
                 it.material = Material.WOOD
                 it.position = Position.HELD

@@ -17,10 +17,11 @@ class SleepingBagRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
+            itemService.builder(
+                "a sleeping bag",
+                "a warm and comfortable sleeping bag is here."
+            ).also {
                 it.type = ItemType.FURNITURE
-                it.name = "a sleeping bag"
-                it.description = "a warm and comfortable sleeping bag is here."
                 it.material = Material.TEXTILE
             }.build()
         )

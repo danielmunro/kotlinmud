@@ -19,9 +19,10 @@ class StoneHelmetRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "a cobblestone helmet"
-                it.description = "a cobblestone is here."
+            itemService.builder(
+                "a cobblestone helmet",
+                "a cobblestone is here."
+            ).also {
                 it.type = ItemType.EQUIPMENT
                 it.material = Material.STONE
                 it.position = Position.HEAD

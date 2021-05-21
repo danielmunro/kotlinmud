@@ -17,9 +17,10 @@ class WildGrass : Resource {
     override val toughness = 1
 
     override fun createProduct(itemService: ItemService): List<Item> {
-        val itemBuilder = itemService.builder().also {
-            it.name = "small green seeds"
-            it.description = "a handful of small green seeds are here"
+        val itemBuilder = itemService.builder(
+            "small green seeds",
+            "a handful of small green seeds are here"
+        ).also {
             it.type = ItemType.GRASS_SEED
             it.material = Material.ORGANIC
         }

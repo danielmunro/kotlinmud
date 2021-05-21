@@ -1,6 +1,5 @@
 package kotlinmud.item.recipe.equipment.wield
 
-import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
@@ -20,16 +19,16 @@ class StoneAxeRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "a stone axe"
-                it.description = "a stone axe is here."
-                it.makeWeapon(DamageType.SLASH, "chop")
-                it.material = Material.STONE
-                it.attributes = mapOf(
-                    Pair(Attribute.HIT, 1),
-                    Pair(Attribute.DAM, 2),
-                )
-            }.build()
+            itemService.builder(
+                "a stone axe",
+                "a stone axe is here."
+            ).makeWeapon(
+                DamageType.SLASH,
+                "chop",
+                Material.STONE,
+                1,
+                2,
+            ).build()
         )
     }
 }

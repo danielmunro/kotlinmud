@@ -16,9 +16,10 @@ class CoalOre : Resource {
 
     override fun createProduct(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "a lump of coal"
-                it.description = "a lump of coal is here"
+            itemService.builder(
+                "a lump of coal",
+                "a lump of coal is here"
+            ).also {
                 it.type = ItemType.COAL_LUMP
                 it.material = Material.MINERAL
             }.build()

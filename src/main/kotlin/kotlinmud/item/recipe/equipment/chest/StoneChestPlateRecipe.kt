@@ -19,9 +19,10 @@ class StoneChestPlateRecipe : Recipe {
 
     override fun getProducts(itemService: ItemService): List<Item> {
         return listOf(
-            itemService.builder().also {
-                it.name = "a cobblestone chestplate"
-                it.description = "a cobblestone chestplate is here."
+            itemService.builder(
+                "a cobblestone chestplate",
+                "a cobblestone chestplate is here."
+            ).also {
                 it.type = ItemType.EQUIPMENT
                 it.material = Material.STONE
                 it.position = Position.TORSO
