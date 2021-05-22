@@ -3,6 +3,7 @@ package kotlinmud.mob.skill.impl.enhancement
 import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.model.Message
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.clericAt
 import kotlinmud.mob.skill.factory.easyForMage
@@ -29,6 +30,11 @@ class GiantStrength : Spell {
     }
 
     override fun createMessage(caster: Mob, target: Mob): Message {
-        TODO("Not yet implemented")
+        val label = if (caster == target) "your" else "${target.name}'s"
+        return MessageBuilder()
+            .toActionCreator("$label muscles surge with heightened power.")
+            .toTarget("your muscles surge with heightened power.")
+            .toObservers("$target's muscles surge with heightened power.")
+            .build()
     }
 }
