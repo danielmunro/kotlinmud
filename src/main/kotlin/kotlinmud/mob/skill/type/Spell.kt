@@ -7,5 +7,7 @@ interface Spell : Skill {
     override val invokesOn
         get() = SkillInvokesOn.INPUT
 
+    fun cast(caster: Mob, target: Mob)
+
     fun createMessage(caster: Mob, target: Mob): Message
 }

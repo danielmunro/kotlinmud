@@ -14,6 +14,11 @@ class Heal : Spell {
     override val difficulty = mapOf(easyForCleric())
     override val intent = Intent.PROTECTIVE
 
+    override fun cast(caster: Mob, target: Mob) {
+        val amount = 50
+        target.increaseHp(amount)
+    }
+
     override fun createMessage(caster: Mob, target: Mob): Message {
         TODO("Not yet implemented")
     }

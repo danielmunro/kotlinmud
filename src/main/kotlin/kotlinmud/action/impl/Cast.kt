@@ -14,6 +14,7 @@ fun createCastAction(): Action {
         val spell = it.get<Spell>(Syntax.SPELL)
         val mob = it.getMob()
         val target = it.get(Syntax.OPTIONAL_TARGET) ?: mob
+        spell.cast(mob, target)
         it.createOkResponse(spell.createMessage(mob, target))
     }
 }

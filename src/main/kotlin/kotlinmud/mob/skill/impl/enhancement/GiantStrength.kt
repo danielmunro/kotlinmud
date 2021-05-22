@@ -1,5 +1,7 @@
 package kotlinmud.mob.skill.impl.enhancement
 
+import kotlinmud.affect.model.Affect
+import kotlinmud.affect.type.AffectType
 import kotlinmud.io.model.Message
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.clericAt
@@ -21,6 +23,10 @@ class GiantStrength : Spell {
         normalForCleric()
     )
     override val intent = Intent.PROTECTIVE
+
+    override fun cast(caster: Mob, target: Mob) {
+        target.affects.add(Affect(AffectType.GIANT_STRENGTH, caster.level))
+    }
 
     override fun createMessage(caster: Mob, target: Mob): Message {
         TODO("Not yet implemented")

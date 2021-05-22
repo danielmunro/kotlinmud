@@ -1,5 +1,6 @@
 package kotlinmud.mob.skill.impl.healing
 
+import kotlinmud.helper.math.dice
 import kotlinmud.io.model.Message
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.clericAt
@@ -13,6 +14,11 @@ class CureSerious : Spell {
     override val levelObtained = mapOf(clericAt(10))
     override val difficulty = mapOf(easyForCleric())
     override val intent = Intent.PROTECTIVE
+
+    override fun cast(caster: Mob, target: Mob) {
+        val amount = dice(2, 8)
+        target.increaseHp(amount)
+    }
 
     override fun createMessage(caster: Mob, target: Mob): Message {
         TODO("Not yet implemented")

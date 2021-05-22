@@ -1,5 +1,7 @@
 package kotlinmud.mob.skill.impl.malediction
 
+import kotlinmud.affect.model.Affect
+import kotlinmud.affect.type.AffectType
 import kotlinmud.io.model.Message
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.easyForMage
@@ -17,6 +19,10 @@ class Curse : Spell {
         easyForMage()
     )
     override val intent = Intent.OFFENSIVE
+
+    override fun cast(caster: Mob, target: Mob) {
+        target.affects.add(Affect(AffectType.CURSE, caster.level / 2))
+    }
 
     override fun createMessage(caster: Mob, target: Mob): Message {
         TODO("Not yet implemented")

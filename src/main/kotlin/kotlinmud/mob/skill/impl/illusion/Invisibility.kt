@@ -1,5 +1,7 @@
 package kotlinmud.mob.skill.impl.illusion
 
+import kotlinmud.affect.model.Affect
+import kotlinmud.affect.type.AffectType
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.model.Mob
@@ -23,6 +25,10 @@ class Invisibility : Spell {
         normalForCleric()
     )
     override val intent = Intent.PROTECTIVE
+
+    override fun cast(caster: Mob, target: Mob) {
+        target.affects.add(Affect(AffectType.INVISIBILITY, caster.level))
+    }
 
     override fun createMessage(caster: Mob, target: Mob): Message {
         val toObservers = "$target fades out of existence."
