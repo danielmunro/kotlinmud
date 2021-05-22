@@ -19,7 +19,6 @@ fun createQuaffAction(): Action {
             mob.affects.add(Affect(it.type, it.timeout, it.attributes))
         }
         item.spells.forEach {
-
         }
         mob.items.remove(item)
         svc.createOkResponse(messageToActionCreator("you quaff $item"))

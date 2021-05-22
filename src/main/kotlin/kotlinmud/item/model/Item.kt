@@ -15,7 +15,6 @@ import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.mob.skill.type.Spell
 
 class Item(
     val type: ItemType,

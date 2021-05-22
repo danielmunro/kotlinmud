@@ -9,7 +9,6 @@ import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.mob.skill.type.Spell
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.respawn
@@ -145,10 +144,12 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
     )
 
     val main1 = build(mainStreetBuilder)
-    val potionShop = build(roomBuilder.copy {
-        it.name = "Potions & Apothecary"
-        it.description = "A potion shop."
-    })
+    val potionShop = build(
+        roomBuilder.copy {
+            it.name = "Potions & Apothecary"
+            it.description = "A potion shop."
+        }
+    )
 
     mobService.builder(
         "a potion brewer",

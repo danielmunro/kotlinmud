@@ -1,7 +1,8 @@
-package kotlinmud.action.impl.cast.healing
+package kotlinmud.action.impl.cast
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import assertk.assertions.isGreaterThan
 import kotlinmud.io.type.IOStatus
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.helper.createTestService
@@ -18,6 +19,7 @@ class CureLightTest {
         val mob = test.createMob {
             it.skills[SkillType.CURE_LIGHT] = 100
         }
+        mob.hp = 1
 
         // when
         val response = test.runAction("cast 'cure light'")
@@ -26,6 +28,9 @@ class CureLightTest {
         assertThat(response.message.toActionCreator).isEqualTo("you feel better!")
         assertThat(response.message.toTarget).isEqualTo("you feel better!")
         assertThat(response.message.toObservers).isEqualTo("$mob feels better!")
+
+        // and
+        assertThat(mob.hp).isGreaterThan(1)
     }
 
     @Test
