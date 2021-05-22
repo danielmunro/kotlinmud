@@ -70,14 +70,6 @@ fun spell(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SPELL, Syntax.OPTIONAL_TARGET)
 }
 
-fun offensiveSpell(): List<Syntax> {
-    return listOf(Syntax.COMMAND, Syntax.SPELL, Syntax.TARGET_MOB)
-}
-
-fun target(): List<Syntax> {
-    return listOf(Syntax.COMMAND, Syntax.TARGET_MOB)
-}
-
 fun optionalTarget(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.OPTIONAL_TARGET)
 }

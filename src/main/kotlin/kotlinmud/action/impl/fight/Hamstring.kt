@@ -5,7 +5,7 @@ import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.affect.factory.createAffect
 import kotlinmud.affect.type.AffectType
-import kotlinmud.io.factory.target
+import kotlinmud.io.factory.optionalTarget
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
@@ -15,14 +15,14 @@ import kotlinmud.mob.type.Intent
 
 fun createHamstringAction(): Action {
     return ActionBuilder(Command.HAMSTRING).also {
-        it.syntax = target()
+        it.syntax = optionalTarget()
         it.costs = listOf(mvCostOf(100))
         it.intent = Intent.OFFENSIVE
         it.skill = Hamstring()
     } build {
         createAffect(AffectType.STUNNED, Math.max(it.getLevel() / 10, 3))
         val mob = it.getMob()
-        val target = it.get<Mob>(Syntax.TARGET_MOB)
+        val target = it.get<Mob>(Syntax.OPTIONAL_TARGET)
         it.createOkResponse(
             MessageBuilder()
                 .toActionCreator("You slash $target's hamstring, disabling them.")

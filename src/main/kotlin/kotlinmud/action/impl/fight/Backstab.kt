@@ -4,7 +4,6 @@ import kotlinmud.action.builder.ActionBuilder
 import kotlinmud.action.model.Action
 import kotlinmud.action.type.Command
 import kotlinmud.io.factory.optionalTarget
-import kotlinmud.io.factory.target
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.fight.type.DamageType

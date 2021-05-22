@@ -7,7 +7,6 @@ import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.helper.math.dice
 import kotlinmud.io.factory.optionalTarget
-import kotlinmud.io.factory.target
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob

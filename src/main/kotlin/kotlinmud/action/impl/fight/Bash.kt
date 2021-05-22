@@ -6,7 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.type.Attribute
-import kotlinmud.io.factory.target
+import kotlinmud.io.factory.optionalTarget
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.fight.type.DamageType
@@ -19,11 +19,11 @@ import kotlin.random.Random
 fun createBashAction(): Action {
     return ActionBuilder(Command.BASH).also {
         it.costs = listOf(mvCostOf(20))
-        it.syntax = target()
+        it.syntax = optionalTarget()
         it.intent = Intent.OFFENSIVE
         it.skill = Bash()
     } build {
-        val target = it.get<Mob>(Syntax.TARGET_MOB)
+        val target = it.get<Mob>(Syntax.OPTIONAL_TARGET)
         val limit = (it.getLevel() / 10).coerceAtLeast(2)
         val modifier = Random.nextInt(1, limit) +
             if (target.savesAgainst(DamageType.POUND)) 0 else Random.nextInt(1, limit)

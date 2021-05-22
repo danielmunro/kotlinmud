@@ -18,7 +18,6 @@ enum class Syntax(val syntax: String) {
     RESOURCE_IN_ROOM("resource in room"),
     MOB_IN_ROOM("mob in room"),
     AVAILABLE_NOUN("available noun"),
-    TARGET_MOB("target mob"),
     OPTIONAL_TARGET("optional target"),
     DOOR_IN_ROOM("door in room"),
     FREE_FORM("free form"),

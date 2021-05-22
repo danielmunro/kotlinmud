@@ -30,7 +30,6 @@ import kotlinmud.action.contextBuilder.SkillToPracticeContextBuilder
 import kotlinmud.action.contextBuilder.SpellContextBuilder
 import kotlinmud.action.contextBuilder.SpellFromHealerContextBuilder
 import kotlinmud.action.contextBuilder.SubmittableQuestContextBuilder
-import kotlinmud.action.contextBuilder.TargetMobContextBuilder
 import kotlinmud.action.contextBuilder.TrainableContextBuilder
 import kotlinmud.action.model.Action
 import kotlinmud.action.model.Context
@@ -65,7 +64,6 @@ class ContextBuilderService(
             Syntax.EQUIPPED_ITEM -> EquippedItemContextBuilder(request.mob)
             Syntax.MOB_IN_ROOM -> MobInRoomContextBuilder(mobService.findMobsInRoom(request.getRoom()))
             Syntax.AVAILABLE_NOUN -> AvailableNounContextBuilder(mobService, request.mob, request.getRoom())
-            Syntax.TARGET_MOB -> TargetMobContextBuilder(mobService, request.mob, request.getRoom())
             Syntax.OPTIONAL_TARGET -> OptionalTargetContextBuilder(request.mob, mobService.findMobsInRoom(request.getRoom()) + request.mob.items, action, mobService.getMobFight(request.mob))
             Syntax.DOOR_IN_ROOM -> DoorInRoomContextBuilder(request.getRoom())
             Syntax.FREE_FORM -> FreeFormContextBuilder(request.args)

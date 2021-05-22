@@ -7,7 +7,7 @@ import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.helper.math.dice
-import kotlinmud.io.factory.target
+import kotlinmud.io.factory.optionalTarget
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
@@ -16,11 +16,11 @@ import kotlinmud.mob.type.Intent
 
 fun createTailAction(): Action {
     return ActionBuilder(Command.TAIL).also {
-        it.syntax = target()
+        it.syntax = optionalTarget()
         it.costs = listOf(mvCostOf(20))
         it.intent = Intent.OFFENSIVE
     } build {
-        val target = it.get<Mob>(Syntax.TARGET_MOB)
+        val target = it.get<Mob>(Syntax.OPTIONAL_TARGET)
 
         if (dice(1, 4) == 1) {
             target.affects.add(Affect(AffectType.STUNNED, 0, mapOf(Pair(Attribute.STR, -1))))
