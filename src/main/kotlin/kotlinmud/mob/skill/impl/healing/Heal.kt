@@ -1,6 +1,7 @@
 package kotlinmud.mob.skill.impl.healing
 
 import kotlinmud.io.model.Message
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.clericAt
 import kotlinmud.mob.skill.factory.easyForCleric
@@ -20,6 +21,13 @@ class Heal : Spell {
     }
 
     override fun createMessage(caster: Mob, target: Mob): Message {
-        TODO("Not yet implemented")
+        val toObservers = "$target is surrounded by a warm glow."
+        val toSelf = "you are surrounded by a warm glow."
+
+        return MessageBuilder()
+            .toActionCreator(if (caster == target) toSelf else toObservers)
+            .toTarget(toSelf)
+            .toObservers(toObservers)
+            .build()
     }
 }

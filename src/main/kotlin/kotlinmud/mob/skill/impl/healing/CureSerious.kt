@@ -2,6 +2,7 @@ package kotlinmud.mob.skill.impl.healing
 
 import kotlinmud.helper.math.dice
 import kotlinmud.io.model.Message
+import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.factory.clericAt
 import kotlinmud.mob.skill.factory.easyForCleric
@@ -21,6 +22,13 @@ class CureSerious : Spell {
     }
 
     override fun createMessage(caster: Mob, target: Mob): Message {
-        TODO("Not yet implemented")
+        val toObservers = "$target feels better!"
+        val toSelf = "you feel better!"
+
+        return MessageBuilder()
+            .toActionCreator(if (caster == target) toSelf else toObservers)
+            .toTarget(toSelf)
+            .toObservers(toObservers)
+            .build()
     }
 }
