@@ -2,14 +2,18 @@ package kotlinmud.world.itrias.troy
 
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
+import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
+import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.skill.type.Spell
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.respawn
+import kotlinmud.respawn.model.ItemMobRespawn
 import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
@@ -140,8 +144,43 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
         )
     )
 
+    val main1 = build(mainStreetBuilder)
+    val potionShop = build(roomBuilder.copy {
+        it.name = "Potions & Apothecary"
+        it.description = "A potion shop."
+    })
+
+    mobService.builder(
+        "a potion brewer",
+        "a potion brewer stands here",
+        "tbd",
+    ).also {
+        it.room = potionShop
+        it.canonicalId = MobCanonicalId.PotionBrewer
+        it.job = JobType.SHOPKEEPER
+    }.build()
+
+    respawn(
+        ItemMobRespawn(
+            itemService.builder(
+                "a potion of cure light",
+                "a potion of cure light is here",
+                0.2,
+            ).also {
+                it.spells = listOf(SkillType.CURE_LIGHT)
+                it.level = 5
+                it.canonicalId = ItemCanonicalId.PotionCureLight
+                it.material = Material.ORGANIC
+                it.type = ItemType.POTION
+                it.worth = 10
+            },
+            MobCanonicalId.PotionBrewer,
+            100,
+        )
+    )
+
     connect(connection)
-        .toRoom(build(mainStreetBuilder))
+        .toRoom(main1)
         .toRoom(build(mainStreetBuilder), Direction.NORTH)
         .toRoom(build(mainStreetBuilder), Direction.NORTH)
         .toRoom(fountainRoom, Direction.NORTH)
@@ -150,6 +189,9 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
         .toRoom(build(mainStreetBuilder), Direction.WEST)
         .toRoom(westGate, Direction.WEST)
         .toRoom(build(outsideWall), Direction.WEST)
+
+    connect(main1)
+        .toRoom(potionShop)
 
     connect(fountainRoom)
         .toRoom(build(mainStreetBuilder), Direction.EAST)

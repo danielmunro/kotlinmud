@@ -14,6 +14,8 @@ import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.type.DamageType
+import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.skill.type.Spell
 
 class Item(
     val type: ItemType,
@@ -26,6 +28,7 @@ class Item(
     val isContainer: Boolean,
     val canOwn: Boolean,
     val affects: MutableList<Affect> = mutableListOf(),
+    val spells: MutableList<SkillType> = mutableListOf(),
     val canonicalId: ItemCanonicalId?,
     val position: Position?,
     val attackVerb: String?,

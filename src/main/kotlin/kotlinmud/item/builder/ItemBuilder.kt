@@ -11,19 +11,22 @@ import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.type.DamageType
+import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.skill.type.Spell
 import kotlinmud.room.model.Room
 
 class ItemBuilder(private val itemService: ItemService) {
     lateinit var type: ItemType
     lateinit var name: String
     lateinit var description: String
+    lateinit var material: Material
     var worth: Int = 1
     var level: Int = 1
     var weight: Double = 1.0
-    lateinit var material: Material
     var isContainer = false
     var canOwn = true
     var affects: List<Affect> = listOf()
+    var spells: List<SkillType> = listOf()
     var canonicalId: ItemCanonicalId? = null
     var position: Position? = null
     var attackVerb: String? = null
@@ -81,6 +84,7 @@ class ItemBuilder(private val itemService: ItemService) {
             isContainer,
             canOwn,
             affects.toMutableList(),
+            spells.toMutableList(),
             canonicalId,
             position,
             attackVerb,
