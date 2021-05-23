@@ -20,6 +20,10 @@ class ItemService {
         items.add(item)
     }
 
+    fun remove(item: Item) {
+        items.remove(item)
+    }
+
     fun findByCanonicalId(id: ItemCanonicalId): List<Item> {
         return items.filter { it.canonicalId == id }
     }

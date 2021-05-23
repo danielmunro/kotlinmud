@@ -17,7 +17,7 @@ class QuaffTest {
 
         // given
         val potion = test.createPotion()
-        test.createPlayerMob {
+        val mob = test.createPlayerMob {
             it.items.add(potion)
         }
 
@@ -25,7 +25,9 @@ class QuaffTest {
         val response = test.runAction("quaff ${getIdentifyingWord(potion)}")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you quaff $potion")
+        assertThat(response.message.toActionCreator).isEqualTo("you quaff $potion.\nyou feel better!")
+        assertThat(response.message.toTarget).isEqualTo("you quaff $potion.\nyou feel better!")
+        assertThat(response.message.toObservers).isEqualTo("$mob quaffs $potion.\n$mob feels better!")
     }
 
     @Test

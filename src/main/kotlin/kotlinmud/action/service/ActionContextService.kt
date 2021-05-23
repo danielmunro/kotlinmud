@@ -137,6 +137,10 @@ class ActionContextService(
         return serverService.getClients()
     }
 
+    fun destroyItem(item: Item) {
+        itemService.remove(item)
+    }
+
     fun getItemGroupsFor(mob: Mob): Map<String, List<Item>> {
         return mob.items.groupBy { it.name }
     }

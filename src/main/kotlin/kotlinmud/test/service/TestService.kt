@@ -47,6 +47,7 @@ import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.FightService
 import kotlinmud.mob.service.MobService
+import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.impl.Warrior
 import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Gender
@@ -322,6 +323,7 @@ class TestService(
         return createItemBuilder().also {
             it.type = ItemType.POTION
             it.material = Material.ORGANIC
+            it.spells = listOf(SkillType.CURE_LIGHT)
         }.build()
     }
 
