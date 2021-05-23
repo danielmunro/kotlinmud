@@ -197,7 +197,7 @@ fun createCloseMessage(mob: Mob, door: Door): Message {
 
 fun createBuyMessage(mob: Mob, shopkeeper: Mob, item: Item): Message {
     return MessageBuilder()
-        .toActionCreator("you buy $item from $shopkeeper for ${item.worth} gold.")
+        .toActionCreator("you buy $item from $shopkeeper for ${item.worth} copper.")
         .toTarget("$mob buys $item from you.")
         .toObservers("$mob buys $item from $shopkeeper.")
         .build()

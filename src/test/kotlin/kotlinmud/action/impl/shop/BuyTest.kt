@@ -27,7 +27,7 @@ class BuyTest {
         val response = test.runAction("buy ${getIdentifyingWord(item)}")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you buy $item from $shop for 0 gold.")
+        assertThat(response.message.toActionCreator).isEqualTo("you buy $item from $shop for 0 copper.")
     }
 
     @Test
