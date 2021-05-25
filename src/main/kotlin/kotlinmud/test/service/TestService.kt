@@ -102,6 +102,10 @@ class TestService(
         serverService.getClients().add(client)
     }
 
+    fun getTimeService(): TimeService {
+        return timeService
+    }
+
     fun <T> publish(event: Event<T>) {
         runBlocking { eventService.publish(event) }
     }

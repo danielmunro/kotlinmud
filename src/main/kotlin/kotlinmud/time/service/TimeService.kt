@@ -11,12 +11,16 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+const val START_OF_TIME = 10000
 const val TICKS_IN_DAY = 20
 const val TICK_LENGTH_IN_SECONDS = 40
 const val DAYS_IN_MONTH = 30
 const val DAYS_IN_YEAR = 365
 
-class TimeService(private val eventService: EventService, private var time: TimeDAO) {
+class TimeService(
+    private val eventService: EventService,
+    private var time: TimeDAO
+) {
     private var pulse = 0
     private var lastSecond = 0
     private val logger = logger(this)
@@ -31,7 +35,7 @@ class TimeService(private val eventService: EventService, private var time: Time
     }
 
     fun getDate(): String {
-        val numberOfDays = transaction { time.time } / TICKS_IN_DAY
+        val numberOfDays = getBaseTime() / TICKS_IN_DAY
         val dayOfMonth = numberOfDays % DAYS_IN_MONTH
         val month = (numberOfDays / DAYS_IN_MONTH) + 1
         val year = numberOfDays % DAYS_IN_YEAR
@@ -69,7 +73,11 @@ class TimeService(private val eventService: EventService, private var time: Time
     }
 
     private fun getHour(): Int {
-        return transaction { time.time } % TICKS_IN_DAY
+        return getBaseTime() % TICKS_IN_DAY
+    }
+
+    private fun getBaseTime(): Int {
+        return transaction { time.time } + START_OF_TIME
     }
 
     private fun getSeconds(): Int {
