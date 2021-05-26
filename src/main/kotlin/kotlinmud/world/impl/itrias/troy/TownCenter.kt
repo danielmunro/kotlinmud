@@ -12,6 +12,7 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.itemRespawnsFor
+import kotlinmud.respawn.helper.mobRespawnsFor
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.ItemMobRespawn
 import kotlinmud.respawn.model.MobRespawn
@@ -91,131 +92,71 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
         it.description = "tbd"
     }
 
-    respawn(
-        MobRespawn(
-            mobService.builder(
-                "a wandering vagabond",
-                "a vagabond is wandering around",
-                "tbd",
-            ).also {
-                it.canonicalId = MobCanonicalId.WanderingVagabond
-                it.race = Human()
-            },
-            Area.Troy,
-            10
-        )
-    )
-
-    respawn(
-        MobRespawn(
-            mobService.builder(
-                "a beastly fido",
-                "a beastly fido is here, looking for scraps",
-                "tbd",
-            ).also {
-                it.canonicalId = MobCanonicalId.BeastlyFido
-                it.race = Canid()
-            },
-            Area.Troy,
-            10
-        )
-    )
-
-    respawn(
-        MobRespawn(
-            mobService.builder(
-                "a janitor",
-                "a janitor is here, sweeping up",
-                "tbd",
-            ).also {
-                it.canonicalId = MobCanonicalId.Janitor
-                it.job = JobType.SCAVENGER
-                it.race = Human()
-            },
-            Area.Troy,
-            2
-        )
-    )
-
-    respawn(
-        MobRespawn(
-            mobService.builder(
-                "the mayor of Troy",
-                "the mayor of Troy is here, garnering support for his next campaign",
-                "tbd",
-            ).also {
-                it.canonicalId = MobCanonicalId.MayorOfTroy
-                it.race = Human()
-            },
-            Area.Troy,
-            1
-        )
-    )
-
-    val main1 = build(mainStreetBuilder)
-
-    val potionShop = build(
-        roomBuilder.copy {
-            it.name = "Potions & Apothecary"
-            it.description = "A potion shop."
-        }
-    )
-
-    mobService.builder(
-        "a potion brewer",
-        "a potion brewer stands here",
-        "tbd",
-    ).also {
-        it.room = potionShop
-        it.canonicalId = MobCanonicalId.PotionBrewer
-        it.job = JobType.SHOPKEEPER
-    }.build()
-
-    itemRespawnsFor(
-        MobCanonicalId.PotionBrewer,
+    mobRespawnsFor(
+        Area.Troy,
         listOf(
-            Pair(createCureLightPotion(itemService), 100),
-            Pair(createCurePoisonPotion(itemService), 100),
-            Pair(createCureBlindnessPotion(itemService), 100),
-            Pair(createRemoveCursePotion(itemService), 100),
-            Pair(createHastePotion(itemService), 100),
-        )
+            Pair(
+                mobService.builder(
+                    "a wandering vagabond",
+                    "a vagabond is wandering around",
+                    "tbd",
+                ).also {
+                    it.canonicalId = MobCanonicalId.WanderingVagabond
+                    it.race = Human()
+                },
+                10,
+            ),
+            Pair(
+                mobService.builder(
+                    "a wandering trader",
+                    "a wandering trader is here, looking for their next deal",
+                    "tbd",
+                ).also {
+                    it.canonicalId = MobCanonicalId.WanderingTrader
+                    it.race = Human()
+                },
+                3,
+            ),
+            Pair(
+                mobService.builder(
+                    "a beastly fido",
+                    "a beastly fido is here, looking for scraps",
+                    "tbd",
+                ).also {
+                    it.canonicalId = MobCanonicalId.BeastlyFido
+                    it.race = Canid()
+                },
+                10,
+            ),
+            Pair(
+                mobService.builder(
+                    "a janitor",
+                    "a janitor is here, sweeping up",
+                    "tbd",
+                ).also {
+                    it.canonicalId = MobCanonicalId.Janitor
+                    it.job = JobType.SCAVENGER
+                    it.race = Human()
+                },
+                2,
+            ),
+            Pair(
+                mobService.builder(
+                    "the mayor of Troy",
+                    "the mayor of Troy is here, garnering support for his next campaign",
+                    "tbd",
+                ).also {
+                    it.canonicalId = MobCanonicalId.MayorOfTroy
+                    it.race = Human()
+                },
+                1,
+            ),
+        ),
     )
 
-    val tavern = build(
-        roomBuilder.copy {
-            it.name = "The Ramshackle Tavern"
-            it.description = "A humble and aging wooden structure surrounds you. Patrons sit around dimly lit tables, swapping tales of yore."
-        }
-    )
+    val southGate = createTroySouthGate(mobService, roomService, itemService, connection)
 
-    mobService.builder(
-        "the barkeeper",
-        "the barkeeper is here, cleaning out a mug",
-        "tbd",
-    ).also {
-        it.room = tavern
-        it.canonicalId = MobCanonicalId.Barkeeper
-        it.job = JobType.SHOPKEEPER
-    }
-
-    itemRespawnsFor(
-        MobCanonicalId.Barkeeper,
-        listOf(
-            Pair(createAmberAle(itemService), 100),
-            Pair(createPorter(itemService), 100),
-            Pair(createIPA(itemService), 100),
-        )
-    )
-
-    connect(main1)
-        .toRoom(listOf(
-            Pair(potionShop, Direction.WEST),
-            Pair(tavern, Direction.EAST),
-        ))
-
-    connect(connection)
-        .toRoom(main1)
+    connect(southGate)
         .toRoom(build(mainStreetBuilder), Direction.NORTH)
         .toRoom(build(mainStreetBuilder), Direction.NORTH)
         .toRoom(fountainRoom, Direction.NORTH)

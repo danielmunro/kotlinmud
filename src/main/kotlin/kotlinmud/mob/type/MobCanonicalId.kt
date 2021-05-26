@@ -4,6 +4,7 @@ enum class MobCanonicalId {
     SmallFox,
     CaveToad,
     WanderingVagabond,
+    WanderingTrader,
     Janitor,
     MayorOfTroy,
     BeastlyFido,

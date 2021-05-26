@@ -30,7 +30,6 @@ class MobRespawnService(
         val rooms = roomService.findByArea(area)
         val count = mobService.findMobsByCanonicalId(canonicalId).size
         var amountToRespawn = Math.min(maxAmount - count, maxAmount)
-        val randomSubset = rooms.filter { Math.random() < 0.3 }
         var i = 0
 
         // ensure the mob inherits its own canonical ID
@@ -40,13 +39,13 @@ class MobRespawnService(
             println("respawn ${mobBuilder.name} to $area (x$amountToRespawn)")
         }
 
-        while (amountToRespawn > 0 && i < randomSubset.size) {
+        while (amountToRespawn > 0) {
             val hp = calculateHpForMob(
                 mobBuilder.level,
                 mobBuilder.race,
             )
             mobBuilder.also {
-                it.room = randomSubset[i]
+                it.room = rooms.random()
                 it.hp = hp
                 it.attributes[Attribute.HP] = hp
             }.build()
