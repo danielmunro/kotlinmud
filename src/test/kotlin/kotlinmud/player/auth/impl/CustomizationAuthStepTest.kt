@@ -45,7 +45,8 @@ Spell Groups
 ============
                 healing  8               illusion  8
             malediction  8            benediction  8
-            enhancement  8
+            enhancement  8               curative  8
+
 
 Skills
 ======

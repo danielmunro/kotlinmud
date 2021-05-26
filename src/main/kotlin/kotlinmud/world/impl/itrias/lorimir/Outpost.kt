@@ -1,4 +1,4 @@
-package kotlinmud.world.itrias.lorimir
+package kotlinmud.world.impl.itrias.lorimir
 
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food

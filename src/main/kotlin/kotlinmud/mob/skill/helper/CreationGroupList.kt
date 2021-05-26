@@ -5,6 +5,7 @@ import kotlinmud.mob.skill.creationGroup.MageDefaultCreationGroup
 import kotlinmud.mob.skill.creationGroup.ThiefDefaultCreationGroup
 import kotlinmud.mob.skill.creationGroup.WarriorDefaultCreationGroup
 import kotlinmud.mob.skill.creationGroup.spell.BenedictionSpellGroup
+import kotlinmud.mob.skill.creationGroup.spell.CurativeSpellGroup
 import kotlinmud.mob.skill.creationGroup.spell.EnhancementSpellGroup
 import kotlinmud.mob.skill.creationGroup.spell.HealingSpellGroup
 import kotlinmud.mob.skill.creationGroup.spell.IllusionSpellGroup
@@ -18,10 +19,11 @@ fun createCreationGroupList(): List<Customization> {
         MaledictionSpellGroup(),
         BenedictionSpellGroup(),
         EnhancementSpellGroup(),
+        CurativeSpellGroup(),
         WarriorDefaultCreationGroup(),
         ThiefDefaultCreationGroup(),
         ClericDefaultCreationGroup(),
-        MageDefaultCreationGroup()
+        MageDefaultCreationGroup(),
     ) + getSkillsAsCustomizations()
 }
 

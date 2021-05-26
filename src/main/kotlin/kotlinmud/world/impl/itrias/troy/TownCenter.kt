@@ -1,4 +1,4 @@
-package kotlinmud.world.itrias.troy
+package kotlinmud.world.impl.itrias.troy
 
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
@@ -11,6 +11,7 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.respawn.helper.itemRespawnsFor
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.ItemMobRespawn
 import kotlinmud.respawn.model.MobRespawn
@@ -20,6 +21,14 @@ import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
+import kotlinmud.world.factory.createAmberAle
+import kotlinmud.world.factory.createCureBlindnessPotion
+import kotlinmud.world.factory.createCureLightPotion
+import kotlinmud.world.factory.createCurePoisonPotion
+import kotlinmud.world.factory.createHastePotion
+import kotlinmud.world.factory.createIPA
+import kotlinmud.world.factory.createPorter
+import kotlinmud.world.factory.createRemoveCursePotion
 
 fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemService: ItemService, connection: Room) {
     val roomBuilder = roomService.builder(
@@ -144,6 +153,7 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
     )
 
     val main1 = build(mainStreetBuilder)
+
     val potionShop = build(
         roomBuilder.copy {
             it.name = "Potions & Apothecary"
@@ -161,24 +171,48 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
         it.job = JobType.SHOPKEEPER
     }.build()
 
-    respawn(
-        ItemMobRespawn(
-            itemService.builder(
-                "a potion of cure light",
-                "a potion of cure light is here",
-                0.2,
-            ).also {
-                it.spells = listOf(SkillType.CURE_LIGHT)
-                it.level = 5
-                it.canonicalId = ItemCanonicalId.PotionCureLight
-                it.material = Material.ORGANIC
-                it.type = ItemType.POTION
-                it.worth = 10
-            },
-            MobCanonicalId.PotionBrewer,
-            100,
+    itemRespawnsFor(
+        MobCanonicalId.PotionBrewer,
+        listOf(
+            Pair(createCureLightPotion(itemService), 100),
+            Pair(createCurePoisonPotion(itemService), 100),
+            Pair(createCureBlindnessPotion(itemService), 100),
+            Pair(createRemoveCursePotion(itemService), 100),
+            Pair(createHastePotion(itemService), 100),
         )
     )
+
+    val tavern = build(
+        roomBuilder.copy {
+            it.name = "The Ramshackle Tavern"
+            it.description = "A humble and aging wooden structure surrounds you. Patrons sit around dimly lit tables, swapping tales of yore."
+        }
+    )
+
+    mobService.builder(
+        "the barkeeper",
+        "the barkeeper is here, cleaning out a mug",
+        "tbd",
+    ).also {
+        it.room = tavern
+        it.canonicalId = MobCanonicalId.Barkeeper
+        it.job = JobType.SHOPKEEPER
+    }
+
+    itemRespawnsFor(
+        MobCanonicalId.Barkeeper,
+        listOf(
+            Pair(createAmberAle(itemService), 100),
+            Pair(createPorter(itemService), 100),
+            Pair(createIPA(itemService), 100),
+        )
+    )
+
+    connect(main1)
+        .toRoom(listOf(
+            Pair(potionShop, Direction.WEST),
+            Pair(tavern, Direction.EAST),
+        ))
 
     connect(connection)
         .toRoom(main1)
@@ -190,9 +224,6 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
         .toRoom(build(mainStreetBuilder), Direction.WEST)
         .toRoom(westGate, Direction.WEST)
         .toRoom(build(outsideWall), Direction.WEST)
-
-    connect(main1)
-        .toRoom(potionShop)
 
     connect(fountainRoom)
         .toRoom(build(mainStreetBuilder), Direction.EAST)

@@ -18,6 +18,6 @@ class TimeTest {
         val response = test.runAction("time")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("it is the 1st day of month 1 of year 1")
+        assertThat(response.message.toActionCreator).isEqualTo("it is the 21st day of month 17 of year 136")
     }
 }

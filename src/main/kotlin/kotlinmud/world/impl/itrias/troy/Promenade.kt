@@ -1,4 +1,4 @@
-package kotlinmud.world.itrias.troy
+package kotlinmud.world.impl.itrias.troy
 
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.race.impl.Felid

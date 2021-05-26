@@ -25,7 +25,6 @@ enum class SkillType(val value: String) {
     ENDURANCE("endurance"),
     BARBARIAN_RAGE("barbarian rage"),
     FOCUS("focus"),
-    GIANT_STRENGTH("giant strength"),
     SPELLCRAFT("spellcraft"),
     GARROTE("garrote"),
     GRAB("grab"),
@@ -93,6 +92,15 @@ enum class SkillType(val value: String) {
     CURE_SERIOUS("cure serious"),
     HEAL("heal"),
 
+    // curative
+    CURE_POISON("cure poison"),
+    CURE_BLINDNESS("cure blindness"),
+    REMOVE_CURSE("remove curse"),
+
     // malediction
     BLIND("blind"),
+
+    // enhancement
+    GIANT_STRENGTH("giant strength"),
+    HASTE("haste"),
 }

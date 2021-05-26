@@ -1,4 +1,4 @@
-package kotlinmud.world.itrias.lorimir
+package kotlinmud.world.impl.itrias.lorimir
 
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.race.impl.Amphibian

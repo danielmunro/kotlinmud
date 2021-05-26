@@ -1,4 +1,4 @@
-package kotlinmud.world.itrias.lorimir
+package kotlinmud.world.impl.itrias.lorimir
 
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect

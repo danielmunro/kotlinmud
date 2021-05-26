@@ -1,4 +1,4 @@
-package kotlinmud.world.itrias.troy
+package kotlinmud.world.impl.itrias.troy
 
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect

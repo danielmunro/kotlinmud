@@ -11,6 +11,7 @@ enum class MobCanonicalId {
     AlleyCat,
     Grongok,
     PotionBrewer,
+    Barkeeper,
     Barbosa,
     PraetorianCaptainBartok,
     PraetorianRecruiterEsmer,

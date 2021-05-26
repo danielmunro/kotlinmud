@@ -14,7 +14,9 @@ import kotlinmud.mob.skill.impl.Tail
 import kotlinmud.mob.skill.impl.ThirdAttack
 import kotlinmud.mob.skill.impl.Trip
 import kotlinmud.mob.skill.impl.benediction.Bless
+import kotlinmud.mob.skill.impl.curative.CurePoison
 import kotlinmud.mob.skill.impl.enhancement.GiantStrength
+import kotlinmud.mob.skill.impl.enhancement.Haste
 import kotlinmud.mob.skill.impl.evasion.Dodge
 import kotlinmud.mob.skill.impl.evasion.Parry
 import kotlinmud.mob.skill.impl.evasion.ShieldBlock
@@ -69,12 +71,16 @@ fun createSkillList(): List<Skill> {
 
         // enhancement
         GiantStrength(),
+        Haste(),
 
         // benediction
         Bless(),
 
         // malediction
         Blind(),
-        Curse()
+        Curse(),
+
+        // curative
+        CurePoison(),
     )
 }
