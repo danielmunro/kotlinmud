@@ -13,7 +13,11 @@ class SendMessageToRoomObserver(private val mobService: MobService, private val 
         val messageEvent = event.subject as SendMessageToRoomEvent
         val message = messageEvent.message
         serverService.getClientsFromMobs(mobService.findPlayerMobs())
-            .filter { it.mob!!.disposition != Disposition.SLEEPING && it.mob!!.disposition != Disposition.DEAD }
+            .filter {
+                it.mob!!.room == messageEvent.room
+                        && it.mob!!.disposition != Disposition.SLEEPING
+                        && it.mob!!.disposition != Disposition.DEAD
+            }
             .forEach {
                 when (it.mob) {
                     messageEvent.actionCreator -> sendIfSet(it, message.toActionCreator, message.sendPrompt)

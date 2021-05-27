@@ -136,6 +136,7 @@ class MobService(
 
     suspend fun moveMob(mob: Mob, destinationRoom: Room, directionLeavingFrom: Direction) {
         val leaving = mob.room
+        println("$mob leaves ${leaving.name}, entering ${destinationRoom.name}")
         sendMessageToRoom(createLeaveMessage(mob, directionLeavingFrom), leaving, mob)
         mob.room = destinationRoom
         doFallCheck(mob, leaving, destinationRoom)

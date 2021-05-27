@@ -52,6 +52,14 @@ open class MobBuilder(private val mobService: MobService) {
     var affects = mutableListOf<Affect>()
     var currencies = mutableMapOf<CurrencyType, Int>()
 
+    fun makeShopkeeper(mobCanonicalId: MobCanonicalId) {
+        canonicalId = mobCanonicalId
+        job = JobType.SHOPKEEPER
+        currencies = mutableMapOf(
+            Pair(CurrencyType.Gold, 100),
+        )
+    }
+
     open fun build(): Mob {
         return Mob(createMobArguments()).also { mobService.addMob(it) }
     }

@@ -11,6 +11,7 @@ import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
+import kotlinmud.room.type.Direction
 
 fun createTroyPromenade(roomService: RoomService, mobService: MobService, connector: Room): Room {
     val builder = roomService.builder(
@@ -21,7 +22,7 @@ fun createTroyPromenade(roomService: RoomService, mobService: MobService, connec
 
     val matrix = SimpleMatrixService(builder).build(5, 5)
 
-    connect(connector).toRoom(matrix[2][4])
+    connect(connector).toRoom(matrix[2][4], Direction.UP)
 
     respawn(
         MobRespawn(

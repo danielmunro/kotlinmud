@@ -45,8 +45,7 @@ fun createTroySouthGate(
         "tbd",
     ).also {
         it.room = potionShop
-        it.canonicalId = MobCanonicalId.PotionBrewer
-        it.job = JobType.SHOPKEEPER
+        it.makeShopkeeper(MobCanonicalId.PotionBrewer)
     }.build()
 
     itemRespawnsFor(
@@ -74,8 +73,7 @@ fun createTroySouthGate(
         "tbd",
     ).also {
         it.room = tavern
-        it.canonicalId = MobCanonicalId.Barkeeper
-        it.job = JobType.SHOPKEEPER
+        it.makeShopkeeper(MobCanonicalId.Barkeeper)
     }
 
     itemRespawnsFor(
@@ -87,14 +85,94 @@ fun createTroySouthGate(
         )
     )
 
-    val main1 = build(roomBuilder)
+    val marketStreet = roomBuilder.copy {
+        it.name = "South Market Street"
+    }
+
+    val main1 = build(marketStreet)
+
+    val bakery = build(roomBuilder.copy {
+        it.name = "The Bakery"
+        it.description = "tbd"
+    })
+
+    mobService.builder(
+        "a baker",
+        "a baker is here",
+        "tbd"
+    ).also {
+        it.room = bakery
+        it.makeShopkeeper(MobCanonicalId.Baker)
+    }.build()
+
+    val wandStore = build(roomBuilder.copy {
+        it.name = "Wand shop"
+        it.description = "tbd"
+    })
+
+    mobService.builder(
+        "a wand maker",
+        "a wand maker is here",
+        "tbd"
+    ).also {
+        it.room = wandStore
+        it.makeShopkeeper(MobCanonicalId.WandMaker)
+    }.build()
+
+    val main2 = build(marketStreet)
+
+    val bank = build(roomBuilder.copy {
+        it.name = "First Bank of Troy"
+    })
+
+    mobService.builder(
+        "a banker",
+        "a banker is here",
+        "tbd"
+    ).also {
+        it.room = bank
+        it.makeShopkeeper(MobCanonicalId.Banker)
+    }.build()
+
+    val inn = build(roomBuilder.copy {
+        it.name = "Inn at Market Street"
+    })
+
+    mobService.builder(
+        "the innkeeper",
+        "the innkeeper is here",
+        "tbd"
+    ).also {
+        it.room = inn
+        it.makeShopkeeper(MobCanonicalId.Innkeeper)
+    }.build()
+
+    val main3 = build(marketStreet)
+
+    connect(main2)
+        .toRoom(main3, Direction.NORTH)
+        .toRoom(
+            listOf(
+                Pair(bank, Direction.WEST),
+                Pair(inn, Direction.EAST),
+            )
+        )
+
+    connect(main1)
+        .toRoom(main2, Direction.NORTH)
+        .toRoom(
+            listOf(
+                Pair(bakery, Direction.WEST),
+                Pair(wandStore, Direction.EAST),
+            )
+        )
 
     connect(connection)
-        .toRoom(main1)
+        .toRoom(main1, Direction.DOWN)
         .toRoom(listOf(
             Pair(potionShop, Direction.WEST),
             Pair(tavern, Direction.EAST),
         ))
 
-    return main1
+    return main3
 }

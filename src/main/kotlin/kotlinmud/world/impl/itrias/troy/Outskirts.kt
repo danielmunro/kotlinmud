@@ -18,9 +18,9 @@ fun createTroyOutskirts(roomService: RoomService, connector: Room): Room {
 
     connect(connector)
         .toRoom(build(roomBuilder), Direction.NORTH)
-        .toRoom(build(roomBuilder), Direction.WEST)
-        .toRoom(build(roomBuilder), Direction.UP)
         .toRoom(build(roomBuilder), Direction.NORTH)
+        .toRoom(build(roomBuilder), Direction.NORTH)
+        .toRoom(build(roomBuilder), Direction.WEST)
         .toRoom(endRoom, Direction.WEST)
 
     return endRoom

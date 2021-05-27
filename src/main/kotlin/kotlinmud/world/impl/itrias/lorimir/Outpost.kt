@@ -109,7 +109,7 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         Giant(),
     ).also {
         it.room = room3
-        it.job = JobType.SHOPKEEPER
+        it.makeShopkeeper(MobCanonicalId.Felig)
     }.build()
 
     mobService.builder(
@@ -119,8 +119,7 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         Dwarf(),
     ).also {
         it.room = room6
-        it.job = JobType.SHOPKEEPER
-        it.canonicalId = MobCanonicalId.Barbosa
+        it.makeShopkeeper(MobCanonicalId.Barbosa)
     }.build()
 
     respawn(

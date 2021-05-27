@@ -102,6 +102,7 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
                     "tbd",
                 ).also {
                     it.canonicalId = MobCanonicalId.WanderingVagabond
+                    it.job = JobType.FODDER
                     it.race = Human()
                 },
                 10,
@@ -113,6 +114,7 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
                     "tbd",
                 ).also {
                     it.canonicalId = MobCanonicalId.WanderingTrader
+                    it.job = JobType.FODDER
                     it.race = Human()
                 },
                 3,
@@ -124,6 +126,7 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
                     "tbd",
                 ).also {
                     it.canonicalId = MobCanonicalId.BeastlyFido
+                    it.job = JobType.FODDER
                     it.race = Canid()
                 },
                 10,
@@ -148,6 +151,7 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
                 ).also {
                     it.canonicalId = MobCanonicalId.MayorOfTroy
                     it.race = Human()
+                    it.job = JobType.FODDER
                 },
                 1,
             ),
@@ -157,8 +161,6 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
     val southGate = createTroySouthGate(mobService, roomService, itemService, connection)
 
     connect(southGate)
-        .toRoom(build(mainStreetBuilder), Direction.NORTH)
-        .toRoom(build(mainStreetBuilder), Direction.NORTH)
         .toRoom(fountainRoom, Direction.NORTH)
         .toRoom(build(mainStreetBuilder), Direction.WEST)
         .toRoom(build(mainStreetBuilder), Direction.WEST)

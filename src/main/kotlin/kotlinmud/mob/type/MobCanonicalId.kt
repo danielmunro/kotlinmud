@@ -13,7 +13,12 @@ enum class MobCanonicalId {
     Grongok,
     PotionBrewer,
     Barkeeper,
+    Baker,
+    WandMaker,
+    Banker,
+    Innkeeper,
     Barbosa,
+    Felig,
     PraetorianCaptainBartok,
     PraetorianRecruiterEsmer,
 }
