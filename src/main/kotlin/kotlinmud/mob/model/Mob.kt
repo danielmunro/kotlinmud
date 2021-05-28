@@ -25,9 +25,10 @@ import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.mob.type.MobIdentifier
 import kotlinmud.mob.type.Rarity
 import kotlinmud.room.model.Room
+import java.util.*
 
 open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     override val name: String = mobArguments.name
@@ -45,7 +46,8 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     var wimpy: Int = mobArguments.wimpy
     val savingThrows: Int = mobArguments.savingThrows
     val rarity: Rarity = mobArguments.rarity
-    val canonicalId: MobCanonicalId? = mobArguments.canonicalId
+    val canonicalId: UUID? = mobArguments.canonicalId
+    val identifier: MobIdentifier? = mobArguments.identifier
     val attributes: MutableMap<Attribute, Int> = mobArguments.attributes
     var room: Room = mobArguments.room
     val equipped: MutableList<Item> = mobArguments.equipped

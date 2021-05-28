@@ -3,12 +3,12 @@ package kotlinmud.respawn.service
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.calculateHpForMob
 import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.respawn.type.RespawnSomethingService
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
+import java.util.*
 
 class MobRespawnService(
     private val mobService: MobService,
@@ -26,7 +26,7 @@ class MobRespawnService(
         }
     }
 
-    private fun doRespawn(area: Area, maxAmount: Int, canonicalId: MobCanonicalId, mobBuilder: MobBuilder) {
+    private fun doRespawn(area: Area, maxAmount: Int, canonicalId: UUID, mobBuilder: MobBuilder) {
         val rooms = roomService.findByArea(area)
         val count = mobService.findMobsByCanonicalId(canonicalId).size
         var amountToRespawn = Math.min(maxAmount - count, maxAmount)

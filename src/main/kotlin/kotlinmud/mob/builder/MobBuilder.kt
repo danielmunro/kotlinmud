@@ -16,9 +16,10 @@ import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.mob.type.MobIdentifier
 import kotlinmud.mob.type.Rarity
 import kotlinmud.room.model.Room
+import java.util.*
 
 open class MobBuilder(private val mobService: MobService) {
     lateinit var name: String
@@ -33,7 +34,8 @@ open class MobBuilder(private val mobService: MobService) {
     )
     var job = JobType.NONE
     var specialization: Specialization? = null
-    var canonicalId: MobCanonicalId? = null
+    var canonicalId: UUID = UUID.randomUUID()
+    var identifier: MobIdentifier? = null
     var level = 1
     var hp = startingHp
     var mana = startingMana
@@ -52,8 +54,7 @@ open class MobBuilder(private val mobService: MobService) {
     var affects = mutableListOf<Affect>()
     var currencies = mutableMapOf<CurrencyType, Int>()
 
-    fun makeShopkeeper(mobCanonicalId: MobCanonicalId) {
-        canonicalId = mobCanonicalId
+    fun makeShopkeeper() {
         job = JobType.SHOPKEEPER
         currencies = mutableMapOf(
             Pair(CurrencyType.Gold, 100),
@@ -82,6 +83,7 @@ open class MobBuilder(private val mobService: MobService) {
             savingThrows,
             rarity,
             canonicalId,
+            identifier,
             attributes,
             room,
             equipped.toMutableList(),

@@ -3,9 +3,9 @@ package kotlinmud.respawn.service
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.model.ItemMobRespawn
 import kotlinmud.respawn.type.RespawnSomethingService
+import java.util.*
 
 class ItemMobRespawnService(
     private val mobService: MobService,
@@ -18,7 +18,7 @@ class ItemMobRespawnService(
     }
 
     private fun doRespawn(
-        mobCanonicalId: MobCanonicalId,
+        mobCanonicalId: UUID,
         itemCanonicalId: ItemCanonicalId,
         itemBuilder: ItemBuilder,
         maxAmount: Int,

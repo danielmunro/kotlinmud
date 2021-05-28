@@ -2,34 +2,19 @@ package kotlinmud.world.impl.itrias.troy
 
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobCanonicalId
-import kotlinmud.respawn.helper.itemRespawnsFor
 import kotlinmud.respawn.helper.mobRespawnsFor
-import kotlinmud.respawn.helper.respawn
-import kotlinmud.respawn.model.ItemMobRespawn
-import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
-import kotlinmud.world.factory.createAmberAle
-import kotlinmud.world.factory.createCureBlindnessPotion
-import kotlinmud.world.factory.createCureLightPotion
-import kotlinmud.world.factory.createCurePoisonPotion
-import kotlinmud.world.factory.createHastePotion
-import kotlinmud.world.factory.createIPA
-import kotlinmud.world.factory.createPorter
-import kotlinmud.world.factory.createRemoveCursePotion
 
 fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemService: ItemService, connection: Room) {
     val roomBuilder = roomService.builder(
@@ -101,7 +86,6 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
                     "a vagabond is wandering around",
                     "tbd",
                 ).also {
-                    it.canonicalId = MobCanonicalId.WanderingVagabond
                     it.job = JobType.FODDER
                     it.race = Human()
                 },
@@ -113,7 +97,6 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
                     "a wandering trader is here, looking for their next deal",
                     "tbd",
                 ).also {
-                    it.canonicalId = MobCanonicalId.WanderingTrader
                     it.job = JobType.FODDER
                     it.race = Human()
                 },
@@ -125,7 +108,6 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
                     "a beastly fido is here, looking for scraps",
                     "tbd",
                 ).also {
-                    it.canonicalId = MobCanonicalId.BeastlyFido
                     it.job = JobType.FODDER
                     it.race = Canid()
                 },
@@ -137,7 +119,6 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
                     "a janitor is here, sweeping up",
                     "tbd",
                 ).also {
-                    it.canonicalId = MobCanonicalId.Janitor
                     it.job = JobType.SCAVENGER
                     it.race = Human()
                 },
@@ -149,7 +130,6 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
                     "the mayor of Troy is here, garnering support for his next campaign",
                     "tbd",
                 ).also {
-                    it.canonicalId = MobCanonicalId.MayorOfTroy
                     it.race = Human()
                     it.job = JobType.FODDER
                 },

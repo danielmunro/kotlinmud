@@ -3,7 +3,8 @@ package kotlinmud.quest.impl.praetorians
 import kotlinmud.faction.type.FactionType
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.CurrencyType
-import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.mob.type.JobType
+import kotlinmud.mob.type.MobIdentifier
 import kotlinmud.quest.factory.createMobInRoomQuestRequirement
 import kotlinmud.quest.factory.createRoomQuestRequirement
 import kotlinmud.quest.type.Quest
@@ -27,7 +28,7 @@ class FindPraetorianRecruiter(private val mobService: MobService, private val ro
         ),
     )
     override val submitConditions = listOf(
-        createMobInRoomQuestRequirement(mobService, MobCanonicalId.PraetorianRecruiterEsmer),
+        createMobInRoomQuestRequirement(mobService, MobIdentifier.PraetorianRecruiterEsmer),
     )
     override val rewards = listOf(
         FactionScoreQuestReward(FactionType.PRAETORIAN_GUARD, 100),

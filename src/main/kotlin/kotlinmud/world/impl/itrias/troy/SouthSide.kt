@@ -1,9 +1,10 @@
 package kotlinmud.world.impl.itrias.troy
 
 import kotlinmud.item.service.ItemService
+import kotlinmud.mob.race.impl.Dwarf
+import kotlinmud.mob.race.impl.Goblin
+import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.itemRespawnsFor
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
@@ -45,19 +46,18 @@ fun createTroySouthGate(
         "tbd",
     ).also {
         it.room = potionShop
-        it.makeShopkeeper(MobCanonicalId.PotionBrewer)
-    }.build()
-
-    itemRespawnsFor(
-        MobCanonicalId.PotionBrewer,
-        listOf(
-            Pair(createCureLightPotion(itemService), 100),
-            Pair(createCurePoisonPotion(itemService), 100),
-            Pair(createCureBlindnessPotion(itemService), 100),
-            Pair(createRemoveCursePotion(itemService), 100),
-            Pair(createHastePotion(itemService), 100),
+        it.makeShopkeeper()
+        itemRespawnsFor(
+            it.canonicalId!!,
+            listOf(
+                Pair(createCureLightPotion(itemService), 100),
+                Pair(createCurePoisonPotion(itemService), 100),
+                Pair(createCureBlindnessPotion(itemService), 100),
+                Pair(createRemoveCursePotion(itemService), 100),
+                Pair(createHastePotion(itemService), 100),
+            )
         )
-    )
+    }.build()
 
     val tavern = build(
         roomBuilder.copy {
@@ -67,87 +67,82 @@ fun createTroySouthGate(
         }
     )
 
-    mobService.builder(
+    mobService.buildShopkeeper(
         "the barkeeper",
         "the barkeeper is here, cleaning out a mug",
         "tbd",
-    ).also {
-        it.room = tavern
-        it.makeShopkeeper(MobCanonicalId.Barkeeper)
-    }
-
-    itemRespawnsFor(
-        MobCanonicalId.Barkeeper,
+        Human(),
+        tavern,
         listOf(
             Pair(createAmberAle(itemService), 100),
             Pair(createPorter(itemService), 100),
             Pair(createIPA(itemService), 100),
-        )
+        ),
     )
 
-    val marketStreet = roomBuilder.copy {
+    val marketStreetBuilder = roomBuilder.copy {
         it.name = "South Market Street"
     }
 
-    val main1 = build(marketStreet)
+    val main1 = build(marketStreetBuilder)
 
     val bakery = build(roomBuilder.copy {
         it.name = "The Bakery"
         it.description = "tbd"
     })
 
-    mobService.builder(
+    mobService.buildShopkeeper(
         "a baker",
         "a baker is here",
-        "tbd"
-    ).also {
-        it.room = bakery
-        it.makeShopkeeper(MobCanonicalId.Baker)
-    }.build()
+        "tbd",
+        Human(),
+        bakery,
+        listOf()
+    )
 
     val wandStore = build(roomBuilder.copy {
         it.name = "Wand shop"
         it.description = "tbd"
     })
 
-    mobService.builder(
+    mobService.buildShopkeeper(
         "a wand maker",
         "a wand maker is here",
-        "tbd"
-    ).also {
-        it.room = wandStore
-        it.makeShopkeeper(MobCanonicalId.WandMaker)
-    }.build()
+        "tbd",
+        Human(),
+        wandStore,
+        listOf(),
+    )
 
-    val main2 = build(marketStreet)
+    val main2 = build(marketStreetBuilder)
 
     val bank = build(roomBuilder.copy {
         it.name = "First Bank of Troy"
     })
 
-    mobService.builder(
+    mobService.buildShopkeeper(
         "a banker",
         "a banker is here",
-        "tbd"
-    ).also {
-        it.room = bank
-        it.makeShopkeeper(MobCanonicalId.Banker)
-    }.build()
+        "tbd",
+        Goblin(),
+        bank,
+        listOf(),
+    )
 
     val inn = build(roomBuilder.copy {
         it.name = "Inn at Market Street"
     })
 
-    mobService.builder(
+    mobService.buildShopkeeper(
         "the innkeeper",
         "the innkeeper is here",
-        "tbd"
-    ).also {
-        it.room = inn
-        it.makeShopkeeper(MobCanonicalId.Innkeeper)
-    }.build()
+        "tbd",
+        Dwarf(),
+        inn,
+        listOf(),
+    )
 
-    val main3 = build(marketStreet)
+    val main3 = build(marketStreetBuilder)
 
     connect(main2)
         .toRoom(main3, Direction.NORTH)

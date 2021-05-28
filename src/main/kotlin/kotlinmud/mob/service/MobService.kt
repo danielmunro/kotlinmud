@@ -16,6 +16,7 @@ import kotlinmud.io.factory.createLeaveMessage
 import kotlinmud.io.factory.createSingleHitMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Message
+import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.CorpseService
 import kotlinmud.item.service.ItemService
@@ -35,11 +36,14 @@ import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.respawn.helper.itemRespawnsFor
+import kotlinmud.respawn.helper.respawn
+import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
+import java.util.*
 
 class MobService(
     private val itemService: ItemService,
@@ -61,6 +65,51 @@ class MobService(
             it.description = description
             it.race = race
         }
+    }
+
+    fun buildShopkeeper(
+        name: String,
+        brief: String,
+        description: String,
+        race: Race,
+        room: Room,
+        items: List<Pair<ItemBuilder, Int>>,
+    ) {
+        builder(
+            name,
+            brief,
+            description,
+            race
+        ).also {
+            it.room = room
+            it.makeShopkeeper()
+            itemRespawnsFor(it.canonicalId, items)
+        }
+    }
+
+    fun buildFodder(
+        name: String,
+        brief: String,
+        description: String,
+        race: Race,
+        level: Int,
+        area: Area,
+        maxAmount: Int,
+    ) {
+        respawn(
+            MobRespawn(
+                builder(
+                    name,
+                    brief,
+                    description,
+                    race,
+                ).also {
+                    it.level = level
+                },
+                area,
+                maxAmount,
+            )
+        )
     }
 
     suspend fun regenMobs() {
@@ -120,7 +169,7 @@ class MobService(
         return mobs.filter { it.job == jobType }
     }
 
-    fun findMobsByCanonicalId(canonicalId: MobCanonicalId): List<Mob> {
+    fun findMobsByCanonicalId(canonicalId: UUID): List<Mob> {
         return mobs.filter {
             it.canonicalId == canonicalId
         }

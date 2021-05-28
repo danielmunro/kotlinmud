@@ -10,9 +10,10 @@ import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.mob.type.MobIdentifier
 import kotlinmud.mob.type.Rarity
 import kotlinmud.room.model.Room
+import java.util.*
 
 class MobArguments(
     val name: String,
@@ -30,7 +31,8 @@ class MobArguments(
     var wimpy: Int,
     val savingThrows: Int,
     val rarity: Rarity,
-    val canonicalId: MobCanonicalId?,
+    val canonicalId: UUID?,
+    val identifier: MobIdentifier?,
     val attributes: MutableMap<Attribute, Int>,
     var room: Room,
     val equipped: MutableList<Item>,

@@ -10,7 +10,7 @@ import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.mob.type.MobIdentifier
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.ItemAreaRespawn
 import kotlinmud.respawn.model.MobRespawn
@@ -96,7 +96,7 @@ fun createLorimirForest(
         it.room = captainRoom
         it.level = 10
         it.job = JobType.QUEST
-        it.canonicalId = MobCanonicalId.PraetorianCaptainBartok
+        it.identifier = MobIdentifier.PraetorianCaptainBartok
     }.build()
 
     respawn(
@@ -108,7 +108,6 @@ fun createLorimirForest(
                 Canid()
             ).also {
                 it.level = 3
-                it.canonicalId = MobCanonicalId.SmallFox
             },
             Area.LorimirForest,
             10

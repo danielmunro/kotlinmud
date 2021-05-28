@@ -9,7 +9,7 @@ import kotlinmud.mob.race.impl.Dwarf
 import kotlinmud.mob.race.impl.Giant
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobCanonicalId
+import kotlinmud.mob.type.MobIdentifier
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.ItemMobRespawn
 import kotlinmud.room.builder.build
@@ -109,7 +109,7 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         Giant(),
     ).also {
         it.room = room3
-        it.makeShopkeeper(MobCanonicalId.Felig)
+        it.makeShopkeeper()
     }.build()
 
     mobService.builder(
@@ -119,26 +119,25 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         Dwarf(),
     ).also {
         it.room = room6
-        it.makeShopkeeper(MobCanonicalId.Barbosa)
-    }.build()
-
-    respawn(
-        ItemMobRespawn(
-            itemService.builder(
-                "a small hard loaf of bread",
-                "foo",
-                0.1,
-            ).also {
-                it.type = ItemType.FOOD
-                it.worth = 10
-                it.material = Material.ORGANIC
-                it.food = Food.BREAD
-                it.canonicalId = ItemCanonicalId.Bread
-            },
-            MobCanonicalId.Barbosa,
-            100,
+        it.makeShopkeeper()
+        respawn(
+            ItemMobRespawn(
+                itemService.builder(
+                    "a small hard loaf of bread",
+                    "foo",
+                    0.1,
+                ).also { item ->
+                    item.type = ItemType.FOOD
+                    item.worth = 10
+                    item.material = Material.ORGANIC
+                    item.food = Food.BREAD
+                    item.canonicalId = ItemCanonicalId.Bread
+                },
+                it.canonicalId,
+                100,
+            )
         )
-    )
+    }.build()
 
     mobService.builder(
         "Recruiter Esmer",
@@ -147,7 +146,7 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
     ).also {
         it.room = room2
         it.job = JobType.QUEST
-        it.canonicalId = MobCanonicalId.PraetorianRecruiterEsmer
+        it.identifier = MobIdentifier.PraetorianRecruiterEsmer
     }.build()
 
     return room4

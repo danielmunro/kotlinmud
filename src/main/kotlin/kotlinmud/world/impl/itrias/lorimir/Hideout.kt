@@ -4,7 +4,6 @@ import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.race.impl.Amphibian
 import kotlinmud.mob.race.impl.Ogre
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.builder.build
@@ -42,7 +41,6 @@ fun createGrongokHideout(mobService: MobService, roomService: RoomService, conne
                 Ogre(),
             ).also {
                 it.level = 8
-                it.canonicalId = MobCanonicalId.Grongok
             },
             Area.GrongokHideout,
             1
@@ -58,7 +56,6 @@ fun createGrongokHideout(mobService: MobService, roomService: RoomService, conne
                 Amphibian(),
             ).also {
                 it.level = 3
-                it.canonicalId = MobCanonicalId.CaveToad
             },
             Area.GrongokHideout,
             3

@@ -4,7 +4,6 @@ import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.race.impl.Felid
 import kotlinmud.mob.race.impl.Rabbit
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.type.MobCanonicalId
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.helper.connect
@@ -33,7 +32,6 @@ fun createTroyPromenade(roomService: RoomService, mobService: MobService, connec
                 Rabbit(),
             ).also {
                 it.level = 5
-                it.canonicalId = MobCanonicalId.BrownRabbit
             },
             Area.TroyPromenade,
             4,
@@ -49,7 +47,6 @@ fun createTroyPromenade(roomService: RoomService, mobService: MobService, connec
                 Felid(),
             ).also {
                 it.level = 8
-                it.canonicalId = MobCanonicalId.AlleyCat
             },
             Area.TroyPromenade,
             2,

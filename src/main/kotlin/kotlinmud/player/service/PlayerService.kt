@@ -8,6 +8,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.konform.validation.Invalid
 import io.konform.validation.Validation
 import io.konform.validation.jsonschema.pattern
+import io.mockk.InternalPlatformDsl.toStr
 import kotlinmud.affect.model.Affect
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createClientLoggedInEvent
@@ -46,6 +47,7 @@ import kotlinmud.room.service.RoomService
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
 import java.io.FileNotFoundException
+import java.util.*
 import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
 
 class PlayerService(
@@ -197,6 +199,7 @@ class PlayerService(
                 it.skills = skills
                 it.affects = affects
                 it.currencies = currencies
+                it.canonicalId = UUID.fromString(node.get("canonicalId").textValue())
             }.build()
         } catch (e: FileNotFoundException) {
             return null
