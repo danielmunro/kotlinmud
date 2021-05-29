@@ -10,7 +10,7 @@ import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobIdentifier
+import kotlinmud.mob.type.QuestGiver
 import kotlinmud.mob.type.Rarity
 import kotlinmud.room.model.Room
 import java.util.*
@@ -32,7 +32,7 @@ class MobArguments(
     val savingThrows: Int,
     val rarity: Rarity,
     val canonicalId: UUID?,
-    val identifier: MobIdentifier?,
+    val questGiver: QuestGiver?,
     val attributes: MutableMap<Attribute, Int>,
     var room: Room,
     val equipped: MutableList<Item>,

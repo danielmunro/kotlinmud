@@ -165,7 +165,7 @@ class ActionServiceTest {
         val testService = createTestService()
 
         // given
-        val mob = testService.createMob {
+        testService.createMob {
             it.skills[SkillType.INVISIBILITY] = 100
         }
 

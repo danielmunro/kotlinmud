@@ -16,7 +16,7 @@ import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobIdentifier
+import kotlinmud.mob.type.QuestGiver
 import kotlinmud.mob.type.Rarity
 import kotlinmud.room.model.Room
 import java.util.*
@@ -35,7 +35,7 @@ open class MobBuilder(private val mobService: MobService) {
     var job = JobType.NONE
     var specialization: Specialization? = null
     var canonicalId: UUID = UUID.randomUUID()
-    var identifier: MobIdentifier? = null
+    var identifier: QuestGiver? = null
     var level = 1
     var hp = startingHp
     var mana = startingMana

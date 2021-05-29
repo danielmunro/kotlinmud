@@ -9,7 +9,7 @@ import kotlinmud.mob.race.impl.Dwarf
 import kotlinmud.mob.race.impl.Giant
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobIdentifier
+import kotlinmud.mob.type.QuestGiver
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.ItemMobRespawn
 import kotlinmud.room.builder.build
@@ -146,7 +146,7 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
     ).also {
         it.room = room2
         it.job = JobType.QUEST
-        it.identifier = MobIdentifier.PraetorianRecruiterEsmer
+        it.identifier = QuestGiver.PraetorianRecruiterEsmer
     }.build()
 
     return room4

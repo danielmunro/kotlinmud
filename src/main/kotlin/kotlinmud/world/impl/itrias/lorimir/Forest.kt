@@ -10,7 +10,7 @@ import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobIdentifier
+import kotlinmud.mob.type.QuestGiver
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.ItemAreaRespawn
 import kotlinmud.respawn.model.MobRespawn
@@ -96,22 +96,17 @@ fun createLorimirForest(
         it.room = captainRoom
         it.level = 10
         it.job = JobType.QUEST
-        it.identifier = MobIdentifier.PraetorianCaptainBartok
+        it.identifier = QuestGiver.PraetorianCaptainBartok
     }.build()
 
-    respawn(
-        MobRespawn(
-            mobService.builder(
-                "a small fox",
-                "a small fox darts through the underbrush",
-                "a small fox is here.",
-                Canid()
-            ).also {
-                it.level = 3
-            },
-            Area.LorimirForest,
-            10
-        )
+    mobService.buildFodder(
+        "a small fox",
+        "a small fox darts through the underbrush",
+        "a small fox is here.",
+        Canid(),
+        3,
+        Area.LorimirForest,
+        10,
     )
 
     createGrongokHideout(mobService, roomService, matrix[0][4])

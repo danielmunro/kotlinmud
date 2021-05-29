@@ -1,6 +1,6 @@
 package kotlinmud.mob.type
 
-enum class MobIdentifier {
+enum class QuestGiver {
     PraetorianCaptainBartok,
     PraetorianRecruiterEsmer,
 }

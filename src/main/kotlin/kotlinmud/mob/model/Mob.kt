@@ -25,7 +25,7 @@ import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
-import kotlinmud.mob.type.MobIdentifier
+import kotlinmud.mob.type.QuestGiver
 import kotlinmud.mob.type.Rarity
 import kotlinmud.room.model.Room
 import java.util.*
@@ -47,7 +47,7 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     val savingThrows: Int = mobArguments.savingThrows
     val rarity: Rarity = mobArguments.rarity
     val canonicalId: UUID? = mobArguments.canonicalId
-    val identifier: MobIdentifier? = mobArguments.identifier
+    val questGiver: QuestGiver? = mobArguments.questGiver
     val attributes: MutableMap<Attribute, Int> = mobArguments.attributes
     var room: Room = mobArguments.room
     val equipped: MutableList<Item> = mobArguments.equipped
