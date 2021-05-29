@@ -12,7 +12,7 @@ import kotlinmud.quest.type.reward.CurrencyQuestReward
 import kotlinmud.quest.type.reward.ExperienceQuestReward
 import kotlinmud.quest.type.reward.FactionScoreQuestReward
 
-class FindCaptainBartok(private val mobService: MobService) : Quest {
+class FindCaptainBartok(mobService: MobService) : Quest {
     override val type = QuestType.JOIN_PRAETORIAN_GUARD
     override val level = 3
     override val name = "Talk to Captain Bartok of the Praetorian Guard"

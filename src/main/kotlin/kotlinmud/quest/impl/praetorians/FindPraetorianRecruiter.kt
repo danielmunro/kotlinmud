@@ -14,7 +14,7 @@ import kotlinmud.quest.type.reward.FactionScoreQuestReward
 import kotlinmud.room.service.RoomService
 import kotlinmud.type.RoomCanonicalId
 
-class FindPraetorianRecruiter(private val mobService: MobService, private val roomService: RoomService) : Quest {
+class FindPraetorianRecruiter(mobService: MobService, roomService: RoomService) : Quest {
     override val type = QuestType.FIND_PRAETORIAN_GUARD_RECRUITER
     override val level = 5
     override val name = "Find a recruiter for the Praetorian Guard"
