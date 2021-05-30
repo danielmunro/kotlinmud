@@ -48,7 +48,7 @@ fun createTroySouthGate(
         it.room = potionShop
         it.makeShopkeeper()
         itemRespawnsFor(
-            it.canonicalId!!,
+            it.canonicalId,
             listOf(
                 Pair(createCureLightPotion(itemService), 100),
                 Pair(createCurePoisonPotion(itemService), 100),

@@ -102,15 +102,14 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         )
     connect(room5).toRoom(room6, Direction.EAST)
 
-    mobService.builder(
+    mobService.buildShopkeeper(
         "Blacksmith Felig",
         "a blacksmith stands over a forge, monitoring his work",
         "a large giant is here, forging a weapon",
         Giant(),
-    ).also {
-        it.room = room3
-        it.makeShopkeeper()
-    }.build()
+        room3,
+        listOf(),
+    )
 
     mobService.builder(
         "Barbosa the cook",

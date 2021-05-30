@@ -23,34 +23,24 @@ fun createTroyPromenade(roomService: RoomService, mobService: MobService, connec
 
     connect(connector).toRoom(matrix[2][4], Direction.UP)
 
-    respawn(
-        MobRespawn(
-            mobService.builder(
-                "a small rabbit",
-                "a small brown rabbit is here, sniffing around for a quick snack",
-                "tbd",
-                Rabbit(),
-            ).also {
-                it.level = 5
-            },
-            Area.TroyPromenade,
-            4,
-        )
+    mobService.buildFodder(
+        "a small rabbit",
+        "a small brown rabbit is here, sniffing around for a quick snack",
+        "tbd",
+        Rabbit(),
+        3,
+        Area.TroyPromenade,
+        4,
     )
 
-    respawn(
-        MobRespawn(
-            mobService.builder(
-                "an alley cat",
-                "a mangy alley cat is here, scrounging for scraps",
-                "tbd",
-                Felid(),
-            ).also {
-                it.level = 8
-            },
-            Area.TroyPromenade,
-            2,
-        )
+    mobService.buildFodder(
+        "an alley cat",
+        "a mangy alley cat is here, scrounging for scraps",
+        "tbd",
+        Felid(),
+        4,
+        Area.TroyPromenade,
+        2,
     )
 
     return matrix[2][0]

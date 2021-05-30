@@ -109,7 +109,7 @@ fun createLorimirForest(
         10,
     )
 
-    createGrongokHideout(mobService, roomService, matrix[0][4])
+    createGrongokHideout(mobService, roomService, itemService, matrix[0][4])
 
     return matrix[2][4]
 }

@@ -13,10 +13,16 @@ class DecrementItemDecayTimerObserver(
     private val itemService: ItemService,
 ) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
-        runBlocking {
+        decrementDecayTimer()
+    }
+
+    private fun decrementDecayTimer() {
+        try {
             itemService.decrementDecayTimer()
             roomService.removeDecayedItems()
             mobService.removeDecayedItems()
+        } catch (e: ConcurrentModificationException) {
+            decrementDecayTimer()
         }
     }
 }

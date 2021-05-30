@@ -13,7 +13,7 @@ import kotlinmud.world.impl.itrias.troy.createTroyTownCenter
 fun createWorld(mobService: MobService, itemService: ItemService, roomService: RoomService) {
     val lorimirOutpost = createLorimirForestOutpost(mobService, itemService, roomService)
     val lorimirForest = createLorimirForest(mobService, roomService, itemService, lorimirOutpost)
-    val outskirtsConnection = createTroyOutskirts(roomService, lorimirOutpost)
+    val outskirtsConnection = createTroyOutskirts(mobService, roomService, lorimirOutpost)
     val promenade = createTroyPromenade(roomService, mobService, outskirtsConnection)
     createTroyTownCenter(mobService, roomService, itemService, promenade)
     createLorimirForestLake(roomService, lorimirForest)

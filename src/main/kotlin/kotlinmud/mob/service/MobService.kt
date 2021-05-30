@@ -95,21 +95,23 @@ class MobService(
         level: Int,
         area: Area,
         maxAmount: Int,
-    ) {
+    ): MobBuilder {
+        val builder = builder(
+            name,
+            brief,
+            description,
+            race,
+        ).also {
+            it.level = level
+        }
         respawn(
             MobRespawn(
-                builder(
-                    name,
-                    brief,
-                    description,
-                    race,
-                ).also {
-                    it.level = level
-                },
+                builder,
                 area,
                 maxAmount,
             )
         )
+        return builder
     }
 
     suspend fun regenMobs() {
@@ -214,6 +216,9 @@ class MobService(
         mobs.filter { it.disposition == Disposition.DEAD }.forEach {
             createCorpseFrom(it)
             eventService.publish(createDeathEvent(it))
+            if (it is PlayerMob) {
+                it.disposition = Disposition.SITTING
+            }
         }
         mobs.removeIf {
             it !is PlayerMob && it.disposition == Disposition.DEAD

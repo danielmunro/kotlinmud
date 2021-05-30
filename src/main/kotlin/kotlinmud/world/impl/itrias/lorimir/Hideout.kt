@@ -1,9 +1,15 @@
 package kotlinmud.world.impl.itrias.lorimir
 
 import kotlinmud.generator.service.SimpleMatrixService
+import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.ItemType
+import kotlinmud.item.type.Material
+import kotlinmud.item.type.Position
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Amphibian
 import kotlinmud.mob.race.impl.Ogre
 import kotlinmud.mob.service.MobService
+import kotlinmud.mob.type.CurrencyType
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.builder.build
@@ -13,7 +19,7 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
-fun createGrongokHideout(mobService: MobService, roomService: RoomService, connector: Room) {
+fun createGrongokHideout(mobService: MobService, roomService: RoomService, itemService: ItemService, connector: Room) {
     val builder = roomService.builder(
         "entrance to a cave",
         "tbd",
@@ -32,34 +38,43 @@ fun createGrongokHideout(mobService: MobService, roomService: RoomService, conne
     val matrix = SimpleMatrixService(builder).build(2, 2)
     val room5 = build(builder)
 
-    respawn(
-        MobRespawn(
-            mobService.builder(
-                "Grongok",
-                "a wild looking ogre is here",
-                "Grongok the wild ogre is here.",
-                Ogre(),
-            ).also {
-                it.level = 8
-            },
-            Area.GrongokHideout,
-            1
-        )
-    )
-
-    respawn(
-        MobRespawn(
-            mobService.builder(
-                "a warty toad",
-                "a warty toad is here, looking for water",
+    mobService.buildFodder(
+        "Grongok",
+        "a wild looking ogre is here",
+        "Grongok the wild ogre is here.",
+        Ogre(),
+        8,
+        Area.GrongokHideout,
+        1,
+    ).also {
+        it.equipped = listOf(
+            itemService.builder(
+                "a large stone cudgel",
                 "tbd",
-                Amphibian(),
-            ).also {
-                it.level = 3
-            },
-            Area.GrongokHideout,
-            3
+                20.0,
+            ).also { eq ->
+                eq.makeWeapon(
+                    DamageType.POUND,
+                    "pound",
+                    Material.STONE,
+                    3,
+                    3,
+                )
+            }.build()
         )
+        it.currencies = mutableMapOf(
+            Pair(CurrencyType.Gold, 1),
+        )
+    }
+
+    mobService.buildFodder(
+        "a warty toad",
+        "a warty toad is here, looking for water",
+        "tbd",
+        Amphibian(),
+        3,
+        Area.GrongokHideout,
+        3,
     )
 
     connect(connector)

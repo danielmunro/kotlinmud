@@ -28,12 +28,13 @@ class SendMessageToRoomObserver(private val mobService: MobService, private val 
     }
 
     private fun sendIfSet(client: Client, message: String?, writePrompt: Boolean = false) {
-        message?.let {
-            if (writePrompt) {
-                client.writePrompt(it)
-            } else {
-                client.write(it + "\n")
-            }
+        if (message == null || message == "") {
+            return
+        }
+        if (writePrompt) {
+            client.writePrompt(message)
+        } else {
+            client.write("$message\n")
         }
     }
 }
