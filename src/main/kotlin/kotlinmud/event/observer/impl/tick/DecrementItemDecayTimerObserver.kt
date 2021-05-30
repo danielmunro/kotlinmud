@@ -22,7 +22,6 @@ class DecrementItemDecayTimerObserver(
             roomService.removeDecayedItems()
             mobService.removeDecayedItems()
         } catch (e: ConcurrentModificationException) {
-            decrementDecayTimer()
         }
     }
 }
