@@ -3,10 +3,15 @@ package kotlinmud.room.type
 enum class Area {
     LorimirForest,
     LorimirForestOutpost,
-    Troy,
-    TroyPromenade,
     LakeOsona,
     GrongokHideout,
+
+    // Troy
+    Troy,
+    TroyOutskirts,
+    TroyPromenade,
+    HauntedMansion,
+    HauntedMansionTopFloors,
 
     // debug
     Test,

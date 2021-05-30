@@ -84,7 +84,7 @@ class MobService(
             it.room = room
             it.makeShopkeeper()
             itemRespawnsFor(it.canonicalId, items)
-        }
+        }.build()
     }
 
     fun buildFodder(

@@ -32,7 +32,7 @@ class ClientConnectedObserver(private val mobService: MobService, private val ro
                 funnel.mobName = "foo"
                 funnel.mobRace = Human()
                 funnel.gender = Gender.ANY
-                funnel.mobRoom = roomService.findOne { it.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
+                funnel.mobRoom = roomService.getStartRoom()
                 funnel.specialization = Warrior()
                 val mob = funnel.build(player)
                 mob.addCurrency(CurrencyType.Silver, 20)

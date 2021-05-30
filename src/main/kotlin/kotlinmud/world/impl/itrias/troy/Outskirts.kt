@@ -15,7 +15,7 @@ fun createTroyOutskirts(mobService: MobService, roomService: RoomService, connec
     val roomBuilder = roomService.builder(
         "Outskirts of Troy",
         "Magnificent columns from a bygone era stand scattered over the landscape.",
-        Area.Troy,
+        Area.TroyOutskirts,
     )
 
     val endRoom = build(roomBuilder)
@@ -25,8 +25,8 @@ fun createTroyOutskirts(mobService: MobService, roomService: RoomService, connec
          "a tan billy goat is here, grazing on grass",
          "tbd",
          Goat(),
-         5,
-         Area.Troy,
+         3,
+         Area.TroyOutskirts,
          3,
      )
 
@@ -35,8 +35,8 @@ fun createTroyOutskirts(mobService: MobService, roomService: RoomService, connec
         "you have caught the attention of a formidable-looking hawk",
         "tbd",
         Avian(),
-        7,
-        Area.Troy,
+        5,
+        Area.TroyOutskirts,
         2,
     )
 
@@ -45,8 +45,8 @@ fun createTroyOutskirts(mobService: MobService, roomService: RoomService, connec
         "you catch a glimpse of a spring fawn darting past some ruins",
         "tbd",
         Deer(),
-        3,
-        Area.Troy,
+        2,
+        Area.TroyOutskirts,
         3,
     )
 

@@ -15,8 +15,14 @@ import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
+import kotlinmud.type.RoomCanonicalId
 
-fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemService: ItemService, connection: Room) {
+fun createTroyTownCenter(
+    mobService: MobService,
+    roomService: RoomService,
+    itemService: ItemService,
+    connection: Room
+) {
     val roomBuilder = roomService.builder(
         "The City of Troy",
         "tbd",
@@ -36,6 +42,7 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
         roomBuilder.copy {
             it.name = "A Large Fountain"
             it.description = "The center of Troy is home to a large and ornate fountain. Pristine marble wraps around the fountain, leaving a dramatic glow in the sunlight."
+            it.canonicalId = RoomCanonicalId.START_ROOM
         }
     )
 
@@ -139,14 +146,11 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
     )
 
     val southGate = createTroySouthGate(mobService, roomService, itemService, connection)
+    createTroyWestSide(mobService, roomService, itemService, fountainRoom)
+    createTroyNorthSide(mobService, roomService, itemService, fountainRoom)
 
     connect(southGate)
         .toRoom(fountainRoom, Direction.NORTH)
-        .toRoom(build(mainStreetBuilder), Direction.WEST)
-        .toRoom(build(mainStreetBuilder), Direction.WEST)
-        .toRoom(build(mainStreetBuilder), Direction.WEST)
-        .toRoom(westGate, Direction.WEST)
-        .toRoom(build(outsideWall), Direction.WEST)
 
     connect(fountainRoom)
         .toRoom(build(mainStreetBuilder), Direction.EAST)
@@ -154,13 +158,6 @@ fun createTroyTownCenter(mobService: MobService, roomService: RoomService, itemS
         .toRoom(build(mainStreetBuilder), Direction.EAST)
         .toRoom(eastGate, Direction.EAST)
         .toRoom(build(outsideWall), Direction.EAST)
-
-    connect(fountainRoom)
-        .toRoom(build(mainStreetBuilder), Direction.NORTH)
-        .toRoom(build(mainStreetBuilder), Direction.NORTH)
-        .toRoom(build(mainStreetBuilder), Direction.NORTH)
-        .toRoom(northGate, Direction.NORTH)
-        .toRoom(build(outsideWall), Direction.NORTH)
 
     connect(westGate)
         .toRoom(build(walledRoad), Direction.NORTH)

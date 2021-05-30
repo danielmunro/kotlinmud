@@ -4,6 +4,7 @@ import kotlinmud.biome.type.BiomeType
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
+import kotlinmud.type.RoomCanonicalId
 
 class RoomService {
     private val rooms = mutableListOf<Room>()
@@ -37,7 +38,7 @@ class RoomService {
     }
 
     fun getStartRoom(): Room {
-        return rooms.first()
+        return rooms.find { it.canonicalId == RoomCanonicalId.START_ROOM }!!
     }
 
     fun removeDecayedItems() {
