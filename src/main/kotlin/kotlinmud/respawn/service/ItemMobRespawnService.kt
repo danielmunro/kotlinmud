@@ -1,5 +1,6 @@
 package kotlinmud.respawn.service
 
+import kotlinmud.helper.logger
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.mob.service.MobService
@@ -11,6 +12,8 @@ class ItemMobRespawnService(
     private val mobService: MobService,
     private val respawns: List<ItemMobRespawn>,
 ) : RespawnSomethingService {
+    private val logger = logger(this)
+
     override suspend fun respawn() {
         respawns.forEach {
             doRespawn(it.mobCanonicalId, it.itemBuilder.canonicalId!!, it.itemBuilder, it.maxAmount)
@@ -23,13 +26,11 @@ class ItemMobRespawnService(
         itemBuilder: ItemBuilder,
         maxAmount: Int,
     ) {
-        val mobs = mobService.findMobsByCanonicalId(mobCanonicalId)
-
-        mobs.forEach { mob ->
-            println("found $mob for item $itemCanonicalId respawn")
+        mobService.findMobsByCanonicalId(mobCanonicalId).forEach { mob ->
             val count = mob.items.stream().filter { it.canonicalId == itemCanonicalId }.count()
             val difference = (maxAmount - count).toInt()
             if (difference > 0) {
+                logger.info("found $mob for item $itemCanonicalId respawn")
                 val toAdd = List(difference) { itemBuilder.build() }
                 mob.items.addAll(toAdd)
             }

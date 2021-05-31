@@ -16,6 +16,10 @@ class ItemService {
         }
     }
 
+    fun getItemCount(): Int {
+        return items.size
+    }
+
     fun add(item: Item) {
         items.add(item)
     }

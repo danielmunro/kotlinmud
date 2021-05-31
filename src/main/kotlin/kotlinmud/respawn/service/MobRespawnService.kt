@@ -1,6 +1,7 @@
 package kotlinmud.respawn.service
 
 import kotlinmud.attributes.type.Attribute
+import kotlinmud.helper.logger
 import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.service.MobService
 import kotlinmud.respawn.helper.calculateHpForMob
@@ -15,12 +16,14 @@ class MobRespawnService(
     private val roomService: RoomService,
     private val respawns: List<MobRespawn>,
 ) : RespawnSomethingService {
+    private val logger = logger(this)
+
     override suspend fun respawn() {
         respawns.forEach {
             doRespawn(
                 it.area,
                 it.maxAmount,
-                it.mobBuilder.canonicalId!!,
+                it.mobBuilder.canonicalId,
                 it.mobBuilder,
             )
         }
@@ -36,7 +39,7 @@ class MobRespawnService(
         mobBuilder.also { it.canonicalId = canonicalId }
 
         if (amountToRespawn > 0) {
-            println("respawn ${mobBuilder.name} to $area (x$amountToRespawn)")
+            logger.info("respawn ${mobBuilder.name} to $area (x$amountToRespawn)")
         }
 
         while (amountToRespawn > 0) {

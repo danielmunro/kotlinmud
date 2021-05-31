@@ -114,6 +114,10 @@ class MobService(
         return builder
     }
 
+    fun getMobCount(): Int {
+        return mobs.size
+    }
+
     suspend fun regenMobs() {
         findPlayerMobs().forEach {
             val baseRegen = getRoomRegenRate(it.room.regenLevel) + getDispositionRegenRate(it.disposition)
@@ -187,7 +191,7 @@ class MobService(
 
     suspend fun moveMob(mob: Mob, destinationRoom: Room, directionLeavingFrom: Direction) {
         val leaving = mob.room
-        println("$mob leaves ${leaving.name}, entering ${destinationRoom.name}")
+        logger.debug("$mob leaves ${leaving.name}, entering ${destinationRoom.name}")
         sendMessageToRoom(createLeaveMessage(mob, directionLeavingFrom), leaving, mob)
         mob.room = destinationRoom
         doFallCheck(mob, leaving, destinationRoom)

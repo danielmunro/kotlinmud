@@ -17,6 +17,10 @@ class RoomService {
         }
     }
 
+    fun getRoomCount(): Int {
+        return rooms.size
+    }
+
     fun add(room: Room) {
         rooms.add(room)
     }

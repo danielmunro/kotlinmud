@@ -91,7 +91,7 @@ val ObserverModule = Kodein.Module {
     }
 
     bind<Observer>(tag = Tag.LOG_TICK) with provider {
-        LogTickObserver(instance())
+        LogTickObserver(instance(), instance(), instance(), instance())
     }
 
     bind<Observer>(tag = Tag.CHANGE_WEATHER) with provider {

@@ -60,7 +60,7 @@ class TimeService(
         transaction { time.time += 1 }
         eventService.publish(createTickEvent())
         val hour = getHour()
-        logger.info("tick occurred. hour of day :: {}, time :: {}", hour, time)
+        logger.info("tick occurred. hour of day :: {}, time :: {}", hour, time.time)
         if (hour == 0) {
             eventService.publish(createDayEvent())
             logger.info("a new day has started")

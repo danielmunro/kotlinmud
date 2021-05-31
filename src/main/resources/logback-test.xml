@@ -40,26 +40,11 @@
     There are a few ways you can change logging levels on the fly in a running app.
     This could be a better solution than over logging.
     -->
-    <root level="WARN">
+    <root level="NOTICE">
         <!--
         If you want async logging just use ref="ASYNC" instead.
         We will favor synchronous logging for simplicity. -->
         <appender-ref ref="STDOUT" />
     </root>
-
-    <!-- Turn on debug logging for our HikariCP connection pool. -->
-    <logger name="com.zaxxer.hikari" level="DEBUG" />
-
-    <!-- Turn on debug logging for all loggers under com.stubbornjava -->
-    <logger name="com.stubbornjava" level="DEBUG" />
-
-    <!--
-    Assume we have a com.stubbornjava.secrets.MySecretPasswordClass.Java class.
-    This line will disable debug logging for only this class and set it to warn
-    so we don't log sensitive data. This is something we may want turned on in
-    our logback-test.xml file for local debugging but not in our production
-    configuration file.
-    -->
-    <logger name="com.stubbornjava.secrets.MySecretPasswordClass" level="WARN" />
 
 </configuration>

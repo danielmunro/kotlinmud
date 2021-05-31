@@ -1,5 +1,6 @@
 package kotlinmud.respawn.service
 
+import kotlinmud.helper.logger
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemCanonicalId
@@ -13,6 +14,8 @@ class ItemAreaRespawnService(
     private val itemService: ItemService,
     private val respawns: List<ItemAreaRespawn>,
 ) : RespawnSomethingService {
+    private val logger = logger(this)
+
     override suspend fun respawn() {
         respawns.forEach {
             doRespawn(
@@ -35,7 +38,7 @@ class ItemAreaRespawnService(
         itemBuilder.canonicalId = canonicalId
 
         if (amountToRespawn > 0) {
-            println("respawn ${itemBuilder.name} to $area (x$amountToRespawn)")
+            logger.info("respawn ${itemBuilder.name} to $area (x$amountToRespawn)")
         }
 
         while (amountToRespawn > 0 && i < randomSubset.size) {
