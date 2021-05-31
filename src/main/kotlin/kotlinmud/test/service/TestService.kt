@@ -402,7 +402,7 @@ class TestService(
     }
 
     fun callClientConnectedEvent(event: Event<ClientConnectedEvent>) {
-        runBlocking { ClientConnectedObserver(mobService, roomService, playerService).invokeAsync(event) }
+        runBlocking { ClientConnectedObserver(mobService, roomService, itemService, playerService).invokeAsync(event) }
     }
 
     fun callDecreaseThirstAndHungerEvent(event: Event<*>) {

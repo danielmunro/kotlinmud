@@ -83,6 +83,9 @@ fun createMudSchool(
         Undead(),
     ).also {
         it.randomizeRoom = false
+        it.attributes = mutableMapOf(
+            Pair(Attribute.HIT, 4),
+        )
     }
 
     val weakMobBuilderBuilder = { room: Room, item: Item ->

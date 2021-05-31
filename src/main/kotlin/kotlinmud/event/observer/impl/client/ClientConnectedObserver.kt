@@ -4,6 +4,9 @@ import kotlinmud.app.Environment
 import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
+import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.Material
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.specialization.impl.Warrior
@@ -17,7 +20,12 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.type.RoomCanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class ClientConnectedObserver(private val mobService: MobService, private val roomService: RoomService, private val playerService: PlayerService) : Observer {
+class ClientConnectedObserver(
+    private val mobService: MobService,
+    private val roomService: RoomService,
+    private val itemService: ItemService,
+    private val playerService: PlayerService,
+    ) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         with(event.subject as ClientConnectedEvent) {
             if (Environment.isDev()) {
@@ -35,6 +43,21 @@ class ClientConnectedObserver(private val mobService: MobService, private val ro
                 funnel.mobRoom = roomService.getStartRoom()
                 funnel.specialization = Warrior()
                 val mob = funnel.build(player)
+                mob.equipped.add(
+                    itemService.builder(
+                        "a sub-issue sword",
+                        "tbd",
+                        1.0,
+                    ).also {
+                        it.makeWeapon(
+                            DamageType.SLASH,
+                            "slash",
+                            Material.WOOD,
+                            4,
+                            1,
+                        )
+                    }.build()
+                )
                 mob.addCurrency(CurrencyType.Silver, 20)
                 this.client.mob = mob
                 return

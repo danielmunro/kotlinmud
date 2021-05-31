@@ -6,7 +6,6 @@ class Fight(
     val mob1: Mob,
     val mob2: Mob,
 ) {
-    private var winner: Mob? = null
     private var status = FightStatus.FIGHTING
 
     fun isParticipant(mob: Mob): Boolean {

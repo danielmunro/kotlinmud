@@ -47,7 +47,7 @@ import org.kodein.di.erased.singleton
 val ObserverModule = Kodein.Module {
 
     bind<Observer>(tag = Tag.CLIENT_CONNECTED) with provider {
-        ClientConnectedObserver(instance(), instance(), instance())
+        ClientConnectedObserver(instance(), instance(), instance(), instance())
     }
 
     bind<Observer>(tag = Tag.SEND_MESSAGE_TO_ROOM) with provider {
