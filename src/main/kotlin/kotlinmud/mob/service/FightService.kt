@@ -5,6 +5,7 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.FightStartedEvent
 import kotlinmud.event.impl.KillEvent
 import kotlinmud.event.service.EventService
+import kotlinmud.helper.logger
 import kotlinmud.helper.math.d20
 import kotlinmud.helper.math.percentRoll
 import kotlinmud.item.type.Position
@@ -18,13 +19,39 @@ import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.model.Fight
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
+import kotlin.math.ceil
 import kotlinmud.event.factory.createFightRoundEvent as createFightRoundEventFactory
 import kotlinmud.event.factory.createFightStartedEvent as createFightStartedEventFactory
 import kotlinmud.event.factory.createKillEvent as createKillEventFactory
 
 class FightService(private val fight: Fight, private val eventService: EventService) {
     companion object {
+        private fun getDispositionModifier(disposition: Disposition): Int {
+            return when(disposition) {
+                Disposition.FIGHTING -> 0
+                Disposition.STANDING -> 1
+                Disposition.SITTING -> 4
+                Disposition.SLEEPING -> 9
+                Disposition.DEAD -> 0
+            }
+        }
+
+        private fun getDexModifier(dex: Int): Int {
+            return ceil(dex / 10.0).toInt()
+        }
+
+        private fun getClassModifier(specializationType: SpecializationType?): Int {
+            return when(specializationType) {
+                SpecializationType.CLERIC,
+                SpecializationType.MAGE -> 1
+                SpecializationType.THIEF -> 2
+                SpecializationType.WARRIOR -> 3
+                else -> 0
+            }
+        }
+
         private fun getAc(defender: Mob, damageType: DamageType): Int {
             return when (damageType) {
                 DamageType.SLASH -> defender.calc(Attribute.AC_SLASH)
@@ -66,6 +93,8 @@ class FightService(private val fight: Fight, private val eventService: EventServ
             }
         }
     }
+
+    private val logger = logger(this)
 
     fun end() {
         fight.finish()
@@ -143,8 +172,36 @@ class FightService(private val fight: Fight, private val eventService: EventServ
 
     private fun attackerDefeatsDefenderAC(attacker: Mob, defender: Mob): Boolean {
         val roll = d20()
+
+        // bam
+        if (roll == 20) {
+            return true
+        }
+
+        if (roll == 1) {
+            return false
+        }
+
         val hit = attacker.calc(Attribute.HIT)
         val ac = getAc(defender, attacker.getDamageType())
-        return roll - hit + ac < 0
+        val attackDispositionModifier = getDispositionModifier(attacker.disposition)
+        val defenseDispositionModifier = getDispositionModifier(defender.disposition)
+        val attackClassModifier = getClassModifier(attacker.specialization?.type)
+        val defenseClassModifier = getClassModifier(defender.specialization?.type)
+        val attackDexModifier = getDexModifier(attacker.calc(Attribute.DEX))
+        val defenseDexModifier = getDexModifier(defender.calc(Attribute.DEX))
+
+        val attackCalc = hit + attackDispositionModifier + attackClassModifier + attackDexModifier
+        val defenseCalc = ac + defenseDispositionModifier + defenseClassModifier + defenseDexModifier
+
+        logger.debug(
+            "result -- {}, ac roll -- {}, attackCalc -- {}, defenseCalc -- {}",
+            roll <= attackCalc - defenseCalc,
+            roll,
+            attackCalc,
+            defenseCalc,
+        )
+
+        return roll <= attackCalc - defenseCalc
     }
 }
