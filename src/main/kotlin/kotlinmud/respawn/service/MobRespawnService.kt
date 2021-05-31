@@ -48,7 +48,9 @@ class MobRespawnService(
                 mobBuilder.race,
             )
             mobBuilder.also {
-                it.room = rooms.random()
+                if (it.randomizeRoom) {
+                    it.room = rooms.random()
+                }
                 it.hp = hp
                 it.attributes[Attribute.HP] = hp
             }.build()

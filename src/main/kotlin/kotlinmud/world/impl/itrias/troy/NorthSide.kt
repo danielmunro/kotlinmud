@@ -26,6 +26,8 @@ fun createTroyNorthSide(
     )
 
     val road1 = build(pikeStreetBuilder)
+    val road2 = build(pikeStreetBuilder)
+    val road3 = build(pikeStreetBuilder)
 
     val weaponShop = build(pikeStreetBuilder.copy {
         it.name = "Troy weapon smith shop"
@@ -55,8 +57,8 @@ fun createTroyNorthSide(
 
     connect(connection)
         .toRoom(road1, Direction.NORTH)
-        .toRoom(build(pikeStreetBuilder), Direction.NORTH)
-        .toRoom(build(pikeStreetBuilder), Direction.NORTH)
+        .toRoom(road2, Direction.NORTH)
+        .toRoom(road3, Direction.NORTH)
 
     connect(road1)
         .toRoom(
@@ -65,4 +67,6 @@ fun createTroyNorthSide(
                 Pair(armorShop, Direction.EAST),
             )
         )
+
+    createMudSchool(mobService, roomService, itemService, road2)
 }
