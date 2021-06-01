@@ -3,7 +3,7 @@ package kotlinmud.helper.math
 import kotlin.random.Random
 
 fun d20(): Int {
-    return Random.nextInt(1, 20)
+    return Random.nextInt(1, 21)
 }
 
 fun dice(rolls: Int, number: Int): Int {
@@ -16,5 +16,5 @@ fun coinFlip(): Boolean {
 }
 
 fun percentRoll(): Int {
-    return Random.nextInt(1, 100)
+    return Random.nextInt(1, 101)
 }

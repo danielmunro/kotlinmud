@@ -2,6 +2,7 @@ package kotlinmud.action.impl.info
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Door
 import kotlinmud.room.type.Direction
@@ -28,7 +29,7 @@ class ExitsTest {
             )
         )
 
-        room1.northDoor = Door("a heavy iron door", "a big heavy iron door", DoorDisposition.CLOSED)
+        room1.northDoor = Door("a heavy iron door", "a big heavy iron door", DoorDisposition.CLOSED, ItemCanonicalId.MudSchoolKey)
 
         val response = test.runAction("exits")
 

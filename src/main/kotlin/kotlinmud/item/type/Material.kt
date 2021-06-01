@@ -28,4 +28,6 @@ enum class Material(val value: String) {
     SLICEPROOF("sliceproof"),
     ACIDPROOF("acidproof"),
     DIAMOND("diamond"),
+    TIN("tin"),
+    COPPER("copper"),
 }

@@ -74,6 +74,8 @@ enum class Command(val value: String) {
     // door
     OPEN("open"),
     CLOSE("close"),
+    LOCK("lock"),
+    UNLOCK("unlock"),
 
     // dispositions
     SIT("sit"),

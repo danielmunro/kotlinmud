@@ -11,4 +11,5 @@ enum class ItemCanonicalId {
     AmberAle,
     Porter,
     IPA,
+    MudSchoolKey,
 }

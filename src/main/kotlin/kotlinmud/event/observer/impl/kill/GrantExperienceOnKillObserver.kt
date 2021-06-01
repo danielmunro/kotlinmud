@@ -31,9 +31,9 @@ class GrantExperienceOnKillObserver(private val serverService: ServerService) : 
     }
 
     private fun sendClientUpdates(client: Client, experienceAddedResponse: AddExperience) {
-        client.write("you gain ${experienceAddedResponse.experienceAdded} experience.")
+        client.write("you gain ${experienceAddedResponse.experienceAdded} experience.\n")
         if (experienceAddedResponse.levelGained) {
-            client.writePrompt("you gained a level!")
+            client.write("you gained a level!\n")
         }
     }
 }

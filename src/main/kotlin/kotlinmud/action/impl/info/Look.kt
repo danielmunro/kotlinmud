@@ -10,6 +10,7 @@ import kotlinmud.io.model.createResponseWithEmptyActionContext
 import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.model.Room
+import kotlinmud.room.type.DoorDisposition
 
 fun createLookAction(): Action {
     return Action(Command.LOOK, mustBeAwake()) {
@@ -58,7 +59,11 @@ fun showDoors(room: Room): String {
 }
 
 fun reduceExits(room: Room): String {
+    val doors = room.getDoors()
     return room.getAllExits()
         .entries
+        .filter {
+            doors[it.key] == null || doors[it.key]?.disposition == DoorDisposition.OPEN
+        }
         .joinToString("") { it.key.name.subSequence(0, 1) }
 }

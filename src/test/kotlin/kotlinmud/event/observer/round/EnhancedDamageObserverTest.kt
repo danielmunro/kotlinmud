@@ -38,6 +38,6 @@ class EnhancedDamageObserverTest {
         }
 
         // then
-        assertThat(prob.getOutcome1()).isGreaterThan((prob.getOutcome2() * 0.8).roundToInt())
+        assertThat(prob.getOutcome1()).isGreaterThan((prob.getOutcome2() * 0.2).roundToInt())
     }
 }

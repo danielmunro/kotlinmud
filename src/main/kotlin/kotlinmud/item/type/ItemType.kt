@@ -7,6 +7,7 @@ enum class ItemType {
     EQUIPMENT,
     CONTAINER,
     CORPSE,
+    KEY,
 
     FURNACE,
 

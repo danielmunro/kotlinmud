@@ -61,8 +61,10 @@ import kotlinmud.action.impl.quest.createQuestLogAction
 import kotlinmud.action.impl.quest.createQuestSubmitAction
 import kotlinmud.action.impl.resource.createHarvestAction
 import kotlinmud.action.impl.resource.createTillAction
+import kotlinmud.action.impl.room.createLockAction
 import kotlinmud.action.impl.room.createOwnerInfoAction
 import kotlinmud.action.impl.room.createOwnerSetAction
+import kotlinmud.action.impl.room.createUnlockAction
 import kotlinmud.action.impl.shop.createBuyAction
 import kotlinmud.action.impl.shop.createListAction
 import kotlinmud.action.impl.shop.createSellAction
@@ -94,6 +96,8 @@ fun createActionsList(): List<Action> {
         createSleepAction(),
         createOpenAction(),
         createCloseAction(),
+        createLockAction(),
+        createUnlockAction(),
         createSayAction(),
         createGossipAction(),
         createTellAction(),

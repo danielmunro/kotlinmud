@@ -34,6 +34,7 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.builder.MobBuilder
@@ -174,7 +175,7 @@ class TestService(
             "a door",
             "a door",
             DoorDisposition.CLOSED,
-            DoorDisposition.CLOSED,
+            ItemCanonicalId.MudSchoolKey,
         )
     }
 

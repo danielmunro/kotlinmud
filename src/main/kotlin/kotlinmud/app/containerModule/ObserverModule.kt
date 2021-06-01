@@ -14,6 +14,7 @@ import kotlinmud.event.observer.impl.gameLoop.RemoveDisconnectedClients
 import kotlinmud.event.observer.impl.gameLoop.TimeServiceLoopObserver
 import kotlinmud.event.observer.impl.kill.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.kill.TransferGoldOnKillObserver
+import kotlinmud.event.observer.impl.kill.TransferItemsOnKillObserver
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.pulse.PruneDeadMobsPulseObserver
 import kotlinmud.event.observer.impl.regen.FastHealingObserver
@@ -146,6 +147,10 @@ val ObserverModule = Kodein.Module {
         TransferGoldOnKillObserver()
     }
 
+    bind<Observer>(tag = Tag.TRANSFER_ITEMS_ON_KILL) with provider {
+        TransferItemsOnKillObserver(instance())
+    }
+
     bind<Observer>(tag = Tag.GROW_RESOURCES) with provider {
         GrowResourcesObserver(instance())
     }
@@ -275,7 +280,8 @@ val ObserverModule = Kodein.Module {
                 EventType.KILL,
                 listOf(
                     instance(tag = Tag.GRANT_EXPERIENCE_ON_KILL),
-                    instance(tag = Tag.TRANSFER_GOLD_ON_KILL)
+                    instance(tag = Tag.TRANSFER_GOLD_ON_KILL),
+                    instance(tag = Tag.TRANSFER_ITEMS_ON_KILL),
                 )
             ),
             Pair(

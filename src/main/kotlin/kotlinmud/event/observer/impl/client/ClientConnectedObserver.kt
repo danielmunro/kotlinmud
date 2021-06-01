@@ -53,8 +53,8 @@ class ClientConnectedObserver(
                             DamageType.SLASH,
                             "slash",
                             Material.WOOD,
-                            4,
-                            1,
+                            20,
+                            20,
                         )
                     }.build()
                 )

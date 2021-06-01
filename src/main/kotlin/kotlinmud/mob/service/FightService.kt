@@ -145,8 +145,10 @@ class FightService(private val fight: Fight, private val eventService: EventServ
         }
         if (fight.mob1.hp < 0) {
             fight.mob1.disposition = Disposition.DEAD
+            fight.mob2.disposition = Disposition.STANDING
             fight.finish()
         } else if (fight.mob2.hp < 0) {
+            fight.mob1.disposition = Disposition.STANDING
             fight.mob2.disposition = Disposition.DEAD
             fight.finish()
         }
@@ -173,6 +175,8 @@ class FightService(private val fight: Fight, private val eventService: EventServ
     private fun attackerDefeatsDefenderAC(attacker: Mob, defender: Mob): Boolean {
         val roll = d20()
 
+        logger.debug("roll value -- {}", roll)
+
         // bam
         if (roll == 20) {
             return true
@@ -182,26 +186,24 @@ class FightService(private val fight: Fight, private val eventService: EventServ
             return false
         }
 
-        val hit = attacker.calc(Attribute.HIT)
-        val ac = getAc(defender, attacker.getDamageType())
-        val attackDispositionModifier = getDispositionModifier(attacker.disposition)
-        val defenseDispositionModifier = getDispositionModifier(defender.disposition)
-        val attackClassModifier = getClassModifier(attacker.specialization?.type)
-        val defenseClassModifier = getClassModifier(defender.specialization?.type)
-        val attackDexModifier = getDexModifier(attacker.calc(Attribute.DEX))
-        val defenseDexModifier = getDexModifier(defender.calc(Attribute.DEX))
+        val attackCalc = roll +
+                attacker.calc(Attribute.HIT) +
+                getDispositionModifier(attacker.disposition) +
+                getClassModifier(attacker.specialization?.type) +
+                getDexModifier(attacker.calc(Attribute.DEX))
 
-        val attackCalc = hit + attackDispositionModifier + attackClassModifier + attackDexModifier
-        val defenseCalc = ac + defenseDispositionModifier + defenseClassModifier + defenseDexModifier
+        val defenseCalc = getAc(defender, attacker.getDamageType()) +
+                getDispositionModifier(defender.disposition) +
+                getClassModifier(defender.specialization?.type) +
+                getDexModifier(defender.calc(Attribute.DEX))
 
         logger.debug(
-            "result -- {}, ac roll -- {}, attackCalc -- {}, defenseCalc -- {}",
-            roll <= attackCalc - defenseCalc,
-            roll,
+            "result -- {}, attackCalc -- {}, defenseCalc -- {}",
+            attackCalc > defenseCalc,
             attackCalc,
             defenseCalc,
         )
 
-        return roll <= attackCalc - defenseCalc
+        return attackCalc > defenseCalc
     }
 }
