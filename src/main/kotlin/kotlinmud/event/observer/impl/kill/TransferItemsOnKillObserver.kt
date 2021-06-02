@@ -5,7 +5,6 @@ import kotlinmud.event.impl.KillEvent
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.io.service.ClientService
 import kotlinmud.mob.model.PlayerMob
-import kotlinmud.mob.service.CurrencyService
 
 class TransferItemsOnKillObserver(private val clientService: ClientService) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {

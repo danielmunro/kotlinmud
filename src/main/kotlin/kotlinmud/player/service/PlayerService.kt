@@ -8,7 +8,6 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.konform.validation.Invalid
 import io.konform.validation.Validation
 import io.konform.validation.jsonschema.pattern
-import io.mockk.InternalPlatformDsl.toStr
 import kotlinmud.affect.model.Affect
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createClientLoggedInEvent

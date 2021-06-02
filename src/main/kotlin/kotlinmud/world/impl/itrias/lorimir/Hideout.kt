@@ -2,16 +2,12 @@ package kotlinmud.world.impl.itrias.lorimir
 
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.item.service.ItemService
-import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
-import kotlinmud.item.type.Position
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Amphibian
 import kotlinmud.mob.race.impl.Ogre
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.CurrencyType
-import kotlinmud.respawn.helper.respawn
-import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room

@@ -63,9 +63,11 @@ fun createMudSchool(
 
     val sectionBuilder = {
         listOf(
-            build(roomBuilder.copy {
-                it.name = "The center of a killing room"
-            }),
+            build(
+                roomBuilder.copy {
+                    it.name = "The center of a killing room"
+                }
+            ),
             build(cageBuilder),
             build(cageBuilder),
             build(cageBuilder),

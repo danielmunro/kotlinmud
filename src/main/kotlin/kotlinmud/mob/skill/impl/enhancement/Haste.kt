@@ -5,10 +5,8 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.model.Mob
-import kotlinmud.mob.skill.factory.clericAt
 import kotlinmud.mob.skill.factory.easyForMage
 import kotlinmud.mob.skill.factory.mageAt
-import kotlinmud.mob.skill.factory.normalForCleric
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.skill.type.Spell
 import kotlinmud.mob.type.Intent

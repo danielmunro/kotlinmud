@@ -30,7 +30,7 @@ class BlessTest {
         assertThat(response.message.toObservers).isEqualTo("A faint glow surrounds $mob.")
 
         // and
-        assertThat(mob.affects.find { it.type == AffectType.BLESS}).isNotNull()
+        assertThat(mob.affects.find { it.type == AffectType.BLESS }).isNotNull()
     }
 
     @Test
@@ -53,6 +53,6 @@ class BlessTest {
         assertThat(response.message.toObservers).isEqualTo("A faint glow surrounds $target.")
 
         // and
-        assertThat(target.affects.find { it.type == AffectType.BLESS}).isNotNull()
+        assertThat(target.affects.find { it.type == AffectType.BLESS }).isNotNull()
     }
 }

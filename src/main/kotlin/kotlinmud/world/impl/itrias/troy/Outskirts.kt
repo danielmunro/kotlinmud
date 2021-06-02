@@ -20,15 +20,15 @@ fun createTroyOutskirts(mobService: MobService, roomService: RoomService, connec
 
     val endRoom = build(roomBuilder)
 
-     mobService.buildFodder(
-         "a billy goat",
-         "a tan billy goat is here, grazing on grass",
-         "tbd",
-         Goat(),
-         3,
-         Area.TroyOutskirts,
-         3,
-     )
+    mobService.buildFodder(
+        "a billy goat",
+        "a tan billy goat is here, grazing on grass",
+        "tbd",
+        Goat(),
+        3,
+        Area.TroyOutskirts,
+        3,
+    )
 
     mobService.buildFodder(
         "a red tail hawk",

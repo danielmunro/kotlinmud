@@ -3,7 +3,6 @@ package kotlinmud.time.service
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
-import assertk.assertions.isTrue
 import kotlinmud.test.helper.createTestService
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

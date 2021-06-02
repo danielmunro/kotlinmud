@@ -4,8 +4,6 @@ import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.race.impl.Felid
 import kotlinmud.mob.race.impl.Rabbit
 import kotlinmud.mob.service.MobService
-import kotlinmud.respawn.helper.respawn
-import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService

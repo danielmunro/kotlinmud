@@ -17,7 +17,6 @@ import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.repository.findPlayerByEmail
 import kotlinmud.player.service.PlayerService
 import kotlinmud.room.service.RoomService
-import kotlinmud.type.RoomCanonicalId
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class ClientConnectedObserver(
@@ -25,7 +24,7 @@ class ClientConnectedObserver(
     private val roomService: RoomService,
     private val itemService: ItemService,
     private val playerService: PlayerService,
-    ) : Observer {
+) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         with(event.subject as ClientConnectedEvent) {
             if (Environment.isDev()) {

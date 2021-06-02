@@ -13,7 +13,6 @@ import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.QuestGiver
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.ItemAreaRespawn
-import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room

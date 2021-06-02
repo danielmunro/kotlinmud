@@ -29,7 +29,7 @@ import kotlinmud.event.factory.createKillEvent as createKillEventFactory
 class FightService(private val fight: Fight, private val eventService: EventService) {
     companion object {
         private fun getDispositionModifier(disposition: Disposition): Int {
-            return when(disposition) {
+            return when (disposition) {
                 Disposition.FIGHTING -> 0
                 Disposition.STANDING -> 1
                 Disposition.SITTING -> 4
@@ -43,7 +43,7 @@ class FightService(private val fight: Fight, private val eventService: EventServ
         }
 
         private fun getClassModifier(specializationType: SpecializationType?): Int {
-            return when(specializationType) {
+            return when (specializationType) {
                 SpecializationType.CLERIC,
                 SpecializationType.MAGE -> 1
                 SpecializationType.THIEF -> 2
@@ -187,15 +187,15 @@ class FightService(private val fight: Fight, private val eventService: EventServ
         }
 
         val attackCalc = roll +
-                attacker.calc(Attribute.HIT) +
-                getDispositionModifier(attacker.disposition) +
-                getClassModifier(attacker.specialization?.type) +
-                getDexModifier(attacker.calc(Attribute.DEX))
+            attacker.calc(Attribute.HIT) +
+            getDispositionModifier(attacker.disposition) +
+            getClassModifier(attacker.specialization?.type) +
+            getDexModifier(attacker.calc(Attribute.DEX))
 
         val defenseCalc = getAc(defender, attacker.getDamageType()) +
-                getDispositionModifier(defender.disposition) +
-                getClassModifier(defender.specialization?.type) +
-                getDexModifier(defender.calc(Attribute.DEX))
+            getDispositionModifier(defender.disposition) +
+            getClassModifier(defender.specialization?.type) +
+            getDexModifier(defender.calc(Attribute.DEX))
 
         logger.debug(
             "result -- {}, attackCalc -- {}, defenseCalc -- {}",

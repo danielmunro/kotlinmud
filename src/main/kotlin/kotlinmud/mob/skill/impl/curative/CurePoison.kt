@@ -1,6 +1,5 @@
 package kotlinmud.mob.skill.impl.curative
 
-import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.io.model.Message
 import kotlinmud.io.model.MessageBuilder

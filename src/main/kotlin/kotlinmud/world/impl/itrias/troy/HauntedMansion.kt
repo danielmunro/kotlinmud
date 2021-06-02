@@ -22,9 +22,11 @@ fun createTroyHauntedMansion(mobService: MobService, roomService: RoomService, i
         it.name = "An ornate, winding staircase"
     }
 
-    val foyer = build(roomBuilder.copy {
-        it.name = "The foyer of the great Circle Hall"
-    })
+    val foyer = build(
+        roomBuilder.copy {
+            it.name = "The foyer of the great Circle Hall"
+        }
+    )
 
     val matrix = SimpleMatrixService(roomBuilder).build(3, 3)
 

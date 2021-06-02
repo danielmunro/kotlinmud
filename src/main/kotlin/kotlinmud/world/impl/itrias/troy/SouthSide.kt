@@ -86,10 +86,12 @@ fun createTroySouthGate(
 
     val main1 = build(marketStreetBuilder)
 
-    val bakery = build(roomBuilder.copy {
-        it.name = "The Bakery"
-        it.description = "tbd"
-    })
+    val bakery = build(
+        roomBuilder.copy {
+            it.name = "The Bakery"
+            it.description = "tbd"
+        }
+    )
 
     mobService.buildShopkeeper(
         "a baker",
@@ -100,10 +102,12 @@ fun createTroySouthGate(
         listOf()
     )
 
-    val wandStore = build(roomBuilder.copy {
-        it.name = "Wand shop"
-        it.description = "tbd"
-    })
+    val wandStore = build(
+        roomBuilder.copy {
+            it.name = "Wand shop"
+            it.description = "tbd"
+        }
+    )
 
     mobService.buildShopkeeper(
         "a wand maker",
@@ -116,9 +120,11 @@ fun createTroySouthGate(
 
     val main2 = build(marketStreetBuilder)
 
-    val bank = build(roomBuilder.copy {
-        it.name = "First Bank of Troy"
-    })
+    val bank = build(
+        roomBuilder.copy {
+            it.name = "First Bank of Troy"
+        }
+    )
 
     mobService.buildShopkeeper(
         "a banker",
@@ -129,9 +135,11 @@ fun createTroySouthGate(
         listOf(),
     )
 
-    val inn = build(roomBuilder.copy {
-        it.name = "Inn at Market Street"
-    })
+    val inn = build(
+        roomBuilder.copy {
+            it.name = "Inn at Market Street"
+        }
+    )
 
     mobService.buildShopkeeper(
         "the innkeeper",
@@ -164,10 +172,12 @@ fun createTroySouthGate(
 
     connect(connection)
         .toRoom(main1, Direction.DOWN)
-        .toRoom(listOf(
-            Pair(potionShop, Direction.WEST),
-            Pair(tavern, Direction.EAST),
-        ))
+        .toRoom(
+            listOf(
+                Pair(potionShop, Direction.WEST),
+                Pair(tavern, Direction.EAST),
+            )
+        )
 
     return main3
 }

@@ -30,7 +30,7 @@ class GiantStrengthTest {
         assertThat(response.message.toObservers).isEqualTo("${mob.name}'s muscles surge with heightened power.")
 
         // and
-        assertThat(mob.affects.find { it.type == AffectType.GIANT_STRENGTH}).isNotNull()
+        assertThat(mob.affects.find { it.type == AffectType.GIANT_STRENGTH }).isNotNull()
     }
 
     @Test
@@ -53,6 +53,6 @@ class GiantStrengthTest {
         assertThat(response.message.toObservers).isEqualTo("${target.name}'s muscles surge with heightened power.")
 
         // and
-        assertThat(target.affects.find { it.type == AffectType.GIANT_STRENGTH}).isNotNull()
+        assertThat(target.affects.find { it.type == AffectType.GIANT_STRENGTH }).isNotNull()
     }
 }

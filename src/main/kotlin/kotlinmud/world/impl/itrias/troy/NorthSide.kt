@@ -1,8 +1,6 @@
 package kotlinmud.world.impl.itrias.troy
 
 import kotlinmud.item.service.ItemService
-import kotlinmud.mob.race.impl.Giant
-import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.impl.Kender
 import kotlinmud.mob.race.impl.Lasher
 import kotlinmud.mob.service.MobService
@@ -29,9 +27,11 @@ fun createTroyNorthSide(
     val road2 = build(pikeStreetBuilder)
     val road3 = build(pikeStreetBuilder)
 
-    val weaponShop = build(pikeStreetBuilder.copy {
-        it.name = "Troy weapon smith shop"
-    })
+    val weaponShop = build(
+        pikeStreetBuilder.copy {
+            it.name = "Troy weapon smith shop"
+        }
+    )
 
     mobService.buildShopkeeper(
         "the weaponsmith",
@@ -42,9 +42,11 @@ fun createTroyNorthSide(
         listOf(),
     )
 
-    val armorShop = build(pikeStreetBuilder.copy {
-        it.name = "Troy armor and shields"
-    })
+    val armorShop = build(
+        pikeStreetBuilder.copy {
+            it.name = "Troy armor and shields"
+        }
+    )
 
     mobService.buildShopkeeper(
         "the armorer",
