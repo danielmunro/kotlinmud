@@ -11,18 +11,16 @@ class TransferItemsOnKillObserver(private val clientService: ClientService) : Ob
         val killEvent = event.subject as KillEvent
         val victor = killEvent.victor
         val vanquished = killEvent.vanquished
-        if (vanquished !is PlayerMob) {
-            vanquished.items.addAll(vanquished.equipped)
-            vanquished.equipped.clear()
-            if (victor is PlayerMob) {
-                clientService.getClientForMob(victor)?.let {
-                    vanquished.items.forEach { item ->
-                        it.write("you get $item from $vanquished's corpse.\n")
-                    }
+        vanquished.items.addAll(vanquished.equipped)
+        vanquished.equipped.clear()
+        if (victor is PlayerMob && vanquished !is PlayerMob) {
+            clientService.getClientForMob(victor)?.let {
+                vanquished.items.forEach { item ->
+                    it.write("you get $item from $vanquished's corpse.\n")
                 }
-                victor.items.addAll(vanquished.items)
-                vanquished.items.clear()
             }
+            victor.items.addAll(vanquished.items)
+            vanquished.items.clear()
         }
     }
 }
