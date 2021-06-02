@@ -16,7 +16,7 @@ class ScanTest {
             it.area = Area.None
         }.build()
 
-        val mob1 = test.createPlayerMob()
+        test.createPlayerMob()
         val mob2 = test.createPlayerMob()
         val mob3 = test.createPlayerMob()
 
