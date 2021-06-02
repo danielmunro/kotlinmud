@@ -6,7 +6,7 @@ import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.mob.service.MobService
 import kotlinmud.respawn.model.ItemMobRespawn
 import kotlinmud.respawn.type.RespawnSomethingService
-import java.util.*
+import java.util.UUID
 
 class ItemMobRespawnService(
     private val mobService: MobService,

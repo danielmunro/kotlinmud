@@ -7,7 +7,7 @@ import kotlinmud.respawn.model.ItemMobRespawn
 import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.respawn.type.Respawn
 import kotlinmud.room.type.Area
-import java.util.*
+import java.util.UUID
 
 val itemMobRespawns = mutableListOf<ItemMobRespawn>()
 val itemAreaRespawns = mutableListOf<ItemAreaRespawn>()

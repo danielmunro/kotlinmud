@@ -43,7 +43,7 @@ import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
-import java.util.*
+import java.util.UUID
 
 class MobService(
     private val itemService: ItemService,

@@ -9,7 +9,7 @@ import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.respawn.type.RespawnSomethingService
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
-import java.util.*
+import java.util.UUID
 
 class MobRespawnService(
     private val mobService: MobService,

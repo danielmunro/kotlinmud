@@ -46,7 +46,7 @@ import kotlinmud.room.service.RoomService
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.io.File
 import java.io.FileNotFoundException
-import java.util.*
+import java.util.UUID
 import kotlinmud.player.repository.findPlayerByOTP as findPlayerByOTPQuery
 
 class PlayerService(

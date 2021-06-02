@@ -19,7 +19,7 @@ import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.QuestGiver
 import kotlinmud.mob.type.Rarity
 import kotlinmud.room.model.Room
-import java.util.*
+import java.util.UUID
 
 open class MobBuilder(private val mobService: MobService) {
     lateinit var name: String
