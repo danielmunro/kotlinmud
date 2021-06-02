@@ -16,14 +16,14 @@ fun createUnlockAction(): Action {
     } build {
         val door = it.get<Door>(Syntax.DOOR_IN_ROOM)
 
-        it.getMob().items.find { item -> item.canonicalId == door.key }
+        it.findMobItem { item -> item.canonicalId == door.key }
             ?: return@build it.createErrorResponse(
                 messageToActionCreator("you lack the key.")
             )
 
         if (door.disposition != DoorDisposition.LOCKED) {
             return@build it.createErrorResponse(
-                messageToActionCreator("the door is already ${door.disposition.toString().toLowerCase()}.")
+                messageToActionCreator("the door is not locked.")
             )
         }
 

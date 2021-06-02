@@ -141,6 +141,10 @@ class ActionContextService(
         itemService.remove(item)
     }
 
+    fun findMobItem(predicate: (Item) -> Boolean): Item? {
+        return request.mob.items.find(predicate)
+    }
+
     fun getItemGroupsFor(mob: Mob): Map<String, List<Item>> {
         return mob.items.groupBy { it.name }
     }

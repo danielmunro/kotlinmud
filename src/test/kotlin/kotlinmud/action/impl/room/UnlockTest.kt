@@ -54,7 +54,7 @@ class UnlockTest {
     }
 
     @Test
-    fun testUnlockRequiresLockedDoor() {
+    fun testCannotUnlockOpenDoor() {
         // setup
         val test = createTestService()
         val door = setup(test)
@@ -67,7 +67,24 @@ class UnlockTest {
         val response = test.runAction("unlock door")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("the door is already open.")
+        assertThat(response.message.toActionCreator).isEqualTo("the door is not locked.")
+    }
+
+    @Test
+    fun testCannotUnlockClosedDoor() {
+        // setup
+        val test = createTestService()
+        val door = setup(test)
+        createMobWithKey(test)
+
+        // given
+        door.disposition = DoorDisposition.CLOSED
+
+        // when
+        val response = test.runAction("unlock door")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("the door is not locked.")
     }
 
     @Test
