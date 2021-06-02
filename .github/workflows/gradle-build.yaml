@@ -20,7 +20,7 @@ jobs:
           ENV: ci
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          arguments: clean test jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONARCLOUD }} --info
+          arguments: clean test jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONARCLOUD }}
       - name: Publish Package
         uses: elgohr/Publish-Docker-Github-Action@master
         if: contains(github.ref, 'refs/tags/v')
