@@ -21,6 +21,12 @@ fun createUnlockAction(): Action {
                 messageToActionCreator("you lack the key.")
             )
 
+        if (door.disposition != DoorDisposition.LOCKED) {
+            return@build it.createErrorResponse(
+                messageToActionCreator("the door is already ${door.disposition.toString().toLowerCase()}.")
+            )
+        }
+
         door.disposition = DoorDisposition.CLOSED
 
         it.createOkResponse(

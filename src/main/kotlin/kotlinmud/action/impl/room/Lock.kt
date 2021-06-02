@@ -21,6 +21,12 @@ fun createLockAction(): Action {
                 messageToActionCreator("you lack the key.")
             )
 
+        if (door.disposition == DoorDisposition.OPEN) {
+            return@build it.createErrorResponse(
+                messageToActionCreator("you need to close the door to lock it.")
+            )
+        }
+
         door.disposition = DoorDisposition.LOCKED
 
         it.createOkResponse(
