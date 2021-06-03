@@ -11,6 +11,7 @@ enum class Material(val value: String) {
     LEATHER("leather"),
     COMPOSITE("composite"),
     TEXTILE("textile"),
+    PAPER("paper"),
     NONCORPOREAL("noncorporeal"),
     LIQUID("liquid"),
     VULN_SOUND("vuln_sound"),

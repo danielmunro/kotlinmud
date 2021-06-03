@@ -50,6 +50,37 @@ fun createMudSchool(
         .toRoom(hall4, Direction.WEST)
         .toRoom(hall5, Direction.WEST)
 
+    respawn(
+        MobRespawn(
+            mobService.builder(
+                "the mud school diploma guardian",
+                "the mud school diploma guardian is here",
+                "tbd"
+            ).also {
+                it.randomizeRoom = false
+                it.room = hall5
+                it.level = 3
+                it.items = listOf(
+                    itemService.builder(
+                        "mud school diploma",
+                        "tbd",
+                        0.1,
+                    ).also { item ->
+                        item.worth = 20
+                        item.material = Material.PAPER
+                        item.type = ItemType.EQUIPMENT
+                        item.position = Position.HELD
+                        item.attributes = mapOf(
+                            Pair(Attribute.WIS, 1),
+                        )
+                    }.build()
+                )
+            },
+            Area.MudSchool,
+            1,
+        )
+    )
+
     hall4.westDoor = Door(
         "a heavy wooden door",
         "tbd",
