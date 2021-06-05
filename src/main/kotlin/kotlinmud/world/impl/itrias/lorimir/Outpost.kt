@@ -2,7 +2,6 @@ package kotlinmud.world.impl.itrias.lorimir
 
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Dwarf
@@ -130,7 +129,6 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
                     item.worth = 10
                     item.material = Material.ORGANIC
                     item.food = Food.BREAD
-                    item.canonicalId = ItemCanonicalId.Bread
                 },
                 it.canonicalId,
                 100,

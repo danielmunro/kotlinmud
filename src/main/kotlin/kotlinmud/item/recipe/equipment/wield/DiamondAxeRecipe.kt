@@ -5,6 +5,7 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Recipe
+import kotlinmud.item.type.Weapon
 import kotlinmud.mob.fight.type.DamageType
 
 class DiamondAxeRecipe : Recipe {
@@ -24,6 +25,7 @@ class DiamondAxeRecipe : Recipe {
                 "a diamond axe is here.",
                 5.0,
             ).makeWeapon(
+                Weapon.AXE,
                 DamageType.SLASH,
                 "chop",
                 Material.DIAMOND,

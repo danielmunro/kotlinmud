@@ -3,7 +3,10 @@ package kotlinmud.item.service
 import kotlinmud.action.exception.InvokeException
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
-import kotlinmud.item.type.ItemCanonicalId
+import kotlinmud.item.type.Material
+import kotlinmud.item.type.Weapon
+import kotlinmud.mob.fight.type.DamageType
+import java.util.UUID
 
 class ItemService {
     private val items = mutableListOf<Item>()
@@ -14,6 +17,31 @@ class ItemService {
             it.description = description
             it.weight = weight
         }
+    }
+
+    fun buildWeapon(
+        name: String,
+        description: String,
+        weight: Double,
+        type: Weapon,
+        damageType: DamageType,
+        material: Material,
+        hit: Int,
+        dam: Int,
+        worth: Int,
+        attackVerb: String = damageType.toString(),
+    ): ItemBuilder {
+        return builder(name, description, weight)
+            .makeWeapon(
+                type,
+                damageType,
+                attackVerb,
+                material,
+                hit,
+                dam,
+            ).also {
+                it.worth = worth
+            }
     }
 
     fun getItemCount(): Int {
@@ -28,7 +56,7 @@ class ItemService {
         items.remove(item)
     }
 
-    fun findByCanonicalId(id: ItemCanonicalId): List<Item> {
+    fun findByCanonicalId(id: UUID): List<Item> {
         return items.filter { it.canonicalId == id }
     }
 

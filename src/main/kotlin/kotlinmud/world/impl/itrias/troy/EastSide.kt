@@ -8,7 +8,7 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 
-fun createTroyEastSide(mobService: MobService, roomService: RoomService, connection: Room) {
+fun createTroyEastSide(mobService: MobService, roomService: RoomService, connection: Room): Room {
     val roomBuilder = roomService.builder(
         "Sunrise Avenue",
         "A road",
@@ -30,4 +30,6 @@ fun createTroyEastSide(mobService: MobService, roomService: RoomService, connect
         .toRoom(road2, Direction.EAST)
         .toRoom(road3, Direction.EAST)
         .toRoom(gate, Direction.EAST)
+
+    return gate
 }

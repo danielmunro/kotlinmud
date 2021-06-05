@@ -14,7 +14,7 @@ fun createTroyWestSide(
     roomService: RoomService,
     itemService: ItemService,
     connection: Room,
-) {
+): Room {
     val roomBuilder = roomService.builder(
         "Sunset Boulevard",
         "tbd",
@@ -22,11 +22,15 @@ fun createTroyWestSide(
     )
 
     val room1 = build(roomBuilder)
+    val room2 = build(roomBuilder)
+    val room3 = build(roomBuilder)
 
     createTroyHauntedMansion(mobService, roomService, itemService, room1)
 
     connect(connection)
         .toRoom(room1, Direction.WEST)
-        .toRoom(build(roomBuilder), Direction.WEST)
-        .toRoom(build(roomBuilder), Direction.WEST)
+        .toRoom(room2, Direction.WEST)
+        .toRoom(room3, Direction.WEST)
+
+    return room3
 }

@@ -9,12 +9,13 @@ import kotlinmud.helper.Identifiable
 import kotlinmud.helper.Noun
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.Food
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
+import kotlinmud.item.type.Weapon
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.skill.type.SkillType
+import java.util.UUID
 
 class Item(
     val type: ItemType,
@@ -28,8 +29,9 @@ class Item(
     val canOwn: Boolean,
     val affects: MutableList<Affect> = mutableListOf(),
     val spells: MutableList<SkillType> = mutableListOf(),
-    val canonicalId: ItemCanonicalId?,
+    val canonicalId: UUID,
     val position: Position?,
+    val weaponType: Weapon?,
     val attackVerb: String?,
     val damageType: DamageType?,
     val drink: Drink?,

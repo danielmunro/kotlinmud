@@ -34,9 +34,9 @@ import kotlinmud.io.type.IOStatus
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
+import kotlinmud.item.type.Weapon
 import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.builder.PlayerMobBuilder
 import kotlinmud.mob.controller.MobController
@@ -73,6 +73,7 @@ import kotlinmud.time.service.TimeService
 import kotlinx.coroutines.runBlocking
 import java.net.SocketAddress
 import java.nio.channels.SocketChannel
+import java.util.UUID
 
 class TestService(
     private val fixtureService: FixtureService,
@@ -175,7 +176,7 @@ class TestService(
             "a door",
             "a door",
             DoorDisposition.CLOSED,
-            ItemCanonicalId.MudSchoolKey,
+            UUID.randomUUID(),
         )
     }
 
@@ -473,6 +474,7 @@ class TestService(
             "a sword",
             "a sword"
         ).makeWeapon(
+            Weapon.SWORD,
             DamageType.SLASH,
             "slash",
             Material.IRON,

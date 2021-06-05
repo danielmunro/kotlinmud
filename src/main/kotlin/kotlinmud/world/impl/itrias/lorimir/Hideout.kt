@@ -3,6 +3,7 @@ package kotlinmud.world.impl.itrias.lorimir
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Material
+import kotlinmud.item.type.Weapon
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Amphibian
 import kotlinmud.mob.race.impl.Ogre
@@ -50,6 +51,7 @@ fun createGrongokHideout(mobService: MobService, roomService: RoomService, itemS
                 20.0,
             ).also { eq ->
                 eq.makeWeapon(
+                    Weapon.MACE,
                     DamageType.POUND,
                     "pound",
                     Material.STONE,

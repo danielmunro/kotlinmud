@@ -6,6 +6,7 @@ import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Material
+import kotlinmud.item.type.Weapon
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
@@ -49,6 +50,7 @@ class ClientConnectedObserver(
                         1.0,
                     ).also {
                         it.makeWeapon(
+                            Weapon.SWORD,
                             DamageType.SLASH,
                             "slash",
                             Material.WOOD,

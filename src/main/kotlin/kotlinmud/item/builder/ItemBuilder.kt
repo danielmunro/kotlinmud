@@ -6,13 +6,14 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.Food
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
+import kotlinmud.item.type.Weapon
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.room.model.Room
+import java.util.UUID
 
 class ItemBuilder(private val itemService: ItemService) {
     lateinit var type: ItemType
@@ -26,8 +27,9 @@ class ItemBuilder(private val itemService: ItemService) {
     var canOwn = true
     var affects: List<Affect> = listOf()
     var spells: List<SkillType> = listOf()
-    var canonicalId: ItemCanonicalId? = null
+    var canonicalId: UUID = UUID.randomUUID()
     var position: Position? = null
+    var weaponType: Weapon? = null
     var attackVerb: String? = null
     var damageType: DamageType? = null
     var drink: Drink? = null
@@ -50,9 +52,17 @@ class ItemBuilder(private val itemService: ItemService) {
         return this
     }
 
-    fun makeWeapon(damageType: DamageType, attackVerb: String, material: Material, hit: Int, dam: Int): ItemBuilder {
+    fun makeWeapon(
+        weaponType: Weapon,
+        damageType: DamageType,
+        attackVerb: String,
+        material: Material,
+        hit: Int,
+        dam: Int,
+    ): ItemBuilder {
         type = ItemType.EQUIPMENT
         position = Position.WEAPON
+        this.weaponType = weaponType
         this.damageType = damageType
         this.attackVerb = attackVerb
         this.material = material
@@ -86,6 +96,7 @@ class ItemBuilder(private val itemService: ItemService) {
             spells.toMutableList(),
             canonicalId,
             position,
+            weaponType,
             attackVerb,
             damageType,
             drink,

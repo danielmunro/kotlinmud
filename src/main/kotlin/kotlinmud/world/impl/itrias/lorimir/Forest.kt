@@ -3,7 +3,6 @@ package kotlinmud.world.impl.itrias.lorimir
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
@@ -20,6 +19,7 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
+import java.util.UUID
 
 fun createLorimirForest(
     mobService: MobService,
@@ -67,9 +67,10 @@ fun createLorimirForest(
         .toRoom(captainRoom, Direction.NORTH)
         .toRoom(matrix[0][0], Direction.DOWN)
 
+    val uuid = UUID.randomUUID()
     respawn(
         ItemAreaRespawn(
-            ItemCanonicalId.Mushroom,
+            uuid,
             itemService.builder(
                 "a small brown mushroom",
                 "tbd",
@@ -77,7 +78,7 @@ fun createLorimirForest(
             ).also {
                 it.material = Material.ORGANIC
                 it.food = Food.MUSHROOM
-                it.canonicalId = ItemCanonicalId.Mushroom
+                it.canonicalId = uuid
                 it.type = ItemType.FOOD
                 it.worth = 0
             },

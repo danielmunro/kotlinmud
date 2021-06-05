@@ -146,9 +146,13 @@ fun createTroyTownCenter(
     )
 
     val southGate = createTroySouthGate(mobService, roomService, itemService, connection)
-    createTroyWestSide(mobService, roomService, itemService, fountainRoom)
-    createTroyNorthSide(mobService, roomService, itemService, fountainRoom)
-    createTroyEastSide(mobService, roomService, fountainRoom)
+    val westRoad = createTroyWestSide(mobService, roomService, itemService, fountainRoom)
+    val northRoad = createTroyNorthSide(mobService, roomService, itemService, fountainRoom)
+    val eastRoad = createTroyEastSide(mobService, roomService, fountainRoom)
+
+    connect(northGate).toRoom(northRoad, Direction.SOUTH)
+    connect(westGate).toRoom(westRoad, Direction.EAST)
+    connect(eastGate).toRoom(eastRoad, Direction.WEST)
 
     connect(southGate)
         .toRoom(fountainRoom, Direction.NORTH)

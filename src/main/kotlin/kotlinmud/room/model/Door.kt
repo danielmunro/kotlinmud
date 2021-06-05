@@ -1,13 +1,13 @@
 package kotlinmud.room.model
 
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.room.type.DoorDisposition
+import java.util.UUID
 
 class Door(
     val name: String,
     val description: String,
     val defaultDisposition: DoorDisposition,
-    val key: ItemCanonicalId,
+    val key: UUID,
     var disposition: DoorDisposition = defaultDisposition,
 ) {
     override fun toString(): String {

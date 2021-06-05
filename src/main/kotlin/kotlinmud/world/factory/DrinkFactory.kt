@@ -5,7 +5,6 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 
@@ -17,7 +16,6 @@ fun createAmberAle(itemService: ItemService): ItemBuilder {
     ).also {
         it.affects = listOf(Affect(AffectType.DRUNK, 5))
         it.level = 5
-        it.canonicalId = ItemCanonicalId.AmberAle
         it.material = Material.ORGANIC
         it.type = ItemType.DRINK
         it.drink = Drink.BEER
@@ -33,7 +31,6 @@ fun createPorter(itemService: ItemService): ItemBuilder {
     ).also {
         it.affects = listOf(Affect(AffectType.DRUNK, 4))
         it.level = 5
-        it.canonicalId = ItemCanonicalId.Porter
         it.material = Material.ORGANIC
         it.type = ItemType.DRINK
         it.drink = Drink.BEER
@@ -49,7 +46,6 @@ fun createIPA(itemService: ItemService): ItemBuilder {
     ).also {
         it.affects = listOf(Affect(AffectType.DRUNK, 6))
         it.level = 5
-        it.canonicalId = ItemCanonicalId.IPA
         it.material = Material.ORGANIC
         it.type = ItemType.DRINK
         it.drink = Drink.BEER

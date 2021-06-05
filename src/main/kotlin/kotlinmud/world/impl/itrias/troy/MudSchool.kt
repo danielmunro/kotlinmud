@@ -3,7 +3,6 @@ package kotlinmud.world.impl.itrias.troy
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
@@ -19,6 +18,7 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
+import java.util.UUID
 
 fun createMudSchool(
     mobService: MobService,
@@ -85,7 +85,7 @@ fun createMudSchool(
         "a heavy wooden door",
         "tbd",
         DoorDisposition.LOCKED,
-        ItemCanonicalId.MudSchoolKey,
+        UUID.randomUUID(),
     )
 
     val cageBuilder = roomBuilder.copy {
@@ -147,7 +147,7 @@ fun createMudSchool(
             ).also { item ->
                 item.type = ItemType.KEY
                 item.material = Material.COPPER
-                item.canonicalId = ItemCanonicalId.MudSchoolKey
+                item.canonicalId = hall4.westDoor!!.key
             }.build()
         )
     }

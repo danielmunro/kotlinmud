@@ -2,13 +2,13 @@ package kotlinmud.action.impl.info
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Door
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.helper.createTestService
 import org.junit.Test
+import java.util.UUID
 
 class ExitsTest {
     @Test
@@ -29,7 +29,12 @@ class ExitsTest {
             )
         )
 
-        room1.northDoor = Door("a heavy iron door", "a big heavy iron door", DoorDisposition.CLOSED, ItemCanonicalId.MudSchoolKey)
+        room1.northDoor = Door(
+            "a heavy iron door",
+            "a big heavy iron door",
+            DoorDisposition.CLOSED,
+            UUID.randomUUID(),
+        )
 
         val response = test.runAction("exits")
 

@@ -2,7 +2,6 @@ package kotlinmud.action.impl.room
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.item.type.ItemType
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.model.Door
@@ -10,8 +9,11 @@ import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.service.TestService
 import org.junit.Test
+import java.util.UUID
 
 class LockTest {
+    private val uuid = UUID.randomUUID()
+
     private fun setup(test: TestService): Door {
         val start = test.getStartRoom()
         val destination = test.createRoom()
@@ -20,7 +22,7 @@ class LockTest {
             "a door",
             "tbd",
             DoorDisposition.CLOSED,
-            ItemCanonicalId.MudSchoolKey,
+            uuid,
         )
         return start.westDoor!!
     }
@@ -30,7 +32,7 @@ class LockTest {
             it.items.add(
                 test.createItemBuilder().also { builder ->
                     builder.type = ItemType.KEY
-                    builder.canonicalId = ItemCanonicalId.MudSchoolKey
+                    builder.canonicalId = uuid
                 }.build()
             )
         }

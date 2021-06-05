@@ -5,6 +5,7 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Recipe
+import kotlinmud.item.type.Weapon
 import kotlinmud.mob.fight.type.DamageType
 
 class StoneSwordRecipe : Recipe {
@@ -24,6 +25,7 @@ class StoneSwordRecipe : Recipe {
                 "a stone sword is here.",
                 6.0,
             ).makeWeapon(
+                Weapon.SWORD,
                 DamageType.SLASH,
                 "slash",
                 Material.STONE,

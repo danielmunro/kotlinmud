@@ -8,5 +8,6 @@ enum class Weapon {
     FLAIL,
     SPEAR,
     WAND,
-    STAFF
+    STAFF,
+    EXOTIC,
 }

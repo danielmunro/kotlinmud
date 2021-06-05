@@ -2,7 +2,6 @@ package kotlinmud.respawn.service
 
 import kotlinmud.helper.logger
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.type.ItemCanonicalId
 import kotlinmud.mob.service.MobService
 import kotlinmud.respawn.model.ItemMobRespawn
 import kotlinmud.respawn.type.RespawnSomethingService
@@ -22,7 +21,7 @@ class ItemMobRespawnService(
 
     private fun doRespawn(
         mobCanonicalId: UUID,
-        itemCanonicalId: ItemCanonicalId,
+        itemCanonicalId: UUID,
         itemBuilder: ItemBuilder,
         maxAmount: Int,
     ) {

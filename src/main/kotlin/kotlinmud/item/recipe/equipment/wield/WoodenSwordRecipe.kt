@@ -5,6 +5,7 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Recipe
+import kotlinmud.item.type.Weapon
 import kotlinmud.mob.fight.type.DamageType
 
 class WoodenSwordRecipe : Recipe {
@@ -23,6 +24,7 @@ class WoodenSwordRecipe : Recipe {
                 "a wooden sword is here.",
                 3.0,
             ).makeWeapon(
+                Weapon.SWORD,
                 DamageType.POUND,
                 "twack",
                 Material.WOOD,
