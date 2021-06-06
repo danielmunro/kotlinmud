@@ -4,6 +4,7 @@ import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.item.model.Item
+import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.type.Area
@@ -25,10 +26,10 @@ class Room(
     val elevation: Int,
     val maxWeight: Int,
     val maxItems: Int,
-    val items: MutableList<Item>,
+    override val items: MutableList<Item>,
     val resources: MutableList<ResourceType>,
     val owner: Mob?
-) {
+) : HasInventory {
     var north: Room? = null
     var northDoor: Door? = null
     var south: Room? = null

@@ -60,7 +60,7 @@ fun createMudSchool(
                 it.randomizeRoom = false
                 it.room = hall5
                 it.level = 3
-                it.items = listOf(
+                it.items = mutableListOf(
                     itemService.builder(
                         "mud school diploma",
                         "tbd",
@@ -139,7 +139,7 @@ fun createMudSchool(
         it.level = 2
         it.room = hall4
         it.randomizeRoom = false
-        it.items = listOf(
+        it.items = mutableListOf(
             itemService.builder(
                 "the mud school key",
                 "tbd",

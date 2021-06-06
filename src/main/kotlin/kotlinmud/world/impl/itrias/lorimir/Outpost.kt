@@ -1,42 +1,35 @@
 package kotlinmud.world.impl.itrias.lorimir
 
-import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
-import kotlinmud.mob.race.impl.Dwarf
 import kotlinmud.mob.race.impl.Giant
-import kotlinmud.mob.service.MobService
-import kotlinmud.mob.type.JobType
+import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.QuestGiver
-import kotlinmud.respawn.helper.respawn
-import kotlinmud.respawn.model.ItemMobRespawn
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
-import kotlinmud.room.service.RoomService
-import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
+import kotlinmud.world.service.AreaBuilderService
 
-fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService, roomService: RoomService): Room {
-    val builder = roomService.builder(
+fun createLorimirForestOutpost(areaBuilderService: AreaBuilderService): Room {
+    val builder = areaBuilderService.roomBuilder(
         "Around a fire pit",
         """A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
     
     A sign flickers against the light of the fire.""",
-        Area.LorimirForestOutpost,
     )
 
-    val room1 = build(
-        builder.copy {
-            it.canonicalId = RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
-        }
-    )
+    areaBuilderService.copyRoomBuilder {
+        it.canonicalId = RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
+    }
 
-    itemService.builder(
+    val room1 = areaBuilderService.buildRoom()
+
+    areaBuilderService.itemBuilder(
         "a cobblestone fire-pit",
-        "a fire emanates from the circular pit."
+        "a fire emanates from the circular pit.",
     ).also {
         it.canOwn = false
         it.material = Material.STONE
@@ -44,7 +37,7 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         it.room = room1
     }.build()
 
-    itemService.builder(
+    areaBuilderService.itemBuilder(
         "a large wooden sign on a post",
         """The sign reads:
 
@@ -101,26 +94,24 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
         )
     connect(room5).toRoom(room6, Direction.EAST)
 
-    mobService.buildShopkeeper(
+    areaBuilderService.buildShopkeeper(
         "Blacksmith Felig",
         "a blacksmith stands over a forge, monitoring his work",
         "a large giant is here, forging a weapon",
         Giant(),
         room3,
-        listOf(),
+        mapOf(),
     )
 
-    mobService.builder(
+    areaBuilderService.buildShopkeeper(
         "Barbosa the cook",
         "a messy and overworked cook wipes away his brow sweat",
         "a large cook stops moving long enough to wipe sweat from his eyebrow.",
-        Dwarf(),
-    ).also {
-        it.room = room6
-        it.makeShopkeeper()
-        respawn(
-            ItemMobRespawn(
-                itemService.builder(
+        Human(),
+        room6,
+        mapOf(
+            Pair(
+                areaBuilderService.itemBuilder(
                     "a small hard loaf of bread",
                     "foo",
                     0.1,
@@ -130,21 +121,19 @@ fun createLorimirForestOutpost(mobService: MobService, itemService: ItemService,
                     item.material = Material.ORGANIC
                     item.food = Food.BREAD
                 },
-                it.canonicalId,
                 100,
             )
         )
-    }.build()
+    )
 
-    mobService.builder(
+    areaBuilderService.buildQuestGiver(
         "Recruiter Esmer",
         "a cloaked figure sits against a log, facing the fire, reading a leaflet",
         "Recruiter Esmer is here",
-    ).also {
-        it.room = room2
-        it.job = JobType.QUEST
-        it.identifier = QuestGiver.PraetorianRecruiterEsmer
-    }.build()
+        Human(),
+        room2,
+        QuestGiver.PraetorianRecruiterEsmer,
+    )
 
     return room4
 }

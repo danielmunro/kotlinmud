@@ -93,7 +93,7 @@ class FightTest {
     fun testParryRequiresWeapon() {
         // setup
         val testService = createTestService()
-        val prob = ProbabilityTest()
+        val prob = ProbabilityTest(1000)
         val mob1 = testService.createMob()
         val mob2 = testService.createMob {
             it.skills[SkillType.PARRY] = 100

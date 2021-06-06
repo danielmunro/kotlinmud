@@ -6,6 +6,7 @@ import kotlinmud.attributes.constant.startingMana
 import kotlinmud.attributes.constant.startingMv
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
+import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobArguments
 import kotlinmud.mob.race.type.Race
@@ -21,7 +22,7 @@ import kotlinmud.mob.type.Rarity
 import kotlinmud.room.model.Room
 import java.util.UUID
 
-open class MobBuilder(private val mobService: MobService) {
+open class MobBuilder(private val mobService: MobService) : HasInventory {
     lateinit var name: String
     lateinit var brief: String
     lateinit var description: String
@@ -46,7 +47,7 @@ open class MobBuilder(private val mobService: MobService) {
     var savingThrows = 0
     var rarity = Rarity.COMMON
     var equipped = listOf<Item>()
-    var items = listOf<Item>()
+    override var items = mutableListOf<Item>()
     var maxItems = 0
     var maxWeight = 0
     var route = listOf<Room>()

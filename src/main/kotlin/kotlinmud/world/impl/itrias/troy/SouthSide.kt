@@ -49,7 +49,7 @@ fun createTroySouthGate(
         it.makeShopkeeper()
         itemRespawnsFor(
             it.canonicalId,
-            listOf(
+            mapOf(
                 Pair(createCureLightPotion(itemService), 100),
                 Pair(createCurePoisonPotion(itemService), 100),
                 Pair(createCureBlindnessPotion(itemService), 100),
@@ -73,7 +73,7 @@ fun createTroySouthGate(
         "tbd",
         Human(),
         tavern,
-        listOf(
+        mapOf(
             Pair(createAmberAle(itemService), 100),
             Pair(createPorter(itemService), 100),
             Pair(createIPA(itemService), 100),
@@ -99,7 +99,7 @@ fun createTroySouthGate(
         "tbd",
         Human(),
         bakery,
-        listOf()
+        mapOf(),
     )
 
     val wandStore = build(
@@ -115,7 +115,7 @@ fun createTroySouthGate(
         "tbd",
         Human(),
         wandStore,
-        listOf(),
+        mapOf(),
     )
 
     val main2 = build(marketStreetBuilder)
@@ -132,7 +132,7 @@ fun createTroySouthGate(
         "tbd",
         Goblin(),
         bank,
-        listOf(),
+        mapOf(),
     )
 
     val inn = build(
@@ -147,7 +147,7 @@ fun createTroySouthGate(
         "tbd",
         Dwarf(),
         inn,
-        listOf(),
+        mapOf(),
     )
 
     val main3 = build(marketStreetBuilder)

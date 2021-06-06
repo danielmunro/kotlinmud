@@ -73,7 +73,7 @@ class MobService(
         description: String,
         race: Race,
         room: Room,
-        items: List<Pair<ItemBuilder, Int>>,
+        items: Map<ItemBuilder, Int>,
     ) {
         builder(
             name,

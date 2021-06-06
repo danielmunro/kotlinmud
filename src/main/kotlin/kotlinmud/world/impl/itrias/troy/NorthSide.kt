@@ -47,7 +47,7 @@ fun createTroyNorthSide(
         "tbd",
         Kender(),
         weaponShop,
-        listOf(
+        mapOf(
             Pair(
                 itemService.buildWeapon(
                     "an iron sword",
@@ -119,7 +119,7 @@ fun createTroyNorthSide(
         "tbd",
         Lasher(),
         armorShop,
-        listOf(),
+        mapOf(),
     )
 
     connect(connection)

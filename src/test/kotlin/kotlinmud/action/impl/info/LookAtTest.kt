@@ -40,7 +40,7 @@ class LookAtTest {
         val item = testService.createItem()
         testService
             .createMobBuilder()
-            .also { it.items = listOf(item) }
+            .also { it.items = mutableListOf(item) }
             .build()
 
         // when

@@ -21,11 +21,11 @@ fun respawn(respawn: Respawn) {
     }
 }
 
-fun itemRespawnsFor(mobCanonicalId: UUID, items: List<Pair<ItemBuilder, Int>>) {
+fun itemRespawnsFor(mobCanonicalId: UUID, items: Map<ItemBuilder, Int>) {
     items.forEach {
         respawn(
             ItemMobRespawn(
-                it.first, mobCanonicalId, it.second
+                it.key, mobCanonicalId, it.value
             )
         )
     }

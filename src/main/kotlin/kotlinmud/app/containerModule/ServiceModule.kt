@@ -29,11 +29,14 @@ import kotlinmud.respawn.service.ItemMobRespawnService
 import kotlinmud.respawn.service.MobRespawnService
 import kotlinmud.respawn.service.RespawnService
 import kotlinmud.room.service.RoomService
+import kotlinmud.room.type.Area
 import kotlinmud.time.repository.findTime
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
+import kotlinmud.world.service.AreaBuilderService
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
+import org.kodein.di.erased.factory
 import org.kodein.di.erased.instance
 import org.kodein.di.erased.singleton
 import java.net.ServerSocket
@@ -123,6 +126,14 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
                 instance(),
                 instance(),
                 instance(),
+            )
+        }
+        bind<AreaBuilderService>() with factory { area: Area ->
+            AreaBuilderService(
+                instance(),
+                instance(),
+                instance(),
+                area,
             )
         }
     }
