@@ -6,7 +6,6 @@ import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Giant
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.QuestGiver
-import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
@@ -14,18 +13,16 @@ import kotlinmud.type.RoomCanonicalId
 import kotlinmud.world.service.AreaBuilderService
 
 fun createLorimirForestOutpost(areaBuilderService: AreaBuilderService): Room {
-    val builder = areaBuilderService.roomBuilder(
+    areaBuilderService.roomBuilder(
         "Around a fire pit",
         """A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
     
     A sign flickers against the light of the fire.""",
     )
 
-    areaBuilderService.copyRoomBuilder {
+    val room1 = areaBuilderService.buildRoomCopy {
         it.canonicalId = RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
     }
-
-    val room1 = areaBuilderService.buildRoom()
 
     areaBuilderService.itemBuilder(
         "a cobblestone fire-pit",
@@ -54,61 +51,49 @@ fun createLorimirForestOutpost(areaBuilderService: AreaBuilderService): Room {
         it.room = room1
     }.build()
 
-    val room2 = build(
-        builder.copy {
-            it.name = "Inside a lean-to shelter"
-            it.description = "bar"
-            it.canonicalId = RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
-        }
+    val room2 = areaBuilderService.buildRoomCopy {
+        it.name = "Inside a lean-to shelter"
+        it.description = "bar"
+        it.canonicalId = RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
+    }
+
+    areaBuilderService.buildQuestGiver(
+        "Recruiter Esmer",
+        "a cloaked figure sits against a log, facing the fire, reading a leaflet",
+        "Recruiter Esmer is here",
+        Human(),
+        QuestGiver.PraetorianRecruiterEsmer,
     )
 
-    val room3 = build(
-        builder.copy {
-            it.name = "A blacksmith shack"
-        }
-    )
-    val room4 = build(
-        builder.copy {
-            it.name = "A trail near the camp"
-        }
-    )
-    val room6 = build(
-        builder.copy {
-            it.name = "A makeshift mess hall"
-        }
-    )
-    val room5 = build(
-        builder.copy {
-            it.name = "Outside the camp"
-        }
-    )
-
-    connect(room1)
-        .toRoom(
-            listOf(
-                Pair(room2, Direction.NORTH),
-                Pair(room3, Direction.WEST),
-                Pair(room4, Direction.EAST),
-                Pair(room5, Direction.SOUTH),
-            )
-        )
-    connect(room5).toRoom(room6, Direction.EAST)
+    val room3 = areaBuilderService.buildRoomCopy {
+        it.name = "A blacksmith shack"
+    }
 
     areaBuilderService.buildShopkeeper(
         "Blacksmith Felig",
         "a blacksmith stands over a forge, monitoring his work",
-        "a large giant is here, forging a weapon",
+        "tbd",
         Giant(),
-        room3,
         mapOf(),
     )
+
+    val room4 = areaBuilderService.buildRoomCopy {
+        it.name = "A trail near the camp"
+    }
+
+    val room5 = areaBuilderService.buildRoomCopy {
+        it.name = "By the campfire"
+    }
+
+    val room6 = areaBuilderService.buildRoomCopy {
+        it.name = "A makeshift mess hall"
+    }
 
     areaBuilderService.buildShopkeeper(
         "Barbosa the cook",
         "a messy and overworked cook wipes away his brow sweat",
         "a large cook stops moving long enough to wipe sweat from his eyebrow.",
         Human(),
-        room6,
         mapOf(
             Pair(
                 areaBuilderService.itemBuilder(
@@ -122,18 +107,32 @@ fun createLorimirForestOutpost(areaBuilderService: AreaBuilderService): Room {
                     item.food = Food.BREAD
                 },
                 100,
+            ),
+            Pair(
+                areaBuilderService.itemBuilder(
+                    "preserved meat",
+                    "foo",
+                ).also { item ->
+                    item.type = ItemType.FOOD
+                    item.worth = 65
+                    item.material = Material.ORGANIC
+                    item.food = Food.PRESERVED_MEAT
+                },
+                100,
             )
         )
     )
 
-    areaBuilderService.buildQuestGiver(
-        "Recruiter Esmer",
-        "a cloaked figure sits against a log, facing the fire, reading a leaflet",
-        "Recruiter Esmer is here",
-        Human(),
-        room2,
-        QuestGiver.PraetorianRecruiterEsmer,
-    )
+    connect(room1)
+        .toRoom(
+            listOf(
+                Pair(room2, Direction.NORTH),
+                Pair(room3, Direction.WEST),
+                Pair(room4, Direction.EAST),
+                Pair(room5, Direction.SOUTH),
+            )
+        )
+    connect(room5).toRoom(room6, Direction.EAST)
 
     return room4
 }

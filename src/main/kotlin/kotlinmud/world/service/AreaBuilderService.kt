@@ -2,14 +2,13 @@ package kotlinmud.world.service
 
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.service.ItemService
-import kotlinmud.item.type.HasInventory
-import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.QuestGiver
 import kotlinmud.respawn.helper.itemRespawnsFor
 import kotlinmud.room.builder.RoomBuilder
+import kotlinmud.room.builder.build
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
@@ -23,7 +22,6 @@ class AreaBuilderService(
 
     private lateinit var lastRoomBuilder: RoomBuilder
     private lateinit var lastRoom: Room
-    private lateinit var addItemTo: HasInventory
 
     fun roomBuilder(name: String, description: String): RoomBuilder {
         return roomService.builder(
@@ -32,20 +30,16 @@ class AreaBuilderService(
             area,
         ).also {
             lastRoomBuilder = it
-            addItemTo = it
         }
     }
 
-    fun buildRoom(): Room {
-        return kotlinmud.room.builder.build(lastRoomBuilder).also {
+    fun buildRoomCopy(modifier: (RoomBuilder) -> Unit): Room {
+        return build(
+            lastRoomBuilder.copy(modifier).also {
+                lastRoomBuilder = it
+            }
+        ).also {
             lastRoom = it
-        }
-    }
-
-    fun copyRoomBuilder(modifier: (RoomBuilder) -> Unit): RoomBuilder {
-        return lastRoomBuilder.copy(modifier).also {
-            lastRoomBuilder = it
-            addItemTo = it
         }
     }
 
@@ -53,24 +47,11 @@ class AreaBuilderService(
         return itemService.builder(name, description, weight)
     }
 
-    fun build() {
-    }
-
-    fun mobBuilder(name: String, brief: String, description: String, race: Race): MobBuilder {
-        return mobService.builder(
-            name,
-            brief,
-            description,
-            race,
-        )
-    }
-
     fun buildShopkeeper(
         name: String,
         brief: String,
         description: String,
         race: Race,
-        room: Room,
         items: Map<ItemBuilder, Int>,
     ) {
         mobService.builder(
@@ -79,10 +60,9 @@ class AreaBuilderService(
             description,
             race
         ).also {
-            it.room = room
+            it.room = lastRoom
             it.makeShopkeeper()
             itemRespawnsFor(it.canonicalId, items)
-            addItemTo = it
         }.build()
     }
 
@@ -91,7 +71,6 @@ class AreaBuilderService(
         brief: String,
         description: String,
         race: Race,
-        room: Room,
         identifier: QuestGiver
     ) {
         mobService.builder(
@@ -100,10 +79,9 @@ class AreaBuilderService(
             description,
             race,
         ).also {
-            it.room = room
+            it.room = lastRoom
             it.job = JobType.QUEST
             it.identifier = identifier
-            addItemTo = it
         }.build()
     }
 }

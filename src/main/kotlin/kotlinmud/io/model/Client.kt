@@ -28,6 +28,7 @@ class Client(val socket: SocketChannel) {
 
     fun write(message: String) {
         val buffer = ByteBuffer.allocate(1024)
+        println(message)
         buffer.put(message.toByteArray())
         buffer.flip()
         try {
