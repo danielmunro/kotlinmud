@@ -15,6 +15,7 @@ import kotlinmud.type.RoomCanonicalId
 
 class Room(
     val id: Int,
+    val label: String?,
     val name: String,
     val description: String,
     val canonicalId: RoomCanonicalId?,

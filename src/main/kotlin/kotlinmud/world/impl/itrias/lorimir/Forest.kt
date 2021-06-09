@@ -1,77 +1,66 @@
 package kotlinmud.world.impl.itrias.lorimir
 
 import kotlinmud.generator.service.SimpleMatrixService
-import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
-import kotlinmud.mob.service.MobService
-import kotlinmud.mob.type.Gender
-import kotlinmud.mob.type.JobType
+import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.QuestGiver
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.ItemAreaRespawn
 import kotlinmud.room.builder.build
-import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
-import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
+import kotlinmud.world.service.AreaBuilderService
 import java.util.UUID
 
 fun createLorimirForest(
-    mobService: MobService,
-    roomService: RoomService,
-    itemService: ItemService,
+    areaBuilderService: AreaBuilderService,
     connection: Room
 ): Room {
-    val builder = roomService.builder(
-        "Deep in the heart of Lorimir Forest.",
+    val builder = areaBuilderService.roomBuilder(
+        "Deep in the heart of Lorimir Forest",
         "tbd",
-        Area.LorimirForest,
     )
 
-    val intersection = build(builder)
-
-    val massiveTreeBuilder = builder.copy {
-        it.description = "Around a massive tree."
-    }
-
-    val deepBuilder = builder.copy {
-        it.name = "A dark forest"
-        it.description = "Deep in the heart of Lorimir Forest."
-    }
-    val captainRoom = build(
-        deepBuilder.copy {
-            it.canonicalId = RoomCanonicalId.PRAETORIAN_CAPTAIN_FOUND
-        }
-    )
     val matrix = SimpleMatrixService(builder).build(5, 5)
 
-    connect(connection)
-        .toRoom(build(builder), Direction.SOUTH)
-        .toRoom(build(builder), Direction.SOUTH)
-        .toRoom(
-            listOf(
-                Pair(intersection, Direction.WEST),
-                Pair(build(builder), Direction.EAST)
-            )
-        )
-    connect(intersection)
-        .toRoom(build(builder), Direction.WEST)
-        .toRoom(build(massiveTreeBuilder), Direction.WEST)
-        .toRoom(build(massiveTreeBuilder), Direction.SOUTH)
-        .toRoom(build(massiveTreeBuilder), Direction.WEST)
-        .toRoom(captainRoom, Direction.NORTH)
-        .toRoom(matrix[0][0], Direction.DOWN)
+    areaBuilderService
+        .startWith(connection)
+        .buildRoom(Direction.SOUTH)
+        .buildRoom("intersection", Direction.SOUTH) {
+            it.name = "An intersection in the woods"
+        }
+        .buildRoom("to lake", Direction.EAST) {
+            it.name = "A clearing in the woods"
+        }
+
+    areaBuilderService
+        .startWith("intersection")
+        .buildRoom("after intersection", Direction.WEST) {
+            it.name = "Deeper into the forest"
+        }
+        .buildRoom("near tree", Direction.WEST) {
+            it.name = "Around a massive tree"
+        }
+        .buildRoom(Direction.SOUTH)
+        .buildRoom(Direction.WEST)
+        .buildRoom(Direction.NORTH)
+        .buildRoom(Direction.NORTH) {
+            it.name = "A dark forest"
+            it.description = "Deep in the heart of Lorimir Forest."
+            it.canonicalId = RoomCanonicalId.PRAETORIAN_CAPTAIN_FOUND
+        }
+        .connectTo(matrix[0][0], Direction.DOWN)
 
     val uuid = UUID.randomUUID()
     respawn(
         ItemAreaRespawn(
             uuid,
-            itemService.builder(
+            areaBuilderService.itemBuilder(
                 "a small brown mushroom",
                 "tbd",
                 0.1,
@@ -87,29 +76,24 @@ fun createLorimirForest(
         ),
     )
 
-    mobService.builder(
+    areaBuilderService.buildQuestGiver(
         "Captain Bartok",
         "an imposing figure stands here. Her armor bears the emblem of the Praetorian Guard",
         "Captain Bartok is here",
-    ).also {
-        it.gender = Gender.FEMALE
-        it.room = captainRoom
-        it.level = 10
-        it.job = JobType.QUEST
-        it.identifier = QuestGiver.PraetorianCaptainBartok
-    }.build()
+        Human(),
+        QuestGiver.PraetorianCaptainBartok,
+    )
 
-    mobService.buildFodder(
+    areaBuilderService.buildFodder(
         "a small fox",
         "a small fox darts through the underbrush",
         "a small fox is here.",
         Canid(),
         3,
-        Area.LorimirForest,
         10,
     )
 
-    createGrongokHideout(mobService, roomService, itemService, matrix[0][4])
+    createGrongokHideout(areaBuilderService, matrix[0][4])
 
     return matrix[2][4]
 }

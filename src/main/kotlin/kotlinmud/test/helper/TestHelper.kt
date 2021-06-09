@@ -16,11 +16,14 @@ import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.service.QuestService
 import kotlinmud.room.service.RoomService
+import kotlinmud.room.type.Area
 import kotlinmud.test.service.TestService
 import kotlinmud.time.service.TimeService
 import kotlinmud.world.createWorld
+import kotlinmud.world.service.AreaBuilderService
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.kodein.di.direct
 import org.kodein.di.erased.instance
 
 fun createTestService(): TestService {
@@ -32,7 +35,7 @@ fun createTestService(): TestService {
     val mob: MobService by container.instance<MobService>()
     val item: ItemService by container.instance<ItemService>()
     val roomService: RoomService by container.instance<RoomService>()
-    createWorld(mob, item, roomService)
+    createWorld { area: Area -> container.direct.instance<AreaBuilderService>(area) }
     val act: ActionService by container.instance<ActionService>()
     val evt: EventService by container.instance<EventService>()
     val serverService: ServerService by container.instance<ServerService>()

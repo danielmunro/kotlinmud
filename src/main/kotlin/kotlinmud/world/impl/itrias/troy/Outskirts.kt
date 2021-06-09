@@ -3,50 +3,44 @@ package kotlinmud.world.impl.itrias.troy
 import kotlinmud.mob.race.impl.Avian
 import kotlinmud.mob.race.impl.Deer
 import kotlinmud.mob.race.impl.Goat
-import kotlinmud.mob.service.MobService
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
-import kotlinmud.room.service.RoomService
-import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
+import kotlinmud.world.service.AreaBuilderService
 
-fun createTroyOutskirts(mobService: MobService, roomService: RoomService, connector: Room): Room {
-    val roomBuilder = roomService.builder(
+fun createTroyOutskirts(areaBuilderService: AreaBuilderService, connector: Room): Room {
+    val roomBuilder = areaBuilderService.roomBuilder(
         "Outskirts of Troy",
         "Magnificent columns from a bygone era stand scattered over the landscape.",
-        Area.TroyOutskirts,
     )
 
-    val endRoom = build(roomBuilder)
+    val endRoom = areaBuilderService.buildRoom("end").getLastRoom()
 
-    mobService.buildFodder(
+    areaBuilderService.buildFodder(
         "a billy goat",
         "a tan billy goat is here, grazing on grass",
         "tbd",
         Goat(),
         3,
-        Area.TroyOutskirts,
         3,
     )
 
-    mobService.buildFodder(
+    areaBuilderService.buildFodder(
         "a red tail hawk",
         "you have caught the attention of a formidable-looking hawk",
         "tbd",
         Avian(),
         5,
-        Area.TroyOutskirts,
         2,
     )
 
-    mobService.buildFodder(
+    areaBuilderService.buildFodder(
         "a spring fawn",
         "you catch a glimpse of a spring fawn darting past some ruins",
         "tbd",
         Deer(),
         2,
-        Area.TroyOutskirts,
         3,
     )
 

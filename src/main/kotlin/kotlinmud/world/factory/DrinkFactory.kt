@@ -3,13 +3,13 @@ package kotlinmud.world.factory
 import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
+import kotlinmud.world.service.AreaBuilderService
 
-fun createAmberAle(itemService: ItemService): ItemBuilder {
-    return itemService.builder(
+fun createAmberAle(areaBuilderService: AreaBuilderService): ItemBuilder {
+    return areaBuilderService.itemBuilder(
         "a light amber ale",
         "a light amber ale is here",
         0.2,
@@ -23,8 +23,8 @@ fun createAmberAle(itemService: ItemService): ItemBuilder {
     }
 }
 
-fun createPorter(itemService: ItemService): ItemBuilder {
-    return itemService.builder(
+fun createPorter(areaBuilderService: AreaBuilderService): ItemBuilder {
+    return areaBuilderService.itemBuilder(
         "a dark porter",
         "a dark porter is here",
         0.2,
@@ -38,8 +38,8 @@ fun createPorter(itemService: ItemService): ItemBuilder {
     }
 }
 
-fun createIPA(itemService: ItemService): ItemBuilder {
-    return itemService.builder(
+fun createIPA(areaBuilderService: AreaBuilderService): ItemBuilder {
+    return areaBuilderService.itemBuilder(
         "an IPA",
         "an IPA is here",
         0.2,

@@ -40,7 +40,8 @@ class ClientConnectedObserver(
                 funnel.mobName = "foo"
                 funnel.mobRace = Human()
                 funnel.gender = Gender.ANY
-                funnel.mobRoom = roomService.getStartRoom()
+                funnel.mobRoom = roomService.findOne { it.label == "fountain" }!!
+//                funnel.mobRoom = roomService.getStartRoom()
                 funnel.specialization = Warrior()
                 val mob = funnel.build(player)
                 mob.equipped.add(

@@ -1,13 +1,13 @@
 package kotlinmud.world.factory
 
 import kotlinmud.item.builder.ItemBuilder
-import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.skill.type.SkillType
+import kotlinmud.world.service.AreaBuilderService
 
-fun createCureLightPotion(itemService: ItemService): ItemBuilder {
-    return itemService.builder(
+fun createCureLightPotion(areaBuilderService: AreaBuilderService): ItemBuilder {
+    return areaBuilderService.itemBuilder(
         "a potion of cure light",
         "a potion of cure light is here",
         0.2,
@@ -20,8 +20,8 @@ fun createCureLightPotion(itemService: ItemService): ItemBuilder {
     }
 }
 
-fun createCurePoisonPotion(itemService: ItemService): ItemBuilder {
-    return itemService.builder(
+fun createCurePoisonPotion(areaBuilderService: AreaBuilderService): ItemBuilder {
+    return areaBuilderService.itemBuilder(
         "a potion of cure poison",
         "a potion of cure poison is here",
         0.2,
@@ -34,8 +34,8 @@ fun createCurePoisonPotion(itemService: ItemService): ItemBuilder {
     }
 }
 
-fun createCureBlindnessPotion(itemService: ItemService): ItemBuilder {
-    return itemService.builder(
+fun createCureBlindnessPotion(areaBuilderService: AreaBuilderService): ItemBuilder {
+    return areaBuilderService.itemBuilder(
         "a potion of cure blindness",
         "a potion of cure blindness is here",
         0.2,
@@ -48,8 +48,8 @@ fun createCureBlindnessPotion(itemService: ItemService): ItemBuilder {
     }
 }
 
-fun createRemoveCursePotion(itemService: ItemService): ItemBuilder {
-    return itemService.builder(
+fun createRemoveCursePotion(areaBuilderService: AreaBuilderService): ItemBuilder {
+    return areaBuilderService.itemBuilder(
         "a potion of remove curse",
         "a potion of remove curse is here",
         0.2,
@@ -62,8 +62,8 @@ fun createRemoveCursePotion(itemService: ItemService): ItemBuilder {
     }
 }
 
-fun createHastePotion(itemService: ItemService): ItemBuilder {
-    return itemService.builder(
+fun createHastePotion(areaBuilderService: AreaBuilderService): ItemBuilder {
+    return areaBuilderService.itemBuilder(
         "a potion of haste",
         "a potion of haste is here",
         0.2,

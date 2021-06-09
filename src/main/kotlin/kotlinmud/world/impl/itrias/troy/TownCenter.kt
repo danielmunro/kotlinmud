@@ -1,158 +1,115 @@
 package kotlinmud.world.impl.itrias.troy
 
-import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
-import kotlinmud.mob.service.MobService
-import kotlinmud.mob.type.JobType
-import kotlinmud.respawn.helper.mobRespawnsFor
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
-import kotlinmud.room.service.RoomService
-import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
+import kotlinmud.world.service.AreaBuilderService
 
 fun createTroyTownCenter(
-    mobService: MobService,
-    roomService: RoomService,
-    itemService: ItemService,
+    areaBuilderService: AreaBuilderService,
     connection: Room
 ) {
-    val roomBuilder = roomService.builder(
-        "The City of Troy",
-        "tbd",
-        Area.Troy,
+    val roomBuilder = areaBuilderService.roomBuilder(
+        "Main Street",
+        "A well-worn cobblestone path connects the town center with the promenade. Shops line the bustling road.",
     )
 
-    val mainStreetBuilder = roomBuilder.copy {
-        it.name = "Main Street"
-        it.description = "A well-worn cobblestone path connects the town center with the promenade. Shops line the bustling road."
-    }
+    val fountainRoom = areaBuilderService.buildRoom("fountain") {
+        it.name = "A Large Fountain"
+        it.description = "The center of Troy is home to a large and ornate fountain. Pristine marble wraps around the fountain, leaving a dramatic glow in the sunlight."
+        it.canonicalId = RoomCanonicalId.START_ROOM
+        it.items = mutableListOf(
+            areaBuilderService.itemBuilder(
+                "an ornate marble fountain",
+                "tbd"
+            ).also { item ->
+                item.canOwn = false
+                item.type = ItemType.DRINK
+                item.material = Material.MINERAL
+                item.drink = Drink.WATER
+            }.build()
+        )
+    }.getLastRoom()
 
     val walledRoad = roomBuilder.copy {
         it.name = "Walled Road"
     }
 
-    val fountainRoom = build(
-        roomBuilder.copy {
-            it.name = "A Large Fountain"
-            it.description = "The center of Troy is home to a large and ornate fountain. Pristine marble wraps around the fountain, leaving a dramatic glow in the sunlight."
-            it.canonicalId = RoomCanonicalId.START_ROOM
-        }
-    )
-
-    fountainRoom.items.add(
-        itemService.builder(
-            "an ornate marble fountain",
-            "tbd"
-        ).also {
-            it.canOwn = false
-            it.type = ItemType.DRINK
-            it.material = Material.MINERAL
-            it.drink = Drink.WATER
-        }.build()
-    )
-
-    val northGate = build(
-        roomBuilder.copy {
-            it.name = "Troy North Gate"
-            it.description = "tbd"
-        }
-    )
-
-    val westGate = build(
-        roomBuilder.copy {
-            it.name = "Troy West Gate"
-            it.description = "tbd"
-        }
-    )
-
-    val eastGate = build(
-        roomBuilder.copy {
-            it.name = "Troy East Gate"
-            it.description = "tbd"
-        }
-    )
-
-    val outsideWall = roomBuilder.copy {
-        it.name = "Outside the gates of Troy"
+    val northGate = areaBuilderService.buildRoom {
+        it.name = "Troy North Gate"
         it.description = "tbd"
-    }
+    }.getLastRoom()
 
-    mobRespawnsFor(
-        Area.Troy,
-        listOf(
-            Pair(
-                mobService.builder(
-                    "a wandering vagabond",
-                    "a vagabond is wandering around",
-                    "tbd",
-                ).also {
-                    it.job = JobType.FODDER
-                    it.race = Human()
-                },
-                10,
-            ),
-            Pair(
-                mobService.builder(
-                    "a wandering trader",
-                    "a wandering trader is here, looking for their next deal",
-                    "tbd",
-                ).also {
-                    it.job = JobType.FODDER
-                    it.race = Human()
-                },
-                3,
-            ),
-            Pair(
-                mobService.builder(
-                    "a beastly fido",
-                    "a beastly fido is here, looking for scraps",
-                    "tbd",
-                ).also {
-                    it.job = JobType.FODDER
-                    it.race = Canid()
-                },
-                10,
-            ),
-            Pair(
-                mobService.builder(
-                    "a janitor",
-                    "a janitor is here, sweeping up",
-                    "tbd",
-                ).also {
-                    it.job = JobType.SCAVENGER
-                    it.race = Human()
-                },
-                2,
-            ),
-            Pair(
-                mobService.builder(
-                    "the mayor of Troy",
-                    "the mayor of Troy is here, garnering support for his next campaign",
-                    "tbd",
-                ).also {
-                    it.race = Human()
-                    it.job = JobType.FODDER
-                },
-                1,
-            ),
-        ),
+    val westGate = areaBuilderService.buildRoom {
+        it.name = "Troy West Gate"
+        it.description = "tbd"
+    }.getLastRoom()
+
+    val eastGate = areaBuilderService.buildRoom {
+        it.name = "Troy East Gate"
+        it.description = "tbd"
+    }.getLastRoom()
+
+    areaBuilderService.buildFodder(
+        "a wandering vagabond",
+        "a vagabond is wandering around",
+        "tbd",
+        Human(),
+        4,
+        10,
     )
 
-    val southGate = createTroySouthGate(mobService, roomService, itemService, connection)
-    val westRoad = createTroyWestSide(mobService, roomService, itemService, fountainRoom)
-    val northRoad = createTroyNorthSide(mobService, roomService, itemService, fountainRoom)
-    val eastRoad = createTroyEastSide(mobService, roomService, fountainRoom)
+    areaBuilderService.buildFodder(
+        "a wandering trader",
+        "a wandering trader is here, looking for their next deal",
+        "tbd",
+        Human(),
+        6,
+        3,
+    )
 
-    connect(northGate).toRoom(northRoad, Direction.SOUTH)
-    connect(westGate).toRoom(westRoad, Direction.EAST)
-    connect(eastGate).toRoom(eastRoad, Direction.WEST)
+    areaBuilderService.buildFodder(
+        "a beastly fido",
+        "a beastly fido is here, looking for scraps",
+        "tbd",
+        Canid(),
+        2,
+        8,
+    )
+
+    areaBuilderService.buildScavenger(
+        "a janitor",
+        "a janitor is here, sweeping up",
+        "tbd",
+        Human(),
+        4,
+        2,
+    )
+
+    areaBuilderService.buildFodder(
+        "the mayor of Troy",
+        "the mayor of Troy is here, garnering support for his next campaign",
+        "tbd",
+        Human(),
+        10,
+        1,
+    )
+
+    val southGate = createTroySouthGate(areaBuilderService, connection)
+    val westRoad = createTroyWestSide(areaBuilderService, fountainRoom)
+//    val northRoad = createTroyNorthSide(mobService, roomService, itemService, fountainRoom)
+//    val eastRoad = createTroyEastSide(mobService, roomService, fountainRoom)
+
+//    connect(northGate).toRoom(northRoad, Direction.SOUTH)
+//    connect(westGate).toRoom(westRoad, Direction.EAST)
+//    connect(eastGate).toRoom(eastRoad, Direction.WEST)
 
     connect(southGate)
         .toRoom(fountainRoom, Direction.NORTH)
