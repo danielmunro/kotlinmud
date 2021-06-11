@@ -12,6 +12,7 @@ enum class Area {
     TroyPromenade,
     HauntedMansion,
     HauntedMansionTopFloors,
+    HauntedMansionBasement,
     MudSchool,
 
     // debug

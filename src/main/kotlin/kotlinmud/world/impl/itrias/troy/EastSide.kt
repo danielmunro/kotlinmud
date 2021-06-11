@@ -1,18 +1,15 @@
 package kotlinmud.world.impl.itrias.troy
 
-import kotlinmud.mob.service.MobService
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
-import kotlinmud.room.service.RoomService
-import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
+import kotlinmud.world.service.AreaBuilderService
 
-fun createTroyEastSide(mobService: MobService, roomService: RoomService, connection: Room): Room {
-    val roomBuilder = roomService.builder(
+fun createTroyEastSide(areaBuilderService: AreaBuilderService, connection: Room): Room {
+    val roomBuilder = areaBuilderService.roomBuilder(
         "Sunrise Avenue",
         "A road",
-        Area.Troy,
     )
 
     val road1 = build(roomBuilder)

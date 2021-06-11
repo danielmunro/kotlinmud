@@ -2,177 +2,133 @@ package kotlinmud.world.impl.itrias.troy
 
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
-import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
+import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.impl.Undead
-import kotlinmud.mob.service.MobService
-import kotlinmud.respawn.helper.respawn
-import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.builder.build
-import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Door
 import kotlinmud.room.model.Room
-import kotlinmud.room.service.RoomService
-import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
+import kotlinmud.world.service.AreaBuilderService
 import java.util.UUID
 
-fun createMudSchool(
-    mobService: MobService,
-    roomService: RoomService,
-    itemService: ItemService,
-    connection: Room,
-) {
-    val roomBuilder = roomService.builder(
-        "The great entrance to the mud school",
-        "tbd",
-        Area.MudSchool,
-    )
+fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
+    val keyId = UUID.randomUUID()
+    val room4 = areaBuilderService.startWith(connection)
+        .buildRoom {
+            it.name = "The great entrance to the mud school"
+            it.description = "tbd"
+        }
+        .buildRoom("hall1", Direction.WEST) {
+            it.name = "A magnificent hallway"
+        }
+        .buildRoom("hall2", Direction.WEST)
+        .buildRoom("hall3", Direction.WEST)
+        .buildRoom("hall4", Direction.WEST).lastRoom
 
-    val entrance = build(roomBuilder)
-    val hallBuilder = roomBuilder.copy {
-        it.name = "A magnificent hallway"
-    }
-    val hall1 = build(hallBuilder)
-    val hall2 = build(hallBuilder)
-    val hall3 = build(hallBuilder)
-    val hall4 = build(hallBuilder)
-    val hall5 = build(hallBuilder)
-
-    connect(connection)
-        .toRoom(entrance, Direction.WEST)
-        .toRoom(hall1, Direction.WEST)
-        .toRoom(hall2, Direction.WEST)
-        .toRoom(hall3, Direction.DOWN)
-        .toRoom(hall4, Direction.WEST)
-        .toRoom(hall5, Direction.WEST)
-
-    respawn(
-        MobRespawn(
-            mobService.builder(
-                "the mud school diploma guardian",
-                "the mud school diploma guardian is here",
-                "tbd"
-            ).also {
-                it.randomizeRoom = false
-                it.room = hall5
-                it.level = 3
-                it.items = mutableListOf(
-                    itemService.builder(
-                        "mud school diploma",
-                        "tbd",
-                        0.1,
-                    ).also { item ->
-                        item.worth = 20
-                        item.material = Material.PAPER
-                        item.type = ItemType.EQUIPMENT
-                        item.position = Position.HELD
-                        item.attributes = mapOf(
-                            Pair(Attribute.WIS, 1),
-                        )
-                    }.build()
-                )
-            },
-            Area.MudSchool,
-            1,
-        )
-    )
-
-    hall4.westDoor = Door(
-        "a heavy wooden door",
-        "tbd",
-        DoorDisposition.LOCKED,
-        UUID.randomUUID(),
-    )
-
-    val cageBuilder = roomBuilder.copy {
-        it.name = "A large cage"
-    }
-
-    val sectionBuilder = {
-        listOf(
-            build(
-                roomBuilder.copy {
-                    it.name = "The center of a killing room"
-                }
-            ),
-            build(cageBuilder),
-            build(cageBuilder),
-            build(cageBuilder),
-        )
-    }
-
-    val weakMonsterBuilder = mobService.builder(
-        "a weak monster",
-        "a weak monster is here, chomping at your ankles",
-        "tbd",
-        Undead(),
-    ).also {
-        it.randomizeRoom = false
-        it.attributes = mutableMapOf(
-            Pair(Attribute.HIT, 4),
-        )
-    }
-
-    val weakMobBuilderBuilder = { room: Room, item: Item ->
-        respawn(
-            MobRespawn(
-                weakMonsterBuilder.copy().also {
-                    it.room = room
-                    it.equipped = listOf(item)
-                },
-                Area.MudSchool,
-                1,
+    areaBuilderService
+        .buildDoor(
+            Direction.WEST,
+            Door(
+                "a heavy wooden door",
+                "tbd",
+                DoorDisposition.LOCKED,
+                keyId,
             )
         )
+        .buildRoom("hall5", Direction.WEST)
+
+    areaBuilderService.buildFodder(
+        "the mud school diploma guardian",
+        "the mud school diploma guardian is here",
+        "tbd",
+        Human(),
+        3,
+        1,
+    ).also {
+        it.randomizeRoom = false
+        it.room = areaBuilderService.lastRoom
+        it.level = 3
+        it.items = mutableListOf(
+            areaBuilderService.itemBuilder(
+                "mud school diploma",
+                "tbd",
+                0.1,
+            ).also { item ->
+                item.worth = 20
+                item.material = Material.PAPER
+                item.type = ItemType.EQUIPMENT
+                item.position = Position.HELD
+                item.attributes = mapOf(
+                    Pair(Attribute.WIS, 1),
+                )
+            }.build()
+        )
     }
 
-    val hugeMonster = mobService.builder(
+    val weakMobBuilder = { room: String, item: Item ->
+        areaBuilderService.startWith(room)
+            .buildFodder(
+                "a weak monster",
+                "a weak monster is here, ready to attack",
+                "tbd",
+                Undead(),
+                1,
+                1,
+            ).also {
+                it.randomizeRoom = false
+                it.room = areaBuilderService.getRoomFromLabel(room)
+                it.items = mutableListOf(
+                    item,
+                )
+            }
+    }
+
+    areaBuilderService.buildFodder(
         "a huge monster",
         "a huge monster is here, mashing its teeth",
         "tbd",
+        Undead(),
+        2,
+        1,
     ).also {
         it.race = Undead()
         it.level = 2
-        it.room = hall4
+        it.room = room4
         it.randomizeRoom = false
         it.items = mutableListOf(
-            itemService.builder(
+            areaBuilderService.itemBuilder(
                 "the mud school key",
                 "tbd",
                 0.1,
             ).also { item ->
                 item.type = ItemType.KEY
                 item.material = Material.COPPER
-                item.canonicalId = hall4.westDoor!!.key
+                item.canonicalId = keyId
             }.build()
         )
     }
-
-    respawn(MobRespawn(hugeMonster, Area.MudSchool, 1))
 
     //
     // First room area
     //
 
-    val section1 = sectionBuilder()
+    areaBuilderService
+        .buildRoomFrom("hall1", "killing1", Direction.NORTH) {
+            it.name = "The center of a killing room"
+        }
+        .buildRoom("cage1", Direction.WEST) {
+            it.name = "The small cage"
+        }
+        .buildRoomFrom("killing1", "cage2", Direction.NORTH)
+        .buildRoomFrom("killing1", "cage3", Direction.EAST)
 
-    connect(hall1)
-        .toRoom(section1[0], Direction.NORTH)
-        .toRoom(
-            listOf(
-                Pair(section1[1], Direction.WEST),
-                Pair(section1[2], Direction.NORTH),
-                Pair(section1[3], Direction.EAST),
-            )
-        )
-
-    weakMobBuilderBuilder(
-        section1[1],
-        itemService.builder(
+    weakMobBuilder(
+        "cage1",
+        areaBuilderService.itemBuilder(
             "a sub-issue cloak",
             "tbd",
             1.0,
@@ -187,9 +143,9 @@ fun createMudSchool(
         }.build()
     )
 
-    weakMobBuilderBuilder(
-        section1[2],
-        itemService.builder(
+    weakMobBuilder(
+        "cage2",
+        areaBuilderService.itemBuilder(
             "a sub-issue helmet",
             "tbd",
             1.5,
@@ -205,9 +161,9 @@ fun createMudSchool(
         }.build()
     )
 
-    weakMobBuilderBuilder(
-        section1[3],
-        itemService.builder(
+    weakMobBuilder(
+        "cage3",
+        areaBuilderService.itemBuilder(
             "a sub-issue tunic",
             "tbd",
             2.5,
@@ -228,21 +184,19 @@ fun createMudSchool(
     // Second room area
     //
 
-    val section2 = sectionBuilder()
+    areaBuilderService
+        .buildRoomFrom("hall1", "killing2", Direction.SOUTH) {
+            it.name = "The center of a killing room"
+        }
+        .buildRoom("cage4", Direction.WEST) {
+            it.name = "The small cage"
+        }
+        .buildRoomFrom("killing2", "cage5", Direction.SOUTH)
+        .buildRoomFrom("killing2", "cage6", Direction.EAST)
 
-    connect(hall1)
-        .toRoom(section2[0], Direction.SOUTH)
-        .toRoom(
-            listOf(
-                Pair(section2[1], Direction.WEST),
-                Pair(section2[2], Direction.SOUTH),
-                Pair(section2[3], Direction.EAST),
-            )
-        )
-
-    weakMobBuilderBuilder(
-        section2[1],
-        itemService.builder(
+    weakMobBuilder(
+        "cage4",
+        areaBuilderService.itemBuilder(
             "sub-issue shoes",
             "tbd",
             3.0,
@@ -259,9 +213,9 @@ fun createMudSchool(
         }.build()
     )
 
-    weakMobBuilderBuilder(
-        section2[2],
-        itemService.builder(
+    weakMobBuilder(
+        "cage5",
+        areaBuilderService.itemBuilder(
             "sub-issue arm guards",
             "tbd",
             2.5,
@@ -278,9 +232,9 @@ fun createMudSchool(
         }.build()
     )
 
-    weakMobBuilderBuilder(
-        section2[3],
-        itemService.builder(
+    weakMobBuilder(
+        "cage6",
+        areaBuilderService.itemBuilder(
             "sub-issue gloves",
             "tbd",
             1.0,
@@ -301,21 +255,19 @@ fun createMudSchool(
     // Third room area
     //
 
-    val section3 = sectionBuilder()
+    areaBuilderService
+        .buildRoomFrom("hall2", "killing3", Direction.NORTH) {
+            it.name = "The center of a killing room"
+        }
+        .buildRoom("cage7", Direction.WEST) {
+            it.name = "The small cage"
+        }
+        .buildRoomFrom("killing3", "cage8", Direction.NORTH)
+        .buildRoomFrom("killing3", "cage9", Direction.EAST)
 
-    connect(hall2)
-        .toRoom(section3[0], Direction.NORTH)
-        .toRoom(
-            listOf(
-                Pair(section3[1], Direction.WEST),
-                Pair(section3[2], Direction.NORTH),
-                Pair(section3[3], Direction.EAST),
-            )
-        )
-
-    weakMobBuilderBuilder(
-        section3[1],
-        itemService.builder(
+    weakMobBuilder(
+        "cage7",
+        areaBuilderService.itemBuilder(
             "a sub-issue shield",
             "tbd",
             8.0,
@@ -332,9 +284,9 @@ fun createMudSchool(
         }.build()
     )
 
-    weakMobBuilderBuilder(
-        section3[2],
-        itemService.builder(
+    weakMobBuilder(
+        "cage8",
+        areaBuilderService.itemBuilder(
             "sub-issue leggings",
             "tbd",
             2.5,
@@ -351,9 +303,9 @@ fun createMudSchool(
         }.build()
     )
 
-    weakMobBuilderBuilder(
-        section3[3],
-        itemService.builder(
+    weakMobBuilder(
+        "cage9",
+        areaBuilderService.itemBuilder(
             "a sub-issue belt",
             "tbd",
             2.0,
@@ -374,21 +326,19 @@ fun createMudSchool(
     // Fourth room area
     //
 
-    val section4 = sectionBuilder()
+    areaBuilderService
+        .buildRoomFrom("hall2", "killing4", Direction.SOUTH) {
+            it.name = "The center of a killing room"
+        }
+        .buildRoom("cage10", Direction.WEST) {
+            it.name = "The small cage"
+        }
+        .buildRoomFrom("killing4", "cage11", Direction.NORTH)
+        .buildRoomFrom("killing4", "cage12", Direction.EAST)
 
-    connect(hall2)
-        .toRoom(section4[0], Direction.SOUTH)
-        .toRoom(
-            listOf(
-                Pair(section4[1], Direction.WEST),
-                Pair(section4[2], Direction.SOUTH),
-                Pair(section4[3], Direction.EAST),
-            )
-        )
-
-    weakMobBuilderBuilder(
-        section3[1],
-        itemService.builder(
+    weakMobBuilder(
+        "cage10",
+        areaBuilderService.itemBuilder(
             "sub-issue bracers",
             "tbd",
             2.0,
@@ -405,9 +355,9 @@ fun createMudSchool(
         }.build()
     )
 
-    weakMobBuilderBuilder(
-        section3[2],
-        itemService.builder(
+    weakMobBuilder(
+        "cage11",
+        areaBuilderService.itemBuilder(
             "a sub-issue ring",
             "tbd",
             0.5,
@@ -424,9 +374,9 @@ fun createMudSchool(
         }.build()
     )
 
-    weakMobBuilderBuilder(
-        section3[3],
-        itemService.builder(
+    weakMobBuilder(
+        "cage12",
+        areaBuilderService.itemBuilder(
             "a floating stone",
             "tbd",
             1.0,

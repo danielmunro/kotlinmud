@@ -6,7 +6,6 @@ import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.room.builder.build
-import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
@@ -16,11 +15,6 @@ fun createTroyTownCenter(
     areaBuilderService: AreaBuilderService,
     connection: Room
 ) {
-    val roomBuilder = areaBuilderService.roomBuilder(
-        "Main Street",
-        "A well-worn cobblestone path connects the town center with the promenade. Shops line the bustling road.",
-    )
-
     val fountainRoom = areaBuilderService.buildRoom("fountain") {
         it.name = "A Large Fountain"
         it.description = "The center of Troy is home to a large and ornate fountain. Pristine marble wraps around the fountain, leaving a dramatic glow in the sunlight."
@@ -36,26 +30,22 @@ fun createTroyTownCenter(
                 item.drink = Drink.WATER
             }.build()
         )
-    }.getLastRoom()
+    }.lastRoom
 
-    val walledRoad = roomBuilder.copy {
-        it.name = "Walled Road"
-    }
-
-    val northGate = areaBuilderService.buildRoom {
+    areaBuilderService.buildRoom("north gate") {
         it.name = "Troy North Gate"
         it.description = "tbd"
-    }.getLastRoom()
+    }.lastRoom
 
-    val westGate = areaBuilderService.buildRoom {
+    areaBuilderService.buildRoom("west gate") {
         it.name = "Troy West Gate"
         it.description = "tbd"
-    }.getLastRoom()
+    }.lastRoom
 
-    val eastGate = areaBuilderService.buildRoom {
+    areaBuilderService.buildRoom("east gate") {
         it.name = "Troy East Gate"
         it.description = "tbd"
-    }.getLastRoom()
+    }.lastRoom
 
     areaBuilderService.buildFodder(
         "a wandering vagabond",
@@ -102,31 +92,33 @@ fun createTroyTownCenter(
         1,
     )
 
-    val southGate = createTroySouthGate(areaBuilderService, connection)
-    val westRoad = createTroyWestSide(areaBuilderService, fountainRoom)
-//    val northRoad = createTroyNorthSide(mobService, roomService, itemService, fountainRoom)
-//    val eastRoad = createTroyEastSide(mobService, roomService, fountainRoom)
+    areaBuilderService.startWith("fountain")
+        .connectTo(createTroySouthGate(areaBuilderService, connection), Direction.SOUTH)
 
-//    connect(northGate).toRoom(northRoad, Direction.SOUTH)
-//    connect(westGate).toRoom(westRoad, Direction.EAST)
-//    connect(eastGate).toRoom(eastRoad, Direction.WEST)
+    areaBuilderService.startWith("west gate")
+        .connectTo(createTroyWestSide(areaBuilderService, fountainRoom), Direction.EAST)
 
-    connect(southGate)
-        .toRoom(fountainRoom, Direction.NORTH)
+    areaBuilderService.startWith("north gate")
+        .connectTo(createTroyNorthSide(areaBuilderService, fountainRoom), Direction.SOUTH)
 
-    connect(westGate)
-        .toRoom(build(walledRoad), Direction.NORTH)
-        .toRoom(build(walledRoad), Direction.NORTH)
-        .toRoom(build(walledRoad), Direction.NORTH)
-        .toRoom(build(walledRoad), Direction.EAST)
-        .toRoom(build(walledRoad), Direction.EAST)
-        .toRoom(build(walledRoad), Direction.EAST)
-        .toRoom(northGate, Direction.EAST)
-        .toRoom(build(walledRoad), Direction.EAST)
-        .toRoom(build(walledRoad), Direction.EAST)
-        .toRoom(build(walledRoad), Direction.EAST)
-        .toRoom(build(walledRoad), Direction.SOUTH)
-        .toRoom(build(walledRoad), Direction.SOUTH)
-        .toRoom(build(walledRoad), Direction.SOUTH)
-        .toRoom(eastGate, Direction.SOUTH)
+    areaBuilderService.startWith("east gate")
+        .connectTo(createTroyEastSide(areaBuilderService, fountainRoom), Direction.WEST)
+
+    areaBuilderService.startWith("west gate")
+        .buildRoom(Direction.NORTH) {
+            it.name = "Walled road"
+        }
+        .buildRoom(Direction.NORTH)
+        .buildRoom(Direction.NORTH)
+        .buildRoom(Direction.EAST)
+        .buildRoom(Direction.EAST)
+        .buildRoom(Direction.EAST)
+        .connectTo("north gate", Direction.EAST)
+        .buildRoom(Direction.EAST)
+        .buildRoom(Direction.EAST)
+        .buildRoom(Direction.EAST)
+        .buildRoom(Direction.SOUTH)
+        .buildRoom(Direction.SOUTH)
+        .buildRoom(Direction.SOUTH)
+        .connectTo("east gate", Direction.SOUTH)
 }

@@ -80,7 +80,7 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): Room {
 
     val room4 = svc.buildRoom("trail") {
         it.name = "A trail near the camp"
-    }.getLastRoom()
+    }.lastRoom
 
     svc.connectRooms("fire pit", "trail", Direction.EAST)
 

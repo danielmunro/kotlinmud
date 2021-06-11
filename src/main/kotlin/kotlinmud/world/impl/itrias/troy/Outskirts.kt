@@ -15,7 +15,7 @@ fun createTroyOutskirts(areaBuilderService: AreaBuilderService, connector: Room)
         "Magnificent columns from a bygone era stand scattered over the landscape.",
     )
 
-    val endRoom = areaBuilderService.buildRoom("end").getLastRoom()
+    val endRoom = areaBuilderService.buildRoom("end").lastRoom
 
     areaBuilderService.buildFodder(
         "a billy goat",

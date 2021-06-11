@@ -17,7 +17,7 @@ import kotlinmud.world.factory.createPorter
 import kotlinmud.world.factory.createRemoveCursePotion
 import kotlinmud.world.service.AreaBuilderService
 
-fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room,): Room {
+fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room): Room {
     val roomBuilder = areaBuilderService.roomBuilder(
         "The City of Troy",
         "tbd",
@@ -26,7 +26,7 @@ fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room
     val potionShop = areaBuilderService.buildRoom("potions") {
         it.name = "Potions & Apothecary"
         it.description = "A potion shop."
-    }.getLastRoom()
+    }.lastRoom
 
     areaBuilderService.buildShopkeeper(
         "a potion brewer",
@@ -46,7 +46,7 @@ fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room
         it.name = "The Ramshackle Tavern"
         it.description =
             "A humble and aging wooden structure surrounds you. Patrons sit around dimly lit tables, swapping tales of yore."
-    }.getLastRoom()
+    }.lastRoom
 
     areaBuilderService.buildShopkeeper(
         "the barkeeper",
@@ -69,7 +69,7 @@ fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room
     val bakery = areaBuilderService.buildRoom {
         it.name = "The Bakery"
         it.description = "tbd"
-    }.getLastRoom()
+    }.lastRoom
 
     areaBuilderService.buildShopkeeper(
         "a baker",
@@ -82,7 +82,7 @@ fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room
     val wandStore = areaBuilderService.buildRoom {
         it.name = "Wand shop"
         it.description = "tbd"
-    }.getLastRoom()
+    }.lastRoom
 
     areaBuilderService.buildShopkeeper(
         "a wand maker",
@@ -96,7 +96,7 @@ fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room
 
     val bank = areaBuilderService.buildRoom {
         it.name = "First Bank of Troy"
-    }.getLastRoom()
+    }.lastRoom
 
     areaBuilderService.buildShopkeeper(
         "a banker",
@@ -108,7 +108,7 @@ fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room
 
     val inn = areaBuilderService.buildRoom {
         it.name = "Inn at Market Street"
-    }.getLastRoom()
+    }.lastRoom
 
     areaBuilderService.buildShopkeeper(
         "the innkeeper",

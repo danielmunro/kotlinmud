@@ -13,11 +13,11 @@ fun createTroyWestSide(
         .buildRoom("sunset1", Direction.WEST) {
             it.name = "Sunset Boulevard"
             it.description = "tbd"
-        }.getLastRoom()
+        }.lastRoom
     val exit = areaBuilderService
         .buildRoom(Direction.WEST)
         .buildRoom(Direction.WEST)
-        .getLastRoom()
+        .lastRoom
 
     createTroyHauntedMansion(areaBuilderService, room)
 

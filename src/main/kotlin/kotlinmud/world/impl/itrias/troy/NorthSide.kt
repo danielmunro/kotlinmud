@@ -1,55 +1,41 @@
 package kotlinmud.world.impl.itrias.troy
 
-import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Weapon
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Kender
 import kotlinmud.mob.race.impl.Lasher
-import kotlinmud.mob.service.MobService
-import kotlinmud.room.builder.build
-import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
-import kotlinmud.room.service.RoomService
-import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
+import kotlinmud.world.service.AreaBuilderService
 
-fun createTroyNorthSide(
-    mobService: MobService,
-    roomService: RoomService,
-    itemService: ItemService,
-    connection: Room,
-): Room {
-    val pikeStreetBuilder = roomService.builder(
+fun createTroyNorthSide(areaBuilderService: AreaBuilderService, connection: Room): Room {
+    areaBuilderService.roomBuilder(
         "Pike Street",
         "tbd",
-        Area.Troy,
     )
 
-    val road1 = build(pikeStreetBuilder)
-    val road2 = build(pikeStreetBuilder)
-    val road3 = build(pikeStreetBuilder)
-    val gate = build(
-        pikeStreetBuilder.copy {
+    areaBuilderService.startWith(connection)
+        .buildRoom("road1", Direction.NORTH)
+        .buildRoom("road2", Direction.NORTH)
+        .buildRoom("road3", Direction.NORTH)
+        .buildRoom("gate") {
             it.name = "Troy North Gate"
         }
-    )
 
-    val weaponShop = build(
-        pikeStreetBuilder.copy {
+    areaBuilderService.startWith("road1")
+        .buildRoom(Direction.WEST) {
             it.name = "Troy weapon smith shop"
         }
-    )
 
-    mobService.buildShopkeeper(
+    areaBuilderService.buildShopkeeper(
         "the weaponsmith",
         "the weaponsmith is here",
         "tbd",
         Kender(),
-        weaponShop,
         mapOf(
             Pair(
-                itemService.buildWeapon(
+                areaBuilderService.buildWeapon(
                     "an iron sword",
                     "tbd",
                     4.0,
@@ -63,7 +49,7 @@ fun createTroyNorthSide(
                 100
             ),
             Pair(
-                itemService.buildWeapon(
+                areaBuilderService.buildWeapon(
                     "an iron axe",
                     "tbd",
                     4.0,
@@ -77,7 +63,7 @@ fun createTroyNorthSide(
                 100
             ),
             Pair(
-                itemService.buildWeapon(
+                areaBuilderService.buildWeapon(
                     "an iron mace",
                     "tbd",
                     7.0,
@@ -91,7 +77,7 @@ fun createTroyNorthSide(
                 100
             ),
             Pair(
-                itemService.buildWeapon(
+                areaBuilderService.buildWeapon(
                     "an iron dagger",
                     "tbd",
                     2.0,
@@ -107,36 +93,20 @@ fun createTroyNorthSide(
         ),
     )
 
-    val armorShop = build(
-        pikeStreetBuilder.copy {
-            it.name = "Troy armor and shields"
+    areaBuilderService.startWith("road1")
+        .buildRoom(Direction.EAST) {
+            it.name = "Armor and shields"
         }
-    )
 
-    mobService.buildShopkeeper(
+    areaBuilderService.buildShopkeeper(
         "the armorer",
         "the armorer is here",
         "tbd",
         Lasher(),
-        armorShop,
         mapOf(),
     )
 
-    connect(connection)
-        .toRoom(road1, Direction.NORTH)
-        .toRoom(road2, Direction.NORTH)
-        .toRoom(road3, Direction.NORTH)
-        .toRoom(gate, Direction.NORTH)
+    createMudSchool(areaBuilderService, areaBuilderService.getRoomFromLabel("road2"))
 
-    connect(road1)
-        .toRoom(
-            listOf(
-                Pair(weaponShop, Direction.WEST),
-                Pair(armorShop, Direction.EAST),
-            )
-        )
-
-    createMudSchool(mobService, roomService, itemService, road2)
-
-    return gate
+    return areaBuilderService.getRoomFromLabel("gate")
 }
