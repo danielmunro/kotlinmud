@@ -25,7 +25,7 @@ class AreaBuilderService(
     private val mobService: MobService,
     private val roomService: RoomService,
     private val itemService: ItemService,
-    private val area: Area,
+    public val area: Area,
 ) {
     lateinit var lastRoomBuilder: RoomBuilder
     lateinit var lastRoom: Room
@@ -125,6 +125,7 @@ class AreaBuilderService(
             }
         build(
             roomBuilder.copy(modifier).also {
+                it.area = area
                 lastRoomBuilder = it
                 lastRoomBuilder.label = label
             }

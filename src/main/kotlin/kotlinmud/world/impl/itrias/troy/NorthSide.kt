@@ -6,24 +6,22 @@ import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Kender
 import kotlinmud.mob.race.impl.Lasher
 import kotlinmud.room.model.Room
+import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.world.service.AreaBuilderService
 
 fun createTroyNorthSide(areaBuilderService: AreaBuilderService, connection: Room): Room {
-    areaBuilderService.roomBuilder(
-        "Pike Street",
-        "tbd",
-    )
-
     areaBuilderService.startWith(connection)
-        .buildRoom("road1", Direction.NORTH)
+        .buildRoom("road1", Direction.NORTH) {
+            it.name = "Pike Street"
+            it.description = "tbd"
+        }
         .buildRoom("road2", Direction.NORTH)
         .buildRoom("road3", Direction.NORTH)
-        .buildRoom("gate") {
+        .buildRoom("gate", Direction.NORTH) {
             it.name = "Troy North Gate"
         }
-
-    areaBuilderService.startWith("road1")
+        .startWith("road1")
         .buildRoom(Direction.WEST) {
             it.name = "Troy weapon smith shop"
         }
@@ -106,7 +104,7 @@ fun createTroyNorthSide(areaBuilderService: AreaBuilderService, connection: Room
         mapOf(),
     )
 
-    createMudSchool(areaBuilderService, areaBuilderService.getRoomFromLabel("road2"))
+    createMudSchool(areaBuilderService.copy(Area.MudSchool), areaBuilderService.getRoomFromLabel("road2"))
 
     return areaBuilderService.getRoomFromLabel("gate")
 }

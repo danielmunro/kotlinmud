@@ -1,7 +1,9 @@
 package kotlinmud.world.impl.itrias.troy
 
 import kotlinmud.room.model.Room
+import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
+import kotlinmud.world.impl.itrias.troy.hauntedMansion.createTroyHauntedMansion
 import kotlinmud.world.service.AreaBuilderService
 
 fun createTroyWestSide(
@@ -19,7 +21,7 @@ fun createTroyWestSide(
         .buildRoom(Direction.WEST)
         .lastRoom
 
-    createTroyHauntedMansion(areaBuilderService, room)
+    createTroyHauntedMansion(areaBuilderService.copy(Area.HauntedMansion), room)
 
     return exit
 }
