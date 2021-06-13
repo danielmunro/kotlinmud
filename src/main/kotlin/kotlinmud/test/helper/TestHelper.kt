@@ -24,6 +24,7 @@ import kotlinmud.world.service.AreaBuilderService
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.kodein.di.direct
+import org.kodein.di.erased.factory
 import org.kodein.di.erased.instance
 
 fun createTestService(): TestService {
@@ -35,7 +36,8 @@ fun createTestService(): TestService {
     val mob: MobService by container.instance<MobService>()
     val item: ItemService by container.instance<ItemService>()
     val roomService: RoomService by container.instance<RoomService>()
-    createWorld { area: Area -> container.direct.instance<AreaBuilderService>(area) }
+    val areaBuilderServiceFactory = container.direct.factory<Area, AreaBuilderService>()
+    createWorld(areaBuilderServiceFactory)
     val act: ActionService by container.instance<ActionService>()
     val evt: EventService by container.instance<EventService>()
     val serverService: ServerService by container.instance<ServerService>()
