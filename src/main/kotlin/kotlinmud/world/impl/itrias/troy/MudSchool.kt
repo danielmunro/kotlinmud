@@ -16,10 +16,9 @@ import kotlinmud.world.service.AreaBuilderService
 import java.util.UUID
 
 fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
-    println("yo ${areaBuilderService.area}")
     val keyId = UUID.randomUUID()
     val room4 = areaBuilderService.startWith(connection)
-        .buildRoom {
+        .buildRoom(Direction.WEST) {
             it.name = "The great entrance to the mud school"
             it.description = "tbd"
         }
@@ -82,7 +81,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             ).also {
                 it.randomizeRoom = false
                 it.room = areaBuilderService.getRoomFromLabel(room)
-                it.items = mutableListOf(item)
+                it.equipped = mutableListOf(item)
             }
     }
 
