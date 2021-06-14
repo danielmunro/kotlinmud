@@ -44,6 +44,7 @@ fun createGrongokHideout(areaBuilderService: AreaBuilderService, connector: Room
                 "a large stone cudgel",
                 "tbd",
                 20.0,
+                100,
             ).also { eq ->
                 eq.makeWeapon(
                     Weapon.MACE,

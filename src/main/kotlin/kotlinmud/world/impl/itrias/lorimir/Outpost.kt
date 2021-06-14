@@ -3,15 +3,16 @@ package kotlinmud.world.impl.itrias.lorimir
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
+import kotlinmud.item.type.Weapon
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Giant
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.QuestGiver
-import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
 import kotlinmud.world.service.AreaBuilderService
 
-fun createLorimirForestOutpost(svc: AreaBuilderService): Room {
+fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
     svc.roomBuilder(
         "Around a fire pit",
         """A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
@@ -41,7 +42,7 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): Room {
 |        Type `quest list` in order to see        |
 |        an available quest.                      |
 |                                                 |
-+-------------------------------------------------+"""
++-------------------------------------------------+""",
     ).also {
         it.canOwn = false
         it.material = Material.WOOD
@@ -75,12 +76,61 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): Room {
         "a blacksmith stands over a forge, monitoring his work",
         "tbd",
         Giant(),
-        mapOf(),
+        mapOf(
+            Pair(
+                svc.itemBuilder(
+                    "a crude iron sword",
+                    "tbd",
+                    4.0,
+                    100,
+                ).makeWeapon(
+                    Weapon.SWORD,
+                    DamageType.SLASH,
+                    "twack",
+                    Material.IRON,
+                    1,
+                    2,
+                ),
+                10,
+            ),
+            Pair(
+                svc.itemBuilder(
+                    "a crude iron cudgel",
+                    "tbd",
+                    8.0,
+                    100,
+                ).makeWeapon(
+                    Weapon.MACE,
+                    DamageType.POUND,
+                    "smash",
+                    Material.IRON,
+                    1,
+                    2,
+                ),
+                10,
+            ),
+            Pair(
+                svc.itemBuilder(
+                    "a crude iron dagger",
+                    "tbd",
+                    1.0,
+                    100,
+                ).makeWeapon(
+                    Weapon.DAGGER,
+                    DamageType.PIERCE,
+                    "stab",
+                    Material.IRON,
+                    1,
+                    2,
+                ),
+                10,
+            ),
+        ),
     )
 
-    val room4 = svc.buildRoom("trail") {
+    svc.buildRoom("trail") {
         it.name = "A trail near the camp"
-    }.lastRoom
+    }
 
     svc.connectRooms("fire pit", "trail", Direction.EAST)
 
@@ -107,6 +157,7 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): Room {
                     "a small hard loaf of bread",
                     "foo",
                     0.1,
+                    5,
                 ).also { item ->
                     item.type = ItemType.FOOD
                     item.worth = 10
@@ -119,6 +170,8 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): Room {
                 svc.itemBuilder(
                     "preserved meat",
                     "foo",
+                    0.1,
+                    8,
                 ).also { item ->
                     item.type = ItemType.FOOD
                     item.worth = 65
@@ -130,5 +183,5 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): Room {
         )
     )
 
-    return room4
+    return svc
 }

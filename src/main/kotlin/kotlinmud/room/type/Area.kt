@@ -5,6 +5,7 @@ enum class Area {
     LorimirForestOutpost,
     LakeOsona,
     GrongokHideout,
+    SouthernTrail,
 
     // Troy
     Troy,

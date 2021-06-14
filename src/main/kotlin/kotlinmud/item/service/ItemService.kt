@@ -11,11 +11,12 @@ import java.util.UUID
 class ItemService {
     private val items = mutableListOf<Item>()
 
-    fun builder(name: String, description: String, weight: Double = 1.0): ItemBuilder {
+    fun builder(name: String, description: String, weight: Double = 0.0, worth: Int = 0): ItemBuilder {
         return ItemBuilder(this).also {
             it.name = name
             it.description = description
             it.weight = weight
+            it.worth = worth
         }
     }
 
@@ -31,7 +32,7 @@ class ItemService {
         worth: Int,
         attackVerb: String = damageType.toString(),
     ): ItemBuilder {
-        return builder(name, description, weight)
+        return builder(name, description, weight, worth)
             .makeWeapon(
                 type,
                 damageType,
@@ -39,9 +40,7 @@ class ItemService {
                 material,
                 hit,
                 dam,
-            ).also {
-                it.worth = worth
-            }
+            )
     }
 
     fun getItemCount(): Int {

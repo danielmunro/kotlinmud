@@ -78,7 +78,9 @@ class AreaBuilderService(
     }
 
     fun connectTo(label: String, direction: Direction): AreaBuilderService {
-        connect(lastRoom).toRoom(getRoomFromLabel(label), direction)
+        val room = getRoomFromLabel(label)
+        connect(lastRoom).toRoom(room, direction)
+        lastRoom = room
         return this
     }
 
@@ -141,12 +143,17 @@ class AreaBuilderService(
         return this
     }
 
-    fun itemBuilder(name: String, description: String, weight: Double = 1.0): ItemBuilder {
-        return itemService.builder(name, description, weight)
+    fun itemBuilder(
+        name: String,
+        description: String,
+        weight: Double = 0.0,
+        worth: Int = 1,
+    ): ItemBuilder {
+        return itemService.builder(name, description, weight, worth)
     }
 
-    fun roomItemBuilder(name: String, description: String, weight: Double = 1.0): ItemBuilder {
-        return itemBuilder(name, description, weight).also {
+    fun roomItemBuilder(name: String, description: String, weight: Double = 0.0, worth: Int = 0): ItemBuilder {
+        return itemBuilder(name, description, weight, worth).also {
             it.room = lastRoom
         }
     }

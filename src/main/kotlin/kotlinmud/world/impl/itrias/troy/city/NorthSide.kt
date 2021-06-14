@@ -1,4 +1,4 @@
-package kotlinmud.world.impl.itrias.troy
+package kotlinmud.world.impl.itrias.troy.city
 
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Weapon
@@ -8,9 +8,10 @@ import kotlinmud.mob.race.impl.Lasher
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
+import kotlinmud.world.impl.itrias.troy.createMudSchool
 import kotlinmud.world.service.AreaBuilderService
 
-fun createTroyNorthSide(areaBuilderService: AreaBuilderService, connection: Room): Room {
+fun createTroyNorthSide(areaBuilderService: AreaBuilderService, connection: Room) {
     areaBuilderService.startWith(connection)
         .buildRoom("road1", Direction.NORTH) {
             it.name = "Pike Street"
@@ -18,9 +19,7 @@ fun createTroyNorthSide(areaBuilderService: AreaBuilderService, connection: Room
         }
         .buildRoom("road2", Direction.NORTH)
         .buildRoom("road3", Direction.NORTH)
-        .buildRoom("gate", Direction.NORTH) {
-            it.name = "Troy North Gate"
-        }
+        .connectTo("north gate", Direction.NORTH)
         .startWith("road1")
         .buildRoom(Direction.WEST) {
             it.name = "Troy weapon smith shop"
@@ -104,7 +103,8 @@ fun createTroyNorthSide(areaBuilderService: AreaBuilderService, connection: Room
         mapOf(),
     )
 
-    createMudSchool(areaBuilderService.copy(Area.MudSchool), areaBuilderService.getRoomFromLabel("road2"))
-
-    return areaBuilderService.getRoomFromLabel("gate")
+    createMudSchool(
+        areaBuilderService.copy(Area.MudSchool),
+        areaBuilderService.getRoomFromLabel("road2"),
+    )
 }

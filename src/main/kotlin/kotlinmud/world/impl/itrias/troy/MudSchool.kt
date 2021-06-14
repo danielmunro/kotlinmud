@@ -57,8 +57,8 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
                 "mud school diploma",
                 "tbd",
                 0.1,
+                20,
             ).also { item ->
-                item.worth = 20
                 item.material = Material.PAPER
                 item.type = ItemType.EQUIPMENT
                 item.position = Position.HELD
@@ -102,6 +102,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
                 "the mud school key",
                 "tbd",
                 0.1,
+                0,
             ).also { item ->
                 item.type = ItemType.KEY
                 item.material = Material.COPPER
@@ -130,10 +131,10 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             "a sub-issue cloak",
             "tbd",
             1.0,
+            5,
         ).also { builder ->
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.ABOUT
-            builder.worth = 1
             builder.material = Material.TEXTILE
             builder.attributes = mapOf(
                 Pair(Attribute.AC_SLASH, 1),
@@ -147,10 +148,10 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             "a sub-issue helmet",
             "tbd",
             1.5,
+            5,
         ).also { builder ->
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.HEAD
-            builder.worth = 1
             builder.material = Material.TEXTILE
             builder.attributes = mapOf(
                 Pair(Attribute.AC_SLASH, 1),
@@ -165,10 +166,10 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             "a sub-issue tunic",
             "tbd",
             2.5,
+            5,
         ).also { builder ->
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.TORSO
-            builder.worth = 1
             builder.material = Material.TEXTILE
             builder.attributes = mapOf(
                 Pair(Attribute.AC_BASH, 2),
@@ -198,10 +199,10 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             "sub-issue shoes",
             "tbd",
             3.0,
+            5,
         ).also { builder ->
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.FEET
-            builder.worth = 1
             builder.material = Material.TEXTILE
             builder.attributes = mapOf(
                 Pair(Attribute.AC_BASH, 1),
@@ -217,10 +218,10 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             "sub-issue arm guards",
             "tbd",
             2.5,
+            5,
         ).also { builder ->
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.ARMS
-            builder.worth = 1
             builder.material = Material.TEXTILE
             builder.attributes = mapOf(
                 Pair(Attribute.AC_BASH, 1),
@@ -236,10 +237,10 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             "sub-issue gloves",
             "tbd",
             1.0,
+            5,
         ).also { builder ->
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.HANDS
-            builder.worth = 1
             builder.material = Material.TEXTILE
             builder.attributes = mapOf(
                 Pair(Attribute.AC_BASH, 1),
@@ -269,10 +270,10 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             "a sub-issue shield",
             "tbd",
             8.0,
+            5,
         ).also { builder ->
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.SHIELD
-            builder.worth = 1
             builder.material = Material.WOOD
             builder.attributes = mapOf(
                 Pair(Attribute.AC_BASH, 5),
@@ -288,10 +289,10 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             "sub-issue leggings",
             "tbd",
             2.5,
+            5,
         ).also { builder ->
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.LEGS
-            builder.worth = 1
             builder.material = Material.TEXTILE
             builder.attributes = mapOf(
                 Pair(Attribute.AC_BASH, 1),
@@ -307,10 +308,10 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             "a sub-issue belt",
             "tbd",
             2.0,
+            5,
         ).also { builder ->
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.WAIST
-            builder.worth = 1
             builder.material = Material.TEXTILE
             builder.attributes = mapOf(
                 Pair(Attribute.AC_BASH, 1),
@@ -340,10 +341,10 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             "sub-issue bracers",
             "tbd",
             2.0,
+            5,
         ).also { builder ->
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.WRIST
-            builder.worth = 1
             builder.material = Material.WOOD
             builder.attributes = mapOf(
                 Pair(Attribute.AC_BASH, 1),
@@ -359,10 +360,10 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             "a sub-issue ring",
             "tbd",
             0.5,
+            5,
         ).also { builder ->
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.FINGER
-            builder.worth = 1
             builder.material = Material.COPPER
             builder.attributes = mapOf(
                 Pair(Attribute.AC_BASH, 0),
@@ -378,10 +379,10 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             "a floating stone",
             "tbd",
             1.0,
+            5,
         ).also { builder ->
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.FLOAT
-            builder.worth = 1
             builder.material = Material.STONE
             builder.attributes = mapOf(
                 Pair(Attribute.AC_MAGIC, 2),

@@ -1,4 +1,4 @@
-package kotlinmud.world.impl.itrias.troy
+package kotlinmud.world.impl.itrias.troy.city
 
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
@@ -9,19 +9,18 @@ import kotlinmud.world.service.AreaBuilderService
 fun createTroyWestSide(
     areaBuilderService: AreaBuilderService,
     connection: Room,
-): Room {
-    val room = areaBuilderService
+) {
+    areaBuilderService
         .startWith(connection)
         .buildRoom("sunset1", Direction.WEST) {
             it.name = "Sunset Boulevard"
             it.description = "tbd"
-        }.lastRoom
-    val exit = areaBuilderService
+        }.buildRoom(Direction.WEST)
         .buildRoom(Direction.WEST)
-        .buildRoom(Direction.WEST)
-        .lastRoom
+        .connectTo("west gate", Direction.WEST)
 
-    createTroyHauntedMansion(areaBuilderService.copy(Area.HauntedMansion), room)
-
-    return exit
+    createTroyHauntedMansion(
+        areaBuilderService.copy(Area.HauntedMansion),
+        areaBuilderService.getRoomFromLabel("sunset1"),
+    )
 }

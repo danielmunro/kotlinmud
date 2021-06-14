@@ -4,22 +4,28 @@ import kotlinmud.room.type.Area
 import kotlinmud.world.impl.itrias.lorimir.createLorimirForest
 import kotlinmud.world.impl.itrias.lorimir.createLorimirForestLake
 import kotlinmud.world.impl.itrias.lorimir.createLorimirForestOutpost
+import kotlinmud.world.impl.itrias.lorimir.createSouthernTrail
+import kotlinmud.world.impl.itrias.troy.city.createTroyTownCenter
 import kotlinmud.world.impl.itrias.troy.createTroyOutskirts
 import kotlinmud.world.impl.itrias.troy.createTroyPromenade
-import kotlinmud.world.impl.itrias.troy.createTroyTownCenter
 import kotlinmud.world.service.AreaBuilderService
 
 fun createWorld(areaBuilderServiceFactory: (area: Area) -> AreaBuilderService) {
-    val trailNearCamp = createLorimirForestOutpost(areaBuilderServiceFactory(Area.LorimirForestOutpost))
+    val outpost = createLorimirForestOutpost(areaBuilderServiceFactory(Area.LorimirForestOutpost))
 
     val lorimirForest = createLorimirForest(
         areaBuilderServiceFactory(Area.LorimirForest),
-        trailNearCamp,
+        outpost.getRoomFromLabel("trail"),
+    )
+
+    createSouthernTrail(
+        areaBuilderServiceFactory(Area.SouthernTrail),
+        lorimirForest.getRoomFromLabel("to south trail")
     )
 
     val outskirtsConnection = createTroyOutskirts(
         areaBuilderServiceFactory(Area.TroyOutskirts),
-        lorimirForest,
+        lorimirForest.getRoomFromLabel("intersection"),
     )
 
     val promenade = createTroyPromenade(
@@ -34,6 +40,6 @@ fun createWorld(areaBuilderServiceFactory: (area: Area) -> AreaBuilderService) {
 
     createLorimirForestLake(
         areaBuilderServiceFactory(Area.LakeOsona),
-        lorimirForest,
+        lorimirForest.getRoomFromLabel("to lake"),
     )
 }

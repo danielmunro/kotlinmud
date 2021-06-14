@@ -13,13 +13,13 @@ fun createAmberAle(areaBuilderService: AreaBuilderService): ItemBuilder {
         "a light amber ale",
         "a light amber ale is here",
         0.2,
+        10,
     ).also {
         it.affects = listOf(Affect(AffectType.DRUNK, 5))
         it.level = 5
         it.material = Material.ORGANIC
         it.type = ItemType.DRINK
         it.drink = Drink.BEER
-        it.worth = 1
     }
 }
 
@@ -28,13 +28,13 @@ fun createPorter(areaBuilderService: AreaBuilderService): ItemBuilder {
         "a dark porter",
         "a dark porter is here",
         0.2,
+        10,
     ).also {
         it.affects = listOf(Affect(AffectType.DRUNK, 4))
         it.level = 5
         it.material = Material.ORGANIC
         it.type = ItemType.DRINK
         it.drink = Drink.BEER
-        it.worth = 1
     }
 }
 
@@ -43,12 +43,12 @@ fun createIPA(areaBuilderService: AreaBuilderService): ItemBuilder {
         "an IPA",
         "an IPA is here",
         0.2,
+        10,
     ).also {
         it.affects = listOf(Affect(AffectType.DRUNK, 6))
         it.level = 5
         it.material = Material.ORGANIC
         it.type = ItemType.DRINK
         it.drink = Drink.BEER
-        it.worth = 1
     }
 }

@@ -1,4 +1,4 @@
-package kotlinmud.world.impl.itrias.troy
+package kotlinmud.world.impl.itrias.troy.city
 
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.ItemType
@@ -22,7 +22,7 @@ fun createTroyTownCenter(
         it.items = mutableListOf(
             areaBuilderService.itemBuilder(
                 "an ornate marble fountain",
-                "tbd"
+                "tbd",
             ).also { item ->
                 item.canOwn = false
                 item.type = ItemType.DRINK
@@ -35,17 +35,17 @@ fun createTroyTownCenter(
     areaBuilderService.buildRoom("north gate") {
         it.name = "Troy North Gate"
         it.description = "tbd"
-    }.lastRoom
+    }
 
     areaBuilderService.buildRoom("west gate") {
         it.name = "Troy West Gate"
         it.description = "tbd"
-    }.lastRoom
+    }
 
     areaBuilderService.buildRoom("east gate") {
         it.name = "Troy East Gate"
         it.description = "tbd"
-    }.lastRoom
+    }
 
     areaBuilderService.buildFodder(
         "a wandering vagabond",
@@ -92,17 +92,26 @@ fun createTroyTownCenter(
         1,
     )
 
-    areaBuilderService.startWith("fountain")
-        .connectTo(createTroySouthGate(areaBuilderService, connection), Direction.SOUTH)
+    createTroySouthGate(
+        areaBuilderService,
+        fountainRoom,
+        connection,
+    )
 
-    areaBuilderService.startWith("west gate")
-        .connectTo(createTroyWestSide(areaBuilderService, fountainRoom), Direction.EAST)
+    createTroyWestSide(
+        areaBuilderService,
+        fountainRoom,
+    )
 
-    areaBuilderService.startWith("north gate")
-        .connectTo(createTroyNorthSide(areaBuilderService, fountainRoom), Direction.SOUTH)
+    createTroyNorthSide(
+        areaBuilderService,
+        fountainRoom,
+    )
 
-    areaBuilderService.startWith("east gate")
-        .connectTo(createTroyEastSide(areaBuilderService, fountainRoom), Direction.WEST)
+    createTroyEastSide(
+        areaBuilderService,
+        fountainRoom,
+    )
 
     areaBuilderService.startWith("west gate")
         .buildRoom(Direction.NORTH) {
@@ -112,12 +121,10 @@ fun createTroyTownCenter(
         .buildRoom(Direction.NORTH)
         .buildRoom(Direction.EAST)
         .buildRoom(Direction.EAST)
-        .buildRoom(Direction.EAST)
         .connectTo("north gate", Direction.EAST)
         .buildRoom(Direction.EAST)
         .buildRoom(Direction.EAST)
         .buildRoom(Direction.EAST)
-        .buildRoom(Direction.SOUTH)
         .buildRoom(Direction.SOUTH)
         .buildRoom(Direction.SOUTH)
         .connectTo("east gate", Direction.SOUTH)

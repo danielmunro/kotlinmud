@@ -1,10 +1,8 @@
-package kotlinmud.world.impl.itrias.troy
+package kotlinmud.world.impl.itrias.troy.city
 
 import kotlinmud.mob.race.impl.Dwarf
 import kotlinmud.mob.race.impl.Goblin
 import kotlinmud.mob.race.impl.Human
-import kotlinmud.room.builder.build
-import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinmud.world.factory.createAmberAle
@@ -17,16 +15,29 @@ import kotlinmud.world.factory.createPorter
 import kotlinmud.world.factory.createRemoveCursePotion
 import kotlinmud.world.service.AreaBuilderService
 
-fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room): Room {
-    val roomBuilder = areaBuilderService.roomBuilder(
+fun createTroySouthGate(
+    areaBuilderService: AreaBuilderService,
+    connection: Room,
+    toPromenade: Room,
+) {
+    areaBuilderService.roomBuilder(
         "The City of Troy",
         "tbd",
     )
 
-    val potionShop = areaBuilderService.buildRoom("potions") {
-        it.name = "Potions & Apothecary"
-        it.description = "A potion shop."
-    }.lastRoom
+    areaBuilderService.startWith(connection)
+        .buildRoom("road1", Direction.SOUTH) {
+            it.name = "South Market Street"
+        }
+        .buildRoom("road2", Direction.SOUTH)
+        .buildRoom("road3", Direction.SOUTH)
+        .connectTo(toPromenade, Direction.UP)
+
+    areaBuilderService.startWith("road1")
+        .buildRoom(Direction.EAST) {
+            it.name = "Potions & Apothecary"
+            it.description = "A potion shop."
+        }
 
     areaBuilderService.buildShopkeeper(
         "a potion brewer",
@@ -42,11 +53,12 @@ fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room
         ),
     )
 
-    val tavern = areaBuilderService.buildRoom {
-        it.name = "The Ramshackle Tavern"
-        it.description =
-            "A humble and aging wooden structure surrounds you. Patrons sit around dimly lit tables, swapping tales of yore."
-    }.lastRoom
+    areaBuilderService.startWith("road2")
+        .buildRoom(Direction.WEST) {
+            it.name = "The Ramshackle Tavern"
+            it.description =
+                "A humble and aging wooden structure surrounds you. Patrons sit around dimly lit tables, swapping tales of yore."
+        }
 
     areaBuilderService.buildShopkeeper(
         "the barkeeper",
@@ -60,16 +72,11 @@ fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room
         ),
     )
 
-    val marketStreetBuilder = roomBuilder.copy {
-        it.name = "South Market Street"
-    }
-
-    val main1 = build(marketStreetBuilder)
-
-    val bakery = areaBuilderService.buildRoom {
-        it.name = "The Bakery"
-        it.description = "tbd"
-    }.lastRoom
+    areaBuilderService.startWith("road2")
+        .buildRoom(Direction.EAST) {
+            it.name = "The Bakery"
+            it.description = "tbd"
+        }
 
     areaBuilderService.buildShopkeeper(
         "a baker",
@@ -79,10 +86,11 @@ fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room
         mapOf(),
     )
 
-    val wandStore = areaBuilderService.buildRoom {
-        it.name = "Wand shop"
-        it.description = "tbd"
-    }.lastRoom
+    areaBuilderService.startWith("road2")
+        .buildRoom(Direction.WEST) {
+            it.name = "Wand shop"
+            it.description = "tbd"
+        }
 
     areaBuilderService.buildShopkeeper(
         "a wand maker",
@@ -92,11 +100,10 @@ fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room
         mapOf(),
     )
 
-    val main2 = build(marketStreetBuilder)
-
-    val bank = areaBuilderService.buildRoom {
-        it.name = "First Bank of Troy"
-    }.lastRoom
+    areaBuilderService.startWith("road3")
+        .buildRoom(Direction.WEST) {
+            it.name = "First Bank of Troy"
+        }
 
     areaBuilderService.buildShopkeeper(
         "a banker",
@@ -106,9 +113,10 @@ fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room
         mapOf(),
     )
 
-    val inn = areaBuilderService.buildRoom {
-        it.name = "Inn at Market Street"
-    }.lastRoom
+    areaBuilderService.startWith("road3")
+        .buildRoom(Direction.EAST) {
+            it.name = "Inn at Market Street"
+        }
 
     areaBuilderService.buildShopkeeper(
         "the innkeeper",
@@ -117,35 +125,4 @@ fun createTroySouthGate(areaBuilderService: AreaBuilderService, connection: Room
         Dwarf(),
         mapOf(),
     )
-
-    val main3 = build(marketStreetBuilder)
-
-    connect(main2)
-        .toRoom(main3, Direction.NORTH)
-        .toRoom(
-            listOf(
-                Pair(bank, Direction.WEST),
-                Pair(inn, Direction.EAST),
-            )
-        )
-
-    connect(main1)
-        .toRoom(main2, Direction.NORTH)
-        .toRoom(
-            listOf(
-                Pair(bakery, Direction.WEST),
-                Pair(wandStore, Direction.EAST),
-            )
-        )
-
-    connect(connection)
-        .toRoom(main1, Direction.DOWN)
-        .toRoom(
-            listOf(
-                Pair(potionShop, Direction.WEST),
-                Pair(tavern, Direction.EAST),
-            )
-        )
-
-    return main3
 }

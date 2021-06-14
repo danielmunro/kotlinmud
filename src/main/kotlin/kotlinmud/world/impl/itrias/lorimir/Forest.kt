@@ -20,7 +20,7 @@ import java.util.UUID
 fun createLorimirForest(
     areaBuilderService: AreaBuilderService,
     connection: Room
-): Room {
+): AreaBuilderService {
     val builder = areaBuilderService.roomBuilder(
         "Deep in the heart of Lorimir Forest",
         "tbd",
@@ -36,6 +36,10 @@ fun createLorimirForest(
         }
         .buildRoom("to lake", Direction.EAST) {
             it.name = "A clearing in the woods"
+        }
+        .startWith("intersection")
+        .buildRoom("to south trail", Direction.SOUTH) {
+            it.name = "A winding trail in the woods"
         }
 
     areaBuilderService
@@ -64,12 +68,12 @@ fun createLorimirForest(
                 "a small brown mushroom",
                 "tbd",
                 0.1,
+                1,
             ).also {
                 it.material = Material.ORGANIC
                 it.food = Food.MUSHROOM
                 it.canonicalId = uuid
                 it.type = ItemType.FOOD
-                it.worth = 0
             },
             Area.LorimirForest,
             10,
@@ -95,5 +99,5 @@ fun createLorimirForest(
 
     createGrongokHideout(areaBuilderService, matrix[0][4])
 
-    return matrix[2][4]
+    return areaBuilderService
 }
