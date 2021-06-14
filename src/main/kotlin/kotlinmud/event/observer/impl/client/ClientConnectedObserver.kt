@@ -44,6 +44,7 @@ class ClientConnectedObserver(
 //                funnel.mobRoom = roomService.getStartRoom()
                 funnel.specialization = Warrior()
                 val mob = funnel.build(player)
+                mob.experienceToLevel = 1200
                 mob.equipped.add(
                     itemService.builder(
                         "a sub-issue sword",

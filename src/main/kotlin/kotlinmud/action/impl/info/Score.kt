@@ -55,7 +55,7 @@ fun createScoreAction(): Action {
                     )
                     }\n" +
                     "You have ${mob.experience} exp, ${mob.getCurrency(CurrencyType.Gold)} gold, ${mob.getCurrency(CurrencyType.Silver)} silver, ${mob.getCurrency(CurrencyType.Copper)} copper.\n" +
-                    "You need 0 exp to level.\n" +
+                    "You need ${mob.getRemainingExperience()} exp to level.\n" +
                     "Wimpy set to ${mob.wimpy}.\n" +
                     "You are ${mob.disposition.toString().toLowerCase()}.\n" +
                     "Saving Throw Adjustment: ${mob.savingThrows}\n" +

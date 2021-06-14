@@ -24,25 +24,25 @@ class PlayerMob(
     val role: Role,
     var standing: Standing,
 ) : Mob(mobArguments) {
-    fun addExperience(level: Int, value: Int): AddExperience {
-        val toLevelInitial = getExperienceToLevel(level)
+    fun addExperience(value: Int): AddExperience {
+        val toLevelInitial = getRemainingExperience()
         if (toLevelInitial < 0) {
             return AddExperience(0, true)
         }
         experience += value
         var didLevel = false
-        val toLevel = getExperienceToLevel(level)
+        val toLevel = getRemainingExperience()
         if (toLevel < 0) {
             didLevel = true
         }
-        return AddExperience(experience, didLevel)
+        return AddExperience(value, didLevel)
     }
 
     fun isFull(): Boolean {
         return hunger == race.maxAppetite || thirst == race.maxThirst
     }
 
-    private fun getExperienceToLevel(level: Int): Int {
-        return experienceToLevel - experience + (experienceToLevel * level)
+    fun getRemainingExperience(): Int {
+        return (experienceToLevel * level + 1) - experience
     }
 }

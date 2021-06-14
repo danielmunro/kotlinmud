@@ -23,11 +23,7 @@ class GrantExperienceOnKillObserver(private val serverService: ServerService) : 
     }
 
     private fun addExperience(mob: PlayerMob, amountOfExperienceGained: Int): AddExperience? {
-        return mob.addExperience(mob.level, amountOfExperienceGained).also {
-            if (it.levelGained) {
-                mob.level += 1
-            }
-        }
+        return mob.addExperience(amountOfExperienceGained)
     }
 
     private fun sendClientUpdates(client: Client, experienceAddedResponse: AddExperience) {

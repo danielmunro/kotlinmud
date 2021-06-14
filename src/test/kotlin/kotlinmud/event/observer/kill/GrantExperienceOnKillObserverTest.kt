@@ -40,7 +40,7 @@ class GrantExperienceOnKillObserverTest {
         // given
         mob1.experience = 5000
         testService.publish(fight.createKillEvent())
-        val addExperience = mob1.addExperience(mob1.level, 1)
+        val addExperience = mob1.addExperience(1)
 
         // then
         assertThat(addExperience.levelGained).isTrue()

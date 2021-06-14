@@ -27,7 +27,7 @@ const val READ_BUFFER_SIZE_IN_BYTES = 1024
 class ServerService(
     private val clientService: ClientService,
     private val eventService: EventService,
-    val port: Int = 0
+    val port: Int = 0,
 ) {
     companion object {
         fun socketChannelFromKey(key: SelectionKey): SocketChannel {
@@ -53,7 +53,6 @@ class ServerService(
         clients.removeAll(disconnected)
         disconnected.forEach {
             eventService.publish(createClientDisconnectedEvent(it))
-            logger.info("remove disconnected client :: {}", it.socket.remoteAddress)
         }
     }
 

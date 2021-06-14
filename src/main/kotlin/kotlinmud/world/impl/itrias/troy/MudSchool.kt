@@ -331,7 +331,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
         .buildRoom("cage10", Direction.WEST) {
             it.name = "The small cage"
         }
-        .buildRoomFrom("killing4", "cage11", Direction.NORTH)
+        .buildRoomFrom("killing4", "cage11", Direction.SOUTH)
         .buildRoomFrom("killing4", "cage12", Direction.EAST)
 
     weakMobBuilder(

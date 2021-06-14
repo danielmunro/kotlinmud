@@ -51,6 +51,7 @@ import kotlinmud.action.impl.player.createDrinkAction
 import kotlinmud.action.impl.player.createEatAction
 import kotlinmud.action.impl.player.createHealAction
 import kotlinmud.action.impl.player.createHealListAction
+import kotlinmud.action.impl.player.createLevelAction
 import kotlinmud.action.impl.player.createPracticeAction
 import kotlinmud.action.impl.player.createRecallAction
 import kotlinmud.action.impl.player.createTrainAction
@@ -135,6 +136,7 @@ fun createActionsList(): List<Action> {
         createDescriptionAction(),
         createQuaffAction(),
         createScanAction(),
+        createLevelAction(),
 
         // admin
         createBanAction(),

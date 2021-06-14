@@ -106,6 +106,7 @@ enum class Command(val value: String) {
 
     // player
     DESCRIPTION("description"),
+    LEVEL("level"),
 
     // admin
     BAN("ban"),

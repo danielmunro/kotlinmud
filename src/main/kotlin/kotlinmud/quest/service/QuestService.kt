@@ -50,7 +50,7 @@ class QuestService(private val quests: List<Quest>) {
     fun reward(mob: PlayerMob, quest: Quest) {
         quest.rewards.forEach {
             if (it is ExperienceQuestReward) {
-                mob.addExperience(mob.level, it.amount)
+                mob.addExperience(it.amount)
             } else if (it is CurrencyQuestReward) {
                 mob.addCurrency(it.currencyType, it.amount)
             } else if (it is FactionScoreQuestReward) {
