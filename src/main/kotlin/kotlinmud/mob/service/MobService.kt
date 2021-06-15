@@ -175,6 +175,10 @@ class MobService(
         return mobs.filter { it.job == jobType }
     }
 
+    fun findMobs(predicate: (Mob) -> Boolean): List<Mob> {
+        return mobs.filter(predicate)
+    }
+
     fun findMobsByCanonicalId(canonicalId: UUID): List<Mob> {
         return mobs.filter {
             it.canonicalId == canonicalId

@@ -42,5 +42,6 @@ class MobArguments(
     val skills: MutableMap<SkillType, Int>,
     val affects: MutableList<Affect>,
     val currencies: MutableMap<CurrencyType, Int>,
-    val route: List<Room>?
+    val route: List<Room>?,
+    val messages: List<String>,
 )

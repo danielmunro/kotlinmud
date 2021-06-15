@@ -90,7 +90,14 @@ fun createTroyTownCenter(
         Human(),
         10,
         1,
-    )
+    ).also {
+        it.messages = listOf(
+            "Welcome to the great city of Troy!",
+            "Remember to vote for yours truly in the next election.",
+        )
+        it.randomizeRoom = false
+        it.room = fountainRoom
+    }
 
     createTroySouthGate(
         areaBuilderService,

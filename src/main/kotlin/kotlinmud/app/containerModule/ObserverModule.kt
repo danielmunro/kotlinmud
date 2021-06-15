@@ -1,7 +1,6 @@
 package kotlinmud.app.containerModule
 
 import kotlinmud.app.Tag
-import kotlinmud.event.observer.impl.GuardAttacksAggroMobsObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TillRoomObserver
@@ -15,6 +14,8 @@ import kotlinmud.event.observer.impl.gameLoop.TimeServiceLoopObserver
 import kotlinmud.event.observer.impl.kill.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.kill.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.kill.TransferItemsOnKillObserver
+import kotlinmud.event.observer.impl.mob.GuardAttacksAggroMobsObserver
+import kotlinmud.event.observer.impl.mob.ScheduleMobsToTalk
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.pulse.PruneDeadMobsPulseObserver
 import kotlinmud.event.observer.impl.regen.FastHealingObserver
@@ -107,8 +108,12 @@ val ObserverModule = Kodein.Module {
         MoveMobsOnTickObserver(instance())
     }
 
+    bind<Observer>(tag = Tag.SCHEDULE_MOBS_TO_TALK) with provider {
+        ScheduleMobsToTalk(instance())
+    }
+
     bind<Observer>(tag = Tag.SCAVENGER_COLLECTS_ITEM) with provider {
-        ScavengerCollectsItemsObserver(instance(), instance(), instance())
+        ScavengerCollectsItemsObserver(instance(), instance())
     }
 
     bind<Observer>(tag = Tag.FAST_HEALING) with provider {
@@ -252,6 +257,7 @@ val ObserverModule = Kodein.Module {
 //                    instance(tag = Tag.GROW_RESOURCES),
 //                    instance(tag = Tag.GENERATE_GRASS),
                     instance(tag = Tag.RESPAWN),
+                    instance(tag = Tag.SCHEDULE_MOBS_TO_TALK),
                 )
             ),
             Pair(
