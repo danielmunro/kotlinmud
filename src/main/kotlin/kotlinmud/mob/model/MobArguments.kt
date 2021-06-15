@@ -44,4 +44,5 @@ class MobArguments(
     val currencies: MutableMap<CurrencyType, Int>,
     val route: List<Room>?,
     val messages: List<String>,
+    val spellsForSale: List<Triple<SkillType, Int, Int>>,
 )

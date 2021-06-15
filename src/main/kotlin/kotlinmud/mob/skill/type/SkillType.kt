@@ -5,7 +5,6 @@ enum class SkillType(val value: String) {
     BERSERK("bererk"),
     BITE("bite"),
     BLEED("bleed"),
-    BLESS("bless"),
     BREATHE("breathe"),
     DIRT_KICK("dirt kick"),
     FEAR("fear"),
@@ -86,6 +85,7 @@ enum class SkillType(val value: String) {
     BLUR("blur"),
     INVISIBILITY("invisibility"),
     CURSE("curse"),
+    FEAST("feast"),
 
     // healing
     CURE_LIGHT("cure light"),
@@ -103,4 +103,8 @@ enum class SkillType(val value: String) {
     // enhancement
     GIANT_STRENGTH("giant strength"),
     HASTE("haste"),
+
+    // benediction
+    ARMOR("armor"),
+    BLESS("bless"),
 }

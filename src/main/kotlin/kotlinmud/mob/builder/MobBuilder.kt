@@ -56,6 +56,7 @@ open class MobBuilder(private val mobService: MobService) : HasInventory {
     var currencies = mutableMapOf<CurrencyType, Int>()
     var randomizeRoom = true
     var messages = listOf<String>()
+    var spellsForSale: List<Triple<SkillType, Int, Int>> = listOf()
 
     fun makeShopkeeper() {
         job = JobType.SHOPKEEPER
@@ -129,6 +130,7 @@ open class MobBuilder(private val mobService: MobService) : HasInventory {
             currencies.toMutableMap(),
             route,
             messages,
+            spellsForSale,
         )
     }
 }

@@ -9,6 +9,7 @@ import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.service.MobService
+import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.QuestGiver
 import kotlinmud.respawn.helper.itemRespawnsFor
@@ -86,12 +87,30 @@ class AreaBuilderService(
 
     fun buildDoor(direction: Direction, door: Door): AreaBuilderService {
         when (direction) {
-            Direction.WEST -> lastRoom.westDoor = door
-            Direction.EAST -> lastRoom.eastDoor = door
-            Direction.NORTH -> lastRoom.northDoor = door
-            Direction.SOUTH -> lastRoom.southDoor = door
-            Direction.UP -> lastRoom.upDoor = door
-            Direction.DOWN -> lastRoom.downDoor = door
+            Direction.WEST -> {
+                lastRoom.westDoor = door
+                lastLastRoom.eastDoor = door
+            }
+            Direction.EAST -> {
+                lastRoom.eastDoor = door
+                lastLastRoom.westDoor = door
+            }
+            Direction.NORTH -> {
+                lastRoom.northDoor = door
+                lastLastRoom.southDoor = door
+            }
+            Direction.SOUTH -> {
+                lastRoom.southDoor = door
+                lastLastRoom.northDoor = door
+            }
+            Direction.UP -> {
+                lastRoom.upDoor = door
+                lastLastRoom.downDoor = door
+            }
+            Direction.DOWN -> {
+                lastRoom.downDoor = door
+                lastLastRoom.upDoor = door
+            }
         }
         return this
     }
@@ -184,12 +203,49 @@ class AreaBuilderService(
         )
     }
 
+    fun buildHealer(
+        name: String,
+        brief: String,
+        description: String,
+        race: Race,
+        spellsForSale: List<Triple<SkillType, Int, Int>>,
+    ) {
+        mobService.builder(
+            name,
+            brief,
+            description,
+            race,
+        ).also {
+            it.spellsForSale = spellsForSale
+            it.job = JobType.HEALER
+            it.room = lastRoom
+        }.build()
+    }
+
+    fun buildTrainer(
+        name: String,
+        brief: String,
+        description: String,
+        race: Race,
+    ) {
+        mobService.builder(
+            name,
+            brief,
+            description,
+            race,
+        ).also {
+            it.room = lastRoom
+            it.job = JobType.TRAINER
+        }.build()
+    }
+
     fun buildShopkeeper(
         name: String,
         brief: String,
         description: String,
         race: Race,
         items: Map<ItemBuilder, Int>,
+        modifier: (MobBuilder) -> Unit = {},
     ) {
         mobService.builder(
             name,
