@@ -14,6 +14,7 @@ import kotlinmud.type.RoomCanonicalId
 
 class RoomBuilder(private val roomService: RoomService) : HasInventory {
     lateinit var name: String
+    lateinit var brief: String
     lateinit var description: String
     lateinit var area: Area
     var id: Int = 0
@@ -53,10 +54,14 @@ class RoomBuilder(private val roomService: RoomService) : HasInventory {
     }
 
     fun build(): Room {
+        if (!this::brief.isInitialized) {
+            brief = ""
+        }
         val room = Room(
             id,
             label,
             name,
+            brief,
             description,
             canonicalId,
             area,

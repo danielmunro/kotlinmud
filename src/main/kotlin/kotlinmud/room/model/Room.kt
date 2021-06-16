@@ -3,6 +3,7 @@ package kotlinmud.room.model
 import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.biome.type.SubstrateType
+import kotlinmud.helper.Noun
 import kotlinmud.item.model.Item
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
@@ -16,8 +17,9 @@ import kotlinmud.type.RoomCanonicalId
 class Room(
     val id: Int,
     val label: String?,
-    val name: String,
-    val description: String,
+    override val name: String,
+    override val brief: String,
+    override val description: String,
     val canonicalId: RoomCanonicalId?,
     val area: Area,
     val isIndoors: Boolean,
@@ -30,7 +32,7 @@ class Room(
     override val items: MutableList<Item>,
     val resources: MutableList<ResourceType>,
     val owner: Mob?
-) : HasInventory {
+) : HasInventory, Noun {
     var north: Room? = null
     var northDoor: Door? = null
     var south: Room? = null

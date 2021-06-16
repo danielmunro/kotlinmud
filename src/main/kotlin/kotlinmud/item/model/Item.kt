@@ -20,6 +20,7 @@ import java.util.UUID
 class Item(
     val type: ItemType,
     override val name: String,
+    override val brief: String,
     override val description: String,
     val worth: Int,
     val level: Int,

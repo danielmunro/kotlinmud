@@ -32,7 +32,7 @@ import java.util.UUID
 
 open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     override val name: String = mobArguments.name
-    val brief: String = mobArguments.brief
+    override val brief: String = mobArguments.brief
     override var description: String = mobArguments.description
     var hp: Int = mobArguments.hp
     var mana: Int = mobArguments.mana

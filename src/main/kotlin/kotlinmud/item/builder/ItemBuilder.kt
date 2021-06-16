@@ -20,6 +20,7 @@ class ItemBuilder(private val itemService: ItemService) {
     lateinit var name: String
     lateinit var description: String
     lateinit var material: Material
+    lateinit var brief: String
     var worth: Int = 1
     var level: Int = 1
     var weight: Double = 1.0
@@ -82,9 +83,13 @@ class ItemBuilder(private val itemService: ItemService) {
     }
 
     fun build(): Item {
+        if (!this::brief.isInitialized) {
+            brief = "$name is here"
+        }
         val item = Item(
             type,
             name,
+            brief,
             description,
             worth,
             level,
