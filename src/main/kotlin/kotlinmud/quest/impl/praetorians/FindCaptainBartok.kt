@@ -16,6 +16,7 @@ class FindCaptainBartok(mobService: MobService) : Quest {
     override val type = QuestType.JOIN_PRAETORIAN_GUARD
     override val level = 3
     override val name = "Talk to Captain Bartok of the Praetorian Guard"
+    override val brief = "tbd"
     override val description = "yolo"
     override val acceptConditions = listOf(
         createMobInRoomQuestRequirement(mobService, QuestGiver.PraetorianRecruiterEsmer),

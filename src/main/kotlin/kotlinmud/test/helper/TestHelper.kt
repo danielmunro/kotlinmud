@@ -8,7 +8,7 @@ import kotlinmud.db.getTables
 import kotlinmud.event.observer.type.ObserverList
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.service.FixtureService
-import kotlinmud.helper.Identifiable
+import kotlinmud.helper.Noun
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
@@ -63,6 +63,6 @@ fun createTestService(): TestService {
     )
 }
 
-fun getIdentifyingWord(identifiable: Identifiable): String {
+fun getIdentifyingWord(identifiable: Noun): String {
     return identifiable.name.split(" ").first { it.length > 3 }
 }

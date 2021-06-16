@@ -19,6 +19,7 @@ class FindPraetorianRecruiter(mobService: MobService, roomService: RoomService) 
     override val level = 5
     override val name = "Find a recruiter for the Praetorian Guard"
     override val description = "yolo"
+    override val brief = "tbd"
     override val acceptConditions = listOf(
         createRoomQuestRequirement(
             roomService.findOne {

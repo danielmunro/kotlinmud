@@ -5,7 +5,6 @@ import kotlinmud.affect.model.Affect
 import kotlinmud.affect.type.AffectType
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.attributes.type.HasAttributes
-import kotlinmud.helper.Identifiable
 import kotlinmud.helper.Noun
 import kotlinmud.item.type.Drink
 import kotlinmud.item.type.Food
@@ -43,7 +42,7 @@ class Item(
     val maxWeight: Int?,
     override val attributes: MutableMap<Attribute, Int>,
     val items: MutableList<Item>?,
-) : HasAttributes, Identifiable, Noun {
+) : HasAttributes, Noun {
 
     @JsonIgnore
     fun isVisible(): Boolean {
