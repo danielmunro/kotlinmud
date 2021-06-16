@@ -26,7 +26,7 @@ class AreaBuilderService(
     private val mobService: MobService,
     private val roomService: RoomService,
     private val itemService: ItemService,
-    public val area: Area,
+    val area: Area,
 ) {
     lateinit var lastRoomBuilder: RoomBuilder
     lateinit var lastRoom: Room

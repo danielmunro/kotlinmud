@@ -70,6 +70,7 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.time.service.TimeService
+import kotlinmud.world.service.AreaBuilderService
 import kotlinx.coroutines.runBlocking
 import java.net.SocketAddress
 import java.nio.channels.SocketChannel
@@ -102,6 +103,15 @@ class TestService(
     init {
         every { client.socket.remoteAddress } returns mockk<SocketAddress>()
         serverService.getClients().add(client)
+    }
+
+    fun createAreaBuilderService(): AreaBuilderService {
+        return AreaBuilderService(
+            mobService,
+            roomService,
+            itemService,
+            Area.Test,
+        )
     }
 
     fun getTimeService(): TimeService {
