@@ -69,37 +69,6 @@ open class MobBuilder(private val mobService: MobService) : HasInventory {
         return Mob(createMobArguments()).also { mobService.addMob(it) }
     }
 
-    fun copy(): MobBuilder {
-        return MobBuilder(mobService).also {
-            it.name = name
-            it.brief = brief
-            it.description = description
-            it.race = race
-            it.attributes = attributes.toMutableMap()
-            it.job = job
-            it.specialization = specialization
-            it.identifier = identifier
-            it.level = level
-            it.hp = hp
-            it.mana = mana
-            it.mv = mv
-            it.gender = gender
-            it.disposition = disposition
-            it.wimpy = wimpy
-            it.savingThrows = savingThrows
-            it.rarity = rarity
-            it.equipped = equipped.toMutableList()
-            it.items = items.toMutableList()
-            it.maxItems = maxItems
-            it.maxWeight = maxWeight
-            it.route = route.toList()
-            it.skills = skills.toMutableMap()
-            it.affects = affects.toMutableList()
-            it.currencies = currencies.toMutableMap()
-            it.randomizeRoom = randomizeRoom
-        }
-    }
-
     protected fun createMobArguments(): MobArguments {
         return MobArguments(
             name,
