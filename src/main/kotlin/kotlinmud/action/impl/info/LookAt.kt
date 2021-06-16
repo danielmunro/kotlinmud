@@ -15,8 +15,8 @@ fun createLookAtAction(): Action {
     return Action(Command.LOOK, mustBeAwake(), availableNoun()) {
         val noun = it.get<Noun>(Syntax.AVAILABLE_NOUN)
         val additionalDescription = when (noun) {
-            is Item -> "\n\n${noun.name} is ${noun.material.value} and weighs ${noun.weight} pound${if (noun.weight == 1.0) "" else "s"}."
-            is Mob -> "\n\n${noun.name} is ${noun.race.type.toString().toLowerCase()}.\n\n${noun.equipped.fold("Equipment:\n") { acc, item -> "$acc$item\n" }}\n${noun.getHealthIndication()}"
+            is Item -> "\n${noun.name} is ${noun.material.value} and weighs ${noun.weight} pound${if (noun.weight == 1.0) "" else "s"}."
+            is Mob -> "\n${noun.description}\n${noun.equipped.fold("") { acc, item -> "$acc$item\n" }}\n${noun.getHealthIndication()}"
             else -> ""
         }
         createResponseWithEmptyActionContext(
