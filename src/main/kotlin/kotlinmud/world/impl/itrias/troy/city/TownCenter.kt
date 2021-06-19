@@ -5,6 +5,7 @@ import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.type.JobType
 import kotlinmud.room.builder.build
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
@@ -32,20 +33,52 @@ fun createTroyTownCenter(
         )
     }.lastRoom
 
+    areaBuilderService.buildFodder(
+        "a Troy city guard",
+        "a guard of the city is here, patrolling the streets",
+        "tbd",
+        Human(),
+        10,
+        1,
+    ).also {
+        it.job = JobType.PATROL
+        it.randomizeRoom = false
+        it.room = fountainRoom
+        it.messages = listOf("move along, citizen")
+    }
+
+    val guardBuilder = {
+        areaBuilderService.buildFodder(
+            "a Troy city guard",
+            "an imposing Troy city guard is here, ensuring safety at the gate",
+            "tbd",
+            Human(),
+            10,
+            2,
+        ).also {
+            it.job = JobType.GUARD
+            it.randomizeRoom = false
+            it.room = areaBuilderService.lastRoom
+        }
+    }
+
     areaBuilderService.buildRoom("north gate") {
         it.name = "Troy North Gate"
         it.description = "tbd"
     }
+    guardBuilder()
 
     areaBuilderService.buildRoom("west gate") {
         it.name = "Troy West Gate"
         it.description = "tbd"
     }
+    guardBuilder()
 
     areaBuilderService.buildRoom("east gate") {
         it.name = "Troy East Gate"
         it.description = "tbd"
     }
+    guardBuilder()
 
     areaBuilderService.buildFodder(
         "a wandering vagabond",

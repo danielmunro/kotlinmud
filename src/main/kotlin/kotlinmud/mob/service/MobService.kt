@@ -102,6 +102,7 @@ class MobService(
             description,
             race,
         ).also {
+            it.job = JobType.FODDER
             it.level = level
         }
         respawn(

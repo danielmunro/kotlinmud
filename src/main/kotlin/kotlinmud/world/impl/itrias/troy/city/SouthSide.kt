@@ -3,6 +3,7 @@ package kotlinmud.world.impl.itrias.troy.city
 import kotlinmud.mob.race.impl.Dwarf
 import kotlinmud.mob.race.impl.Goblin
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.type.JobType
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinmud.world.factory.createAmberAle
@@ -125,4 +126,18 @@ fun createTroySouthGate(
         Dwarf(),
         mapOf(),
     )
+
+    areaBuilderService.buildFodder(
+        "a Troy city guard",
+        "a guard of the city is here, patrolling the streets",
+        "tbd",
+        Human(),
+        10,
+        1,
+    ).also {
+        it.job = JobType.PATROL
+        it.randomizeRoom = false
+        it.room = areaBuilderService.getRoomFromLabel("road3")
+        it.messages = listOf("quiet down!")
+    }
 }

@@ -47,8 +47,9 @@ fun createTroyEastSide(areaBuilderService: AreaBuilderService, connection: Room)
             it.name = "Endurance and training judo"
         }
         .startWith("sunrise2")
-        .buildRoom("private club", Direction.NORTH) {
-            it.name = "A private club"
+        .buildRoom("temple", Direction.NORTH) {
+            it.name = "The Temple of Matook"
+            it.description = "Archway of the Temple of Matook."
         }
         .startWith("sunrise2")
         .buildRoom("warehouse", Direction.SOUTH) {
@@ -90,21 +91,35 @@ fun createTroyEastSide(areaBuilderService: AreaBuilderService, connection: Room)
             ),
         )
 
-    areaBuilderService.startWith("private club")
+    areaBuilderService.startWith("temple")
         .buildRoom(Direction.NORTH)
         .buildDoor(
             Direction.SOUTH,
             Door(
                 "a sturdy oak door",
                 "tbd",
-                DoorDisposition.LOCKED,
+                DoorDisposition.CLOSED,
                 keyId,
             )
         )
+        .buildRoom("atrium", Direction.NORTH) {
+            it.name = "Temple Atrium"
+        }
+        .buildRoom(Direction.WEST) {
+            it.name = "Temple Prayer Rooms"
+        }
+        .startWith("atrium")
+        .buildRoom(Direction.EAST) {
+            it.name = "Temple Study"
+        }
+        .startWith("atrium")
+        .buildRoom(Direction.NORTH) {
+            it.name = "Grand Residence of The Prophet of Matook"
+        }
 
     areaBuilderService.startWith("tavern")
         .buildShopkeeper(
-            "Nikleath the barkeep",
+            "Nikleath Tash the barkeep",
             "a hard-looking barkeep is here",
             "tbd",
             Lasher(),
