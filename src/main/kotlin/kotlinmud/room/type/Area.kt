@@ -15,6 +15,7 @@ enum class Area {
     HauntedMansionTopFloors,
     HauntedMansionBasement,
     MudSchool,
+    MatookTemple,
 
     // debug
     Test,

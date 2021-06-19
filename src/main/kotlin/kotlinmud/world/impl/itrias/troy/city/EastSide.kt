@@ -9,16 +9,13 @@ import kotlinmud.mob.race.impl.Elf
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.impl.Lasher
 import kotlinmud.mob.skill.type.SkillType
-import kotlinmud.room.model.Door
 import kotlinmud.room.model.Room
+import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
-import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.world.service.AreaBuilderService
-import java.util.UUID
 
 fun createTroyEastSide(areaBuilderService: AreaBuilderService, connection: Room) {
-    val keyId = UUID.randomUUID()
     areaBuilderService.startWith(connection)
         .buildRoom("sunrise1", Direction.EAST) {
             it.name = "Sunrise Avenue"
@@ -45,11 +42,6 @@ fun createTroyEastSide(areaBuilderService: AreaBuilderService, connection: Room)
         .startWith("sunrise1")
         .buildRoom("training room", Direction.SOUTH) {
             it.name = "Endurance and training judo"
-        }
-        .startWith("sunrise2")
-        .buildRoom("temple", Direction.NORTH) {
-            it.name = "The Temple of Matook"
-            it.description = "Archway of the Temple of Matook."
         }
         .startWith("sunrise2")
         .buildRoom("warehouse", Direction.SOUTH) {
@@ -91,31 +83,10 @@ fun createTroyEastSide(areaBuilderService: AreaBuilderService, connection: Room)
             ),
         )
 
-    areaBuilderService.startWith("temple")
-        .buildRoom(Direction.NORTH)
-        .buildDoor(
-            Direction.SOUTH,
-            Door(
-                "a sturdy oak door",
-                "tbd",
-                DoorDisposition.CLOSED,
-                keyId,
-            )
-        )
-        .buildRoom("atrium", Direction.NORTH) {
-            it.name = "Temple Atrium"
-        }
-        .buildRoom(Direction.WEST) {
-            it.name = "Temple Prayer Rooms"
-        }
-        .startWith("atrium")
-        .buildRoom(Direction.EAST) {
-            it.name = "Temple Study"
-        }
-        .startWith("atrium")
-        .buildRoom(Direction.NORTH) {
-            it.name = "Grand Residence of The Prophet of Matook"
-        }
+    createTemple(
+        areaBuilderService.copy(Area.MatookTemple),
+        areaBuilderService.getRoomFromLabel("sunrise2"),
+    )
 
     areaBuilderService.startWith("tavern")
         .buildShopkeeper(

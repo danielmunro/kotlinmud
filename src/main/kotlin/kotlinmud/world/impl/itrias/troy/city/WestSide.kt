@@ -3,7 +3,7 @@ package kotlinmud.world.impl.itrias.troy.city
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
-import kotlinmud.world.impl.itrias.troy.hauntedMansion.createTroyHauntedMansion
+import kotlinmud.world.impl.itrias.troy.city.hauntedMansion.createTroyHauntedMansion
 import kotlinmud.world.service.AreaBuilderService
 
 fun createTroyWestSide(

@@ -1,4 +1,4 @@
-package kotlinmud.world.impl.itrias.troy.hauntedMansion
+package kotlinmud.world.impl.itrias.troy.city.hauntedMansion
 
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.race.impl.Human

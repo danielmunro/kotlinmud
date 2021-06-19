@@ -7,7 +7,7 @@ class Door(
     val name: String,
     val description: String,
     val defaultDisposition: DoorDisposition,
-    val key: UUID,
+    val key: UUID = UUID.randomUUID(),
     var disposition: DoorDisposition = defaultDisposition,
 ) {
     override fun toString(): String {

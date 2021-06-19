@@ -8,7 +8,6 @@ import kotlinmud.mob.race.impl.Lasher
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
-import kotlinmud.world.impl.itrias.troy.createMudSchool
 import kotlinmud.world.service.AreaBuilderService
 
 fun createTroyNorthSide(areaBuilderService: AreaBuilderService, connection: Room) {

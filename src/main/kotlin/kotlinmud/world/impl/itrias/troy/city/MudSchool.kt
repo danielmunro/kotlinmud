@@ -1,4 +1,4 @@
-package kotlinmud.world.impl.itrias.troy
+package kotlinmud.world.impl.itrias.troy.city
 
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.item.model.Item
