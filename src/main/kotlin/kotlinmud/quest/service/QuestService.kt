@@ -8,6 +8,7 @@ import kotlinmud.quest.type.reward.CurrencyQuestReward
 import kotlinmud.quest.type.reward.ExperienceQuestReward
 import kotlinmud.quest.type.reward.FactionScoreQuestReward
 import kotlinmud.quest.type.reward.ItemQuestReward
+import kotlinmud.quest.model.Quest as QuestModel
 
 class QuestService(private val quests: List<Quest>) {
     fun findByType(type: QuestType): Quest? {
@@ -22,7 +23,7 @@ class QuestService(private val quests: List<Quest>) {
     }
 
     fun getAcceptedQuestsForMob(mob: PlayerMob): List<Quest> {
-        return quests.filter { mob.quests.containsKey(it.type) && mob.quests[it.type] != QuestStatus.SUBMITTED }
+        return quests.filter { mob.quests.containsKey(it.type) && mob.quests[it.type]?.status != QuestStatus.SUBMITTED }
     }
 
     fun getSubmittableQuestsForMob(mob: PlayerMob): List<Quest> {
@@ -34,13 +35,13 @@ class QuestService(private val quests: List<Quest>) {
 
     fun submit(mob: PlayerMob, quest: Quest) {
         mob.quests[quest.type]?.let {
-            mob.quests[quest.type] = QuestStatus.SUBMITTED
+            it.status = QuestStatus.SUBMITTED
         }
         reward(mob, quest)
     }
 
     fun accept(mob: PlayerMob, quest: Quest) {
-        mob.quests[quest.type] = QuestStatus.INITIALIZED
+        mob.quests[quest.type] = QuestModel()
     }
 
     fun abandon(mob: PlayerMob, quest: Quest) {

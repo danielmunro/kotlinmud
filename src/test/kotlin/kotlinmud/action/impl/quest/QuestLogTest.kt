@@ -2,7 +2,7 @@ package kotlinmud.action.impl.quest
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import kotlinmud.quest.type.QuestStatus
+import kotlinmud.quest.model.Quest
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.helper.createTestService
 import org.junit.Test
@@ -17,8 +17,8 @@ class QuestLogTest {
         val quest2 = test.findQuest(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)!!
 
         // given
-        mob.quests[quest1.type] = QuestStatus.INITIALIZED
-        mob.quests[quest2.type] = QuestStatus.INITIALIZED
+        mob.quests[quest1.type] = Quest()
+        mob.quests[quest2.type] = Quest()
 
         // when
         val response = test.runAction("quest log")

@@ -10,6 +10,6 @@ class PriorQuestRequirement(private val priorQuest: QuestType) : QuestRequiremen
     override val questRequirementType = QuestRequirementType.PRIOR_QUEST
 
     override fun doesSatisfy(mob: PlayerMob): Boolean {
-        return mob.quests[priorQuest]?.let { it == QuestStatus.SUBMITTED } ?: false
+        return mob.quests[priorQuest]?.let { it.status == QuestStatus.SUBMITTED } ?: false
     }
 }

@@ -5,7 +5,7 @@ import kotlinmud.mob.model.PlayerMob
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.Role
 import kotlinmud.mob.type.Standing
-import kotlinmud.quest.type.QuestStatus
+import kotlinmud.quest.model.Quest
 import kotlinmud.quest.type.QuestType
 
 class PlayerMobBuilder(private val mobService: MobService) : MobBuilder(mobService) {
@@ -21,7 +21,7 @@ class PlayerMobBuilder(private val mobService: MobService) : MobBuilder(mobServi
     var skillPoints = 0
     var loggedIn = false
     var factionScores = mutableMapOf<FactionType, Int>()
-    var quests = mutableMapOf<QuestType, QuestStatus>()
+    var quests = mutableMapOf<QuestType, Quest>()
     var role = Role.Player
     var standing = Standing.Good
 

@@ -2,6 +2,8 @@ package kotlinmud.quest.impl.pyreforgeFarm
 
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.CurrencyType
+import kotlinmud.mob.type.QuestGiver
+import kotlinmud.quest.factory.createMobInRoomQuestRequirement
 import kotlinmud.quest.factory.createMobKillQuestRequirement
 import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestRequirement
@@ -15,8 +17,11 @@ class ClearPyreforgeRodents(mobService: MobService) : Quest {
     override val name = "Help Beatrice Pyreforge clear her rodent infestation"
     override val brief = "tbd"
     override val description = "yolo"
-    override val acceptConditions = listOf<QuestRequirement>()
+    override val acceptConditions = listOf<QuestRequirement>(
+        createMobInRoomQuestRequirement(mobService, QuestGiver.BeatricePyreforge),
+    )
     override val submitConditions = listOf(
+        createMobInRoomQuestRequirement(mobService, QuestGiver.BeatricePyreforge),
         createMobKillQuestRequirement(QuestType.CLEAR_PYREFORGE_RODENTS, 6),
     )
     override val rewards = listOf(

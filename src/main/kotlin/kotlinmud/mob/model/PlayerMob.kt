@@ -3,7 +3,7 @@ package kotlinmud.mob.model
 import kotlinmud.faction.type.FactionType
 import kotlinmud.mob.type.Role
 import kotlinmud.mob.type.Standing
-import kotlinmud.quest.type.QuestStatus
+import kotlinmud.quest.model.Quest
 import kotlinmud.quest.type.QuestType
 
 class PlayerMob(
@@ -20,7 +20,7 @@ class PlayerMob(
     var skillPoints: Int,
     var loggedIn: Boolean,
     var factionScores: MutableMap<FactionType, Int>,
-    var quests: MutableMap<QuestType, QuestStatus>,
+    var quests: MutableMap<QuestType, Quest>,
     val role: Role,
     var standing: Standing,
 ) : Mob(mobArguments) {

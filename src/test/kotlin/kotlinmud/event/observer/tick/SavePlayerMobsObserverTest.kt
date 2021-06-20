@@ -10,6 +10,7 @@ import kotlinmud.faction.type.FactionType
 import kotlinmud.item.type.Position
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.CurrencyType
+import kotlinmud.quest.model.Quest
 import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.helper.createTestService
@@ -29,8 +30,8 @@ class SavePlayerMobsObserverTest {
             it.attributes[Attribute.DEX] = 2
             it.attributes[Attribute.HIT] = 3
             it.factionScores[FactionType.PRAETORIAN_GUARD] = 100
-            it.quests[QuestType.FIND_PRAETORIAN_GUARD_RECRUITER] = QuestStatus.SUBMITTED
-            it.quests[QuestType.JOIN_PRAETORIAN_GUARD] = QuestStatus.INITIALIZED
+            it.quests[QuestType.FIND_PRAETORIAN_GUARD_RECRUITER] = Quest().also { quest -> quest.status = QuestStatus.SUBMITTED }
+            it.quests[QuestType.JOIN_PRAETORIAN_GUARD] = Quest()
             it.skills[SkillType.BASH] = 1
             it.skills[SkillType.BERSERK] = 100
             it.affects.add(Affect(AffectType.BLESS, 1))

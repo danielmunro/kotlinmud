@@ -11,6 +11,7 @@ import kotlinmud.event.observer.impl.gameLoop.ProcessClientBuffersObserver
 import kotlinmud.event.observer.impl.gameLoop.ReadIntoClientBuffersObserver
 import kotlinmud.event.observer.impl.gameLoop.RemoveDisconnectedClients
 import kotlinmud.event.observer.impl.gameLoop.TimeServiceLoopObserver
+import kotlinmud.event.observer.impl.kill.AddQuestKillObserver
 import kotlinmud.event.observer.impl.kill.GrantExperienceOnKillObserver
 import kotlinmud.event.observer.impl.kill.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.kill.TransferItemsOnKillObserver
@@ -197,6 +198,10 @@ val ObserverModule = Kodein.Module {
         SheepGrowWool(instance())
     }
 
+    bind<Observer>(tag = Tag.ADD_QUEST_KILL) with singleton {
+        AddQuestKillObserver()
+    }
+
     bind<ObserverList>() with singleton {
         mapOf(
             Pair(
@@ -294,6 +299,7 @@ val ObserverModule = Kodein.Module {
                     instance(tag = Tag.GRANT_EXPERIENCE_ON_KILL),
                     instance(tag = Tag.TRANSFER_GOLD_ON_KILL),
                     instance(tag = Tag.TRANSFER_ITEMS_ON_KILL),
+                    instance(tag = Tag.ADD_QUEST_KILL),
                 )
             ),
             Pair(

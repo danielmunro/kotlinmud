@@ -2,6 +2,7 @@ package kotlinmud.action.impl.quest
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import kotlinmud.quest.model.Quest
 import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.helper.createTestService
@@ -17,7 +18,7 @@ class QuestSubmitTest {
 
         // given
         test.createPlayerMob {
-            it.quests[quest.type] = QuestStatus.SATISFIED
+            it.quests[quest.type] = Quest().also { quest -> quest.status = QuestStatus.SATISFIED }
             it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND }!!
         }
 
@@ -36,7 +37,7 @@ class QuestSubmitTest {
 
         // given
         test.createPlayerMob {
-            it.quests[quest.type] = QuestStatus.SATISFIED
+            it.quests[quest.type] = Quest().also { quest -> quest.status = QuestStatus.SATISFIED }
             it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND }!!
         }
 

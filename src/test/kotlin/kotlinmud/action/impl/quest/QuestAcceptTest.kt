@@ -3,7 +3,7 @@ package kotlinmud.action.impl.quest
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
-import kotlinmud.quest.type.QuestStatus
+import kotlinmud.quest.model.Quest
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
@@ -72,7 +72,7 @@ class QuestAcceptTest {
         }
 
         // given
-        mob.quests[QuestType.FIND_PRAETORIAN_GUARD_RECRUITER] = QuestStatus.INITIALIZED
+        mob.quests[QuestType.FIND_PRAETORIAN_GUARD_RECRUITER] = Quest()
 
         // when
         val response = test.runAction("quest accept recruiter")
