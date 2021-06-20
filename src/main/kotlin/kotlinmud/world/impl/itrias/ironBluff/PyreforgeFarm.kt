@@ -4,6 +4,7 @@ import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.race.impl.Cow
 import kotlinmud.mob.race.impl.Rodent
 import kotlinmud.mob.race.impl.Sheep
+import kotlinmud.resource.impl.CowHide
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.world.service.AreaBuilderService
@@ -66,7 +67,9 @@ fun createPyreforgeFarm(areaBuilderService: AreaBuilderService) {
         Cow(),
         8,
         3,
-    )
+    ).also {
+        it.resources = listOf(CowHide())
+    }
 
     areaBuilderService.switchArea(Area.PyreforgeWheatField).buildFodder(
         "a field mouse",

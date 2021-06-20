@@ -18,17 +18,17 @@ fun createHarvestAction(): Action {
         it.dispositions = mustBeStanding()
         it.syntax = resourceInRoom()
         it.costs = listOf(Cost(CostType.MV_PERCENT, 1))
-    } build { svc ->
-        val resource = svc.get<ResourceType>(Syntax.RESOURCE_IN_ROOM)
+    } build {
+        val resource = it.get<ResourceType>(Syntax.RESOURCE_IN_ROOM)
         try {
-            svc.harvest(resource)
-            svc.getRoom().resources.remove(resource)
-            svc.createOkResponse(
-                createHarvestMessage(svc.getMob(), resource),
-                2
+            it.harvest(resource)
+            it.getRoom().resources.remove(resource)
+            it.createOkResponse(
+                createHarvestMessage(it.getMob(), resource),
+                2,
             )
         } catch (exception: HarvestException) {
-            svc.createOkResponse(messageToActionCreator("you can't find it anywhere."))
+            it.createOkResponse(messageToActionCreator("you can't find it anywhere."))
         }
     }
 }

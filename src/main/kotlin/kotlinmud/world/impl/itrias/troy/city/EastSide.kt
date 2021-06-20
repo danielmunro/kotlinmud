@@ -174,6 +174,7 @@ fun createTroyEastSide(areaBuilderService: AreaBuilderService, connection: Room)
                         it.weaponType = Weapon.SHEARS
                         it.damageType = DamageType.PIERCE
                         it.attackVerb = "slice"
+                        it.material = Material.WOOD
                     },
                     3,
                 ),

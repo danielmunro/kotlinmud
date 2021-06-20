@@ -13,4 +13,5 @@ enum class ResourceType(val value: String) {
     WATERMELON("watermelon"),
     PUMPKIN("pumpkin"),
     WOOL("wool"),
+    ANIMAL_HIDE("animal hide"),
 }
