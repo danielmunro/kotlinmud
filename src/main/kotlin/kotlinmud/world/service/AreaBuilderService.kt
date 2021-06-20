@@ -26,12 +26,17 @@ class AreaBuilderService(
     private val mobService: MobService,
     private val roomService: RoomService,
     private val itemService: ItemService,
-    val area: Area,
+    var area: Area,
 ) {
     lateinit var lastRoomBuilder: RoomBuilder
     lateinit var lastRoom: Room
     lateinit var lastLastRoom: Room
     private val logger = logger(this)
+
+    fun switchArea(area: Area): AreaBuilderService {
+        this.area = area
+        return this
+    }
 
     fun copy(area: Area): AreaBuilderService {
         return AreaBuilderService(
@@ -52,7 +57,7 @@ class AreaBuilderService(
     }
 
     fun startWith(label: String): AreaBuilderService {
-        lastRoom = roomService.findOne { it.label == label }!!
+        lastRoom = roomService.findOne { it.label == label && it.area == area }!!
         return this
     }
 

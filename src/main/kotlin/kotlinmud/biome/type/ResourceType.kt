@@ -11,5 +11,6 @@ enum class ResourceType(val value: String) {
     TAR("tar"),
     CLAY("clay"),
     WATERMELON("watermelon"),
-    PUMPKIN("pumpkin")
+    PUMPKIN("pumpkin"),
+    WOOL("wool"),
 }

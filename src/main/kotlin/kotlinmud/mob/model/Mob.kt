@@ -27,6 +27,7 @@ import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.QuestGiver
 import kotlinmud.mob.type.Rarity
+import kotlinmud.resource.type.Resource
 import kotlinmud.room.model.Room
 import java.util.UUID
 
@@ -61,6 +62,7 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     val currencies: MutableMap<CurrencyType, Int> = mobArguments.currencies
     val messages = mobArguments.messages
     val spellsForSale = mobArguments.spellsForSale
+    val resources: MutableList<Resource> = mobArguments.resources.toMutableList()
 
     @JsonProperty("race")
     fun getRaceType(): RaceType {

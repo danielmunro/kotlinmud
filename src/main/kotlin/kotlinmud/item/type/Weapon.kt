@@ -9,5 +9,6 @@ enum class Weapon {
     SPEAR,
     WAND,
     STAFF,
+    SHEARS,
     EXOTIC,
 }

@@ -16,6 +16,7 @@ import kotlinmud.event.observer.impl.kill.TransferGoldOnKillObserver
 import kotlinmud.event.observer.impl.kill.TransferItemsOnKillObserver
 import kotlinmud.event.observer.impl.mob.GuardAttacksAggroMobsObserver
 import kotlinmud.event.observer.impl.mob.ScheduleMobsToTalk
+import kotlinmud.event.observer.impl.mob.SheepGrowWool
 import kotlinmud.event.observer.impl.pulse.ProceedFightsPulseObserver
 import kotlinmud.event.observer.impl.pulse.PruneDeadMobsPulseObserver
 import kotlinmud.event.observer.impl.regen.FastHealingObserver
@@ -192,6 +193,10 @@ val ObserverModule = Kodein.Module {
         SavePlayerMobsObserver(instance(), instance())
     }
 
+    bind<Observer>(tag = Tag.SHEEP_GROW_WOOL) with singleton {
+        SheepGrowWool(instance())
+    }
+
     bind<ObserverList>() with singleton {
         mapOf(
             Pair(
@@ -258,6 +263,7 @@ val ObserverModule = Kodein.Module {
 //                    instance(tag = Tag.GENERATE_GRASS),
                     instance(tag = Tag.RESPAWN),
                     instance(tag = Tag.SCHEDULE_MOBS_TO_TALK),
+                    instance(tag = Tag.SHEEP_GROW_WOOL),
                 )
             ),
             Pair(

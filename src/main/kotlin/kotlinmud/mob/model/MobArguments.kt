@@ -12,6 +12,7 @@ import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.QuestGiver
 import kotlinmud.mob.type.Rarity
+import kotlinmud.resource.type.Resource
 import kotlinmud.room.model.Room
 import java.util.UUID
 
@@ -45,4 +46,5 @@ class MobArguments(
     val route: List<Room>?,
     val messages: List<String>,
     val spellsForSale: List<Triple<SkillType, Int, Int>>,
+    val resources: List<Resource>,
 )

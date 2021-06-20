@@ -6,6 +6,12 @@ enum class Area {
     LakeOsona,
     GrongokHideout,
     SouthernTrail,
+    PyreforgeFarm,
+    PyreforgeSheepField,
+    PyreforgeCowField,
+    PyreforgeWheatField,
+    PyreforgePumpkinField,
+    IronBluffMainRoad,
 
     // Troy
     Troy,

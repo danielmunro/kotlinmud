@@ -1,6 +1,7 @@
 package kotlinmud.world
 
 import kotlinmud.room.type.Area
+import kotlinmud.world.impl.itrias.ironBluff.createIronBluffMainRoad
 import kotlinmud.world.impl.itrias.lorimir.createLorimirForest
 import kotlinmud.world.impl.itrias.lorimir.createLorimirForestLake
 import kotlinmud.world.impl.itrias.lorimir.createLorimirForestOutpost
@@ -33,9 +34,14 @@ fun createWorld(areaBuilderServiceFactory: (area: Area) -> AreaBuilderService) {
         outskirtsConnection,
     )
 
-    createTroyTownCenter(
+    val troyExits = createTroyTownCenter(
         areaBuilderServiceFactory(Area.Troy),
         promenade,
+    )
+
+    createIronBluffMainRoad(
+        areaBuilderServiceFactory(Area.IronBluffMainRoad)
+            .startWith(troyExits[Area.IronBluffMainRoad]!!)
     )
 
     createLorimirForestLake(

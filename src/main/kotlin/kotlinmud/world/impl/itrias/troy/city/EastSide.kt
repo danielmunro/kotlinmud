@@ -5,6 +5,8 @@ import kotlinmud.affect.type.AffectType
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.item.type.Position
+import kotlinmud.item.type.Weapon
+import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Elf
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.impl.Lasher
@@ -160,6 +162,20 @@ fun createTroyEastSide(areaBuilderService: AreaBuilderService, connection: Room)
                         )
                     },
                     10
+                ),
+                Pair(
+                    areaBuilderService.itemBuilder(
+                        "a pair of shears",
+                        "tbd",
+                        2.0,
+                        100,
+                    ).also {
+                        it.type = ItemType.EQUIPMENT
+                        it.weaponType = Weapon.SHEARS
+                        it.damageType = DamageType.PIERCE
+                        it.attackVerb = "slice"
+                    },
+                    3,
                 ),
             ),
         )

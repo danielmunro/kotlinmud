@@ -15,7 +15,8 @@ fun createTroyWestSide(
         .buildRoom("sunset1", Direction.WEST) {
             it.name = "Sunset Boulevard"
             it.description = "tbd"
-        }.buildRoom(Direction.WEST)
+        }
+        .buildRoom(Direction.WEST)
         .buildRoom(Direction.WEST)
         .connectTo("west gate", Direction.WEST)
 

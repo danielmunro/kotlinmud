@@ -39,6 +39,7 @@ enum class Tag {
     TILL_ROOM,
     RESPAWN,
     SAVE_PLAYER_MOBS,
+    SHEEP_GROW_WOOL,
 
     QUEST_RECRUIT_PRAETORIAN_GUARD,
 }

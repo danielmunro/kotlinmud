@@ -7,9 +7,7 @@ import kotlinmud.io.model.MessageBuilder
 import kotlinmud.mob.service.MobService
 import kotlinx.coroutines.runBlocking
 
-class ScheduleMobsToTalk(
-    private val mobService: MobService,
-) : Observer {
+class ScheduleMobsToTalk(private val mobService: MobService) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         mobService.findMobs {
             it.messages.isNotEmpty()
