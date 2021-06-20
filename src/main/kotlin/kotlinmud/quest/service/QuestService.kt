@@ -1,5 +1,6 @@
 package kotlinmud.quest.service
 
+import kotlinmud.helper.logger
 import kotlinmud.mob.model.PlayerMob
 import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestStatus
@@ -11,6 +12,8 @@ import kotlinmud.quest.type.reward.ItemQuestReward
 import kotlinmud.quest.model.Quest as QuestModel
 
 class QuestService(private val quests: List<Quest>) {
+    private val logger = logger(this)
+
     fun findByType(type: QuestType): Quest? {
         return quests.find { it.type == type }
     }
@@ -29,6 +32,12 @@ class QuestService(private val quests: List<Quest>) {
     fun getSubmittableQuestsForMob(mob: PlayerMob): List<Quest> {
         return quests.filter {
             val notSatisfied = it.submitConditions.find { req -> !req.doesSatisfy(mob) }
+            logger.info(
+                "is quest submittable? :: quest {} :: containsKey {} :: satisfied {}",
+                it.type.toString(),
+                mob.quests.containsKey(it.type),
+                notSatisfied == null,
+            )
             mob.quests.containsKey(it.type) && notSatisfied == null
         }
     }

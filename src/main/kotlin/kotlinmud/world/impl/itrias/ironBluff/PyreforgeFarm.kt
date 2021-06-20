@@ -39,7 +39,9 @@ fun createPyreforgeFarm(areaBuilderService: AreaBuilderService) {
             Direction.EAST,
         )
         .startWith("road1")
-        .buildRoom("road2", Direction.NORTH)
+        .buildRoom("road2", Direction.NORTH) {
+            it.name = "A dusty dirt road"
+        }
         .connectTo(
             matrixBuilder(Area.PyreforgeWheatField, "A wheat field")[0][2],
             Direction.WEST,

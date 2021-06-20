@@ -199,7 +199,7 @@ val ObserverModule = Kodein.Module {
     }
 
     bind<Observer>(tag = Tag.ADD_QUEST_KILL) with singleton {
-        AddQuestKillObserver()
+        AddQuestKillObserver(instance())
     }
 
     bind<ObserverList>() with singleton {

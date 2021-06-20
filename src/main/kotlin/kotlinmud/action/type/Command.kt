@@ -111,6 +111,7 @@ enum class Command(val value: String) {
     // admin
     BAN("ban"),
     UNBAN("unban"),
+    BOOM("boom"),
 
     // spells
     CURE_LIGHT("cure light"),

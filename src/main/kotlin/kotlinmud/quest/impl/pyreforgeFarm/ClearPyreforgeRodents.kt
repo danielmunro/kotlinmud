@@ -14,7 +14,7 @@ import kotlinmud.quest.type.reward.ExperienceQuestReward
 class ClearPyreforgeRodents(mobService: MobService) : Quest {
     override val type = QuestType.CLEAR_PYREFORGE_RODENTS
     override val level = 1
-    override val name = "Help Beatrice Pyreforge clear her rodent infestation"
+    override val name = "help Beatrice Pyreforge clear her rodent infestation"
     override val brief = "tbd"
     override val description = "yolo"
     override val acceptConditions = listOf<QuestRequirement>(

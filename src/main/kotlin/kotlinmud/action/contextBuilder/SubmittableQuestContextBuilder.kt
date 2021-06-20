@@ -11,6 +11,8 @@ class SubmittableQuestContextBuilder(private val questService: QuestService, pri
     override fun build(syntax: Syntax, word: String): Context<Any> {
         return questService.getSubmittableQuestsForMob(mob).find { word.matches(it.name) }?.let {
             Context(Syntax.SUBMITTABLE_QUEST, Status.OK, it)
+        } ?: questService.getAcceptedQuestsForMob(mob).find { word.matches(it.name) }?.let {
+            Context(Syntax.SUBMITTABLE_QUEST, Status.ERROR, "that quest is not ready to submit.")
         } ?: Context(Syntax.SUBMITTABLE_QUEST, Status.ERROR, "you can't find that quest.")
     }
 }
