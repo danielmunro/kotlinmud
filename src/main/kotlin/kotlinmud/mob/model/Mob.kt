@@ -63,6 +63,7 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     val messages = mobArguments.messages
     val spellsForSale = mobArguments.spellsForSale
     val resources: MutableList<Resource> = mobArguments.resources.toMutableList()
+    val partOfQuest = mobArguments.partOfQuest
 
     @JsonProperty("race")
     fun getRaceType(): RaceType {

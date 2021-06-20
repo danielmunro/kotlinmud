@@ -2,8 +2,11 @@ package kotlinmud.world.impl.itrias.ironBluff
 
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.mob.race.impl.Cow
+import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.impl.Rodent
 import kotlinmud.mob.race.impl.Sheep
+import kotlinmud.mob.type.QuestGiver
+import kotlinmud.quest.type.QuestType
 import kotlinmud.resource.impl.CowHide
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
@@ -51,6 +54,14 @@ fun createPyreforgeFarm(areaBuilderService: AreaBuilderService) {
             it.name = "Pyreforge Manor"
         }
 
+    areaBuilderService.buildQuestGiver(
+        "lady Beatrice Pyreforge",
+        "lady Beatrice Pyreforge, Pyreforge matriarch",
+        "tbd",
+        Human(),
+        QuestGiver.BeatricePyreforge,
+    )
+
     areaBuilderService.switchArea(Area.PyreforgeSheepField).buildFodder(
         "a sheep",
         "a sheep is here, wondering if you have a tasty snack",
@@ -78,7 +89,9 @@ fun createPyreforgeFarm(areaBuilderService: AreaBuilderService) {
         Rodent(),
         3,
         8,
-    )
+    ).also {
+        it.partOfQuest = QuestType.CLEAR_PYREFORGE_RODENTS
+    }
 
     areaBuilderService.switchArea(Area.PyreforgePumpkinField).buildFodder(
         "a giant rat",
@@ -87,5 +100,7 @@ fun createPyreforgeFarm(areaBuilderService: AreaBuilderService) {
         Rodent(),
         5,
         6,
-    )
+    ).also {
+        it.partOfQuest = QuestType.CLEAR_PYREFORGE_RODENTS
+    }
 }

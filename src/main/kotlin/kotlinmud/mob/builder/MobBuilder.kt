@@ -19,6 +19,7 @@ import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.QuestGiver
 import kotlinmud.mob.type.Rarity
+import kotlinmud.quest.type.QuestType
 import kotlinmud.resource.type.Resource
 import kotlinmud.room.model.Room
 import java.util.UUID
@@ -59,6 +60,7 @@ open class MobBuilder(private val mobService: MobService) : HasInventory {
     var messages = listOf<String>()
     var spellsForSale: List<Triple<SkillType, Int, Int>> = listOf()
     var resources = listOf<Resource>()
+    var partOfQuest: QuestType? = null
 
     fun makeShopkeeper() {
         job = JobType.SHOPKEEPER
@@ -103,6 +105,7 @@ open class MobBuilder(private val mobService: MobService) : HasInventory {
             messages,
             spellsForSale,
             resources,
+            partOfQuest,
         )
     }
 }
