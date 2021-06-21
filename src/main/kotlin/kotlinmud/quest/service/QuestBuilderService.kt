@@ -1,7 +1,9 @@
 package kotlinmud.quest.service
 
+import kotlinmud.item.model.Item
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.QuestGiver
+import kotlinmud.quest.factory.createItemQuestRequirement
 import kotlinmud.quest.factory.createMobInRoomQuestRequirement
 import kotlinmud.quest.factory.createRoomQuestRequirement
 import kotlinmud.quest.helper.questList
@@ -37,6 +39,16 @@ class QuestBuilderService(
         acceptConditions.add(
             createRoomQuestRequirement(roomService.findOne { it.canonicalId == roomCanonicalId }!!)
         )
+    }
+
+    fun addRoomSubmitQuestRequirement(roomCanonicalId: RoomCanonicalId) {
+        submitConditions.add(
+            createRoomQuestRequirement(roomService.findOne { it.canonicalId == roomCanonicalId }!!)
+        )
+    }
+
+    fun addItemCountSubmitQuestRequirement(predicate: (Item) -> Boolean, count: Int = 1) {
+        submitConditions.add(createItemQuestRequirement(predicate, count))
     }
 
     fun build(): Quest {

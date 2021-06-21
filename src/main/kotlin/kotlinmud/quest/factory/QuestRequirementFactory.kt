@@ -1,7 +1,9 @@
 package kotlinmud.quest.factory
 
+import kotlinmud.item.model.Item
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.QuestGiver
+import kotlinmud.quest.requirement.ItemQuestRequirement
 import kotlinmud.quest.requirement.LevelQuestRequirement
 import kotlinmud.quest.requirement.MobInRoomQuestRequirement
 import kotlinmud.quest.requirement.MobKillQuestRequirement
@@ -28,4 +30,8 @@ fun createRoomQuestRequirement(room: Room): RoomQuestRequirement {
 
 fun createMobKillQuestRequirement(questType: QuestType, amount: Int): MobKillQuestRequirement {
     return MobKillQuestRequirement(questType, amount)
+}
+
+fun createItemQuestRequirement(predicate: (Item) -> Boolean, count: Int = 1): ItemQuestRequirement {
+    return ItemQuestRequirement(predicate, count)
 }

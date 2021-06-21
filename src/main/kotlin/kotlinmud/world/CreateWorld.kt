@@ -15,13 +15,13 @@ fun createWorld(areaBuilderServiceFactory: (area: Area) -> AreaBuilderService) {
     val outpost = createLorimirForestOutpost(areaBuilderServiceFactory(Area.LorimirForestOutpost))
 
     val lorimirForest = createLorimirForest(
-        areaBuilderServiceFactory(Area.LorimirForest),
-        outpost.getRoomFromLabel("trail"),
+        areaBuilderServiceFactory(Area.LorimirForest)
+            .startWith(outpost.getRoomFromLabel("to outpost")),
     )
 
     createSouthernTrail(
-        areaBuilderServiceFactory(Area.SouthernTrail),
-        lorimirForest.getRoomFromLabel("to south trail")
+        areaBuilderServiceFactory(Area.SouthernTrail)
+            .startWith(lorimirForest.getRoomFromLabel("to south trail")),
     )
 
     val outskirtsConnection = createTroyOutskirts(

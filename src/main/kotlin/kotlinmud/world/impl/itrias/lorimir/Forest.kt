@@ -16,7 +16,6 @@ import kotlinmud.quest.type.reward.ExperienceQuestReward
 import kotlinmud.quest.type.reward.FactionScoreQuestReward
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.ItemAreaRespawn
-import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
@@ -25,7 +24,6 @@ import java.util.UUID
 
 fun createLorimirForest(
     areaBuilderService: AreaBuilderService,
-    connection: Room
 ): AreaBuilderService {
     val builder = areaBuilderService.roomBuilder(
         "Deep in the heart of Lorimir Forest",
@@ -35,16 +33,17 @@ fun createLorimirForest(
     val matrix = SimpleMatrixService(builder).build(5, 5)
 
     areaBuilderService
-        .startWith(connection)
-        .buildRoom(Direction.SOUTH)
-        .buildRoom("intersection", Direction.SOUTH) {
+        .buildRoom(Direction.DOWN) {
+            it.name = "Lorimir forest"
+        }
+        .buildRoom("intersection", Direction.DOWN) {
             it.name = "An intersection in the woods"
         }
         .buildRoom("to lake", Direction.EAST) {
             it.name = "A clearing in the woods"
         }
         .startWith("intersection")
-        .buildRoom("to south trail", Direction.SOUTH) {
+        .buildRoom("to south trail", Direction.DOWN) {
             it.name = "A winding trail in the woods"
         }
 

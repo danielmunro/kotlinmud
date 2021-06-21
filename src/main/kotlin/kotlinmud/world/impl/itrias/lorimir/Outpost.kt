@@ -137,6 +137,7 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
     svc.buildRoom("trail") {
         it.name = "A trail near the camp"
     }
+        .buildRoom("to outpost", Direction.DOWN)
 
     svc.connectRooms("fire pit", "trail", Direction.EAST)
 
@@ -148,6 +149,7 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
 
     svc.buildRoom("mess hall") {
         it.name = "A makeshift mess hall"
+        it.canonicalId = RoomCanonicalId.BarbosaCook
     }
 
     svc.connectRooms("campfire", "mess hall", Direction.EAST)
@@ -188,6 +190,24 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
             )
         )
     )
+
+    svc.questBuilder(
+        QuestType.BARBOSA_SUPPLIES,
+        "collect mushrooms for Barbosa",
+        "tbd",
+        "tbd",
+    ).also {
+        it.addRoomAcceptQuestRequirement(RoomCanonicalId.BarbosaCook)
+        it.addItemCountSubmitQuestRequirement({ item -> item.food == Food.MUSHROOM }, 6)
+        it.addRoomSubmitQuestRequirement(RoomCanonicalId.BarbosaCook)
+        it.rewards.addAll(
+            listOf(
+                CurrencyQuestReward(CurrencyType.Silver, 8),
+                FactionScoreQuestReward(FactionType.PraetorianGuard, 50),
+                ExperienceQuestReward(350),
+            )
+        )
+    }.build()
 
     svc.questBuilder(
         QuestType.FIND_PRAETORIAN_GUARD_RECRUITER,
