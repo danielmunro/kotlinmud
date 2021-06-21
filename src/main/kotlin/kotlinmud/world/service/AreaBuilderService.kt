@@ -12,6 +12,8 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.QuestGiver
+import kotlinmud.quest.service.QuestBuilderService
+import kotlinmud.quest.type.QuestType
 import kotlinmud.respawn.helper.itemRespawnsFor
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.builder.build
@@ -262,6 +264,20 @@ class AreaBuilderService(
             it.makeShopkeeper()
             itemRespawnsFor(it.canonicalId, items)
         }.build()
+    }
+
+    fun questBuilder(
+        type: QuestType,
+        name: String,
+        brief: String,
+        description: String,
+    ): QuestBuilderService {
+        return QuestBuilderService(mobService, roomService).also {
+            it.type = type
+            it.name = name
+            it.brief = brief
+            it.description = description
+        }
     }
 
     fun buildQuestGiver(

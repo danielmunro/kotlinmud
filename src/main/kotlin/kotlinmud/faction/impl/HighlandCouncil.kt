@@ -6,6 +6,6 @@ import kotlinmud.faction.type.FactionType
 
 class HighlandCouncil : Faction {
     override val name = "Highland Council"
-    override val type = FactionType.HIGHLAND_COUNCIL
+    override val type = FactionType.HighlandCouncil
     override val empire = Highland()
 }

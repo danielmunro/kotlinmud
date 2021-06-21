@@ -40,7 +40,7 @@ import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.exception.EmailFormatException
-import kotlinmud.quest.model.Quest
+import kotlinmud.quest.model.QuestProgress
 import kotlinmud.quest.type.QuestType
 import kotlinmud.room.service.RoomService
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -146,7 +146,7 @@ class PlayerService(
             val mapper = jacksonObjectMapper()
             val node: JsonNode = mapper.readTree(data)
             val factionReader = mapper.readerFor(object : TypeReference<Map<FactionType, Int>>() {})
-            val questReader = mapper.readerFor(object : TypeReference<Map<QuestType, Quest>>() {})
+            val questReader = mapper.readerFor(object : TypeReference<Map<QuestType, QuestProgress>>() {})
             val attributeReader = mapper.readerFor(object : TypeReference<Map<Attribute, Int>>() {})
             val skillReader = mapper.readerFor(object : TypeReference<Map<SkillType, Int>>() {})
             val affectReader = mapper.readerFor(object : TypeReference<List<Affect>>() {})
@@ -155,7 +155,7 @@ class PlayerService(
             return PlayerMobBuilder(mobService).also {
                 val spec = SpecializationType.valueOf(node.get("specialization").asText("NONE"))
                 val factionScores: MutableMap<FactionType, Int> = factionReader.readValue(node.get("factionScores"))
-                val quests: MutableMap<QuestType, Quest> = questReader.readValue(node.get("quests"))
+                val quests: MutableMap<QuestType, QuestProgress> = questReader.readValue(node.get("quests"))
                 val attributes: MutableMap<Attribute, Int> = attributeReader.readValue(node.get("attributes"))
                 val skills: MutableMap<SkillType, Int> = skillReader.readValue(node.get("skills"))
                 val affects: MutableList<Affect> = affectReader.readValue(node.get("affects"))

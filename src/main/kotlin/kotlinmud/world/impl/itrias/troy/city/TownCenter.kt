@@ -6,7 +6,6 @@ import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.type.JobType
-import kotlinmud.room.builder.build
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
@@ -20,7 +19,7 @@ fun createTroyTownCenter(
     val fountainRoom = areaBuilderService.buildRoom("fountain") {
         it.name = "A Large Fountain"
         it.description = "The center of Troy is home to a large and ornate fountain. Pristine marble wraps around the fountain, leaving a dramatic glow in the sunlight."
-        it.canonicalId = RoomCanonicalId.START_ROOM
+        it.canonicalId = RoomCanonicalId.StartRoom
         it.items = mutableListOf(
             areaBuilderService.itemBuilder(
                 "an ornate marble fountain",

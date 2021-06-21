@@ -12,7 +12,7 @@ fun createQuestLogAction(): Action {
     } build { svc ->
         svc.createOkResponse(
             messageToActionCreator(
-                svc.getQuestLog().joinToString { it.name + "\n" }
+                svc.getQuestLog().joinToString("\n") { it.name }
             )
         )
     }

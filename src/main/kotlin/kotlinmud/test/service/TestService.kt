@@ -58,8 +58,8 @@ import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
+import kotlinmud.quest.model.Quest
 import kotlinmud.quest.service.QuestService
-import kotlinmud.quest.type.Quest
 import kotlinmud.quest.type.QuestType
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.room.builder.RoomBuilder

@@ -1,9 +1,8 @@
 package kotlinmud.type
 
 enum class RoomCanonicalId {
-    FIND_RECRUITER_PRAETORIAN_GUARD,
-    PRAETORIAN_GUARD_RECRUITER_FOUND,
-    FIND_PRAETORIAN_CAPTAIN,
-    PRAETORIAN_CAPTAIN_FOUND,
-    START_ROOM,
+    FindRecruiterPraetorianGuard,
+    PraetorianGuardRecruiterFound,
+    PraetorianCaptainFound,
+    StartRoom,
 }

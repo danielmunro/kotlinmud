@@ -1,15 +1,21 @@
 package kotlinmud.world.impl.itrias.lorimir
 
+import kotlinmud.faction.type.FactionType
 import kotlinmud.generator.service.SimpleMatrixService
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
 import kotlinmud.mob.race.impl.Canid
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.QuestGiver
+import kotlinmud.quest.factory.createPriorQuestRequirement
+import kotlinmud.quest.type.QuestType
+import kotlinmud.quest.type.reward.CurrencyQuestReward
+import kotlinmud.quest.type.reward.ExperienceQuestReward
+import kotlinmud.quest.type.reward.FactionScoreQuestReward
 import kotlinmud.respawn.helper.respawn
 import kotlinmud.respawn.model.ItemAreaRespawn
-import kotlinmud.room.builder.build
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
@@ -56,7 +62,7 @@ fun createLorimirForest(
         .buildRoom(Direction.NORTH) {
             it.name = "A dark forest"
             it.description = "Deep in the heart of Lorimir Forest."
-            it.canonicalId = RoomCanonicalId.PRAETORIAN_CAPTAIN_FOUND
+            it.canonicalId = RoomCanonicalId.PraetorianCaptainFound
         }
         .connectTo(matrix[0][0], Direction.DOWN)
 
@@ -98,6 +104,26 @@ fun createLorimirForest(
     )
 
     createGrongokHideout(areaBuilderService, matrix[0][4])
+
+    areaBuilderService.questBuilder(
+        QuestType.JOIN_PRAETORIAN_GUARD,
+        "talk to Captain Bartok of the Praetorian Guard",
+        "tbd",
+        "tbd",
+    ).also {
+        it.acceptConditions.add(createPriorQuestRequirement(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER))
+        it.addMobInRoomAcceptCondition(QuestGiver.RecruiterEsmer)
+        it.addMobInRoomSubmitCondition(QuestGiver.PraetorianCaptainBartok)
+        it.rewards.addAll(
+            listOf(
+                FactionScoreQuestReward(FactionType.PraetorianGuard, 100),
+                ExperienceQuestReward(1000),
+                CurrencyQuestReward(CurrencyType.Gold, 1),
+                CurrencyQuestReward(CurrencyType.Silver, 15),
+                CurrencyQuestReward(CurrencyType.Copper, 50),
+            )
+        )
+    }.build()
 
     return areaBuilderService
 }

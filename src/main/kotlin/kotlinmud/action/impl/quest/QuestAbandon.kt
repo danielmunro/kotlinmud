@@ -6,7 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.acceptedQuest
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
-import kotlinmud.quest.type.Quest
+import kotlinmud.quest.model.Quest
 
 fun createQuestAbandonAction(): Action {
     return ActionBuilder(Command.QUEST_ABANDON).also {

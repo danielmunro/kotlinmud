@@ -1,16 +1,5 @@
 package kotlinmud.quest.helper
 
-import kotlinmud.mob.service.MobService
-import kotlinmud.quest.impl.praetorians.FindCaptainBartok
-import kotlinmud.quest.impl.praetorians.FindPraetorianRecruiter
-import kotlinmud.quest.impl.pyreforgeFarm.ClearPyreforgeRodents
-import kotlinmud.quest.type.Quest
-import kotlinmud.room.service.RoomService
+import kotlinmud.quest.model.Quest
 
-fun createQuestList(mobService: MobService, roomService: RoomService): List<Quest> {
-    return listOf(
-        FindCaptainBartok(mobService),
-        FindPraetorianRecruiter(mobService, roomService),
-        ClearPyreforgeRodents(mobService),
-    )
-}
+val questList = mutableListOf<Quest>()

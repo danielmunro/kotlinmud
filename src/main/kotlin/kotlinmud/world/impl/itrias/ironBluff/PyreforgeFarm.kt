@@ -5,8 +5,12 @@ import kotlinmud.mob.race.impl.Cow
 import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.impl.Rodent
 import kotlinmud.mob.race.impl.Sheep
+import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.QuestGiver
+import kotlinmud.quest.factory.createMobKillQuestRequirement
 import kotlinmud.quest.type.QuestType
+import kotlinmud.quest.type.reward.CurrencyQuestReward
+import kotlinmud.quest.type.reward.ExperienceQuestReward
 import kotlinmud.resource.impl.CowHide
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
@@ -105,4 +109,22 @@ fun createPyreforgeFarm(areaBuilderService: AreaBuilderService) {
     ).also {
         it.partOfQuest = QuestType.CLEAR_PYREFORGE_RODENTS
     }
+
+    areaBuilderService.questBuilder(
+        QuestType.CLEAR_PYREFORGE_RODENTS,
+        "help Beatrice Pyreforge clear her rodent infestation",
+        "tbd",
+        "tbd",
+    ).also {
+        it.addMobInRoomAcceptCondition(QuestGiver.BeatricePyreforge)
+        it.addMobInRoomSubmitCondition(QuestGiver.BeatricePyreforge)
+        it.submitConditions.add(createMobKillQuestRequirement(QuestType.CLEAR_PYREFORGE_RODENTS, 6))
+        it.rewards.addAll(
+            listOf(
+                ExperienceQuestReward(200),
+                CurrencyQuestReward(CurrencyType.Silver, 45),
+                CurrencyQuestReward(CurrencyType.Copper, 50),
+            )
+        )
+    }.build()
 }

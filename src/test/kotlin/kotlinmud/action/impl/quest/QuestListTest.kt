@@ -14,14 +14,14 @@ class QuestListTest {
 
         // given
         test.createPlayerMob {
-            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FindRecruiterPraetorianGuard }!!
         }
 
         // when
         val response = test.runAction("quest list")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("Find a recruiter for the Praetorian Guard\n")
+        assertThat(response.message.toActionCreator).isEqualTo("find a recruiter for the Praetorian Guard\n")
     }
 
     @Test
@@ -31,13 +31,13 @@ class QuestListTest {
 
         // given
         test.createPlayerMob {
-            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FindRecruiterPraetorianGuard }!!
         }
 
         // when
         val response = test.runAction("quest list")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("Find a recruiter for the Praetorian Guard\n")
+        assertThat(response.message.toActionCreator).isEqualTo("find a recruiter for the Praetorian Guard\n")
     }
 }

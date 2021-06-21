@@ -1,5 +1,6 @@
 package kotlinmud.world.impl.itrias.lorimir
 
+import kotlinmud.faction.type.FactionType
 import kotlinmud.item.type.Food
 import kotlinmud.item.type.ItemType
 import kotlinmud.item.type.Material
@@ -7,7 +8,12 @@ import kotlinmud.item.type.Weapon
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.race.impl.Giant
 import kotlinmud.mob.race.impl.Human
+import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.QuestGiver
+import kotlinmud.quest.type.QuestType
+import kotlinmud.quest.type.reward.CurrencyQuestReward
+import kotlinmud.quest.type.reward.ExperienceQuestReward
+import kotlinmud.quest.type.reward.FactionScoreQuestReward
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
 import kotlinmud.world.service.AreaBuilderService
@@ -21,7 +27,7 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
     )
 
     svc.buildRoom("fire pit") {
-        it.canonicalId = RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD
+        it.canonicalId = RoomCanonicalId.FindRecruiterPraetorianGuard
     }
 
     svc.roomItemBuilder(
@@ -52,7 +58,7 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
     svc.buildRoom("shelter") {
         it.name = "Inside a lean-to shelter"
         it.description = "bar"
-        it.canonicalId = RoomCanonicalId.PRAETORIAN_GUARD_RECRUITER_FOUND
+        it.canonicalId = RoomCanonicalId.PraetorianGuardRecruiterFound
     }
 
     svc.connectRooms("fire pit", "shelter", Direction.NORTH)
@@ -62,7 +68,7 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
         "a cloaked figure sits against a log, facing the fire, reading a leaflet",
         "Recruiter Esmer is here",
         Human(),
-        QuestGiver.PraetorianRecruiterEsmer,
+        QuestGiver.RecruiterEsmer,
     )
 
     svc.buildRoom("blacksmith") {
@@ -182,6 +188,24 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
             )
         )
     )
+
+    svc.questBuilder(
+        QuestType.FIND_PRAETORIAN_GUARD_RECRUITER,
+        "find a recruiter for the Praetorian Guard",
+        "tbd",
+        "tbd",
+    ).also {
+        it.addRoomAcceptQuestRequirement(RoomCanonicalId.FindRecruiterPraetorianGuard)
+        it.addMobInRoomSubmitCondition(QuestGiver.RecruiterEsmer)
+        it.rewards.addAll(
+            listOf(
+                FactionScoreQuestReward(FactionType.PraetorianGuard, 100),
+                ExperienceQuestReward(1000),
+                CurrencyQuestReward(CurrencyType.Gold, 1),
+                CurrencyQuestReward(CurrencyType.Silver, 15),
+            )
+        )
+    }.build()
 
     return svc
 }

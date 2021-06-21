@@ -3,7 +3,7 @@ package kotlinmud.action.impl.quest
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
-import kotlinmud.quest.model.Quest
+import kotlinmud.quest.model.QuestProgress
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
@@ -19,7 +19,7 @@ class QuestAcceptTest {
 
         // given
         val mob = test.createPlayerMob {
-            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FindRecruiterPraetorianGuard }!!
         }
         val count = mob.quests.size
 
@@ -38,14 +38,14 @@ class QuestAcceptTest {
 
         // given
         test.createPlayerMob {
-            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FindRecruiterPraetorianGuard }!!
         }
 
         // when
         val response = test.runAction("quest accept recruiter")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you accept the quest: `Find a recruiter for the Praetorian Guard`")
+        assertThat(response.message.toActionCreator).isEqualTo("you accept the quest: `find a recruiter for the Praetorian Guard`")
     }
 
     @Test
@@ -68,11 +68,11 @@ class QuestAcceptTest {
         // setup
         val test = createTestService()
         val mob = test.createPlayerMob {
-            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FIND_RECRUITER_PRAETORIAN_GUARD }!!
+            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FindRecruiterPraetorianGuard }!!
         }
 
         // given
-        mob.quests[QuestType.FIND_PRAETORIAN_GUARD_RECRUITER] = Quest()
+        mob.quests[QuestType.FIND_PRAETORIAN_GUARD_RECRUITER] = QuestProgress()
 
         // when
         val response = test.runAction("quest accept recruiter")

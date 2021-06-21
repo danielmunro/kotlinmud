@@ -30,8 +30,8 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.player.social.Social
+import kotlinmud.quest.model.Quest
 import kotlinmud.quest.service.QuestService
-import kotlinmud.quest.type.Quest
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Direction

@@ -42,7 +42,7 @@ class RoomService {
     }
 
     fun getStartRoom(): Room {
-        return rooms.find { it.canonicalId == RoomCanonicalId.START_ROOM }!!
+        return rooms.find { it.canonicalId == RoomCanonicalId.StartRoom }!!
     }
 
     fun removeDecayedItems() {

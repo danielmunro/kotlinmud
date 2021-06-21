@@ -6,7 +6,7 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.availableQuest
 import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
-import kotlinmud.quest.type.Quest
+import kotlinmud.quest.model.Quest
 
 fun createQuestAcceptAction(): Action {
     return ActionBuilder(Command.QUEST_ACCEPT).also {

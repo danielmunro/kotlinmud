@@ -2,14 +2,14 @@ package kotlinmud.quest.service
 
 import kotlinmud.helper.logger
 import kotlinmud.mob.model.PlayerMob
-import kotlinmud.quest.type.Quest
+import kotlinmud.quest.model.Quest
 import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 import kotlinmud.quest.type.reward.CurrencyQuestReward
 import kotlinmud.quest.type.reward.ExperienceQuestReward
 import kotlinmud.quest.type.reward.FactionScoreQuestReward
 import kotlinmud.quest.type.reward.ItemQuestReward
-import kotlinmud.quest.model.Quest as QuestModel
+import kotlinmud.quest.model.QuestProgress as QuestModel
 
 class QuestService(private val quests: List<Quest>) {
     private val logger = logger(this)
