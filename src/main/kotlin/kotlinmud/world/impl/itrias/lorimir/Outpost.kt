@@ -137,7 +137,7 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
     svc.buildRoom("trail") {
         it.name = "A trail near the camp"
     }
-        .buildRoom("to outpost", Direction.DOWN)
+        .buildRoom("to outpost", Direction.EAST)
 
     svc.connectRooms("fire pit", "trail", Direction.EAST)
 
@@ -194,11 +194,11 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
     svc.questBuilder(
         QuestType.BARBOSA_SUPPLIES,
         "collect mushrooms for Barbosa",
-        "tbd",
-        "tbd",
+        "mushroom collecting",
+        "Supplies have been short, aye. Can ye' help a poor cook out, 'n pad me supplies?",
     ).also {
         it.addRoomAcceptQuestRequirement(RoomCanonicalId.BarbosaCook)
-        it.addItemCountSubmitQuestRequirement({ item -> item.food == Food.MUSHROOM }, 6)
+        it.addItemCountSubmitQuestRequirement("tasty forest mushrooms", { item -> item.food == Food.MUSHROOM }, 6)
         it.addRoomSubmitQuestRequirement(RoomCanonicalId.BarbosaCook)
         it.rewards.addAll(
             listOf(
@@ -216,7 +216,7 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
         "tbd",
     ).also {
         it.addRoomAcceptQuestRequirement(RoomCanonicalId.FindRecruiterPraetorianGuard)
-        it.addMobInRoomSubmitCondition(QuestGiver.RecruiterEsmer)
+        it.addMobInRoomSubmitCondition("Recruiter Esmer", QuestGiver.RecruiterEsmer)
         it.rewards.addAll(
             listOf(
                 FactionScoreQuestReward(FactionType.PraetorianGuard, 100),

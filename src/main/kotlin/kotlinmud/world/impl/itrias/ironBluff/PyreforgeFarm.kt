@@ -116,9 +116,15 @@ fun createPyreforgeFarm(areaBuilderService: AreaBuilderService) {
         "tbd",
         "tbd",
     ).also {
-        it.addMobInRoomAcceptCondition(QuestGiver.BeatricePyreforge)
-        it.addMobInRoomSubmitCondition(QuestGiver.BeatricePyreforge)
-        it.submitConditions.add(createMobKillQuestRequirement(QuestType.CLEAR_PYREFORGE_RODENTS, 6))
+        it.addMobInRoomAcceptCondition("Beatrice Pyreforge", QuestGiver.BeatricePyreforge)
+        it.addMobInRoomSubmitCondition("Beatrice Pyreforge", QuestGiver.BeatricePyreforge)
+        it.submitConditions.add(
+            createMobKillQuestRequirement(
+                QuestType.CLEAR_PYREFORGE_RODENTS,
+                "pesky rodents",
+                6,
+            )
+        )
         it.rewards.addAll(
             listOf(
                 ExperienceQuestReward(200),

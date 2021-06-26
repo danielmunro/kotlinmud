@@ -27,12 +27,14 @@ class QuestBuilderService(
     val submitConditions = mutableListOf<QuestRequirement>()
     val rewards = mutableListOf<QuestReward>()
 
-    fun addMobInRoomAcceptCondition(questGiver: QuestGiver) {
-        acceptConditions.add(createMobInRoomQuestRequirement(mobService, questGiver))
+    fun addMobInRoomAcceptCondition(mobName: String, questGiver: QuestGiver) {
+        acceptConditions.add(
+            createMobInRoomQuestRequirement(mobService, mobName) { mob -> mob.questGiver == questGiver }
+        )
     }
 
-    fun addMobInRoomSubmitCondition(questGiver: QuestGiver) {
-        submitConditions.add(createMobInRoomQuestRequirement(mobService, questGiver))
+    fun addMobInRoomSubmitCondition(mobName: String, questGiver: QuestGiver) {
+        submitConditions.add(createMobInRoomQuestRequirement(mobService, mobName) { mob -> mob.questGiver == questGiver })
     }
 
     fun addRoomAcceptQuestRequirement(roomCanonicalId: RoomCanonicalId) {
@@ -47,8 +49,8 @@ class QuestBuilderService(
         )
     }
 
-    fun addItemCountSubmitQuestRequirement(predicate: (Item) -> Boolean, count: Int = 1) {
-        submitConditions.add(createItemQuestRequirement(predicate, count))
+    fun addItemCountSubmitQuestRequirement(itemName: String, predicate: (Item) -> Boolean, count: Int = 1) {
+        submitConditions.add(createItemQuestRequirement(itemName, predicate, count))
     }
 
     fun build(): Quest {

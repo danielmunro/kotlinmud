@@ -1,10 +1,9 @@
 package kotlinmud.quest.factory
 
 import kotlinmud.item.model.Item
+import kotlinmud.mob.model.Mob
 import kotlinmud.mob.service.MobService
-import kotlinmud.mob.type.QuestGiver
 import kotlinmud.quest.requirement.ItemQuestRequirement
-import kotlinmud.quest.requirement.LevelQuestRequirement
 import kotlinmud.quest.requirement.MobInRoomQuestRequirement
 import kotlinmud.quest.requirement.MobKillQuestRequirement
 import kotlinmud.quest.requirement.PriorQuestRequirement
@@ -12,26 +11,22 @@ import kotlinmud.quest.requirement.RoomQuestRequirement
 import kotlinmud.quest.type.QuestType
 import kotlinmud.room.model.Room
 
-fun createLevelQuestRequirement(level: Int): LevelQuestRequirement {
-    return LevelQuestRequirement(level)
-}
-
 fun createPriorQuestRequirement(questType: QuestType): PriorQuestRequirement {
     return PriorQuestRequirement(questType)
 }
 
-fun createMobInRoomQuestRequirement(mobService: MobService, id: QuestGiver): MobInRoomQuestRequirement {
-    return MobInRoomQuestRequirement(mobService, id)
+fun createMobInRoomQuestRequirement(mobService: MobService, mobName: String, predicate: (Mob) -> Boolean): MobInRoomQuestRequirement {
+    return MobInRoomQuestRequirement(mobService, mobName, predicate)
 }
 
 fun createRoomQuestRequirement(room: Room): RoomQuestRequirement {
     return RoomQuestRequirement(room)
 }
 
-fun createMobKillQuestRequirement(questType: QuestType, amount: Int): MobKillQuestRequirement {
-    return MobKillQuestRequirement(questType, amount)
+fun createMobKillQuestRequirement(questType: QuestType, mobName: String, amount: Int): MobKillQuestRequirement {
+    return MobKillQuestRequirement(questType, mobName, amount)
 }
 
-fun createItemQuestRequirement(predicate: (Item) -> Boolean, count: Int = 1): ItemQuestRequirement {
-    return ItemQuestRequirement(predicate, count)
+fun createItemQuestRequirement(itemName: String, predicate: (Item) -> Boolean, count: Int = 1): ItemQuestRequirement {
+    return ItemQuestRequirement(predicate, itemName, count)
 }

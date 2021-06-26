@@ -111,8 +111,8 @@ fun createLorimirForest(
         "tbd",
     ).also {
         it.acceptConditions.add(createPriorQuestRequirement(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER))
-        it.addMobInRoomAcceptCondition(QuestGiver.RecruiterEsmer)
-        it.addMobInRoomSubmitCondition(QuestGiver.PraetorianCaptainBartok)
+        it.addMobInRoomAcceptCondition("Recruiter Esmer", QuestGiver.RecruiterEsmer)
+        it.addMobInRoomSubmitCondition("The Praetorian Captain", QuestGiver.PraetorianCaptainBartok)
         it.rewards.addAll(
             listOf(
                 FactionScoreQuestReward(FactionType.PraetorianGuard, 100),

@@ -58,6 +58,7 @@ import kotlinmud.action.impl.player.createRecallAction
 import kotlinmud.action.impl.player.createTrainAction
 import kotlinmud.action.impl.quest.createQuestAbandonAction
 import kotlinmud.action.impl.quest.createQuestAcceptAction
+import kotlinmud.action.impl.quest.createQuestInfoAction
 import kotlinmud.action.impl.quest.createQuestListAction
 import kotlinmud.action.impl.quest.createQuestLogAction
 import kotlinmud.action.impl.quest.createQuestSubmitAction
@@ -128,16 +129,19 @@ fun createActionsList(): List<Action> {
         createRecipesAction(),
         createRecipeOfAction(),
         createTillAction(),
-        createQuestListAction(),
-        createQuestAcceptAction(),
-        createQuestAbandonAction(),
-        createQuestLogAction(),
-        createQuestSubmitAction(),
         createTimeAction(),
         createDescriptionAction(),
         createQuaffAction(),
         createScanAction(),
         createLevelAction(),
+
+        // quests
+        createQuestListAction(),
+        createQuestAcceptAction(),
+        createQuestAbandonAction(),
+        createQuestLogAction(),
+        createQuestSubmitAction(),
+        createQuestInfoAction(),
 
         // admin
         createBanAction(),

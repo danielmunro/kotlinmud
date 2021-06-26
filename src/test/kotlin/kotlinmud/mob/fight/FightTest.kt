@@ -49,7 +49,7 @@ class FightTest {
     fun testShieldBlockRequiresShield() {
         // setup
         val testService = createTestService()
-        val prob = ProbabilityTest()
+        val prob = ProbabilityTest(1000)
         val createMob = {
             testService.createMob {
                 it.skills[SkillType.SHIELD_BLOCK] = 100

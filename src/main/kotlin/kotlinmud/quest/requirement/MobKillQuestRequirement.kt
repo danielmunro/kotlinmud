@@ -7,11 +7,12 @@ import kotlinmud.quest.type.QuestType
 
 class MobKillQuestRequirement(
     private val questType: QuestType,
-    private val amountNeeded: Int,
+    val mobName: String,
+    override val amount: Int,
 ) : QuestRequirement {
     override val questRequirementType = QuestRequirementType.MOB_KILLED
 
     override fun doesSatisfy(mob: PlayerMob): Boolean {
-        return mob.quests[questType]?.counter ?: 0 >= amountNeeded
+        return mob.quests[questType]?.counter ?: 0 >= amount
     }
 }

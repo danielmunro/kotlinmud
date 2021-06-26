@@ -9,6 +9,14 @@ import kotlinmud.test.helper.createTestService
 import kotlinmud.type.RoomCanonicalId
 import org.junit.Test
 
+const val responseMessage =
+"""you submit the quest: `find a recruiter for the Praetorian Guard`
+Your reward:
+100 points with the Praetorian Guard
+1000 experience
+1 gold
+15 silver """
+
 class QuestSubmitTest {
     @Test
     fun testCanSubmitQuest() {
@@ -26,7 +34,7 @@ class QuestSubmitTest {
         val response = test.runAction("quest submit re")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you submit the quest: `${quest.name}`")
+        assertThat(response.message.toActionCreator).isEqualTo(responseMessage)
     }
 
     @Test
@@ -45,7 +53,7 @@ class QuestSubmitTest {
         val response = test.runAction("quest submit")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you submit the quest: `${quest.name}`")
+        assertThat(response.message.toActionCreator).isEqualTo(responseMessage)
     }
 
     @Test

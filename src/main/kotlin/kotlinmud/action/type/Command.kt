@@ -103,6 +103,7 @@ enum class Command(val value: String) {
     QUEST_ACCEPT("quest accept"),
     QUEST_ABANDON("quest abandon"),
     QUEST_SUBMIT("quest submit"),
+    QUEST_INFO("quest info"),
 
     // player
     DESCRIPTION("description"),

@@ -65,12 +65,12 @@ class QuestService(private val quests: List<Quest>) {
                 mob.addCurrency(it.currencyType, it.amount)
             } else if (it is FactionScoreQuestReward) {
                 mob.factionScores[it.factionType]?.let { num ->
-                    mob.factionScores[it.factionType] = num + it.score
+                    mob.factionScores[it.factionType] = num + it.amount
                 } ?: run {
-                    mob.factionScores[it.factionType] = it.score
+                    mob.factionScores[it.factionType] = it.amount
                 }
             } else if (it is ItemQuestReward) {
-                mob.items.add(it.createItem())
+                mob.items.addAll(it.createItems())
             }
         }
     }

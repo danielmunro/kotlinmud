@@ -5,8 +5,7 @@ import kotlinmud.quest.type.QuestRewardType
 
 class CurrencyQuestReward(
     val currencyType: CurrencyType,
-    val amount: Int
+    override val amount: Int,
 ) : QuestReward {
-    override val rewardType: QuestRewardType
-        get() = QuestRewardType.Currency
+    override val rewardType = QuestRewardType.Currency
 }

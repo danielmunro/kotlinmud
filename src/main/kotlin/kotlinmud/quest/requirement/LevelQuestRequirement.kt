@@ -4,10 +4,12 @@ import kotlinmud.mob.model.PlayerMob
 import kotlinmud.quest.type.QuestRequirement
 import kotlinmud.quest.type.QuestRequirementType
 
-class LevelQuestRequirement(val level: Int) : QuestRequirement {
+class LevelQuestRequirement(
+    override val amount: Int
+) : QuestRequirement {
     override val questRequirementType = QuestRequirementType.LEVEL
 
     override fun doesSatisfy(mob: PlayerMob): Boolean {
-        return mob.level >= level
+        return mob.level >= amount
     }
 }
