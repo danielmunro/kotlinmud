@@ -1,7 +1,7 @@
 package kotlinmud.action.impl.quest
 
 import assertk.assertThat
-import assertk.assertions.isEqualTo
+import assertk.assertions.contains
 import kotlinmud.quest.model.QuestProgress
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.helper.createTestService
@@ -24,6 +24,7 @@ class QuestLogTest {
         val response = test.runAction("quest log")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("${quest2.name}\n${quest1.name}")
+        assertThat(response.message.toActionCreator).contains(quest1.name)
+        assertThat(response.message.toActionCreator).contains(quest2.name)
     }
 }

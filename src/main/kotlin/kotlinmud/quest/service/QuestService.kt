@@ -76,6 +76,6 @@ class QuestService(private val quests: List<Quest>) {
     }
 
     fun getLog(mob: PlayerMob): List<Quest> {
-        return quests.filter { mob.quests[it.type] !== null }.sortedBy { it.name }
+        return quests.filter { mob.quests[it.type] !== null }.sortedBy { it.level }
     }
 }
