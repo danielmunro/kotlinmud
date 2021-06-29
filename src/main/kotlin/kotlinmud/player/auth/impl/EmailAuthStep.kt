@@ -6,6 +6,7 @@ import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.auth.type.AuthorizationStep
 import kotlinmud.player.dao.PlayerDAO
+import kotlinmud.player.exception.EmailFormatException
 
 class EmailAuthStep(private val authService: AuthStepService) : AuthStep {
     override val authorizationStep = AuthorizationStep.EMAIL
@@ -14,11 +15,15 @@ class EmailAuthStep(private val authService: AuthStepService) : AuthStep {
     private lateinit var player: PlayerDAO
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
-        player = authService.findPlayerByEmail(request.input)
-            ?.also(::sendOTP)
-            ?: createPlayer(request.input)
+        return try {
+            player = authService.findPlayerByEmail(request.input)
+                ?.also(::sendOTP)
+                ?: createPlayer(request.input)
 
-        return IOStatus.OK
+            IOStatus.OK
+        } catch (e: EmailFormatException) {
+            IOStatus.ERROR
+        }
     }
 
     override fun getNextAuthStep(): AuthStep {
