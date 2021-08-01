@@ -301,7 +301,7 @@ class TestService(
 
     fun createPlayerMob(name: String = fixtureService.faker.name.name(), player: PlayerDAO = createPlayer("${fixtureService.faker.funnyName.name()}@foo.com")): PlayerMob {
         return createMob(name).also {
-            it.emailAddress = player.email
+            it.accountName = player.name
             playerService.loginPlayerAsMob(player, it)
         }
     }
@@ -310,8 +310,8 @@ class TestService(
         return createPlayerMob().also { mutator(it) }
     }
 
-    fun createPlayer(emailAddress: String): PlayerDAO {
-        return authStepService.createPlayer(emailAddress).also {
+    fun createPlayer(accountName: String): PlayerDAO {
+        return authStepService.createPlayer(accountName).also {
             if (player == null) {
                 player = it
             }
@@ -343,8 +343,8 @@ class TestService(
         }.build()
     }
 
-    fun createCreationFunnel(email: String): CreationFunnel {
-        return CreationFunnel(mobService, email)
+    fun createCreationFunnel(name: String): CreationFunnel {
+        return CreationFunnel(mobService, name)
     }
 
     fun make(amount: Int): MakeItemService {
@@ -366,7 +366,7 @@ class TestService(
     fun setPreAuth(builder: (AuthStepService, PlayerDAO) -> AuthStep) {
         playerService.setAuthStep(client, builder(authStepService, player!!))
         authStepService.addCreationFunnel(
-            CreationFunnel(mobService, player!!.email).also {
+            CreationFunnel(mobService, player!!.name).also {
                 it.mobName = "foo"
                 it.mobRace = Human()
                 it.mobRoom = getStartRoom()

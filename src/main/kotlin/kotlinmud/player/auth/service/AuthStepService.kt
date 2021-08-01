@@ -8,6 +8,7 @@ import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
 import kotlinmud.room.service.RoomService
 import kotlinmud.player.repository.findPlayerByEmail as findPlayerByEmailQuery
+import kotlinmud.player.repository.findPlayerByName as findPlayerByNameQuery
 
 class AuthStepService(
     private val mobService: MobService,
@@ -26,7 +27,7 @@ class AuthStepService(
     }
 
     fun findCreationFunnelForEmail(email: String): CreationFunnel? {
-        return creationFunnels.find { it.email == email }
+        return creationFunnels.find { it.name == email }
     }
 
     fun getCreationFunnelForEmail(email: String): CreationFunnel {
@@ -37,11 +38,8 @@ class AuthStepService(
         return playerService.rehydratePlayerMob(name)
     }
 
-    fun createPlayer(emailAddress: String): PlayerDAO {
-        playerService.createNewPlayerWithEmailAddress(emailAddress).also {
-            sendOTP(it)
-        }
-        return findPlayerByEmail(emailAddress)!!
+    fun createPlayer(accountName: String): PlayerDAO {
+        return playerService.createNewPlayerWithAccountName(accountName)
     }
 
     fun findPlayerByOTP(otp: String): PlayerDAO? {
@@ -50,6 +48,10 @@ class AuthStepService(
 
     fun findPlayerByEmail(email: String): PlayerDAO? {
         return findPlayerByEmailQuery(email)
+    }
+
+    fun findPlayerByName(name: String): PlayerDAO? {
+        return findPlayerByNameQuery(name)
     }
 
     fun sendOTP(player: PlayerDAO) {

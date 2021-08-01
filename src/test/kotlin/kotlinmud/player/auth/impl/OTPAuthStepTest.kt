@@ -11,12 +11,12 @@ import org.junit.Test
 
 const val incorrectPassword = "yoyoma"
 
-class PasswordAuthStepTest {
+class OTPAuthStepTest {
     @Test
     fun testCanUseOTPToLogIn() {
         // setup
         val test = setup()
-        val player = findPlayerByEmail(emailAddress)!!
+        val player = findPlayerByEmail(accountName)!!
 
         // when
         val response = runBlocking { test.runPreAuth(transaction { player.lastOTP!! }) }
@@ -43,7 +43,7 @@ class PasswordAuthStepTest {
         val test = setup()
 
         // given
-        val player = findPlayerByEmail(emailAddress)!!
+        val player = findPlayerByEmail(accountName)!!
         transaction { player.lastOTP = "" }
 
         // when
@@ -86,12 +86,12 @@ class PasswordAuthStepTest {
 
     private fun setup(): TestService {
         val test = createTestService()
-        test.createPlayer(emailAddress)
+        test.createPlayer(accountName)
         setPreAuth(test)
         return test
     }
 
     private fun setPreAuth(test: TestService) {
-        test.setPreAuth { authStepService, player -> PasswordAuthStep(authStepService, player) }
+        test.setPreAuth { authStepService, player -> OTPAuthStep(authStepService, player) }
     }
 }

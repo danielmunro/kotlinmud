@@ -9,7 +9,7 @@ import kotlinmud.quest.model.QuestProgress
 import kotlinmud.quest.type.QuestType
 
 class PlayerMobBuilder(private val mobService: MobService) : MobBuilder(mobService) {
-    var emailAddress = ""
+    var accountName = ""
     var experience = 0
     var experienceToLevel = 0
     var trains = 0
@@ -28,7 +28,7 @@ class PlayerMobBuilder(private val mobService: MobService) : MobBuilder(mobServi
     override fun build(): PlayerMob {
         return PlayerMob(
             createMobArguments(),
-            emailAddress,
+            accountName,
             experience,
             experienceToLevel,
             trains,

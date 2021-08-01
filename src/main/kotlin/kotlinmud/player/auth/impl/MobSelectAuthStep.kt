@@ -34,7 +34,7 @@ class MobSelectAuthStep(
     }
 
     private fun validateMobBelongsToPlayer(mob: PlayerMob): IOStatus {
-        return if (mob.emailAddress == player.email) IOStatus.OK else IOStatus.ERROR
+        return if (mob.accountName == player.name) IOStatus.OK else IOStatus.ERROR
     }
 
     private fun createNewMob(name: String): IOStatus {

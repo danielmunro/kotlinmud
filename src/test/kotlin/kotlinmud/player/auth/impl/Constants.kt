@@ -1,3 +1,3 @@
 package kotlinmud.player.auth.impl
 
-const val emailAddress = "dan@danmunro.com"
+const val accountName = "foo"

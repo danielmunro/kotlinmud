@@ -3,6 +3,7 @@ package kotlinmud.player.auth.type
 enum class AuthorizationStep {
     EMAIL,
     PASSWORD,
+    ACCOUNT_NAME,
     MOB_SELECT,
     COMPLETE,
     NEW_MOB,

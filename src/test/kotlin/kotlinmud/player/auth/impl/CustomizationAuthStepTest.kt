@@ -160,7 +160,7 @@ Current experience to level: 0
 
     private fun setup(): TestService {
         return createTestService().also {
-            val player = it.createPlayer(emailAddress)
+            val player = it.createPlayer(accountName)
             it.loginClientAsPlayer(it.getClient(), player)
             setPreAuth(it)
         }
@@ -168,7 +168,7 @@ Current experience to level: 0
 
     private fun setPreAuth(test: TestService) {
         test.setPreAuth { authStepService, player ->
-            val funnel = test.createCreationFunnel(player.email)
+            val funnel = test.createCreationFunnel(player.name)
             funnel.mobName = "foo"
             funnel.mobRace = Human()
             funnel.mobRoom = test.getStartRoom()

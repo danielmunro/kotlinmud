@@ -13,7 +13,7 @@ import kotlinmud.mob.type.Gender
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.room.model.Room
 
-class CreationFunnel(private val mobService: MobService, val email: String) {
+class CreationFunnel(private val mobService: MobService, val name: String) {
     lateinit var mobName: String
     lateinit var mobRace: Race
     lateinit var specialization: Specialization
@@ -45,7 +45,7 @@ class CreationFunnel(private val mobService: MobService, val email: String) {
 
     private fun createMob(player: PlayerDAO): PlayerMob {
         return PlayerMobBuilder(mobService).also {
-            it.emailAddress = player.email
+            it.accountName = player.name
             it.name = mobName
             it.brief = "a $mobRace is here"
             it.description = "a nondescript ${mobRace.type.toString().toLowerCase()} is here"

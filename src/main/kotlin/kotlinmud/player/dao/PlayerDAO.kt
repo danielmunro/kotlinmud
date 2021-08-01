@@ -9,6 +9,7 @@ class PlayerDAO(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<PlayerDAO>(Players)
 
     var name by Players.name
+    var password by Players.password
     var email by Players.email
     var created by Players.created
     var lastOTP by Players.lastOTP

@@ -48,7 +48,7 @@ class RaceSelectAuthStepTest {
 
     private fun setup(): TestService {
         return createTestService().also {
-            it.createPlayer(emailAddress)
+            it.createPlayer(accountName)
             setPreAuth(it)
         }
     }

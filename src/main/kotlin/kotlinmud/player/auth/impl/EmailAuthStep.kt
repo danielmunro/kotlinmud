@@ -27,11 +27,11 @@ class EmailAuthStep(private val authService: AuthStepService) : AuthStep {
     }
 
     override fun getNextAuthStep(): AuthStep {
-        return PasswordAuthStep(authService, player)
+        return OTPAuthStep(authService, player)
     }
 
     private fun createPlayer(input: String): PlayerDAO {
-        return authService.createPlayer(input).also(::sendOTP)
+        return authService.createPlayer(input)
     }
 
     private fun sendOTP(player: PlayerDAO) {

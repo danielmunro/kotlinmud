@@ -1,22 +1,12 @@
 package kotlinmud.player.service
 
 import assertk.assertThat
-import assertk.assertions.isFailure
 import assertk.assertions.isInstanceOf
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
 class PlayerServiceTest {
-    @Test
-    fun testCreateNewPlayerErrorsOnBadEmailAddress() {
-        // setup
-        val test = createTestService()
-
-        // expect
-        assertThat { test.createPlayer("foo") }.isFailure()
-    }
-
     @Test
     fun testCreateNewPlayerWorksWithValidEmail() {
         // setup

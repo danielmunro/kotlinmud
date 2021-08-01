@@ -20,3 +20,11 @@ fun findPlayerByEmail(email: String): PlayerDAO? {
         }
     }
 }
+
+fun findPlayerByName(name: String): PlayerDAO? {
+    return transaction {
+        Players.select { Players.name eq name }.firstOrNull()?.let {
+            PlayerDAO.wrapRow(it)
+        }
+    }
+}

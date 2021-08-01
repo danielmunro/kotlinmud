@@ -1,6 +1,5 @@
 package kotlinmud.event.observer.impl.client
 
-import kotlinmud.app.Environment
 import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
@@ -28,11 +27,12 @@ class ClientConnectedObserver(
 ) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
         with(event.subject as ClientConnectedEvent) {
-            if (Environment.isDev()) {
+            if (false) {
                 val player = findPlayerByEmail("dan@danmunro.com") ?: transaction {
                     PlayerDAO.new {
                         email = "dan@danmunro.com"
                         name = "foo"
+                        password = "bar"
                     }
                 }
                 playerService.loginClientAsPlayer(this.client, player)
@@ -66,7 +66,7 @@ class ClientConnectedObserver(
                 return
             }
             playerService.addPreAuthClient(this.client)
-            this.client.write("email: ")
+            this.client.write("account name: ")
         }
     }
 }

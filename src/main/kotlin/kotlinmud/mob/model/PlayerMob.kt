@@ -8,7 +8,7 @@ import kotlinmud.quest.type.QuestType
 
 class PlayerMob(
     mobArguments: MobArguments,
-    var emailAddress: String,
+    var accountName: String,
     var experience: Int,
     var experienceToLevel: Int,
     var trains: Int,

@@ -34,8 +34,8 @@ import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.Role
 import kotlinmud.mob.type.Standing
+import kotlinmud.player.auth.impl.AccountNameAuthStep
 import kotlinmud.player.auth.impl.CompleteAuthStep
-import kotlinmud.player.auth.impl.EmailAuthStep
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.PlayerDAO
@@ -71,7 +71,7 @@ class PlayerService(
     }
 
     suspend fun handlePreAuthRequest(request: PreAuthRequest): PreAuthResponse {
-        val authStep = preAuthClients[request.client] ?: EmailAuthStep(authStepService)
+        val authStep = preAuthClients[request.client] ?: AccountNameAuthStep(authStepService)
         val ioStatus = authStep.handlePreAuthRequest(request)
         logger.debug("pre-auth request :: {}, {}, {}", authStep.authorizationStep, request.input, ioStatus)
         val nextAuthStep = if (ioStatus == IOStatus.OK) {
@@ -93,19 +93,29 @@ class PlayerService(
         return findPlayerByOTPQuery(otp)
     }
 
+    fun createNewPlayerWithAccountName(name: String): PlayerDAO {
+        return transaction {
+            PlayerDAO.new {
+                this.name = name
+                password = "bar"
+            }
+        }
+    }
+
     fun createNewPlayerWithEmailAddress(emailAddress: String): PlayerDAO {
         validateEmailAddressFormat(emailAddress)
         return transaction {
             PlayerDAO.new {
                 email = emailAddress
                 name = "foo"
+                password = "bar"
             }
         }
     }
 
     fun sendOTP(player: PlayerDAO) {
         val from = Contact("floodle@danmunro.com", "Floodle")
-        val to = mutableListOf(Contact(player.email, "Login OTP"))
+        val to = mutableListOf(Contact(player.email!!, "Login OTP"))
         val otp = generateOTP()
         emailService.sendEmail(
             SendMessageRequest.Builder(from)
@@ -126,7 +136,7 @@ class PlayerService(
     }
 
     fun addPreAuthClient(client: Client) {
-        preAuthClients[client] = EmailAuthStep(authStepService)
+        preAuthClients[client] = AccountNameAuthStep(authStepService)
     }
 
     fun getAuthStepForClient(client: Client): AuthStep? {
@@ -163,7 +173,7 @@ class PlayerService(
                 val items: MutableList<Item> = itemReader.readValue(node.get("items"))
                 val equipped: MutableList<Item> = itemReader.readValue(node.get("equipped"))
                 val roomId = node.get("room").intValue()
-                it.emailAddress = node.get("emailAddress").textValue()
+                it.accountName = node.get("accountName").textValue()
                 it.name = node.get("name").textValue()
                 it.brief = node.get("brief").textValue()
                 it.description = node.get("description").textValue()

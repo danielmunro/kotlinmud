@@ -12,7 +12,7 @@ class MobSelectAuthStepTest {
     fun testCanSelectOwnMob() {
         // setup
         val test = createTestService()
-        val player = test.createPlayer(emailAddress)
+        val player = test.createPlayer(accountName)
         test.loginClientAsPlayer(test.getClient(), player)
 
         // given
@@ -30,7 +30,7 @@ class MobSelectAuthStepTest {
     fun testCannotSelectOtherPlayerMob() {
         // setup
         val test = createTestService()
-        val p1 = test.createPlayer(emailAddress)
+        val p1 = test.createPlayer(accountName)
         val p2 = test.createPlayer("p2@danmunro.com")
 
         // given
@@ -51,7 +51,7 @@ class MobSelectAuthStepTest {
     fun testCanCreateNewMob() {
         // setup
         val test = createTestService()
-        test.createPlayer(emailAddress)
+        test.createPlayer(accountName)
         setPreAuth(test)
 
         // when
