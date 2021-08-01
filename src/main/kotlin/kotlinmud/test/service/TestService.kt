@@ -72,6 +72,7 @@ import kotlinmud.room.type.RegenLevel
 import kotlinmud.time.service.TimeService
 import kotlinmud.world.service.AreaBuilderService
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.transactions.transaction
 import java.net.SocketAddress
 import java.nio.channels.SocketChannel
 import java.util.UUID
@@ -89,6 +90,7 @@ class TestService(
     private val roomService: RoomService,
     private val timeService: TimeService,
 ) {
+    private val testEmailAddress = "foo@bar.com"
     private val clientService = ClientService()
     private val room = RoomBuilder(roomService).also {
         it.name = "start room"
@@ -312,6 +314,7 @@ class TestService(
 
     fun createPlayer(accountName: String): PlayerDAO {
         return authStepService.createPlayer(accountName).also {
+            transaction { it.email = testEmailAddress }
             if (player == null) {
                 player = it
             }
@@ -368,6 +371,7 @@ class TestService(
         authStepService.addCreationFunnel(
             CreationFunnel(mobService, player!!.name).also {
                 it.mobName = "foo"
+                it.email = testEmailAddress
                 it.mobRace = Human()
                 it.mobRoom = getStartRoom()
                 it.gender = Gender.ANY
