@@ -170,6 +170,7 @@ Current experience to level: 0
         test.setPreAuth { authStepService, player ->
             val funnel = test.createCreationFunnel(player.name)
             funnel.mobName = "foo"
+            funnel.email = test.testEmailAddress
             funnel.mobRace = Human()
             funnel.mobRoom = test.getStartRoom()
             funnel.gender = Gender.ANY

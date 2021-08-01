@@ -90,7 +90,7 @@ class TestService(
     private val roomService: RoomService,
     private val timeService: TimeService,
 ) {
-    private val testEmailAddress = "foo@bar.com"
+    public val testEmailAddress = "foo@bar.com"
     private val clientService = ClientService()
     private val room = RoomBuilder(roomService).also {
         it.name = "start room"

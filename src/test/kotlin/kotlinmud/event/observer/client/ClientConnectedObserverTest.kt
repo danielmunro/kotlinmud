@@ -1,7 +1,7 @@
 package kotlinmud.event.observer.client
 
 import assertk.assertThat
-import assertk.assertions.isNull
+import assertk.assertions.isNotNull
 import kotlinmud.event.factory.createClientConnectedEvent
 import kotlinmud.test.helper.createTestService
 import org.junit.Test
@@ -17,6 +17,6 @@ class ClientConnectedObserverTest {
         test.callClientConnectedEvent(createClientConnectedEvent(client))
 
         // then
-        assertThat(test.getAuthStep(client)).isNull()
+        assertThat(test.getAuthStep(client)).isNotNull()
     }
 }
