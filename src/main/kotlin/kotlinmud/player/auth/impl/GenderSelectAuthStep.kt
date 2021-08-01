@@ -17,7 +17,7 @@ class GenderSelectAuthStep(
     override val errorMessage = "please choose from the list (default: none)"
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
-        authStepService.getCreationFunnelForEmail(player.email!!).gender = if ("none".startsWith(request.input)) {
+        authStepService.getCreationFunnelForName(player.name).gender = if ("none".startsWith(request.input)) {
             Gender.NONE
         } else if ("any".startsWith(request.input)) {
             Gender.ANY

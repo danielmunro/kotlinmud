@@ -13,6 +13,7 @@ import kotlinmud.io.service.RequestService
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
+import kotlinmud.player.auth.impl.CompleteAuthStep
 import kotlinmud.player.service.PlayerService
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.collect
@@ -37,7 +38,12 @@ class ProcessClientBuffersObserver(
         val input = client.buffers.removeAt(0)
         if (client.mob == null) {
             logger.debug("pre-auth request :: {} : {}", client.socket.remoteAddress, input)
-            playerService.handlePreAuthRequest(PreAuthRequest(client, input))
+            val nextStep = playerService.handlePreAuthRequest(PreAuthRequest(client, input))
+            logger.debug("next step :: {}", nextStep.authStep.javaClass)
+            if (nextStep.authStep is CompleteAuthStep) {
+                val response = actionService.run(RequestService(client.mob!!, "look"))
+                client.writePrompt(response.message.toActionCreator)
+            }
             return
         }
         val request = RequestService(client.mob!!, input)

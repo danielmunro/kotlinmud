@@ -17,8 +17,8 @@ class AuthStepService(
 ) {
     private val creationFunnels = mutableListOf<CreationFunnel>()
 
-    fun createCreationFunnel(email: String): CreationFunnel {
-        return CreationFunnel(mobService, email)
+    fun createCreationFunnel(name: String): CreationFunnel {
+        return CreationFunnel(mobService, name)
     }
 
     fun addCreationFunnel(creationFunnel: CreationFunnel) {
@@ -32,6 +32,10 @@ class AuthStepService(
 
     fun getCreationFunnelForEmail(email: String): CreationFunnel {
         return findCreationFunnelForEmail(email)!!
+    }
+
+    fun getCreationFunnelForName(name: String): CreationFunnel {
+        return creationFunnels.find { it.name == name }!!
     }
 
     fun findPlayerMobByName(name: String): PlayerMob? {

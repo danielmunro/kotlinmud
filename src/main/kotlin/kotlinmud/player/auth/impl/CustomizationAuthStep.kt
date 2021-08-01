@@ -11,7 +11,6 @@ import kotlinmud.player.auth.service.CustomizationService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.auth.type.AuthorizationStep
 import kotlinmud.player.dao.PlayerDAO
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class CustomizationAuthStep(private val authStepService: AuthStepService, private val player: PlayerDAO) : AuthStep {
     override val authorizationStep = AuthorizationStep.CUSTOMIZE
@@ -21,7 +20,7 @@ class CustomizationAuthStep(private val authStepService: AuthStepService, privat
     private val customizationService: CustomizationService
 
     init {
-        val funnel = authStepService.findCreationFunnelForEmail(transaction { player.email!! })!!
+        val funnel = authStepService.getCreationFunnelForName(player.name)
         customizationService = CustomizationService(funnel.mobName)
     }
 
@@ -44,7 +43,7 @@ class CustomizationAuthStep(private val authStepService: AuthStepService, privat
 
     override fun getNextAuthStep(): AuthStep {
         return if (done) {
-            val funnel = authStepService.findCreationFunnelForEmail(transaction { player.email!! })!!
+            val funnel = authStepService.getCreationFunnelForName(player.name)
             val mob = funnel.build(player)
             CompleteAuthStep(mob)
         } else {

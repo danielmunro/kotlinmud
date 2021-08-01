@@ -20,7 +20,7 @@ class NewPlayerMobConfirmAuthStep(
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         if (request.input.matches("yes")) {
-            val creationFunnel = authService.createCreationFunnel(player.email!!)
+            val creationFunnel = authService.createCreationFunnel(player.name)
             creationFunnel.mobName = name
             authService.addCreationFunnel(creationFunnel)
             proceed = true

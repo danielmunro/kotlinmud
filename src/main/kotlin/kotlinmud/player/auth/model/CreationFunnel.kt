@@ -12,7 +12,6 @@ import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Gender
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.room.model.Room
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class CreationFunnel(private val mobService: MobService, val name: String) {
     lateinit var mobName: String
@@ -25,7 +24,6 @@ class CreationFunnel(private val mobService: MobService, val name: String) {
     private val allSkills = createSkillList()
 
     fun build(player: PlayerDAO): PlayerMob {
-        transaction { player.email = email }
         return createMob(player).also { mob ->
             skills.forEach { type ->
                 mob.skills[type] = 1

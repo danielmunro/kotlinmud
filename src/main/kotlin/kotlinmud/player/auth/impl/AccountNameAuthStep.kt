@@ -16,7 +16,7 @@ class AccountNameAuthStep(private val authService: AuthStepService) : AuthStep {
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         player = authService.findPlayerByName(request.input)
         if (player == null) {
-            authService.createPlayer(request.input)
+            player = authService.createPlayer(request.input)
         }
         return IOStatus.OK
     }

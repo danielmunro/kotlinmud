@@ -21,7 +21,7 @@ class SpecializationAuthStep(
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
         val specialization = specializations.find { spec -> request.input.matches(spec.name) } ?: return IOStatus.ERROR
 
-        authStepService.getCreationFunnelForEmail(player.email!!).specialization = specialization
+        authStepService.getCreationFunnelForName(player.name).specialization = specialization
 
         return IOStatus.OK
     }

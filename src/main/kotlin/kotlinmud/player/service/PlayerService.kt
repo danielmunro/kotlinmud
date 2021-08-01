@@ -5,9 +5,6 @@ import com.commit451.mailgun.SendMessageRequest
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import io.konform.validation.Invalid
-import io.konform.validation.Validation
-import io.konform.validation.jsonschema.pattern
 import kotlinmud.affect.model.Affect
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.event.factory.createClientLoggedInEvent
@@ -39,7 +36,6 @@ import kotlinmud.player.auth.impl.CompleteAuthStep
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.PlayerDAO
-import kotlinmud.player.exception.EmailFormatException
 import kotlinmud.quest.model.QuestProgress
 import kotlinmud.quest.type.QuestType
 import kotlinmud.room.service.RoomService
@@ -97,17 +93,6 @@ class PlayerService(
         return transaction {
             PlayerDAO.new {
                 this.name = name
-                password = "bar"
-            }
-        }
-    }
-
-    fun createNewPlayerWithEmailAddress(emailAddress: String): PlayerDAO {
-        validateEmailAddressFormat(emailAddress)
-        return transaction {
-            PlayerDAO.new {
-                email = emailAddress
-                name = "foo"
                 password = "bar"
             }
         }
@@ -223,16 +208,6 @@ class PlayerService(
         preAuthClients[request.client] = nextAuthStep
         request.client.write(nextAuthStep.promptMessage)
         return nextAuthStep
-    }
-
-    private fun validateEmailAddressFormat(emailAddress: String) {
-        val validateEmail = Validation<String> {
-            pattern(".+@.+..+")
-        }
-        val result = validateEmail(emailAddress)
-        if (result is Invalid) {
-            throw EmailFormatException()
-        }
     }
 
     private suspend fun loginMob(client: Client, mob: PlayerMob) {
