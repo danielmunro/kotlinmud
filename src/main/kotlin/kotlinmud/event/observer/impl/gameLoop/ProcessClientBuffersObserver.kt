@@ -13,6 +13,7 @@ import kotlinmud.io.service.RequestService
 import kotlinmud.io.service.ServerService
 import kotlinmud.io.type.Syntax
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.PlayerMob
 import kotlinmud.player.auth.impl.CompleteAuthStep
 import kotlinmud.player.service.PlayerService
 import kotlinx.coroutines.flow.asFlow
@@ -32,21 +33,22 @@ class ProcessClientBuffersObserver(
         }
     }
     private suspend fun processRequest(client: Client) {
-        if (client.delay > 0) {
+        if (client.isDelayed()) {
             return
         }
-        val input = client.buffers.removeAt(0)
-        if (client.mob == null) {
-            logger.debug("pre-auth request :: {} : {}", client.socket.remoteAddress, input)
-            val nextStep = playerService.handlePreAuthRequest(PreAuthRequest(client, input))
-            logger.debug("next step :: {}", nextStep.authStep.javaClass)
-            if (nextStep.authStep is CompleteAuthStep) {
-                val response = actionService.run(RequestService(client.mob!!, "look"))
-                client.writePrompt(response.message.toActionCreator)
+
+        client.shiftInput().also {
+            if (client.isInGame()) {
+                handleRequest(client.mob!!, it)
+                return
             }
-            return
+
+            handlePreAuthRequest(client, it)
         }
-        val request = RequestService(client.mob!!, input)
+    }
+
+    private suspend fun handleRequest(mob: PlayerMob, input: String) {
+        val request = RequestService(mob, input)
         val response = actionService.run(request)
         eventService.publish(
             createSendMessageToRoomEvent(
@@ -56,6 +58,16 @@ class ProcessClientBuffersObserver(
                 getTarget(response)
             )
         )
+    }
+
+    private suspend fun handlePreAuthRequest(client: Client, input: String) {
+        logger.debug("pre-auth request :: {} : {}", client.socket.remoteAddress, input)
+        val nextStep = playerService.handlePreAuthRequest(PreAuthRequest(client, input))
+        logger.debug("next step :: {}", nextStep.authStep.javaClass)
+        if (nextStep.authStep is CompleteAuthStep) {
+            val response = actionService.run(RequestService(client.mob!!, "look"))
+            client.writePrompt(response.message.toActionCreator)
+        }
     }
 
     private fun getTarget(response: Response): Mob? {

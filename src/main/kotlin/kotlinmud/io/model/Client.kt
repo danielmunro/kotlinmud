@@ -18,6 +18,18 @@ class Client(val socket: SocketChannel) {
     var connected = true
     var delay = 0
 
+    fun isDelayed(): Boolean {
+        return delay > 0
+    }
+
+    fun shiftInput(): String {
+        return buffers.removeAt(0)
+    }
+
+    fun isInGame(): Boolean {
+        return mob != null
+    }
+
     fun addInput(input: String) {
         buffers.add(input)
     }
