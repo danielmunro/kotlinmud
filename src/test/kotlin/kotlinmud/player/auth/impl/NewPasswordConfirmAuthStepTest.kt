@@ -29,8 +29,10 @@ class NewPasswordConfirmAuthStepTest {
         // given
         val test = setup()
 
+        // when
         val response = test.runPreAuth("thouneohcuoheuo")
 
+        // then
         assertThat(player.password).isEqualTo(password)
         assertThat(response.message).isEqualTo("ok.")
     }

@@ -14,9 +14,12 @@ class NewPasswordAuthStep(
 ) : AuthStep {
     override val authorizationStep = AuthorizationStep.NEW_PASSWORD
     override val promptMessage = "New account. Enter a password:"
-    override val errorMessage = "Try a different password"
+    override val errorMessage = "That password is either too short or too simple."
 
     override fun handlePreAuthRequest(request: PreAuthRequest): IOStatus {
+        if (request.input.length < 6) {
+            return IOStatus.FAILED
+        }
         transaction { player.password = request.input }
         return IOStatus.OK
     }

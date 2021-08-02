@@ -9,17 +9,32 @@ import org.junit.Test
 
 class NewPasswordAuthStepTest {
     private lateinit var player: PlayerDAO
-    private val password = "foo"
+    private val password = "foo1234"
+    private val tooShortPassword = "foo"
 
     @Test
     fun testCanEnterNewPassword() {
         // given
         val test = setup()
 
+        // when
         val response = test.runPreAuth(password)
 
+        // then
         assertThat(player.password).isEqualTo(password)
         assertThat(response.message).isEqualTo("ok.")
+    }
+
+    @Test
+    fun testPasswordMustBeAtLeast7Characters() {
+        // given
+        val test = setup()
+
+        // when
+        val response = test.runPreAuth(tooShortPassword)
+
+        // then
+        assertThat(response.message).isEqualTo("That password is either too short or too simple.")
     }
 
     private fun setup(): TestService {
