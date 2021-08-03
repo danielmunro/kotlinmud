@@ -206,7 +206,7 @@ class PlayerService(
             loginMob(request.client, nextAuthStep.playerMob)
         }
         preAuthClients[request.client] = nextAuthStep
-        request.client.write(nextAuthStep.promptMessage)
+        request.client.write(nextAuthStep.promptMessage + " ")
         return nextAuthStep
     }
 
