@@ -7,7 +7,7 @@ class EventService {
     lateinit var observers: ObserverList
 
     suspend fun <T> publish(event: Event<T>) {
-        (observers[event.eventType] ?: return).map {
+        (observers[event.eventType] ?: return).forEach {
             it.invokeAsync(event)
         }
     }
