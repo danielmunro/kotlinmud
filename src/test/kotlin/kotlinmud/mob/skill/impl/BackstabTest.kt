@@ -24,7 +24,9 @@ class BackstabTest {
         val target = test.createMob()
 
         // when
-        val response = test.runActionForIOStatus(mob, "backstab ${getIdentifyingWord(target)}", IOStatus.OK)
+        val response = test.runActionForIOStatus(mob, "backstab ${getIdentifyingWord(target)}", IOStatus.OK) {
+            mob.mv = 100
+        }
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("You stab $target in the back.")
