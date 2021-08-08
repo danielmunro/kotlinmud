@@ -5,15 +5,10 @@ import kotlinmud.biome.type.SubstrateType
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.resource.helper.createResourceList
-import kotlinmud.resource.repository.incrementResourceMaturity
 import kotlinmud.room.service.RoomService
 
 class ResourceService(private val itemService: ItemService, private val roomService: RoomService) {
     private val resourceList = createResourceList()
-
-    fun incrementMaturity() {
-        incrementResourceMaturity()
-    }
 
     fun generateGrass() {
         roomService.filter {

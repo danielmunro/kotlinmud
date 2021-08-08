@@ -15,13 +15,9 @@ fun calculateHpForMob(level: Int, race: Race): Int {
     val randomModifier = 1.0 + Math.random()
     return (
         level * (
-            (
-                (race.attributes[Attribute.CON] ?: 15) * sizeModifier * randomModifier
-                )
+            (race.attributes[Attribute.CON] ?: 15) * sizeModifier * randomModifier
             ) * (
-            (
-                race.attributes[Attribute.STR] ?: 15
-                ) * (sizeModifier / 2) * randomModifier
+            (race.attributes[Attribute.STR] ?: 15) * (sizeModifier / 2) * randomModifier
             )
         ).toInt()
 }

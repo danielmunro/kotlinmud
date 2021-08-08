@@ -5,7 +5,6 @@ import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TillRoomObserver
 import kotlinmud.event.observer.impl.client.ClientConnectedObserver
-import kotlinmud.event.observer.impl.client.LogPlayerInObserver
 import kotlinmud.event.observer.impl.client.LogPlayerOutObserver
 import kotlinmud.event.observer.impl.gameLoop.ProcessClientBuffersObserver
 import kotlinmud.event.observer.impl.gameLoop.ReadIntoClientBuffersObserver
@@ -32,7 +31,6 @@ import kotlinmud.event.observer.impl.tick.DecrementAffectTimeoutTickObserver
 import kotlinmud.event.observer.impl.tick.DecrementDelayObserver
 import kotlinmud.event.observer.impl.tick.DecrementItemDecayTimerObserver
 import kotlinmud.event.observer.impl.tick.GenerateGrassObserver
-import kotlinmud.event.observer.impl.tick.GrowResourcesObserver
 import kotlinmud.event.observer.impl.tick.LogTickObserver
 import kotlinmud.event.observer.impl.tick.MoveMobsOnTickObserver
 import kotlinmud.event.observer.impl.tick.RegenMobsObserver
@@ -56,10 +54,6 @@ val ObserverModule = Kodein.Module {
 
     bind<Observer>(tag = Tag.SEND_MESSAGE_TO_ROOM) with provider {
         SendMessageToRoomObserver(instance(), instance())
-    }
-
-    bind<Observer>(tag = Tag.LOG_PLAYER_IN) with provider {
-        LogPlayerInObserver(instance())
     }
 
     bind<Observer>(tag = Tag.LOG_PLAYER_OUT) with provider {
@@ -158,10 +152,6 @@ val ObserverModule = Kodein.Module {
         TransferItemsOnKillObserver(instance())
     }
 
-    bind<Observer>(tag = Tag.GROW_RESOURCES) with provider {
-        GrowResourcesObserver(instance())
-    }
-
     bind<Observer>(tag = Tag.GENERATE_GRASS) with provider {
         GenerateGrassObserver(instance())
     }
@@ -222,12 +212,6 @@ val ObserverModule = Kodein.Module {
                 EventType.SEND_MESSAGE_TO_ROOM,
                 listOf(
                     instance(tag = Tag.SEND_MESSAGE_TO_ROOM)
-                )
-            ),
-            Pair(
-                EventType.CLIENT_LOGGED_IN,
-                listOf(
-                    instance(tag = Tag.LOG_PLAYER_IN)
                 )
             ),
             Pair(
