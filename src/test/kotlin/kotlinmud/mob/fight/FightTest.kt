@@ -82,6 +82,8 @@ class FightTest {
                 roundContainsEvadedAttack(it.defenderAttacks)
             }
             prob.decrementIteration(outcome1 != null, outcome2 != null)
+            mob1.hp = 20
+            mob2.hp = 20
         }
 
         // then
