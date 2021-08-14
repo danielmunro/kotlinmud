@@ -70,6 +70,11 @@ class FightService(private val fight: Fight, private val eventService: EventServ
 
             val weapon = mob.getEquippedByPosition(Position.WEAPON)
             val parry = mob.skills[SkillType.PARRY]
+            println(weapon != null)
+            println(parry != null)
+            if (parry != null) {
+                println(percentRoll() < parry / 3)
+            }
             if (weapon != null && parry != null && percentRoll() < parry / 3) {
                 return SkillType.PARRY
             }

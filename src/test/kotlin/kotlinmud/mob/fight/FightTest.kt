@@ -93,7 +93,7 @@ class FightTest {
     fun testParryRequiresWeapon() {
         // setup
         val testService = createTestService()
-        val prob = ProbabilityTest(1000)
+        val prob = ProbabilityTest()
         val mob1 = testService.createMob()
         val mob2 = testService.createMob {
             it.skills[SkillType.PARRY] = 100
@@ -108,6 +108,8 @@ class FightTest {
             val outcome1 = rounds.find { roundContainsEvadedAttack(it.attackerAttacks) }
             val outcome2 = rounds.find { roundContainsEvadedAttack(it.defenderAttacks) }
             prob.decrementIteration(outcome1 != null, outcome2 != null)
+            mob1.hp = 20
+            mob2.hp = 20
         }
 
         // then
