@@ -11,11 +11,9 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
 import kotlinmud.world.service.AreaBuilderService
+import kotlinmud.world.type.AreaConnections
 
-fun createTroyTownCenter(
-    areaBuilderService: AreaBuilderService,
-    connection: Room
-): Map<Area, Room> {
+fun createTroyTownCenter(areaBuilderService: AreaBuilderService, connection: Room): AreaConnections {
     val fountainRoom = areaBuilderService.buildRoom("fountain") {
         it.name = "A Large Fountain"
         it.description = "The center of Troy is home to a large and ornate fountain. Pristine marble wraps around the fountain, leaving a dramatic glow in the sunlight."

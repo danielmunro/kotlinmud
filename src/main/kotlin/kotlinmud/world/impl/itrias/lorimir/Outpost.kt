@@ -14,11 +14,13 @@ import kotlinmud.quest.type.QuestType
 import kotlinmud.quest.type.reward.CurrencyQuestReward
 import kotlinmud.quest.type.reward.ExperienceQuestReward
 import kotlinmud.quest.type.reward.FactionScoreQuestReward
+import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
 import kotlinmud.world.service.AreaBuilderService
+import kotlinmud.world.type.AreaConnections
 
-fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
+fun createLorimirForestOutpost(svc: AreaBuilderService): AreaConnections {
     svc.roomBuilder(
         "Around a fire pit",
         """A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
@@ -227,5 +229,8 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaBuilderService {
         )
     }.build()
 
-    return svc
+    return mapOf(
+        Pair(Area.LorimirForest, svc.getRoomFromLabel("to outpost")),
+        Pair(Area.TroyOutskirts, svc.getRoomFromLabel("to outpost")),
+    )
 }

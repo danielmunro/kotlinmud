@@ -20,11 +20,10 @@ import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.type.RoomCanonicalId
 import kotlinmud.world.service.AreaBuilderService
+import kotlinmud.world.type.AreaConnections
 import java.util.UUID
 
-fun createLorimirForest(
-    areaBuilderService: AreaBuilderService,
-): AreaBuilderService {
+fun createLorimirForest(areaBuilderService: AreaBuilderService): AreaConnections {
     val builder = areaBuilderService.roomBuilder(
         "Deep in the heart of Lorimir Forest",
         "tbd",
@@ -124,5 +123,8 @@ fun createLorimirForest(
         )
     }.build()
 
-    return areaBuilderService
+    return mapOf(
+        Pair(Area.SouthernTrail, areaBuilderService.getRoomFromLabel("to south trail")),
+        Pair(Area.LakeOsona, areaBuilderService.getRoomFromLabel("to lake")),
+    )
 }

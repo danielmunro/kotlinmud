@@ -6,10 +6,12 @@ import kotlinmud.mob.race.impl.Goat
 import kotlinmud.room.builder.build
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
+import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.world.service.AreaBuilderService
+import kotlinmud.world.type.AreaConnections
 
-fun createTroyOutskirts(areaBuilderService: AreaBuilderService, connector: Room): Room {
+fun createTroyOutskirts(areaBuilderService: AreaBuilderService, connector: Room): AreaConnections {
     val roomBuilder = areaBuilderService.roomBuilder(
         "Outskirts of Troy",
         "Magnificent columns from a bygone era stand scattered over the landscape.",
@@ -51,5 +53,7 @@ fun createTroyOutskirts(areaBuilderService: AreaBuilderService, connector: Room)
         .toRoom(build(roomBuilder), Direction.WEST)
         .toRoom(endRoom, Direction.WEST)
 
-    return endRoom
+    return mapOf(
+        Pair(Area.TroyPromenade, endRoom),
+    )
 }

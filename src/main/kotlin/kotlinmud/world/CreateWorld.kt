@@ -16,27 +16,27 @@ fun createWorld(areaBuilderServiceFactory: (area: Area) -> AreaBuilderService) {
 
     val lorimirForest = createLorimirForest(
         areaBuilderServiceFactory(Area.LorimirForest)
-            .startWith(outpost.getRoomFromLabel("to outpost")),
+            .startWith(outpost.getValue(Area.LorimirForest)),
     )
 
     createSouthernTrail(
         areaBuilderServiceFactory(Area.SouthernTrail)
-            .startWith(lorimirForest.getRoomFromLabel("to south trail")),
+            .startWith(lorimirForest.getValue(Area.SouthernTrail)),
     )
 
     val outskirtsConnection = createTroyOutskirts(
         areaBuilderServiceFactory(Area.TroyOutskirts),
-        lorimirForest.getRoomFromLabel("intersection"),
+        outpost.getValue(Area.TroyOutskirts),
     )
 
     val promenade = createTroyPromenade(
         areaBuilderServiceFactory(Area.TroyPromenade),
-        outskirtsConnection,
+        outskirtsConnection.getValue(Area.TroyPromenade),
     )
 
     val troyExits = createTroyTownCenter(
         areaBuilderServiceFactory(Area.Troy),
-        promenade,
+        promenade.getValue(Area.Troy),
     )
 
     createIronBluffMainRoad(
@@ -46,6 +46,6 @@ fun createWorld(areaBuilderServiceFactory: (area: Area) -> AreaBuilderService) {
 
     createLorimirForestLake(
         areaBuilderServiceFactory(Area.LakeOsona),
-        lorimirForest.getRoomFromLabel("to lake"),
+        lorimirForest[Area.LakeOsona]!!,
     )
 }

@@ -5,10 +5,12 @@ import kotlinmud.mob.race.impl.Felid
 import kotlinmud.mob.race.impl.Rabbit
 import kotlinmud.room.helper.connect
 import kotlinmud.room.model.Room
+import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.world.service.AreaBuilderService
+import kotlinmud.world.type.AreaConnections
 
-fun createTroyPromenade(areaBuilderService: AreaBuilderService, connector: Room): Room {
+fun createTroyPromenade(areaBuilderService: AreaBuilderService, connector: Room): AreaConnections {
     val builder = areaBuilderService.roomBuilder(
         "On The Promenade",
         "tbd",
@@ -36,5 +38,7 @@ fun createTroyPromenade(areaBuilderService: AreaBuilderService, connector: Room)
         2,
     )
 
-    return matrix[2][0]
+    return mapOf(
+        Pair(Area.Troy, matrix[2][0]),
+    )
 }
