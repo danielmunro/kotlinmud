@@ -11,8 +11,23 @@ n 1~
 ~
 
 items:
-boo
-yah
+1. A small brown mushroom
+An innocuous small brown mushroom is here.~
+food~
+~
+poison 20~
+nourishment 4~
+~
+
+2. A small gray mushroom
+An innocuous small gray mushroom is here.~
+food~
+~
+nourishment 4~
+~
 
 mobs:
-abc
+1. A red fox
+A red fox is here, darting through the underbrush.~
+~
+~

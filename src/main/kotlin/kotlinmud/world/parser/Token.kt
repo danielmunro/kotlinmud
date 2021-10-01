@@ -6,5 +6,6 @@ enum class Token {
     ID,
     Name,
     Description,
+    Keyword,
     Direction,
 }

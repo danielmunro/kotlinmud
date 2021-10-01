@@ -13,49 +13,54 @@ class Parser(file: String) {
 
     fun parseFile() {
         while (isStillReading()) {
-            println("starting while loop at cursor $cursor")
             section = parseNextToken(Token.Section)
             println("section: '$section'")
+            if (section == "") {
+                return
+            }
             try {
                 while (lastRead != "") {
                     when (section) {
                         "rooms" -> parseRoom()
+                        "items" -> parseItem()
+                        "mobs" -> parseMobs()
                     }
                 }
             } catch (e: TokenParseException) {
-                println("token parse catch")
             }
         }
     }
 
+    private fun parseMobs() {
+        val id = parseNextToken(Token.ID)
+        val name = parseNextToken(Token.Name)
+        val description = parseNextToken(Token.Description)
+        val attributes = parseProps()
+        val affects = parseProps()
+        println("mob: $id - $name - $description")
+    }
+
+    private fun parseItem() {
+        val id = parseNextToken(Token.ID)
+        val name = parseNextToken(Token.Name)
+        val description = parseNextToken(Token.Description)
+        val keyword = parseNextToken(Token.Keyword)
+        val attributes = parseProps()
+        val affects = parseProps()
+        println("item: $id - $name - $description - $keyword")
+    }
+
     private fun parseRoom() {
-        println("=== parse room === $cursor")
         val id = parseNextToken(Token.ID)
         val name = parseNextToken(Token.Name)
         val description = parseNextToken(Token.Description)
         println("id: '$id'")
         println("name: '$name'")
         println("description: '$description'")
-        var read = "start"
-        val directions = mutableMapOf<String, String>()
-        while (read != "") {
-            read = parseNextToken(Token.Direction)
-            if (read != "") {
-                val parts = read.split(" ")
-                val direction = parts[0]
-                val targetRoomId = parts[1]
-                println("direction: $direction, targetRoomId: $targetRoomId")
-                directions[direction] = targetRoomId
-            }
+        val directions = parseProps()
+        directions.forEach {
+            println("directions: ${it.key} - ${it.value}")
         }
-        println("--- done ---")
-    }
-
-    private fun peek(): String {
-        val currentCursor = cursor
-        val token = parseNextToken(Token.ID)
-        cursor = currentCursor
-        return token
     }
 
     private fun parseNextToken(nextToken: Token): String {
@@ -64,15 +69,12 @@ class Parser(file: String) {
     }
 
     private fun parseNextToken(): String {
-        println("parseNextToken $token")
         return parseNextToken(
             when (token) {
                 Token.Section -> ":"
-                Token.ContentType -> "\n"
+                Token.ContentType, Token.Name -> "\n"
                 Token.ID -> "."
-                Token.Name -> "\n"
-                Token.Description -> "~"
-                Token.Direction -> "~"
+                else -> "~"
             }
         )
     }
@@ -92,6 +94,21 @@ class Parser(file: String) {
             throw TokenParseException(trimmed, "Parsed value is not an integer, ID requires int: $trimmed")
         }
         return trimmed
+    }
+
+    private fun parseProps(): Map<String, String> {
+        val values = mutableMapOf<String, String>()
+        var read = "-1"
+        while (read != "") {
+            read = parseNextToken(Token.Direction)
+            if (read != "") {
+                val parts = read.split(" ")
+                val k = parts[0]
+                val v = parts[1]
+                values[k] = v
+            }
+        }
+        return values
     }
 
     private fun isStillReading(): Boolean {
