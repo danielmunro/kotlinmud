@@ -1,0 +1,18 @@
+rooms:
+1. A path in the woods
+This is a path in the woods.~
+s 2~
+n 3~
+~
+
+2. Deeper in the woods
+Something about trees.~
+n 1~
+~
+
+items:
+boo
+yah
+
+mobs:
+abc

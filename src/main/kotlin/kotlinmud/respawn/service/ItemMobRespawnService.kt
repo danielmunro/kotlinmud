@@ -15,7 +15,7 @@ class ItemMobRespawnService(
 
     override suspend fun respawn() {
         respawns.forEach {
-            doRespawn(it.mobCanonicalId, it.itemBuilder.canonicalId!!, it.itemBuilder, it.maxAmount)
+            doRespawn(it.mobCanonicalId, it.itemBuilder.canonicalId, it.itemBuilder, it.maxAmount)
         }
     }
 
