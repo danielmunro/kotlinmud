@@ -31,16 +31,19 @@ class Parser(private val data: String) {
         val items = mutableListOf<ItemModel>()
         var area = AreaModel(0, "placeholder")
         var section: String
+        val buildFile = {
+            FileModel(
+                area,
+                mobs,
+                items,
+                rooms,
+                mobRespawns,
+            )
+        }
         while (isStillReading()) {
             section = parseNextToken(Token.Section)
             if (section == "") {
-                return FileModel(
-                    area,
-                    mobs,
-                    items,
-                    rooms,
-                    mobRespawns,
-                )
+                return buildFile()
             }
             try {
                 while (lastRead != "") {
@@ -57,13 +60,7 @@ class Parser(private val data: String) {
             } catch (e: TokenParseException) {
             }
         }
-        return FileModel(
-            area,
-            mobs,
-            items,
-            rooms,
-            mobRespawns,
-        )
+        return buildFile()
     }
 
     private fun parseArea(): AreaModel {
