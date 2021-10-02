@@ -4,21 +4,33 @@ import kotlinmud.startup.model.AreaModel
 import kotlinmud.startup.model.FileModel
 import kotlinmud.startup.model.ItemModel
 import kotlinmud.startup.model.MobModel
+import kotlinmud.startup.model.MobRespawnModel
 import kotlinmud.startup.model.RoomModel
 import kotlinmud.startup.parser.exception.TokenParseException
 import java.lang.NumberFormatException
 
 class Parser(private val data: String) {
-    private var section = ""
     private var cursor = 0
     private var token = Token.Section
     private var lastRead = ""
 
+    companion object {
+        fun isTokenInt(token: Token): Boolean {
+            return token == Token.ID ||
+                token == Token.MobId ||
+                token == Token.RoomId ||
+                token == Token.MaxAmountInRoom ||
+                token == Token.MaxAmountInGame
+        }
+    }
+
     fun parse(): FileModel {
         val mobs = mutableListOf<MobModel>()
+        val mobRespawns = mutableListOf<MobRespawnModel>()
         val rooms = mutableListOf<RoomModel>()
         val items = mutableListOf<ItemModel>()
         var area = AreaModel(0, "placeholder")
+        var section: String
         while (isStillReading()) {
             section = parseNextToken(Token.Section)
             if (section == "") {
@@ -27,6 +39,7 @@ class Parser(private val data: String) {
                     mobs,
                     items,
                     rooms,
+                    mobRespawns,
                 )
             }
             try {
@@ -38,6 +51,7 @@ class Parser(private val data: String) {
                         "rooms" -> rooms.add(parseRoom())
                         "items" -> items.add(parseItem())
                         "mobs" -> mobs.add(parseMobs())
+                        "mob_respawns" -> mobRespawns.add(parseMobRespawns())
                     }
                 }
             } catch (e: TokenParseException) {
@@ -48,6 +62,7 @@ class Parser(private val data: String) {
             mobs,
             items,
             rooms,
+            mobRespawns,
         )
     }
 
@@ -69,6 +84,19 @@ class Parser(private val data: String) {
             brief,
             description,
             keywords,
+        )
+    }
+
+    private fun parseMobRespawns(): MobRespawnModel {
+        val id = parseNextToken(Token.MobId)
+        val maxAmountInRoom = parseNextToken(Token.MaxAmountInRoom)
+        val maxAmountInGame = parseNextToken(Token.MaxAmountInGame)
+        val roomId = parseNextToken(Token.RoomId)
+        return MobRespawnModel(
+            id.toInt(),
+            maxAmountInRoom.toInt(),
+            maxAmountInGame.toInt(),
+            roomId.toInt(),
         )
     }
 
@@ -109,8 +137,9 @@ class Parser(private val data: String) {
         return parseNextToken(
             when (token) {
                 Token.Section -> ":"
-                Token.ContentType, Token.Name, Token.Brief -> "\n"
+                Token.ContentType, Token.Name, Token.Brief, Token.RoomId -> "\n"
                 Token.ID -> "."
+                Token.MobId, Token.MaxAmountInGame, Token.MaxAmountInRoom -> " "
                 else -> "~"
             }
         )
@@ -126,9 +155,12 @@ class Parser(private val data: String) {
             cursor += 1
         }
         val trimmed = buffer.trim()
-        if (token == Token.ID && !isNumber(trimmed)) {
+        if (isTokenInt(token) && !isNumber(trimmed)) {
             cursor = lastCursor
-            throw TokenParseException(trimmed, "Parsed value is not an integer, ID requires int: $trimmed")
+            throw TokenParseException(
+                trimmed,
+                "Parsed value is not an integer, $token requires int: $trimmed"
+            )
         }
         return trimmed
     }

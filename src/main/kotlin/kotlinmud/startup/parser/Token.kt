@@ -9,4 +9,8 @@ enum class Token {
     Description,
     Keyword,
     Direction,
+    MaxAmountInRoom,
+    MaxAmountInGame,
+    MobId,
+    RoomId,
 }

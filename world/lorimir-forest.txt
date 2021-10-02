@@ -83,3 +83,7 @@ a small red fox is darting through the trees
 a recruiter for the Praetorian guard
 ~
 ~
+
+mob_respawns:
+1 2 5 0
+2 1 1 1
