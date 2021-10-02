@@ -1,4 +1,4 @@
-package kotlinmud.world.parser
+package kotlinmud.startup.parser
 
 enum class Token {
     Section,

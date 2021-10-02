@@ -1,6 +1,11 @@
-package kotlinmud.world.parser
+package kotlinmud.startup.parser
 
-import kotlinmud.world.parser.exception.TokenParseException
+import kotlinmud.startup.model.AreaModel
+import kotlinmud.startup.model.FileModel
+import kotlinmud.startup.model.ItemModel
+import kotlinmud.startup.model.MobModel
+import kotlinmud.startup.model.RoomModel
+import kotlinmud.startup.parser.exception.TokenParseException
 import java.io.File
 import java.lang.NumberFormatException
 
@@ -11,56 +16,86 @@ class Parser(file: String) {
     private var token = Token.Section
     private var lastRead = ""
 
-    fun parseFile() {
+    fun parseFile(): FileModel {
+        val mobs = mutableListOf<MobModel>()
+        val rooms = mutableListOf<RoomModel>()
+        val items = mutableListOf<ItemModel>()
+        var area = AreaModel(0, "placeholder")
         while (isStillReading()) {
             section = parseNextToken(Token.Section)
-            println("section: '$section'")
             if (section == "") {
-                return
+                return FileModel(
+                    area,
+                    mobs,
+                    items,
+                    rooms,
+                )
             }
             try {
                 while (lastRead != "") {
                     when (section) {
-                        "rooms" -> parseRoom()
-                        "items" -> parseItem()
-                        "mobs" -> parseMobs()
+                        "area" -> {
+                            area = parseArea()
+                        }
+                        "rooms" -> rooms.add(parseRoom())
+                        "items" -> items.add(parseItem())
+                        "mobs" -> mobs.add(parseMobs())
                     }
                 }
             } catch (e: TokenParseException) {
             }
         }
+        return FileModel(
+            area,
+            mobs,
+            items,
+            rooms,
+        )
     }
 
-    private fun parseMobs() {
+    private fun parseArea(): AreaModel {
+        val id = parseNextToken(Token.ID)
+        val name = parseNextToken(Token.Name)
+        return AreaModel(id.toInt(), name)
+    }
+
+    private fun parseMobs(): MobModel {
         val id = parseNextToken(Token.ID)
         val name = parseNextToken(Token.Name)
         val description = parseNextToken(Token.Description)
-        val attributes = parseProps()
-        val affects = parseProps()
-        println("mob: $id - $name - $description")
+        val keywords = parseProps()
+        return MobModel(
+            id.toInt(),
+            name,
+            description,
+            keywords,
+        )
     }
 
-    private fun parseItem() {
+    private fun parseItem(): ItemModel {
         val id = parseNextToken(Token.ID)
         val name = parseNextToken(Token.Name)
         val description = parseNextToken(Token.Description)
-        val keyword = parseNextToken(Token.Keyword)
-        val attributes = parseProps()
-        val affects = parseProps()
-        println("item: $id - $name - $description - $keyword")
+        val keywords = parseProps()
+        return ItemModel(
+            id.toInt(),
+            name,
+            description,
+            keywords,
+        )
     }
 
-    private fun parseRoom() {
+    private fun parseRoom(): RoomModel {
         val id = parseNextToken(Token.ID)
         val name = parseNextToken(Token.Name)
         val description = parseNextToken(Token.Description)
-        println("id: '$id'")
-        println("name: '$name'")
-        println("description: '$description'")
-        val directions = parseProps()
-        directions.forEach {
-            println("directions: ${it.key} - ${it.value}")
-        }
+        val keywords = parseProps()
+        return RoomModel(
+            id.toInt(),
+            name,
+            description,
+            keywords,
+        )
     }
 
     private fun parseNextToken(nextToken: Token): String {
