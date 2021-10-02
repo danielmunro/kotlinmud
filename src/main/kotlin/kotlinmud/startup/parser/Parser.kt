@@ -9,8 +9,8 @@ import kotlinmud.startup.parser.exception.TokenParseException
 import java.io.File
 import java.lang.NumberFormatException
 
-class Parser(file: String) {
-    private val data = File(file).readText()
+class Parser(file: File) {
+    private val data = file.readText()
     private var section = ""
     private var cursor = 0
     private var token = Token.Section

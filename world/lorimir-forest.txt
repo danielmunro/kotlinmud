@@ -58,7 +58,7 @@ w 10~
 10. Around a massive tree
 Around a massive tree.~
 e 9~
-w 20~
+n 20~
 ~
 
 items:
@@ -77,3 +77,6 @@ mobs:
 1. A red fox
 A red fox is here, darting through the underbrush.~
 ~
+
+2. A recruiter for the Praetorian guard~
+A recruiter for the Praetorian guard~

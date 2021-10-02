@@ -4,11 +4,5 @@ area:
 rooms:
 20. Entrance to Praetorian outpost
 Entrance to Paetorian outpost.~
-e 10~
-~
-
-mobs:
-~
-
-items:
+s 10~
 ~
