@@ -5,6 +5,7 @@ enum class Token {
     ContentType,
     ID,
     Name,
+    Brief,
     Description,
     Keyword,
     Direction,

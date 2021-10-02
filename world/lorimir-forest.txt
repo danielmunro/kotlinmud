@@ -74,9 +74,10 @@ food 4~
 ~
 
 mobs:
-1. A red fox
-A red fox is here, darting through the underbrush.~
+1. a red fox
+a small red fox is darting through the trees
 ~
 
-2. A recruiter for the Praetorian guard~
-A recruiter for the Praetorian guard~
+2. a recruiter
+a recruiter for the Praetorian guard
+~

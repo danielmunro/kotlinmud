@@ -62,11 +62,13 @@ class Parser(file: File) {
     private fun parseMobs(): MobModel {
         val id = parseNextToken(Token.ID)
         val name = parseNextToken(Token.Name)
+        val brief = parseNextToken(Token.Brief)
         val description = parseNextToken(Token.Description)
         val keywords = parseProps()
         return MobModel(
             id.toInt(),
             name,
+            brief,
             description,
             keywords,
         )
@@ -75,11 +77,13 @@ class Parser(file: File) {
     private fun parseItem(): ItemModel {
         val id = parseNextToken(Token.ID)
         val name = parseNextToken(Token.Name)
+        val brief = parseNextToken(Token.Brief)
         val description = parseNextToken(Token.Description)
         val keywords = parseProps()
         return ItemModel(
             id.toInt(),
             name,
+            brief,
             description,
             keywords,
         )
