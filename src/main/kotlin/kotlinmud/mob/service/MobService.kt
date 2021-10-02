@@ -186,6 +186,12 @@ class MobService(
         }
     }
 
+    fun findMobsById(id: Int): List<Mob> {
+        return mobs.filter {
+            it.id == id
+        }
+    }
+
     fun findMobsWantingToMoveOnTick(): List<Mob> {
         return mobs.filter {
             it.job == JobType.FODDER ||

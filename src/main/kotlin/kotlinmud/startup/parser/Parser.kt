@@ -1,5 +1,6 @@
 package kotlinmud.startup.parser
 
+import kotlinmud.room.type.Area
 import kotlinmud.startup.model.AreaModel
 import kotlinmud.startup.model.FileModel
 import kotlinmud.startup.model.ItemModel
@@ -54,7 +55,7 @@ class Parser(private val data: String) {
                         "rooms" -> rooms.add(parseRoom())
                         "items" -> items.add(parseItem())
                         "mobs" -> mobs.add(parseMobs())
-                        "mob_respawns" -> mobRespawns.add(parseMobRespawns())
+                        "mob_respawns" -> mobRespawns.add(parseMobRespawns(area))
                     }
                 }
             } catch (e: TokenParseException) {
@@ -84,12 +85,13 @@ class Parser(private val data: String) {
         )
     }
 
-    private fun parseMobRespawns(): MobRespawnModel {
+    private fun parseMobRespawns(area: AreaModel): MobRespawnModel {
         val id = parseNextToken(Token.MobId)
         val maxAmountInRoom = parseNextToken(Token.MaxAmountInRoom)
         val maxAmountInGame = parseNextToken(Token.MaxAmountInGame)
         val roomId = parseNextToken(Token.RoomId)
         return MobRespawnModel(
+            Area.valueOf(area.name),
             id.toInt(),
             maxAmountInRoom.toInt(),
             maxAmountInGame.toInt(),

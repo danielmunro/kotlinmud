@@ -3,6 +3,7 @@ package kotlinmud.app
 import kotlinmud.event.observer.type.ObserverList
 import kotlinmud.event.service.EventService
 import kotlinmud.io.service.ServerService
+import kotlinmud.mob.service.MobService
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.room.service.RoomService
@@ -21,7 +22,8 @@ fun createApp(port: Int): App {
     val authStepService by container.instance<AuthStepService>()
     playerService.setAuthStepService(authStepService)
     val roomService by container.instance<RoomService>()
-    val svc = StartupService(roomService)
+    val mobService by container.instance<MobService>()
+    val svc = StartupService(roomService, mobService)
     svc.hydrateWorld()
 
     return App(eventService, server)

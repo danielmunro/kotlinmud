@@ -77,13 +77,15 @@ mobs:
 1. a red fox
 a small red fox is darting through the trees
 ~
+race canid~
 ~
 
 2. a recruiter
 a recruiter for the Praetorian guard
 ~
+job quest~
 ~
 
 mob_respawns:
 1 2 5 0
-2 1 1 1
+2 1 1 10

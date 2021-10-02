@@ -32,6 +32,7 @@ import kotlinmud.room.model.Room
 import java.util.UUID
 
 open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
+    val id: Int = mobArguments.id
     override val name: String = mobArguments.name
     override val brief: String = mobArguments.brief
     override var description: String = mobArguments.description

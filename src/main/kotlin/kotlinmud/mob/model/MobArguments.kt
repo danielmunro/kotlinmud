@@ -18,6 +18,7 @@ import kotlinmud.room.model.Room
 import java.util.UUID
 
 class MobArguments(
+    val id: Int,
     val name: String,
     val brief: String,
     val description: String,

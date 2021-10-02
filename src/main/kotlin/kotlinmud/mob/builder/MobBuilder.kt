@@ -35,6 +35,7 @@ open class MobBuilder(private val mobService: MobService) : HasInventory {
         Pair(Attribute.MANA, startingMana),
         Pair(Attribute.MV, startingMv),
     )
+    var id = 0
     var job = JobType.NONE
     var specialization: Specialization? = null
     var canonicalId: UUID = UUID.randomUUID()
@@ -75,6 +76,7 @@ open class MobBuilder(private val mobService: MobService) : HasInventory {
 
     protected fun createMobArguments(): MobArguments {
         return MobArguments(
+            id,
             name,
             brief,
             description,

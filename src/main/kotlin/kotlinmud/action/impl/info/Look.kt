@@ -37,7 +37,8 @@ fun describeRoom(actionContextService: ActionContextService, room: Room, mob: Mo
         it != mob && it.affects.find { affect -> affect.type == AffectType.INVISIBILITY } == null
     }
     return String.format(
-        "%s\n%sExits [%s]%s%s%s%s",
+        "(%d) %s\n%sExits [%s]%s%s%s%s",
+        room.id,
         actionContextService.getDynamicRoomDescription(),
         showDoors(room),
         reduceExits(room),
