@@ -46,7 +46,7 @@ class Parser(private val data: String) {
                 return buildFile()
             }
             try {
-                while (lastRead != "") {
+                while (true) {
                     when (section) {
                         "area" -> {
                             area = parseArea()
