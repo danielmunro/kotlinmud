@@ -55,7 +55,7 @@ class StartupService(private val roomService: RoomService) {
     private fun readWorldSourceFiles() {
         Files.list(Paths.get("./world")).forEach {
             println(it)
-            generateModels(Parser(File(it.toUri())).parseFile())
+            generateModels(Parser(File(it.toUri()).readText()).parse())
         }
     }
 

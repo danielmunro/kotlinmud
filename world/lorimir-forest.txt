@@ -77,7 +77,9 @@ mobs:
 1. a red fox
 a small red fox is darting through the trees
 ~
+~
 
 2. a recruiter
 a recruiter for the Praetorian guard
+~
 ~

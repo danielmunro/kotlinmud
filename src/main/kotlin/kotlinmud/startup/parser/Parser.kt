@@ -6,17 +6,15 @@ import kotlinmud.startup.model.ItemModel
 import kotlinmud.startup.model.MobModel
 import kotlinmud.startup.model.RoomModel
 import kotlinmud.startup.parser.exception.TokenParseException
-import java.io.File
 import java.lang.NumberFormatException
 
-class Parser(file: File) {
-    private val data = file.readText()
+class Parser(private val data: String) {
     private var section = ""
     private var cursor = 0
     private var token = Token.Section
     private var lastRead = ""
 
-    fun parseFile(): FileModel {
+    fun parse(): FileModel {
         val mobs = mutableListOf<MobModel>()
         val rooms = mutableListOf<RoomModel>()
         val items = mutableListOf<ItemModel>()
@@ -111,7 +109,7 @@ class Parser(file: File) {
         return parseNextToken(
             when (token) {
                 Token.Section -> ":"
-                Token.ContentType, Token.Name -> "\n"
+                Token.ContentType, Token.Name, Token.Brief -> "\n"
                 Token.ID -> "."
                 else -> "~"
             }
