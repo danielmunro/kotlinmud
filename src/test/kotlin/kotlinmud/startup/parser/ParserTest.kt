@@ -3,6 +3,8 @@ package kotlinmud.startup.parser
 import assertk.assertThat
 import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
+import assertk.fail
+import kotlinmud.startup.exception.DuplicateIdValidationException
 import org.junit.Test
 
 class ParserTest {
@@ -79,5 +81,66 @@ mob_respawns:
         assertThat(respawn2.maxAmountInRoom).isEqualTo(6)
         assertThat(respawn2.maxAmountInGame).isEqualTo(7)
         assertThat(respawn2.roomId).isEqualTo(8)
+    }
+
+    @Test
+    fun cannotDefineTwoRoomsWithSameId() {
+        try {
+            Parser(
+                """
+rooms:
+1. first room
+a room~
+~
+1. second room
+a room~
+~
+"""
+            ).parse()
+            fail("expected DuplicateIdValidationException")
+        } catch (e: DuplicateIdValidationException) {
+        }
+    }
+
+    @Test
+    fun cannotDefineTwoMobsWithSameId() {
+        try {
+            Parser(
+                """
+mobs:
+1. first mob
+a mob
+~
+~
+1. second mob
+a mob
+~
+~
+"""
+            ).parse()
+            fail("expected DuplicateIdValidationException")
+        } catch (e: DuplicateIdValidationException) {
+        }
+    }
+
+    @Test
+    fun cannotDefineTwoItemsWithSameId() {
+        try {
+            Parser(
+                """
+items:
+1. first item
+an item
+~
+~
+1. second item
+an item
+~
+~
+"""
+            ).parse()
+            fail("expected DuplicateIdValidationException")
+        } catch (e: DuplicateIdValidationException) {
+        }
     }
 }

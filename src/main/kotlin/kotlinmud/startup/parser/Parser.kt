@@ -9,6 +9,7 @@ import kotlinmud.startup.model.MobModel
 import kotlinmud.startup.model.MobRespawnModel
 import kotlinmud.startup.model.RoomModel
 import kotlinmud.startup.parser.exception.TokenParseException
+import kotlinmud.startup.validator.FileModelValidator
 import java.lang.NumberFormatException
 
 class Parser(private val data: String) {
@@ -33,10 +34,10 @@ class Parser(private val data: String) {
         val itemRoomRespawns = mutableListOf<ItemRoomRespawnModel>()
         val rooms = mutableListOf<RoomModel>()
         val items = mutableListOf<ItemModel>()
-        var area = AreaModel(0, "placeholder")
+        var area = AreaModel(0, "None")
         var section: String
         val buildFile = {
-            FileModel(
+            val file = FileModel(
                 area,
                 mobs,
                 items,
@@ -44,6 +45,8 @@ class Parser(private val data: String) {
                 mobRespawns,
                 itemRoomRespawns,
             )
+            FileModelValidator(file).validate()
+            file
         }
         while (isStillReading()) {
             section = parseNextToken(Token.Section)
