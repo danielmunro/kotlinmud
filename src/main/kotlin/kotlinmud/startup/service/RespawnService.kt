@@ -136,6 +136,17 @@ class RespawnService(
                 }
                 builder.hp = hp
                 builder.attributes[Attribute.HP] = hp
+
+                mob.keywords.forEach { k ->
+                    val keyword = k.key
+                    val value = k.value
+                    when (keyword) {
+                        "job" -> {
+                            builder.job = JobType.valueOf(value.toUpperCase())
+                        }
+                    }
+                }
+
                 builder.build()
                 amountToRespawn--
             }
