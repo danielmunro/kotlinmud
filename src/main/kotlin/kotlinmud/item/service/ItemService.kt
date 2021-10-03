@@ -55,6 +55,10 @@ class ItemService {
         items.remove(item)
     }
 
+    fun findById(id: Int): List<Item> {
+        return items.filter { it.id == id }
+    }
+
     fun findByCanonicalId(id: UUID): List<Item> {
         return items.filter { it.canonicalId == id }
     }

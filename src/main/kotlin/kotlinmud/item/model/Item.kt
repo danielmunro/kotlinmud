@@ -17,6 +17,7 @@ import kotlinmud.mob.skill.type.SkillType
 import java.util.UUID
 
 class Item(
+    val id: Int,
     val type: ItemType,
     override val name: String,
     override val brief: String,

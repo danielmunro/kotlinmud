@@ -62,13 +62,15 @@ n 20~
 ~
 
 items:
-1. A small brown mushroom
+1. a brown mushroom
+a small brown mushroom
 An innocuous small brown mushroom is here.~
 poison 20~
 food 4~
 ~
 
-2. A small gray mushroom
+2. a gray mushroom
+a small gray mushroom
 An innocuous small gray mushroom is here.~
 food 4~
 ~
@@ -81,11 +83,23 @@ race canid~
 ~
 
 2. a recruiter
-a recruiter for the Praetorian guard
+a recruiter for the Praetorian guard is here
 ~
 job quest~
+~
+
+3. a camp guard
+a camp guard is here, leaning against an outcropping of rock
+~
+job guard~
+level 5~
 ~
 
 mob_respawns:
 1 2 5 0
 2 1 1 10
+3 1 1 10
+
+item_room_respawns:
+1 2 4 0
+2 3 4 0

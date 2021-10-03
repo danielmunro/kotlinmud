@@ -11,6 +11,7 @@ enum class Token {
     Direction,
     MaxAmountInRoom,
     MaxAmountInGame,
+    ItemId,
     MobId,
     RoomId,
 }
