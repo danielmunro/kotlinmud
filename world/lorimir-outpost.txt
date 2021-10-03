@@ -2,7 +2,7 @@ area:
 2. LorimirForestOutpost
 
 rooms:
-20. Entrance to Praetorian outpost
+100. Entrance to Praetorian outpost
 Entrance to Paetorian outpost.~
-s 10~
+e 10~
 ~

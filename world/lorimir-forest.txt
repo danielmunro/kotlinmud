@@ -47,6 +47,7 @@ w 8~
 A massive tree.~
 e 7~
 s 9~
+n 12~
 ~
 
 9. Around a massive tree
@@ -58,7 +59,24 @@ w 10~
 10. Around a massive tree
 Around a massive tree.~
 e 9~
-n 20~
+n 11~
+w 100~
+~
+
+11. Around a massive tree
+A big tree is here.~
+e 12~
+s 10~
+~
+
+12. Around a massive tree
+A big tree is here.~
+w 11~
+~
+
+13. A meadow in the forest
+A flower meadow is here.~
+s 12~
 ~
 
 items:
