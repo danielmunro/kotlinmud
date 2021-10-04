@@ -10,6 +10,7 @@ import kotlinmud.startup.model.MobRespawnModel
 import kotlinmud.startup.model.Model
 import kotlinmud.startup.model.RoomModel
 import kotlinmud.startup.parser.exception.TokenParseException
+import kotlinmud.startup.spec.AreaSpec
 import kotlinmud.startup.spec.ItemSpec
 import kotlinmud.startup.spec.MobSpec
 import kotlinmud.startup.spec.RoomSpec
@@ -63,7 +64,7 @@ class Parser(private val data: String) {
                 while (true) {
                     when (section) {
                         "area" -> {
-                            area = parseArea()
+                            area = parseSpec(AreaSpec()) as AreaModel
                         }
                         "rooms" -> rooms.add(parseSpec(RoomSpec()) as RoomModel)
                         "items" -> items.add(parseSpec(ItemSpec()) as ItemModel)
@@ -87,30 +88,10 @@ class Parser(private val data: String) {
                 Token.Brief -> builder.brief = parseNextToken(it)
                 Token.Description -> builder.description = parseNextToken(it)
                 Token.Props -> builder.keywords = parseProps()
+                else -> throw Exception()
             }
         }
         return builder.build()
-    }
-
-    private fun parseArea(): AreaModel {
-        val id: Int = parseNextToken(Token.ID)
-        val name: String = parseNextToken(Token.Name)
-        return AreaModel(id, name)
-    }
-
-    private fun parseMobs(): MobModel {
-        val id: Int = parseNextToken(Token.ID)
-        val name: String = parseNextToken(Token.Name)
-        val brief: String = parseNextToken(Token.Brief)
-        val description: String = parseNextToken(Token.Description)
-        val keywords = parseProps()
-        return MobModel(
-            id,
-            name,
-            brief,
-            description,
-            keywords,
-        )
     }
 
     private fun parseMobRespawns(area: AreaModel): MobRespawnModel {
@@ -138,19 +119,6 @@ class Parser(private val data: String) {
             maxAmountInRoom,
             maxAmountInGame,
             roomId,
-        )
-    }
-
-    private fun parseRoom(): RoomModel {
-        val id: Int = parseNextToken(Token.ID)
-        val name: String = parseNextToken(Token.Name)
-        val description: String = parseNextToken(Token.Description)
-        val keywords = parseProps()
-        return RoomModel(
-            id,
-            name,
-            description,
-            keywords,
         )
     }
 

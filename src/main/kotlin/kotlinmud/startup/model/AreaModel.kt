@@ -1,6 +1,6 @@
 package kotlinmud.startup.model
 
 data class AreaModel(
-    val id: Int,
+    override val id: Int,
     val name: String,
-)
+) : Model
