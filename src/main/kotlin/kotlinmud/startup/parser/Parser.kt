@@ -124,10 +124,6 @@ class Parser(private val data: String) {
 
     private inline fun <reified T> parseNextToken(nextToken: Token): T {
         token = nextToken
-        return parseNextToken()
-    }
-
-    private inline fun <reified T> parseNextToken(): T {
         return parseNextToken(
             when (token) {
                 Token.Section -> ":"

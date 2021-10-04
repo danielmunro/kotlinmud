@@ -76,10 +76,12 @@ s 8~
 n 13~
 ~
 
-13. A meadow in the forest
-A flower meadow is here.~
+13. A trail opening up to a meadow
+Sunshine pierces the tree canopy as the forest begins to clear, opening up to a meadow.~
 s 12~
+n 50~
 ~
+
 
 items:
 1. a brown mushroom
