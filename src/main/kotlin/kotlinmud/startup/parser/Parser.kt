@@ -22,7 +22,6 @@ import java.lang.NumberFormatException
 class Parser(private val data: String) {
     private var cursor = 0
     private var token = Token.Section
-    private var lastRead = ""
 
     companion object {
         fun isTokenInt(token: Token): Boolean {
@@ -137,11 +136,11 @@ class Parser(private val data: String) {
 
     private inline fun <reified T> parseNextToken(terminator: String): T {
         var buffer = ""
-        lastRead = ""
+        var input = ""
         val lastCursor = cursor
-        while (lastRead != terminator && isStillReading()) {
-            buffer += lastRead
-            lastRead = data.substring(cursor, cursor + 1)
+        while (input != terminator && isStillReading()) {
+            buffer += input
+            input = data.substring(cursor, cursor + 1)
             cursor += 1
         }
         val trimmed = buffer.trim()
