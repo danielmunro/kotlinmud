@@ -82,7 +82,6 @@ s 12~
 n 50~
 ~
 
-
 items:
 1. a brown mushroom
 a small brown mushroom

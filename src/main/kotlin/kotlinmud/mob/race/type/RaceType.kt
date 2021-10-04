@@ -26,4 +26,5 @@ enum class RaceType {
     BEAR,
     LIZARD,
     RODENT,
+    INSECT,
 }

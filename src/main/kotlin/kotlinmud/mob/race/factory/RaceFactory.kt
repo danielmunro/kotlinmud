@@ -10,7 +10,7 @@ val raceList = createRaceList()
 val playableRaceList = createPlayableRaceList()
 
 fun createRaceFromString(type: RaceType): Race {
-    return raceList.find { it.type == type } ?: error("that's not a race")
+    return raceList.find { it.type == type } ?: error("$type is not a race")
 }
 
 fun matchPlayableRace(input: String): Race? {
