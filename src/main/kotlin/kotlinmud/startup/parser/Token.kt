@@ -14,4 +14,5 @@ enum class Token {
     ItemId,
     MobId,
     RoomId,
+    Props,
 }

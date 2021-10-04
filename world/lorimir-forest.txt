@@ -72,6 +72,8 @@ s 10~
 12. Around a massive tree
 A big tree is here.~
 w 11~
+s 8~
+n 13~
 ~
 
 13. A meadow in the forest
@@ -85,12 +87,14 @@ a small brown mushroom
 An innocuous small brown mushroom is here.~
 poison 20~
 food 4~
+weight 0.1~
 ~
 
 2. a gray mushroom
 a small gray mushroom
 An innocuous small gray mushroom is here.~
 food 4~
+weight 0.1~
 ~
 
 mobs:

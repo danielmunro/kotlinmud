@@ -72,12 +72,15 @@ class RespawnService(
 
             item.keywords.forEach { k ->
                 val keyword = k.key
-                val value = k.value.toInt()
+                val value = k.value
                 when (keyword) {
                     "food" -> {
                         builder.type = ItemType.FOOD
                         builder.material = Material.ORGANIC
-                        builder.quantity = value
+                        builder.quantity = value.toInt()
+                    }
+                    "weight" -> {
+                        builder.weight = value.toDouble()
                     }
                 }
             }

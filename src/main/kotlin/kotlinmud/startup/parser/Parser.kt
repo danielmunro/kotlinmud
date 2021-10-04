@@ -7,8 +7,13 @@ import kotlinmud.startup.model.ItemModel
 import kotlinmud.startup.model.ItemRoomRespawnModel
 import kotlinmud.startup.model.MobModel
 import kotlinmud.startup.model.MobRespawnModel
+import kotlinmud.startup.model.Model
 import kotlinmud.startup.model.RoomModel
 import kotlinmud.startup.parser.exception.TokenParseException
+import kotlinmud.startup.spec.ItemSpec
+import kotlinmud.startup.spec.MobSpec
+import kotlinmud.startup.spec.RoomSpec
+import kotlinmud.startup.spec.Spec
 import kotlinmud.startup.validator.FileModelValidator
 import java.lang.Exception
 import java.lang.NumberFormatException
@@ -60,9 +65,9 @@ class Parser(private val data: String) {
                         "area" -> {
                             area = parseArea()
                         }
-                        "rooms" -> rooms.add(parseRoom())
-                        "items" -> items.add(parseItem())
-                        "mobs" -> mobs.add(parseMobs())
+                        "rooms" -> rooms.add(parseSpec(RoomSpec()) as RoomModel)
+                        "items" -> items.add(parseSpec(ItemSpec()) as ItemModel)
+                        "mobs" -> mobs.add(parseSpec(MobSpec()) as MobModel)
                         "mob_respawns" -> mobRespawns.add(parseMobRespawns(area))
                         "item_room_respawns" -> itemRoomRespawns.add(parseItemRoomRespawns(area))
                     }
@@ -71,6 +76,20 @@ class Parser(private val data: String) {
             }
         }
         return buildFile()
+    }
+
+    private fun parseSpec(spec: Spec): Model {
+        val builder = spec.builder()
+        spec.tokens.forEach {
+            when (it) {
+                Token.ID -> builder.id = parseNextToken(it)
+                Token.Name -> builder.name = parseNextToken(it)
+                Token.Brief -> builder.brief = parseNextToken(it)
+                Token.Description -> builder.description = parseNextToken(it)
+                Token.Props -> builder.keywords = parseProps()
+            }
+        }
+        return builder.build()
     }
 
     private fun parseArea(): AreaModel {
@@ -119,21 +138,6 @@ class Parser(private val data: String) {
             maxAmountInRoom,
             maxAmountInGame,
             roomId,
-        )
-    }
-
-    private fun parseItem(): ItemModel {
-        val id: Int = parseNextToken(Token.ID)
-        val name: String = parseNextToken(Token.Name)
-        val brief: String = parseNextToken(Token.Brief)
-        val description: String = parseNextToken(Token.Description)
-        val keywords = parseProps()
-        return ItemModel(
-            id,
-            name,
-            brief,
-            description,
-            keywords,
         )
     }
 
