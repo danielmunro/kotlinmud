@@ -2,12 +2,13 @@ package kotlinmud.startup.spec
 
 import kotlinmud.startup.model.builder.AreaModelBuilder
 import kotlinmud.startup.model.builder.Builder
-import kotlinmud.startup.parser.Token
+import kotlinmud.startup.token.IdToken
+import kotlinmud.startup.token.NameToken
 
 class AreaSpec : Spec {
     override val tokens = listOf(
-        Token.ID,
-        Token.Name,
+        IdToken(),
+        NameToken(),
     )
 
     override fun builder(): Builder {

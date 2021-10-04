@@ -1,6 +1,6 @@
 package kotlinmud.startup.parser
 
-enum class Token {
+enum class TokenType {
     Section,
     ContentType,
     ID,

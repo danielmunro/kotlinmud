@@ -2,14 +2,17 @@ package kotlinmud.startup.spec
 
 import kotlinmud.startup.model.builder.Builder
 import kotlinmud.startup.model.builder.RoomModelBuilder
-import kotlinmud.startup.parser.Token
+import kotlinmud.startup.token.DescriptionToken
+import kotlinmud.startup.token.IdToken
+import kotlinmud.startup.token.NameToken
+import kotlinmud.startup.token.PropsToken
 
 class RoomSpec : Spec {
     override val tokens = listOf(
-        Token.ID,
-        Token.Name,
-        Token.Description,
-        Token.Props,
+        IdToken(),
+        NameToken(),
+        DescriptionToken(),
+        PropsToken(),
     )
 
     override fun builder(): Builder {

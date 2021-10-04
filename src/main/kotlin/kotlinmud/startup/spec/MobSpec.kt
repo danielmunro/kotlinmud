@@ -2,15 +2,19 @@ package kotlinmud.startup.spec
 
 import kotlinmud.startup.model.builder.Builder
 import kotlinmud.startup.model.builder.MobModelBuilder
-import kotlinmud.startup.parser.Token
+import kotlinmud.startup.token.BriefToken
+import kotlinmud.startup.token.DescriptionToken
+import kotlinmud.startup.token.IdToken
+import kotlinmud.startup.token.NameToken
+import kotlinmud.startup.token.PropsToken
 
 class MobSpec : Spec {
     override val tokens = listOf(
-        Token.ID,
-        Token.Name,
-        Token.Brief,
-        Token.Description,
-        Token.Props,
+        IdToken(),
+        NameToken(),
+        BriefToken(),
+        DescriptionToken(),
+        PropsToken(),
     )
 
     override fun builder(): Builder {
