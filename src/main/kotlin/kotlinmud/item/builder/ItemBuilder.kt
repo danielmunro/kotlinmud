@@ -57,6 +57,9 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
             }
             "type" -> {
                 type = ItemType.valueOf(value.toUpperCase())
+                if (type == ItemType.FURNITURE) {
+                    canOwn = false
+                }
             }
             "position" -> {
                 position = Position.valueOf(value.toUpperCase())

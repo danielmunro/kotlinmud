@@ -60,7 +60,7 @@ w 10~
 Around a massive tree.~
 e 9~
 n 11~
-w 100~
+w 200~
 ~
 
 11. Around a massive tree

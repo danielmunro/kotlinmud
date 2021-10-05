@@ -2,7 +2,42 @@ area:
 2. LorimirForestOutpost
 
 rooms:
-100. Entrance to Praetorian outpost
+200. Entrance to Praetorian outpost
 Entrance to Paetorian outpost.~
 e 10~
+w 201~
 ~
+
+201. Around a fire pit
+A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
+
+A sign flickers against the light of the fire.~
+e 200~
+~
+
+items:
+
+100. a cobblestone fire-pit
+a fire emanates from the circular pit.
+description TBD~
+material stone~
+type furniture~
+~
+
+101. a wooden sign
+a wooden sign is here, beckoning your attention
+The sign reads:
+
++-------------------------------------------------+
+|                                                 |
+|        Type `quest list` in order to see        |
+|        an available quest.                      |
+|                                                 |
++-------------------------------------------------+~
+material wood~
+type furniture~
+~
+
+item_room_respawns:
+100 1 1 201
+101 1 1 201
