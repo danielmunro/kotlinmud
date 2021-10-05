@@ -26,7 +26,7 @@ import kotlinmud.type.Builder
 import java.util.UUID
 
 open class MobBuilder(private val mobService: MobService) : Builder, HasInventory {
-    lateinit var name: String
+    override lateinit var name: String
     lateinit var brief: String
     lateinit var description: String
     lateinit var race: Race

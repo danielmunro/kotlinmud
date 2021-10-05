@@ -18,7 +18,7 @@ import java.util.UUID
 
 class ItemBuilder(private val itemService: ItemService) : Builder {
     lateinit var type: ItemType
-    lateinit var name: String
+    override lateinit var name: String
     lateinit var description: String
     lateinit var material: Material
     lateinit var brief: String
