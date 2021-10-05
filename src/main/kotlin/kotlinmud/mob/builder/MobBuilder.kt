@@ -22,21 +22,22 @@ import kotlinmud.mob.type.Rarity
 import kotlinmud.quest.type.QuestType
 import kotlinmud.resource.type.Resource
 import kotlinmud.room.model.Room
+import kotlinmud.type.Builder
 import java.util.UUID
 
-open class MobBuilder(private val mobService: MobService) : HasInventory {
+open class MobBuilder(private val mobService: MobService) : Builder, HasInventory {
     lateinit var name: String
     lateinit var brief: String
     lateinit var description: String
     lateinit var race: Race
-    lateinit var room: Room
+    override var room: Room? = null
     var attributes = mutableMapOf(
         Pair(Attribute.HP, startingHp),
         Pair(Attribute.MANA, startingMana),
         Pair(Attribute.MV, startingMv),
     )
     var id = 0
-    var job = JobType.NONE
+    var job = JobType.FODDER
     var specialization: Specialization? = null
     var canonicalId: UUID = UUID.randomUUID()
     var identifier: QuestGiver? = null
@@ -63,6 +64,14 @@ open class MobBuilder(private val mobService: MobService) : HasInventory {
     var resources = listOf<Resource>()
     var partOfQuest: QuestType? = null
 
+    override fun setFromKeyword(keyword: String, value: String) {
+        when (keyword) {
+            "job" -> {
+                job = JobType.valueOf(value.toUpperCase())
+            }
+        }
+    }
+
     fun makeShopkeeper() {
         job = JobType.SHOPKEEPER
         currencies = mutableMapOf(
@@ -70,7 +79,7 @@ open class MobBuilder(private val mobService: MobService) : HasInventory {
         )
     }
 
-    open fun build(): Mob {
+    override fun build(): Mob {
         return Mob(createMobArguments()).also { mobService.addMob(it) }
     }
 
@@ -95,7 +104,7 @@ open class MobBuilder(private val mobService: MobService) : HasInventory {
             canonicalId,
             identifier,
             attributes,
-            room,
+            room!!,
             equipped.toMutableList(),
             maxItems,
             maxWeight,

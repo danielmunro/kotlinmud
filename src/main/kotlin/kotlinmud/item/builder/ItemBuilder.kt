@@ -13,9 +13,10 @@ import kotlinmud.item.type.Weapon
 import kotlinmud.mob.fight.type.DamageType
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.room.model.Room
+import kotlinmud.type.Builder
 import java.util.UUID
 
-class ItemBuilder(private val itemService: ItemService) {
+class ItemBuilder(private val itemService: ItemService) : Builder {
     lateinit var type: ItemType
     lateinit var name: String
     lateinit var description: String
@@ -42,7 +43,29 @@ class ItemBuilder(private val itemService: ItemService) {
     var maxWeight: Int? = null
     var attributes: Map<Attribute, Int>? = null
     var items: List<Item>? = null
-    var room: Room? = null
+    override var room: Room? = null
+
+    override fun setFromKeyword(keyword: String, value: String) {
+        when (keyword) {
+            "food" -> {
+                type = ItemType.FOOD
+                material = Material.ORGANIC
+                quantity = value.toInt()
+            }
+            "weight" -> {
+                weight = value.toDouble()
+            }
+            "type" -> {
+                type = ItemType.valueOf(value.toUpperCase())
+            }
+            "position" -> {
+                position = Position.valueOf(value.toUpperCase())
+            }
+            "material" -> {
+                material = Material.valueOf(value.toUpperCase())
+            }
+        }
+    }
 
     fun makeContainer(maxItems: Int = 10, maxWeight: Int = 100): ItemBuilder {
         type = ItemType.CONTAINER
@@ -83,7 +106,7 @@ class ItemBuilder(private val itemService: ItemService) {
         return this
     }
 
-    fun build(): Item {
+    override fun build(): Item {
         if (!this::brief.isInitialized) {
             brief = "$name is here"
         }

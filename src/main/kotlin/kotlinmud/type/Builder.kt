@@ -3,6 +3,7 @@ package kotlinmud.type
 import kotlinmud.room.model.Room
 
 interface Builder {
-    fun room(value: Room): Builder
+    var room: Room?
+    fun setFromKeyword(keyword: String, value: String)
     fun build(): Any
 }
