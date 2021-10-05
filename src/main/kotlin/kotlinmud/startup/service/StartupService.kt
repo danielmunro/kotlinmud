@@ -15,15 +15,12 @@ import kotlinmud.startup.model.MobModel
 import kotlinmud.startup.model.MobRespawnModel
 import kotlinmud.startup.model.RoomModel
 import kotlinmud.startup.parser.Parser
-import java.io.File
-import java.nio.file.Files
-import java.nio.file.Paths
 
 class StartupService(
     private val roomService: RoomService,
     private val mobService: MobService,
     private val itemService: ItemService,
-    private val data: String? = null,
+    private val data: List<String>,
 ) {
     private val roomMap = mutableMapOf<Int, Room>()
     private val rooms = mutableListOf<RoomModel>()
@@ -35,20 +32,19 @@ class StartupService(
     private val logger = logger(this)
 
     fun hydrateWorld() {
-        logger.debug("hydrate world started")
-        if (data == null) {
-            readWorldSourceFiles()
-        } else {
-            generateModels(Parser(data).parse())
+        logger.debug("hydrate world started -- {}", data)
+        data.forEach {
+            generateModels(Parser(it).parse())
         }
+        logger.debug("model parse complete -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items")
 
-        logger.debug("connect up rooms")
         connectUpRooms()
+        logger.debug("rooms connected")
 
-        logger.debug("respawn world")
         createRespawnService().also {
             it.respawn()
         }
+        logger.debug("world respawned")
     }
 
     private fun createRespawnService(): RespawnService {
@@ -95,13 +91,6 @@ class StartupService(
                     connect(model.id, it.value.toInt(), keyword)
                 }
             }
-        }
-    }
-
-    private fun readWorldSourceFiles() {
-        Files.list(Paths.get("./world")).forEach {
-            logger.debug("parsing world file -- $it")
-            generateModels(Parser(File(it.toUri()).readText()).parse())
         }
     }
 

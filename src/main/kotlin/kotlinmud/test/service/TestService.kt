@@ -91,7 +91,7 @@ class TestService(
     private val roomService: RoomService,
     private val timeService: TimeService,
 ) {
-    public val testEmailAddress = "foo@bar.com"
+    val testEmailAddress = "foo@bar.com"
     private val clientService = ClientService()
     private val room = RoomBuilder(roomService).also {
         it.name = "start room"
@@ -108,7 +108,7 @@ class TestService(
         serverService.getClients().add(client)
     }
 
-    fun createStartupService(data: String? = null): StartupService {
+    fun createStartupService(data: List<String>): StartupService {
         return StartupService(
             roomService,
             mobService,

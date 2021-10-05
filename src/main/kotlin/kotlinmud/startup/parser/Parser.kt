@@ -1,5 +1,6 @@
 package kotlinmud.startup.parser
 
+import kotlinmud.helper.logger
 import kotlinmud.room.type.Area
 import kotlinmud.startup.factory.createNoneAreaModel
 import kotlinmud.startup.model.AreaModel
@@ -36,6 +37,7 @@ import java.lang.NumberFormatException
 class Parser(private val data: String) {
     private var cursor = 0
     private var token: Token = SectionToken()
+    private val logger = logger(this)
 
     companion object {
         fun isTokenInt(token: TokenType): Boolean {
@@ -58,7 +60,7 @@ class Parser(private val data: String) {
 
         while (isStillReading()) {
             val section = parseNextToken<String>(SectionToken())
-            println("section $section -- area ${area.name}")
+            logger.debug("section $section -- area ${area.name}")
             try {
                 while (true) {
                     when (section) {

@@ -16,6 +16,7 @@ class StartupServiceTest {
 
         // given
         val startup = test.createStartupService(
+            listOf(
 """
 area:
 1. LorimirForest
@@ -35,6 +36,7 @@ position held~
 item_room_respawns:
 1 1 1 1
 """
+            )
         )
 
         // when
