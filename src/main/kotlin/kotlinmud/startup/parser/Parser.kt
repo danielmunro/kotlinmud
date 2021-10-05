@@ -146,17 +146,21 @@ class Parser(private val data: String) {
             cursor += 1
         }
         val trimmed = buffer.trim()
-        if (isTokenInt(token.token) && !isNumber(trimmed)) {
-            cursor = lastCursor
-            throw TokenParseException(
-                trimmed,
-                "Parsed value is not an integer, $token requires int: $trimmed"
-            )
-        }
+        validateTokenValueType(trimmed, lastCursor)
         return when (T::class) {
             String::class -> trimmed as T
             Int::class -> trimmed.toInt() as T
             else -> throw Exception()
+        }
+    }
+
+    private fun validateTokenValueType(value: String, lastCursor: Int) {
+        if (isTokenInt(token.token) && !isNumber(value)) {
+            cursor = lastCursor
+            throw TokenParseException(
+                value,
+                "Parsed value is not an integer, $token requires int: $value"
+            )
         }
     }
 

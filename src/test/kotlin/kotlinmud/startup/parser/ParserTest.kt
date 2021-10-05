@@ -143,4 +143,39 @@ an item
         } catch (e: DuplicateIdValidationException) {
         }
     }
+
+    @Test
+    fun canParseItem() {
+        // when
+        val file = Parser(
+"""
+items:
+1. a test item
+this is a brief
+this is a
+multiline
+description~
+weight 0.1~
+material wool~
+type equipment~
+position held~
+~
+"""
+        ).parse()
+
+        val item = file.items[0]
+
+        // then
+        assertThat(item.id).isEqualTo(1)
+        assertThat(item.brief).isEqualTo("this is a brief")
+        assertThat(item.description).isEqualTo(
+            """this is a
+multiline
+description"""
+        )
+        assertThat(item.keywords.get("weight")).isEqualTo("0.1")
+        assertThat(item.keywords.get("material")).isEqualTo("wool")
+        assertThat(item.keywords.get("type")).isEqualTo("equipment")
+        assertThat(item.keywords.get("position")).isEqualTo("held")
+    }
 }
