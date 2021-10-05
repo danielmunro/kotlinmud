@@ -58,6 +58,7 @@ class Parser(private val data: String) {
 
         while (isStillReading()) {
             val section = parseNextToken<String>(SectionToken())
+            println("section $section -- area ${area.name}")
             try {
                 while (true) {
                     when (section) {

@@ -11,6 +11,10 @@ import java.util.UUID
 class ItemService {
     private val items = mutableListOf<Item>()
 
+    fun findOne(predicate: (Item) -> Boolean): Item? {
+        return items.find(predicate)
+    }
+
     fun builder(name: String, description: String, weight: Double = 0.0, worth: Int = 0): ItemBuilder {
         return ItemBuilder(this).also {
             it.name = name

@@ -69,6 +69,7 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
+import kotlinmud.startup.service.StartupService
 import kotlinmud.time.service.TimeService
 import kotlinmud.world.service.AreaBuilderService
 import kotlinx.coroutines.runBlocking
@@ -105,6 +106,15 @@ class TestService(
     init {
         every { client.socket.remoteAddress } returns mockk<SocketAddress>()
         serverService.getClients().add(client)
+    }
+
+    fun createStartupService(data: String? = null): StartupService {
+        return StartupService(
+            roomService,
+            mobService,
+            itemService,
+            data,
+        )
     }
 
     fun createAreaBuilderService(): AreaBuilderService {
@@ -291,6 +301,10 @@ class TestService(
             it.description = "bar"
             it.area = Area.Test
         }
+    }
+
+    fun findItem(predicate: (Item) -> Boolean): Item? {
+        return itemService.findOne(predicate)
     }
 
     fun findRoom(predicate: (Room) -> Boolean): Room? {
