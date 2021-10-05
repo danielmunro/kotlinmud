@@ -32,7 +32,6 @@ class StartupService(
     private val logger = logger(this)
 
     fun hydrateWorld() {
-        logger.debug("hydrate world started -- {}", data)
         data.forEach {
             generateModels(Parser(it).parse())
         }
