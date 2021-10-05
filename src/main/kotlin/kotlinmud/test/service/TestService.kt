@@ -303,6 +303,10 @@ class TestService(
         }
     }
 
+    fun findMob(predicate: (Mob) -> Boolean): Mob? {
+        return mobService.findMob(predicate)
+    }
+
     fun findItem(predicate: (Item) -> Boolean): Item? {
         return itemService.findOne(predicate)
     }

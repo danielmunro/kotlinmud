@@ -17,4 +17,8 @@ abstract class Race {
     abstract val size: Size
     abstract val maxAppetite: Int
     abstract val maxThirst: Int
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is Race) other.type == type else super.equals(other)
+    }
 }

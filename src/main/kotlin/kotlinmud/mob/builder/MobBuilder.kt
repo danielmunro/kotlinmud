@@ -9,7 +9,9 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.MobArguments
+import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.race.type.Race
+import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.Specialization
@@ -68,6 +70,9 @@ open class MobBuilder(private val mobService: MobService) : Builder, HasInventor
         when (keyword) {
             "job" -> {
                 job = JobType.valueOf(value.toUpperCase())
+            }
+            "race" -> {
+                race = createRaceFromString(RaceType.valueOf(value.toUpperCase()))
             }
         }
     }
