@@ -7,4 +7,5 @@ data class FileModel(
     val rooms: List<RoomModel>,
     val mobRespawns: List<MobRespawnModel>,
     val itemRoomRespawns: List<ItemRoomRespawnModel>,
+    val itemMobRespawns: List<ItemMobRespawnModel>,
 )

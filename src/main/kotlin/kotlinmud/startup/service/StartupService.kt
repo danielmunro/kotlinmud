@@ -3,12 +3,14 @@ package kotlinmud.startup.service
 import kotlinmud.helper.logger
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
+import kotlinmud.respawn.helper.itemMobRespawns
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.startup.exception.RoomConnectionException
 import kotlinmud.startup.model.FileModel
+import kotlinmud.startup.model.ItemMobRespawnModel
 import kotlinmud.startup.model.ItemModel
 import kotlinmud.startup.model.ItemRoomRespawnModel
 import kotlinmud.startup.model.MobModel
@@ -28,6 +30,7 @@ class StartupService(
     private val items = mutableListOf<ItemModel>()
     private val mobRespawns = mutableListOf<MobRespawnModel>()
     private val itemRoomRespawns = mutableListOf<ItemRoomRespawnModel>()
+    private val itemMobRespawns = mutableListOf<ItemMobRespawnModel>()
     private val areas = mutableListOf<Area>()
     private val logger = logger(this)
 
@@ -52,6 +55,7 @@ class StartupService(
             items,
             mobRespawns,
             itemRoomRespawns,
+            itemMobRespawns,
             roomService,
             itemService,
             mobService,
@@ -108,6 +112,7 @@ class StartupService(
         }
         mobRespawns.addAll(file.mobRespawns)
         itemRoomRespawns.addAll(file.itemRoomRespawns)
+        itemMobRespawns.addAll(file.itemMobRespawns)
         mobs.addAll(file.mobs)
         items.addAll(file.items)
         areas.add(area)

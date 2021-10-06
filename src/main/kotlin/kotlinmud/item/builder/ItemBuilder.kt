@@ -67,6 +67,9 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
             "material" -> {
                 material = Material.valueOf(value.toUpperCase())
             }
+            "worth" -> {
+                worth = value.toInt()
+            }
         }
     }
 

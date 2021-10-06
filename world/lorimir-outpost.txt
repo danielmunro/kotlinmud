@@ -13,10 +13,40 @@ A circular cobblestone fire-pit serves as the centerpiece for the modest outpost
 
 A sign flickers against the light of the fire.~
 e 200~
+n 202~
+w 203~
+s 204~
+~
+
+202. Inside a lean-to shelter
+It's cramped inside this hastily constructed tent.~
+s 201~
+~
+
+203. Praetorian blacksmith
+A tent spans just enough room to cover a blacksmith hunched over an anvil.~
+e 201~
+~
+
+204. Mess tent
+A mess tent is here, with a giant pot of gruel in the middle.~
+n 201~
+~
+
+mobs:
+100. Blacksmith Felig
+a blacksmith for the praetorian guard is here, attempting to work in cramped conditions.
+TBD~
+job shopkeeper~
+~
+
+101. Barbosa
+Barbosa, the mess cook, is here attempting to keep the camp fed.~
+TBD~
+job shopkeeper~
 ~
 
 items:
-
 100. a cobblestone fire-pit
 a fire emanates from the circular pit.
 description TBD~
@@ -38,6 +68,28 @@ material wood~
 type furniture~
 ~
 
+102. a small, hard loaf of bread
+a stale loaf of bread has been carelessly discarded here.
+TBD~
+food 10~
+worth 20~
+~
+
+103. preserved meat
+some preserved meat is here.
+TBD~
+food 10~
+worth 20~
+~
+
+mob_respawns:
+100 1 1 203
+101 1 1 204
+
 item_room_respawns:
 100 1 1 201
 101 1 1 201
+
+item_mob_respawns:
+102 100 999 101
+103 100 999 101

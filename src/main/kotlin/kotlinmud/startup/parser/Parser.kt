@@ -5,6 +5,7 @@ import kotlinmud.room.type.Area
 import kotlinmud.startup.factory.createNoneAreaModel
 import kotlinmud.startup.model.AreaModel
 import kotlinmud.startup.model.FileModel
+import kotlinmud.startup.model.ItemMobRespawnModel
 import kotlinmud.startup.model.ItemModel
 import kotlinmud.startup.model.ItemRoomRespawnModel
 import kotlinmud.startup.model.MobModel
@@ -17,6 +18,7 @@ import kotlinmud.startup.spec.ItemSpec
 import kotlinmud.startup.spec.MobSpec
 import kotlinmud.startup.spec.RoomSpec
 import kotlinmud.startup.spec.Spec
+import kotlinmud.startup.token.AltMobIdToken
 import kotlinmud.startup.token.BriefToken
 import kotlinmud.startup.token.DescriptionToken
 import kotlinmud.startup.token.DirectionToken
@@ -56,6 +58,7 @@ class Parser(private val data: String) {
         val items = mutableListOf<ItemModel>()
         val mobRespawns = mutableListOf<MobRespawnModel>()
         val itemRoomRespawns = mutableListOf<ItemRoomRespawnModel>()
+        val itemMobRespawns = mutableListOf<ItemMobRespawnModel>()
         var area = createNoneAreaModel()
 
         while (isStillReading()) {
@@ -72,7 +75,8 @@ class Parser(private val data: String) {
                         "mobs" -> mobs.add(parseSpec(MobSpec()) as MobModel)
                         "mob_respawns" -> mobRespawns.add(parseMobRespawns(area))
                         "item_room_respawns" -> itemRoomRespawns.add(parseItemRoomRespawns(area))
-                        "" -> break
+                        "item_mob_respawns" -> itemMobRespawns.add(parseItemMobRespawns(area))
+                        "" -> throw Exception("Unknown section: $section")
                     }
                 }
             } catch (e: TokenParseException) {
@@ -86,6 +90,7 @@ class Parser(private val data: String) {
             rooms,
             mobRespawns,
             itemRoomRespawns,
+            itemMobRespawns,
         ).also {
             FileModelValidator(it).validate()
         }
@@ -107,10 +112,15 @@ class Parser(private val data: String) {
     }
 
     private fun parseMobRespawns(area: AreaModel): MobRespawnModel {
+        println(1)
         val id: Int = parseNextToken(MobIdToken())
+        println(2)
         val maxAmountInRoom: Int = parseNextToken(MaxAmountInRoomToken())
+        println(3)
         val maxAmountInGame: Int = parseNextToken(MaxAmountInGameToken())
+        println(4)
         val roomId: Int = parseNextToken(RoomIdToken())
+        println(5)
         return MobRespawnModel(
             Area.valueOf(area.name),
             id,
@@ -131,6 +141,20 @@ class Parser(private val data: String) {
             maxAmountInRoom,
             maxAmountInGame,
             roomId,
+        )
+    }
+
+    private fun parseItemMobRespawns(area: AreaModel): ItemMobRespawnModel {
+        val id: Int = parseNextToken(ItemIdToken())
+        val maxAmountInRoom: Int = parseNextToken(MaxAmountInRoomToken())
+        val maxAmountInGame: Int = parseNextToken(MaxAmountInGameToken())
+        val mobId: Int = parseNextToken(AltMobIdToken())
+        return ItemMobRespawnModel(
+            Area.valueOf(area.name),
+            id,
+            maxAmountInRoom,
+            maxAmountInGame,
+            mobId,
         )
     }
 
