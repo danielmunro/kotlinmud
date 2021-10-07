@@ -46,7 +46,6 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
     override var room: Room? = null
 
     override fun setFromKeyword(keyword: String, value: String) {
-        println("keyword: $keyword")
         when (keyword) {
             "food" -> {
                 type = ItemType.FOOD
@@ -85,6 +84,9 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
             }
             "level" -> {
                 level = value.toInt()
+            }
+            "weapon" -> {
+                weaponType = Weapon.valueOf(value.toUpperCase())
             }
         }
     }
@@ -157,7 +159,7 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
             decayTimer,
             maxItems,
             maxWeight,
-            attributes?.toMutableMap() ?: mutableMapOf(),
+            attributes,
             items?.toMutableList(),
         )
         itemService.add(item)
