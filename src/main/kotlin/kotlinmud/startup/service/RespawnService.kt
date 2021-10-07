@@ -124,7 +124,6 @@ class RespawnService(
         val areaRooms = roomService.findByArea(area)
         while (decrementer > 0) {
             builder.room = if (roomId > 0) {
-                println("roomID: $roomId")
                 roomService.findOne { room -> room.id == roomId }!!
             } else {
                 areaRooms.random()

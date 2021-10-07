@@ -76,7 +76,7 @@ class Parser(private val data: String) {
                         "mob_respawns" -> mobRespawns.add(parseMobRespawns(area))
                         "item_room_respawns" -> itemRoomRespawns.add(parseItemRoomRespawns(area))
                         "item_mob_respawns" -> itemMobRespawns.add(parseItemMobRespawns(area))
-                        "" -> throw Exception("Unknown section: $section")
+                        "" -> break
                     }
                 }
             } catch (e: TokenParseException) {
@@ -112,15 +112,10 @@ class Parser(private val data: String) {
     }
 
     private fun parseMobRespawns(area: AreaModel): MobRespawnModel {
-        println(1)
         val id: Int = parseNextToken(MobIdToken())
-        println(2)
         val maxAmountInRoom: Int = parseNextToken(MaxAmountInRoomToken())
-        println(3)
         val maxAmountInGame: Int = parseNextToken(MaxAmountInGameToken())
-        println(4)
         val roomId: Int = parseNextToken(RoomIdToken())
-        println(5)
         return MobRespawnModel(
             Area.valueOf(area.name),
             id,

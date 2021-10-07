@@ -41,11 +41,12 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
     var decayTimer: Int? = null
     var maxItems: Int? = null
     var maxWeight: Int? = null
-    var attributes: Map<Attribute, Int>? = null
+    var attributes: MutableMap<Attribute, Int> = mutableMapOf()
     var items: List<Item>? = null
     override var room: Room? = null
 
     override fun setFromKeyword(keyword: String, value: String) {
+        println("keyword: $keyword")
         when (keyword) {
             "food" -> {
                 type = ItemType.FOOD
@@ -63,12 +64,27 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
             }
             "position" -> {
                 position = Position.valueOf(value.toUpperCase())
+                type = ItemType.EQUIPMENT
             }
             "material" -> {
                 material = Material.valueOf(value.toUpperCase())
             }
             "worth" -> {
                 worth = value.toInt()
+            }
+            "verb" -> {
+                attackVerb = value
+            }
+            "hit" -> {
+                val amounts = value.split("d")
+                attributes[Attribute.HIT] = amounts[0].toInt()
+                attributes[Attribute.DAM] = amounts[1].toInt()
+            }
+            "damage" -> {
+                damageType = DamageType.valueOf(value.toUpperCase())
+            }
+            "level" -> {
+                level = value.toInt()
             }
         }
     }
@@ -97,7 +113,7 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
         this.damageType = damageType
         this.attackVerb = attackVerb
         this.material = material
-        this.attributes = mapOf(
+        this.attributes = mutableMapOf(
             Pair(Attribute.HIT, hit),
             Pair(Attribute.DAM, dam),
         )

@@ -48,7 +48,7 @@ class MobTest {
         val item = testService.createItemBuilder().also {
             it.type = ItemType.EQUIPMENT
             it.material = Material.IRON
-            it.attributes = mapOf(
+            it.attributes = mutableMapOf(
                 Pair(Attribute.HP, 1),
                 Pair(Attribute.MANA, 1),
                 Pair(Attribute.MV, 1),
@@ -299,8 +299,8 @@ class MobTest {
         mob.equipped.add(
             testService.createItemBuilder().also {
                 it.position = Position.SHIELD
-                it.attributes = mapOf(
-                    Pair(Attribute.HP, bonusHp)
+                it.attributes = mutableMapOf(
+                    Pair(Attribute.HP, bonusHp),
                 )
                 it.type = ItemType.EQUIPMENT
                 it.material = Material.IRON

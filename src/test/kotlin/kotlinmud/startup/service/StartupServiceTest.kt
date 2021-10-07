@@ -67,6 +67,11 @@ item_room_respawns:
 area:
 1. LorimirForest
 
+rooms:
+1. a test room
+a test room~
+~
+
 mobs:
 1. a red fox
 a small red fox is darting through the trees

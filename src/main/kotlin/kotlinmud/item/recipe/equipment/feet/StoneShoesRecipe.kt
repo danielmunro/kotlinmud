@@ -27,7 +27,7 @@ class StoneShoesRecipe : Recipe {
                 it.type = ItemType.EQUIPMENT
                 it.material = Material.STONE
                 it.position = Position.FEET
-                it.attributes = mapOf(
+                it.attributes = mutableMapOf(
                     Pair(Attribute.AC_BASH, 1),
                     Pair(Attribute.AC_SLASH, 1),
                     Pair(Attribute.AC_PIERCE, 1),

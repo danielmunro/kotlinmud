@@ -62,7 +62,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
                 item.material = Material.PAPER
                 item.type = ItemType.EQUIPMENT
                 item.position = Position.HELD
-                item.attributes = mapOf(
+                item.attributes = mutableMapOf(
                     Pair(Attribute.WIS, 1),
                 )
             }.build()
@@ -136,7 +136,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.ABOUT
             builder.material = Material.TEXTILE
-            builder.attributes = mapOf(
+            builder.attributes = mutableMapOf(
                 Pair(Attribute.AC_SLASH, 1),
             )
         }.build()
@@ -153,7 +153,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.HEAD
             builder.material = Material.TEXTILE
-            builder.attributes = mapOf(
+            builder.attributes = mutableMapOf(
                 Pair(Attribute.AC_SLASH, 1),
                 Pair(Attribute.AC_PIERCE, 1),
             )
@@ -171,7 +171,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.TORSO
             builder.material = Material.TEXTILE
-            builder.attributes = mapOf(
+            builder.attributes = mutableMapOf(
                 Pair(Attribute.AC_BASH, 2),
                 Pair(Attribute.AC_SLASH, 2),
                 Pair(Attribute.AC_PIERCE, 2),
@@ -204,7 +204,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.FEET
             builder.material = Material.TEXTILE
-            builder.attributes = mapOf(
+            builder.attributes = mutableMapOf(
                 Pair(Attribute.AC_BASH, 1),
                 Pair(Attribute.AC_SLASH, 1),
                 Pair(Attribute.AC_PIERCE, 1),
@@ -223,7 +223,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.ARMS
             builder.material = Material.TEXTILE
-            builder.attributes = mapOf(
+            builder.attributes = mutableMapOf(
                 Pair(Attribute.AC_BASH, 1),
                 Pair(Attribute.AC_SLASH, 2),
                 Pair(Attribute.AC_PIERCE, 2),
@@ -242,7 +242,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.HANDS
             builder.material = Material.TEXTILE
-            builder.attributes = mapOf(
+            builder.attributes = mutableMapOf(
                 Pair(Attribute.AC_BASH, 1),
                 Pair(Attribute.AC_SLASH, 2),
                 Pair(Attribute.AC_PIERCE, 2),
@@ -275,7 +275,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.SHIELD
             builder.material = Material.WOOD
-            builder.attributes = mapOf(
+            builder.attributes = mutableMapOf(
                 Pair(Attribute.AC_BASH, 5),
                 Pair(Attribute.AC_SLASH, 4),
                 Pair(Attribute.AC_PIERCE, 4),
@@ -294,7 +294,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.LEGS
             builder.material = Material.TEXTILE
-            builder.attributes = mapOf(
+            builder.attributes = mutableMapOf(
                 Pair(Attribute.AC_BASH, 1),
                 Pair(Attribute.AC_SLASH, 2),
                 Pair(Attribute.AC_PIERCE, 2),
@@ -313,7 +313,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.WAIST
             builder.material = Material.TEXTILE
-            builder.attributes = mapOf(
+            builder.attributes = mutableMapOf(
                 Pair(Attribute.AC_BASH, 1),
                 Pair(Attribute.AC_SLASH, 1),
                 Pair(Attribute.AC_PIERCE, 1),
@@ -346,7 +346,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.WRIST
             builder.material = Material.WOOD
-            builder.attributes = mapOf(
+            builder.attributes = mutableMapOf(
                 Pair(Attribute.AC_BASH, 1),
                 Pair(Attribute.AC_SLASH, 2),
                 Pair(Attribute.AC_PIERCE, 2),
@@ -365,7 +365,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.FINGER
             builder.material = Material.COPPER
-            builder.attributes = mapOf(
+            builder.attributes = mutableMapOf(
                 Pair(Attribute.AC_BASH, 0),
                 Pair(Attribute.AC_SLASH, 1),
                 Pair(Attribute.AC_PIERCE, 1),
@@ -384,7 +384,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             builder.type = ItemType.EQUIPMENT
             builder.position = Position.FLOAT
             builder.material = Material.STONE
-            builder.attributes = mapOf(
+            builder.attributes = mutableMapOf(
                 Pair(Attribute.AC_MAGIC, 2),
             )
         }.build()

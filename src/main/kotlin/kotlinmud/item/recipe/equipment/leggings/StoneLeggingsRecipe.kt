@@ -27,7 +27,7 @@ class StoneLeggingsRecipe : Recipe {
                 it.type = ItemType.EQUIPMENT
                 it.material = Material.STONE
                 it.position = Position.LEGS
-                it.attributes = mapOf(
+                it.attributes = mutableMapOf(
                     Pair(Attribute.AC_BASH, 1),
                     Pair(Attribute.AC_SLASH, 1),
                     Pair(Attribute.AC_PIERCE, 1),
