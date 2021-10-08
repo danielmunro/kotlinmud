@@ -6,6 +6,7 @@ import kotlinmud.quest.type.QuestType
 import kotlinmud.quest.type.reward.QuestReward
 
 class Quest(
+    val id: Int,
     val type: QuestType,
     val level: Int,
     override val name: String,

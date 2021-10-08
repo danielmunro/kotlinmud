@@ -11,11 +11,13 @@ import kotlinmud.startup.model.ItemRoomRespawnModel
 import kotlinmud.startup.model.MobModel
 import kotlinmud.startup.model.MobRespawnModel
 import kotlinmud.startup.model.Model
+import kotlinmud.startup.model.QuestModel
 import kotlinmud.startup.model.RoomModel
 import kotlinmud.startup.parser.exception.TokenParseException
 import kotlinmud.startup.spec.AreaSpec
 import kotlinmud.startup.spec.ItemSpec
 import kotlinmud.startup.spec.MobSpec
+import kotlinmud.startup.spec.QuestSpec
 import kotlinmud.startup.spec.RoomSpec
 import kotlinmud.startup.spec.Spec
 import kotlinmud.startup.token.AltMobIdToken
@@ -56,6 +58,7 @@ class Parser(private val data: String) {
         val mobs = mutableListOf<MobModel>()
         val rooms = mutableListOf<RoomModel>()
         val items = mutableListOf<ItemModel>()
+        val quests = mutableListOf<QuestModel>()
         val mobRespawns = mutableListOf<MobRespawnModel>()
         val itemRoomRespawns = mutableListOf<ItemRoomRespawnModel>()
         val itemMobRespawns = mutableListOf<ItemMobRespawnModel>()
@@ -73,6 +76,7 @@ class Parser(private val data: String) {
                         "rooms" -> rooms.add(parseSpec(RoomSpec()) as RoomModel)
                         "items" -> items.add(parseSpec(ItemSpec()) as ItemModel)
                         "mobs" -> mobs.add(parseSpec(MobSpec()) as MobModel)
+                        "quests" -> quests.add(parseSpec(QuestSpec()) as QuestModel)
                         "mob_respawns" -> mobRespawns.add(parseMobRespawns(area))
                         "item_room_respawns" -> itemRoomRespawns.add(parseItemRoomRespawns(area))
                         "item_mob_respawns" -> itemMobRespawns.add(parseItemMobRespawns(area))
@@ -88,6 +92,7 @@ class Parser(private val data: String) {
             mobs,
             items,
             rooms,
+            quests,
             mobRespawns,
             itemRoomRespawns,
             itemMobRespawns,

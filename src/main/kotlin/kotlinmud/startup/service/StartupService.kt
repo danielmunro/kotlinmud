@@ -3,6 +3,7 @@ package kotlinmud.startup.service
 import kotlinmud.helper.logger
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
+import kotlinmud.quest.service.QuestBuilderService
 import kotlinmud.respawn.helper.itemMobRespawns
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.model.Room
@@ -15,6 +16,7 @@ import kotlinmud.startup.model.ItemModel
 import kotlinmud.startup.model.ItemRoomRespawnModel
 import kotlinmud.startup.model.MobModel
 import kotlinmud.startup.model.MobRespawnModel
+import kotlinmud.startup.model.QuestModel
 import kotlinmud.startup.model.RoomModel
 import kotlinmud.startup.parser.Parser
 
@@ -28,6 +30,7 @@ class StartupService(
     private val rooms = mutableListOf<RoomModel>()
     private val mobs = mutableListOf<MobModel>()
     private val items = mutableListOf<ItemModel>()
+    private val quests = mutableListOf<QuestModel>()
     private val mobRespawns = mutableListOf<MobRespawnModel>()
     private val itemRoomRespawns = mutableListOf<ItemRoomRespawnModel>()
     private val itemMobRespawns = mutableListOf<ItemMobRespawnModel>()
@@ -38,7 +41,7 @@ class StartupService(
         data.forEach {
             generateModels(Parser(it).parse())
         }
-        logger.debug("model parse complete -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items")
+        logger.debug("model parse complete -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items, ${quests.size} quests")
 
         connectUpRooms()
         logger.debug("rooms connected")
@@ -109,6 +112,22 @@ class StartupService(
             roomMap[model.id] = room
             rooms.add(model)
             roomService.add(room)
+        }
+        file.quests.forEach { model ->
+            val questBuilder = QuestBuilderService(
+                mobService,
+                roomService,
+            ).also {
+                it.id = model.id
+                it.name = model.name
+                it.brief = model.brief
+                it.description = model.description
+            }
+            model.keywords.forEach {
+                questBuilder.setFromKeyword(it.key, it.value)
+            }
+            questBuilder.build()
+            quests.add(model)
         }
         mobRespawns.addAll(file.mobRespawns)
         itemRoomRespawns.addAll(file.itemRoomRespawns)

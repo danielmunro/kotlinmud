@@ -23,6 +23,12 @@ class StartupServiceTest {
 area:
 1. LorimirForest
 
+rooms:
+1. a room
+a test room
+a test room~
+~
+
 items:
 1. a test item
 this is a brief

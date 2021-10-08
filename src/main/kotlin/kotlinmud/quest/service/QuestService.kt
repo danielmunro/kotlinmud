@@ -19,8 +19,13 @@ class QuestService(private val quests: List<Quest>) {
     }
 
     fun getAcceptableQuestsForMob(mob: PlayerMob): List<Quest> {
+        logger.debug("get acceptable quests -- {} total quests", quests.size)
         return quests.filter {
-            val notSatisfied = it.acceptConditions.find { req -> !req.doesSatisfy(mob) }
+            val notSatisfied = it.acceptConditions.find { req ->
+                logger.debug("accept condition -- {}, {}", req.questRequirementType, req.amount)
+                !req.doesSatisfy(mob)
+            }
+            logger.debug("satisfied -- {}, {}", !mob.quests.containsKey(it.type), notSatisfied == null)
             !mob.quests.containsKey(it.type) && notSatisfied == null
         }
     }

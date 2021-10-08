@@ -124,6 +124,21 @@ hit 1d1~
 level 3~
 ~
 
+quests:
+1. Collect mushrooms for Barbosa
+mushroom collecting
+Supplies have been short, aye. Can ye' help a poor cook out, 'n pad me supplies?~
+room_accept 204~
+room_submit 204~
+item_id 2~
+item_count 6~
+worth 80~
+experience 800~
+faction PraetorianGuard~
+score 50~
+type barbosa_supplies~
+~
+
 mob_respawns:
 100 1 1 203
 101 1 1 204
