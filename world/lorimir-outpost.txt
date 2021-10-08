@@ -125,7 +125,7 @@ level 3~
 ~
 
 quests:
-1. Collect mushrooms for Barbosa
+1. collect mushrooms for Barbosa
 mushroom collecting
 Supplies have been short, aye. Can ye' help a poor cook out, 'n pad me supplies?~
 room_accept 204~
@@ -136,7 +136,19 @@ worth 80~
 experience 800~
 faction PraetorianGuard~
 score 50~
-type barbosa_supplies~
+type BarbosaSupplies~
+~
+
+2. join the praetorian guard
+join the praetorian guard
+A wooden sign has been prominently posted here. It beckons you to join the Praetorian Guard.~
+room_accept 201~
+room_submit 10~
+worth 10~
+experience 200~
+faction PraetorianGuard~
+score 100~
+type FindPraetorianGuardRecruiter~
 ~
 
 mob_respawns:

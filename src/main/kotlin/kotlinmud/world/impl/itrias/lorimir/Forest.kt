@@ -104,12 +104,12 @@ fun createLorimirForest(areaBuilderService: AreaBuilderService): AreaConnections
     createGrongokHideout(areaBuilderService, matrix[0][4])
 
     areaBuilderService.questBuilder(
-        QuestType.JOIN_PRAETORIAN_GUARD,
+        QuestType.JoinPraetorianGuard,
         "talk to Captain Bartok of the Praetorian Guard",
         "tbd",
         "tbd",
     ).also {
-        it.acceptConditions.add(createPriorQuestRequirement(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER))
+        it.acceptConditions.add(createPriorQuestRequirement(QuestType.FindPraetorianGuardRecruiter))
         it.addMobInRoomAcceptCondition("Recruiter Esmer", QuestGiver.RecruiterEsmer)
         it.addMobInRoomSubmitCondition("The Praetorian Captain", QuestGiver.PraetorianCaptainBartok)
         it.rewards.addAll(

@@ -96,7 +96,7 @@ fun createPyreforgeFarm(areaBuilderService: AreaBuilderService) {
         3,
         8,
     ).also {
-        it.partOfQuest = QuestType.CLEAR_PYREFORGE_RODENTS
+        it.partOfQuest = QuestType.ClearPyreforgeRodents
     }
 
     areaBuilderService.switchArea(Area.PyreforgePumpkinField).buildFodder(
@@ -107,11 +107,11 @@ fun createPyreforgeFarm(areaBuilderService: AreaBuilderService) {
         5,
         6,
     ).also {
-        it.partOfQuest = QuestType.CLEAR_PYREFORGE_RODENTS
+        it.partOfQuest = QuestType.ClearPyreforgeRodents
     }
 
     areaBuilderService.questBuilder(
-        QuestType.CLEAR_PYREFORGE_RODENTS,
+        QuestType.ClearPyreforgeRodents,
         "help Beatrice Pyreforge clear her rodent infestation",
         "tbd",
         "tbd",
@@ -120,7 +120,7 @@ fun createPyreforgeFarm(areaBuilderService: AreaBuilderService) {
         it.addMobInRoomSubmitCondition("Beatrice Pyreforge", QuestGiver.BeatricePyreforge)
         it.submitConditions.add(
             createMobKillQuestRequirement(
-                QuestType.CLEAR_PYREFORGE_RODENTS,
+                QuestType.ClearPyreforgeRodents,
                 "pesky rodents",
                 6,
             )

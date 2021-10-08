@@ -15,7 +15,7 @@ class QuestAcceptTest {
     fun testCanAcceptAQuest() {
         // setup
         val test = createTestService()
-        val quest = test.findQuest(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)!!
+        val quest = test.findQuest(QuestType.FindPraetorianGuardRecruiter)!!
 
         // given
         val mob = test.createPlayerMob {
@@ -72,7 +72,7 @@ class QuestAcceptTest {
         }
 
         // given
-        mob.quests[QuestType.FIND_PRAETORIAN_GUARD_RECRUITER] = QuestProgress()
+        mob.quests[QuestType.FindPraetorianGuardRecruiter] = QuestProgress()
 
         // when
         val response = test.runAction("quest accept recruiter")

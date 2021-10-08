@@ -13,8 +13,8 @@ class QuestLogTest {
         // setup
         val test = createTestService()
         val mob = test.createPlayerMob()
-        val quest1 = test.findQuest(QuestType.JOIN_PRAETORIAN_GUARD)!!
-        val quest2 = test.findQuest(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)!!
+        val quest1 = test.findQuest(QuestType.JoinPraetorianGuard)!!
+        val quest2 = test.findQuest(QuestType.FindPraetorianGuardRecruiter)!!
 
         // given
         mob.quests[quest1.type] = QuestProgress()

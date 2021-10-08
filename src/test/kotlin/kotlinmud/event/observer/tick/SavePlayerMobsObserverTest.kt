@@ -30,8 +30,8 @@ class SavePlayerMobsObserverTest {
             it.attributes[Attribute.DEX] = 2
             it.attributes[Attribute.HIT] = 3
             it.factionScores[FactionType.PraetorianGuard] = 100
-            it.quests[QuestType.FIND_PRAETORIAN_GUARD_RECRUITER] = QuestProgress().also { quest -> quest.status = QuestStatus.SUBMITTED }
-            it.quests[QuestType.JOIN_PRAETORIAN_GUARD] = QuestProgress()
+            it.quests[QuestType.FindPraetorianGuardRecruiter] = QuestProgress().also { quest -> quest.status = QuestStatus.SUBMITTED }
+            it.quests[QuestType.JoinPraetorianGuard] = QuestProgress()
             it.skills[SkillType.BASH] = 1
             it.skills[SkillType.BERSERK] = 100
             it.affects.add(Affect(AffectType.BLESS, 1))

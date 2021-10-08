@@ -194,7 +194,7 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaConnections {
     )
 
     svc.questBuilder(
-        QuestType.BARBOSA_SUPPLIES,
+        QuestType.BarbosaSupplies,
         "collect mushrooms for Barbosa",
         "mushroom collecting",
         "Supplies have been short, aye. Can ye' help a poor cook out, 'n pad me supplies?",
@@ -212,7 +212,7 @@ fun createLorimirForestOutpost(svc: AreaBuilderService): AreaConnections {
     }.build()
 
     svc.questBuilder(
-        QuestType.FIND_PRAETORIAN_GUARD_RECRUITER,
+        QuestType.FindPraetorianGuardRecruiter,
         "find a recruiter for the Praetorian Guard",
         "tbd",
         "tbd",

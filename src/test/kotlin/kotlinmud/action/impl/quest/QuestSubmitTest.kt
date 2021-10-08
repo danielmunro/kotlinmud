@@ -22,7 +22,7 @@ class QuestSubmitTest {
     fun testCanSubmitQuest() {
         // setup
         val test = createTestService()
-        val quest = test.findQuest(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)!!
+        val quest = test.findQuest(QuestType.FindPraetorianGuardRecruiter)!!
 
         // given
         test.createPlayerMob {
@@ -41,7 +41,7 @@ class QuestSubmitTest {
     fun testDoesNotErrorOutWhenAQuestIsNotSpecified() {
         // setup
         val test = createTestService()
-        val quest = test.findQuest(QuestType.FIND_PRAETORIAN_GUARD_RECRUITER)!!
+        val quest = test.findQuest(QuestType.FindPraetorianGuardRecruiter)!!
 
         // given
         test.createPlayerMob {

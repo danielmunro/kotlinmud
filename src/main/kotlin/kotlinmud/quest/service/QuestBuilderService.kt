@@ -44,7 +44,7 @@ class QuestBuilderService(
     fun setFromKeyword(keyword: String, value: String) {
         when (keyword) {
             "type" -> {
-                type = QuestType.valueOf(value.toUpperCase())
+                type = QuestType.valueOf(value)
             }
             "level" -> {
                 level = value.toInt()
