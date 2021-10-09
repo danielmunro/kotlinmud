@@ -154,6 +154,8 @@ type FindPraetorianGuardRecruiter~
 mob_respawns:
 100 1 1 203
 101 1 1 204
+3 1 1 201
+3 1 1 202
 
 item_room_respawns:
 100 1 1 201

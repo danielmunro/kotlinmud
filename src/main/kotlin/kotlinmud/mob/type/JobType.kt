@@ -9,7 +9,7 @@ enum class JobType {
     FODDER,
     PATROL,
     HEALER,
-    AGGRESSIVE,
+    AGGRO,
     NONE,
     QUEST,
 }

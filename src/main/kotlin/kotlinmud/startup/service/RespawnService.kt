@@ -4,6 +4,7 @@ import kotlinmud.attributes.type.Attribute
 import kotlinmud.helper.logger
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.service.ItemService
+import kotlinmud.item.type.Position
 import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.race.type.RaceType
@@ -72,6 +73,7 @@ class RespawnService(
             mobMap[it.id] = it
         }
         mobRespawns.forEach {
+            logger.debug("mob respawn -- {}, {}, {}", it.area.name, it.mobId, it.roomId)
             val mob = mobMap[it.mobId]!!
             val count = mobService.findMobsById(it.mobId).size
             val amountToRespawn = Math.min(it.maxAmountInGame - count, it.maxAmountInGame)
@@ -148,7 +150,13 @@ class RespawnService(
             val itemCount = mob.items.count { it.id == builder.id }
             val amountToCreate = maxAmountForMob - itemCount
             for (j in 1..amountToCreate) {
-                mob.items.add(builder.build())
+                builder.build().also {
+                    if (it.position == Position.NONE) {
+                        mob.items.add(it)
+                    } else {
+                        mob.equipped.add(it)
+                    }
+                }
             }
             decrementer -= amountToCreate
             i++

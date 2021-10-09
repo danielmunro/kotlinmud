@@ -121,7 +121,7 @@ open class Mob(mobArguments: MobArguments) : Noun, HasInventory {
     }
 
     fun canTargetForFight(): Boolean {
-        return job == JobType.AGGRESSIVE ||
+        return job == JobType.AGGRO ||
             job == JobType.FODDER ||
             job == JobType.GUARD ||
             job == JobType.PATROL ||

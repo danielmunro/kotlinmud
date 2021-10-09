@@ -113,6 +113,7 @@ w 65~
 A flower meadow is here.~
 s 61~
 e 64~
+w 300~
 ~
 
 mobs:

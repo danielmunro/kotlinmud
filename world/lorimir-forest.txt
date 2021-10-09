@@ -86,7 +86,7 @@ items:
 1. a brown mushroom
 a small brown mushroom
 An innocuous small brown mushroom is here.~
-poison 20~
+poison 2~
 food 4~
 weight 0.1~
 ~
