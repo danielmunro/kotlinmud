@@ -1,0 +1,54 @@
+area:
+3. GrongokHideout
+
+rooms:
+300. Entrance to a cave
+An ominous-looking cave entrance is here. A putrid, repulsive smell wafts from its depths.~
+e 65~
+d 301~
+~
+
+301. Deep in a cave
+TBD~
+u 300~
+n 302~
+~
+
+302. Deep in a cave
+TBD~
+s 301~
+n 303~
+~
+
+303. Deep in a cave
+TBD~
+s 302~
+~
+
+mobs:
+150. Grongok, the monstrous cave ogre
+a monstrous cave ogre is here, ready for his next meal
+TBD~
+level 8~
+gold 1~
+job aggro~
+~
+
+items:
+50. a sturdy tree branch
+a sturdy tree branch
+a sturdy tree branch is here.~
+position weapon~
+weapon mace~
+weight 10~
+material wood~
+verb thwack~
+damage pound~
+hit 1d1~
+~
+
+mob_respawns:
+150 1 1 303
+
+item_mob_respawns:
+50 1 1 150
