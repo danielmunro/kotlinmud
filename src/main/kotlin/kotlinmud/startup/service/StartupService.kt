@@ -4,7 +4,6 @@ import kotlinmud.helper.logger
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.quest.service.QuestBuilderService
-import kotlinmud.respawn.helper.itemMobRespawns
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
@@ -39,7 +38,9 @@ class StartupService(
 
     fun hydrateWorld() {
         data.forEach {
-            generateModels(Parser(it).parse())
+            val file = Parser(it).parse()
+            addModelsFromFile(file)
+            generateFromModels(file)
         }
         logger.debug("model parse complete -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items, ${quests.size} quests")
 
@@ -100,40 +101,52 @@ class StartupService(
         }
     }
 
-    private fun generateModels(file: FileModel) {
+    private fun addModelsFromFile(file: FileModel) {
         val area = Area.valueOf(file.area.name)
-        file.rooms.forEach { model ->
-            val room = RoomBuilder(roomService).also {
-                it.area = area
-                it.id = model.id
-                it.name = model.name
-                it.description = model.description
-            }.build()
-            roomMap[model.id] = room
-            rooms.add(model)
-            roomService.add(room)
-        }
-        file.quests.forEach { model ->
-            val questBuilder = QuestBuilderService(
-                mobService,
-                roomService,
-            ).also {
-                it.id = model.id
-                it.name = model.name
-                it.brief = model.brief
-                it.description = model.description
-            }
-            model.keywords.forEach {
-                questBuilder.setFromKeyword(it.key, it.value)
-            }
-            questBuilder.build()
-            quests.add(model)
-        }
+        rooms.addAll(file.rooms)
+        quests.addAll(file.quests)
         mobRespawns.addAll(file.mobRespawns)
         itemRoomRespawns.addAll(file.itemRoomRespawns)
         itemMobRespawns.addAll(file.itemMobRespawns)
         mobs.addAll(file.mobs)
         items.addAll(file.items)
         areas.add(area)
+    }
+
+    private fun generateFromModels(file: FileModel) {
+        val area = Area.valueOf(file.area.name)
+        file.rooms.forEach {
+            createRoomFromModel(it, area)
+        }
+        file.quests.forEach {
+            createQuestFromModel(it)
+        }
+    }
+
+    private fun createRoomFromModel(model: RoomModel, area: Area) {
+        RoomBuilder(roomService).also {
+            it.area = area
+            it.id = model.id
+            it.name = model.name
+            it.description = model.description
+        }.build().also {
+            roomMap[model.id] = it
+            roomService.add(it)
+        }
+    }
+
+    private fun createQuestFromModel(model: QuestModel) {
+        QuestBuilderService(
+            mobService,
+            roomService,
+        ).also { builder ->
+            builder.id = model.id
+            builder.name = model.name
+            builder.brief = model.brief
+            builder.description = model.description
+            model.keywords.forEach {
+                builder.setFromKeyword(it.key, it.value)
+            }
+        }.build()
     }
 }
