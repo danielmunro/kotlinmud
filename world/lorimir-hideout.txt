@@ -1,5 +1,5 @@
 area:
-3. GrongokHideout
+4. GrongokHideout
 
 rooms:
 300. Entrance to a cave
@@ -17,12 +17,18 @@ n 302~
 302. Deep in a cave
 TBD~
 s 301~
-n 303~
+e 303~
+w 304~
 ~
 
 303. Deep in a cave
 TBD~
-s 302~
+w 302~
+~
+
+304. Deep in a cave
+TBD~
+e 302~
 ~
 
 mobs:

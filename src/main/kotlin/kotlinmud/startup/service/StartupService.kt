@@ -18,6 +18,7 @@ import kotlinmud.startup.model.MobRespawnModel
 import kotlinmud.startup.model.QuestModel
 import kotlinmud.startup.model.RoomModel
 import kotlinmud.startup.parser.Parser
+import kotlinmud.startup.validator.ModelCollectionValidator
 
 class StartupService(
     private val roomService: RoomService,
@@ -40,10 +41,17 @@ class StartupService(
         data.forEach { section ->
             Parser(section).parse().also {
                 combineModels(it)
+                ModelCollectionValidator(
+                    rooms,
+                    mobs,
+                    items,
+                    quests,
+                ).validate()
                 generateFromModels(it)
             }
         }
-        logger.debug("model parse complete -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items, ${quests.size} quests")
+        logger.debug("--- model parse complete ---")
+        logger.debug("parse stats -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items, ${quests.size} quests")
 
         connectUpRooms()
         logger.debug("rooms connected")
@@ -115,6 +123,7 @@ class StartupService(
     }
 
     private fun generateFromModels(file: FileModel) {
+        logger.debug("generating models for area {}", file.area.name)
         val area = Area.valueOf(file.area.name)
         file.rooms.forEach {
             createRoomFromModel(it, area)
@@ -125,6 +134,7 @@ class StartupService(
     }
 
     private fun createRoomFromModel(model: RoomModel, area: Area) {
+        logger.debug("add room to area -- {}, {}", area.name, model.id)
         RoomBuilder(roomService).also {
             it.area = area
             it.id = model.id
@@ -132,11 +142,11 @@ class StartupService(
             it.description = model.description
         }.build().also {
             roomMap[model.id] = it
-            roomService.add(it)
         }
     }
 
     private fun createQuestFromModel(model: QuestModel) {
+        logger.debug("quest -- {}, {}", model.id, model.name)
         QuestBuilderService(
             mobService,
             roomService,

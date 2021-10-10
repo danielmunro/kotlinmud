@@ -120,8 +120,8 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = project.hasProperty('generateWorld') ?
-            'kotlinmud.GenerateWorldAppKt' :
+    mainClassName = project.hasProperty('analyze') ?
+            'kotlinmud.AnalyzeAppKt' :
             'kotlinmud.AppKt'
 }
 
