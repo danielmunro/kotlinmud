@@ -4,8 +4,8 @@ import kotlinmud.startup.exception.DuplicateIdValidationException
 import kotlinmud.startup.model.FileModel
 import kotlinmud.startup.model.Model
 
-class FileModelValidator(private val file: FileModel) {
-    fun validate() {
+class FileModelValidator(private val file: FileModel) : Validator {
+    override fun validate() {
         validateRooms()
         validateMobs()
         validateItems()

@@ -17,6 +17,7 @@ import kotlinmud.startup.model.ItemModel
 import kotlinmud.startup.model.ItemRoomRespawnModel
 import kotlinmud.startup.model.MobModel
 import kotlinmud.startup.model.MobRespawnModel
+import kotlinmud.startup.validator.ItemValidator
 import kotlinmud.type.Builder
 
 class RespawnService(
@@ -156,6 +157,7 @@ class RespawnService(
                     } else {
                         mob.equipped.add(it)
                     }
+                    ItemValidator(it).validate()
                 }
             }
             decrementer -= amountToCreate
