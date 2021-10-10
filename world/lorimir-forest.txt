@@ -5,6 +5,7 @@ rooms:
 1. A path in the woods
 This is a path in the woods.~
 s 2~
+n 400~
 ~
 
 2. Deeper in the woods

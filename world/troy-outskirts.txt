@@ -1,0 +1,27 @@
+area:
+5. TroyOutskirts
+
+rooms:
+400. An open field, littered with ancient ruins
+Magnificent columns from a bygone era stand scattered over the landscape.~
+s 1~
+n 401~
+~
+
+401. An open field, littered with ancient ruins
+Magnificent columns from a bygone era stand scattered over the landscape.~
+s 400~
+n 402~
+~
+
+402. An open field, littered with ancient ruins
+Magnificent columns from a bygone era stand scattered over the landscape.~
+s 401~
+w 403~
+~
+
+403. An open field, littered with ancient ruins
+Magnificent columns from a bygone era stand scattered over the landscape.~
+e 402~
+w 450~
+~
