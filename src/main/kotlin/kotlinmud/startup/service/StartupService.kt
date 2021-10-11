@@ -38,18 +38,23 @@ class StartupService(
     private val logger = logger(this)
 
     fun hydrateWorld() {
-        data.forEach { section ->
+        data.map { section ->
             Parser(section).parse().also {
+                logger.debug("combine models for area into collection -- {}", it.area.name)
                 combineModels(it)
-                ModelCollectionValidator(
-                    rooms,
-                    mobs,
-                    items,
-                    quests,
-                ).validate()
-                generateFromModels(it)
+                generateRoomsFromModels(it)
             }
+        }.forEach {
+            generateQuestsFromModels(it)
         }
+
+        ModelCollectionValidator(
+            rooms,
+            mobs,
+            items,
+            quests,
+        ).validate()
+
         logger.debug("--- model parse complete ---")
         logger.debug("parse stats -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items, ${quests.size} quests")
 
@@ -122,12 +127,15 @@ class StartupService(
         areas.add(area)
     }
 
-    private fun generateFromModels(file: FileModel) {
-        logger.debug("generating models for area {}", file.area.name)
+    private fun generateRoomsFromModels(file: FileModel) {
+        logger.debug("generating room models for area {}", file.area.name)
         val area = Area.valueOf(file.area.name)
         file.rooms.forEach {
             createRoomFromModel(it, area)
         }
+    }
+
+    private fun generateQuestsFromModels(file: FileModel) {
         file.quests.forEach {
             createQuestFromModel(it)
         }

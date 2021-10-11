@@ -1,0 +1,62 @@
+area:
+7. Troy
+
+rooms:
+500. South Market Road
+TBD~
+s 472~
+n 501~
+e 504~
+w 505~
+~
+
+501. South Market Road
+TBD~
+s 500~
+n 502~
+e 506~
+w 507~
+~
+
+502. South Market Road
+TBD~
+s 501~
+n 503~
+e 508~
+w 509~
+~
+
+503. South Market Road
+TBD~
+s 500~
+~
+
+504. Potions and apothecary
+TBD~
+w 500~
+~
+
+505. Ramshackle tavern
+A humble and aging wooden structure surrounds you. Patrons sit around dimly lit tables, swapping tales of yore.~
+e 500~
+~
+
+506. Crescent Bakery
+TBD~
+w 501~
+~
+
+507. Wands and staves
+TBD~
+e 501~
+~
+
+508. Inn at Market Street
+TBD~
+w 502~
+~
+
+509. Troy Stockhouse
+TBD~
+e 502~
+~
