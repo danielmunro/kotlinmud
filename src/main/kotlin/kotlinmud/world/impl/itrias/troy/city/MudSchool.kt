@@ -13,10 +13,9 @@ import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.world.service.AreaBuilderService
-import java.util.UUID
 
 fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
-    val keyId = UUID.randomUUID()
+    val keyId = 1
     val room4 = areaBuilderService.startWith(connection)
         .buildRoom(Direction.WEST) {
             it.name = "The great entrance to the mud school"
@@ -34,6 +33,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             Direction.WEST,
             Door(
                 "a heavy wooden door",
+                "tbd",
                 "tbd",
                 DoorDisposition.LOCKED,
                 keyId,
@@ -106,7 +106,7 @@ fun createMudSchool(areaBuilderService: AreaBuilderService, connection: Room) {
             ).also { item ->
                 item.type = ItemType.KEY
                 item.material = Material.COPPER
-                item.canonicalId = keyId
+                item.keyId = keyId
             }.build()
         )
     }

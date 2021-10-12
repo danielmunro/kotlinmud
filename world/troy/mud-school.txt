@@ -30,3 +30,24 @@ w 654~
 TBD~
 e 653~
 ~
+
+doors:
+1. a heavy, wooden door
+a heavy, wooden door is here
+tbd~
+disposition locked~
+key 1~
+room 653~
+direction west~
+~
+
+items:
+200. the mud school key
+the mud school key
+TBD~
+key 1~
+material brass~
+~
+
+item_room_respawns:
+200 1 999 653

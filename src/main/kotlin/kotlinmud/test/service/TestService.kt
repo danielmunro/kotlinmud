@@ -76,7 +76,6 @@ import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.net.SocketAddress
 import java.nio.channels.SocketChannel
-import java.util.UUID
 
 class TestService(
     private val fixtureService: FixtureService,
@@ -197,8 +196,9 @@ class TestService(
         return Door(
             "a door",
             "a door",
+            "a door",
             DoorDisposition.CLOSED,
-            UUID.randomUUID(),
+            0,
         )
     }
 

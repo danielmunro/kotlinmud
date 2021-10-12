@@ -45,8 +45,10 @@ class RespawnService(
         }
         itemRoomRespawns.forEach {
             val item = itemMap[it.itemId]!!
-            val count = itemService.findById(it.itemId).size
-            val amountToRespawn = Math.min(it.maxAmountInGame - count, it.maxAmountInGame)
+//            val count = itemService.findById(it.itemId).size
+//            val amountToRespawn = Math.min(it.maxAmountInGame - count, it.maxAmountInRoom)
+//            logger.debug("item room respawn -- {}, {} existing, {} to create", item, count, amountToRespawn)
+            val amountToRespawn = 1
             val builder = createItemBuilder(item)
 
             respawnToRoomBuilder(builder, Area.valueOf(it.area.name), it.roomId, amountToRespawn)

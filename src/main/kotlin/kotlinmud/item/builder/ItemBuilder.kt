@@ -31,6 +31,7 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
     var affects: List<Affect> = listOf()
     var spells: List<SkillType> = listOf()
     var canonicalId: UUID = UUID.randomUUID()
+    var keyId: Int? = null
     var position: Position? = null
     var weaponType: Weapon? = null
     var attackVerb: String? = null
@@ -87,6 +88,10 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
             }
             "weapon" -> {
                 weaponType = Weapon.valueOf(value.toUpperCase())
+            }
+            "key" -> {
+                type = ItemType.KEY
+                keyId = value.toInt()
             }
         }
     }
@@ -149,6 +154,7 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
             affects.toMutableList(),
             spells.toMutableList(),
             canonicalId,
+            keyId,
             position,
             weaponType,
             attackVerb,

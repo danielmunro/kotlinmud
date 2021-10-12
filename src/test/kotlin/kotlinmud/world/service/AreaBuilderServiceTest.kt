@@ -7,12 +7,11 @@ import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.helper.createTestService
 import org.junit.Test
-import java.util.UUID
 
 class AreaBuilderServiceTest {
     companion object {
         fun createDoorModel(): Door {
-            return Door("a door", "tbd", DoorDisposition.CLOSED, UUID.randomUUID())
+            return Door("a door", "tbd", "tbd", DoorDisposition.CLOSED, 1)
         }
     }
 

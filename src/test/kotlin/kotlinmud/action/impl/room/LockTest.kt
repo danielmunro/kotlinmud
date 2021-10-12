@@ -9,10 +9,9 @@ import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.service.TestService
 import org.junit.Test
-import java.util.UUID
 
 class LockTest {
-    private val uuid = UUID.randomUUID()
+    private val keyId = 1
 
     private fun setup(test: TestService): Door {
         val start = test.getStartRoom()
@@ -21,8 +20,9 @@ class LockTest {
         start.westDoor = Door(
             "a door",
             "tbd",
+            "tbd",
             DoorDisposition.CLOSED,
-            uuid,
+            keyId,
         )
         return start.westDoor!!
     }
@@ -32,7 +32,7 @@ class LockTest {
             it.items.add(
                 test.createItemBuilder().also { builder ->
                     builder.type = ItemType.KEY
-                    builder.canonicalId = uuid
+                    builder.keyId = keyId
                 }.build()
             )
         }

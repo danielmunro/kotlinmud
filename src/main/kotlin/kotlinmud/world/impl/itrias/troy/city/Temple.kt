@@ -21,7 +21,9 @@ fun createTemple(areaBuilderService: AreaBuilderService, connection: Room) {
             Door(
                 "a sturdy oak door",
                 "tbd",
+                "tbd",
                 DoorDisposition.CLOSED,
+                2,
             )
         )
         .buildRoom("atrium", Direction.NORTH) {

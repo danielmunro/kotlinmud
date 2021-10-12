@@ -5,10 +5,14 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.quest.service.QuestBuilderService
 import kotlinmud.room.builder.RoomBuilder
+import kotlinmud.room.model.Door
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
+import kotlinmud.room.type.Direction
+import kotlinmud.room.type.DoorDisposition
 import kotlinmud.startup.exception.RoomConnectionException
+import kotlinmud.startup.model.DoorModel
 import kotlinmud.startup.model.FileModel
 import kotlinmud.startup.model.ItemMobRespawnModel
 import kotlinmud.startup.model.ItemModel
@@ -28,6 +32,7 @@ class StartupService(
 ) {
     private val roomMap = mutableMapOf<Int, Room>()
     private val rooms = mutableListOf<RoomModel>()
+    private val doors = mutableListOf<DoorModel>()
     private val mobs = mutableListOf<MobModel>()
     private val items = mutableListOf<ItemModel>()
     private val quests = mutableListOf<QuestModel>()
@@ -56,10 +61,13 @@ class StartupService(
         ).validate()
 
         logger.debug("--- model parse complete ---")
-        logger.debug("parse stats -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items, ${quests.size} quests")
+        logger.debug("parse stats -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items, ${quests.size} quests, ${itemRoomRespawns.size} item room respawns")
 
         connectUpRooms()
         logger.debug("rooms connected")
+
+        createDoors()
+        logger.debug("create doors")
 
         createRespawnService().also {
             it.respawn()
@@ -78,6 +86,55 @@ class StartupService(
             itemService,
             mobService,
         )
+    }
+
+    private fun createDoors() {
+        doors.forEach {
+            val disposition = DoorDisposition.valueOf(it.keywords.getOrDefault("disposition", "closed").toUpperCase())
+            val keyId = it.keywords.getOrDefault("key", "0").toInt()
+            val door = Door(
+                it.name,
+                it.brief,
+                it.description,
+                disposition,
+                keyId,
+            )
+            val direction = Direction.valueOf(
+                it.keywords.getOrElse("direction") {
+                    throw Exception()
+                }.toUpperCase()
+            )
+            val roomId = it.keywords.getOrElse("room") {
+                throw Exception()
+            }.toInt()
+            val room = roomMap[roomId]!!
+            when (direction) {
+                Direction.NORTH -> {
+                    room.northDoor = door
+                    room.north!!.southDoor = door
+                }
+                Direction.SOUTH -> {
+                    room.southDoor = door
+                    room.south!!.northDoor = door
+                }
+                Direction.WEST -> {
+                    room.westDoor = door
+                    room.west!!.eastDoor = door
+                }
+                Direction.EAST -> {
+                    room.eastDoor = door
+                    room.east!!.westDoor = door
+                }
+                Direction.UP -> {
+                    room.upDoor = door
+                    room.up!!.downDoor = door
+                }
+                Direction.DOWN -> {
+                    room.downDoor = door
+                    room.down!!.upDoor = door
+                }
+            }
+        }
     }
 
     private fun connectUpRooms() {
@@ -118,6 +175,7 @@ class StartupService(
     private fun combineModels(file: FileModel) {
         val area = Area.valueOf(file.area.name)
         rooms.addAll(file.rooms)
+        doors.addAll(file.doors)
         quests.addAll(file.quests)
         mobRespawns.addAll(file.mobRespawns)
         itemRoomRespawns.addAll(file.itemRoomRespawns)
@@ -148,6 +206,9 @@ class StartupService(
             it.id = model.id
             it.name = model.name
             it.description = model.description
+            model.keywords.forEach { k ->
+                it.setFromKeyword(k.key, k.value)
+            }
         }.build().also {
             roomMap[model.id] = it
         }

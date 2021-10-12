@@ -31,6 +31,7 @@ class Item(
     val affects: MutableList<Affect> = mutableListOf(),
     val spells: MutableList<SkillType> = mutableListOf(),
     val canonicalId: UUID,
+    val keyId: Int?,
     val position: Position?,
     val weaponType: Weapon?,
     val attackVerb: String?,

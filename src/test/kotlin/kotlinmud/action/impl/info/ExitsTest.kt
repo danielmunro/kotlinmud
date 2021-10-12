@@ -8,7 +8,6 @@ import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.test.helper.createTestService
 import org.junit.Test
-import java.util.UUID
 
 class ExitsTest {
     @Test
@@ -32,8 +31,9 @@ class ExitsTest {
         room1.northDoor = Door(
             "a heavy iron door",
             "a big heavy iron door",
+            "TBD",
             DoorDisposition.CLOSED,
-            UUID.randomUUID(),
+            1,
         )
 
         val response = test.runAction("exits")

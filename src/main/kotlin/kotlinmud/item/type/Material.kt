@@ -31,4 +31,5 @@ enum class Material(val value: String) {
     DIAMOND("diamond"),
     TIN("tin"),
     COPPER("copper"),
+    BRASS("brass"),
 }

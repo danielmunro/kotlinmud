@@ -4,6 +4,7 @@ import kotlinmud.helper.logger
 import kotlinmud.room.type.Area
 import kotlinmud.startup.factory.createNoneAreaModel
 import kotlinmud.startup.model.AreaModel
+import kotlinmud.startup.model.DoorModel
 import kotlinmud.startup.model.FileModel
 import kotlinmud.startup.model.ItemMobRespawnModel
 import kotlinmud.startup.model.ItemModel
@@ -15,6 +16,7 @@ import kotlinmud.startup.model.QuestModel
 import kotlinmud.startup.model.RoomModel
 import kotlinmud.startup.parser.exception.TokenParseException
 import kotlinmud.startup.spec.AreaSpec
+import kotlinmud.startup.spec.DoorSpec
 import kotlinmud.startup.spec.ItemSpec
 import kotlinmud.startup.spec.MobSpec
 import kotlinmud.startup.spec.QuestSpec
@@ -57,6 +59,7 @@ class Parser(private val data: String) {
     fun parse(): FileModel {
         val mobs = mutableListOf<MobModel>()
         val rooms = mutableListOf<RoomModel>()
+        val doors = mutableListOf<DoorModel>()
         val items = mutableListOf<ItemModel>()
         val quests = mutableListOf<QuestModel>()
         val mobRespawns = mutableListOf<MobRespawnModel>()
@@ -74,6 +77,7 @@ class Parser(private val data: String) {
                             area = parseSpec(AreaSpec()) as AreaModel
                         }
                         "rooms" -> rooms.add(parseSpec(RoomSpec()) as RoomModel)
+                        "doors" -> doors.add(parseSpec(DoorSpec()) as DoorModel)
                         "items" -> items.add(parseSpec(ItemSpec()) as ItemModel)
                         "mobs" -> mobs.add(parseSpec(MobSpec()) as MobModel)
                         "quests" -> quests.add(parseSpec(QuestSpec()) as QuestModel)
@@ -92,6 +96,7 @@ class Parser(private val data: String) {
             mobs,
             items,
             rooms,
+            doors,
             quests,
             mobRespawns,
             itemRoomRespawns,
