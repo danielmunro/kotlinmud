@@ -1,0 +1,32 @@
+area:
+12. MudSchool
+
+rooms:
+650. The great entrance to the mud school
+TBD~
+e 600~
+w 651~
+~
+
+651. Mud school main hallway
+TBD~
+e 650~
+w 652~
+~
+
+652. Mud school main hallway
+TBD~
+e 651~
+w 653~
+~
+
+653. Mud school main hallway
+TBD~
+e 652~
+w 654~
+~
+
+654. Mud school main hallway
+TBD~
+e 653~
+~

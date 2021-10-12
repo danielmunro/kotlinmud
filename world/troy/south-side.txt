@@ -29,6 +29,7 @@ w 509~
 503. South Market Road
 TBD~
 s 500~
+n 525~
 ~
 
 504. Potions and apothecary

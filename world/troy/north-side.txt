@@ -1,0 +1,26 @@
+area:
+11. Troy
+
+rooms:
+600. Pine Street
+TBD~
+s 525~
+e 603~
+w 650~
+~
+
+601. Pine Street
+TBD~
+s 600~
+n 602~
+~
+
+602. Pine Street
+TBD~
+s 601~
+~
+
+603. The Stormy Arsenal
+TBD~
+w 600~
+~
