@@ -2,6 +2,11 @@ area:
 12. MudSchool
 
 rooms:
+
+#
+# Main hallway
+#
+
 650. The great entrance to the mud school
 TBD~
 e 600~
@@ -12,12 +17,16 @@ w 651~
 TBD~
 e 650~
 w 652~
+n 655~
+s 659~
 ~
 
 652. Mud school main hallway
 TBD~
 e 651~
 w 653~
+n 663~
+s 667~
 ~
 
 653. Mud school main hallway
@@ -29,6 +38,114 @@ w 654~
 654. Mud school main hallway
 TBD~
 e 653~
+~
+
+#
+# First branch
+#
+
+655. The center of a killing room
+TBD~
+s 651~
+w 656~
+n 657~
+e 658~
+~
+
+656. A small cage
+TBD~
+e 655~
+~
+
+657. A small cage
+TBD~
+s 655~
+~
+
+658. A small cage
+TBD~
+w 655~
+~
+
+#
+# Second branch
+#
+
+659. The center of a killing room
+TBD~
+n 651~
+w 660~
+s 661~
+e 662~
+~
+
+660. A small cage
+TBD~
+e 659~
+~
+
+661. A small cage
+TBD~
+n 659~
+~
+
+662. A small cage
+TBD~
+w 659~
+~
+
+#
+# Third branch
+#
+
+663. The center of a killing room
+TBD~
+n 665~
+w 664~
+s 652~
+e 666~
+~
+
+664. A small cage
+TBD~
+e 663~
+~
+
+665. A small cage
+TBD~
+s 663~
+~
+
+666. A small cage
+TBD~
+w 663~
+~
+
+#
+# Fourth branch
+#
+
+667. The center of a killing room
+TBD~
+s 669~
+w 668~
+n 652~
+e 670~
+~
+
+668. A small cage
+TBD~
+e 667~
+~
+
+669. A small cage
+TBD~
+n 667~
+~
+
+670. A small cage
+TBD~
+w 667~
 ~
 
 doors:

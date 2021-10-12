@@ -176,6 +176,10 @@ class Parser(private val data: String) {
             buffer += input
             input = data.substring(cursor, cursor + 1)
             cursor += 1
+            if (input == "#") {
+                input = ""
+                cursor = data.indexOf("\n", cursor) + 1
+            }
         }
         val trimmed = buffer.trim()
         validateTokenValueType(trimmed, lastCursor)
