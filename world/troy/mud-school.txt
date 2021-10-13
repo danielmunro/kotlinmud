@@ -2,7 +2,6 @@ area:
 12. MudSchool
 
 rooms:
-
 #
 # Main hallway
 #
@@ -159,12 +158,124 @@ direction west~
 ~
 
 items:
-200. the mud school key
+600. the mud school key
 the mud school key
 TBD~
 key 1~
 material brass~
 ~
 
-item_room_respawns:
-200 1 999 653
+601. the mud school diploma
+the mud school diploma is here
+TBD~
+position held~
+weight 0.1~
+material paper~
+int 1~
+~
+
+mobs:
+600. a hulking monster
+a hulking monster is here
+TBD~
+level 2~
+~
+
+601. the diploma guardian
+the mud school diploma guardian is here, ready to give you your last challenge
+TBD~
+job guard~
+level 3~
+~
+
+602. a weak monster
+a weak monster is here, rattling the cage walls
+TBD~
+job guard~
+~
+
+603. a weak monster
+a weak monster is here, rattling the cage walls
+TBD~
+job guard~
+~
+
+604. a weak monster
+a weak monster is here, rattling the cage walls
+TBD~
+job guard~
+~
+
+605. a weak monster
+a weak monster is here, rattling the cage walls
+TBD~
+job guard~
+~
+
+606. a weak monster
+a weak monster is here, rattling the cage walls
+TBD~
+job guard~
+~
+
+607. a weak monster
+a weak monster is here, rattling the cage walls
+TBD~
+job guard~
+~
+
+608. a weak monster
+a weak monster is here, rattling the cage walls
+TBD~
+job guard~
+~
+
+609. a weak monster
+a weak monster is here, rattling the cage walls
+TBD~
+job guard~
+~
+
+610. a weak monster
+a weak monster is here, rattling the cage walls
+TBD~
+job guard~
+~
+
+611. a weak monster
+a weak monster is here, rattling the cage walls
+TBD~
+job guard~
+~
+
+612. a weak monster
+a weak monster is here, rattling the cage walls
+TBD~
+job guard~
+~
+
+613. a weak monster
+a weak monster is here, rattling the cage walls
+TBD~
+job guard~
+~
+
+item_mob_respawns:
+600 1 999 600
+601 1 999 601
+
+mob_respawns:
+600 1 1 654
+601 1 1 653
+602 1 1 656
+603 1 1 657
+604 1 1 658
+605 1 1 660
+606 1 1 661
+607 1 1 662
+608 1 1 664
+609 1 1 665
+610 1 1 666
+611 1 1 668
+612 1 1 669
+613 1 1 670
