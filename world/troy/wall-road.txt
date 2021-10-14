@@ -1,0 +1,70 @@
+area:
+13. Troy
+
+rooms:
+700. Along the wall road
+TBD~
+s 553~
+n 701~
+~
+
+701. Along the wall road
+TBD~
+s 700~
+n 702~
+~
+
+702. Along the wall road
+TBD~
+s 701~
+n 703~
+~
+
+703. Northeast corner of the wall road
+TBD~
+s 702~
+e 704~
+~
+
+704. Along the wall road
+TBD~
+w 703~
+e 705~
+~
+
+705. North Gate
+TBD~
+w 704~
+e 706~
+s 602~
+~
+
+706. Along the wall road
+TBD~
+w 705~
+e 707~
+~
+
+707. Northwest corner of the wall road
+TBD~
+w 706~
+s 708~
+~
+
+708. Along the wall road
+TBD~
+n 707~
+s 709~
+~
+
+709. Along the wall road
+TBD~
+n 708~
+s 710~
+~
+
+710. Along the wall road
+TBD~
+n 709~
+s 578~
+~

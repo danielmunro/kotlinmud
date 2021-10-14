@@ -93,7 +93,7 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
                 type = ItemType.KEY
                 keyId = value.toInt()
             }
-            "int" -> {
+            "int", "ac_slash", "ac_pierce", "ac_bash", "ac_magic" -> {
                 val attribute = Attribute.valueOf(keyword.toUpperCase())
                 attributes[attribute] = value.toInt()
             }
