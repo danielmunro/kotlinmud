@@ -20,6 +20,7 @@ import kotlinmud.startup.model.MobModel
 import kotlinmud.startup.model.MobRespawnModel
 import kotlinmud.startup.validator.ItemValidator
 import kotlinmud.type.Builder
+import kotlin.system.measureTimeMillis
 
 class RespawnService(
     private val mobs: List<MobModel>,
@@ -34,9 +35,12 @@ class RespawnService(
     private val logger = logger(this)
 
     fun respawn() {
-        respawnMobs()
-        respawnItemsInRoom()
-        respawnItemsForMobs()
+        val timing = measureTimeMillis {
+            respawnMobs()
+            respawnItemsInRoom()
+            respawnItemsForMobs()
+        }
+        logger.info("respawn took $timing ms")
     }
 
     private fun respawnItemsInRoom() {
