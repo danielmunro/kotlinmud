@@ -10,6 +10,7 @@ import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.service.MobService
 import kotlinmud.respawn.helper.calculateHpForMob
+import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.startup.model.ItemMobRespawnModel
@@ -45,13 +46,18 @@ class RespawnService(
         }
         itemRoomRespawns.forEach {
             val item = itemMap[it.itemId]!!
-//            val count = itemService.findById(it.itemId).size
-//            val amountToRespawn = Math.min(it.maxAmountInGame - count, it.maxAmountInRoom)
-//            logger.debug("item room respawn -- {}, {} existing, {} to create", item, count, amountToRespawn)
-            val amountToRespawn = 1
+            val count = itemService.findById(it.itemId).size
             val builder = createItemBuilder(item)
 
-            respawnToRoomBuilder(builder, Area.valueOf(it.area.name), it.roomId, amountToRespawn)
+            respawnToRoom(
+                builder,
+                Area.valueOf(it.area.name),
+                it.roomId,
+                it.maxAmountInGame - count,
+                it.maxAmountInRoom,
+            ) { room ->
+                room.items.filter { item -> item.id == it.itemId }.size
+            }
         }
     }
 
@@ -63,10 +69,10 @@ class RespawnService(
         itemMobRespawns.forEach {
             val item = itemMap[it.itemId]!!
             val count = itemService.findById(it.itemId).size
-            val amountToRespawn = Math.min(it.maxAmountInGame - count, it.maxAmountInGame)
+            val amountToRespawn = it.maxAmountInGame - count
             val builder = createItemBuilder(item)
 
-            respawnToMobBuilder(builder, it.mobId, amountToRespawn, it.maxAmountForMob)
+            respawnToMob(builder, it.mobId, amountToRespawn, it.maxAmountForMob)
         }
     }
 
@@ -79,10 +85,17 @@ class RespawnService(
             logger.debug("mob respawn -- {}, {}, {}", it.area.name, it.mobId, it.roomId)
             val mob = mobMap[it.mobId]!!
             val count = mobService.findMobsById(it.mobId).size
-            val amountToRespawn = Math.min(it.maxAmountInGame - count, it.maxAmountInGame)
             val builder = createMobBuilder(mob)
 
-            respawnToRoomBuilder(builder, Area.valueOf(it.area.name), it.roomId, amountToRespawn)
+            respawnToRoom(
+                builder,
+                Area.valueOf(it.area.name),
+                it.roomId,
+                it.maxAmountInGame - count,
+                it.maxAmountInRoom,
+            ) { room ->
+                mobService.findMobsInRoom(room).filter { mob -> mob.id == it.mobId }.size
+            }
         }
     }
 
@@ -121,31 +134,36 @@ class RespawnService(
         return builder
     }
 
-    private fun respawnToRoomBuilder(builder: Builder, area: Area, roomId: Int, amountToRespawn: Int) {
-        if (amountToRespawn > 0) {
-            logger.info("respawn ${builder.name} (x$amountToRespawn) to $area")
-        }
-        var decrementer = amountToRespawn
+    private fun respawnToRoom(
+        builder: Builder,
+        area: Area,
+        roomId: Int,
+        maxAmountToRespawn: Int,
+        maxAmountInRoom: Int,
+        counter: (Room) -> Int,
+    ) {
+        var amountToRespawn = maxAmountToRespawn
         val areaRooms = roomService.findByArea(area)
-        while (decrementer > 0) {
-            builder.room = if (roomId > 0) {
+        var amount = 0
+        while (amountToRespawn > 0 && amount < maxAmountInRoom) {
+            val room = if (roomId > 0) {
                 roomService.findOne { room -> room.id == roomId }!!
             } else {
                 areaRooms.random()
             }
+            builder.room = room
             builder.build()
-            decrementer--
+            logger.info("add ${builder.name} to $room")
+            amountToRespawn--
+            amount = counter(room)
         }
     }
 
-    private fun respawnToMobBuilder(builder: ItemBuilder, mobId: Int, amountToRespawn: Int, maxAmountForMob: Int) {
-        if (amountToRespawn > 0) {
-            logger.info("respawn ${builder.name} (x$amountToRespawn) to mob $mobId")
-        }
-        var decrementer = amountToRespawn
+    private fun respawnToMob(builder: ItemBuilder, mobId: Int, maxAmountInGame: Int, maxAmountForMob: Int) {
+        var amountToRespawn = maxAmountInGame
         val mobs = mobService.findMobsById(mobId)
         var i = 0
-        while (decrementer > 0) {
+        while (amountToRespawn > 0) {
             if (i >= mobs.size) {
                 return
             }
@@ -161,8 +179,12 @@ class RespawnService(
                     }
                     ItemValidator(it).validate()
                 }
+                logger.info("add ${builder.name} to mob $mob")
+                amountToRespawn--
+                if (amountToRespawn == 0) {
+                    break
+                }
             }
-            decrementer -= amountToCreate
             i++
         }
     }

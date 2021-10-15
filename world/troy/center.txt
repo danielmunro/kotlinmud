@@ -9,3 +9,54 @@ w 550~
 e 575~
 n 600~
 ~
+
+mobs:
+525. a Troy city guard
+a Troy city guard is here, keeping the peace
+TBD~
+job guard~
+level 8~
+~
+
+526. a Troy city guard
+a Troy city guard is here, keeping the peace
+TBD~
+level 8~
+~
+
+items:
+525. a Troy city guard signet ring
+a Troy city guard signet ring has been dropped here
+TBD~
+position finger~
+material iron~
+level 3~
+worth 10~
+weight 0.2~
+~
+
+526. a standard issue sword
+a standard issue sword
+TBD~
+level 3~
+worth 4~
+weight 3~
+material iron~
+position weapon~
+weapon sword~
+verb slash~
+damage slash~
+hit 2d2~
+~
+
+mob_respawns:
+525 2 999 553
+525 2 999 578
+525 2 999 705
+526 1 1 525
+
+item_mob_respawns:
+525 1 999 525
+525 1 999 526
+526 1 999 525
+526 1 999 526
