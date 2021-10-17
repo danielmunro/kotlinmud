@@ -97,6 +97,16 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
                 val attribute = Attribute.valueOf(keyword.toUpperCase())
                 attributes[attribute] = value.toInt()
             }
+            "container" -> {
+                isContainer = true
+                items = listOf()
+            }
+            "max_weight" -> {
+                maxWeight = value.toInt()
+            }
+            "max_items" -> {
+                maxItems = value.toInt()
+            }
         }
     }
 

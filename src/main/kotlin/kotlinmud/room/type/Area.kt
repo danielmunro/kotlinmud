@@ -22,7 +22,7 @@ enum class Area {
     HauntedMansionTopFloors,
     HauntedMansionBasement,
     MudSchool,
-    MatookTemple,
+    TempleMatook,
 
     // debug
     Test,

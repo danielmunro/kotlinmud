@@ -86,7 +86,7 @@ fun createTroyEastSide(areaBuilderService: AreaBuilderService, connection: Room)
         )
 
     createTemple(
-        areaBuilderService.copy(Area.MatookTemple),
+        areaBuilderService.copy(Area.TempleMatook),
         areaBuilderService.getRoomFromLabel("sunrise2"),
     )
 

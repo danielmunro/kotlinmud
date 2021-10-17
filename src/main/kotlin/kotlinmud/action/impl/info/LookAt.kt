@@ -11,11 +11,26 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.item.model.Item
 import kotlinmud.mob.model.Mob
 
+fun weightMessage(item: Item): String {
+    return if (item.weight > 0)
+        " It weighs ${item.weight} pound${if (item.weight == 1.0) "" else "s"}"
+    else
+        ""
+}
+
+fun inventoryMessage(item: Item): String {
+    val itemsReduced = item.items?.fold("Items:\n") { acc, it -> acc + it.name + "\n" }
+    return if (item.isContainer)
+        "\n\n$itemsReduced"
+    else
+        ""
+}
+
 fun createLookAtAction(): Action {
     return Action(Command.LOOK, mustBeAwake(), availableNoun()) {
         val noun = it.get<Noun>(Syntax.AVAILABLE_NOUN)
         val additionalDescription = when (noun) {
-            is Item -> "\n${noun.name} is ${noun.material.value} and weighs ${noun.weight} pound${if (noun.weight == 1.0) "" else "s"}."
+            is Item -> "\n${noun.name} is ${noun.material.value}.${weightMessage(noun)}${inventoryMessage(noun)}"
             is Mob -> "\n${noun.description}\n${noun.equipped.fold("") { acc, item -> "$acc$item\n" }}\n${noun.getHealthIndication()}"
             else -> ""
         }
