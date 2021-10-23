@@ -7,7 +7,7 @@ import kotlinmud.quest.type.QuestType
 
 class MobKillQuestRequirement(
     private val questType: QuestType,
-    val mobName: String,
+    val mobId: Int,
     override val amount: Int,
 ) : QuestRequirement {
     override val questRequirementType = QuestRequirementType.MOB_KILLED

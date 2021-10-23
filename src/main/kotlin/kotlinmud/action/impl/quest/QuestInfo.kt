@@ -29,7 +29,7 @@ ${quest.description}
 Submit conditions include:
 ${quest.submitConditions.joinToString("\n") { req ->
                     when (req) {
-                        is MobKillQuestRequirement -> "kill ${req.amount} ${req.mobName}"
+                        is MobKillQuestRequirement -> "kill ${req.amount} ${req.mobId}"
                         is FactionScoreQuestRequirement -> "gain ${req.amount} points with the ${req.faction.name}"
                         is ItemQuestRequirement -> "obtain ${req.amount} ${req.itemName}"
                         is LevelQuestRequirement -> "get to ${req.amount} level"

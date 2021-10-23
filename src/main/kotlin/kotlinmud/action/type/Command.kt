@@ -113,6 +113,7 @@ enum class Command(val value: String) {
     BAN("ban"),
     UNBAN("unban"),
     BOOM("boom"),
+    SLAY("slay"),
 
     // spells
     CURE_LIGHT("cure light"),

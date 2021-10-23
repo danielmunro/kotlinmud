@@ -12,7 +12,7 @@ enum class Area {
     PyreforgeCowField,
     PyreforgeWheatField,
     PyreforgePumpkinField,
-    IronBluffMainRoad,
+    BuosongMainRoad,
 
     // Troy
     Troy,

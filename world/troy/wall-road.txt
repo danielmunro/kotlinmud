@@ -37,6 +37,7 @@ TBD~
 w 704~
 e 706~
 s 602~
+n 900~
 ~
 
 706. Along the wall road

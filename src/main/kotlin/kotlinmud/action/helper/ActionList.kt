@@ -2,6 +2,7 @@ package kotlinmud.action.helper
 
 import kotlinmud.action.impl.admin.createBanAction
 import kotlinmud.action.impl.admin.createBoomAction
+import kotlinmud.action.impl.admin.createSlayAction
 import kotlinmud.action.impl.admin.createUnbanAction
 import kotlinmud.action.impl.createCastAction
 import kotlinmud.action.impl.createCloseAction
@@ -147,6 +148,7 @@ fun createActionsList(): List<Action> {
         createBanAction(),
         createUnbanAction(),
         createBoomAction(),
+        createSlayAction(),
 
         // skills
         createDisarmAction(),

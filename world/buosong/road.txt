@@ -1,0 +1,33 @@
+area:
+14. BuosongMainRoad
+
+rooms:
+900. A road through an expansive valley
+A dirt road through an expansive valley.~
+s 705~
+n 901~
+~
+
+901. A road through an expansive valley
+A dirt road through an expansive valley.~
+s 900~
+n 902~
+w 1000~
+~
+
+902. A road through an expansive valley
+A dirt road through an expansive valley.~
+s 901~
+n 903~
+~
+
+903. A road through an expansive valley
+A dirt road through an expansive valley.~
+s 902~
+n 904~
+~
+
+904. A road through an expansive valley
+A dirt road through an expansive valley.~
+s 903~
+~

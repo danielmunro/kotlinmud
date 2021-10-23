@@ -18,6 +18,12 @@ class QuestService(private val quests: List<Quest>) {
         return quests.find { it.type == type }
     }
 
+    fun getQuestMap(): Map<QuestType, Quest> {
+        return quests.associateBy {
+            it.type
+        }
+    }
+
     fun getAcceptableQuestsForMob(mob: PlayerMob): List<Quest> {
         logger.debug("get acceptable quests -- {} total quests", quests.size)
         return quests.filter {

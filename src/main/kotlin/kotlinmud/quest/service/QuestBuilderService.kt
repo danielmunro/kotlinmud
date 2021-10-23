@@ -2,16 +2,12 @@ package kotlinmud.quest.service
 
 import kotlinmud.faction.type.FactionType
 import kotlinmud.helper.logger
-import kotlinmud.item.model.Item
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.type.CurrencyType
-import kotlinmud.mob.type.QuestGiver
-import kotlinmud.quest.factory.createItemQuestRequirement
-import kotlinmud.quest.factory.createMobInRoomQuestRequirement
-import kotlinmud.quest.factory.createRoomQuestRequirement
 import kotlinmud.quest.helper.questList
 import kotlinmud.quest.model.Quest
 import kotlinmud.quest.requirement.ItemQuestRequirement
+import kotlinmud.quest.requirement.MobKillQuestRequirement
 import kotlinmud.quest.requirement.RoomQuestRequirement
 import kotlinmud.quest.type.QuestRequirement
 import kotlinmud.quest.type.QuestType
@@ -20,7 +16,6 @@ import kotlinmud.quest.type.reward.ExperienceQuestReward
 import kotlinmud.quest.type.reward.FactionScoreQuestReward
 import kotlinmud.quest.type.reward.QuestReward
 import kotlinmud.room.service.RoomService
-import kotlinmud.type.RoomCanonicalId
 
 class QuestBuilderService(
     private val mobService: MobService,
@@ -33,7 +28,8 @@ class QuestBuilderService(
     var description = ""
     var brief = ""
     var itemId = 0
-    var itemCount = 0
+    var count = 0
+    var mobId = 0
     var faction: FactionType? = null
     var score = 0
     val acceptConditions = mutableListOf<QuestRequirement>()
@@ -74,8 +70,11 @@ class QuestBuilderService(
             "item_id" -> {
                 itemId = value.toInt()
             }
-            "item_count" -> {
-                itemCount = value.toInt()
+            "mob_id" -> {
+                mobId = value.toInt()
+            }
+            "count" -> {
+                count = value.toInt()
             }
             "faction" -> {
                 faction = FactionType.valueOf(value)
@@ -89,32 +88,6 @@ class QuestBuilderService(
         }
     }
 
-    fun addMobInRoomAcceptCondition(mobName: String, questGiver: QuestGiver) {
-        acceptConditions.add(
-            createMobInRoomQuestRequirement(mobService, mobName) { mob -> mob.questGiver == questGiver }
-        )
-    }
-
-    fun addMobInRoomSubmitCondition(mobName: String, questGiver: QuestGiver) {
-        submitConditions.add(createMobInRoomQuestRequirement(mobService, mobName) { mob -> mob.questGiver == questGiver })
-    }
-
-    fun addRoomAcceptQuestRequirement(roomCanonicalId: RoomCanonicalId) {
-        acceptConditions.add(
-            createRoomQuestRequirement(roomService.findOne { it.canonicalId == roomCanonicalId }!!)
-        )
-    }
-
-    fun addRoomSubmitQuestRequirement(roomCanonicalId: RoomCanonicalId) {
-        submitConditions.add(
-            createRoomQuestRequirement(roomService.findOne { it.canonicalId == roomCanonicalId }!!)
-        )
-    }
-
-    fun addItemCountSubmitQuestRequirement(itemName: String, predicate: (Item) -> Boolean, count: Int = 1) {
-        submitConditions.add(createItemQuestRequirement(itemName, predicate, count))
-    }
-
     fun build(): Quest {
         faction?.let {
             if (score > 0) {
@@ -124,12 +97,22 @@ class QuestBuilderService(
             }
         }
 
-        if (itemCount > 0) {
+        if (itemId > 0) {
             submitConditions.add(
                 ItemQuestRequirement(
                     { it.id == itemId },
                     "TBD",
-                    itemCount,
+                    count,
+                )
+            )
+        }
+
+        if (mobId > 0) {
+            submitConditions.add(
+                MobKillQuestRequirement(
+                    QuestType.ClearPyreforgeRodents,
+                    mobId,
+                    count,
                 )
             )
         }
