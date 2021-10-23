@@ -9,6 +9,7 @@ import kotlinmud.event.observer.type.ObserverList
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.service.FixtureService
 import kotlinmud.helper.Noun
+import kotlinmud.helper.getAllDataFiles
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
@@ -16,18 +17,14 @@ import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.service.QuestService
 import kotlinmud.room.service.RoomService
-import kotlinmud.room.type.Area
+import kotlinmud.startup.service.StartupService
 import kotlinmud.test.service.TestService
 import kotlinmud.time.service.TimeService
-import kotlinmud.world.createWorld
-import kotlinmud.world.service.AreaBuilderService
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.kodein.di.direct
-import org.kodein.di.erased.factory
 import org.kodein.di.erased.instance
 
-fun createTestService(): TestService {
+fun createTestService(hydrate: Boolean = true): TestService {
     createConnection()
     transaction { SchemaUtils.drop(*getTables()) }
     applySchema()
@@ -36,8 +33,6 @@ fun createTestService(): TestService {
     val mob: MobService by container.instance<MobService>()
     val item: ItemService by container.instance<ItemService>()
     val roomService: RoomService by container.instance<RoomService>()
-    val areaBuilderServiceFactory = container.direct.factory<Area, AreaBuilderService>()
-    createWorld(areaBuilderServiceFactory)
     val act: ActionService by container.instance<ActionService>()
     val evt: EventService by container.instance<EventService>()
     val serverService: ServerService by container.instance<ServerService>()
@@ -46,8 +41,15 @@ fun createTestService(): TestService {
     val playerService: PlayerService by container.instance<PlayerService>()
     val authStepService: AuthStepService by container.instance<AuthStepService>()
     val timeService: TimeService by container.instance<TimeService>()
+    val mobService: MobService by container.instance()
+    val itemService: ItemService by container.instance()
     playerService.setAuthStepService(authStepService)
     evt.observers = observers
+    if (hydrate) {
+        val data = getAllDataFiles()
+        val svc = StartupService(roomService, mobService, itemService, data)
+        svc.hydrateWorld()
+    }
     return TestService(
         fix,
         mob,

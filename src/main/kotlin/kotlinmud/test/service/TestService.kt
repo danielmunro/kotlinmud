@@ -71,7 +71,6 @@ import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.startup.service.StartupService
 import kotlinmud.time.service.TimeService
-import kotlinmud.world.service.AreaBuilderService
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.net.SocketAddress
@@ -113,15 +112,6 @@ class TestService(
             mobService,
             itemService,
             data,
-        )
-    }
-
-    fun createAreaBuilderService(): AreaBuilderService {
-        return AreaBuilderService(
-            mobService,
-            roomService,
-            itemService,
-            Area.Test,
         )
     }
 

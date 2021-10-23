@@ -32,6 +32,18 @@ TBD~
 w 801~
 ~
 
+mobs:
+800. an acolyte of the temple
+an acolyte of the Temple of Matook is here, tending to the grounds
+TBD~
+~
+
+801. the temple healer
+a healer of Matook is here, selling spells
+TBD~
+job healer~
+~
+
 items:
 800. a sacrificial pit
 a sacrificial pit is here
@@ -45,3 +57,7 @@ material stone~
 
 item_room_respawns:
 800 1 1 804
+
+mob_respawns:
+800 1 1 802
+801 1 1 803

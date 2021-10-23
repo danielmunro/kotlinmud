@@ -26,14 +26,6 @@ class AuthStepService(
         creationFunnels.add(creationFunnel)
     }
 
-    fun findCreationFunnelForEmail(email: String): CreationFunnel? {
-        return creationFunnels.find { it.email == email }
-    }
-
-    fun getCreationFunnelForEmail(email: String): CreationFunnel {
-        return findCreationFunnelForEmail(email)!!
-    }
-
     fun getCreationFunnelForName(name: String): CreationFunnel {
         return creationFunnels.find { it.name == name }!!
     }

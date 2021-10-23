@@ -31,13 +31,16 @@ class FightTest {
         }
 
         // when
-        testService.addFight(mob, testService.createMob())
+        val defender = testService.createMob()
+        testService.addFight(mob, defender)
 
         while (prob.isIterating()) {
             val rounds = testService.proceedFights()
             val outcome1 = rounds.find { roundContainsEvadedAttack(it.attackerAttacks) }
             val outcome2 = rounds.find { roundContainsEvadedAttack(it.defenderAttacks) }
             prob.decrementIteration(outcome1 != null, outcome2 != null)
+            mob.hp = 20
+            defender.hp = 20
         }
 
         // then

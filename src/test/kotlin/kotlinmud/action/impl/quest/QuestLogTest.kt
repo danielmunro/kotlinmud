@@ -13,7 +13,7 @@ class QuestLogTest {
         // setup
         val test = createTestService()
         val mob = test.createPlayerMob()
-        val quest1 = test.findQuest(QuestType.JoinPraetorianGuard)!!
+        val quest1 = test.findQuest(QuestType.BarbosaSupplies)!!
         val quest2 = test.findQuest(QuestType.FindPraetorianGuardRecruiter)!!
 
         // given

@@ -7,7 +7,6 @@ import kotlinmud.quest.model.QuestProgress
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.helper.getIdentifyingWord
-import kotlinmud.type.RoomCanonicalId
 import org.junit.Test
 
 class QuestAcceptTest {
@@ -19,7 +18,7 @@ class QuestAcceptTest {
 
         // given
         val mob = test.createPlayerMob {
-            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FindRecruiterPraetorianGuard }!!
+            it.room = test.findRoom { room -> room.id == 201 }!!
         }
         val count = mob.quests.size
 
@@ -38,14 +37,14 @@ class QuestAcceptTest {
 
         // given
         test.createPlayerMob {
-            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FindRecruiterPraetorianGuard }!!
+            it.room = test.findRoom { room -> room.id == 201 }!!
         }
 
         // when
-        val response = test.runAction("quest accept recruiter")
+        val response = test.runAction("quest accept join")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("you accept the quest: `find a recruiter for the Praetorian Guard`")
+        assertThat(response.message.toActionCreator).isEqualTo("you accept the quest: `join the praetorian guard`")
     }
 
     @Test
@@ -68,7 +67,7 @@ class QuestAcceptTest {
         // setup
         val test = createTestService()
         val mob = test.createPlayerMob {
-            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.FindRecruiterPraetorianGuard }!!
+            it.room = test.findRoom { room -> room.id == 201 }!!
         }
 
         // given

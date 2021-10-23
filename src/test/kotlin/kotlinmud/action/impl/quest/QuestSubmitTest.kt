@@ -6,16 +6,14 @@ import kotlinmud.quest.model.QuestProgress
 import kotlinmud.quest.type.QuestStatus
 import kotlinmud.quest.type.QuestType
 import kotlinmud.test.helper.createTestService
-import kotlinmud.type.RoomCanonicalId
 import org.junit.Test
 
 const val responseMessage =
-"""you submit the quest: `find a recruiter for the Praetorian Guard`
+"""you submit the quest: `join the praetorian guard`
 Your reward:
-100 points with the Praetorian Guard
-1000 experience
-1 gold
-15 silver """
+10 silver
+200 experience
+100 points with the Praetorian Guard """
 
 class QuestSubmitTest {
     @Test
@@ -27,11 +25,11 @@ class QuestSubmitTest {
         // given
         test.createPlayerMob {
             it.quests[quest.type] = QuestProgress().also { quest -> quest.status = QuestStatus.SATISFIED }
-            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.PraetorianGuardRecruiterFound }!!
+            it.room = test.findRoom { room -> room.id == 10 }!!
         }
 
         // when
-        val response = test.runAction("quest submit re")
+        val response = test.runAction("quest submit join")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo(responseMessage)
@@ -46,7 +44,7 @@ class QuestSubmitTest {
         // given
         test.createPlayerMob {
             it.quests[quest.type] = QuestProgress().also { quest -> quest.status = QuestStatus.SATISFIED }
-            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.PraetorianGuardRecruiterFound }!!
+            it.room = test.findRoom { room -> room.id == 10 }!!
         }
 
         // when
@@ -63,7 +61,7 @@ class QuestSubmitTest {
 
         // given
         test.createPlayerMob {
-            it.room = test.findRoom { room -> room.canonicalId == RoomCanonicalId.PraetorianGuardRecruiterFound }!!
+            it.room = test.findRoom { room -> room.id == 10 }!!
         }
 
         // when

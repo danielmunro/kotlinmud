@@ -16,7 +16,7 @@ class QuestAbandonTest {
         val test = createTestService()
         val mob = test.createPlayerMob()
         test.createQuestGiver()
-        val quest = test.findQuest(QuestType.JoinPraetorianGuard)!!
+        val quest = test.findQuest(QuestType.BarbosaSupplies)!!
 
         // given
         mob.quests[quest.type] = QuestProgress()

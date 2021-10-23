@@ -14,7 +14,7 @@ class StartupServiceTest {
     @Test
     fun testStartupCanRespawnItem() {
         // setup
-        val test = createTestService()
+        val test = createTestService(false)
 
         // given
         val startup = test.createStartupService(
@@ -64,7 +64,7 @@ item_room_respawns:
     @Test
     fun testStartupCanRespawnMob() {
         // setup
-        val test = createTestService()
+        val test = createTestService(false)
 
         // given
         val startup = test.createStartupService(
