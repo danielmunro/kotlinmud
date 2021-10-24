@@ -2,10 +2,10 @@ package kotlinmud.event.observer.impl.tick
 
 import kotlinmud.event.impl.Event
 import kotlinmud.event.observer.type.Observer
-import kotlinmud.respawn.service.RespawnService
+import kotlinmud.startup.service.StartupService
 
-class RespawnObserver(private val respawnService: RespawnService) : Observer {
+class RespawnObserver(private val startupService: StartupService) : Observer {
     override suspend fun <T> invokeAsync(event: Event<T>) {
-        respawnService.respawn()
+        startupService.respawn()
     }
 }

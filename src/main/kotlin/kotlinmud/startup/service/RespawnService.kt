@@ -9,6 +9,7 @@ import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.race.factory.createRaceFromString
 import kotlinmud.mob.race.type.RaceType
 import kotlinmud.mob.service.MobService
+import kotlinmud.mob.type.JobType
 import kotlinmud.respawn.helper.calculateHpForMob
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
@@ -86,7 +87,6 @@ class RespawnService(
             mobMap[it.id] = it
         }
         mobRespawns.forEach {
-            logger.debug("mob respawn -- {}, {}, {}", it.area.name, it.mobId, it.roomId)
             val mob = mobMap[it.mobId]!!
             val count = mobService.findMobsById(it.mobId).size
             val builder = createMobBuilder(mob)
@@ -172,11 +172,16 @@ class RespawnService(
                 return
             }
             val mob = mobs[i]
-            val itemCount = mob.items.count { it.id == builder.id }
+            val whereToFind = builder.position == Position.NONE || mob.job == JobType.SHOPKEEPER
+            val itemCount = if (whereToFind)
+                mob.items.count { it.id == builder.id }
+            else
+                mob.equipped.count { it.id == builder.id }
+
             val amountToCreate = maxAmountForMob - itemCount
             for (j in 1..amountToCreate) {
                 builder.build().also {
-                    if (it.position == Position.NONE) {
+                    if (whereToFind) {
                         mob.items.add(it)
                     } else {
                         mob.equipped.add(it)

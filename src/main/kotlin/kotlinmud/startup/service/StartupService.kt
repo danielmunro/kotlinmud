@@ -69,10 +69,14 @@ class StartupService(
         createDoors()
         logger.debug("create doors")
 
+        respawn()
+        logger.debug("world respawned")
+    }
+
+    fun respawn() {
         createRespawnService().also {
             it.respawn()
         }
-        logger.debug("world respawned")
     }
 
     private fun createRespawnService(): RespawnService {

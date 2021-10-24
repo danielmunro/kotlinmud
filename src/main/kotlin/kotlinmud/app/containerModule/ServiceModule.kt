@@ -6,6 +6,7 @@ import kotlinmud.action.service.ActionService
 import kotlinmud.action.service.ContextBuilderService
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.service.FixtureService
+import kotlinmud.helper.getAllDataFiles
 import kotlinmud.io.service.ClientService
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.helper.createRecipeList
@@ -21,14 +22,9 @@ import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.helper.questList
 import kotlinmud.quest.service.QuestService
 import kotlinmud.resource.service.ResourceService
-import kotlinmud.respawn.helper.itemAreaRespawns
-import kotlinmud.respawn.helper.itemMobRespawns
-import kotlinmud.respawn.helper.mobRespawns
-import kotlinmud.respawn.service.ItemAreaRespawnService
-import kotlinmud.respawn.service.ItemMobRespawnService
-import kotlinmud.respawn.service.MobRespawnService
 import kotlinmud.respawn.service.RespawnService
 import kotlinmud.room.service.RoomService
+import kotlinmud.startup.service.StartupService
 import kotlinmud.time.repository.findTime
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
@@ -107,21 +103,16 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         bind<ResourceService>() with singleton {
             ResourceService(instance(), instance())
         }
-        bind<ItemAreaRespawnService>() with singleton {
-            ItemAreaRespawnService(instance(), instance(), itemAreaRespawns)
-        }
-        bind<MobRespawnService>() with singleton {
-            MobRespawnService(instance(), instance(), mobRespawns)
-        }
-        bind<ItemMobRespawnService>() with singleton {
-            ItemMobRespawnService(instance(), itemMobRespawns)
-        }
         bind<RespawnService>() with singleton {
             RespawnService(
                 instance(),
                 instance(),
                 instance(),
             )
+        }
+        bind<StartupService>() with singleton {
+            val data = getAllDataFiles()
+            StartupService(instance(), instance(), instance(), data)
         }
     }
 }

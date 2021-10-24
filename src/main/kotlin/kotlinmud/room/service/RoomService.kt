@@ -41,7 +41,7 @@ class RoomService {
     }
 
     fun getStartRoom(): Room {
-        return rooms.find { it.id == 1 }!!
+        return rooms.find { it.id == 525 }!!
     }
 
     fun removeDecayedItems() {

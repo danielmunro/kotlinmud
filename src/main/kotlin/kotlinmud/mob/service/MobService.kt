@@ -16,13 +16,11 @@ import kotlinmud.io.factory.createLeaveMessage
 import kotlinmud.io.factory.createSingleHitMessage
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.model.Message
-import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.CorpseService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
-import kotlinmud.mob.controller.MobController
 import kotlinmud.mob.fight.Attack
 import kotlinmud.mob.fight.Round
 import kotlinmud.mob.fight.type.AttackResult
@@ -36,9 +34,6 @@ import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
-import kotlinmud.respawn.helper.itemRespawnsFor
-import kotlinmud.respawn.helper.respawn
-import kotlinmud.respawn.model.MobRespawn
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
@@ -67,54 +62,6 @@ class MobService(
         }
     }
 
-    fun buildShopkeeper(
-        name: String,
-        brief: String,
-        description: String,
-        race: Race,
-        room: Room,
-        items: Map<ItemBuilder, Int>,
-    ) {
-        builder(
-            name,
-            brief,
-            description,
-            race
-        ).also {
-            it.room = room
-            it.makeShopkeeper()
-            itemRespawnsFor(it.canonicalId, items)
-        }.build()
-    }
-
-    fun buildFodder(
-        name: String,
-        brief: String,
-        description: String,
-        race: Race,
-        level: Int,
-        area: Area,
-        maxAmount: Int,
-    ): MobBuilder {
-        val builder = builder(
-            name,
-            brief,
-            description,
-            race,
-        ).also {
-            it.job = JobType.FODDER
-            it.level = level
-        }
-        respawn(
-            MobRespawn(
-                builder,
-                area,
-                maxAmount,
-            )
-        )
-        return builder
-    }
-
     fun getMobCount(): Int {
         return mobs.size
     }
@@ -138,10 +85,6 @@ class MobService(
 
     fun removeMob(mob: Mob) {
         mobs.remove(mob)
-    }
-
-    fun createMobController(mob: Mob): MobController {
-        return MobController(this, eventService, mob)
     }
 
     fun addFight(mob1: Mob, mob2: Mob): FightService {

@@ -171,7 +171,7 @@ class PlayerService(
                 it.hunger = node.get("hunger").intValue()
                 it.thirst = node.get("thirst").intValue()
                 it.skillPoints = node.get("skillPoints").intValue()
-                it.room = roomService.findOne { room -> room.id == roomId }!!
+                it.room = roomService.findOne { room -> room.id == roomId } ?: roomService.getStartRoom()
                 it.factionScores = factionScores
                 it.quests = quests
                 it.hp = node.get("hp").intValue()
