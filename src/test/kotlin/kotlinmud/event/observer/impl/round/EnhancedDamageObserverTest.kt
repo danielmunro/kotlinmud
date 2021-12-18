@@ -1,4 +1,4 @@
-package kotlinmud.event.observer.round
+package kotlinmud.event.observer.impl.round
 
 import assertk.assertThat
 import assertk.assertions.isGreaterThan

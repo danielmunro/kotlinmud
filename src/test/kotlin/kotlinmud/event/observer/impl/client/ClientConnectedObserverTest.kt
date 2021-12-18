@@ -1,4 +1,4 @@
-package kotlinmud.event.observer.client
+package kotlinmud.event.observer.impl.client
 
 import assertk.assertThat
 import assertk.assertions.isNotNull

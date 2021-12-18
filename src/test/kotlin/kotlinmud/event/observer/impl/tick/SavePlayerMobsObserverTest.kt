@@ -1,4 +1,4 @@
-package kotlinmud.event.observer.tick
+package kotlinmud.event.observer.impl.tick
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo

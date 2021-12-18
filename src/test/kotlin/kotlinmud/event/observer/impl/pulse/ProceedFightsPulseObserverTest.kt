@@ -1,4 +1,4 @@
-package kotlinmud.event.observer.pulse
+package kotlinmud.event.observer.impl.pulse
 
 import assertk.assertThat
 import assertk.assertions.isNull

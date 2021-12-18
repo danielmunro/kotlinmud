@@ -1,4 +1,4 @@
-package kotlinmud.event.observer.kill
+package kotlinmud.event.observer.impl.kill
 
 import assertk.assertThat
 import assertk.assertions.isGreaterThan

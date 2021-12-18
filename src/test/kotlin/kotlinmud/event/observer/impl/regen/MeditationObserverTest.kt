@@ -1,10 +1,9 @@
-package kotlinmud.event.observer.regen
+package kotlinmud.event.observer.impl.regen
 
 import assertk.assertThat
 import assertk.assertions.isGreaterThan
 import kotlinmud.event.impl.Event
 import kotlinmud.event.impl.RegenEvent
-import kotlinmud.event.observer.impl.regen.MeditationObserver
 import kotlinmud.event.type.EventType
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.test.helper.createTestService
