@@ -19,9 +19,7 @@ jacoco {
 
 repositories {
     jcenter()
-    maven { url "https://dl.bintray.com/serpro69/maven/" }
     maven { url "https://jitpack.io" }
-    maven { url "https://dl.bintray.com/konform-kt/konform" }
 }
 
 subprojects {
