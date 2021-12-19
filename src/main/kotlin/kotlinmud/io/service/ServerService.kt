@@ -7,9 +7,8 @@ import kotlinmud.helper.logger
 import kotlinmud.io.model.Client
 import kotlinmud.io.type.Clients
 import kotlinmud.mob.model.Mob
+import kotlinmud.mob.model.PlayerMob
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.withContext
 import okhttp3.internal.closeQuietly
 import java.io.IOException
@@ -36,7 +35,7 @@ class ServerService(
     }
 
     private val selector: Selector = Selector.open()
-    private val clients: Clients = mutableListOf()
+    private val clients = mutableMapOf<SocketChannel, Client>()
     private val socket = ServerSocketChannel.open()
     private val logger = logger(this)
 
@@ -49,8 +48,15 @@ class ServerService(
     }
 
     suspend fun removeDisconnectedClients() {
-        val disconnected = clients.filter { !it.connected }
-        clients.removeAll(disconnected)
+        val disconnected = mutableListOf<Client>()
+        clients.keys.forEach {
+            clients[it]?.let { client ->
+                if (!client.connected) {
+                    clients.remove(it)
+                    disconnected.add(client)
+                }
+            }
+        }
         disconnected.forEach {
             eventService.publish(createClientDisconnectedEvent(it))
         }
@@ -72,26 +78,32 @@ class ServerService(
     }
 
     fun getClients(): Clients {
-        return clients
+        return clients.values.toMutableList()
     }
 
     fun getLoggedInClients(): List<Client> {
-        return clients.filter { it.mob != null }
+        return clients.values.filter { it.mob != null }
     }
 
     fun getClientsWithBuffers(): Clients {
-        return clients.stream()
+        return clients.values.stream()
             .filter { it.buffers.isNotEmpty() }
             .collect(Collectors.toList())
     }
 
     fun getClientForMob(mob: Mob): Client? {
-        return clients.find { it.mob == mob }
+        return clients.values.find { it.mob == mob }
     }
 
     fun getClientsFromMobs(mobs: List<Mob>): Clients {
+        val clientMobs = mutableMapOf<PlayerMob, Client>()
+        clients.values.forEach { client ->
+            client.mob?.let {
+                clientMobs[it] = client
+            }
+        }
         return mobs.mapNotNull { mob ->
-            clients.find { it.mob == mob }
+            clientMobs[mob]
         }.toMutableList()
     }
 
@@ -103,7 +115,7 @@ class ServerService(
         val socket = configureAndAcceptSocket(newSocket)
         val client = Client(socket)
         eventService.publish(createClientConnectedEvent(client))
-        clients.add(client)
+        clients[socket] = client
         clientService.addClient(client)
         logger.info("connection accepted :: {}", socket.remoteAddress)
     }
@@ -127,7 +139,7 @@ class ServerService(
 
     private fun readSocketIntoClient(socket: SocketChannel) {
         readSocket(socket).let {
-            getClientBySocket(socket).addInput(it)
+            clients[socket]?.addInput(it)
             checkSocketForQuit(socket, it)
         }
     }
@@ -143,9 +155,5 @@ class ServerService(
         val buffer = ByteBuffer.allocate(READ_BUFFER_SIZE_IN_BYTES)
         socket.read(buffer)
         return String(buffer.array()).trim { it <= ' ' }
-    }
-
-    private fun getClientBySocket(socket: SocketChannel): Client {
-        return clients.find { it.socket == socket }!!
     }
 }
