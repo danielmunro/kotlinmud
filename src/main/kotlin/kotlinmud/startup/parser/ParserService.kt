@@ -23,26 +23,16 @@ import kotlinmud.startup.spec.QuestSpec
 import kotlinmud.startup.spec.RoomSpec
 import kotlinmud.startup.spec.Spec
 import kotlinmud.startup.token.AltMobIdToken
-import kotlinmud.startup.token.BriefToken
-import kotlinmud.startup.token.DescriptionToken
-import kotlinmud.startup.token.DirectionToken
-import kotlinmud.startup.token.IdToken
 import kotlinmud.startup.token.ItemIdToken
 import kotlinmud.startup.token.MaxAmountInGameToken
 import kotlinmud.startup.token.MaxAmountInRoomToken
 import kotlinmud.startup.token.MobIdToken
-import kotlinmud.startup.token.NameToken
-import kotlinmud.startup.token.PropsToken
 import kotlinmud.startup.token.RoomIdToken
 import kotlinmud.startup.token.SectionToken
-import kotlinmud.startup.token.Token
 import kotlinmud.startup.validator.FileModelValidator
-import java.lang.Exception
-import java.lang.NumberFormatException
 
-class Parser(private val data: String) {
-    private var cursor = 0
-    private var token: Token = SectionToken()
+class ParserService(private val data: String) {
+    private var tokenizer = Tokenizer(data)
     private val logger = logger(this)
 
     companion object {
@@ -67,8 +57,8 @@ class Parser(private val data: String) {
         val itemMobRespawns = mutableListOf<ItemMobRespawnModel>()
         var area = createNoneAreaModel()
 
-        while (isStillReading()) {
-            val section = parseNextToken<String>(SectionToken())
+        while (tokenizer.isStillReading()) {
+            val section = tokenizer.parseNextToken<String>(SectionToken())
             logger.debug("section $section -- area ${area.name}")
             try {
                 while (true) {
@@ -108,24 +98,15 @@ class Parser(private val data: String) {
 
     private fun parseSpec(spec: Spec): Model {
         val builder = spec.builder()
-        spec.tokens.forEach {
-            when (it) {
-                is IdToken -> builder.id = parseNextToken(it)
-                is NameToken -> builder.name = parseNextToken(it)
-                is BriefToken -> builder.brief = parseNextToken(it)
-                is DescriptionToken -> builder.description = parseNextToken(it)
-                is PropsToken -> builder.keywords = parseProps()
-                else -> throw Exception()
-            }
-        }
+        spec.tokens.forEach { it.parse(builder, tokenizer) }
         return builder.build()
     }
 
     private fun parseMobRespawns(area: AreaModel): MobRespawnModel {
-        val id: Int = parseNextToken(MobIdToken())
-        val maxAmountInRoom: Int = parseNextToken(MaxAmountInRoomToken())
-        val maxAmountInGame: Int = parseNextToken(MaxAmountInGameToken())
-        val roomId: Int = parseNextToken(RoomIdToken())
+        val id: Int = tokenizer.parseNextToken(MobIdToken())
+        val maxAmountInRoom: Int = tokenizer.parseNextToken(MaxAmountInRoomToken())
+        val maxAmountInGame: Int = tokenizer.parseNextToken(MaxAmountInGameToken())
+        val roomId: Int = tokenizer.parseNextToken(RoomIdToken())
         return MobRespawnModel(
             Area.valueOf(area.name),
             id,
@@ -136,10 +117,10 @@ class Parser(private val data: String) {
     }
 
     private fun parseItemRoomRespawns(area: AreaModel): ItemRoomRespawnModel {
-        val id: Int = parseNextToken(ItemIdToken())
-        val maxAmountInRoom: Int = parseNextToken(MaxAmountInRoomToken())
-        val maxAmountInGame: Int = parseNextToken(MaxAmountInGameToken())
-        val roomId: Int = parseNextToken(RoomIdToken())
+        val id: Int = tokenizer.parseNextToken(ItemIdToken())
+        val maxAmountInRoom: Int = tokenizer.parseNextToken(MaxAmountInRoomToken())
+        val maxAmountInGame: Int = tokenizer.parseNextToken(MaxAmountInGameToken())
+        val roomId: Int = tokenizer.parseNextToken(RoomIdToken())
         return ItemRoomRespawnModel(
             Area.valueOf(area.name),
             id,
@@ -150,10 +131,10 @@ class Parser(private val data: String) {
     }
 
     private fun parseItemMobRespawns(area: AreaModel): ItemMobRespawnModel {
-        val id: Int = parseNextToken(ItemIdToken())
-        val maxAmountInRoom: Int = parseNextToken(MaxAmountInRoomToken())
-        val maxAmountInGame: Int = parseNextToken(MaxAmountInGameToken())
-        val mobId: Int = parseNextToken(AltMobIdToken())
+        val id: Int = tokenizer.parseNextToken(ItemIdToken())
+        val maxAmountInRoom: Int = tokenizer.parseNextToken(MaxAmountInRoomToken())
+        val maxAmountInGame: Int = tokenizer.parseNextToken(MaxAmountInGameToken())
+        val mobId: Int = tokenizer.parseNextToken(AltMobIdToken())
         return ItemMobRespawnModel(
             Area.valueOf(area.name),
             id,
@@ -161,70 +142,5 @@ class Parser(private val data: String) {
             maxAmountInGame,
             mobId,
         )
-    }
-
-    private inline fun <reified T> parseNextToken(nextToken: Token): T {
-        token = nextToken
-        return parseNextToken()
-    }
-
-    private inline fun <reified T> parseNextToken(): T {
-        var buffer = ""
-        var input = ""
-        val lastCursor = cursor
-        while (input != token.terminator && isStillReading()) {
-            buffer += input
-            input = data.substring(cursor, cursor + 1)
-            cursor += 1
-            if (input == "#") {
-                input = ""
-                cursor = data.indexOf("\n", cursor) + 1
-            }
-        }
-        val trimmed = buffer.trim()
-        validateTokenValueType(trimmed, lastCursor)
-        return when (T::class) {
-            String::class -> trimmed as T
-            Int::class -> trimmed.toInt() as T
-            else -> throw Exception()
-        }
-    }
-
-    private fun validateTokenValueType(value: String, lastCursor: Int) {
-        if (isTokenInt(token.token) && !isNumber(value)) {
-            cursor = lastCursor
-            throw TokenParseException(
-                value,
-                "Parsed value is not an integer, $token requires int: $value"
-            )
-        }
-    }
-
-    private fun parseProps(): Map<String, String> {
-        val values = mutableMapOf<String, String>()
-        var read = "-1"
-        while (read != "") {
-            read = parseNextToken(DirectionToken())
-            if (read != "") {
-                val parts = read.split(" ")
-                val k = parts[0]
-                val v = parts[1]
-                values[k] = v
-            }
-        }
-        return values
-    }
-
-    private fun isStillReading(): Boolean {
-        return data.length > cursor
-    }
-
-    private fun isNumber(trimmed: String): Boolean {
-        return try {
-            trimmed.toInt()
-            true
-        } catch (e: NumberFormatException) {
-            false
-        }
     }
 }

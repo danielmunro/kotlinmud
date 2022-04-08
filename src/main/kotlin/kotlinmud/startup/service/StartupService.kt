@@ -21,7 +21,7 @@ import kotlinmud.startup.model.MobModel
 import kotlinmud.startup.model.MobRespawnModel
 import kotlinmud.startup.model.QuestModel
 import kotlinmud.startup.model.RoomModel
-import kotlinmud.startup.parser.Parser
+import kotlinmud.startup.parser.ParserService
 import kotlinmud.startup.validator.ModelCollectionValidator
 
 class StartupService(
@@ -44,7 +44,7 @@ class StartupService(
 
     fun hydrateWorld() {
         data.map { section ->
-            Parser(section).parse().also {
+            ParserService(section).parse().also {
                 logger.debug("combine models for area into collection -- {}", it.area.name)
                 combineModels(it)
                 generateRoomsFromModels(it)
