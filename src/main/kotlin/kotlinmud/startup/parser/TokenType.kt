@@ -13,6 +13,8 @@ enum class TokenType {
     MaxAmountInGame,
     ItemId,
     MobId,
+    MobRespawn,
+    ItemRespawn,
     RoomId,
     Props,
 }

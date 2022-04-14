@@ -5,6 +5,8 @@ import assertk.assertions.hasSize
 import assertk.assertions.isEqualTo
 import assertk.fail
 import kotlinmud.startup.exception.DuplicateIdValidationException
+import kotlinmud.startup.model.builder.RespawnSpec
+import kotlinmud.startup.model.builder.RespawnType
 import org.junit.Test
 
 class ParserServiceTest {
@@ -23,9 +25,12 @@ a small red fox is darting through the trees
 
         // then
         assertThat(parserService.mobs).hasSize(1)
-        assertThat(parserService.mobs[0].id).isEqualTo(1)
-        assertThat(parserService.mobs[0].name).isEqualTo("a red fox")
-        assertThat(parserService.mobs[0].brief).isEqualTo("a small red fox is darting through the trees")
+        val mob = parserService.mobs[0]
+        assertThat(mob.id).isEqualTo(1)
+        assertThat(mob.name).isEqualTo("a red fox")
+        assertThat(mob.brief).isEqualTo("a small red fox is darting through the trees")
+//        assertThat(mob.respawns).hasSize(1)
+//        assertThat(mob.respawns[0]).isEqualTo(listOf(1, 1, 1))
     }
 
     @Test
@@ -38,6 +43,7 @@ mobs:
 a small red fox is darting through the trees
 ~
 job quest~
+~
 """
         ).parse()
 
@@ -55,32 +61,102 @@ job quest~
     }
 
     @Test
-    fun testParseRespawns() {
+    fun testParseMobWithMultipleProps() {
         // when
         val parserService = ParserService(
             """
-mob_respawns:
-1 2 3 4
-5 6 7 8
+mobs:
+1. a red fox
+a small red fox is darting through the trees
+~
+job quest~
+worth 10~
+~
 """
         ).parse()
 
         // then
-        assertThat(parserService.mobRespawns).hasSize(2)
+        assertThat(parserService.mobs).hasSize(1)
+        val mob = parserService.mobs[0]
+        assertThat(mob.id).isEqualTo(1)
+        assertThat(mob.name).isEqualTo("a red fox")
+        assertThat(mob.brief).isEqualTo("a small red fox is darting through the trees")
 
         // and
-        val respawn1 = parserService.mobRespawns[0]
-        assertThat(respawn1.mobId).isEqualTo(1)
-        assertThat(respawn1.maxAmountInRoom).isEqualTo(2)
-        assertThat(respawn1.maxAmountInGame).isEqualTo(3)
-        assertThat(respawn1.roomId).isEqualTo(4)
+        assertThat(mob.keywords["job"]).isEqualTo("quest")
+        assertThat(mob.keywords["worth"]).isEqualTo("10")
+    }
+
+    @Test
+    fun testParseMobWithRespawns() {
+        // when
+        val parserService = ParserService(
+            """
+mobs:
+1. a red fox
+a small red fox is darting through the trees
+~
+~
+1 1 1~
+~
+"""
+        ).parse()
+
+        // then
+        assertThat(parserService.mobs).hasSize(1)
+        val mob = parserService.mobs[0]
+        assertThat(mob.id).isEqualTo(1)
+        assertThat(mob.name).isEqualTo("a red fox")
+        assertThat(mob.brief).isEqualTo("a small red fox is darting through the trees")
 
         // and
-        val respawn2 = parserService.mobRespawns[1]
-        assertThat(respawn2.mobId).isEqualTo(5)
-        assertThat(respawn2.maxAmountInRoom).isEqualTo(6)
-        assertThat(respawn2.maxAmountInGame).isEqualTo(7)
-        assertThat(respawn2.roomId).isEqualTo(8)
+        assertThat(mob.respawns).hasSize(1)
+        assertThat(mob.respawns[0]).isEqualTo(
+            RespawnSpec(
+                RespawnType.Mob,
+                1,
+                1,
+                1,
+            )
+        )
+    }
+
+    @Test
+    fun testParseMobWithMultipleRespawns() {
+        // when
+        val parserService = ParserService(
+            """
+mobs:
+1. a red fox
+a small red fox is darting through the trees
+~
+~
+1 1 1~
+2 2 2~
+~
+"""
+        ).parse()
+
+        // then
+        assertThat(parserService.mobs).hasSize(1)
+        val mob = parserService.mobs[0]
+        assertThat(mob.respawns).hasSize(2)
+        assertThat(mob.respawns[0]).isEqualTo(
+            RespawnSpec(
+                RespawnType.Mob,
+                1,
+                1,
+                1,
+            )
+        )
+        assertThat(mob.respawns[1]).isEqualTo(
+            RespawnSpec(
+                RespawnType.Mob,
+                2,
+                2,
+                2,
+            )
+        )
     }
 
     @Test
@@ -112,8 +188,10 @@ mobs:
 a mob
 ~
 ~
+~
 1. second mob
 a mob
+~
 ~
 ~
 """
@@ -133,8 +211,10 @@ items:
 an item
 ~
 ~
+~
 1. second item
 an item
+~
 ~
 ~
 """
@@ -160,6 +240,8 @@ material wool~
 type equipment~
 position held~
 ~
+room 1 2 3~
+~
 """
         ).parse()
 
@@ -177,5 +259,13 @@ description"""
         assertThat(item.keywords.get("material")).isEqualTo("wool")
         assertThat(item.keywords.get("type")).isEqualTo("equipment")
         assertThat(item.keywords.get("position")).isEqualTo("held")
+        assertThat(item.respawns).hasSize(1)
+
+        // and
+        val respawn = item.respawns.first()
+        assertThat(respawn.type).isEqualTo(RespawnType.Room)
+        assertThat(respawn.maxAmount).isEqualTo(1)
+        assertThat(respawn.maxInGame).isEqualTo(2)
+        assertThat(respawn.targetId).isEqualTo(3)
     }
 }

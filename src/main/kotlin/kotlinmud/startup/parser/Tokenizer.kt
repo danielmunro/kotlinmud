@@ -1,7 +1,9 @@
 package kotlinmud.startup.parser
 
+import kotlinmud.startup.model.builder.RespawnSpec
+import kotlinmud.startup.model.builder.RespawnType
 import kotlinmud.startup.parser.exception.TokenParseException
-import kotlinmud.startup.token.DirectionToken
+import kotlinmud.startup.token.PropsToken
 import kotlinmud.startup.token.SectionToken
 import kotlinmud.startup.token.Token
 import java.lang.Exception
@@ -52,7 +54,7 @@ class Tokenizer(val data: String) {
         val values = mutableMapOf<String, String>()
         var read = "-1"
         while (read != "") {
-            read = parseNextToken(DirectionToken())
+            read = parseNextToken(PropsToken())
             if (read != "") {
                 val parts = read.split(" ")
                 val k = parts[0]
@@ -63,11 +65,51 @@ class Tokenizer(val data: String) {
         return values
     }
 
+    fun parseMobRespawn(): List<RespawnSpec> {
+        val respawns = mutableListOf<RespawnSpec>()
+        var read = "-1"
+        while (read != "") {
+            read = parseNextToken(PropsToken())
+            if (read != "") {
+                val parts = read.split(" ")
+                respawns.add(
+                    RespawnSpec(
+                        RespawnType.Mob,
+                        parts[0].toInt(),
+                        parts[1].toInt(),
+                        parts[2].toInt(),
+                    )
+                )
+            }
+        }
+        return respawns
+    }
+
+    fun parseItemRespawn(): List<RespawnSpec> {
+        val respawns = mutableListOf<RespawnSpec>()
+        var read = "-1"
+        while (read != "") {
+            read = parseNextToken(PropsToken())
+            if (read != "") {
+                val parts = read.split(" ")
+                respawns.add(
+                    RespawnSpec(
+                        RespawnType.createFromString(parts[0]),
+                        parts[1].toInt(),
+                        parts[2].toInt(),
+                        parts[3].toInt(),
+                    )
+                )
+            }
+        }
+        return respawns
+    }
+
     fun isStillReading(): Boolean {
         return data.length > cursor
     }
 
-    fun isNumber(trimmed: String): Boolean {
+    private fun isNumber(trimmed: String): Boolean {
         return try {
             trimmed.toInt()
             true

@@ -9,6 +9,7 @@ class QuestModelBuilder : Builder {
     override var brief = ""
     override var description = ""
     override var keywords = mapOf<String, String>()
+    override var respawns = listOf<RespawnSpec>()
 
     override fun build(): Model {
         return QuestModel(

@@ -16,9 +16,7 @@ import kotlinmud.startup.model.DoorModel
 import kotlinmud.startup.model.FileModel
 import kotlinmud.startup.model.ItemMobRespawnModel
 import kotlinmud.startup.model.ItemModel
-import kotlinmud.startup.model.ItemRoomRespawnModel
 import kotlinmud.startup.model.MobModel
-import kotlinmud.startup.model.MobRespawnModel
 import kotlinmud.startup.model.QuestModel
 import kotlinmud.startup.model.RoomModel
 import kotlinmud.startup.parser.ParserService
@@ -36,8 +34,6 @@ class StartupService(
     private val mobs = mutableListOf<MobModel>()
     private val items = mutableListOf<ItemModel>()
     private val quests = mutableListOf<QuestModel>()
-    private val mobRespawns = mutableListOf<MobRespawnModel>()
-    private val itemRoomRespawns = mutableListOf<ItemRoomRespawnModel>()
     private val itemMobRespawns = mutableListOf<ItemMobRespawnModel>()
     private val areas = mutableListOf<Area>()
     private val logger = logger(this)
@@ -61,7 +57,7 @@ class StartupService(
         ).validate()
 
         logger.debug("--- model parse complete ---")
-        logger.debug("parse stats -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items, ${quests.size} quests, ${itemRoomRespawns.size} item room respawns")
+        logger.debug("parse stats -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items, ${quests.size} quests")
 
         connectUpRooms()
         logger.debug("rooms connected")
@@ -83,9 +79,6 @@ class StartupService(
         return RespawnService(
             mobs,
             items,
-            mobRespawns,
-            itemRoomRespawns,
-            itemMobRespawns,
             roomService,
             itemService,
             mobService,
@@ -181,8 +174,6 @@ class StartupService(
         rooms.addAll(file.rooms)
         doors.addAll(file.doors)
         quests.addAll(file.quests)
-        mobRespawns.addAll(file.mobRespawns)
-        itemRoomRespawns.addAll(file.itemRoomRespawns)
         itemMobRespawns.addAll(file.itemMobRespawns)
         mobs.addAll(file.mobs)
         items.addAll(file.items)

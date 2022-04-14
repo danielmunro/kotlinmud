@@ -164,6 +164,8 @@ TBD~
 key 1~
 material brass~
 ~
+mob 1 999 600~
+~
 
 601. the mud school diploma
 the mud school diploma is here
@@ -172,6 +174,8 @@ position held~
 weight 0.1~
 material paper~
 int 1~
+~
+mob 1 999 601~
 ~
 
 602. a sub issue cloak
@@ -183,6 +187,8 @@ ac_slash 1~
 weight 1.5~
 worth 2~
 ~
+mob 1 1 602~
+~
 
 603. a sub issue hood
 a sub issue hood is here
@@ -193,6 +199,8 @@ ac_slash 1~
 ac_pierce 1~
 weight 1.0~
 worth 1~
+~
+mob 1 1 603~
 ~
 
 604. a sub issue tunic
@@ -206,6 +214,8 @@ ac_bash 2~
 weight 2.0~
 worth 1~
 ~
+mob 1 1 604~
+~
 
 605. a sub issue shoes
 sub issue shoes are here
@@ -216,6 +226,8 @@ ac_slash 1~
 ac_pierce 1~
 weight 3.5~
 worth 1~
+~
+mob 1 1 605~
 ~
 
 606. a sub issue sleeves
@@ -229,6 +241,8 @@ ac_bash 1~
 weight 4.0~
 worth 1~
 ~
+mob 1 1 606~
+~
 
 607. sub issue gloves
 a pair of sub issue gloves are here
@@ -239,6 +253,8 @@ ac_slash 1~
 ac_pierce 1~
 weight 2.5~
 worth 1~
+~
+mob 1 1 607~
 ~
 
 608. a sub issue shield
@@ -252,6 +268,8 @@ ac_bash 4~
 weight 5.0~
 worth 2~
 ~
+mob 1 1 608~
+~
 
 609. sub issue leggings
 a pair of sub issue leggings
@@ -262,6 +280,8 @@ ac_slash 1~
 ac_pierce 1~
 weight 4.0~
 worth 1~
+~
+mob 1 1 609~
 ~
 
 610. a sub issue belt
@@ -274,6 +294,8 @@ ac_pierce 1~
 weight 2.0~
 worth 1~
 ~
+mob 1 1 610~
+~
 
 611. sub issue bracers
 a pair of sub issue bracers are here
@@ -285,6 +307,8 @@ ac_pierce 1~
 weight 2.0~
 worth 1~
 ~
+mob 1 1 611~
+~
 
 612. a sub issue ring
 a sub issue ring is here
@@ -293,6 +317,8 @@ position finger~
 material copper~
 weight 0.1~
 worth 3~
+~
+mob 1 1 612~
 ~
 
 613. a floating stone
@@ -304,12 +330,16 @@ ac_magic 2~
 weight 0.0~
 worth 1~
 ~
+mob 1 1 613~
+~
 
 mobs:
 600. a hulking monster
 a hulking monster is here
 TBD~
 level 2~
+~
+1 1 654~
 ~
 
 601. the diploma guardian
@@ -318,11 +348,15 @@ TBD~
 job guard~
 level 3~
 ~
+1 1 653~
+~
 
 602. a weak monster
 a weak monster is here, rattling the cage walls
 TBD~
 job guard~
+~
+1 1 656~
 ~
 
 603. a weak monster
@@ -330,11 +364,15 @@ a weak monster is here, rattling the cage walls
 TBD~
 job guard~
 ~
+1 1 657~
+~
 
 604. a weak monster
 a weak monster is here, rattling the cage walls
 TBD~
 job guard~
+~
+1 1 658~
 ~
 
 605. a weak monster
@@ -342,11 +380,15 @@ a weak monster is here, rattling the cage walls
 TBD~
 job guard~
 ~
+1 1 660~
+~
 
 606. a weak monster
 a weak monster is here, rattling the cage walls
 TBD~
 job guard~
+~
+1 1 661~
 ~
 
 607. a weak monster
@@ -354,11 +396,15 @@ a weak monster is here, rattling the cage walls
 TBD~
 job guard~
 ~
+1 1 662~
+~
 
 608. a weak monster
 a weak monster is here, rattling the cage walls
 TBD~
 job guard~
+~
+1 1 664~
 ~
 
 609. a weak monster
@@ -366,11 +412,15 @@ a weak monster is here, rattling the cage walls
 TBD~
 job guard~
 ~
+1 1 665~
+~
 
 610. a weak monster
 a weak monster is here, rattling the cage walls
 TBD~
 job guard~
+~
+1 1 666~
 ~
 
 611. a weak monster
@@ -378,11 +428,15 @@ a weak monster is here, rattling the cage walls
 TBD~
 job guard~
 ~
+1 1 668~
+~
 
 612. a weak monster
 a weak monster is here, rattling the cage walls
 TBD~
 job guard~
+~
+1 1 669~
 ~
 
 613. a weak monster
@@ -390,34 +444,5 @@ a weak monster is here, rattling the cage walls
 TBD~
 job guard~
 ~
-
-item_mob_respawns:
-600 1 999 600
-601 1 999 601
-602 1 1 602
-603 1 1 603
-604 1 1 604
-605 1 1 605
-606 1 1 606
-607 1 1 607
-608 1 1 608
-609 1 1 609
-610 1 1 610
-612 1 1 612
-613 1 1 613
-
-mob_respawns:
-600 1 1 654
-601 1 1 653
-602 1 1 656
-603 1 1 657
-604 1 1 658
-605 1 1 660
-606 1 1 661
-607 1 1 662
-608 1 1 664
-609 1 1 665
-610 1 1 666
-611 1 1 668
-612 1 1 669
-613 1 1 670
+1 1 670~
+~

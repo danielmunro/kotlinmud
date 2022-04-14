@@ -39,6 +39,8 @@ level 8~
 gold 1~
 job aggro~
 ~
+1 1 303~
+~
 
 items:
 50. a sturdy tree branch
@@ -52,9 +54,5 @@ verb thwack~
 damage pound~
 hit 1d1~
 ~
-
-mob_respawns:
-150 1 1 303
-
-item_mob_respawns:
-50 1 1 150
+mob 1 1 150~
+~

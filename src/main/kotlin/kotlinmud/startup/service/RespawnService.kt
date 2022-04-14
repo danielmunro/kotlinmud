@@ -14,11 +14,10 @@ import kotlinmud.respawn.helper.calculateHpForMob
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
-import kotlinmud.startup.model.ItemMobRespawnModel
 import kotlinmud.startup.model.ItemModel
-import kotlinmud.startup.model.ItemRoomRespawnModel
 import kotlinmud.startup.model.MobModel
-import kotlinmud.startup.model.MobRespawnModel
+import kotlinmud.startup.model.builder.RespawnSpec
+import kotlinmud.startup.model.builder.RespawnType
 import kotlinmud.startup.validator.ItemValidator
 import kotlinmud.type.Builder
 import kotlin.system.measureTimeMillis
@@ -26,9 +25,6 @@ import kotlin.system.measureTimeMillis
 class RespawnService(
     private val mobs: List<MobModel>,
     private val items: List<ItemModel>,
-    private val mobRespawns: List<MobRespawnModel>,
-    private val itemRoomRespawns: List<ItemRoomRespawnModel>,
-    private val itemMobRespawns: List<ItemMobRespawnModel>,
     private val roomService: RoomService,
     private val itemService: ItemService,
     private val mobService: MobService,
@@ -38,46 +34,34 @@ class RespawnService(
     fun respawn() {
         val timing = measureTimeMillis {
             respawnMobs()
-            respawnItemsInRoom()
-            respawnItemsForMobs()
+            respawnItems()
         }
         logger.info("respawn took $timing ms")
     }
 
-    private fun respawnItemsInRoom() {
-        val itemMap = mutableMapOf<Int, ItemModel>()
-        items.forEach {
-            itemMap[it.id] = it
-        }
-        itemRoomRespawns.forEach {
-            val item = itemMap[it.itemId]!!
-            val count = itemService.findById(it.itemId).size
-            val builder = createItemBuilder(item)
-
-            respawnToRoom(
-                builder,
-                Area.valueOf(it.area.name),
-                it.roomId,
-                it.maxAmountInGame - count,
-                it.maxAmountInRoom,
-            ) { room ->
-                room.items.filter { item -> item.id == it.itemId }.size
+    private fun respawnItems() {
+        items.forEach { item ->
+            item.respawns.forEach {
+                when (it.type) {
+                    RespawnType.Room -> respawnItemsForRooms(item, it)
+                    RespawnType.Mob -> respawnToMob(createItemBuilder(item), it)
+                    RespawnType.Item -> return
+                }
             }
         }
     }
 
-    private fun respawnItemsForMobs() {
-        val itemMap = mutableMapOf<Int, ItemModel>()
-        items.forEach {
-            itemMap[it.id] = it
-        }
-        itemMobRespawns.forEach {
-            val item = itemMap[it.itemId]!!
-            val count = itemService.findById(it.itemId).size
-            val amountToRespawn = it.maxAmountInGame - count
-            val builder = createItemBuilder(item)
-
-            respawnToMob(builder, it.mobId, amountToRespawn, it.maxAmountForMob)
+    private fun respawnItemsForRooms(item: ItemModel, respawnSpec: RespawnSpec) {
+        val count = itemService.findById(item.id).size
+        val builder = createItemBuilder(item)
+        respawnToRoom(
+            builder,
+            item.area,
+            respawnSpec.targetId,
+            respawnSpec.maxInGame - count,
+            respawnSpec.maxAmount,
+        ) { room ->
+            room.items.filter { i -> i.id == item.id }.size
         }
     }
 
@@ -86,19 +70,19 @@ class RespawnService(
         mobs.forEach {
             mobMap[it.id] = it
         }
-        mobRespawns.forEach {
-            val mob = mobMap[it.mobId]!!
-            val count = mobService.findMobsById(it.mobId).size
+        mobs.forEach { mob ->
+            val count = mobService.findMobsById(mob.id).size
             val builder = createMobBuilder(mob)
-
-            respawnToRoom(
-                builder,
-                Area.valueOf(it.area.name),
-                it.roomId,
-                it.maxAmountInGame - count,
-                it.maxAmountInRoom,
-            ) { room ->
-                mobService.findMobsInRoom(room).filter { mob -> mob.id == it.mobId }.size
+            mob.respawns.forEach { respawn ->
+                respawnToRoom(
+                    builder,
+                    mob.area,
+                    respawn.targetId,
+                    respawn.maxInGame - count,
+                    respawn.maxAmount,
+                ) { room ->
+                    mobService.findMobsInRoom(room).filter { mob.id == it.id }.size
+                }
             }
         }
     }
@@ -163,9 +147,9 @@ class RespawnService(
         }
     }
 
-    private fun respawnToMob(builder: ItemBuilder, mobId: Int, maxAmountInGame: Int, maxAmountForMob: Int) {
-        var amountToRespawn = maxAmountInGame
-        val mobs = mobService.findMobsById(mobId)
+    private fun respawnToMob(builder: ItemBuilder, respawnSpec: RespawnSpec) {
+        var amountToRespawn = respawnSpec.maxInGame
+        val mobs = mobService.findMobsById(respawnSpec.targetId)
         var i = 0
         while (amountToRespawn > 0) {
             if (i >= mobs.size) {
@@ -178,7 +162,7 @@ class RespawnService(
             else
                 mob.equipped.count { it.id == builder.id }
 
-            val amountToCreate = maxAmountForMob - itemCount
+            val amountToCreate = respawnSpec.maxAmount - itemCount
             for (j in 1..amountToCreate) {
                 builder.build().also {
                     if (whereToFind) {

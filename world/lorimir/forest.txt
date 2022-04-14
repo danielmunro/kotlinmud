@@ -91,12 +91,16 @@ poison 2~
 food 4~
 weight 0.1~
 ~
+room 2 4 0~
+~
 
 2. a gray mushroom
 a small gray mushroom
 An innocuous small gray mushroom is here.~
 food 4~
 weight 0.1~
+~
+room 3 4 0~
 ~
 
 mobs:
@@ -105,11 +109,15 @@ a small red fox is darting through the trees
 ~
 race canid~
 ~
+2 5 0~
+~
 
 2. a recruiter
 a recruiter for the Praetorian guard is here
 ~
 job quest~
+~
+1 1 10~
 ~
 
 3. a camp guard
@@ -118,12 +126,7 @@ a camp guard is here, leaning against an outcropping of rock
 job guard~
 level 5~
 ~
-
-mob_respawns:
-1 2 5 0
-2 1 1 10
-3 1 1 10
-
-item_room_respawns:
-1 2 4 0
-2 3 4 0
+1 1 10~
+1 1 201~
+1 1 202~
+~

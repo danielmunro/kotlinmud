@@ -8,5 +8,6 @@ interface Builder {
     var brief: String
     var description: String
     var keywords: Map<String, String>
+    var respawns: List<RespawnSpec>
     fun build(): Model
 }

@@ -37,11 +37,15 @@ mobs:
 an acolyte of the Temple of Matook is here, tending to the grounds
 TBD~
 ~
+1 1 802~
+~
 
 801. the temple healer
 a healer of Matook is here, selling spells
 TBD~
 job healer~
+~
+1 1 803~
 ~
 
 items:
@@ -54,10 +58,5 @@ max_items 1000~
 max_weight 10000~
 material stone~
 ~
-
-item_room_respawns:
-800 1 1 804
-
-mob_respawns:
-800 1 1 802
-801 1 1 803
+room 1 1 804~
+~

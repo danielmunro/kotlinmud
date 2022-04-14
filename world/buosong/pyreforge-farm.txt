@@ -37,12 +37,16 @@ a sturdy woman is here, wondering when you will get out of her way
 TBD~
 type quest~
 ~
+1 1 1004~
+~
 
 1001. a tiny field mouse
 a tiny field mouse is here, looking for lunch
 TBD~
 level 3~
 race rodent~
+~
+2 10 0~
 ~
 
 quests:
@@ -57,7 +61,3 @@ type ClearPyreforgeRodents~
 mob_id 1001~
 count 2~
 ~
-
-mob_respawns:
-1000 1 1 1004
-1001 2 10 0

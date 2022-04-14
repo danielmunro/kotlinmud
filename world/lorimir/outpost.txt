@@ -39,11 +39,15 @@ a blacksmith for the praetorian guard is here, attempting to work in cramped con
 TBD~
 job shopkeeper~
 ~
+1 1 203~
+~
 
 101. Barbosa
 Barbosa, the mess cook, is here attempting to keep the camp fed.
 TBD~
 job shopkeeper~
+~
+1 1 204~
 ~
 
 items:
@@ -52,6 +56,8 @@ a fire emanates from the circular pit.
 description TBD~
 material stone~
 type furniture~
+~
+room 1 1 201~
 ~
 
 101. a wooden sign
@@ -67,6 +73,8 @@ The sign reads:
 material wood~
 type furniture~
 ~
+room 1 1 201~
+~
 
 102. a small, hard loaf of bread
 a stale loaf of bread has been carelessly discarded here.
@@ -74,12 +82,16 @@ TBD~
 food 10~
 worth 20~
 ~
+mob 25 999 101~
+~
 
 103. preserved meat
 some preserved meat is here.
 TBD~
 food 10~
 worth 20~
+~
+mob 25 999 101~
 ~
 
 110. a crude iron sword
@@ -95,6 +107,7 @@ damage slash~
 hit 1d2~
 level 3~
 ~
+~
 
 111. a crude iron cudgel
 a crude iron cudgel is here
@@ -109,6 +122,7 @@ damage pound~
 hit 1d2~
 level 3~
 ~
+~
 
 112. a crude iron dagger
 a crude iron dagger is here
@@ -122,6 +136,7 @@ verb stab~
 damage pierce~
 hit 1d1~
 level 3~
+~
 ~
 
 quests:
@@ -150,19 +165,3 @@ faction PraetorianGuard~
 score 100~
 type FindPraetorianGuardRecruiter~
 ~
-
-mob_respawns:
-100 1 1 203
-101 1 1 204
-3 1 1 201
-3 1 1 202
-
-item_room_respawns:
-100 1 1 201
-101 1 1 201
-
-item_mob_respawns:
-102 25 999 101
-103 25 999 101
-110 25 999 100
-111 25 999 100
