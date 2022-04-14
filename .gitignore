@@ -27,3 +27,5 @@ out/
 
 # App specific
 players/
+
+data.db
