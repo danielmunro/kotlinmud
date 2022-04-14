@@ -13,7 +13,4 @@ fun getAllDataFiles(): List<String> {
         }
         return@mapNotNull null
     }.toList()
-//    return Files.list(Paths.get("./world")).map {
-//        File(it.toUri()).readText()
-//    }.toList()
 }

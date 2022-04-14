@@ -35,7 +35,7 @@ class StartupService(
     private val items = mutableListOf<ItemModel>()
     private val quests = mutableListOf<QuestModel>()
     private val itemMobRespawns = mutableListOf<ItemMobRespawnModel>()
-    private val areas = mutableListOf<Area>()
+    private val areas = mutableSetOf<Area>()
     private val logger = logger(this)
 
     fun hydrateWorld() {
