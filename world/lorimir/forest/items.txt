@@ -1,0 +1,22 @@
+area:
+1. LorimirForest
+
+items:
+1. a brown mushroom
+a small brown mushroom
+An innocuous small brown mushroom is here.~
+poison 2~
+food 4~
+weight 0.1~
+~
+room 2 4 0~
+~
+
+2. a gray mushroom
+a small gray mushroom
+An innocuous small gray mushroom is here.~
+food 4~
+weight 0.1~
+~
+room 3 4 0~
+~

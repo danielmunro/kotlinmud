@@ -1,0 +1,14 @@
+area:
+4. GrongokHideout
+
+mobs:
+150. Grongok, the monstrous cave ogre
+a monstrous cave ogre is here, ready for his next meal
+TBD~
+level 8~
+gold 1~
+job aggro~
+~
+1 1 303~
+~
+

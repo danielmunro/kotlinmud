@@ -1,0 +1,39 @@
+area:
+3. LorimirMeadow
+
+mobs:
+50. a monarch butterfly
+a beautiful orange-black monarch butterfly is here, looking for a flower.
+~
+race insect~
+level 2~
+~
+4 10 0~
+~
+
+51. a squirrel
+a squirrel is here, burying an acorn.
+~
+race rodent~
+level 3~
+~
+3 5 0~
+~
+
+52. a lizard
+a lizard is here, bathing in the sun.
+~
+race reptile~
+level 4~
+~
+1 5 0~
+~
+
+53. a songbird
+a songbird is here, looking for worms.
+~
+race avian~
+level 3~
+~
+2 5 0~
+~

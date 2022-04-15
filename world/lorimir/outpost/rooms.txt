@@ -1,0 +1,34 @@
+area:
+2. LorimirForestOutpost
+
+rooms:
+200. Entrance to Praetorian outpost
+Entrance to Paetorian outpost.~
+e 10~
+w 201~
+~
+
+201. Around a fire pit
+A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
+
+A sign flickers against the light of the fire.~
+e 200~
+n 202~
+w 203~
+s 204~
+~
+
+202. Inside a lean-to shelter
+It's cramped inside this hastily constructed tent.~
+s 201~
+~
+
+203. Praetorian blacksmith
+A tent spans just enough room to cover a blacksmith hunched over an anvil.~
+e 201~
+~
+
+204. Mess tent
+A mess tent is here, with a giant pot of gruel in the middle.~
+n 201~
+~

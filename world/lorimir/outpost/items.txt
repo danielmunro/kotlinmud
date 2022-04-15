@@ -1,55 +1,6 @@
 area:
 2. LorimirForestOutpost
 
-rooms:
-200. Entrance to Praetorian outpost
-Entrance to Paetorian outpost.~
-e 10~
-w 201~
-~
-
-201. Around a fire pit
-A circular cobblestone fire-pit serves as the centerpiece for the modest outpost that surrounds you.
-
-A sign flickers against the light of the fire.~
-e 200~
-n 202~
-w 203~
-s 204~
-~
-
-202. Inside a lean-to shelter
-It's cramped inside this hastily constructed tent.~
-s 201~
-~
-
-203. Praetorian blacksmith
-A tent spans just enough room to cover a blacksmith hunched over an anvil.~
-e 201~
-~
-
-204. Mess tent
-A mess tent is here, with a giant pot of gruel in the middle.~
-n 201~
-~
-
-mobs:
-100. Blacksmith Felig
-a blacksmith for the praetorian guard is here, attempting to work in cramped conditions.
-TBD~
-job shopkeeper~
-~
-1 1 203~
-~
-
-101. Barbosa
-Barbosa, the mess cook, is here attempting to keep the camp fed.
-TBD~
-job shopkeeper~
-~
-1 1 204~
-~
-
 items:
 100. a cobblestone fire-pit
 a fire emanates from the circular pit.
@@ -137,31 +88,4 @@ damage pierce~
 hit 1d1~
 level 3~
 ~
-~
-
-quests:
-1. collect mushrooms for Barbosa
-mushroom collecting
-Supplies have been short, aye. Can ye' help a poor cook out, 'n pad me supplies?~
-room_accept 204~
-room_submit 204~
-item_id 2~
-count 6~
-worth 80~
-experience 800~
-faction PraetorianGuard~
-score 50~
-type BarbosaSupplies~
-~
-
-2. join the praetorian guard
-join the praetorian guard
-A wooden sign has been prominently posted here. It beckons you to join the Praetorian Guard.~
-room_accept 201~
-room_submit 10~
-worth 10~
-experience 200~
-faction PraetorianGuard~
-score 100~
-type FindPraetorianGuardRecruiter~
 ~
