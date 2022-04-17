@@ -1,0 +1,11 @@
+area:
+8. Troy
+
+rooms:
+525. Troy City Center
+TBD~
+s 503~
+w 550~
+e 575~
+n 600~
+~

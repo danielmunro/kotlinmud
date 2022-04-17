@@ -1,0 +1,12 @@
+area:
+12. MudSchool
+
+doors:
+1. a heavy, wooden door
+a heavy, wooden door is here
+tbd~
+disposition locked~
+key 1~
+room 653~
+direction west~
+~

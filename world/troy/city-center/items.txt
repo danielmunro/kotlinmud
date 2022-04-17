@@ -1,35 +1,6 @@
 area:
 8. Troy
 
-rooms:
-525. Troy City Center
-TBD~
-s 503~
-w 550~
-e 575~
-n 600~
-~
-
-mobs:
-525. a Troy city guard
-a Troy city guard is here, keeping the peace
-TBD~
-job guard~
-level 8~
-~
-2 999 553~
-2 999 578~
-2 999 705~
-~
-
-526. a Troy city guard
-a Troy city guard is here, keeping the peace
-TBD~
-level 8~
-~
-1 1 525~
-~
-
 items:
 525. a Troy city guard signet ring
 a Troy city guard signet ring has been dropped here
@@ -59,4 +30,15 @@ hit 2d2~
 ~
 mob 1 999 525~
 mob 1 999 526~
+~
+
+527. a patrician's ring
+a shiny ring catches your eye
+TBD~
+level 5~
+worth 2~
+material gold~
+position finger~
+~
+mob 1 10 529~
 ~

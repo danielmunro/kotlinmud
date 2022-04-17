@@ -1,0 +1,17 @@
+area:
+8. Troy
+
+items:
+750. a small leather satchel
+a small leather satchel is here, seemingly left behind
+TBD~
+level 3~
+worth 10~
+material gold~
+container 1~
+max_weight 100~
+max_items 25~
+material leather~
+~
+mob 1 25 550~
+~

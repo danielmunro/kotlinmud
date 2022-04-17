@@ -99,6 +99,7 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
             }
             "container" -> {
                 isContainer = true
+                type = ItemType.CONTAINER
                 items = listOf()
             }
             "max_weight" -> {

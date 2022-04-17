@@ -1,0 +1,22 @@
+area:
+8. Troy
+
+mobs:
+550. Gorg
+a tall and muscular shopkeeper looks up at you from her inventory checklist
+TBD~
+level 5~
+gender female~
+job shopkeeper~
+~
+1 1 590~
+~
+
+551. Jornir the banker
+a stoic dwarf is here, serving as the bank's director
+TBD~
+job shopkeeper~
+race dwarf~
+~
+1 1 591~
+~

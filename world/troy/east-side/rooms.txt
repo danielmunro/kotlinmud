@@ -1,0 +1,39 @@
+area:
+10. Troy
+
+rooms:
+575. Sunrise Avenue
+TBD~
+w 525~
+e 576~
+n 590~
+s 591~
+~
+
+590. Gorg's General store
+A small and cramped general store is stocked with everything imaginable. You start to feel a little claustrophobic.~
+s 575~
+~
+
+591. Troy's Elder Bank
+A large institution built out of solid blocks of stone and marble surround you. Columns lead your gaze forward to the bank's front desk, where a single employee waits patiently behind formidable steel bars.~
+n 575~
+~
+
+576. Sunrise Avenue
+TBD~
+e 577~
+w 575~
+~
+
+577. Sunrise Avenue
+TBD~
+w 576~
+e 578~
+~
+
+578. East Gate
+TBD~
+n 710~
+w 577~
+~
