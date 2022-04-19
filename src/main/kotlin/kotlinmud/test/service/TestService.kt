@@ -4,7 +4,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk
 import kotlinmud.action.service.ActionService
-import kotlinmud.biome.helper.createBiomes
 import kotlinmud.event.factory.createClientDisconnectedEvent
 import kotlinmud.event.impl.ClientConnectedEvent
 import kotlinmud.event.impl.Event
@@ -17,12 +16,7 @@ import kotlinmud.event.observer.impl.tick.DecrementItemDecayTimerObserver
 import kotlinmud.event.observer.impl.tick.GenerateGrassObserver
 import kotlinmud.event.service.EventService
 import kotlinmud.event.type.EventType
-import kotlinmud.generator.config.GeneratorConfig
-import kotlinmud.generator.service.BiomeService
 import kotlinmud.generator.service.FixtureService
-import kotlinmud.generator.service.WorldGeneration
-import kotlinmud.generator.statemachine.createStateMachine
-import kotlinmud.generator.statemachine.runStateMachine
 import kotlinmud.io.model.Client
 import kotlinmud.io.model.PreAuthRequest
 import kotlinmud.io.model.PreAuthResponse
@@ -121,20 +115,6 @@ class TestService(
 
     fun <T> publish(event: Event<T>) {
         runBlocking { eventService.publish(event) }
-    }
-
-    fun createWorldGeneration(width: Int, length: Int): WorldGeneration {
-        with(WorldGeneration()) {
-            createStateMachine(
-                GeneratorConfig(width, length),
-                roomService,
-                BiomeService(width, length, createBiomes()),
-                this
-            ).also {
-                runStateMachine(it)
-            }
-            return this
-        }
     }
 
     fun readIntoBuffers() {
