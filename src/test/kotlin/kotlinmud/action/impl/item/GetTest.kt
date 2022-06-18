@@ -18,6 +18,8 @@ class GetTest {
         val mob = testService.createMob()
         val room = mob.room
         val item = testService.createItem()
+
+        // given
         room.items.add(item)
         val roomItemCount = room.items.size
         val mobItemCount = mob.items.size
