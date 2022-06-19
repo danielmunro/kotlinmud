@@ -13,11 +13,11 @@ import kotlinmud.helper.getAllDataFiles
 import kotlinmud.io.service.ServerService
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
+import kotlinmud.persistence.service.StartupService
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.service.QuestService
 import kotlinmud.room.service.RoomService
-import kotlinmud.startup.service.StartupService
 import kotlinmud.test.service.TestService
 import kotlinmud.time.service.TimeService
 import org.jetbrains.exposed.sql.SchemaUtils

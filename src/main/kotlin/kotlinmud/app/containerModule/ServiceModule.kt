@@ -14,6 +14,7 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.specialization.helper.createSpecializationList
+import kotlinmud.persistence.service.StartupService
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.factory.createEmailService
 import kotlinmud.player.factory.createEmailServiceMock
@@ -24,7 +25,6 @@ import kotlinmud.quest.service.QuestService
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.respawn.service.RespawnService
 import kotlinmud.room.service.RoomService
-import kotlinmud.startup.service.StartupService
 import kotlinmud.time.repository.findTime
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService

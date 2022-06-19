@@ -1,0 +1,7 @@
+area:
+13. Troy
+rooms:
+2. Troy city center
+TBD~
+~
+

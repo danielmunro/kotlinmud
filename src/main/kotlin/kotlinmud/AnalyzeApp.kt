@@ -4,9 +4,9 @@ import kotlinmud.app.createContainer
 import kotlinmud.helper.getAllDataFiles
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
+import kotlinmud.persistence.service.StartupService
 import kotlinmud.quest.helper.questList
 import kotlinmud.room.service.RoomService
-import kotlinmud.startup.service.StartupService
 import org.kodein.di.erased.instance
 
 fun main() {

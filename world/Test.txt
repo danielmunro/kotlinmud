@@ -1,0 +1,11 @@
+area:
+21. Test
+rooms:
+1. start room
+tbd~
+~
+
+3. start room
+tbd~
+~
+

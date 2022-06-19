@@ -47,6 +47,8 @@ import kotlinmud.mob.specialization.impl.Warrior
 import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
+import kotlinmud.persistence.dumper.AreaDumperService
+import kotlinmud.persistence.service.StartupService
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
@@ -63,7 +65,6 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Area
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
-import kotlinmud.startup.service.StartupService
 import kotlinmud.time.service.TimeService
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -86,6 +87,7 @@ class TestService(
     val testEmailAddress = "foo@bar.com"
     private val clientService = ClientService()
     private val room = RoomBuilder(roomService).also {
+        it.id = roomService.getRoomCount() + 1
         it.name = "start room"
         it.description = "tbd"
         it.area = Area.Test
@@ -98,6 +100,10 @@ class TestService(
     init {
         every { client.socket.remoteAddress } returns mockk<SocketAddress>()
         serverService.getClients().add(client)
+    }
+
+    fun getAreaDumperService(): AreaDumperService {
+        return AreaDumperService(roomService)
     }
 
     fun createStartupService(data: List<String>): StartupService {
@@ -250,6 +256,7 @@ class TestService(
 
     fun createRoom(): Room {
         return RoomBuilder(roomService).also {
+            it.id = roomService.getRoomCount() + 1
             it.name = "a test room"
             it.description = "this is a test room"
             it.area = Area.Test

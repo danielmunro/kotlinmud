@@ -3,9 +3,9 @@ package kotlinmud.app
 import kotlinmud.event.observer.type.ObserverList
 import kotlinmud.event.service.EventService
 import kotlinmud.io.service.ServerService
+import kotlinmud.persistence.service.StartupService
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.service.PlayerService
-import kotlinmud.startup.service.StartupService
 import org.kodein.di.erased.instance
 
 fun createApp(port: Int): App {
