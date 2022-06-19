@@ -41,6 +41,7 @@ enum class Command(val value: String) {
     WEATHER("weather"),
     EXITS("exits"),
     SCAN("scan"),
+    AREA("area"),
 
     // crafting
     CRAFT("craft"),

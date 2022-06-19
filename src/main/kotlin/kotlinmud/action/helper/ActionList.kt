@@ -4,6 +4,7 @@ import kotlinmud.action.impl.admin.createBanAction
 import kotlinmud.action.impl.admin.createBoomAction
 import kotlinmud.action.impl.admin.createSlayAction
 import kotlinmud.action.impl.admin.createUnbanAction
+import kotlinmud.action.impl.createAreaAction
 import kotlinmud.action.impl.createCastAction
 import kotlinmud.action.impl.createCloseAction
 import kotlinmud.action.impl.createDownAction
@@ -91,8 +92,6 @@ fun createActionsList(): List<Action> {
         createGetFromItemAction(),
         createPutAction(),
         createDropAction(),
-        createInventoryAction(),
-        createEquipmentAction(),
         createKillAction(),
         createFleeAction(),
         createSitAction(),
@@ -115,26 +114,31 @@ fun createActionsList(): List<Action> {
         createEatAction(),
         createTrainAction(),
         createPracticeAction(),
+        createRecallAction(),
+        createHealAction(),
+        createOwnerInfoAction(),
+        createOwnerSetAction(),
+        createCraftAction(),
+        createHarvestAction(),
+        createTillAction(),
+        createQuaffAction(),
+        createLevelAction(),
+
+        // info
         createWhoAction(),
         createExitsAction(),
         createAttributesAction(),
         createWeatherAction(),
         createAffectsAction(),
-        createRecallAction(),
-        createHealAction(),
         createHealListAction(),
-        createOwnerInfoAction(),
-        createOwnerSetAction(),
-        createCraftAction(),
-        createHarvestAction(),
         createRecipesAction(),
         createRecipeOfAction(),
-        createTillAction(),
-        createTimeAction(),
         createDescriptionAction(),
-        createQuaffAction(),
         createScanAction(),
-        createLevelAction(),
+        createTimeAction(),
+        createInventoryAction(),
+        createEquipmentAction(),
+        createAreaAction(),
 
         // quests
         createQuestListAction(),

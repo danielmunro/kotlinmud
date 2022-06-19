@@ -10,6 +10,7 @@ import kotlinmud.item.type.Recipe
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.room.model.Door
+import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
 
 fun messageToActionCreator(message: String): Message {
@@ -265,5 +266,11 @@ fun createBanMessage(mob: Mob): Message {
 fun createUnbanMessage(mob: Mob): Message {
     return MessageBuilder()
         .toActionCreator("$mob is now unbanned.")
+        .build()
+}
+
+fun createAreaMessage(room: Room): Message {
+    return MessageBuilder()
+        .toActionCreator("area: ${room.area.name}")
         .build()
 }
