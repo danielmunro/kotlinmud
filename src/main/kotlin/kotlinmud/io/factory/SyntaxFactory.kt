@@ -94,7 +94,7 @@ fun roomToClone(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.DIRECTION_WITH_NO_EXIT)
 }
 
-fun areaToSet(): List<Syntax> {
+fun propToSet(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.FREE_FORM)
 }
 
@@ -128,10 +128,6 @@ fun optionalFurniture(): List<Syntax> {
 
 fun subcommand(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND)
-}
-
-fun subcommandWithModifier(): List<Syntax> {
-    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.FREE_FORM)
 }
 
 fun subcommandPlayerMob(): List<Syntax> {

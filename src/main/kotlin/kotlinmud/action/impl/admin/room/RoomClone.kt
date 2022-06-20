@@ -8,7 +8,7 @@ import kotlinmud.io.model.MessageBuilder
 import kotlinmud.io.type.Syntax
 import kotlinmud.room.type.Direction
 
-fun createCloneAction(): Action {
+fun createRoomCloneAction(): Action {
     return ActionBuilder(Command.ROOM_CLONE).also {
         it.syntax = roomToClone()
     } build {
