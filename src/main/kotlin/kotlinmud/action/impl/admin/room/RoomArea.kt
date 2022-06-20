@@ -1,4 +1,4 @@
-package kotlinmud.action.impl.admin.area
+package kotlinmud.action.impl.admin.room
 
 import kotlinmud.action.builder.ActionBuilder
 import kotlinmud.action.model.Action
@@ -9,8 +9,8 @@ import kotlinmud.io.type.Syntax
 import kotlinmud.mob.type.Role
 import kotlinmud.room.type.Area
 
-fun createAreaSetAction(): Action {
-    return ActionBuilder(Command.AREA_SET).also {
+fun createRoomAreaAction(): Action {
+    return ActionBuilder(Command.ROOM_AREA).also {
         it.syntax = propToSet()
         it.minimumRole = Role.Admin
     } build {

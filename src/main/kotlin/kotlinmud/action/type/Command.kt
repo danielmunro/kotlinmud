@@ -122,6 +122,8 @@ enum class Command(val value: String) {
     CURE_LIGHT("cure light"),
 
     // room
+    ROOM_AREA("room area"),
     ROOM_CLONE("room clone"),
     ROOM_NAME("room name"),
+    ROOM_BRIEF("room brief"),
 }
