@@ -1,6 +1,2 @@
 area:
 21. Test
-rooms:
-1. start room
-tbd~
-~

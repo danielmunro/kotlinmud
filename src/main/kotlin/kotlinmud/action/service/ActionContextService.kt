@@ -29,9 +29,11 @@ import kotlinmud.mob.skill.type.Skill
 import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
+import kotlinmud.persistence.dumper.AreaDumperService
 import kotlinmud.player.social.Social
 import kotlinmud.quest.model.Quest
 import kotlinmud.quest.service.QuestService
+import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Direction
@@ -86,6 +88,49 @@ class ActionContextService(
 
     fun getRoom(): Room {
         return request.getRoom()
+    }
+
+    fun addRoom(direction: Direction) {
+        val source = request.getRoom()
+        val destination = RoomBuilder(roomService).also {
+            it.id = roomService.getRoomCount() + 1
+            it.name = source.name
+            it.brief = source.brief
+            it.description = source.description
+            it.area = source.area
+            it.elevation = source.elevation
+            it.isIndoors = source.isIndoors
+        }.build()
+        when (direction) {
+            Direction.NORTH -> {
+                source.north = destination
+                destination.south = source
+            }
+            Direction.SOUTH -> {
+                source.south = destination
+                destination.north = source
+            }
+            Direction.EAST -> {
+                source.east = destination
+                destination.west = source
+            }
+            Direction.WEST -> {
+                source.west = destination
+                destination.east = source
+            }
+            Direction.UP -> {
+                source.up = destination
+                destination.down = source
+            }
+            Direction.DOWN -> {
+                source.down = destination
+                destination.up = source
+            }
+        }
+    }
+
+    fun flush() {
+        AreaDumperService(roomService).dump()
     }
 
     fun getExits(): Map<Direction, Room> {

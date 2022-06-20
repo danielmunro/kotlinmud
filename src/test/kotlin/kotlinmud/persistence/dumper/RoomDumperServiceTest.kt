@@ -22,6 +22,12 @@ class RoomDumperServiceTest {
             """rooms:
 1. start room
 tbd~
+north 0~
+south 0~
+east 0~
+west 0~
+up 0~
+down 0~
 ~
 
 """

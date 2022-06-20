@@ -1,9 +1,12 @@
 package kotlinmud.action.helper
 
+import kotlinmud.action.impl.admin.area.createAreaSetAction
 import kotlinmud.action.impl.admin.createBanAction
 import kotlinmud.action.impl.admin.createBoomAction
+import kotlinmud.action.impl.admin.createFlushAction
 import kotlinmud.action.impl.admin.createSlayAction
 import kotlinmud.action.impl.admin.createUnbanAction
+import kotlinmud.action.impl.admin.room.createCloneAction
 import kotlinmud.action.impl.createAreaAction
 import kotlinmud.action.impl.createCastAction
 import kotlinmud.action.impl.createCloseAction
@@ -153,6 +156,8 @@ fun createActionsList(): List<Action> {
         createUnbanAction(),
         createBoomAction(),
         createSlayAction(),
+        createFlushAction(),
+        createAreaSetAction(),
 
         // skills
         createDisarmAction(),
@@ -166,5 +171,8 @@ fun createActionsList(): List<Action> {
 
         // spells
         createCastAction(),
+
+        // rooms
+        createCloneAction(),
     )
 }

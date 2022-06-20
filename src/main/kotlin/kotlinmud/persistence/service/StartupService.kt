@@ -145,24 +145,19 @@ class StartupService(
                 throw RoomConnectionException(endId)
             }
             when (direction) {
-                "n" -> start.north = end
-                "s" -> start.south = end
-                "e" -> start.east = end
-                "w" -> start.west = end
-                "u" -> start.up = end
-                "d" -> start.down = end
+                Direction.NORTH.value -> start.north = end
+                Direction.SOUTH.value -> start.south = end
+                Direction.EAST.value -> start.east = end
+                Direction.WEST.value -> start.west = end
+                Direction.UP.value -> start.up = end
+                Direction.DOWN.value -> start.down = end
             }
         }
         rooms.forEach { model ->
             model.keywords.forEach {
                 val keyword = it.key
-                if (keyword == "n" ||
-                    keyword == "s" ||
-                    keyword == "e" ||
-                    keyword == "w" ||
-                    keyword == "u" ||
-                    keyword == "d"
-                ) {
+                val directions = Direction.values().map { direction -> direction.value }
+                if (directions.contains(keyword) && it.value.toInt() > 0) {
                     connect(model.id, it.value.toInt(), keyword)
                 }
             }

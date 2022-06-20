@@ -17,12 +17,23 @@ class RoomDumperService(private val rooms: List<Room>) {
                     TokenType.ID -> "${room.id}. "
                     TokenType.Name -> room.name + "\n"
                     TokenType.Description -> room.description + "~\n"
-                    TokenType.Props -> "~\n"
+                    TokenType.Props -> dumpProps(room)
                     else -> ""
                 }
             }
             buffer += "\n"
         }
         return buffer
+    }
+
+    private fun dumpProps(room: Room): String {
+        return """north ${room.north?.id ?: 0}~
+south ${room.south?.id ?: 0}~
+east ${room.east?.id ?: 0}~
+west ${room.west?.id ?: 0}~
+up ${room.up?.id ?: 0}~
+down ${room.down?.id ?: 0}~
+~
+"""
     }
 }

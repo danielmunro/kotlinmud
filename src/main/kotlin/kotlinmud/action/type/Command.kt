@@ -41,6 +41,7 @@ enum class Command(val value: String) {
     WEATHER("weather"),
     EXITS("exits"),
     SCAN("scan"),
+    AREA_SET("area set"),
     AREA("area"),
 
     // crafting
@@ -115,7 +116,11 @@ enum class Command(val value: String) {
     UNBAN("unban"),
     BOOM("boom"),
     SLAY("slay"),
+    FLUSH("flush"),
 
     // spells
     CURE_LIGHT("cure light"),
+
+    // room
+    ROOM_CLONE("room clone"),
 }

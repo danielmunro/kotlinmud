@@ -90,6 +90,14 @@ fun directionToExit(): List<Syntax> {
     return listOf(Syntax.DIRECTION_TO_EXIT)
 }
 
+fun roomToClone(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.DIRECTION_WITH_NO_EXIT)
+}
+
+fun areaToSet(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.FREE_FORM)
+}
+
 fun skillToPractice(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SKILL_TO_PRACTICE)
 }

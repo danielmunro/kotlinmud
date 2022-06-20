@@ -43,23 +43,6 @@ class RoomBuilder(private val roomService: RoomService) : HasInventory {
         }
     }
 
-    fun copy(modifier: (RoomBuilder) -> Unit): RoomBuilder {
-        return RoomBuilder(roomService).also {
-            it.name = name
-            it.brief = brief
-            it.description = description
-            it.area = area
-            it.isIndoors = isIndoors
-            it.regenLevel = regenLevel
-            it.biome = biome
-            it.substrate = substrate
-            it.elevation = elevation
-            it.maxWeight = maxWeight
-            it.maxItems = maxItems
-            it.owner = owner
-        }.also(modifier)
-    }
-
     fun build(): Room {
         val room = Room(
             id,

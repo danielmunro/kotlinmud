@@ -1,7 +1,23 @@
 area:
 13. Troy
 rooms:
+1. Troy city center
+TBD~
+north 2~
+south 0~
+east 0~
+west 0~
+up 0~
+down 0~
+~
+
 2. Troy city center
 TBD~
+north 0~
+south 1~
+east 0~
+west 0~
+up 0~
+down 0~
 ~
 
