@@ -15,7 +15,7 @@ class RoomNameTest {
         val roomName = "a poorly lit alley"
 
         // when
-        val response = test.runAction("room name $roomName")
+        val response = test.runActionAsAdmin("room name $roomName")
 
         // then
         assertThat(response.message.toActionCreator).isEqualTo("room renamed")

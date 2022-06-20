@@ -47,16 +47,14 @@ import kotlinmud.mob.specialization.impl.Warrior
 import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
-import kotlinmud.persistence.dumper.AreaDumperService
+import kotlinmud.mob.type.Role
 import kotlinmud.persistence.service.StartupService
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.auth.service.AuthStepService
 import kotlinmud.player.auth.type.AuthStep
 import kotlinmud.player.dao.PlayerDAO
 import kotlinmud.player.service.PlayerService
-import kotlinmud.quest.model.Quest
 import kotlinmud.quest.service.QuestService
-import kotlinmud.quest.type.QuestType
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.model.Door
@@ -100,10 +98,6 @@ class TestService(
     init {
         every { client.socket.remoteAddress } returns mockk<SocketAddress>()
         serverService.getClients().add(client)
-    }
-
-    fun getAreaDumperService(): AreaDumperService {
-        return AreaDumperService(roomService)
     }
 
     fun createStartupService(data: List<String>): StartupService {
@@ -288,10 +282,6 @@ class TestService(
         return itemService.findOne(predicate)
     }
 
-    fun findRoom(predicate: (Room) -> Boolean): Room? {
-        return roomService.findOne(predicate)
-    }
-
     fun createCorpseFrom(mob: Mob): Item {
         return mobService.createCorpseFrom(mob)
     }
@@ -383,6 +373,13 @@ class TestService(
         return runAction(mob ?: createMob(), input)
     }
 
+    fun runActionAsAdmin(input: String): Response {
+        createMob().also {
+            it.role = Role.Admin
+        }
+        return runAction(input)
+    }
+
     fun runActionForIOStatus(mob: PlayerMob, input: String, status: IOStatus, doBetween: () -> Unit = fun() {}): Response {
         var i = 0
         while (i < 100) {
@@ -438,10 +435,6 @@ class TestService(
 
     fun callProceedFightsEvent() {
         runBlocking { ProceedFightsPulseObserver(mobService).invokeAsync(Event(EventType.PULSE, null)) }
-    }
-
-    fun findQuest(type: QuestType): Quest? {
-        return questService.findByType(type)
     }
 
     fun runAction(mob: PlayerMob, input: String): Response {

@@ -21,7 +21,7 @@ class PlayerMob(
     var loggedIn: Boolean,
     var factionScores: MutableMap<FactionType, Int>,
     var quests: MutableMap<QuestType, QuestProgress>,
-    val role: Role,
+    var role: Role,
     var standing: Standing,
 ) : Mob(mobArguments) {
     fun addExperience(value: Int): AddExperience {
