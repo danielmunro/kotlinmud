@@ -37,6 +37,11 @@ class Action(
         return if (parts.size > 1) parts[1] else ""
     }
 
+    fun getModifier(): String {
+        val parts = command.value.split(" ")
+        return if (parts.size > 2) parts[2] else ""
+    }
+
     override fun invoke(actionContextService: ActionContextService): Response {
         return this.mutator(actionContextService)
     }

@@ -98,6 +98,14 @@ fun propToSet(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.FREE_FORM)
 }
 
+fun roomAddDescription(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.MODIFIER, Syntax.FREE_FORM)
+}
+
+fun roomChangeDescription(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.MODIFIER, Syntax.VALUE, Syntax.FREE_FORM)
+}
+
 fun skillToPractice(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SKILL_TO_PRACTICE)
 }

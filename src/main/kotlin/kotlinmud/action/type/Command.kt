@@ -126,4 +126,6 @@ enum class Command(val value: String) {
     ROOM_CLONE("room clone"),
     ROOM_NAME("room name"),
     ROOM_BRIEF("room brief"),
+    ROOM_DESCRIPTION_ADD("room description add"),
+    ROOM_DESCRIPTION_CHANGE("room description change"),
 }

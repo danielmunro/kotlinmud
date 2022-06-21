@@ -14,6 +14,7 @@ import kotlinmud.action.contextBuilder.DoorInRoomContextBuilder
 import kotlinmud.action.contextBuilder.EquipmentInInventoryContextBuilder
 import kotlinmud.action.contextBuilder.EquippedItemContextBuilder
 import kotlinmud.action.contextBuilder.FreeFormContextBuilder
+import kotlinmud.action.contextBuilder.IntegerValueContextBuilder
 import kotlinmud.action.contextBuilder.ItemFromMerchantContextBuilder
 import kotlinmud.action.contextBuilder.ItemInAvailableItemInventoryContextBuilder
 import kotlinmud.action.contextBuilder.ItemInInventoryContextBuilder
@@ -58,6 +59,8 @@ class ContextBuilderService(
             Syntax.DIRECTION_WITH_NO_EXIT -> DirectionWithNoExitContextBuilder(request.getRoom())
             Syntax.COMMAND -> CommandContextBuilder()
             Syntax.SUBCOMMAND -> CommandContextBuilder()
+            Syntax.MODIFIER -> CommandContextBuilder()
+            Syntax.VALUE -> IntegerValueContextBuilder()
             Syntax.ITEM_IN_INVENTORY -> ItemInInventoryContextBuilder(request.mob)
             Syntax.ITEM_IN_ROOM -> ItemInRoomContextBuilder(request.getRoom())
             Syntax.EQUIPMENT_IN_INVENTORY -> EquipmentInInventoryContextBuilder(request.mob)

@@ -36,8 +36,12 @@ class ActionService(
                 syntax.contains(Syntax.OPTIONAL_TARGET)
         }
 
-        private fun subCommandMatches(syntax: Syntax, subCommand: String, input: String): Boolean {
+        private fun subCommandMatches(syntax: Syntax?, subCommand: String, input: String): Boolean {
             return syntax != Syntax.SUBCOMMAND || subCommand.startsWith(input)
+        }
+
+        private fun modifierMatches(syntax: Syntax?, modifier: String, input: String): Boolean {
+            return syntax != Syntax.MODIFIER || modifier.startsWith(input)
         }
     }
 
@@ -56,10 +60,18 @@ class ActionService(
 
     private suspend fun runAction(request: RequestService): Response? {
         val action = actions.find {
-            val syntax = if (it.syntax.size > 1) it.syntax[1] else Syntax.NOOP
             commandMatches(it.command, request.getCommand()) &&
                 argumentLengthMatches(it.syntax, request.args) &&
-                subCommandMatches(syntax, it.getSubPart(), request.getSubject())
+                subCommandMatches(
+                    it.syntax.getOrNull(1),
+                    it.getSubPart(),
+                    request.getSubject(),
+                ) &&
+                modifierMatches(
+                    it.syntax.getOrNull(2),
+                    it.getModifier(),
+                    request.getModifier(),
+                )
         } ?: return null
 
         val contextList = buildActionContextList(request, action)

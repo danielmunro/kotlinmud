@@ -3,6 +3,8 @@ package kotlinmud.io.type
 enum class Syntax(val syntax: String) {
     COMMAND("command"),
     SUBCOMMAND("subcommand"),
+    MODIFIER("modifier"),
+    VALUE("value"),
     RECIPE("recipe"),
     DIRECTION_TO_EXIT("direction to exit"),
     DIRECTION_WITH_NO_EXIT("direction with no exit"),

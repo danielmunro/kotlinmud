@@ -45,6 +45,10 @@ class RequestService(val mob: PlayerMob, val input: String) {
         return if (args.size > 1) args[1] else ""
     }
 
+    fun getModifier(): String {
+        return if (args.size > 2) args[2] else ""
+    }
+
     fun getDisposition(): Disposition {
         return mob.disposition
     }

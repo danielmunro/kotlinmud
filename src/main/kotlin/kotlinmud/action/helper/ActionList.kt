@@ -6,7 +6,10 @@ import kotlinmud.action.impl.admin.createFlushAction
 import kotlinmud.action.impl.admin.createSlayAction
 import kotlinmud.action.impl.admin.createUnbanAction
 import kotlinmud.action.impl.admin.room.createRoomAreaAction
+import kotlinmud.action.impl.admin.room.createRoomBriefAction
 import kotlinmud.action.impl.admin.room.createRoomCloneAction
+import kotlinmud.action.impl.admin.room.createRoomDescriptionAddAction
+import kotlinmud.action.impl.admin.room.createRoomDescriptionChangeAction
 import kotlinmud.action.impl.admin.room.createRoomNameAction
 import kotlinmud.action.impl.createAreaAction
 import kotlinmud.action.impl.createCastAction
@@ -176,5 +179,8 @@ fun createActionsList(): List<Action> {
         createRoomCloneAction(),
         createRoomAreaAction(),
         createRoomNameAction(),
+        createRoomBriefAction(),
+        createRoomDescriptionChangeAction(),
+        createRoomDescriptionAddAction(),
     )
 }
