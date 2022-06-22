@@ -128,4 +128,5 @@ enum class Command(val value: String) {
     ROOM_BRIEF("room brief"),
     ROOM_DESCRIPTION_ADD("room description add"),
     ROOM_DESCRIPTION_CHANGE("room description change"),
+    ROOM_DESCRIPTION_REMOVE("room description remove"),
 }

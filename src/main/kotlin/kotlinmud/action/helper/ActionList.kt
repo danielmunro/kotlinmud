@@ -10,6 +10,7 @@ import kotlinmud.action.impl.admin.room.createRoomBriefAction
 import kotlinmud.action.impl.admin.room.createRoomCloneAction
 import kotlinmud.action.impl.admin.room.createRoomDescriptionAddAction
 import kotlinmud.action.impl.admin.room.createRoomDescriptionChangeAction
+import kotlinmud.action.impl.admin.room.createRoomDescriptionRemoveAction
 import kotlinmud.action.impl.admin.room.createRoomNameAction
 import kotlinmud.action.impl.createAreaAction
 import kotlinmud.action.impl.createCastAction
@@ -182,5 +183,6 @@ fun createActionsList(): List<Action> {
         createRoomBriefAction(),
         createRoomDescriptionChangeAction(),
         createRoomDescriptionAddAction(),
+        createRoomDescriptionRemoveAction(),
     )
 }
