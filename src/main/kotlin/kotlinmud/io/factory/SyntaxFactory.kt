@@ -110,6 +110,10 @@ fun roomRemoveDescription(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.MODIFIER, Syntax.VALUE)
 }
 
+fun roomListDescription(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.MODIFIER)
+}
+
 fun skillToPractice(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SKILL_TO_PRACTICE)
 }
