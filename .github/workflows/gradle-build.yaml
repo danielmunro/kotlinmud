@@ -1,7 +1,7 @@
 name: Run Gradle Tests
 on: push
 jobs:
-  gradle:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: harmon758/postgresql-action@v1
@@ -21,6 +21,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           arguments: clean test jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONARCLOUD }}
+  deploy:
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    steps:
       - name: Publish Package
         uses: elgohr/Publish-Docker-Github-Action@master
         if: contains(github.ref, 'refs/tags/v')
@@ -30,15 +35,3 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: quay.io
           tags: latest
-      - name: Restart service
-        uses: appleboy/ssh-action@master
-        if: contains(github.ref, 'refs/tags/v')
-        with:
-          host: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PORT: ${{ secrets.PORT }}
-          KEY: ${{ secrets.SSHKEY }}
-          script: |
-            systemctl stop kotlinmud
-            /snap/bin/docker system prune -af
-            systemctl start kotlinmud
