@@ -3,6 +3,7 @@ package kotlinmud.action.helper
 import kotlinmud.action.impl.admin.createBanAction
 import kotlinmud.action.impl.admin.createBoomAction
 import kotlinmud.action.impl.admin.createFlushAction
+import kotlinmud.action.impl.admin.createRebootAction
 import kotlinmud.action.impl.admin.createSlayAction
 import kotlinmud.action.impl.admin.createUnbanAction
 import kotlinmud.action.impl.admin.room.createRoomAreaAction
@@ -163,6 +164,7 @@ fun createActionsList(): List<Action> {
         createBoomAction(),
         createSlayAction(),
         createFlushAction(),
+        createRebootAction(),
 
         // skills
         createDisarmAction(),

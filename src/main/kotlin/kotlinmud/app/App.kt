@@ -27,4 +27,8 @@ class App(private val eventService: EventService, private val serverService: Ser
     fun isRunning(): Boolean {
         return running
     }
+
+    fun stop() {
+        running = false
+    }
 }

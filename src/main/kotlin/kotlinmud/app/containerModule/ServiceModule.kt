@@ -4,6 +4,7 @@ import kotlinmud.action.helper.createActionContextBuilder
 import kotlinmud.action.helper.createActionsList
 import kotlinmud.action.service.ActionService
 import kotlinmud.action.service.ContextBuilderService
+import kotlinmud.app.App
 import kotlinmud.event.service.EventService
 import kotlinmud.generator.service.FixtureService
 import kotlinmud.helper.getAllDataFiles
@@ -113,6 +114,9 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
         bind<StartupService>() with singleton {
             val data = getAllDataFiles()
             StartupService(instance(), instance(), instance(), data)
+        }
+        bind<App>() with singleton {
+            App(instance(), instance())
         }
     }
 }

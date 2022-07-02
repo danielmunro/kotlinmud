@@ -41,3 +41,7 @@ fun createSocialEvent(social: Social): Event<SocialEvent> {
 fun createTillEvent(room: Room): Event<Room> {
     return Event(EventType.TILL, room)
 }
+
+fun createRebootEvent(): Event<Any?> {
+    return Event(EventType.REBOOT, null)
+}

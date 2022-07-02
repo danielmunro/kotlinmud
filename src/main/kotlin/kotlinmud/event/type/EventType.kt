@@ -15,5 +15,6 @@ enum class EventType {
     CLIENT_LOGGED_IN,
     GAME_START,
     GAME_LOOP,
-    TILL
+    TILL,
+    REBOOT,
 }

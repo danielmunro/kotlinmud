@@ -5,6 +5,7 @@ import kotlinmud.action.model.ActionContextList
 import kotlinmud.affect.model.Affect
 import kotlinmud.attributes.type.Attribute
 import kotlinmud.biome.type.ResourceType
+import kotlinmud.event.factory.createRebootEvent
 import kotlinmud.event.factory.createSocialEvent
 import kotlinmud.event.factory.createTillEvent
 import kotlinmud.event.service.EventService
@@ -176,6 +177,10 @@ class ActionContextService(
 
     suspend fun publishTillEvent(room: Room) {
         eventService.publish(createTillEvent(room))
+    }
+
+    suspend fun publishReboot() {
+        eventService.publish(createRebootEvent())
     }
 
     fun getClients(): Clients {

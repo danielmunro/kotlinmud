@@ -1,6 +1,7 @@
 package kotlinmud.app.containerModule
 
 import kotlinmud.app.Tag
+import kotlinmud.event.observer.impl.RebootObserver
 import kotlinmud.event.observer.impl.SendMessageToRoomObserver
 import kotlinmud.event.observer.impl.SocialDistributorObserver
 import kotlinmud.event.observer.impl.TillRoomObserver
@@ -192,6 +193,10 @@ val ObserverModule = Kodein.Module {
         AddQuestKillObserver(instance())
     }
 
+    bind<Observer>(tag = Tag.REBOOT) with singleton {
+        RebootObserver(instance())
+    }
+
     bind<ObserverList>() with singleton {
         mapOf(
             Pair(
@@ -289,9 +294,15 @@ val ObserverModule = Kodein.Module {
             Pair(
                 EventType.TILL,
                 listOf(
-                    instance(tag = Tag.TILL_ROOM)
-                )
-            )
+                    instance(tag = Tag.TILL_ROOM),
+                ),
+            ),
+            Pair(
+                EventType.REBOOT,
+                listOf(
+                    instance(tag = Tag.REBOOT),
+                ),
+            ),
         )
     }
 }

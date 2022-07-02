@@ -117,6 +117,7 @@ enum class Command(val value: String) {
     BOOM("boom"),
     SLAY("slay"),
     FLUSH("flush"),
+    REBOOT("reboot"),
 
     // spells
     CURE_LIGHT("cure light"),
