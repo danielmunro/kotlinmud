@@ -25,13 +25,11 @@ jobs:
     needs:
       - test
     runs-on: ubuntu-latest
+    if: contains(github.ref, 'refs/tags/v')
     steps:
-      - name: Publish Package
-        uses: elgohr/Publish-Docker-Github-Action@master
-        if: contains(github.ref, 'refs/tags/v')
-        with:
-          name: danielmunro/kotlinmud/kotlinmud-docker-image
-          username: ${{ secrets.DOCKER_USERNAME_2 }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: quay.io
-          tags: latest
+      - name: Login to GHCR
+        run: echo "${{ secrets.PAT }}" | docker login ghcr.io -u danielmunro --password-stdin
+      - name: Build
+        run: docker build -t ${{ github.tag }} .
+      - name: Push
+        run: docker push ghcr.io/danielmunro/kotlinmud:${{ github.tag }}
