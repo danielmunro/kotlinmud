@@ -31,6 +31,6 @@ jobs:
       - name: Login to GHCR
         run: echo "${{ secrets.PAT }}" | docker login ghcr.io -u danielmunro --password-stdin
       - name: Build
-        run: docker build -t ${{ github.ref_name }} .
+        run: docker build -t ghcr.io/danielmunro/kotlinmud:${{ github.ref_name }} .
       - name: Push
         run: docker push ghcr.io/danielmunro/kotlinmud:${{ github.ref_name }}
