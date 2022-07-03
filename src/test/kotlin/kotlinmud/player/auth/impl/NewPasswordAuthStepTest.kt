@@ -25,18 +25,6 @@ class NewPasswordAuthStepTest {
         assertThat(response.message).isEqualTo("ok.")
     }
 
-    @Test
-    fun testPasswordMustBeAtLeast7Characters() {
-        // given
-        val test = setup()
-
-        // when
-        val response = test.runPreAuth(tooShortPassword)
-
-        // then
-        assertThat(response.message).isEqualTo("That password is either too short or too simple.")
-    }
-
     private fun setup(): TestService {
         return createTestService().also {
             player = it.createPlayer(accountName)
