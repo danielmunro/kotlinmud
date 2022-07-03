@@ -63,6 +63,8 @@ class ProcessClientBuffersObserver(
     private suspend fun handlePreAuthRequest(client: Client, input: String) {
         logger.debug("pre-auth request :: {} : {}", client.socket.remoteAddress, input)
         val nextStep = playerService.handlePreAuthRequest(PreAuthRequest(client, input))
+        client.write(nextStep.message + "\n")
+        client.write(nextStep.authStep.promptMessage + " ")
         logger.debug("next step :: {}", nextStep.authStep.javaClass)
         if (nextStep.authStep is CompleteAuthStep) {
             val response = actionService.run(RequestService(client.mob!!, "look"))
