@@ -3,7 +3,6 @@ package kotlinmud.action.impl.info
 import assertk.assertThat
 import assertk.assertions.contains
 import assertk.assertions.doesNotContain
-import kotlinmud.room.type.Area
 import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
@@ -13,7 +12,7 @@ class ScanTest {
         // setup
         val test = createTestService()
         val room = test.createRoomBuilder().also {
-            it.area = Area.None
+            it.area = "None"
         }.build()
 
         test.createPlayerMob()

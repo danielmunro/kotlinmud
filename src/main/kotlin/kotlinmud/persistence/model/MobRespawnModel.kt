@@ -1,9 +1,7 @@
 package kotlinmud.persistence.model
 
-import kotlinmud.room.type.Area
-
 data class MobRespawnModel(
-    val area: Area,
+    val area: String,
     val mobId: Int,
     val maxAmountInRoom: Int,
     val maxAmountInGame: Int,

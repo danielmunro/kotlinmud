@@ -8,9 +8,8 @@ import kotlinmud.persistence.token.IdToken
 import kotlinmud.persistence.token.ItemRespawnToken
 import kotlinmud.persistence.token.NameToken
 import kotlinmud.persistence.token.PropsToken
-import kotlinmud.room.type.Area
 
-class ItemSpec(private val area: Area) : Spec {
+class ItemSpec(private val area: String) : Spec {
     override val tokens = listOf(
         IdToken(),
         NameToken(),

@@ -60,7 +60,6 @@ import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.model.Door
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
-import kotlinmud.room.type.Area
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.time.service.TimeService
@@ -88,7 +87,7 @@ class TestService(
         it.id = roomService.getRoomCount() + 1
         it.name = "start room"
         it.description = "tbd"
-        it.area = Area.Test
+        it.area = "Test"
     }.build()
     private val client: Client = spyk(Client(mockk(relaxed = true)))
     private var mob: PlayerMob? = null
@@ -253,7 +252,7 @@ class TestService(
             it.id = roomService.getRoomCount() + 1
             it.name = "a test room"
             it.description = "this is a test room"
-            it.area = Area.Test
+            it.area = "Test"
             it.isIndoors = false
             it.regenLevel = RegenLevel.NORMAL
         }.build()
@@ -270,7 +269,7 @@ class TestService(
         return RoomBuilder(roomService).also {
             it.name = "foo"
             it.description = "bar"
-            it.area = Area.Test
+            it.area = "Test"
         }
     }
 

@@ -271,6 +271,6 @@ fun createUnbanMessage(mob: Mob): Message {
 
 fun createAreaMessage(room: Room): Message {
     return MessageBuilder()
-        .toActionCreator("area: ${room.area.name}")
+        .toActionCreator("area: ${room.area}")
         .build()
 }

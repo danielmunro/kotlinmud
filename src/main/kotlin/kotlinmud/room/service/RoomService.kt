@@ -1,14 +1,13 @@
 package kotlinmud.room.service
 
-import kotlinmud.biome.type.BiomeType
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.model.Room
-import kotlinmud.room.type.Area
 
 class RoomService {
     private val rooms = mutableListOf<Room>()
+    private val areas = mutableSetOf<String>()
 
-    fun builder(name: String, description: String, area: Area): RoomBuilder {
+    fun builder(name: String, description: String, area: String): RoomBuilder {
         return RoomBuilder(this).also {
             it.name = name
             it.description = description
@@ -22,18 +21,23 @@ class RoomService {
 
     fun add(room: Room) {
         rooms.add(room)
+        areas.add(room.area)
+    }
+
+    fun getAllAreas(): List<String> {
+        return areas.toList()
+    }
+
+    fun findArea(partial: String): String? {
+        return areas.find { it.startsWith(partial) }
     }
 
     fun findOne(predicate: (room: Room) -> Boolean): Room? {
         return rooms.find(predicate)
     }
 
-    fun findByArea(area: Area): List<Room> {
+    fun findByArea(area: String): List<Room> {
         return rooms.filter { it.area == area }
-    }
-
-    fun findByBiome(biomeType: BiomeType): List<Room> {
-        return rooms.filter { it.biome == biomeType }
     }
 
     fun filter(predicate: (room: Room) -> Boolean): List<Room> {

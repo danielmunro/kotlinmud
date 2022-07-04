@@ -18,7 +18,6 @@ import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.model.Door
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
-import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
 
@@ -35,7 +34,7 @@ class StartupService(
     private val items = mutableListOf<ItemModel>()
     private val quests = mutableListOf<QuestModel>()
     private val itemMobRespawns = mutableListOf<ItemMobRespawnModel>()
-    private val areas = mutableSetOf<Area>()
+    private val areas = mutableSetOf<String>()
     private val logger = logger(this)
 
     fun hydrateWorld() {
@@ -165,7 +164,7 @@ class StartupService(
     }
 
     private fun combineModels(file: FileModel) {
-        val area = Area.valueOf(file.area.name)
+        val area = file.area.name
         rooms.addAll(file.rooms)
         doors.addAll(file.doors)
         quests.addAll(file.quests)
@@ -177,7 +176,7 @@ class StartupService(
 
     private fun generateRoomsFromModels(file: FileModel) {
         logger.debug("generating room models for area {}", file.area.name)
-        val area = Area.valueOf(file.area.name)
+        val area = file.area.name
         file.rooms.forEach {
             createRoomFromModel(it, area)
         }
@@ -189,8 +188,8 @@ class StartupService(
         }
     }
 
-    private fun createRoomFromModel(model: RoomModel, area: Area) {
-        logger.debug("add room to area -- {}, {}", area.name, model.id)
+    private fun createRoomFromModel(model: RoomModel, area: String) {
+        logger.debug("add room to area -- {}, {}", area, model.id)
         RoomBuilder(roomService).also {
             it.area = area
             it.id = model.id

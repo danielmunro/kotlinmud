@@ -22,7 +22,6 @@ import kotlinmud.persistence.spec.RoomSpec
 import kotlinmud.persistence.spec.Spec
 import kotlinmud.persistence.token.SectionToken
 import kotlinmud.persistence.validator.FileModelValidator
-import kotlinmud.room.type.Area
 
 class ParserService(data: String) {
     private var tokenizer = Tokenizer(data)
@@ -60,8 +59,8 @@ class ParserService(data: String) {
                         }
                         "rooms" -> rooms.add(parseSpec(RoomSpec()) as RoomModel)
                         "doors" -> doors.add(parseSpec(DoorSpec()) as DoorModel)
-                        "items" -> items.add(parseSpec(ItemSpec(Area.valueOf(area.name))) as ItemModel)
-                        "mobs" -> mobs.add(parseSpec(MobSpec(Area.valueOf(area.name))) as MobModel)
+                        "items" -> items.add(parseSpec(ItemSpec(area.name)) as ItemModel)
+                        "mobs" -> mobs.add(parseSpec(MobSpec(area.name)) as MobModel)
                         "quests" -> quests.add(parseSpec(QuestSpec()) as QuestModel)
                         "" -> break
                     }

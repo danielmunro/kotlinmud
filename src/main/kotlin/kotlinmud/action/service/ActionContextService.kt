@@ -195,6 +195,10 @@ class ActionContextService(
         return request.mob.items.find(predicate)
     }
 
+    fun findArea(partial: String): String? {
+        return roomService.findArea(partial)
+    }
+
     fun getItemGroupsFor(mob: Mob): Map<String, List<Item>> {
         return mob.items.groupBy { it.name }
     }

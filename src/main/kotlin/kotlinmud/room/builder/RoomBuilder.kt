@@ -8,7 +8,6 @@ import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.model.Mob
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
-import kotlinmud.room.type.Area
 import kotlinmud.room.type.RegenLevel
 import kotlinmud.type.RoomCanonicalId
 
@@ -16,7 +15,7 @@ class RoomBuilder(private val roomService: RoomService) : HasInventory {
     lateinit var name: String
     var brief = ""
     lateinit var description: String
-    lateinit var area: Area
+    var area = ""
     var id: Int = 0
     var label: String? = null
     var canonicalId: RoomCanonicalId? = null

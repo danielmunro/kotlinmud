@@ -35,7 +35,6 @@ import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
 import kotlinmud.room.model.Room
-import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinx.coroutines.runBlocking
 import java.util.UUID
@@ -111,7 +110,7 @@ class MobService(
         return mobs.filterIsInstance<PlayerMob>()
     }
 
-    fun findPlayerMobsInArea(area: Area): List<PlayerMob> {
+    fun findPlayerMobsInArea(area: String): List<PlayerMob> {
         return mobs.filter { it is PlayerMob && it.room.area == area } as List<PlayerMob>
     }
 

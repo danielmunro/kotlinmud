@@ -11,7 +11,6 @@ import kotlinmud.mob.constant.HEIGHT_DIFFERENCE_HIGH
 import kotlinmud.mob.constant.HEIGHT_DIFFERENCE_LOW
 import kotlinmud.mob.constant.HEIGHT_DIFFERENCE_MEDIUM
 import kotlinmud.room.model.Room
-import kotlinmud.room.type.Area
 import kotlinmud.test.helper.createTestService
 import kotlinmud.test.service.TestService
 import org.junit.Test
@@ -87,7 +86,7 @@ class FallDamageTest {
             it.north = test.getStartRoom()
             it.name = "foo"
             it.description = "bar"
-            it.area = Area.Test
+            it.area = "Test"
         }.build()
     }
 }

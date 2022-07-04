@@ -8,7 +8,6 @@ import kotlinmud.item.model.Item
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.constant.MAX_WALKABLE_ELEVATION
 import kotlinmud.mob.model.Mob
-import kotlinmud.room.type.Area
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
@@ -21,7 +20,7 @@ class Room(
     override var brief: String,
     override var description: String,
     val canonicalId: RoomCanonicalId?,
-    var area: Area,
+    var area: String,
     val isIndoors: Boolean,
     val regenLevel: RegenLevel,
     val biome: BiomeType,

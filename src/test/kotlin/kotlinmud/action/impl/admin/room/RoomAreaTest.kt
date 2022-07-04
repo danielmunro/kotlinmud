@@ -18,6 +18,6 @@ class RoomAreaTest {
         test.runActionAsAdmin("room area Test")
 
         // then
-        assertThat(room.area.name).isEqualTo("Test")
+        assertThat(room.area).isEqualTo("Test")
     }
 }
