@@ -146,6 +146,10 @@ fun subcommand(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND)
 }
 
+fun subcommandWithFreeform(): List<Syntax> {
+    return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.FREE_FORM)
+}
+
 fun subcommandPlayerMob(): List<Syntax> {
     return listOf(Syntax.COMMAND, Syntax.SUBCOMMAND, Syntax.PLAYER_MOB)
 }

@@ -1,5 +1,7 @@
 package kotlinmud.action.helper
 
+import kotlinmud.action.impl.admin.area.createAreaAddAction
+import kotlinmud.action.impl.admin.area.createAreaListAction
 import kotlinmud.action.impl.admin.createBanAction
 import kotlinmud.action.impl.admin.createBoomAction
 import kotlinmud.action.impl.admin.createFlushAction
@@ -188,5 +190,9 @@ fun createActionsList(): List<Action> {
         createRoomDescriptionAddAction(),
         createRoomDescriptionRemoveAction(),
         createRoomDescriptionListAction(),
+
+        // areas
+        createAreaListAction(),
+        createAreaAddAction(),
     )
 }

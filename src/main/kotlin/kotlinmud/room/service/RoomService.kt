@@ -24,6 +24,10 @@ class RoomService {
         areas.add(room.area)
     }
 
+    fun addArea(area: String) {
+        areas.add(area)
+    }
+
     fun getAllAreas(): List<String> {
         return areas.toList()
     }

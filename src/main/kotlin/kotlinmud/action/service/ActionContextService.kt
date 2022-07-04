@@ -87,6 +87,14 @@ class ActionContextService(
         return getMob().level
     }
 
+    fun getAreas(): List<String> {
+        return roomService.getAllAreas()
+    }
+
+    fun addArea(area: String) {
+        roomService.addArea(area)
+    }
+
     fun getRoom(): Room {
         return request.getRoom()
     }
