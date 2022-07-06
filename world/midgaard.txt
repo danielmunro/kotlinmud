@@ -1,0 +1,53 @@
+area:
+2. midgaard
+rooms:
+1. a large fountain at the center of the business district
+TBD~
+north 2~
+south 0~
+east 4~
+west 0~
+up 0~
+down 0~
+~
+
+2. market avenue
+TBD~
+north 3~
+south 1~
+east 0~
+west 0~
+up 0~
+down 0~
+~
+
+3. market avenue
+TBD~
+north 0~
+south 2~
+east 0~
+west 0~
+up 0~
+down 0~
+~
+
+4. a bridge over the thames river
+TBD~
+north 0~
+south 0~
+east 5~
+west 1~
+up 0~
+down 0~
+~
+
+5. district of mages
+TBD~
+north 0~
+south 0~
+east 0~
+west 4~
+up 0~
+down 0~
+~
+
