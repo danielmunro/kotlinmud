@@ -17,4 +17,16 @@ class AddTest {
         // then
         assertThat(response.message.toActionCreator).isEqualTo("The Dark Forest added")
     }
+
+    @Test
+    fun testCanAddAreaWithQuoteInName() {
+        // setup
+        val test = createTestService()
+
+        // when
+        val response = test.runActionAsAdmin("area add The Mage\\'s District")
+
+        // then
+        assertThat(response.message.toActionCreator).isEqualTo("The Mage's District added")
+    }
 }

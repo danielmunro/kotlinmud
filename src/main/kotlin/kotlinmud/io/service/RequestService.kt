@@ -10,21 +10,22 @@ class RequestService(val mob: PlayerMob, val input: String) {
         val setupArgs: MutableList<String> = mutableListOf()
         var buffer = ""
         var isOpen = false
+        var escaped = false
         input.forEach {
-            if (it == '\'') {
+            if (it == '\'' && !escaped) {
                 if (isOpen) {
                     setupArgs.add(buffer)
-                    buffer = ""
-                    isOpen = false
-                } else {
-                    buffer = ""
-                    isOpen = true
                 }
+                buffer = ""
+                isOpen = !isOpen
+            } else if (it == '\\') {
+                escaped = true
             } else if (it == ' ' && !isOpen && buffer != "") {
                 setupArgs.add(buffer)
                 buffer = ""
             } else if (isOpen || it != ' ') {
                 buffer += it
+                escaped = false
             }
         }
         if (buffer != "") {
