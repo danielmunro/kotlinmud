@@ -17,15 +17,16 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val dst = testService.createRoom()
+        val mob = testService.createMob()
 
         // given
         testService.getStartRoom { it.north = dst }
 
         // when
-        val response = testService.runAction("n")
+        testService.runAction(mob, "n")
 
         // then
-        assertThat(response.status).isEqualTo(IOStatus.OK)
+        assertThat(mob.room).isEqualTo(dst)
     }
 
     @Test
@@ -33,15 +34,16 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val dst = testService.createRoom()
+        val mob = testService.createMob()
 
         // given
         testService.getStartRoom { it.south = dst }
 
         // when
-        val response = testService.runAction("s")
+        testService.runAction(mob, "s")
 
         // then
-        assertThat(response.status).isEqualTo(IOStatus.OK)
+        assertThat(mob.room).isEqualTo(dst)
     }
 
     @Test
@@ -49,15 +51,16 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val dst = testService.createRoom()
+        val mob = testService.createMob()
 
         // given
         testService.getStartRoom { it.east = dst }
 
         // when
-        val response = testService.runAction("e")
+        testService.runAction(mob, "e")
 
         // then
-        assertThat(response.status).isEqualTo(IOStatus.OK)
+        assertThat(mob.room).isEqualTo(dst)
     }
 
     @Test
@@ -65,15 +68,16 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val dst = testService.createRoom()
+        val mob = testService.createMob()
 
         // given
         testService.getStartRoom { it.west = dst }
 
         // when
-        val response = testService.runAction("w")
+        testService.runAction(mob, "w")
 
         // then
-        assertThat(response.status).isEqualTo(IOStatus.OK)
+        assertThat(mob.room).isEqualTo(dst)
     }
 
     @Test
@@ -81,15 +85,16 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val dst = testService.createRoom()
+        val mob = testService.createMob()
 
         // given
         testService.getStartRoom { it.up = dst }
 
         // when
-        val response = testService.runAction("u")
+        testService.runAction(mob, "u")
 
         // then
-        assertThat(response.status).isEqualTo(IOStatus.OK)
+        assertThat(mob.room).isEqualTo(dst)
     }
 
     @Test
@@ -97,15 +102,16 @@ class MoveTest {
         // setup
         val testService = createTestService()
         val dst = testService.createRoom()
+        val mob = testService.createMob()
 
         // given
         testService.getStartRoom { it.down = dst }
 
         // when
-        val response = testService.runAction("d")
+        testService.runAction(mob, "d")
 
         // then
-        assertThat(response.status).isEqualTo(IOStatus.OK)
+        assertThat(mob.room).isEqualTo(dst)
     }
 
     @Test

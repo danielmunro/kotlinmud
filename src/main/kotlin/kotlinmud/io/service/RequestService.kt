@@ -10,7 +10,7 @@ class RequestService(val mob: PlayerMob, val input: String) {
         val setupArgs: MutableList<String> = mutableListOf()
         var buffer = ""
         var isOpen = false
-        input.toLowerCase().forEach {
+        input.forEach {
             if (it == '\'') {
                 if (isOpen) {
                     setupArgs.add(buffer)

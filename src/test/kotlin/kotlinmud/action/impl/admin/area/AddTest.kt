@@ -15,6 +15,6 @@ class AddTest {
         val response = test.runActionAsAdmin("area add The Dark Forest")
 
         // then
-        assertThat(response.message.toActionCreator).isEqualTo("the dark forest added")
+        assertThat(response.message.toActionCreator).isEqualTo("The Dark Forest added")
     }
 }
