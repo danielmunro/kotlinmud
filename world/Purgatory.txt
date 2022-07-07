@@ -1,5 +1,5 @@
 area:
-5. Purgatory
-lighting good~
+0. Purgatory
+lighting Good~
 ~
 

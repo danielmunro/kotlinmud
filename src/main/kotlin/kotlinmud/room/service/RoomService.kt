@@ -46,7 +46,7 @@ class RoomService {
     }
 
     fun findByArea(area: Area): List<Room> {
-        return rooms.filter { it.area == area }
+        return rooms.filter { it.area.name == area.name }
     }
 
     fun filter(predicate: (room: Room) -> Boolean): List<Room> {

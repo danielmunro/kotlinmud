@@ -12,7 +12,7 @@ class AreaDumperService(private val roomService: RoomService) {
             File("world/${area.name}.txt").writeText(
                 """area:
 $inc. ${area.name}
-lighting good~
+lighting ${area.lighting}~
 ~
 
 ${roomDumperService.dump()}"""

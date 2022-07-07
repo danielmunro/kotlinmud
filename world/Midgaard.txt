@@ -1,12 +1,13 @@
 area:
-3. Midgaard
+1. Midgaard
+lighting Good~
 ~
 
 rooms:
 1. a large fountain at the center of the business district
 TBD~
 north 2~
-south 0~
+south 6~
 east 4~
 west 0~
 up 0~
@@ -49,6 +50,26 @@ north 0~
 south 0~
 east 0~
 west 4~
+up 0~
+down 0~
+~
+
+6. road along the river
+TBD~
+north 1~
+south 7~
+east 0~
+west 0~
+up 0~
+down 0~
+~
+
+7. road along the river
+TBD~
+north 6~
+south 0~
+east 0~
+west 0~
 up 0~
 down 0~
 ~
