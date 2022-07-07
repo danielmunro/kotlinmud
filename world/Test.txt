@@ -1,5 +1,5 @@
 area:
-0. Test
-lighting Good~
+2. Test
+lighting Moderate~
 ~
 

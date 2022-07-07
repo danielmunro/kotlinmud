@@ -5,7 +5,7 @@ import kotlinmud.room.type.Lighting
 
 fun createPurgatoryArea(): Area {
     return Area(
-        0,
+        1,
         "Purgatory",
         Lighting.Poor,
     )
@@ -13,7 +13,7 @@ fun createPurgatoryArea(): Area {
 
 fun createTestArea(): Area {
     return Area(
-        0,
+        2,
         "Test",
         Lighting.Moderate,
     )
@@ -21,7 +21,7 @@ fun createTestArea(): Area {
 
 fun createSecondTestArea(): Area {
     return Area(
-        0,
+        3,
         "Second Test",
         Lighting.Moderate,
     )
@@ -29,7 +29,7 @@ fun createSecondTestArea(): Area {
 
 fun createMidgaardArea(): Area {
     return Area(
-        1,
+        4,
         "Midgaard",
         Lighting.Good,
     )
