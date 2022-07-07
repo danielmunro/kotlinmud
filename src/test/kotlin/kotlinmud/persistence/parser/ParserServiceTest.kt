@@ -7,11 +7,12 @@ import assertk.fail
 import kotlinmud.persistence.exception.DuplicateIdValidationException
 import kotlinmud.persistence.model.builder.RespawnSpec
 import kotlinmud.persistence.model.builder.RespawnType
+import kotlinmud.room.type.Lighting
 import org.junit.Test
 
 class ParserServiceTest {
     @Test
-    fun testParseArea() {
+    fun testCanParseArea() {
         // when
         val parserService = ParserService(
             """
@@ -24,6 +25,22 @@ area:
         // then
         assertThat(parserService.area.id).isEqualTo(1)
         assertThat(parserService.area.name).isEqualTo("a test")
+    }
+
+    @Test
+    fun testCanParseAreaWithProps() {
+        // when
+        val parserService = ParserService(
+            """
+area:
+1. a test
+lighting Good~
+~
+"""
+        ).parse()
+
+        // then
+        assertThat(parserService.area.lighting).isEqualTo(Lighting.Good)
     }
 
     @Test

@@ -23,6 +23,7 @@ import kotlinmud.persistence.token.SectionToken
 import kotlinmud.persistence.validator.FileModelValidator
 import kotlinmud.room.factory.createPurgatoryArea
 import kotlinmud.room.model.Area
+import kotlinmud.room.type.Lighting
 
 class ParserService(data: String) {
     private var tokenizer = Tokenizer(data)
@@ -57,7 +58,11 @@ class ParserService(data: String) {
                     when (section) {
                         "area" -> {
                             val areaModel = parseSpec(AreaSpec()) as AreaModel
-                            area = Area(areaModel.id, areaModel.name)
+                            area = Area(
+                                areaModel.id,
+                                areaModel.name,
+                                Lighting.valueOf(areaModel.keywords.getOrDefault("lighting", "Good")),
+                            )
                         }
                         "rooms" -> rooms.add(parseSpec(RoomSpec()) as RoomModel)
                         "doors" -> doors.add(parseSpec(DoorSpec()) as DoorModel)

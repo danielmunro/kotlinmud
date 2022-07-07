@@ -7,6 +7,7 @@ import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.factory.subcommandWithFreeform
 import kotlinmud.io.type.Syntax
 import kotlinmud.room.model.Area
+import kotlinmud.room.type.Lighting
 
 fun createAreaAddAction(): Action {
     return ActionBuilder(Command.AREA_ADD).also {
@@ -17,6 +18,7 @@ fun createAreaAddAction(): Action {
             Area(
                 it.getAreas().size + 1,
                 areaName,
+                Lighting.Good,
             )
         )
         it.createOkResponse(

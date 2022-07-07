@@ -47,7 +47,7 @@ class StartupService(
             }
         }.forEach {
             generateQuestsFromModels(it)
-            addAreas(it)
+            addArea(it)
         }
 
         ModelCollectionValidator(
@@ -176,14 +176,8 @@ class StartupService(
         areas.add(area)
     }
 
-    private fun addAreas(file: FileModel) {
-        val area = file.area
-        roomService.addArea(
-            Area(
-                area.id,
-                area.name,
-            )
-        )
+    private fun addArea(file: FileModel) {
+        roomService.addArea(file.area)
     }
 
     private fun generateRoomsFromModels(file: FileModel) {
