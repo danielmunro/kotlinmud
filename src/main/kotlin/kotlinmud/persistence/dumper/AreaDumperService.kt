@@ -9,9 +9,9 @@ class AreaDumperService(private val roomService: RoomService) {
         roomService.getAllAreas().forEach { area ->
             val rooms = roomService.findByArea(area)
             val roomDumperService = RoomDumperService(rooms)
-            File("world/$area.txt").writeText(
+            File("world/${area.name}.txt").writeText(
                 """area:
-$inc. $area
+$inc. ${area.name}
 lighting good~
 ~
 
