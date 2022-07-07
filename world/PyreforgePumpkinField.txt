@@ -1,2 +1,0 @@
-area:
-11. PyreforgePumpkinField

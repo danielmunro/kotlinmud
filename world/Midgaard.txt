@@ -1,5 +1,7 @@
 area:
-2. midgaard
+3. Midgaard
+~
+
 rooms:
 1. a large fountain at the center of the business district
 TBD~

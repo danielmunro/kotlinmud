@@ -11,6 +11,22 @@ import org.junit.Test
 
 class ParserServiceTest {
     @Test
+    fun testParseArea() {
+        // when
+        val parserService = ParserService(
+            """
+area:
+1. a test
+~
+"""
+        ).parse()
+
+        // then
+        assertThat(parserService.area.id).isEqualTo(1)
+        assertThat(parserService.area.name).isEqualTo("a test")
+    }
+
+    @Test
     fun testParseBasicMob() {
         // when
         val parserService = ParserService(

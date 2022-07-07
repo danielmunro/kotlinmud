@@ -16,6 +16,7 @@ import kotlinmud.persistence.model.builder.RespawnSpec
 import kotlinmud.persistence.model.builder.RespawnType
 import kotlinmud.persistence.validator.ItemValidator
 import kotlinmud.respawn.helper.calculateHpForMob
+import kotlinmud.room.model.Area
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.type.Builder
@@ -123,7 +124,7 @@ class RespawnService(
 
     private fun respawnToRoom(
         builder: Builder,
-        area: String,
+        area: Area,
         roomId: Int,
         maxAmountToRespawn: Int,
         maxAmountInRoom: Int,

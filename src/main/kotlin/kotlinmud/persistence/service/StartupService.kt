@@ -15,6 +15,7 @@ import kotlinmud.persistence.parser.ParserService
 import kotlinmud.persistence.validator.ModelCollectionValidator
 import kotlinmud.quest.service.QuestBuilderService
 import kotlinmud.room.builder.RoomBuilder
+import kotlinmud.room.model.Area
 import kotlinmud.room.model.Door
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
@@ -34,7 +35,7 @@ class StartupService(
     private val items = mutableListOf<ItemModel>()
     private val quests = mutableListOf<QuestModel>()
     private val itemMobRespawns = mutableListOf<ItemMobRespawnModel>()
-    private val areas = mutableSetOf<String>()
+    private val areas = mutableListOf<Area>()
     private val logger = logger(this)
 
     fun hydrateWorld() {
@@ -46,6 +47,7 @@ class StartupService(
             }
         }.forEach {
             generateQuestsFromModels(it)
+            addAreas(it)
         }
 
         ModelCollectionValidator(
@@ -164,7 +166,7 @@ class StartupService(
     }
 
     private fun combineModels(file: FileModel) {
-        val area = file.area.name
+        val area = file.area
         rooms.addAll(file.rooms)
         doors.addAll(file.doors)
         quests.addAll(file.quests)
@@ -174,9 +176,19 @@ class StartupService(
         areas.add(area)
     }
 
+    private fun addAreas(file: FileModel) {
+        val area = file.area
+        roomService.addArea(
+            Area(
+                area.id,
+                area.name,
+            )
+        )
+    }
+
     private fun generateRoomsFromModels(file: FileModel) {
         logger.debug("generating room models for area {}", file.area.name)
-        val area = file.area.name
+        val area = roomService.findArea(file.area.name)!!
         file.rooms.forEach {
             createRoomFromModel(it, area)
         }
@@ -188,7 +200,7 @@ class StartupService(
         }
     }
 
-    private fun createRoomFromModel(model: RoomModel, area: String) {
+    private fun createRoomFromModel(model: RoomModel, area: Area) {
         logger.debug("add room to area -- {}, {}", area, model.id)
         RoomBuilder(roomService).also {
             it.area = area

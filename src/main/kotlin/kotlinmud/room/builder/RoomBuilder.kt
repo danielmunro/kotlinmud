@@ -6,6 +6,7 @@ import kotlinmud.biome.type.SubstrateType
 import kotlinmud.item.model.Item
 import kotlinmud.item.type.HasInventory
 import kotlinmud.mob.model.Mob
+import kotlinmud.room.model.Area
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.RegenLevel
@@ -15,7 +16,7 @@ class RoomBuilder(private val roomService: RoomService) : HasInventory {
     lateinit var name: String
     var brief = ""
     lateinit var description: String
-    var area = ""
+    var area: Area? = null
     var id: Int = 0
     var label: String? = null
     var canonicalId: RoomCanonicalId? = null
@@ -50,7 +51,7 @@ class RoomBuilder(private val roomService: RoomService) : HasInventory {
             brief,
             description,
             canonicalId,
-            area,
+            area!!,
             isIndoors,
             regenLevel,
             biome,

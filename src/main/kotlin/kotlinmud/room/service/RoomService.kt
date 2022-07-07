@@ -1,13 +1,19 @@
 package kotlinmud.room.service
 
 import kotlinmud.room.builder.RoomBuilder
+import kotlinmud.room.factory.createInitialAreas
+import kotlinmud.room.model.Area
 import kotlinmud.room.model.Room
 
 class RoomService {
     private val rooms = mutableListOf<Room>()
-    private val areas = mutableSetOf<String>()
+    private val areas = mutableListOf<Area>()
 
-    fun builder(name: String, description: String, area: String): RoomBuilder {
+    init {
+        areas.addAll(createInitialAreas())
+    }
+
+    fun builder(name: String, description: String, area: Area): RoomBuilder {
         return RoomBuilder(this).also {
             it.name = name
             it.description = description
@@ -21,26 +27,25 @@ class RoomService {
 
     fun add(room: Room) {
         rooms.add(room)
-        areas.add(room.area)
     }
 
-    fun addArea(area: String) {
+    fun addArea(area: Area) {
         areas.add(area)
     }
 
-    fun getAllAreas(): List<String> {
-        return areas.toList()
+    fun getAllAreas(): List<Area> {
+        return areas
     }
 
-    fun findArea(partial: String): String? {
-        return areas.find { it.startsWith(partial) }
+    fun findArea(partial: String): Area? {
+        return areas.find { it.name.startsWith(partial) }
     }
 
     fun findOne(predicate: (room: Room) -> Boolean): Room? {
         return rooms.find(predicate)
     }
 
-    fun findByArea(area: String): List<Room> {
+    fun findByArea(area: Area): List<Room> {
         return rooms.filter { it.area == area }
     }
 

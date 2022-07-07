@@ -1,7 +1,7 @@
 package kotlinmud.action.impl.admin.area
 
 import assertk.assertThat
-import assertk.assertions.isEqualTo
+import assertk.assertions.startsWith
 import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
@@ -13,6 +13,6 @@ class ListTest {
 
         val response = test.runActionAsAdmin("area list")
 
-        assertThat(response.message.toActionCreator).isEqualTo("Areas:\n\nTest")
+        assertThat(response.message.toActionCreator).startsWith("Areas:\n\n")
     }
 }

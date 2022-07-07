@@ -20,7 +20,7 @@ class Room(
     override var brief: String,
     override var description: String,
     val canonicalId: RoomCanonicalId?,
-    var area: String,
+    var area: Area,
     val isIndoors: Boolean,
     val regenLevel: RegenLevel,
     val biome: BiomeType,

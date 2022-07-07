@@ -57,6 +57,8 @@ import kotlinmud.player.service.PlayerService
 import kotlinmud.quest.service.QuestService
 import kotlinmud.resource.service.ResourceService
 import kotlinmud.room.builder.RoomBuilder
+import kotlinmud.room.factory.createTestArea
+import kotlinmud.room.model.Area
 import kotlinmud.room.model.Door
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
@@ -83,12 +85,8 @@ class TestService(
 ) {
     val testEmailAddress = "foo@bar.com"
     private val clientService = ClientService()
-    private val room = RoomBuilder(roomService).also {
-        it.id = roomService.getRoomCount() + 1
-        it.name = "start room"
-        it.description = "tbd"
-        it.area = "Test"
-    }.build()
+    private val room: Room
+    private val area: Area
     private val client: Client = spyk(Client(mockk(relaxed = true)))
     private var mob: PlayerMob? = null
     private var target: Mob? = null
@@ -97,6 +95,13 @@ class TestService(
     init {
         every { client.socket.remoteAddress } returns mockk<SocketAddress>()
         serverService.getClients().add(client)
+        area = createTestArea()
+        room = RoomBuilder(roomService).also {
+            it.id = roomService.getRoomCount() + 1
+            it.name = "start room"
+            it.description = "tbd"
+            it.area = area
+        }.build()
     }
 
     fun createStartupService(data: List<String>): StartupService {
@@ -252,7 +257,7 @@ class TestService(
             it.id = roomService.getRoomCount() + 1
             it.name = "a test room"
             it.description = "this is a test room"
-            it.area = "Test"
+            it.area = area
             it.isIndoors = false
             it.regenLevel = RegenLevel.NORMAL
         }.build()
@@ -269,7 +274,7 @@ class TestService(
         return RoomBuilder(roomService).also {
             it.name = "foo"
             it.description = "bar"
-            it.area = "Test"
+            it.area = area
         }
     }
 

@@ -12,7 +12,7 @@ fun createAreaListAction(): Action {
     } build {
         it.createOkResponse(
             messageToActionCreator(
-                "Areas:\n\n" + it.getAreas().joinToString("\n")
+                "Areas:\n\n" + it.getAreas().joinToString("\n") { area -> area.name }
             )
         )
     }

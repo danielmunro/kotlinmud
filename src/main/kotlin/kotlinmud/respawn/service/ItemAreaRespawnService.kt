@@ -5,6 +5,7 @@ import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.service.ItemService
 import kotlinmud.respawn.model.ItemAreaRespawn
 import kotlinmud.respawn.type.RespawnSomethingService
+import kotlinmud.room.model.Area
 import kotlinmud.room.service.RoomService
 import java.util.UUID
 
@@ -26,7 +27,7 @@ class ItemAreaRespawnService(
         }
     }
 
-    private fun doRespawn(area: String, maxAmount: Int, canonicalId: UUID, itemBuilder: ItemBuilder) {
+    private fun doRespawn(area: Area, maxAmount: Int, canonicalId: UUID, itemBuilder: ItemBuilder) {
         val rooms = roomService.findByArea(area)
         val count = itemService.findByCanonicalId(canonicalId).count()
         var amountToRespawn = Math.min(maxAmount - count, maxAmount)

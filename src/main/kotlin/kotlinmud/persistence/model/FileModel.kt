@@ -1,7 +1,9 @@
 package kotlinmud.persistence.model
 
+import kotlinmud.room.model.Area
+
 data class FileModel(
-    val area: AreaModel,
+    val area: Area,
     val mobs: List<MobModel>,
     val items: List<ItemModel>,
     val rooms: List<RoomModel>,

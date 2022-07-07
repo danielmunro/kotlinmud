@@ -1,7 +1,6 @@
 package kotlinmud.persistence.parser
 
 import kotlinmud.helper.logger
-import kotlinmud.persistence.factory.createNoneAreaModel
 import kotlinmud.persistence.model.AreaModel
 import kotlinmud.persistence.model.DoorModel
 import kotlinmud.persistence.model.FileModel
@@ -22,6 +21,8 @@ import kotlinmud.persistence.spec.RoomSpec
 import kotlinmud.persistence.spec.Spec
 import kotlinmud.persistence.token.SectionToken
 import kotlinmud.persistence.validator.FileModelValidator
+import kotlinmud.room.factory.createPurgatoryArea
+import kotlinmud.room.model.Area
 
 class ParserService(data: String) {
     private var tokenizer = Tokenizer(data)
@@ -46,7 +47,7 @@ class ParserService(data: String) {
         val quests = mutableListOf<QuestModel>()
         val itemRoomRespawns = mutableListOf<ItemRoomRespawnModel>()
         val itemMobRespawns = mutableListOf<ItemMobRespawnModel>()
-        var area = createNoneAreaModel()
+        var area = createPurgatoryArea()
 
         while (tokenizer.isStillReading()) {
             val section = tokenizer.parseNextToken<String>(SectionToken())
@@ -55,12 +56,13 @@ class ParserService(data: String) {
                 while (true) {
                     when (section) {
                         "area" -> {
-                            area = parseSpec(AreaSpec()) as AreaModel
+                            val areaModel = parseSpec(AreaSpec()) as AreaModel
+                            area = Area(areaModel.id, areaModel.name)
                         }
                         "rooms" -> rooms.add(parseSpec(RoomSpec()) as RoomModel)
                         "doors" -> doors.add(parseSpec(DoorSpec()) as DoorModel)
-                        "items" -> items.add(parseSpec(ItemSpec(area.name)) as ItemModel)
-                        "mobs" -> mobs.add(parseSpec(MobSpec(area.name)) as MobModel)
+                        "items" -> items.add(parseSpec(ItemSpec(area)) as ItemModel)
+                        "mobs" -> mobs.add(parseSpec(MobSpec(area)) as MobModel)
                         "quests" -> quests.add(parseSpec(QuestSpec()) as QuestModel)
                         "" -> break
                     }

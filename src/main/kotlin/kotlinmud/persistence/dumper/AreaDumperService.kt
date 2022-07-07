@@ -12,6 +12,7 @@ class AreaDumperService(private val roomService: RoomService) {
             File("world/$area.txt").writeText(
                 """area:
 $inc. $area
+
 ${roomDumperService.dump()}"""
             )
             inc++

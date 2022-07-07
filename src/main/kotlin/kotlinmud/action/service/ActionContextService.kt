@@ -35,6 +35,7 @@ import kotlinmud.player.social.Social
 import kotlinmud.quest.model.Quest
 import kotlinmud.quest.service.QuestService
 import kotlinmud.room.builder.RoomBuilder
+import kotlinmud.room.model.Area
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Direction
@@ -87,11 +88,11 @@ class ActionContextService(
         return getMob().level
     }
 
-    fun getAreas(): List<String> {
+    fun getAreas(): List<Area> {
         return roomService.getAllAreas()
     }
 
-    fun addArea(area: String) {
+    fun addArea(area: Area) {
         roomService.addArea(area)
     }
 
@@ -203,7 +204,7 @@ class ActionContextService(
         return request.mob.items.find(predicate)
     }
 
-    fun findArea(partial: String): String? {
+    fun findArea(partial: String): Area? {
         return roomService.findArea(partial)
     }
 

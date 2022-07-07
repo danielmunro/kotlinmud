@@ -1,6 +1,6 @@
 package kotlinmud.room.model
 
-class Area(
+data class Area(
     val id: Int,
     val name: String,
 )

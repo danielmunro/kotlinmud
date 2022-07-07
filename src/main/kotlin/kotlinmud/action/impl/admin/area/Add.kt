@@ -6,15 +6,21 @@ import kotlinmud.action.type.Command
 import kotlinmud.io.factory.messageToActionCreator
 import kotlinmud.io.factory.subcommandWithFreeform
 import kotlinmud.io.type.Syntax
+import kotlinmud.room.model.Area
 
 fun createAreaAddAction(): Action {
     return ActionBuilder(Command.AREA_ADD).also {
         it.syntax = subcommandWithFreeform()
     } build {
-        val area = it.get<String>(Syntax.FREE_FORM)
-        it.addArea(area)
+        val areaName = it.get<String>(Syntax.FREE_FORM)
+        it.addArea(
+            Area(
+                it.getAreas().size + 1,
+                areaName,
+            )
+        )
         it.createOkResponse(
-            messageToActionCreator("$area added")
+            messageToActionCreator("$areaName added")
         )
     }
 }

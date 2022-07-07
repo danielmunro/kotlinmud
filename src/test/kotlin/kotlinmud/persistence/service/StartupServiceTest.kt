@@ -22,7 +22,7 @@ class StartupServiceTest {
             listOf(
 """
 area:
-1. LorimirForest
+1. Midgaard
 
 rooms:
 1. a room
@@ -71,7 +71,7 @@ room 1 1 1~
             listOf(
                 """
 area:
-1. LorimirForest
+1. Midgaard
 
 rooms:
 1. a test room
@@ -113,7 +113,7 @@ race canid~
             listOf(
                 """
 area:
-1. LorimirForest
+1. Midgaard
 
 rooms:
 1. a test room
