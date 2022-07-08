@@ -274,3 +274,10 @@ fun createAreaMessage(room: Room): Message {
         .toActionCreator("area: ${room.area.name}")
         .build()
 }
+
+fun createMobCreateMessage(name: String): Message {
+    return MessageBuilder()
+        .toActionCreator("$name pops into existence.")
+        .toObservers("$name pops into existence.")
+        .build()
+}

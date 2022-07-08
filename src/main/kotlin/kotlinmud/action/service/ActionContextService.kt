@@ -20,8 +20,10 @@ import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Recipe
+import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.PlayerMob
+import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.helper.getLearningDifficultyPracticeAmount
@@ -140,7 +142,7 @@ class ActionContextService(
     }
 
     fun flush() {
-        AreaDumperService(roomService).dump()
+        AreaDumperService(roomService, mobService).dump()
     }
 
     fun getExits(): Map<Direction, Room> {
@@ -157,6 +159,16 @@ class ActionContextService(
 
     fun getMobsInRoom(): List<Mob> {
         return mobService.findMobsInRoom(getRoom())
+    }
+
+    fun createMob(name: String): Mob {
+        return MobBuilder(mobService).also {
+            it.name = name
+            it.brief = "a new mob from the mob factory"
+            it.description = "a new mob has arrived from the mob factory.\n\nA name tag says, \"$name\""
+            it.race = Human()
+            it.room = getRoom()
+        }.build()
     }
 
     suspend fun moveMob(room: Room, direction: Direction) {

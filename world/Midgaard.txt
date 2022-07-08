@@ -74,3 +74,23 @@ up 0~
 down 0~
 ~
 
+mobs:
+1. a drunk
+a new mob has arrived from the mob factory.
+
+A name tag says, "a drunk"~
+hp 20~
+mana 100~
+mv 100~
+level 1~
+race HUMAN~
+disposition STANDING~
+job FODDER~
+specialization None~
+gender ANY~
+wimpy 0~
+savingThrows 0~
+canonicalId 5d09d4a6-7825-4bd7-ba83-3c284b4d1a56~
+~
+1 1 6~
+~

@@ -8,6 +8,7 @@ import kotlinmud.action.impl.admin.createFlushAction
 import kotlinmud.action.impl.admin.createRebootAction
 import kotlinmud.action.impl.admin.createSlayAction
 import kotlinmud.action.impl.admin.createUnbanAction
+import kotlinmud.action.impl.admin.mob.createMobCreateAction
 import kotlinmud.action.impl.admin.room.createRoomAreaAction
 import kotlinmud.action.impl.admin.room.createRoomBriefAction
 import kotlinmud.action.impl.admin.room.createRoomCloneAction
@@ -190,6 +191,9 @@ fun createActionsList(): List<Action> {
         createRoomDescriptionAddAction(),
         createRoomDescriptionRemoveAction(),
         createRoomDescriptionListAction(),
+
+        // mobs
+        createMobCreateAction(),
 
         // areas
         createAreaListAction(),

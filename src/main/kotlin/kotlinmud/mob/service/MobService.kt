@@ -47,6 +47,7 @@ class MobService(
     private val logger = logger(this)
     private val fights = mutableListOf<Fight>()
     private val mobs = mutableListOf<Mob>()
+    private var nextAutoId = 1
 
     fun builder(
         name: String,
@@ -60,6 +61,12 @@ class MobService(
             it.description = description
             it.race = race
         }
+    }
+
+    fun getNextAutoId(): Int {
+        val toReturn = nextAutoId
+        nextAutoId++
+        return toReturn
     }
 
     fun getMobCount(): Int {
@@ -80,6 +87,9 @@ class MobService(
     }
 
     fun addMob(mob: Mob) {
+        if (mob.id >= nextAutoId) {
+            nextAutoId = mob.id + 1
+        }
         mobs.add(mob)
     }
 
@@ -119,6 +129,12 @@ class MobService(
         return mobs.filter { it.job == jobType }
     }
 
+    fun findMobsToDump(area: Area): List<Mob> {
+        return mobs.filter {
+            it.room.area == area && it !is PlayerMob
+        }
+    }
+
     fun findMobs(predicate: (Mob) -> Boolean): List<Mob> {
         return mobs.filter(predicate)
     }
@@ -132,14 +148,6 @@ class MobService(
     fun findMobsById(id: Int): List<Mob> {
         return mobs.filter {
             it.id == id
-        }
-    }
-
-    fun findMobsWantingToMoveOnTick(): List<Mob> {
-        return mobs.filter {
-            it.job == JobType.FODDER ||
-                it.job == JobType.SCAVENGER ||
-                it.job == JobType.PATROL
         }
     }
 

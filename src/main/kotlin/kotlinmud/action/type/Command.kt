@@ -132,6 +132,9 @@ enum class Command(val value: String) {
     ROOM_DESCRIPTION_REMOVE("room description remove"),
     ROOM_DESCRIPTION_LIST("room description list"),
 
+    // mob
+    MOB_CREATE("mob create"),
+
     // area
     AREA_LIST("area list"),
     AREA_ADD("area add"),

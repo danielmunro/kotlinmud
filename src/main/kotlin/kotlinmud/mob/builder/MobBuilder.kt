@@ -77,14 +77,8 @@ open class MobBuilder(private val mobService: MobService) : Builder, HasInventor
         }
     }
 
-    fun makeShopkeeper() {
-        job = JobType.SHOPKEEPER
-        currencies = mutableMapOf(
-            Pair(CurrencyType.Gold, 100),
-        )
-    }
-
     override fun build(): Mob {
+        id = mobService.getNextAutoId()
         return Mob(createMobArguments()).also { mobService.addMob(it) }
     }
 
