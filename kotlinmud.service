@@ -7,7 +7,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=root
-ExecStart=/snap/bin/docker run -v prod-data:/mud/state -p 9999:9999 quay.io/dmunro/kotlinmud:latest
+ExecStart=/snap/bin/docker run -v game-state:/mud -p 9999:9999 ghcr.io/danielmunro/kotlinmud:v2.3.10
 
 [Install]
 WantedBy=multi-user.target
