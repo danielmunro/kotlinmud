@@ -48,6 +48,7 @@ import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.Role
+import kotlinmud.persistence.dumper.MobDumperService
 import kotlinmud.persistence.service.StartupService
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.auth.service.AuthStepService
@@ -102,6 +103,10 @@ class TestService(
             it.description = "tbd"
             it.area = area
         }.build()
+    }
+
+    fun getMobDumperService(): MobDumperService {
+        return MobDumperService(area, mobService.findMobsToDump(area))
     }
 
     fun createStartupService(data: List<String>): StartupService {

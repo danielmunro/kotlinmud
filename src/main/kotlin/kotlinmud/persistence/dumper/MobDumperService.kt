@@ -17,12 +17,17 @@ class MobDumperService(area: Area, private val mobs: List<MobModel>) {
                     TokenType.Name -> mob.name + "\n"
                     TokenType.Description -> mob.description + "~\n"
                     TokenType.Props -> dumpProps(mob)
+                    TokenType.MobRespawn -> dumpRespawn(mob)
                     else -> ""
                 }
             }
             buffer += "\n"
         }
         return buffer
+    }
+
+    private fun dumpRespawn(mob: MobModel): String {
+        return "${mob.respawns.map {"${it.maxAmount} ${it.maxInGame} ${it.targetId}~"}}\n~"
     }
 
     private fun dumpProps(mob: MobModel): String {
