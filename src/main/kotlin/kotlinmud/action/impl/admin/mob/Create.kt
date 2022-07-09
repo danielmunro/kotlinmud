@@ -12,7 +12,7 @@ fun createMobCreateAction(): Action {
         it.syntax = subcommandWithFreeform()
     } build {
         val name = it.get<String>(Syntax.FREE_FORM)
-        it.createMob(name)
+        it.createMobModel(name)
         it.createOkResponse(createMobCreateMessage(name))
     }
 }

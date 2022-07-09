@@ -78,7 +78,6 @@ open class MobBuilder(private val mobService: MobService) : Builder, HasInventor
     }
 
     override fun build(): Mob {
-        id = mobService.getNextAutoId()
         return Mob(createMobArguments()).also { mobService.addMob(it) }
     }
 

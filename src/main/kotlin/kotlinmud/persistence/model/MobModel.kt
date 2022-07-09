@@ -5,10 +5,10 @@ import kotlinmud.room.model.Area
 
 data class MobModel(
     override val id: Int,
-    val name: String,
-    val brief: String,
-    val description: String,
-    val area: Area,
-    val keywords: Map<String, String>,
-    val respawns: List<RespawnSpec>,
+    var name: String,
+    var brief: String,
+    var description: String,
+    var area: Area,
+    var keywords: Map<String, String>,
+    var respawns: List<RespawnSpec>,
 ) : Model

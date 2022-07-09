@@ -1,11 +1,11 @@
 package kotlinmud.persistence.dumper
 
-import kotlinmud.mob.model.Mob
+import kotlinmud.persistence.model.MobModel
 import kotlinmud.persistence.parser.TokenType
 import kotlinmud.persistence.spec.MobSpec
 import kotlinmud.room.model.Area
 
-class MobDumperService(area: Area, private val mobs: List<Mob>) {
+class MobDumperService(area: Area, private val mobs: List<MobModel>) {
     private val mobSpec = MobSpec(area)
 
     fun dump(): String {
@@ -25,22 +25,7 @@ class MobDumperService(area: Area, private val mobs: List<Mob>) {
         return buffer
     }
 
-    private fun dumpProps(mob: Mob): String {
-        return """hp ${mob.hp}~
-mana ${mob.mana}~
-mv ${mob.mv}~
-level ${mob.level}~
-race ${mob.race.type.name}~
-disposition ${mob.disposition.name}~
-job ${mob.job.name}~
-specialization ${mob.specialization?.type?.name ?: "None"}~
-gender ${mob.gender.name}~
-wimpy ${mob.wimpy}~
-savingThrows ${mob.savingThrows}~
-canonicalId ${mob.canonicalId}~
-~
-1 1 ${mob.room.id}~
-~
-"""
+    private fun dumpProps(mob: MobModel): String {
+        return "${mob.keywords.map { entry -> "${entry.key} ${entry.value}~" }}\n~"
     }
 }

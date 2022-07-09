@@ -59,6 +59,8 @@ class StartupService(
         logger.debug("--- model parse complete ---")
         logger.debug("parse stats -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items, ${quests.size} quests")
 
+        mobs.forEach { mobService.addMobModel(it) }
+
         connectUpRooms()
         logger.debug("rooms connected")
 

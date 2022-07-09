@@ -20,10 +20,8 @@ import kotlinmud.item.helper.createRecipeList
 import kotlinmud.item.model.Item
 import kotlinmud.item.service.ItemService
 import kotlinmud.item.type.Recipe
-import kotlinmud.mob.builder.MobBuilder
 import kotlinmud.mob.model.Mob
 import kotlinmud.mob.model.PlayerMob
-import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.service.MobService
 import kotlinmud.mob.skill.helper.createSkillList
 import kotlinmud.mob.skill.helper.getLearningDifficultyPracticeAmount
@@ -33,6 +31,7 @@ import kotlinmud.mob.skill.type.SkillType
 import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.persistence.dumper.AreaDumperService
+import kotlinmud.persistence.model.MobModel
 import kotlinmud.player.social.Social
 import kotlinmud.quest.model.Quest
 import kotlinmud.quest.service.QuestService
@@ -161,14 +160,18 @@ class ActionContextService(
         return mobService.findMobsInRoom(getRoom())
     }
 
-    fun createMob(name: String): Mob {
-        return MobBuilder(mobService).also {
-            it.name = name
-            it.brief = "a new mob from the mob factory"
-            it.description = "a new mob has arrived from the mob factory.\n\nA name tag says, \"$name\""
-            it.race = Human()
-            it.room = getRoom()
-        }.build()
+    fun createMobModel(name: String): MobModel {
+        return MobModel(
+            mobService.getNextAutoId(),
+            name,
+            "a new mob, fresh from the factory",
+            "a new mob is here. They still have the new mob smell.",
+            getRoom().area,
+            mapOf(),
+            listOf(),
+        ).also {
+            mobService.addMobModel(it)
+        }
     }
 
     suspend fun moveMob(room: Room, direction: Direction) {

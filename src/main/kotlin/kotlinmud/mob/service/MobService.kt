@@ -34,6 +34,7 @@ import kotlinmud.mob.race.impl.Human
 import kotlinmud.mob.race.type.Race
 import kotlinmud.mob.type.Disposition
 import kotlinmud.mob.type.JobType
+import kotlinmud.persistence.model.MobModel
 import kotlinmud.room.model.Area
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
@@ -46,6 +47,7 @@ class MobService(
 ) {
     private val logger = logger(this)
     private val fights = mutableListOf<Fight>()
+    private val models = mutableListOf<MobModel>()
     private val mobs = mutableListOf<Mob>()
     private var nextAutoId = 1
 
@@ -87,14 +89,18 @@ class MobService(
     }
 
     fun addMob(mob: Mob) {
-        if (mob.id >= nextAutoId) {
-            nextAutoId = mob.id + 1
-        }
         mobs.add(mob)
     }
 
     fun removeMob(mob: Mob) {
         mobs.remove(mob)
+    }
+
+    fun addMobModel(mob: MobModel) {
+        if (mob.id >= nextAutoId) {
+            nextAutoId = mob.id + 1
+        }
+        models.add(mob)
     }
 
     fun addFight(mob1: Mob, mob2: Mob): FightService {
@@ -129,10 +135,8 @@ class MobService(
         return mobs.filter { it.job == jobType }
     }
 
-    fun findMobsToDump(area: Area): List<Mob> {
-        return mobs.filter {
-            it.room.area == area && it !is PlayerMob
-        }
+    fun findMobsToDump(area: Area): List<MobModel> {
+        return models.filter { it.area == area }
     }
 
     fun findMobs(predicate: (Mob) -> Boolean): List<Mob> {
