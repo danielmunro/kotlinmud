@@ -15,7 +15,7 @@ fun createTestArea(): Area {
     return Area(
         2,
         "Test",
-        Lighting.Moderate,
+        Lighting.Good,
     )
 }
 

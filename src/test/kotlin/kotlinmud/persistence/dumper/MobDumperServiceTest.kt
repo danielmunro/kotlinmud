@@ -25,8 +25,7 @@ a test room~
 
 mobs:
 1. a red fox
-a small red fox is darting through the trees
-~
+a small red fox is darting through the trees~
 job quest~
 race canid~
 ~
@@ -45,13 +44,14 @@ race canid~
         assertThat(dump).isEqualTo(
             """mobs:
 1. a red fox
-a small red fox is darting through the trees
-~
+a small red fox is darting through the trees~
 job quest~
 race canid~
 ~
 1 1 1~
-~"""
+~
+
+"""
         )
     }
 }

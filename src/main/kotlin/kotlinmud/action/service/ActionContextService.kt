@@ -170,7 +170,7 @@ class ActionContextService(
             mapOf(),
             listOf(),
         ).also {
-            mobService.addMobModel(it)
+            mobService.addModel(it)
         }
     }
 

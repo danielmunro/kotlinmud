@@ -15,6 +15,7 @@ class MobDumperService(area: Area, private val mobs: List<MobModel>) {
                 buffer += when (token.token) {
                     TokenType.ID -> "${mob.id}. "
                     TokenType.Name -> mob.name + "\n"
+                    TokenType.Brief -> mob.brief + "\n"
                     TokenType.Description -> mob.description + "~\n"
                     TokenType.Props -> dumpProps(mob)
                     TokenType.MobRespawn -> dumpRespawn(mob)
@@ -27,10 +28,10 @@ class MobDumperService(area: Area, private val mobs: List<MobModel>) {
     }
 
     private fun dumpRespawn(mob: MobModel): String {
-        return "${mob.respawns.map {"${it.maxAmount} ${it.maxInGame} ${it.targetId}~"}}\n~"
+        return "${mob.respawns.joinToString("\n") { "${it.maxAmount} ${it.maxInGame} ${it.targetId}~" }}\n~\n"
     }
 
     private fun dumpProps(mob: MobModel): String {
-        return "${mob.keywords.map { entry -> "${entry.key} ${entry.value}~" }}\n~"
+        return "${mob.keywords.map { entry -> "${entry.key} ${entry.value}~" }.joinToString("\n")}\n~\n"
     }
 }

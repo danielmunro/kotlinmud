@@ -38,18 +38,17 @@ import kotlinmud.persistence.model.MobModel
 import kotlinmud.room.model.Area
 import kotlinmud.room.model.Room
 import kotlinmud.room.type.Direction
+import kotlinmud.service.BaseService
 import kotlinx.coroutines.runBlocking
 import java.util.UUID
 
 class MobService(
     private val itemService: ItemService,
-    private val eventService: EventService
-) {
+    private val eventService: EventService,
+) : BaseService() {
     private val logger = logger(this)
     private val fights = mutableListOf<Fight>()
-    private val models = mutableListOf<MobModel>()
     private val mobs = mutableListOf<Mob>()
-    private var nextAutoId = 1
 
     fun builder(
         name: String,
@@ -63,12 +62,6 @@ class MobService(
             it.description = description
             it.race = race
         }
-    }
-
-    fun getNextAutoId(): Int {
-        val toReturn = nextAutoId
-        nextAutoId++
-        return toReturn
     }
 
     fun getMobCount(): Int {
@@ -96,13 +89,6 @@ class MobService(
         mobs.remove(mob)
     }
 
-    fun addMobModel(mob: MobModel) {
-        if (mob.id >= nextAutoId) {
-            nextAutoId = mob.id + 1
-        }
-        models.add(mob)
-    }
-
     fun addFight(mob1: Mob, mob2: Mob): FightService {
         val fight = Fight(mob1, mob2)
         fights.add(fight)
@@ -128,7 +114,7 @@ class MobService(
     }
 
     fun findPlayerMobsInArea(area: Area): List<PlayerMob> {
-        return mobs.filter { it is PlayerMob && it.room.area == area } as List<PlayerMob>
+        return mobs.filter { it.room.area == area }.filterIsInstance<PlayerMob>()
     }
 
     fun findMobsByJobType(jobType: JobType): List<Mob> {
@@ -136,7 +122,7 @@ class MobService(
     }
 
     fun findMobsToDump(area: Area): List<MobModel> {
-        return models.filter { it.area == area }
+        return models.filterIsInstance<MobModel>().filter { it.area == area }
     }
 
     fun findMobs(predicate: (Mob) -> Boolean): List<Mob> {
