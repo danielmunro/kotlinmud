@@ -32,6 +32,7 @@ import kotlinmud.mob.specialization.type.SpecializationType
 import kotlinmud.mob.type.Disposition
 import kotlinmud.persistence.dumper.AreaDumperService
 import kotlinmud.persistence.model.MobModel
+import kotlinmud.persistence.model.RoomModel
 import kotlinmud.player.social.Social
 import kotlinmud.quest.model.Quest
 import kotlinmud.quest.service.QuestService
@@ -40,6 +41,7 @@ import kotlinmud.room.model.Area
 import kotlinmud.room.model.Room
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Direction
+import kotlinmud.room.type.getReverseDirection
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
 import kotlinmud.weather.type.Weather
@@ -103,8 +105,16 @@ class ActionContextService(
 
     fun addRoom(direction: Direction) {
         val source = request.getRoom()
+        val sourceModel = roomService.getModel(source.id)!! as RoomModel
+        val destinationModel = RoomModel(
+            roomService.getNextAutoId(),
+            sourceModel.name,
+            sourceModel.description,
+            sourceModel.keywords,
+            sourceModel.area
+        )
         val destination = RoomBuilder(roomService).also {
-            it.id = roomService.getRoomCount() + 1
+            it.id = destinationModel.id
             it.name = source.name
             it.brief = source.brief
             it.description = source.description
@@ -112,32 +122,9 @@ class ActionContextService(
             it.elevation = source.elevation
             it.isIndoors = source.isIndoors
         }.build()
-        when (direction) {
-            Direction.NORTH -> {
-                source.north = destination
-                destination.south = source
-            }
-            Direction.SOUTH -> {
-                source.south = destination
-                destination.north = source
-            }
-            Direction.EAST -> {
-                source.east = destination
-                destination.west = source
-            }
-            Direction.WEST -> {
-                source.west = destination
-                destination.east = source
-            }
-            Direction.UP -> {
-                source.up = destination
-                destination.down = source
-            }
-            Direction.DOWN -> {
-                source.down = destination
-                destination.up = source
-            }
-        }
+        roomService.addModel(destinationModel)
+        setDirectionOnModel(sourceModel, destinationModel, direction)
+        setDirectionOnRoom(source, destination, direction)
     }
 
     fun flush() {
@@ -279,6 +266,41 @@ class ActionContextService(
         ) {
             (Math.random() * this + mob.calc(Attribute.INT) / 5).roundToInt()
         }
+    }
+
+    private fun setDirectionOnRoom(source: Room, destination: Room, direction: Direction) {
+        when (direction) {
+            Direction.NORTH -> {
+                source.north = destination
+                destination.south = source
+            }
+            Direction.SOUTH -> {
+                source.south = destination
+                destination.north = source
+            }
+            Direction.EAST -> {
+                source.east = destination
+                destination.west = source
+            }
+            Direction.WEST -> {
+                source.west = destination
+                destination.east = source
+            }
+            Direction.UP -> {
+                source.up = destination
+                destination.down = source
+            }
+            Direction.DOWN -> {
+                source.down = destination
+                destination.up = source
+            }
+        }
+    }
+
+    private fun setDirectionOnModel(source: RoomModel, destination: RoomModel, direction: Direction) {
+        val reverse = getReverseDirection(direction)
+        source.keywords[direction.value] = destination.id.toString()
+        destination.keywords[reverse.value] = source.id.toString()
     }
 
     private fun getSkillDifficultyForSpecialization(type: SkillType, specialization: SpecializationType?): LearningDifficulty {

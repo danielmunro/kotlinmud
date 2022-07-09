@@ -18,4 +18,8 @@ open class BaseService {
         }
         models.add(model)
     }
+
+    fun getModel(id: Int): Model? {
+        return models.find { it.id == id }
+    }
 }

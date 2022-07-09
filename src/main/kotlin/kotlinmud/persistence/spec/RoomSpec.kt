@@ -6,8 +6,9 @@ import kotlinmud.persistence.token.DescriptionToken
 import kotlinmud.persistence.token.IdToken
 import kotlinmud.persistence.token.NameToken
 import kotlinmud.persistence.token.PropsToken
+import kotlinmud.room.model.Area
 
-class RoomSpec : Spec {
+class RoomSpec(private val area: Area) : Spec {
     override val tokens = listOf(
         IdToken(),
         NameToken(),
@@ -16,6 +17,8 @@ class RoomSpec : Spec {
     )
 
     override fun builder(): Builder {
-        return RoomModelBuilder()
+        return RoomModelBuilder().also {
+            it.area = area
+        }
     }
 }

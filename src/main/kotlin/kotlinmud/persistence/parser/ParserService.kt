@@ -64,7 +64,7 @@ class ParserService(data: String) {
                                 Lighting.valueOf(areaModel.keywords.getOrDefault("lighting", "Good")),
                             )
                         }
-                        "rooms" -> rooms.add(parseSpec(RoomSpec()) as RoomModel)
+                        "rooms" -> rooms.add(parseSpec(RoomSpec(area)) as RoomModel)
                         "doors" -> doors.add(parseSpec(DoorSpec()) as DoorModel)
                         "items" -> items.add(parseSpec(ItemSpec(area)) as ItemModel)
                         "mobs" -> mobs.add(parseSpec(MobSpec(area)) as MobModel)

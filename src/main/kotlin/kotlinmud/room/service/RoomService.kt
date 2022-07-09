@@ -4,8 +4,9 @@ import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.factory.createInitialAreas
 import kotlinmud.room.model.Area
 import kotlinmud.room.model.Room
+import kotlinmud.service.BaseService
 
-class RoomService {
+class RoomService : BaseService() {
     private val rooms = mutableListOf<Room>()
     private val areas = mutableListOf<Area>()
 

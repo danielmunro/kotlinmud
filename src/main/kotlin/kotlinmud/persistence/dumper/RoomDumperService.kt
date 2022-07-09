@@ -2,12 +2,11 @@ package kotlinmud.persistence.dumper
 
 import kotlinmud.persistence.parser.TokenType
 import kotlinmud.persistence.spec.RoomSpec
+import kotlinmud.room.model.Area
 import kotlinmud.room.model.Room
 
-class RoomDumperService(private val rooms: List<Room>) {
-    companion object {
-        val roomSpec = RoomSpec()
-    }
+class RoomDumperService(area: Area, private val rooms: List<Room>) {
+    private val roomSpec = RoomSpec(area)
 
     fun dump(): String {
         var buffer = if (rooms.isNotEmpty()) "rooms:\n" else ""

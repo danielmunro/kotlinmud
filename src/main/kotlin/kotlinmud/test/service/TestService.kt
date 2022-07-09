@@ -49,6 +49,7 @@ import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.Role
 import kotlinmud.persistence.dumper.MobDumperService
+import kotlinmud.persistence.model.RoomModel
 import kotlinmud.persistence.service.StartupService
 import kotlinmud.player.auth.model.CreationFunnel
 import kotlinmud.player.auth.service.AuthStepService
@@ -97,12 +98,20 @@ class TestService(
         every { client.socket.remoteAddress } returns mockk<SocketAddress>()
         serverService.getClients().add(client)
         area = createTestArea()
+        val roomModel = RoomModel(
+            roomService.getNextAutoId(),
+            "start room",
+            "tbd",
+            mutableMapOf(),
+            area,
+        )
         room = RoomBuilder(roomService).also {
-            it.id = roomService.getRoomCount() + 1
-            it.name = "start room"
-            it.description = "tbd"
+            it.id = roomModel.id
+            it.name = roomModel.name
+            it.description = roomModel.description
             it.area = area
         }.build()
+        roomService.addModel(roomModel)
     }
 
     fun getMobDumperService(): MobDumperService {

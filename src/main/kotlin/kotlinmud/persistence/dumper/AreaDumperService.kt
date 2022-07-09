@@ -11,7 +11,7 @@ class AreaDumperService(
     fun dump() {
         var inc = 1
         roomService.getAllAreas().forEach { area ->
-            val roomDumperService = RoomDumperService(roomService.findByArea(area))
+            val roomDumperService = RoomDumperService(area, roomService.findByArea(area))
             val mobDumperService = MobDumperService(area, mobService.findMobsToDump(area))
             File("world/${area.name}.txt").writeText(
                 """area:

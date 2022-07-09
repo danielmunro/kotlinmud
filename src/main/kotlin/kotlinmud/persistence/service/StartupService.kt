@@ -60,6 +60,7 @@ class StartupService(
         logger.debug("parse stats -- ${rooms.size} rooms, ${mobs.size} mobs, ${items.size} items, ${quests.size} quests")
 
         mobs.forEach { mobService.addModel(it) }
+        rooms.forEach { roomService.addModel(it) }
 
         connectUpRooms()
         logger.debug("rooms connected")

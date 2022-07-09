@@ -2,6 +2,7 @@ package kotlinmud.persistence.dumper
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import kotlinmud.room.factory.createTestArea
 import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
@@ -12,7 +13,7 @@ class RoomDumperServiceTest {
         val testService = createTestService(false)
 
         // given
-        val roomDumperService = RoomDumperService(listOf(testService.getStartRoom()))
+        val roomDumperService = RoomDumperService(createTestArea(), listOf(testService.getStartRoom()))
 
         // when
         val buffer = roomDumperService.dump()
