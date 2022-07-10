@@ -41,6 +41,7 @@ race canid~
 
         // when
         val dump = mobDumperService.dump()
+        println(dump)
 
         // then
         assertThat(dump).isEqualTo(
