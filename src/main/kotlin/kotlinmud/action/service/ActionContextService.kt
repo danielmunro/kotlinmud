@@ -128,7 +128,7 @@ class ActionContextService(
     }
 
     fun flush() {
-        AreaDumperService(roomService, mobService).dump()
+        AreaDumperService(roomService, mobService, itemService).dump()
     }
 
     fun getExits(): Map<Direction, Room> {

@@ -48,6 +48,7 @@ import kotlinmud.mob.type.CurrencyType
 import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.Role
+import kotlinmud.persistence.dumper.ItemDumperService
 import kotlinmud.persistence.dumper.MobDumperService
 import kotlinmud.persistence.dumper.RoomDumperService
 import kotlinmud.persistence.model.RoomModel
@@ -121,6 +122,10 @@ class TestService(
 
     fun getRoomDumperService(area: Area): RoomDumperService {
         return RoomDumperService(area, roomService.findRoomModels(area))
+    }
+
+    fun getItemDumperService(area: Area): ItemDumperService {
+        return ItemDumperService(area, itemService.findItemModels(area))
     }
 
     fun createStartupService(data: List<String>): StartupService {

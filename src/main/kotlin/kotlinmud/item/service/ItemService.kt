@@ -3,13 +3,17 @@ package kotlinmud.item.service
 import kotlinmud.action.exception.InvokeException
 import kotlinmud.item.builder.ItemBuilder
 import kotlinmud.item.model.Item
-import kotlinmud.item.type.Material
-import kotlinmud.item.type.Weapon
-import kotlinmud.mob.fight.type.DamageType
+import kotlinmud.persistence.model.ItemModel
+import kotlinmud.room.model.Area
+import kotlinmud.service.BaseService
 import java.util.UUID
 
-class ItemService {
+class ItemService : BaseService() {
     private val items = mutableListOf<Item>()
+
+    fun findItemModels(area: Area): List<ItemModel> {
+        return models.filterIsInstance<ItemModel>().filter { it.area == area }
+    }
 
     fun findOne(predicate: (Item) -> Boolean): Item? {
         return items.find(predicate)
@@ -22,29 +26,6 @@ class ItemService {
             it.weight = weight
             it.worth = worth
         }
-    }
-
-    fun buildWeapon(
-        name: String,
-        description: String,
-        weight: Double,
-        type: Weapon,
-        damageType: DamageType,
-        material: Material,
-        hit: Int,
-        dam: Int,
-        worth: Int,
-        attackVerb: String = damageType.toString(),
-    ): ItemBuilder {
-        return builder(name, description, weight, worth)
-            .makeWeapon(
-                type,
-                damageType,
-                attackVerb,
-                material,
-                hit,
-                dam,
-            )
     }
 
     fun getItemCount(): Int {

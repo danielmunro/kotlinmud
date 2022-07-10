@@ -61,6 +61,7 @@ class StartupService(
 
         mobs.forEach { mobService.addModel(it) }
         rooms.forEach { roomService.addModel(it) }
+        items.forEach { itemService.addModel(it) }
 
         connectUpRooms()
         logger.debug("rooms connected")
