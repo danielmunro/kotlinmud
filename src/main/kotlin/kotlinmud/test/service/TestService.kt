@@ -49,6 +49,7 @@ import kotlinmud.mob.type.Gender
 import kotlinmud.mob.type.JobType
 import kotlinmud.mob.type.Role
 import kotlinmud.persistence.dumper.MobDumperService
+import kotlinmud.persistence.dumper.RoomDumperService
 import kotlinmud.persistence.model.RoomModel
 import kotlinmud.persistence.service.StartupService
 import kotlinmud.player.auth.model.CreationFunnel
@@ -114,8 +115,12 @@ class TestService(
         roomService.addModel(roomModel)
     }
 
-    fun getMobDumperService(): MobDumperService {
-        return MobDumperService(area, mobService.findMobsToDump(area))
+    fun getMobDumperService(area: Area): MobDumperService {
+        return MobDumperService(area, mobService.findMobModels(area))
+    }
+
+    fun getRoomDumperService(area: Area): RoomDumperService {
+        return RoomDumperService(area, roomService.findRoomModels(area))
     }
 
     fun createStartupService(data: List<String>): StartupService {

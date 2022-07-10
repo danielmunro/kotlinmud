@@ -1,5 +1,6 @@
 package kotlinmud.room.service
 
+import kotlinmud.persistence.model.RoomModel
 import kotlinmud.room.builder.RoomBuilder
 import kotlinmud.room.factory.createInitialAreas
 import kotlinmud.room.model.Area
@@ -48,6 +49,10 @@ class RoomService : BaseService() {
 
     fun findByArea(area: Area): List<Room> {
         return rooms.filter { it.area.name == area.name }
+    }
+
+    fun findRoomModels(area: Area): List<RoomModel> {
+        return models.filterIsInstance<RoomModel>().filter { it.area == area }
     }
 
     fun filter(predicate: (room: Room) -> Boolean): List<Room> {

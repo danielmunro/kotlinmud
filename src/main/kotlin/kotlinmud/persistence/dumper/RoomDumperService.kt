@@ -1,11 +1,11 @@
 package kotlinmud.persistence.dumper
 
+import kotlinmud.persistence.model.RoomModel
 import kotlinmud.persistence.parser.TokenType
 import kotlinmud.persistence.spec.RoomSpec
 import kotlinmud.room.model.Area
-import kotlinmud.room.model.Room
 
-class RoomDumperService(area: Area, private val rooms: List<Room>) {
+class RoomDumperService(area: Area, private val rooms: List<RoomModel>) {
     private val roomSpec = RoomSpec(area)
 
     fun dump(): String {
@@ -25,14 +25,7 @@ class RoomDumperService(area: Area, private val rooms: List<Room>) {
         return buffer
     }
 
-    private fun dumpProps(room: Room): String {
-        return """north ${room.north?.id ?: 0}~
-south ${room.south?.id ?: 0}~
-east ${room.east?.id ?: 0}~
-west ${room.west?.id ?: 0}~
-up ${room.up?.id ?: 0}~
-down ${room.down?.id ?: 0}~
-~
-"""
+    private fun dumpProps(room: RoomModel): String {
+        return "${room.keywords.map { entry -> "${entry.key} ${entry.value}~" }.joinToString("\n")}\n~\n"
     }
 }

@@ -9,13 +9,12 @@ class AreaDumperService(
     private val mobService: MobService,
 ) {
     fun dump() {
-        var inc = 1
         roomService.getAllAreas().forEach { area ->
-            val roomDumperService = RoomDumperService(area, roomService.findByArea(area))
-            val mobDumperService = MobDumperService(area, mobService.findMobsToDump(area))
+            val roomDumperService = RoomDumperService(area, roomService.findRoomModels(area))
+            val mobDumperService = MobDumperService(area, mobService.findMobModels(area))
             File("world/${area.name}.txt").writeText(
                 """area:
-$inc. ${area.name}
+${area.id}. ${area.name}
 lighting ${area.lighting}~
 ~
 
@@ -23,7 +22,6 @@ ${roomDumperService.dump()}
 
 ${mobDumperService.dump()}"""
             )
-            inc++
         }
     }
 }

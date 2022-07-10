@@ -180,7 +180,7 @@ class StartupService(
 
     private fun generateRoomsFromModels(file: FileModel) {
         logger.debug("generating room models for area {}", file.area.name)
-        val area = roomService.findArea(file.area.name)!!
+        val area = file.area
         file.rooms.forEach {
             createRoomFromModel(it, area)
         }

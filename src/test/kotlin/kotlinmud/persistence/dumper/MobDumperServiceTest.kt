@@ -2,6 +2,7 @@ package kotlinmud.persistence.dumper
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
+import kotlinmud.room.factory.createPurgatoryArea
 import kotlinmud.test.helper.createTestService
 import org.junit.Test
 
@@ -16,7 +17,8 @@ class MobDumperServiceTest {
             listOf(
                 """
 area:
-2. Test
+1. Purgatory
+~
 
 rooms:
 1. a test room
@@ -35,7 +37,7 @@ race canid~
             )
         )
         startupService.hydrateWorld()
-        val mobDumperService = test.getMobDumperService()
+        val mobDumperService = test.getMobDumperService(createPurgatoryArea())
 
         // when
         val dump = mobDumperService.dump()

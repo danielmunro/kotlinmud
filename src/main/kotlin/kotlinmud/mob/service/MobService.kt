@@ -121,7 +121,7 @@ class MobService(
         return mobs.filter { it.job == jobType }
     }
 
-    fun findMobsToDump(area: Area): List<MobModel> {
+    fun findMobModels(area: Area): List<MobModel> {
         return models.filterIsInstance<MobModel>().filter { it.area == area }
     }
 

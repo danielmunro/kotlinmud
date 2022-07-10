@@ -7,7 +7,7 @@ fun createPurgatoryArea(): Area {
     return Area(
         1,
         "Purgatory",
-        Lighting.Poor,
+        Lighting.Good,
     )
 }
 
