@@ -184,6 +184,10 @@ class TestService(
         return room
     }
 
+    fun getStartRoomModel(): RoomModel {
+        return roomService.getModel(room.id) as RoomModel
+    }
+
     fun getStartRoom(modifier: (Room) -> Unit): Room {
         val room = getStartRoom()
         modifier(room)

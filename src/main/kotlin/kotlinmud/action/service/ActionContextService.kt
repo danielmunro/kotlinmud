@@ -103,6 +103,10 @@ class ActionContextService(
         return request.getRoom()
     }
 
+    fun getRoomModel(): RoomModel {
+        return roomService.getModel(getRoom().id) as RoomModel
+    }
+
     fun addRoom(direction: Direction) {
         val source = request.getRoom()
         val sourceModel = roomService.getModel(source.id)!! as RoomModel
@@ -266,6 +270,10 @@ class ActionContextService(
         ) {
             (Math.random() * this + mob.calc(Attribute.INT) / 5).roundToInt()
         }
+    }
+
+    fun setRoomArea(roomId: Int, area: Area) {
+        roomService.setRoomArea(roomId, area)
     }
 
     private fun setDirectionOnRoom(source: Room, destination: Room, direction: Direction) {

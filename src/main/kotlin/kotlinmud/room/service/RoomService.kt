@@ -70,4 +70,14 @@ class RoomService : BaseService() {
             }
         }
     }
+
+    fun setRoomArea(id: Int, area: Area) {
+        rooms.find { it.id == id }?.let {
+            it.area = area
+        }
+        models.find { it.id == id }?.let {
+            it as RoomModel
+            it.area = area
+        }
+    }
 }

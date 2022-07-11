@@ -15,7 +15,7 @@ fun createRoomAreaAction(): Action {
     } build {
         val input = it.get<String>(Syntax.FREE_FORM)
         it.findArea(input)?.let { area ->
-            it.getRoom().area = area
+            it.setRoomArea(it.getRoom().id, area)
             it.createOkResponse(messageToActionCreator("area set"))
         } ?: it.createErrorResponse(messageToActionCreator("that is not a known area in this realm"))
     }

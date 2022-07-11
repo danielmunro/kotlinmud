@@ -19,5 +19,9 @@ class RoomAreaTest {
 
         // then
         assertThat(room.area.name).isEqualTo("Test")
+
+        // and
+        val model = test.getStartRoomModel()
+        assertThat(model.area.name).isEqualTo("Test")
     }
 }

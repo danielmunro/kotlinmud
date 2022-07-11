@@ -7,5 +7,5 @@ data class RoomModel(
     val name: String,
     val description: String,
     val keywords: MutableMap<String, String>,
-    val area: Area,
+    var area: Area,
 ) : Model
