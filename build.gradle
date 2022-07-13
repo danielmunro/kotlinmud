@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.0'
 
     id 'application'
 
@@ -55,7 +55,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile).all {
 
 dependencies {
     // coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
 
     // postgres
     implementation 'org.postgresql:postgresql:42.2.2'
@@ -118,9 +118,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = project.hasProperty('analyze') ?
-            'kotlinmud.AnalyzeAppKt' :
-            'kotlinmud.AppKt'
+    mainClassName = 'kotlinmud.AppKt'
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
