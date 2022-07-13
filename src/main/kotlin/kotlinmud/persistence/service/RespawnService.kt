@@ -135,7 +135,7 @@ class RespawnService(
         var amount = 0
         while (amountToRespawn > 0 && amount < maxAmountInRoom) {
             val room = if (roomId > 0) {
-                roomService.findOne { room -> room.id == roomId }!!
+                roomService.findOneRoom { room -> room.id == roomId }!!
             } else {
                 areaRooms.random()
             }

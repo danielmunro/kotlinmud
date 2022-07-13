@@ -13,11 +13,8 @@ fun createRoomDescriptionRemoveAction(): Action {
         it.syntax = roomRemoveDescription()
         it.minimumRole = Role.Admin
     } build {
-        val room = it.getRoom()
-        val lines = room.description.split("\n").toMutableList()
         val lineToRemove = it.get<Int>(Syntax.VALUE) - 1
-        lines.removeAt(lineToRemove)
-        room.description = lines.joinToString("\n")
+        it.removeRoomDescription(it.getRoom().id, lineToRemove)
         it.createOkResponse(messageToActionCreator("room description line removed at $lineToRemove"))
     }
 }

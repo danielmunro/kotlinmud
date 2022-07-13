@@ -55,7 +55,7 @@ class QuestBuilderService(
                 val roomAcceptId = value.toInt()
                 acceptConditions.add(
                     RoomQuestRequirement(
-                        roomService.findOne { it.id == roomAcceptId }!!
+                        roomService.findOneRoom { it.id == roomAcceptId }!!
                     )
                 )
             }
@@ -63,7 +63,7 @@ class QuestBuilderService(
                 val roomSubmitId = value.toInt()
                 submitConditions.add(
                     RoomQuestRequirement(
-                        roomService.findOne { it.id == roomSubmitId }!!
+                        roomService.findOneRoom { it.id == roomSubmitId }!!
                     )
                 )
             }

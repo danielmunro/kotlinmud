@@ -13,11 +13,8 @@ fun createRoomDescriptionChangeAction(): Action {
         it.syntax = roomChangeDescription()
         it.minimumRole = Role.Admin
     } build {
-        val room = it.getRoom()
-        val lines = room.description.split("\n").toMutableList()
         val lineToChange = it.get<Int>(Syntax.VALUE)
-        lines[lineToChange] = it.get(Syntax.FREE_FORM)
-        room.description = lines.joinToString("\n")
+        it.changeRoomDescription(it.getRoom().id, it.get(Syntax.FREE_FORM), lineToChange)
         it.createOkResponse(messageToActionCreator("room description changed at line $lineToChange"))
     }
 }

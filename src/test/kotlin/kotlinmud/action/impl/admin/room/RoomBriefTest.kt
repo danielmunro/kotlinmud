@@ -13,6 +13,7 @@ class RoomBriefTest {
 
         // given
         val room = test.getStartRoom()
+        val model = test.getStartRoomModel()
         val brief = "a decaying dock going out to a pond"
 
         // when
@@ -20,5 +21,6 @@ class RoomBriefTest {
 
         // then
         assertThat(room.brief).isEqualTo(brief)
+        assertThat(model.name).isEqualTo(brief)
     }
 }

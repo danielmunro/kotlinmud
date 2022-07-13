@@ -13,7 +13,7 @@ fun createRoomDescriptionAddAction(): Action {
         it.syntax = roomAddDescription()
         it.minimumRole = Role.Admin
     } build {
-        it.getRoom().description += "\n" + it.get(Syntax.FREE_FORM)
+        it.addToRoomDescription(it.getRoom().id, it.get(Syntax.FREE_FORM))
         it.createOkResponse(messageToActionCreator("added to room description"))
     }
 }

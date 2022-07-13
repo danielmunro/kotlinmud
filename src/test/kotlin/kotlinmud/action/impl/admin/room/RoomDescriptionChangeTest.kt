@@ -16,15 +16,18 @@ class RoomDescriptionChangeTest {
         val description = """A long and narrow trail meanders through a lush forest. Besides the occasional
 call from a nearby bird, eerie silence prevails."""
         val change = "call from a nearby bird, the wind whistles through the trees."
+        val expected = """A long and narrow trail meanders through a lush forest. Besides the occasional
+call from a nearby bird, the wind whistles through the trees."""
+        val model = test.getStartRoomModel()
         room.description = description
 
         // when
         test.runActionAsAdmin("room description change 1 $change")
 
         // then
-        assertThat(room.description).isEqualTo(
-            """A long and narrow trail meanders through a lush forest. Besides the occasional
-call from a nearby bird, the wind whistles through the trees."""
-        )
+        assertThat(room.description).isEqualTo(expected)
+
+        // and
+        assertThat(model.description).isEqualTo(expected)
     }
 }

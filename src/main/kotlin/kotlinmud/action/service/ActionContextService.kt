@@ -103,10 +103,6 @@ class ActionContextService(
         return request.getRoom()
     }
 
-    fun getRoomModel(): RoomModel {
-        return roomService.getModel(getRoom().id) as RoomModel
-    }
-
     fun addRoom(direction: Direction) {
         val source = request.getRoom()
         val sourceModel = roomService.getModel(source.id)!! as RoomModel
@@ -274,6 +270,22 @@ class ActionContextService(
 
     fun setRoomArea(roomId: Int, area: Area) {
         roomService.setRoomArea(roomId, area)
+    }
+
+    fun setRoomBrief(roomId: Int, brief: String) {
+        roomService.setRoomBrief(roomId, brief)
+    }
+
+    fun addToRoomDescription(roomId: Int, description: String) {
+        roomService.addToRoomDescription(roomId, description)
+    }
+
+    fun changeRoomDescription(roomId: Int, change: String, lineNumber: Int) {
+        roomService.changeRoomDescription(roomId, change, lineNumber)
+    }
+
+    fun removeRoomDescription(roomId: Int, lineNumber: Int) {
+        roomService.removeRoomDescription(roomId, lineNumber)
     }
 
     private fun setDirectionOnRoom(source: Room, destination: Room, direction: Direction) {

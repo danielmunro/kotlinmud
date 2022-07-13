@@ -6,6 +6,8 @@ import kotlinmud.room.factory.createInitialAreas
 import kotlinmud.room.model.Area
 import kotlinmud.room.model.Room
 import kotlinmud.service.BaseService
+import kotlinmud.utility.changeLine
+import kotlinmud.utility.removeLine
 
 class RoomService : BaseService() {
     private val rooms = mutableListOf<Room>()
@@ -43,7 +45,7 @@ class RoomService : BaseService() {
         return areas.find { it.name.startsWith(partial) }
     }
 
-    fun findOne(predicate: (room: Room) -> Boolean): Room? {
+    fun findOneRoom(predicate: (room: Room) -> Boolean): Room? {
         return rooms.find(predicate)
     }
 
@@ -72,12 +74,39 @@ class RoomService : BaseService() {
     }
 
     fun setRoomArea(id: Int, area: Area) {
-        rooms.find { it.id == id }?.let {
-            it.area = area
-        }
-        models.find { it.id == id }?.let {
-            it as RoomModel
-            it.area = area
-        }
+        findOneRoom(id).area = area
+        findOneModel(id).area = area
+    }
+
+    fun setRoomBrief(id: Int, brief: String) {
+        findOneRoom(id).brief = brief
+        findOneModel(id).name = brief
+    }
+
+    fun addToRoomDescription(id: Int, description: String) {
+        findOneRoom(id).description += "\n$description"
+        findOneModel(id).description += "\n$description"
+    }
+
+    fun changeRoomDescription(id: Int, substitute: String, lineNumber: Int) {
+        val room = findOneRoom(id)
+        val newDescription = changeLine(room.description, substitute, lineNumber)
+        room.description = newDescription
+        findOneModel(id).description = newDescription
+    }
+
+    fun removeRoomDescription(id: Int, lineNumber: Int) {
+        val room = findOneRoom(id)
+        val newDescription = removeLine(room.description, lineNumber)
+        room.description = newDescription
+        findOneModel(id).description = newDescription
+    }
+
+    private fun findOneRoom(id: Int): Room {
+        return rooms.find { it.id == id }!!
+    }
+
+    private fun findOneModel(id: Int): RoomModel {
+        return models.find { it.id == id } as RoomModel
     }
 }

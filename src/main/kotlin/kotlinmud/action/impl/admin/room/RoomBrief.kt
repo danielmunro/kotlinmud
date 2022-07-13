@@ -13,7 +13,7 @@ fun createRoomBriefAction(): Action {
         it.syntax = propToSet()
         it.minimumRole = Role.Admin
     } build {
-        it.getRoom().brief = it.get(Syntax.FREE_FORM)
+        it.setRoomBrief(it.getRoom().id, it.get(Syntax.FREE_FORM))
         it.createOkResponse(messageToActionCreator("room brief changed"))
     }
 }

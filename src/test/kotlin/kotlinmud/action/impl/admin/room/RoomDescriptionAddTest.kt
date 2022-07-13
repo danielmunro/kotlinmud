@@ -13,12 +13,17 @@ class RoomDescriptionAddTest {
 
         // given
         val room = test.getStartRoom()
+        val model = test.getStartRoomModel()
         val descriptionAdd = "a long dirt road winds before you."
+        val expected = "tbd\n$descriptionAdd"
 
         // when
         test.runActionAsAdmin("room description add $descriptionAdd")
 
         // then
-        assertThat(room.description).isEqualTo("tbd\n$descriptionAdd")
+        assertThat(room.description).isEqualTo(expected)
+
+        // and
+        assertThat(model.description).isEqualTo(expected)
     }
 }
