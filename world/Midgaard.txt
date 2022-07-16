@@ -59,7 +59,7 @@ TBD~
 north 1~
 south 7~
 east 0~
-west 0~
+west 8~
 up 0~
 down 0~
 ~
@@ -72,6 +72,17 @@ east 0~
 west 0~
 up 0~
 down 0~
+~
+
+8. A path going down an alley
+You may want to turn back now.~
+east 6~
+west 9~
+~
+
+9. A path going down an alley
+You may want to turn back now.~
+east 8~
 ~
 
 

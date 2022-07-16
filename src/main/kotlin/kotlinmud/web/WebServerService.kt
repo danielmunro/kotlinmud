@@ -15,6 +15,8 @@ import kotlinmud.mob.service.MobService
 import kotlinmud.persistence.dumper.AreaDumperService
 import kotlinmud.persistence.model.RoomModel
 import kotlinmud.room.service.RoomService
+import kotlinmud.room.type.Direction
+import kotlinmud.room.type.getReverseDirection
 
 class WebServerService(
     private val mobService: MobService,
@@ -28,14 +30,16 @@ class WebServerService(
                     call.respondText(Gson().toJson(getHome()))
                 }
                 post("/room") {
-                    println("hello world")
                     val text = call.receiveText()
-                    println(text)
                     val model = Gson().fromJson(text, RoomModel::class.java)
-                    println("done")
+                    model.id = roomService.getNextAutoId()
+                    model.keywords.forEach { pair ->
+                        val direction = Direction.valueOf(pair.key.uppercase())
+                        val source = roomService.getModel(pair.value.toInt()) as RoomModel
+                        source.keywords[getReverseDirection(direction).value] = model.id.toString()
+                    }
                     roomService.addModel(model)
                     flush()
-                    println("save")
                     call.respond(201)
                 }
             }
