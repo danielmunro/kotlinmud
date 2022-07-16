@@ -57,17 +57,17 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
                 weight = value.toDouble()
             }
             "type" -> {
-                type = ItemType.valueOf(value.lowercase())
+                type = ItemType.valueOf(value.uppercase())
                 if (type == ItemType.FURNITURE) {
                     canOwn = false
                 }
             }
             "position" -> {
-                position = Position.valueOf(value.lowercase())
+                position = Position.valueOf(value.uppercase())
                 type = ItemType.EQUIPMENT
             }
             "material" -> {
-                material = Material.valueOf(value.lowercase())
+                material = Material.valueOf(value.uppercase())
             }
             "worth" -> {
                 worth = value.toInt()
@@ -81,20 +81,20 @@ class ItemBuilder(private val itemService: ItemService) : Builder {
                 attributes[Attribute.DAM] = amounts[1].toInt()
             }
             "damage" -> {
-                damageType = DamageType.valueOf(value.lowercase())
+                damageType = DamageType.valueOf(value.uppercase())
             }
             "level" -> {
                 level = value.toInt()
             }
             "weapon" -> {
-                weaponType = Weapon.valueOf(value.lowercase())
+                weaponType = Weapon.valueOf(value.uppercase())
             }
             "key" -> {
                 type = ItemType.KEY
                 keyId = value.toInt()
             }
             "int", "ac_slash", "ac_pierce", "ac_bash", "ac_magic" -> {
-                val attribute = Attribute.valueOf(keyword.lowercase())
+                val attribute = Attribute.valueOf(keyword.uppercase())
                 attributes[attribute] = value.toInt()
             }
             "container" -> {
