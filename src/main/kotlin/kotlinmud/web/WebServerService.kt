@@ -14,6 +14,7 @@ import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.persistence.dumper.AreaDumperService
 import kotlinmud.persistence.model.RoomModel
+import kotlinmud.room.model.Area
 import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.getReverseDirection
@@ -32,43 +33,27 @@ class WebServerService(
                     call.respondText(gson.toJson(getHome()))
                 }
                 get("/area") {
-                    call.respondText(
-                        gson.toJson(
-                            roomService.getAllAreas()
-                        )
-                    )
+                    call.respondText(gson.toJson(getAllAreas()))
                 }
                 get("/area/{areaId}") {
                     call.respondText(
-                        gson.toJson(
-                            roomService.getAreaById(call.parameters["areaId"]!!.toInt())
-                        )
+                        gson.toJson(getArea(call.parameters["areaId"]!!.toInt()))
                     )
                 }
                 get("/area/{areaId}/room") {
-                    val areaId = call.parameters["areaId"]!!.toInt()
-                    val area = roomService.getAreaById(areaId)
                     call.respondText(
-                        gson.toJson(roomService.findRoomModels(area))
+                        gson.toJson(getRoomsForArea(call.parameters["areaId"]!!.toInt()))
                     )
                 }
                 get("/room/{roomId}") {
-                    val roomId = call.parameters["roomId"]!!.toInt()
                     call.respondText(
-                        gson.toJson(roomService.getModel(roomId))
+                        gson.toJson(getRoom(call.parameters["roomId"]!!.toInt()))
                     )
                 }
                 post("/room") {
                     val text = call.receiveText()
                     val model = gson.fromJson(text, RoomModel::class.java)
-                    model.id = roomService.getNextAutoId()
-                    model.keywords.forEach { pair ->
-                        val direction = Direction.valueOf(pair.key.uppercase())
-                        val source = roomService.getModel(pair.value.toInt()) as RoomModel
-                        source.keywords[getReverseDirection(direction).value] = model.id.toString()
-                    }
-                    roomService.addModel(model)
-                    flush()
+                    createRoom(model)
                     call.respond(201)
                     call.respondText(
                         gson.toJson(model)
@@ -82,11 +67,39 @@ class WebServerService(
         AreaDumperService(roomService, mobService, itemService).dump()
     }
 
+    private fun createRoom(model: RoomModel) {
+        model.id = roomService.getNextAutoId()
+        model.keywords.forEach { pair ->
+            val direction = Direction.valueOf(pair.key.uppercase())
+            val source = roomService.getModel(pair.value.toInt()) as RoomModel
+            source.keywords[getReverseDirection(direction).value] = model.id.toString()
+        }
+        roomService.addModel(model)
+        flush()
+    }
+
+    private fun getRoom(roomId: Int): RoomModel {
+        return roomService.getModel(roomId) as RoomModel
+    }
+
+    private fun getRoomsForArea(areaId: Int): List<RoomModel> {
+        val area = roomService.getAreaById(areaId)
+        return roomService.findRoomModels(area)
+    }
+
+    private fun getArea(areaId: Int): Area {
+        return roomService.getAreaById(areaId)
+    }
+
     private fun getHome(): Map<String, Int> {
         return mapOf(
             Pair("mobs", mobService.getMobCount()),
             Pair("rooms", roomService.getRoomCount()),
             Pair("items", itemService.getItemCount()),
         )
+    }
+
+    private fun getAllAreas(): List<Area> {
+        return roomService.getAllAreas()
     }
 }
