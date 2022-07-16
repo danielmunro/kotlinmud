@@ -19,11 +19,10 @@ fun createScoreAction(): Action {
                     "You have ${mob.hp} of ${mob.calc(Attribute.HP)} hit points," +
                     "${mob.mana} of ${mob.calc(Attribute.MANA)} mana, " +
                     "${mob.mv} of ${mob.calc(Attribute.MV)} moves.\n" +
-                    "Race: ${mob.race.type.toString().toLowerCase()} Gender: ${
-                    mob.gender.toString()
-                        .toLowerCase()
+                    "Race: ${mob.race.type.toString().lowercase()} Gender: ${
+                    mob.gender.toString().lowercase()
                     } " +
-                    "Class: ${mob.specialization.toString().toLowerCase()} Kit: none\n" +
+                    "Class: ${mob.specialization.toString().lowercase()} Kit: none\n" +
                     "Trains: ${mob.trains}  Practices: ${mob.practices}  Skill Points: ${mob.skillPoints}  Bounty: ${mob.bounty} " +
                     "You are carrying ${items.size}/${mob.maxItems} items, ${
                     items.map { it.weight }
@@ -57,7 +56,7 @@ fun createScoreAction(): Action {
                     "You have ${mob.experience} exp, ${mob.getCurrency(CurrencyType.Gold)} gold, ${mob.getCurrency(CurrencyType.Silver)} silver, ${mob.getCurrency(CurrencyType.Copper)} copper.\n" +
                     "You need ${mob.getRemainingExperience()} exp to level.\n" +
                     "Wimpy set to ${mob.wimpy}.\n" +
-                    "You are ${mob.disposition.toString().toLowerCase()}.\n" +
+                    "You are ${mob.disposition.toString().lowercase()}.\n" +
                     "Saving Throw Adjustment: ${mob.savingThrows}\n" +
                     "You are hopelessly vulnerable to piercing.\n" +
                     "You are hopelessly vulnerable to bashing.\n" +

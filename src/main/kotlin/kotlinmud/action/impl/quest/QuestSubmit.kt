@@ -32,7 +32,7 @@ fun createQuestSubmitAction(): Action {
 fun getRewardString(reward: QuestReward): String {
     return when (reward) {
         is CurrencyQuestReward ->
-            "${reward.amount} ${reward.currencyType.toString().toLowerCase()}"
+            "${reward.amount} ${reward.currencyType.toString().lowercase()}"
         is ExperienceQuestReward -> "${reward.amount} experience"
         is ItemQuestReward ->
             reward.createItems().fold("") { acc: String, item: Item -> acc + item.name + "\n" }

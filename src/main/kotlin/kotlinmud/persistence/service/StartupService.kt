@@ -91,7 +91,7 @@ class StartupService(
 
     private fun createDoors() {
         doors.forEach {
-            val disposition = DoorDisposition.valueOf(it.keywords.getOrDefault("disposition", "closed").toUpperCase())
+            val disposition = DoorDisposition.valueOf(it.keywords.getOrDefault("disposition", "closed").uppercase())
             val keyId = it.keywords.getOrDefault("key", "0").toInt()
             val door = Door(
                 it.name,
@@ -103,7 +103,7 @@ class StartupService(
             val direction = Direction.valueOf(
                 it.keywords.getOrElse("direction") {
                     throw Exception()
-                }.toUpperCase()
+                }.uppercase()
             )
             val roomId = it.keywords.getOrElse("room") {
                 throw Exception()

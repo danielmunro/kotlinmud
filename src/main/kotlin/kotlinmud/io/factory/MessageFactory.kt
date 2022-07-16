@@ -76,7 +76,7 @@ fun createRecipesMessage(recipes: List<Recipe>): Message {
 fun createRecipeOfMessage(recipe: Recipe): Message {
     return messageToActionCreator(
         recipe.getComponents().entries.fold("Recipe for ${recipe.name}:\n") { acc, entry ->
-            acc + "(${entry.value}) ${entry.key.toString().toLowerCase()}"
+            acc + "(${entry.value}) ${entry.key.toString().lowercase()}"
         }
     )
 }
@@ -131,7 +131,7 @@ fun createRemoveMessage(mob: Mob, item: Item): Message {
 }
 
 fun createPracticeMessage(mob: Mob, skillType: SkillType): Message {
-    val label = skillType.toString().toLowerCase()
+    val label = skillType.toString().lowercase()
     return MessageBuilder()
         .toActionCreator("you practice $label.")
         .toObservers("$mob practices $label.")
@@ -177,8 +177,8 @@ fun createDropMessage(mob: Mob, item: Item): Message {
 fun createDrinkMessage(mob: Mob, item: Item): Message {
     val empty = if (item.quantity == 0) " $item is now empty." else ""
     return MessageBuilder()
-        .toActionCreator("you drink ${item.drink.toString().toLowerCase()} from $item.$empty")
-        .toObservers("$mob drinks ${item.drink.toString().toLowerCase()} from $item.")
+        .toActionCreator("you drink ${item.drink.toString().lowercase()} from $item.$empty")
+        .toObservers("$mob drinks ${item.drink.toString().lowercase()} from $item.")
         .build()
 }
 

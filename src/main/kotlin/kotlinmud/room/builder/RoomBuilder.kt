@@ -39,7 +39,7 @@ class RoomBuilder(private val roomService: RoomService) : HasInventory {
 
     fun setFromKeyword(keyword: String, value: String) {
         when (keyword) {
-            "regen" -> regenLevel = RegenLevel.valueOf(value.toUpperCase())
+            "regen" -> regenLevel = RegenLevel.valueOf(value.uppercase())
         }
     }
 

@@ -147,7 +147,7 @@ class ActionService(
     private fun createChainToRequest(mob: PlayerMob, action: Action): RequestService {
         return RequestService(
             mob,
-            action.chainTo.toString().toLowerCase()
+            action.chainTo.toString().lowercase(),
         )
     }
 

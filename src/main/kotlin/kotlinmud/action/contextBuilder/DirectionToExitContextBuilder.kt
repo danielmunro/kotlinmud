@@ -22,7 +22,7 @@ class DirectionToExitContextBuilder(private val room: Room) : ContextBuilder {
         }
 
         if (!canMoveIntoSubstrate(exit.value)) {
-            return Context(syntax, Status.ERROR, "${exit.value.name} is blocked by ${exit.value.substrateType.toString().toLowerCase()}.")
+            return Context(syntax, Status.ERROR, "${exit.value.name} is blocked by ${exit.value.substrateType.toString().lowercase()}.")
         }
 
         return Context(syntax, Status.OK, exit.value)
@@ -30,7 +30,7 @@ class DirectionToExitContextBuilder(private val room: Room) : ContextBuilder {
 
     private fun getExit(word: String): Exit? {
         return room.getAllExits().entries.find {
-            it.key.toString().toLowerCase().startsWith(word)
+            it.key.toString().lowercase().startsWith(word)
         }
     }
 

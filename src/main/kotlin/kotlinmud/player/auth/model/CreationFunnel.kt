@@ -49,7 +49,7 @@ class CreationFunnel(private val mobService: MobService, val name: String) {
             it.accountName = player.name
             it.name = mobName
             it.brief = "a $mobRace is here"
-            it.description = "a nondescript ${mobRace.type.toString().toLowerCase()} is here"
+            it.description = "a nondescript ${mobRace.type.toString().lowercase()} is here"
             it.race = mobRace
             it.room = mobRoom
             it.maxItems = 100

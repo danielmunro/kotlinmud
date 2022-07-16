@@ -13,8 +13,8 @@ fun createWhoAction(): Action {
                     svc.getClients().fold("") { acc, it ->
                         acc +
                             it.mob!!.level + " " +
-                            it.mob!!.race.type.toString().toLowerCase() + " " +
-                            it.mob!!.job.toString().toLowerCase() + " " +
+                            it.mob!!.race.type.toString().lowercase() + " " +
+                            it.mob!!.job.toString().lowercase() + " " +
                             it.mob!!.name + "\n"
                     }
             )

@@ -16,5 +16,5 @@ fun createEquipmentAction(): Action {
 }
 
 fun describeEquipment(items: List<Item>): String {
-    return items.joinToString("\n") { "${it.position.toString().toLowerCase()} - $it" }
+    return items.joinToString("\n") { "${it.position.toString().lowercase()} - $it" }
 }

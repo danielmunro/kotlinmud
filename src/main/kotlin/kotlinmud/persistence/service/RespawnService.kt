@@ -112,7 +112,7 @@ class RespawnService(
             mob.keywords.getOrDefault("level", "1").toInt(),
             createRaceFromString(
                 RaceType.valueOf(
-                    mob.keywords.getOrDefault("race", "human").toUpperCase()
+                    mob.keywords.getOrDefault("race", "human").uppercase()
                 )
             ),
         )

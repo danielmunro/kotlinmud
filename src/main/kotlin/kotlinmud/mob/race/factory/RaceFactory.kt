@@ -14,5 +14,5 @@ fun createRaceFromString(type: RaceType): Race {
 }
 
 fun matchPlayableRace(input: String): Race? {
-    return playableRaceList.find { input.matches(it.type.toString().toLowerCase()) }
+    return playableRaceList.find { input.matches(it.type.toString().lowercase()) }
 }

@@ -69,10 +69,10 @@ open class MobBuilder(private val mobService: MobService) : Builder, HasInventor
     override fun setFromKeyword(keyword: String, value: String) {
         when (keyword) {
             "job" -> {
-                job = JobType.valueOf(value.toUpperCase())
+                job = JobType.valueOf(value.uppercase())
             }
             "race" -> {
-                race = createRaceFromString(RaceType.valueOf(value.toUpperCase()))
+                race = createRaceFromString(RaceType.valueOf(value.uppercase()))
             }
         }
     }

@@ -52,7 +52,7 @@ fun describeRoom(actionContextService: ActionContextService, room: Room, mob: Mo
 fun showDoors(room: Room): String {
     val doors = room.getDoors()
         .entries
-        .joinToString("\n") { "${it.value.name} to the ${it.key.value.toLowerCase()} is ${it.value.disposition.toString().toLowerCase()}." }
+        .joinToString("\n") { "${it.value.name} to the ${it.key.value.lowercase()} is ${it.value.disposition.toString().lowercase()}." }
     if (doors != "") {
         return "\n$doors\n"
     }
