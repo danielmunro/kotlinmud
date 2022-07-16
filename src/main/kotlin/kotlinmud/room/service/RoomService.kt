@@ -45,6 +45,10 @@ class RoomService : BaseService() {
         return areas.find { it.name.startsWith(partial) }
     }
 
+    fun getAreaById(id: Int): Area {
+        return areas.find { it.id == id }!!
+    }
+
     fun findOneRoom(predicate: (room: Room) -> Boolean): Room? {
         return rooms.find(predicate)
     }

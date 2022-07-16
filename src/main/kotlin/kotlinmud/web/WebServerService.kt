@@ -1,6 +1,6 @@
 package kotlinmud.web
 
-import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import io.ktor.server.application.call
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -23,15 +23,30 @@ class WebServerService(
     private val itemService: ItemService,
     private val roomService: RoomService,
 ) {
+    private val gson = GsonBuilder().setPrettyPrinting().create()
+
     fun start() {
         embeddedServer(Netty, port = 8000) {
             routing {
                 get("/") {
-                    call.respondText(Gson().toJson(getHome()))
+                    call.respondText(gson.toJson(getHome()))
+                }
+                get("/area/{areaId}/room") {
+                    val areaId = call.parameters["areaId"]!!.toInt()
+                    val area = roomService.getAreaById(areaId)
+                    call.respondText(
+                        gson.toJson(roomService.findRoomModels(area))
+                    )
+                }
+                get("/room/{roomId}") {
+                    val roomId = call.parameters["roomId"]!!.toInt()
+                    call.respondText(
+                        gson.toJson(roomService.getModel(roomId))
+                    )
                 }
                 post("/room") {
                     val text = call.receiveText()
-                    val model = Gson().fromJson(text, RoomModel::class.java)
+                    val model = gson.fromJson(text, RoomModel::class.java)
                     model.id = roomService.getNextAutoId()
                     model.keywords.forEach { pair ->
                         val direction = Direction.valueOf(pair.key.uppercase())
@@ -41,6 +56,9 @@ class WebServerService(
                     roomService.addModel(model)
                     flush()
                     call.respond(201)
+                    call.respondText(
+                        gson.toJson(model)
+                    )
                 }
             }
         }.start(wait = false)
