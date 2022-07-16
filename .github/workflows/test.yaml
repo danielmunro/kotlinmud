@@ -23,4 +23,4 @@ jobs:
           ENV: ci
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          arguments: clean test jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONARCLOUD }} --debug
+          arguments: clean test jacocoTestReport sonarqube -Dsonar.login=${{ secrets.SONARCLOUD }}
