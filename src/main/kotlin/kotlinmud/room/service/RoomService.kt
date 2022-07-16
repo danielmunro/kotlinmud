@@ -54,7 +54,7 @@ class RoomService : BaseService() {
     }
 
     fun findRoomModels(area: Area): List<RoomModel> {
-        return models.filterIsInstance<RoomModel>().filter { it.area == area }
+        return models.filterIsInstance<RoomModel>().filter { it.area.id == area.id }
     }
 
     fun filter(predicate: (room: Room) -> Boolean): List<Room> {

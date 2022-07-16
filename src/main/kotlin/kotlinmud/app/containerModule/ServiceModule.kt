@@ -29,6 +29,7 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.time.repository.findTime
 import kotlinmud.time.service.TimeService
 import kotlinmud.weather.service.WeatherService
+import kotlinmud.web.WebServerService
 import org.kodein.di.Kodein
 import org.kodein.di.erased.bind
 import org.kodein.di.erased.instance
@@ -111,12 +112,15 @@ fun createServiceModule(port: Int, test: Boolean): Kodein.Module {
                 instance(),
             )
         }
+        bind<WebServerService>() with singleton {
+            WebServerService(instance(), instance(), instance())
+        }
         bind<StartupService>() with singleton {
             val data = getAllDataFiles()
             StartupService(instance(), instance(), instance(), data)
         }
         bind<App>() with singleton {
-            App(instance(), instance())
+            App(instance(), instance(), instance())
         }
     }
 }

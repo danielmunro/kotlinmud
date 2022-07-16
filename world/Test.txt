@@ -1,7 +1,9 @@
 area:
 2. Test
-lighting Moderate~
+lighting Good~
 ~
+
+
 
 
 

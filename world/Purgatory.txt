@@ -1,7 +1,9 @@
 area:
 1. Purgatory
-lighting Poor~
+lighting Good~
 ~
+
+
 
 
 
