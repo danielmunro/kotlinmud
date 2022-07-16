@@ -31,6 +31,20 @@ class WebServerService(
                 get("/") {
                     call.respondText(gson.toJson(getHome()))
                 }
+                get("/area") {
+                    call.respondText(
+                        gson.toJson(
+                            roomService.getAllAreas()
+                        )
+                    )
+                }
+                get("/area/{areaId}") {
+                    call.respondText(
+                        gson.toJson(
+                            roomService.getAreaById(call.parameters["areaId"]!!.toInt())
+                        )
+                    )
+                }
                 get("/area/{areaId}/room") {
                     val areaId = call.parameters["areaId"]!!.toInt()
                     val area = roomService.getAreaById(areaId)
