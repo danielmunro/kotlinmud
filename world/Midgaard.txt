@@ -34,7 +34,7 @@ up 0~
 down 0~
 ~
 
-4. a bridge over the thames river
+4. a bridge over the mighty central river
 TBD~
 north 0~
 south 0~

@@ -1,11 +1,11 @@
 package kotlinmud.web
 
 import com.google.gson.GsonBuilder
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.request.receiveText
-import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
@@ -35,6 +35,16 @@ class WebServerService(
                 get("/area") {
                     call.respondText(gson.toJson(getAllAreas()))
                 }
+                post("/area") {
+                    val area = gson.fromJson(call.receiveText(), Area::class.java)
+                    roomService.addArea(area)
+                    flush()
+                    call.respondText(
+                        gson.toJson(area),
+                        null,
+                        HttpStatusCode.Created,
+                    )
+                }
                 get("/area/{areaId}") {
                     call.respondText(
                         gson.toJson(getArea(call.parameters["areaId"]!!.toInt()))
@@ -51,12 +61,12 @@ class WebServerService(
                     )
                 }
                 post("/room") {
-                    val text = call.receiveText()
-                    val model = gson.fromJson(text, RoomModel::class.java)
+                    val model = gson.fromJson(call.receiveText(), RoomModel::class.java)
                     createRoom(model)
-                    call.respond(201)
                     call.respondText(
-                        gson.toJson(model)
+                        gson.toJson(model),
+                        null,
+                        HttpStatusCode.Created,
                     )
                 }
             }
