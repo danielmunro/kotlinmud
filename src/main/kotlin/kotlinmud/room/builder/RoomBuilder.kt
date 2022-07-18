@@ -18,7 +18,7 @@ class RoomBuilder(private val roomService: RoomService) : HasInventory {
     var area: Area? = null
     var isIndoors = false
     var regenLevel = RegenLevel.NORMAL
-    var substrate = SubstrateType.DIRT
+    var substrate = SubstrateType.NONE
     var elevation = 0
     override var items = mutableListOf<Item>()
     var resources = listOf<ResourceType>()
