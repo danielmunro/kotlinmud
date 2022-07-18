@@ -17,10 +17,6 @@ class RoomService : BaseService() {
         areas.addAll(createInitialAreas())
     }
 
-    fun getAreaNextId(): Int {
-        return areas.maxOf { it.id } + 1
-    }
-
     fun builder(name: String, description: String, area: Area): RoomBuilder {
         return RoomBuilder(this).also {
             it.name = name
@@ -109,6 +105,10 @@ class RoomService : BaseService() {
         val newDescription = removeLine(room.description, lineNumber)
         room.description = newDescription
         findOneModel(id).description = newDescription
+    }
+
+    private fun getAreaNextId(): Int {
+        return areas.maxOf { it.id } + 1
     }
 
     private fun findOneRoom(id: Int): Room {
