@@ -11,11 +11,11 @@ import kotlinmud.room.service.RoomService
 import kotlinmud.room.type.RegenLevel
 
 class RoomBuilder(private val roomService: RoomService) : HasInventory {
+    var id: Int = 0
     lateinit var name: String
     var brief = ""
     lateinit var description: String
     var area: Area? = null
-    var id: Int = 0
     var isIndoors = false
     var regenLevel = RegenLevel.NORMAL
     var substrate = SubstrateType.DIRT
