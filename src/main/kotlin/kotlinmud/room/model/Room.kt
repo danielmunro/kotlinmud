@@ -11,14 +11,12 @@ import kotlinmud.mob.model.Mob
 import kotlinmud.room.type.Direction
 import kotlinmud.room.type.DoorDisposition
 import kotlinmud.room.type.RegenLevel
-import kotlinmud.type.RoomCanonicalId
 
 class Room(
     val id: Int,
     override var name: String,
     override var brief: String,
     override var description: String,
-    val canonicalId: RoomCanonicalId?,
     var area: Area,
     val isIndoors: Boolean,
     val regenLevel: RegenLevel,
