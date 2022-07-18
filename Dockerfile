@@ -1,4 +1,4 @@
-FROM gradle:jdk11-alpine
+FROM gradle:6.9.2-jdk11-alpine
 COPY --chown=gradle:gradle . /mud
 WORKDIR /mud
 RUN gradle build --no-daemon
