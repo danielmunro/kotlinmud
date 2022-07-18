@@ -13,6 +13,7 @@ import io.ktor.server.routing.routing
 import kotlinmud.item.service.ItemService
 import kotlinmud.mob.service.MobService
 import kotlinmud.persistence.dumper.AreaDumperService
+import kotlinmud.persistence.model.MobModel
 import kotlinmud.persistence.model.RoomModel
 import kotlinmud.room.model.Area
 import kotlinmud.room.service.RoomService
@@ -69,6 +70,20 @@ class WebServerService(
                         HttpStatusCode.Created,
                     )
                 }
+                get("/mob/{mobId}") {
+                    call.respondText(
+                        gson.toJson(getMob(call.parameters["mobId"]!!.toInt()))
+                    )
+                }
+                post("/mob") {
+                    val model = gson.fromJson(call.receiveText(), MobModel::class.java)
+                    createMob(model)
+                    call.respondText(
+                        gson.toJson(model),
+                        null,
+                        HttpStatusCode.Created,
+                    )
+                }
             }
         }.start(wait = false)
     }
@@ -86,6 +101,16 @@ class WebServerService(
         }
         roomService.addModel(model)
         flush()
+    }
+
+    private fun createMob(model: MobModel) {
+        model.id = mobService.getNextAutoId()
+        mobService.addModel(model)
+        flush()
+    }
+
+    private fun getMob(mobId: Int): MobModel {
+        return mobService.getModel(mobId) as MobModel
     }
 
     private fun getRoom(roomId: Int): RoomModel {

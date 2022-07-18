@@ -4,7 +4,7 @@ import kotlinmud.persistence.model.builder.RespawnSpec
 import kotlinmud.room.model.Area
 
 data class MobModel(
-    override val id: Int,
+    override var id: Int,
     var name: String,
     var brief: String,
     var description: String,
