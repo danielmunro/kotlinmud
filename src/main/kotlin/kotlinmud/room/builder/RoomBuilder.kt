@@ -1,6 +1,5 @@
 package kotlinmud.room.builder
 
-import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.item.model.Item
@@ -19,11 +18,8 @@ class RoomBuilder(private val roomService: RoomService) : HasInventory {
     var id: Int = 0
     var isIndoors = false
     var regenLevel = RegenLevel.NORMAL
-    var biome = BiomeType.PLAINS
-    var substrate = SubstrateType.NONE
+    var substrate = SubstrateType.DIRT
     var elevation = 0
-    var maxWeight = 10000
-    var maxItems = 1000
     override var items = mutableListOf<Item>()
     var resources = listOf<ResourceType>()
     var owner: Mob? = null
@@ -49,11 +45,8 @@ class RoomBuilder(private val roomService: RoomService) : HasInventory {
             area!!,
             isIndoors,
             regenLevel,
-            biome,
             substrate,
             elevation,
-            maxWeight,
-            maxItems,
             items.toMutableList(),
             resources.toMutableList(),
             owner,

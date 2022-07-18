@@ -1,6 +1,5 @@
 package kotlinmud.room.model
 
-import kotlinmud.biome.type.BiomeType
 import kotlinmud.biome.type.ResourceType
 import kotlinmud.biome.type.SubstrateType
 import kotlinmud.helper.Noun
@@ -20,11 +19,8 @@ class Room(
     var area: Area,
     val isIndoors: Boolean,
     val regenLevel: RegenLevel,
-    val biome: BiomeType,
     var substrateType: SubstrateType,
     val elevation: Int,
-    val maxWeight: Int,
-    val maxItems: Int,
     override val items: MutableList<Item>,
     val resources: MutableList<ResourceType>,
     val owner: Mob?
