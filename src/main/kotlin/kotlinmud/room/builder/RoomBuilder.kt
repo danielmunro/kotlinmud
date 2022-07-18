@@ -18,7 +18,6 @@ class RoomBuilder(private val roomService: RoomService) : HasInventory {
     lateinit var description: String
     var area: Area? = null
     var id: Int = 0
-    var label: String? = null
     var canonicalId: RoomCanonicalId? = null
     var isIndoors = false
     var regenLevel = RegenLevel.NORMAL
@@ -46,7 +45,6 @@ class RoomBuilder(private val roomService: RoomService) : HasInventory {
     fun build(): Room {
         val room = Room(
             id,
-            label,
             name,
             brief,
             description,

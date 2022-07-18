@@ -15,7 +15,6 @@ import kotlinmud.type.RoomCanonicalId
 
 class Room(
     val id: Int,
-    val label: String?,
     override var name: String,
     override var brief: String,
     override var description: String,
