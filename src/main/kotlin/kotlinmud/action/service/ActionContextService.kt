@@ -120,7 +120,6 @@ class ActionContextService(
             it.description = source.description
             it.area = source.area
             it.elevation = source.elevation
-            it.isIndoors = source.isIndoors
         }.build()
         roomService.addModel(destinationModel)
         setDirectionOnModel(sourceModel, destinationModel, direction)

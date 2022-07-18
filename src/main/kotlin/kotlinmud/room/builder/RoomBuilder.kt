@@ -43,7 +43,6 @@ class RoomBuilder(private val roomService: RoomService) : HasInventory {
             brief,
             description,
             area!!,
-            isIndoors,
             regenLevel,
             substrate,
             elevation,

@@ -17,7 +17,6 @@ class Room(
     override var brief: String,
     override var description: String,
     var area: Area,
-    val isIndoors: Boolean,
     val regenLevel: RegenLevel,
     var substrateType: SubstrateType,
     val elevation: Int,
